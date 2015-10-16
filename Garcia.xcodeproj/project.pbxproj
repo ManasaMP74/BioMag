@@ -9,11 +9,18 @@
 /* Begin PBXBuildFile section */
 		DAEFA1941BD0B11500900379 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1931BD0B11500900379 /* main.m */; };
 		DAEFA1971BD0B11500900379 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1961BD0B11500900379 /* AppDelegate.m */; };
-		DAEFA19A1BD0B11500900379 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1991BD0B11500900379 /* ViewController.m */; };
 		DAEFA19D1BD0B11500900379 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAEFA19B1BD0B11500900379 /* Main.storyboard */; };
 		DAEFA19F1BD0B11500900379 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAEFA19E1BD0B11500900379 /* Images.xcassets */; };
 		DAEFA1A21BD0B11500900379 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAEFA1A01BD0B11500900379 /* LaunchScreen.xib */; };
 		DAEFA1AE1BD0B11500900379 /* GarciaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1AD1BD0B11500900379 /* GarciaTests.m */; };
+		DAEFA1B91BD0B49A00900379 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1B81BD0B49A00900379 /* LoginViewController.m */; };
+		DAEFA1BC1BD0B4BA00900379 /* SearchPatientTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1BB1BD0B4BA00900379 /* SearchPatientTableViewController.m */; };
+		DAEFA1BF1BD0B4EB00900379 /* PatientViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1BE1BD0B4EB00900379 /* PatientViewController.m */; };
+		DAEFA1C21BD0B4FA00900379 /* AddPatientViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1C11BD0B4FA00900379 /* AddPatientViewController.m */; };
+		DAEFA1C51BD0B50800900379 /* EditPatientViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1C41BD0B50800900379 /* EditPatientViewController.m */; };
+		DAEFA1C81BD0B6C900900379 /* Constant.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1C71BD0B6C900900379 /* Constant.m */; };
+		DAEFA1CB1BD0B6D600900379 /* Postman.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1CA1BD0B6D600900379 /* Postman.m */; };
+		DAEFA1CE1BD0B6E300900379 /* DefaultValues.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1CD1BD0B6E300900379 /* DefaultValues.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,14 +39,28 @@
 		DAEFA1931BD0B11500900379 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DAEFA1951BD0B11500900379 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DAEFA1961BD0B11500900379 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		DAEFA1981BD0B11500900379 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		DAEFA1991BD0B11500900379 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		DAEFA19C1BD0B11500900379 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DAEFA19E1BD0B11500900379 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		DAEFA1A11BD0B11500900379 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		DAEFA1A71BD0B11500900379 /* GarciaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GarciaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAEFA1AC1BD0B11500900379 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAEFA1AD1BD0B11500900379 /* GarciaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GarciaTests.m; sourceTree = "<group>"; };
+		DAEFA1B71BD0B49A00900379 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		DAEFA1B81BD0B49A00900379 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		DAEFA1BA1BD0B4BA00900379 /* SearchPatientTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchPatientTableViewController.h; sourceTree = "<group>"; };
+		DAEFA1BB1BD0B4BA00900379 /* SearchPatientTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchPatientTableViewController.m; sourceTree = "<group>"; };
+		DAEFA1BD1BD0B4EB00900379 /* PatientViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatientViewController.h; sourceTree = "<group>"; };
+		DAEFA1BE1BD0B4EB00900379 /* PatientViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PatientViewController.m; sourceTree = "<group>"; };
+		DAEFA1C01BD0B4FA00900379 /* AddPatientViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddPatientViewController.h; sourceTree = "<group>"; };
+		DAEFA1C11BD0B4FA00900379 /* AddPatientViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddPatientViewController.m; sourceTree = "<group>"; };
+		DAEFA1C31BD0B50800900379 /* EditPatientViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditPatientViewController.h; sourceTree = "<group>"; };
+		DAEFA1C41BD0B50800900379 /* EditPatientViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditPatientViewController.m; sourceTree = "<group>"; };
+		DAEFA1C61BD0B6C900900379 /* Constant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constant.h; sourceTree = "<group>"; };
+		DAEFA1C71BD0B6C900900379 /* Constant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constant.m; sourceTree = "<group>"; };
+		DAEFA1C91BD0B6D600900379 /* Postman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Postman.h; sourceTree = "<group>"; };
+		DAEFA1CA1BD0B6D600900379 /* Postman.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Postman.m; sourceTree = "<group>"; };
+		DAEFA1CC1BD0B6E300900379 /* DefaultValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultValues.h; sourceTree = "<group>"; };
+		DAEFA1CD1BD0B6E300900379 /* DefaultValues.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultValues.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,8 +104,14 @@
 			children = (
 				DAEFA1951BD0B11500900379 /* AppDelegate.h */,
 				DAEFA1961BD0B11500900379 /* AppDelegate.m */,
-				DAEFA1981BD0B11500900379 /* ViewController.h */,
-				DAEFA1991BD0B11500900379 /* ViewController.m */,
+				DAEFA1CF1BD0B6E700900379 /* Login */,
+				DAEFA1D61BD0B79D00900379 /* Patient */,
+				DAEFA1D31BD0B71D00900379 /* SearchPatient */,
+				DAEFA1D51BD0B74A00900379 /* EditPatient */,
+				DAEFA1D41BD0B72E00900379 /* AddPatient */,
+				DAEFA1D21BD0B70900900379 /* DammyData */,
+				DAEFA1D11BD0B70000900379 /* Postman */,
+				DAEFA1D01BD0B6F400900379 /* Constant */,
 				DAEFA19B1BD0B11500900379 /* Main.storyboard */,
 				DAEFA19E1BD0B11500900379 /* Images.xcassets */,
 				DAEFA1A01BD0B11500900379 /* LaunchScreen.xib */,
@@ -117,6 +144,78 @@
 				DAEFA1AC1BD0B11500900379 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DAEFA1CF1BD0B6E700900379 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				DAEFA1B71BD0B49A00900379 /* LoginViewController.h */,
+				DAEFA1B81BD0B49A00900379 /* LoginViewController.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		DAEFA1D01BD0B6F400900379 /* Constant */ = {
+			isa = PBXGroup;
+			children = (
+				DAEFA1C61BD0B6C900900379 /* Constant.h */,
+				DAEFA1C71BD0B6C900900379 /* Constant.m */,
+			);
+			name = Constant;
+			sourceTree = "<group>";
+		};
+		DAEFA1D11BD0B70000900379 /* Postman */ = {
+			isa = PBXGroup;
+			children = (
+				DAEFA1C91BD0B6D600900379 /* Postman.h */,
+				DAEFA1CA1BD0B6D600900379 /* Postman.m */,
+			);
+			name = Postman;
+			sourceTree = "<group>";
+		};
+		DAEFA1D21BD0B70900900379 /* DammyData */ = {
+			isa = PBXGroup;
+			children = (
+				DAEFA1CC1BD0B6E300900379 /* DefaultValues.h */,
+				DAEFA1CD1BD0B6E300900379 /* DefaultValues.m */,
+			);
+			name = DammyData;
+			sourceTree = "<group>";
+		};
+		DAEFA1D31BD0B71D00900379 /* SearchPatient */ = {
+			isa = PBXGroup;
+			children = (
+				DAEFA1BA1BD0B4BA00900379 /* SearchPatientTableViewController.h */,
+				DAEFA1BB1BD0B4BA00900379 /* SearchPatientTableViewController.m */,
+			);
+			name = SearchPatient;
+			sourceTree = "<group>";
+		};
+		DAEFA1D41BD0B72E00900379 /* AddPatient */ = {
+			isa = PBXGroup;
+			children = (
+				DAEFA1C01BD0B4FA00900379 /* AddPatientViewController.h */,
+				DAEFA1C11BD0B4FA00900379 /* AddPatientViewController.m */,
+			);
+			name = AddPatient;
+			sourceTree = "<group>";
+		};
+		DAEFA1D51BD0B74A00900379 /* EditPatient */ = {
+			isa = PBXGroup;
+			children = (
+				DAEFA1C31BD0B50800900379 /* EditPatientViewController.h */,
+				DAEFA1C41BD0B50800900379 /* EditPatientViewController.m */,
+			);
+			name = EditPatient;
+			sourceTree = "<group>";
+		};
+		DAEFA1D61BD0B79D00900379 /* Patient */ = {
+			isa = PBXGroup;
+			children = (
+				DAEFA1BD1BD0B4EB00900379 /* PatientViewController.h */,
+				DAEFA1BE1BD0B4EB00900379 /* PatientViewController.m */,
+			);
+			name = Patient;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,9 +318,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAEFA19A1BD0B11500900379 /* ViewController.m in Sources */,
 				DAEFA1971BD0B11500900379 /* AppDelegate.m in Sources */,
+				DAEFA1BF1BD0B4EB00900379 /* PatientViewController.m in Sources */,
+				DAEFA1C51BD0B50800900379 /* EditPatientViewController.m in Sources */,
+				DAEFA1CB1BD0B6D600900379 /* Postman.m in Sources */,
 				DAEFA1941BD0B11500900379 /* main.m in Sources */,
+				DAEFA1B91BD0B49A00900379 /* LoginViewController.m in Sources */,
+				DAEFA1C21BD0B4FA00900379 /* AddPatientViewController.m in Sources */,
+				DAEFA1BC1BD0B4BA00900379 /* SearchPatientTableViewController.m in Sources */,
+				DAEFA1C81BD0B6C900900379 /* Constant.m in Sources */,
+				DAEFA1CE1BD0B6E300900379 /* DefaultValues.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
