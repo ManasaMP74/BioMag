@@ -1,5 +1,6 @@
 #import "EditPatientViewController.h"
 #import "Constant.h"
+#import "ContainerViewController.h"
 @interface EditPatientViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *nameTF;
 @property (strong, nonatomic) IBOutlet UITextField *genderTF;
@@ -13,9 +14,6 @@
 @property (strong, nonatomic) IBOutlet UITableView *maritialTableView;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *gestureRecognizer;
 @property (strong, nonatomic) IBOutlet UILabel *saveLabel;
-@property (strong, nonatomic) IBOutlet UILabel *treatmentLabel;
-@property (strong, nonatomic) IBOutlet UILabel *addTreatmentLabel;
-
 @end
 
 @implementation EditPatientViewController
@@ -23,6 +21,7 @@
     Constant *constant;
     NSArray *genderArray,*MaritialStatusArray;
     NSString *differOfTableView;
+    ContainerViewController *containerVC;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -31,6 +30,9 @@
     genderArray=@[@"Male",@"Female"];
     MaritialStatusArray=@[@"Single",@"Married"];
     differOfTableView=@"treatment";
+   UINavigationController *nav=(UINavigationController*)self.parentViewController;
+   containerVC=(ContainerViewController*)nav.parentViewController;
+   [containerVC setTitle:@"Patients"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -39,6 +41,7 @@
 }
 //Save the data
 - (IBAction)save:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 //maritialStatus field
 - (IBAction)maritalStatus:(id)sender {
@@ -153,8 +156,6 @@
     [constant SetBorderForTextField:_Address];
     [constant SetBorderForTextField:_nameTF];
     [constant SetBorderForTextField:_dateOfBirthTF];
-    [constant setFontForLabel:_addTreatmentLabel];
-    [constant setFontForHeaders:_treatmentLabel];
 }
 
 @end

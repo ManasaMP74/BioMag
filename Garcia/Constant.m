@@ -26,13 +26,13 @@
 }
 //set Font for Headers
 -(void)setFontForHeaders:(UILabel*)label{
-    label.font=[UIFont systemFontOfSize:14];
+    label.font=[self customFont:OpenSansBold ofName:40];
     label.textColor=[UIColor blackColor];
 }
 //set Font for normal label
 -(void)setFontForLabel:(UILabel*)label{
     label.font=[UIFont systemFontOfSize:12];
-    label.textColor=[UIColor blackColor];
+    label.textColor=[UIColor lightGrayColor];
 }
 //set Font for textField
 -(void)setFontFortextField:(UITextField*)text{

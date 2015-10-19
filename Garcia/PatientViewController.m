@@ -1,5 +1,6 @@
 #import "PatientViewController.h"
 #import "Constant.h"
+#import "ContainerViewController.h"
 @interface PatientViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UIButton *edit;
@@ -28,27 +29,35 @@
 @implementation PatientViewController
 {
     Constant *constant;
+    ContainerViewController *containerVC;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationController.navigationBarHidden=YES;
     constant=[[Constant alloc]init];
+    self.navigationController.navigationBarHidden=YES;
+    [self setFont];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    UINavigationController *nav=(UINavigationController*)self.parentViewController;
+    containerVC=(ContainerViewController*)nav.parentViewController;
+    [containerVC setTitle:@"Patients"];
+}
 //setfont for label
 -(void)setFont{
-    [constant setFontForLabel:_genderLabel];
-    [constant setFontForLabel:_emailLabel];
-    [constant setFontForLabel:_mobileLabel];
-    [constant setFontForLabel:_addressLabel];
-    [constant setFontForLabel:_addTreatmentLabel];
-    [constant setFontForLabel:_editLabel];
-    [constant setFontForLabel:_ageLabel];
-    [constant setFontForLabel:_dobLabel];
-    [constant setFontForLabel:_martiralStatus];
+//    [constant setFontForLabel:_genderLabel];
+//    [constant setFontForLabel:_emailLabel];
+//    [constant setFontForLabel:_mobileLabel];
+//    [constant setFontForLabel:_addressLabel];
+//    [constant setFontForLabel:_addTreatmentLabel];
+//    [constant setFontForLabel:_editLabel];
+//    [constant setFontForLabel:_ageLabel];
+//    [constant setFontForLabel:_dobLabel];
+//    [constant setFontForLabel:_martiralStatus];
     [constant setFontForLabel:_genderValueLabel];
     [constant setFontForLabel:_emailValueLabel];
     [constant setFontForLabel:_mobileValueLabel];
@@ -66,6 +75,10 @@
     UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
     UILabel *label=(UILabel*)[cell viewWithTag:10];
     [constant setFontForLabel:label];
+    tableView.tableFooterView=[UIView new];
     return cell;
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [containerVC pushPatientSheetVC];
 }
 @end

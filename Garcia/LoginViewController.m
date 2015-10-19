@@ -15,12 +15,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     constant=[[Constant alloc]init];
-    [self placeHolderText];
-   
-   self.navigationItem.hidesBackButton = YES;
-   
+       [self placeHolderText];
 }
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    self.navigationController.navigationBarHidden=YES;
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     

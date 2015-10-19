@@ -1,6 +1,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-@interface Constant : NSObject
+#import "customFont.h"
+
+@interface Constant : customFont
 -(NSAttributedString*)textFieldPlaceHolderText:(NSString *)text;
 -(void)spaceAtTheBeginigOfTextField:(UITextField*)textField;
 -(void)SetBorderForTextField:(UITextField*)textField;

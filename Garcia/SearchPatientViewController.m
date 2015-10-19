@@ -13,10 +13,11 @@
     DefaultValues *defaultValue;
     NSMutableArray *patentFilteredArray;
     Constant *constant;
+    NSArray *patentnameArray;
+    NSIndexPath *selectedIndexPath;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-     self.navigationController.navigationItem.hidesBackButton=YES;
     defaultValue=[[DefaultValues alloc]init];
     constant=[[Constant alloc]init];
      [_searchTextField addTarget:self action:@selector(searchDoctorOnProfession) forControlEvents:UIControlEventEditingChanged];
@@ -24,15 +25,14 @@
     [constant spaceAtTheBeginigOfTextField:_searchTextField];
     _searchTextField.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Search"];
     [constant SetBorderForTextField:_searchTextField];
+    selectedIndexPath=nil;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
-    defaultValue=[[DefaultValues alloc]init];
-    [_patientListTableView reloadData];
-    
+    [self dummyData];
 }
 //TableView Number of section
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -43,7 +43,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if ([_searchTextField.text isEqualToString:@""]) {
 
-        return defaultValue.patentnameArray.count;
+        return patentnameArray.count;
     }
     else
         return patentFilteredArray.count;
@@ -52,10 +52,11 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
      SearchPatientTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
      if ([_searchTextField.text isEqualToString:@""]) {
-    cell.patientNameLabel.text=defaultValue.patentnameArray[indexPath.row];
+    cell.patientNameLabel.text=patentnameArray[indexPath.row];
      }
     else cell.patientNameLabel.text=patentFilteredArray[indexPath.row];
     [constant setFontForLabel:cell.patientNameLabel];
+    cell.patientNameLabel.textColor=[UIColor whiteColor];
      tableView.tableFooterView=[UIView new];
      return cell;
 }
@@ -71,9 +72,30 @@
 //Search
 -(void)searchDoctorOnProfession{
     NSPredicate *predicate=[NSPredicate predicateWithFormat:@"self CONTAINS[cd]%@",_searchTextField.text];
-    NSArray *array= [defaultValue.patentnameArray filteredArrayUsingPredicate:predicate];
+    NSArray *array= [patentnameArray filteredArrayUsingPredicate:predicate];
     patentFilteredArray=[NSMutableArray arrayWithArray:array];
     [_patientListTableView reloadData];
     
+}
+//cell select
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    SearchPatientTableViewCell *cell;
+    if (selectedIndexPath) {
+        cell=(SearchPatientTableViewCell*)[tableView cellForRowAtIndexPath:selectedIndexPath];
+        cell.patientNameLabel.textColor=[UIColor whiteColor];
+        cell.accessoryType=0;
+        selectedIndexPath=nil;
+    }
+if (selectedIndexPath!=indexPath){
+        cell=(SearchPatientTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
+    selectedIndexPath=indexPath;
+    cell.patientNameLabel.textColor=[UIColor colorWithRed:0.65 green:1 blue:0.96 alpha:1];
+    cell.accessoryType=1;
+    }
+}
+- (IBAction)popViewController:(id)sender {
+}
+-(void)dummyData{
+patentnameArray =@[@"Michael Ethan",@"Tyler Aiden",@"Aiden Joshua",@"Joseph Noah",@"Anthony Daniel",@"Angel Alexander",@"Jacob Michael",@"Ethan Jose",@"Jackson Jose"];
 }
 @end

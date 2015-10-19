@@ -1,6 +1,7 @@
 #import "PatientSheetViewController.h"
 #import "Constant.h"
 #import "PatientSheetTableViewCell.h"
+#import "SettingView.h"
 @interface PatientSheetViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet UILabel *nameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *nameValueLabel;
@@ -45,139 +46,168 @@
 @property (strong, nonatomic) IBOutlet UIView *uploadView;
 @property (strong, nonatomic) IBOutlet UIButton *increaseSymptomViewButton;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *symptomViewHeight;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *increasePatientViewHeight;
 @property (strong, nonatomic) IBOutlet UIView *symptomView;
 @property (strong, nonatomic) IBOutlet UIView *settingView;
 @property (strong, nonatomic) IBOutlet UIButton *increaseTreatmentViewButton;
 @property (strong, nonatomic) IBOutlet UITextView *diagnosisTextView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *treatmentCloserViewHeight;
 @property (strong, nonatomic) IBOutlet UIView *treatmentclosureView;
+@property (strong, nonatomic) IBOutlet UIView *increasePatientView;
 @end
 
 @implementation PatientSheetViewController
 {
     Constant *constant;
+    SettingView *setingView;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     constant=[[Constant alloc]init];
     [self defaultValue];
+self.title=@"Patient Sheet";
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-   
 }
-- (IBAction)increaseViewHeightOfPatientView:(id)sender {
+//increase the View Height of patient view
 
+
+
+- (IBAction)increaseViewHeightOfPatientView:(id)sender {
+    if ([_increasePatientViewButton.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
+        _increasePatientView.hidden=NO;
+        _increasePatientViewHeight.constant=110;
+        [self ChangeIncreaseDecreaseButtonImage:_increasePatientViewButton];
+    }
+    else{
+        _increasePatientView.hidden=YES;
+        _increasePatientViewHeight.constant=0;
+        [self ChangeIncreaseDecreaseButtonImage:_increasePatientViewButton];
+    }
 }
+//increase the View Height of upload view
 - (IBAction)upload:(id)sender {
-    if ([_increaseUploadViewButton.backgroundColor isEqual:[UIColor grayColor]]) {
+    if ([_increaseUploadViewButton.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
         _uploadView.hidden=NO;
         _uploadViewHeigh.constant=99;
-        [self setButtonColor:_increaseUploadViewButton];
+        [self ChangeIncreaseDecreaseButtonImage:_increaseUploadViewButton];
     }
     else{
         _diagnosisView.hidden=YES;
         _diagnosisViewHeight.constant=0;
-        [self setButtonColor:_increaseUploadViewButton];
+        [self ChangeIncreaseDecreaseButtonImage:_increaseUploadViewButton];
     }
 }
 - (IBAction)saveMedicalHistory:(id)sender {
 
 }
+//increase the View Height of Daignosis view
 - (IBAction)increaseDiagnosisView:(id)sender {
-    if ([_increaseDiagnosisViewButton.backgroundColor isEqual:[UIColor grayColor]]) {
+    if ([_increaseDiagnosisViewButton.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
         _diagnosisView.hidden=NO;
         _diagnosisViewHeight.constant=250;
-        [self setButtonColor:_increaseDiagnosisViewButton];
+        [self ChangeIncreaseDecreaseButtonImage:_increaseDiagnosisViewButton];
     }
     else{
         _diagnosisView.hidden=YES;
         _diagnosisViewHeight.constant=0;
-        [self setButtonColor:_increaseDiagnosisViewButton];
+        [self ChangeIncreaseDecreaseButtonImage:_increaseDiagnosisViewButton];
     }
 }
 - (IBAction)recordMedicalHistory:(id)sender {
 }
+//increase the View Height of medical History view
 - (IBAction)increaseViewHeightOfMedicalHistort:(id)sender {
-    if ([_increaseMedicalViewButton.backgroundColor isEqual:[UIColor grayColor]]) {
+    if ([_increaseMedicalViewButton.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
         _medicalHistoryView.hidden=NO;
         _medicalHistoryViewHeight.constant=250;
-        [self setButtonColor:_increaseMedicalViewButton];
+        [self ChangeIncreaseDecreaseButtonImage:_increaseMedicalViewButton];
     }
     else{
         _medicalHistoryView.hidden=YES;
         _medicalHistoryViewHeight.constant=0;
-        [self setButtonColor:_increaseMedicalViewButton];
+        [self ChangeIncreaseDecreaseButtonImage:_increaseMedicalViewButton];
     }
 }
 - (IBAction)saveDiagnosisTextViewValue:(id)sender {
 }
+//increase the View Height of setting view
 - (IBAction)increaseSettingView:(id)sender {
-    if ([_increasesettingViewButton.backgroundColor isEqual:[UIColor grayColor]]) {
+    if ([_increasesettingViewButton.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
         _settingView.hidden=NO;
         _settingViewHeight.constant=111;
-        [self setButtonColor:_increasesettingViewButton];
+        [self ChangeIncreaseDecreaseButtonImage:_increasesettingViewButton];
     }
     else{
         _settingView.hidden=YES;
         _settingViewHeight.constant=0;
-        [self setButtonColor:_increasesettingViewButton];
+        [self ChangeIncreaseDecreaseButtonImage:_increasesettingViewButton];
     }
 }
+//setting Button
 - (IBAction)buttonSetting:(id)sender {
+if(setingView==nil)
+    setingView=[[SettingView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x-50, 500,311, 222)];
+    [setingView alphaViewInitialize];
 }
 - (IBAction)saveTreatmentEncloser:(id)sender {
 }
 - (IBAction)closeTreatmentEncloser:(id)sender {
 }
+//increase the View Height of treatment enclosure view
 - (IBAction)increaseTreatmentEncloser:(id)sender {
-    if ([_increaseTreatmentViewButton.backgroundColor isEqual:[UIColor grayColor]]) {
+    if ([_increaseTreatmentViewButton.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
         _treatmentclosureView.hidden=NO;
-        _treatmentCloserViewHeight.constant=99;
-        [self setButtonColor:_increaseTreatmentViewButton];
+        _treatmentCloserViewHeight.constant=120;
+        [self ChangeIncreaseDecreaseButtonImage:_increaseTreatmentViewButton];
     }
     else{
         _treatmentclosureView.hidden=YES;
         _treatmentCloserViewHeight.constant=0;
-        [self setButtonColor:_increaseTreatmentViewButton];
+        [self ChangeIncreaseDecreaseButtonImage:_increaseTreatmentViewButton];
     }
 }
+//increase the View Height of symptoms view
 - (IBAction)increaseSymptomView:(id)sender {
-    if ([_increaseSymptomViewButton.backgroundColor isEqual:[UIColor grayColor]]) {
+    if ([_increaseSymptomViewButton.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
         _symptomView.hidden=NO;
         _symptomViewHeight.constant=250;
-        [self setButtonColor:_increaseSymptomViewButton];
+        [self ChangeIncreaseDecreaseButtonImage:_increaseSymptomViewButton];
     }
     else{
         _symptomView.hidden=YES;
         _symptomViewHeight.constant=0;
-        [self setButtonColor:_increaseSymptomViewButton];
+        [self ChangeIncreaseDecreaseButtonImage:_increaseSymptomViewButton];
     }
 }
+//increase the View Height of patient view
 - (IBAction)increaseuploadView:(id)sender {
-    if ([_increaseUploadViewButton.backgroundColor isEqual:[UIColor grayColor]]) {
+    if ([_increaseUploadViewButton.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
         _uploadView.hidden=NO;
         _uploadViewHeigh.constant=250;
-        [self setButtonColor:_increaseUploadViewButton];
+        [self ChangeIncreaseDecreaseButtonImage:_increaseUploadViewButton];
     }
     else{
         _uploadView.hidden=YES;
         _uploadViewHeigh.constant=0;
-        [self setButtonColor:_increaseUploadViewButton];
+        [self ChangeIncreaseDecreaseButtonImage:_increaseUploadViewButton];
     }
 }
--(void)setButtonColor:(UIButton*)btn{
-    if ([btn.backgroundColor isEqual:[UIColor blackColor]]) {
-        btn.backgroundColor=[UIColor grayColor];
+//set button color
+-(void)ChangeIncreaseDecreaseButtonImage:(UIButton*)btn{
+    if ([btn.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
+        [btn setImage:[UIImage imageNamed:@"Button-Expand"] forState:normal];
     }
-  else  if ([btn.backgroundColor isEqual:[UIColor grayColor]]) {
-        btn.backgroundColor=[UIColor blackColor];
+  else  if ([btn.currentImage isEqual:[UIImage imageNamed:@"Button-Expand"]]) {
+      [btn setImage:[UIImage imageNamed:@"Button-Collapse"] forState:normal];
     }
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 3;
 }
+//tableview Datasource method
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     PatientSheetTableViewCell *cell;
     if (indexPath.row==0) {
@@ -192,6 +222,7 @@
      [constant setFontForLabel:cell.messageValueLabel];
     return cell;
 }
+//default values
 -(void)defaultValue{
     [constant SetBorderForTextField:_symptomtagTF];
     [constant spaceAtTheBeginigOfTextField:_symptomtagTF];
@@ -207,13 +238,17 @@
     _symptomViewHeight.constant=0;
     _settingView.hidden=YES;
     _settingViewHeight.constant=0;
-    _increaseDiagnosisViewButton.backgroundColor=[UIColor grayColor];
-    _increaseMedicalViewButton.backgroundColor=[UIColor grayColor];
-    _increasePatientViewButton.backgroundColor=[UIColor grayColor];
-    _increasesettingViewButton.backgroundColor=[UIColor grayColor];
-    _increaseSymptomViewButton.backgroundColor=[UIColor grayColor];
-    _increaseTreatmentViewButton.backgroundColor=[UIColor grayColor];
-    _increaseUploadViewButton.backgroundColor=[UIColor grayColor];
+    _increasePatientViewHeight.constant=0;
+    _increasePatientView.hidden=YES;
+    [_increasePatientViewButton setImage:[UIImage imageNamed:@"Button-Collapse"] forState:normal];
+    [_increaseDiagnosisViewButton setImage:[UIImage imageNamed:@"Button-Collapse"] forState:normal];
+    [_increaseMedicalViewButton setImage:[UIImage imageNamed:@"Button-Collapse"] forState:normal];
+    [_increasePatientViewButton setImage:[UIImage imageNamed:@"Button-Collapse"] forState:normal];
+    [_increasesettingViewButton setImage:[UIImage imageNamed:@"Button-Collapse"] forState:normal];
+    [_increaseSymptomViewButton setImage:[UIImage imageNamed:@"Button-Collapse"] forState:normal];
+    [_increaseTreatmentViewButton setImage:[UIImage imageNamed:@"Button-Collapse"] forState:normal];
+    [_increaseUploadViewButton setImage:[UIImage imageNamed:@"Button-Collapse"] forState:normal];
+    [constant setFontForLabel:_nameLabel];
     [constant setFontForLabel:_genderLabel];
     [constant setFontForLabel:_emailLabel];
     [constant setFontForLabel:_addressLabel];
