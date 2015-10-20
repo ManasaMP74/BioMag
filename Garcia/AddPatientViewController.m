@@ -14,6 +14,7 @@
 @property (strong, nonatomic) IBOutlet UITableView *maritialTableView;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *gestureRecognizer;
 @property (strong, nonatomic) IBOutlet UITextView *addressTextView;
+@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @end
 
 @implementation AddPatientViewController
@@ -22,6 +23,7 @@
     NSArray *genderArray,*MaritialStatusArray;
     NSString *differOfTableView;
     DatePicker *datePicker;
+    UIControl *activeField;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -37,6 +39,7 @@
       ContainerViewController *containerVC=(ContainerViewController*)nav.parentViewController;
         [containerVC setTitle:@"Add Patient"];
     }
+     [self registerForKeyboardNotifications];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -131,6 +134,11 @@
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
     _maritialTableView.hidden=YES;
     _gendertableview.hidden=YES;
+      activeField = textField;
+}
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    activeField = nil;
 }
 //set layesr for TextField and placeHolder
 -(void)textFieldLayer{
@@ -157,5 +165,30 @@
     [constant SetBorderForTextField:_nameTF];
     [constant SetBorderForTextField:_dateOfBirthTF];
     _addressTextView.contentInset = UIEdgeInsetsMake(0,20,10,0);
+}
+- (void)registerForKeyboardNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardWillShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
+}
+- (void)keyboardWasShown:(NSNotification*)aNotification
+{
+    NSDictionary* info = [aNotification userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
+    _scrollView.contentInset = contentInsets;
+    _scrollView.scrollIndicatorInsets = contentInsets;
+    CGRect aRect = self.view.frame;
+    aRect.size.height -= kbSize.height;
+    if (!CGRectContainsPoint(aRect, activeField.frame.origin) ) {
+        [self.scrollView scrollRectToVisible:activeField.frame animated:YES];
+    }
+}
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification
+{
+    UIEdgeInsets contentInsets =UIEdgeInsetsZero;
+    _scrollView.contentInset = contentInsets;
+    _scrollView.scrollIndicatorInsets = contentInsets;
 }
 @end

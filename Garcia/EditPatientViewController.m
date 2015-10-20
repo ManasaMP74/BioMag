@@ -14,6 +14,7 @@
 @property (strong, nonatomic) IBOutlet UITableView *maritialTableView;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *gestureRecognizer;
 @property (strong, nonatomic) IBOutlet UITextView *addressTextView;
+@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @end
 
 @implementation EditPatientViewController
@@ -23,6 +24,7 @@
     NSString *differOfTableView;
     ContainerViewController *containerVC;
     DatePicker *datePicker;
+    UIControl *activeField;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -38,6 +40,7 @@
     [_maritialStatus addGestureRecognizer:maritialgesture];
     UITapGestureRecognizer *genderGesture=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gender:)];
     [_maritialStatus addGestureRecognizer:genderGesture];
+    [self registerForKeyboardNotifications];
     
 }
 - (void)didReceiveMemoryWarning {
@@ -166,4 +169,34 @@
     _maritialTableView.hidden=YES;
     _gendertableview.hidden=YES;
 }
+- (void)registerForKeyboardNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardWillShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
+}
+- (void)keyboardWasShown:(NSNotification*)aNotification
+{
+    NSDictionary* info = [aNotification userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
+    _scrollView.contentInset = contentInsets;
+    _scrollView.scrollIndicatorInsets = contentInsets;
+    CGRect aRect = self.view.frame;
+    aRect.size.height -= kbSize.height;
+    if (!CGRectContainsPoint(aRect, activeField.frame.origin) ) {
+        [self.scrollView scrollRectToVisible:activeField.frame animated:YES];
+    }
+}
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification
+{
+    UIEdgeInsets contentInsets =UIEdgeInsetsZero;
+    _scrollView.contentInset = contentInsets;
+    _scrollView.scrollIndicatorInsets = contentInsets;
+}
+- (void)textFieldDidEndEditing:(UITextField *)textFieldcs
+{
+    activeField = nil;
+}
+
 @end

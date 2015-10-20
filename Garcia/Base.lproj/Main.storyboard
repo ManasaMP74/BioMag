@@ -486,6 +486,7 @@
                         <outlet property="maritialTableView" destination="XY8-Aq-6tC" id="Of5-P9-z09"/>
                         <outlet property="mobileNoTF" destination="gEs-yR-hZ0" id="9Yp-qu-lYV"/>
                         <outlet property="nameTF" destination="91O-y5-7Da" id="1iz-b3-Jv7"/>
+                        <outlet property="scrollView" destination="lb7-JD-OhA" id="499-9g-jRf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dDI-m1-VCs" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2417,7 +2418,6 @@
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="90" id="PXx-iq-3ul"/>
                                                         </constraints>
-                                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                     </textView>
@@ -2528,6 +2528,7 @@
                         <outlet property="maritialTableView" destination="8gX-LL-EU9" id="RT1-uw-qo8"/>
                         <outlet property="mobileNoTF" destination="idp-31-zWv" id="8wb-Zj-Tr5"/>
                         <outlet property="nameTF" destination="xnB-DY-cTs" id="sRf-q1-9mI"/>
+                        <outlet property="scrollView" destination="vEp-zt-P4o" id="upk-zd-d7C"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Utf-rK-QFk" userLabel="First Responder" sceneMemberID="firstResponder"/>
