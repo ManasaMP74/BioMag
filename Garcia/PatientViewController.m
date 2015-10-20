@@ -81,7 +81,7 @@
     UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
     UILabel *label=(UILabel*)[cell viewWithTag:10];
     label.text=treatmentArray[indexPath.row];
-    label.font=[UIFont fontWithName:@"OpenSans" size:12];
+    label.font=[UIFont fontWithName:@"OpenSans" size:13];
     tableView.tableFooterView=[UIView new];
     return cell;
 }

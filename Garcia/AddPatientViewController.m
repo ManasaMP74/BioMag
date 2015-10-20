@@ -52,6 +52,7 @@
 }
 //Save the data
 - (IBAction)save:(id)sender {
+[self.navigationController popViewControllerAnimated:YES];
 }
 //maritialStatus field
 - (IBAction)maritalStatus:(id)sender {
