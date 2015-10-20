@@ -11,6 +11,11 @@
 		DAE9555D1BD24D1800EDFD8F /* PatientSheetTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE9555C1BD24D1800EDFD8F /* PatientSheetTableViewCell.m */; };
 		DAEC02711BD513500095C6AE /* customFont.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEC02701BD513500095C6AE /* customFont.m */; };
 		DAEC027E1BD51D0C0095C6AE /* OpenSans-Bold.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC02731BD514180095C6AE /* OpenSans-Bold.ttf */; };
+		DAEC027F1BD5219A0095C6AE /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC02731BD514180095C6AE /* OpenSans-Bold.ttf */; };
+		DAEF6AEE1BD5FA37006868C8 /* OpenSans-Regular.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC027A1BD514340095C6AE /* OpenSans-Regular.ttf */; };
+		DAEF6AEF1BD5FA52006868C8 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC027A1BD514340095C6AE /* OpenSans-Regular.ttf */; };
+		DAEF6AF31BD65C61006868C8 /* DatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEF6AF21BD65C61006868C8 /* DatePicker.m */; };
+		DAEF6AF51BD65C9B006868C8 /* DatePickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAEF6AF41BD65C9B006868C8 /* DatePickerView.xib */; };
 		DAEFA1941BD0B11500900379 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1931BD0B11500900379 /* main.m */; };
 		DAEFA1971BD0B11500900379 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1961BD0B11500900379 /* AppDelegate.m */; };
 		DAEFA19D1BD0B11500900379 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAEFA19B1BD0B11500900379 /* Main.storyboard */; };
@@ -66,6 +71,9 @@
 		DAEC027A1BD514340095C6AE /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Regular.ttf"; path = "Fonts/OpenSans-Regular.ttf"; sourceTree = SOURCE_ROOT; };
 		DAEC027B1BD514340095C6AE /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Semibold.ttf"; path = "Fonts/OpenSans-Semibold.ttf"; sourceTree = SOURCE_ROOT; };
 		DAEC027C1BD514340095C6AE /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-SemiboldItalic.ttf"; path = "Fonts/OpenSans-SemiboldItalic.ttf"; sourceTree = SOURCE_ROOT; };
+		DAEF6AF11BD65C61006868C8 /* DatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePicker.h; sourceTree = "<group>"; };
+		DAEF6AF21BD65C61006868C8 /* DatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePicker.m; sourceTree = "<group>"; };
+		DAEF6AF41BD65C9B006868C8 /* DatePickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DatePickerView.xib; sourceTree = "<group>"; };
 		DAEFA18E1BD0B11500900379 /* Garcia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Garcia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAEFA1921BD0B11500900379 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAEFA1931BD0B11500900379 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -170,6 +178,16 @@
 			name = Font;
 			sourceTree = "<group>";
 		};
+		DAEF6AF01BD65C2C006868C8 /* DatePicker */ = {
+			isa = PBXGroup;
+			children = (
+				DAEF6AF11BD65C61006868C8 /* DatePicker.h */,
+				DAEF6AF21BD65C61006868C8 /* DatePicker.m */,
+				DAEF6AF41BD65C9B006868C8 /* DatePickerView.xib */,
+			);
+			name = DatePicker;
+			sourceTree = "<group>";
+		};
 		DAEFA1851BD0B11500900379 = {
 			isa = PBXGroup;
 			children = (
@@ -207,6 +225,7 @@
 				DAEFA1D01BD0B6F400900379 /* Constant */,
 				DAEC026E1BD5131F0095C6AE /* CustomFont */,
 				DAEFA1D11BD0B70000900379 /* Postman */,
+				DAEF6AF01BD65C2C006868C8 /* DatePicker */,
 				DAEFA19B1BD0B11500900379 /* Main.storyboard */,
 				DAEFA19E1BD0B11500900379 /* Images.xcassets */,
 				DAEFA1A01BD0B11500900379 /* LaunchScreen.xib */,
@@ -440,11 +459,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAEF6AEF1BD5FA52006868C8 /* OpenSans-Regular.ttf in Resources */,
+				DAEC027F1BD5219A0095C6AE /* OpenSans-Bold.ttf in Resources */,
 				DAEFA19D1BD0B11500900379 /* Main.storyboard in Resources */,
 				DAF82CE61BD4C828006AF1E1 /* AddSection.xib in Resources */,
 				DAF82CF81BD4CF0D006AF1E1 /* SectionDetail.xib in Resources */,
 				DAF82CD81BD4A31F006AF1E1 /* SettingView.xib in Resources */,
 				DAF82CF61BD4CF01006AF1E1 /* SectionDetailCell.xib in Resources */,
+				DAEF6AF51BD65C9B006868C8 /* DatePickerView.xib in Resources */,
 				DAEFA1A21BD0B11500900379 /* LaunchScreen.xib in Resources */,
 				DAEFA19F1BD0B11500900379 /* Images.xcassets in Resources */,
 				DAF82CEA1BD4CB24006AF1E1 /* AddSectionCell.xib in Resources */,
@@ -465,10 +487,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAEF6AEE1BD5FA37006868C8 /* OpenSans-Regular.ttf in Sources */,
 				DAEC027E1BD51D0C0095C6AE /* OpenSans-Bold.ttf in Sources */,
 				DAEFA1971BD0B11500900379 /* AppDelegate.m in Sources */,
 				DAEC02711BD513500095C6AE /* customFont.m in Sources */,
 				DAEFA1BF1BD0B4EB00900379 /* PatientViewController.m in Sources */,
+				DAEF6AF31BD65C61006868C8 /* DatePicker.m in Sources */,
 				DAEFA1C51BD0B50800900379 /* EditPatientViewController.m in Sources */,
 				DAEFA1CB1BD0B6D600900379 /* Postman.m in Sources */,
 				DAEFA1941BD0B11500900379 /* main.m in Sources */,

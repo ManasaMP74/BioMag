@@ -4,7 +4,7 @@
 typedef NS_ENUM(NSInteger, CustomFontNames)
 {
     OpenSansBold = 1,
-    MuseoSans_300,
+   OpenSansRegular,
     MuseoSans_700,
 };
 

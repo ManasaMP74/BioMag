@@ -15,6 +15,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     constant=[[Constant alloc]init];
+     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"01-Splash"]]];
        [self placeHolderText];
 }
 -(void)viewWillAppear:(BOOL)animated{

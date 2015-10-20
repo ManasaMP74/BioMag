@@ -1,6 +1,8 @@
 #import "AddPatientViewController.h"
 #import "Constant.h"
-@interface AddPatientViewController ()
+#import "ContainerViewController.h"
+#import "DatePicker.h"
+@interface AddPatientViewController ()<datePickerProtocol>
 @property (strong, nonatomic) IBOutlet UITextField *nameTF;
 @property (strong, nonatomic) IBOutlet UITextField *genderTF;
 @property (strong, nonatomic) IBOutlet UITextField *maritialStatus;
@@ -8,11 +10,10 @@
 @property (strong, nonatomic) IBOutlet UITextField *ageTF;
 @property (strong, nonatomic) IBOutlet UITextField *mobileNoTF;
 @property (strong, nonatomic) IBOutlet UITextField *emailTF;
-@property (strong, nonatomic) IBOutlet UITextField *Address;
 @property (strong, nonatomic) IBOutlet UITableView *gendertableview;
 @property (strong, nonatomic) IBOutlet UITableView *maritialTableView;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *gestureRecognizer;
-@property (strong, nonatomic) IBOutlet UILabel *saveLabel;
+@property (strong, nonatomic) IBOutlet UITextView *addressTextView;
 @end
 
 @implementation AddPatientViewController
@@ -20,6 +21,7 @@
     Constant *constant;
     NSArray *genderArray,*MaritialStatusArray;
     NSString *differOfTableView;
+    DatePicker *datePicker;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -27,11 +29,23 @@
     [self textFieldLayer];
     genderArray=@[@"Male",@"Female"];
     MaritialStatusArray=@[@"Single",@"Married"];
+    UINavigationController *nav=(UINavigationController*)self.parentViewController;
+    if (nav.parentViewController==NULL) {
+         self.title=@"Add Patient";
+    }
+    else{
+      ContainerViewController *containerVC=(ContainerViewController*)nav.parentViewController;
+        [containerVC setTitle:@"Add Patient"];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
+}
+//cancel
+- (IBAction)cancel:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 //Save the data
 - (IBAction)save:(id)sender {
@@ -42,20 +56,25 @@
     _maritialTableView.hidden=NO;
     differOfTableView=@"maritral";
     [_maritialTableView reloadData];
-     [self keepThetextFieldDisbale:NO];
-    _gestureRecognizer.enabled=NO;
 }
 //DateOfBirth Field
 - (IBAction)dateOfBirth:(id)sender {
+    if(datePicker==nil)
+        datePicker= [[DatePicker alloc]initWithFrame:CGRectMake(self.view.frame.origin.x+50.5, self.view.frame.origin.y+230,self.view.frame.size.width-100,220)];
+    [datePicker.datePicker setMinimumDate:[NSDate date]];
+    [datePicker alphaViewInitialize];
+    datePicker.delegate=self;
 }
+-(void)selectingDatePicker:(NSString *)date{
+    _dateOfBirthTF.text=date;
+}
+
 //gender Field
 - (IBAction)gender:(id)sender {
     _gendertableview.hidden=NO;
     _maritialTableView.hidden=YES;
     differOfTableView=@"gender";
     [_gendertableview reloadData];
-    [self keepThetextFieldDisbale:NO];
-    _gestureRecognizer.enabled=NO;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
@@ -91,8 +110,6 @@
         _maritialStatus.text=cell.textLabel.text;
         _maritialTableView.hidden=YES;
     }
-     [self keepThetextFieldDisbale:YES];
-    _gestureRecognizer.enabled=YES;
 }
 //cell Color
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -106,15 +123,14 @@
 }
 //Hide KeyBoard
 - (IBAction)gestureMethod:(id)sender {
+    _maritialTableView.hidden=YES;
+    _gendertableview.hidden=YES;
     [self.view endEditing:YES];
 }
-//TextField Enable/Disable
--(void)keepThetextFieldDisbale:(BOOL)status{
-    _nameTF.enabled=status;
-    _mobileNoTF.enabled=status;
-    _ageTF.enabled=status;
-    _Address.enabled=status;
-    _emailTF.enabled=status;
+//textField Begin Editing
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+    _maritialTableView.hidden=YES;
+    _gendertableview.hidden=YES;
 }
 //set layesr for TextField and placeHolder
 -(void)textFieldLayer{
@@ -122,8 +138,7 @@
     _emailTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Email"];
     _genderTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Gender"];
     _mobileNoTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Mobile"];
-    _Address.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Address"];
-    _maritialStatus.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Marital Status"];
+        _maritialStatus.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Marital Status"];
     _ageTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Age"];
     _dateOfBirthTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Date Of Birth"];
     [constant spaceAtTheBeginigOfTextField:_genderTF];
@@ -132,15 +147,15 @@
     [constant spaceAtTheBeginigOfTextField:_nameTF];
     [constant spaceAtTheBeginigOfTextField:_maritialStatus];
     [constant spaceAtTheBeginigOfTextField:_dateOfBirthTF];
-    [constant spaceAtTheBeginigOfTextField:_Address];
     [constant spaceAtTheBeginigOfTextField:_mobileNoTF];
     [constant SetBorderForTextField:_genderTF];
     [constant SetBorderForTextField:_mobileNoTF];
     [constant SetBorderForTextField:_ageTF];
     [constant SetBorderForTextField:_maritialStatus];
     [constant SetBorderForTextField:_emailTF];
-    [constant SetBorderForTextField:_Address];
+    [constant SetBorderForTextview:_addressTextView];
     [constant SetBorderForTextField:_nameTF];
     [constant SetBorderForTextField:_dateOfBirthTF];
+    _addressTextView.contentInset = UIEdgeInsetsMake(0,20,10,0);
 }
 @end

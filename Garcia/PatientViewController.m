@@ -19,23 +19,27 @@
 @property (strong, nonatomic) IBOutlet UILabel *emailValueLabel;
 @property (strong, nonatomic) IBOutlet UILabel *addressValueLabel;
 @property (strong, nonatomic) IBOutlet UILabel *treatmentLabel;
-@property (strong, nonatomic) IBOutlet UILabel *addTreatmentLabel;
 @property (strong, nonatomic) IBOutlet UIButton *addTreatmentButton;
-@property (strong, nonatomic) IBOutlet UILabel *editLabel;
 @property (strong, nonatomic) IBOutlet UILabel *patientNameTF;
+@property (strong, nonatomic) IBOutlet UIView *TreatmentView;
 @property (strong, nonatomic) IBOutlet UITableView *tableview;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *tableViewHeight;
 @end
 
 @implementation PatientViewController
 {
     Constant *constant;
     ContainerViewController *containerVC;
+    NSArray *treatmentArray;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     constant=[[Constant alloc]init];
     self.navigationController.navigationBarHidden=YES;
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-01"]]];
     [self setFont];
+    [self dummyData];
+    _tableViewHeight.constant=self.tableview.contentSize.height;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -47,17 +51,20 @@
     containerVC=(ContainerViewController*)nav.parentViewController;
     [containerVC setTitle:@"Patients"];
 }
+//set the DefaultValues For Label
+-(void)setDefaultValues{
+    _patientNameTF.text=_patientName;
+}
 //setfont for label
 -(void)setFont{
-//    [constant setFontForLabel:_genderLabel];
-//    [constant setFontForLabel:_emailLabel];
-//    [constant setFontForLabel:_mobileLabel];
-//    [constant setFontForLabel:_addressLabel];
-//    [constant setFontForLabel:_addTreatmentLabel];
-//    [constant setFontForLabel:_editLabel];
-//    [constant setFontForLabel:_ageLabel];
-//    [constant setFontForLabel:_dobLabel];
-//    [constant setFontForLabel:_martiralStatus];
+    _TreatmentView.backgroundColor=[UIColor colorWithRed:0.73 green:0.76 blue:0.91 alpha:1];
+    [constant setColorForLabel:_genderLabel];
+    [constant setColorForLabel:_emailLabel];
+    [constant setColorForLabel:_mobileLabel];
+    [constant setColorForLabel:_addressLabel];
+    [constant setColorForLabel:_ageLabel];
+    [constant setColorForLabel:_dobLabel];
+    [constant setColorForLabel:_martiralStatus];
     [constant setFontForLabel:_genderValueLabel];
     [constant setFontForLabel:_emailValueLabel];
     [constant setFontForLabel:_mobileValueLabel];
@@ -66,19 +73,24 @@
     [constant setFontForLabel:_dobValueLabel];
     [constant setFontForLabel:_mariedValueLabel];
     [constant setFontForHeaders:_patientNameTF];
-    [constant setFontForHeaders:_treatmentLabel];
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 5;
+    return treatmentArray.count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
     UILabel *label=(UILabel*)[cell viewWithTag:10];
-    [constant setFontForLabel:label];
+    label.text=treatmentArray[indexPath.row];
+    label.font=[UIFont fontWithName:@"OpenSans" size:12];
     tableView.tableFooterView=[UIView new];
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [containerVC pushPatientSheetVC];
 }
+-(void)dummyData{
+    treatmentArray =@[@"Neck Pain",@"Chest Pain",@"Back Pain",@"Eye"];
+    [_tableview reloadData];
+}
+
 @end
