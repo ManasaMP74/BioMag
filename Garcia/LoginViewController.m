@@ -16,9 +16,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     constant=[[Constant alloc]init];
-     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"01-Splash"]]];
+     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Sign-in-bg-image.jpg"]]];
        [self placeHolderText];
     _loginView.layer.cornerRadius=10;
+    _loginView.backgroundColor=[UIColor colorWithRed:0.741 green:0.906 blue:0.965 alpha:0.9];
     
 }
 -(void)viewWillAppear:(BOOL)animated{
@@ -35,13 +36,14 @@
 }
 //placeHolderText
 -(void)placeHolderText{
-    _userNameTf.attributedPlaceholder=[constant textFieldPlaceHolderText:@"UserName"];
-    _passwordTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Password"];
+    _userNameTf.attributedPlaceholder=[constant textFieldPlaceLogin:@"Username"];
+    _passwordTF.attributedPlaceholder=[constant textFieldPlaceLogin:@"Password"];
     [constant spaceAtTheBeginigOfTextField:_userNameTf];
     [constant spaceAtTheBeginigOfTextField:_passwordTF];
-    [constant setFontForbutton:_signIn];
     [constant setFontFortextField:_userNameTf];
     [constant setFontFortextField:_passwordTF];
+    [constant SetBorderForTextField:_userNameTf];
+    [constant SetBorderForTextField:_passwordTF];
     _signIn.layer.cornerRadius=5;
 }
 //Hide Keyboard after tap on return

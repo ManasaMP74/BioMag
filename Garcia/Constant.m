@@ -3,7 +3,11 @@
 @implementation Constant
 //textFieldPlaceHolder
 -(NSAttributedString*)textFieldPlaceHolderText:(NSString *)text{
-    NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.8 green:0.8 blue:.8 alpha:1], NSFontAttributeName :[self customFont:12 ofName:OpenSansRegular]}];
+    NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.333 green:0.329 blue:0.39 alpha:1], NSFontAttributeName :[self customFont:12 ofName:OpenSansRegular]}];
+    return str;
+}
+-(NSAttributedString*)textFieldPlaceLogin:(NSString *)text{
+    NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.333 green:0.329 blue:0.39 alpha:1], NSFontAttributeName :[self customFont:18 ofName:OpenSansRegular]}];
     return str;
 }
 //Space At Beging of TextField
@@ -14,19 +18,20 @@
 }
 //setBorderForTextField
 -(void)SetBorderForTextField:(UITextField*)textField{
-    textField.layer.cornerRadius=15;
-    textField.layer.borderColor=[UIColor blackColor].CGColor;
+    textField.layer.cornerRadius=6;
+    textField.layer.borderColor=[UIColor colorWithRed:0.004 green:0.216 blue:0.294 alpha:0.5].CGColor;
     textField.layer.borderWidth=1;
 }
 //setBorder For TextView
 -(void)SetBorderForTextview:(UITextView*)textField{
     textField.layer.cornerRadius=15;
-    textField.layer.borderColor=[UIColor blackColor].CGColor;
+    textField.layer.borderColor=[UIColor colorWithRed:0.004 green:0.216 blue:0.294 alpha:0.5].CGColor;
+;
     textField.layer.borderWidth=1;
 }
 //set Font for Headers
 -(void)setFontForHeaders:(UILabel*)label{
-    label.font=[self customFont:17 ofName:OpenSansRegular];
+    label.font=[self customFont:17 ofName:OpenSansSemibold];
     label.textColor=[UIColor blackColor];
 }
 //set Font for normal label

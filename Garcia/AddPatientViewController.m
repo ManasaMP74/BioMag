@@ -40,7 +40,7 @@
       ContainerViewController *containerVC=(ContainerViewController*)nav.parentViewController;
         [containerVC setTitle:@"Add Patient"];
     }
-     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-01"]]];
+     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-01.jpg"]]];
      [self registerForKeyboardNotifications];
     [self addGestureForView];
 }

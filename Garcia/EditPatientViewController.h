@@ -1,5 +1,5 @@
 #import <UIKit/UIKit.h>
 
 @interface EditPatientViewController : UIViewController<UITextViewDelegate>
-@property(strong,nonatomic)NSString *name;
+@property(strong,nonatomic)NSArray *detailOfPatient;
 @end

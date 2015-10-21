@@ -12,4 +12,5 @@
 -(void)setFontForbutton:(UIButton*)button;
 -(void)SetBorderForTextview:(UITextView*)textField;
 -(void)setColorForLabel:(UILabel*)label;
+-(NSAttributedString*)textFieldPlaceLogin:(NSString *)text;
 @end

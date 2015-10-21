@@ -24,6 +24,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *patientNameTF;
 @property (strong, nonatomic) IBOutlet UIView *TreatmentView;
 @property (strong, nonatomic) IBOutlet UITableView *tableview;
+@property (strong, nonatomic) IBOutlet UITapGestureRecognizer *gestureRecognizer;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *tableViewHeight;
 @end
 
@@ -37,7 +38,7 @@
     [super viewDidLoad];
     constant=[[Constant alloc]init];
     self.navigationController.navigationBarHidden=YES;
-    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-01"]]];
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-01.jpg"]]];
     [self setFont];
     [self dummyData];
     _tableViewHeight.constant=self.tableview.contentSize.height;
@@ -88,7 +89,9 @@
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPat{
-   
+}
+- (IBAction)gestureRecognizer:(id)sender {
+    [self.view endEditing:YES];
 }
 //DummyData
 -(void)dummyData{
@@ -98,7 +101,7 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"edit"]) {
         EditPatientViewController *edit=segue.destinationViewController;
-        edit.name=_patientNameTF.text;
+        edit.detailOfPatient=@[_patientNameTF.text,_genderValueLabel.text,_mariedValueLabel.text,_dobValueLabel.text,_ageValueLabel.text,_mobileValueLabel.text,_emailValueLabel.text, _addressValueLabel.text];
     }
 }
 @end

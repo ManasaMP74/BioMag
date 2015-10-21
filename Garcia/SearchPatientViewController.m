@@ -3,7 +3,7 @@
 #import "DefaultValues.h"
 #import "Constant.h"
 #import "ContainerViewController.h"
-@interface SearchPatientViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface SearchPatientViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *searchTextField;
 
 @property (strong, nonatomic) IBOutlet UITableView *patientListTableView;
@@ -25,9 +25,11 @@
     patentFilteredArray=[[NSMutableArray alloc]init];
     [constant spaceAtTheBeginigOfTextField:_searchTextField];
     _searchTextField.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Search"];
-    [constant SetBorderForTextField:_searchTextField];
+    _searchTextField.layer.cornerRadius=18;
+    _searchTextField.layer.borderColor=[UIColor colorWithRed:0.004 green:0.216 blue:0.294 alpha:0.5].CGColor;
+    _searchTextField.layer.borderWidth=1;
     selectedIndexPath=nil;
-     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-02"]]];
+     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-02.jpg"]]];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -118,5 +120,9 @@ if (selectedIndexPath!=indexPath){
 -(void)dummyData{
 patentnameArray =@[@"Michael Ethan",@"Tyler Aiden",@"Aiden Joshua",@"Joseph Noah",@"Anthony Daniel",@"Angel Alexander",@"Jacob Michael",@"Ethan Jose",@"Jackson Jose"];
     [_patientListTableView reloadData];
+}
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [self.view endEditing:YES];
+    return YES;
 }
 @end

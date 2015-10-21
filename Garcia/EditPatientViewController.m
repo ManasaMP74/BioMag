@@ -2,7 +2,7 @@
 #import "Constant.h"
 #import "ContainerViewController.h"
 #import "DatePicker.h"
-@interface EditPatientViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,datePickerProtocol>
+@interface EditPatientViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,datePickerProtocol,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *nameTF;
 @property (strong, nonatomic) IBOutlet UITextField *genderTF;
 @property (strong, nonatomic) IBOutlet UITextField *maritialStatus;
@@ -16,6 +16,7 @@
 @property (strong, nonatomic) IBOutlet UITextView *addressTextView;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UIView *editview;
+@property (strong, nonatomic) IBOutlet UIImageView *patientImageView;
 @end
 
 @implementation EditPatientViewController
@@ -35,7 +36,7 @@
     MaritialStatusArray=@[@"Single",@"Married"];
     differOfTableView=@"treatment";
     [self registerForKeyboardNotifications];
-     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-01"]]];
+     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-01.jpg"]]];
     [self defaultValues];
     [self addGestureForView];
     
@@ -50,7 +51,14 @@
    
 }
 -(void)defaultValues{
-    _nameTF.text=_name;
+    _nameTF.text=_detailOfPatient[0];
+     _genderTF.text=_detailOfPatient[1];
+     _maritialStatus.text=_detailOfPatient[2];
+     _dateOfBirthTF.text=_detailOfPatient[3];
+     _ageTF.text=_detailOfPatient[4];
+     _mobileNoTF.text=_detailOfPatient[5];
+     _emailTF.text=_detailOfPatient[6];
+     _addressTextView.text=_detailOfPatient[7];
 }
 - (IBAction)cancel:(id)sender {
 [self.navigationController popViewControllerAnimated:YES];
@@ -219,11 +227,21 @@
 - (void)textViewDidEndEditing:(UITextView *)textView{
  activeField = nil;
 }
+-(void)getImage{
+    UIImagePickerController *picker=[[UIImagePickerController alloc]init];
+    picker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+    picker.delegate=self;
+}
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+ UIImage *profileImage =info[UIImagePickerControllerOriginalImage];
+    _patientImageView.image=profileImage;
+}
 //add gesture for view
 -(void)addGestureForView{
     UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gestureMethod:)];
     [_editview addGestureRecognizer:tap];
     [self.view addGestureRecognizer:tap];
+     UITapGestureRecognizer *imageTap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(getImage)];
     
 }
 @end

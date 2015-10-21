@@ -15,8 +15,8 @@
        case OpenSansRegular:
            customFont = [UIFont fontWithName:@"OpenSans" size:size];
            break;
-       case MuseoSans_700:
-           customFont = [UIFont fontWithName:@"MuseoSans-700" size:size];
+       case OpenSansSemibold:
+           customFont = [UIFont fontWithName:@"OpenSans-Semibold" size:size];
             break;
        default:
             break;

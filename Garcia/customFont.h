@@ -5,7 +5,7 @@ typedef NS_ENUM(NSInteger, CustomFontNames)
 {
     OpenSansBold = 1,
    OpenSansRegular,
-    MuseoSans_700,
+   OpenSansSemibold,
 };
 
 - (UIFont *)customFont:(NSInteger)size ofName:(CustomFontNames)fontName;
