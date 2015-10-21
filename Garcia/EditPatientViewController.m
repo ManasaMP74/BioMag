@@ -33,15 +33,13 @@
     genderArray=@[@"Male",@"Female"];
     MaritialStatusArray=@[@"Single",@"Married"];
     differOfTableView=@"treatment";
-   UINavigationController *nav=(UINavigationController*)self.parentViewController;
-   containerVC=(ContainerViewController*)nav.parentViewController;
-   [containerVC setTitle:@"Edit"];
-    UITapGestureRecognizer *maritialgesture=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(maritalStatus:)];
-    [_maritialStatus addGestureRecognizer:maritialgesture];
-    UITapGestureRecognizer *genderGesture=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gender:)];
-    [_maritialStatus addGestureRecognizer:genderGesture];
     [self registerForKeyboardNotifications];
     
+}
+-(void)viewWillAppear:(BOOL)animated{
+    UINavigationController *nav=(UINavigationController*)self.parentViewController;
+    containerVC=(ContainerViewController*)nav.parentViewController;
+    [containerVC setTitle:@"Edit"];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
