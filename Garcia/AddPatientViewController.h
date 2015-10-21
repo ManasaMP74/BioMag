@@ -1,5 +1,5 @@
 #import <UIKit/UIKit.h>
 
-@interface AddPatientViewController : UIViewController
+@interface AddPatientViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 
 @end

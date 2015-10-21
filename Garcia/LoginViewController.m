@@ -5,6 +5,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *userNameTf;
 @property (strong, nonatomic) IBOutlet UITextField *passwordTF;
 @property (strong, nonatomic) IBOutlet UIButton *signIn;
+@property (strong, nonatomic) IBOutlet UIView *loginView;
 
 @end
 
@@ -17,6 +18,8 @@
     constant=[[Constant alloc]init];
      [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"01-Splash"]]];
        [self placeHolderText];
+    _loginView.layer.cornerRadius=10;
+    
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];

@@ -8,7 +8,7 @@
 }
 //Space At Beging of TextField
 -(void)spaceAtTheBeginigOfTextField:(UITextField*)textField{
-    UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0,20, 44)];
+    UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0,10, 44)];
     textField.leftView=view;
     textField.leftViewMode=3;
 }

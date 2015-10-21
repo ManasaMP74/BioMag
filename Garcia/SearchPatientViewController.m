@@ -27,6 +27,7 @@
     _searchTextField.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Search"];
     [constant SetBorderForTextField:_searchTextField];
     selectedIndexPath=nil;
+     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-02"]]];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

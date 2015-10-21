@@ -1,6 +1,7 @@
 #import "PatientViewController.h"
 #import "Constant.h"
 #import "ContainerViewController.h"
+#import "EditPatientViewController.h"
 @interface PatientViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UIButton *edit;
@@ -74,6 +75,7 @@
     [constant setFontForLabel:_mariedValueLabel];
     [constant setFontForHeaders:_patientNameTF];
 }
+//TableView Delegate Method
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return treatmentArray.count;
 }
@@ -88,9 +90,15 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPat{
    
 }
+//DummyData
 -(void)dummyData{
     treatmentArray =@[@"Neck Pain",@"Chest Pain",@"Back Pain",@"Eye"];
     [_tableview reloadData];
 }
-
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"edit"]) {
+        EditPatientViewController *edit=segue.destinationViewController;
+        edit.name=_patientNameTF.text;
+    }
+}
 @end

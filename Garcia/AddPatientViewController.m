@@ -15,6 +15,7 @@
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *gestureRecognizer;
 @property (strong, nonatomic) IBOutlet UITextView *addressTextView;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (strong, nonatomic) IBOutlet UIView *addView;
 @end
 
 @implementation AddPatientViewController
@@ -39,7 +40,9 @@
       ContainerViewController *containerVC=(ContainerViewController*)nav.parentViewController;
         [containerVC setTitle:@"Add Patient"];
     }
+     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-01"]]];
      [self registerForKeyboardNotifications];
+    [self addGestureForView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -59,10 +62,13 @@
     _gendertableview.hidden=YES;
     _maritialTableView.hidden=NO;
     differOfTableView=@"maritral";
+     _gestureRecognizer.enabled=YES;
     [_maritialTableView reloadData];
 }
 //DateOfBirth Field
 - (IBAction)dateOfBirth:(id)sender {
+    _gendertableview.hidden=YES;
+    _maritialTableView.hidden=YES;
     if(datePicker==nil)
         datePicker= [[DatePicker alloc]initWithFrame:CGRectMake(self.view.frame.origin.x+50.5, self.view.frame.origin.y+230,self.view.frame.size.width-100,220)];
     [datePicker.datePicker setMinimumDate:[NSDate date]];
@@ -78,6 +84,7 @@
     _gendertableview.hidden=NO;
     _maritialTableView.hidden=YES;
     differOfTableView=@"gender";
+    _gestureRecognizer.enabled=NO;
     [_gendertableview reloadData];
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -114,6 +121,7 @@
         _maritialStatus.text=cell.textLabel.text;
         _maritialTableView.hidden=YES;
     }
+     _gestureRecognizer.enabled=YES;
 }
 //cell Color
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -136,6 +144,7 @@
     _maritialTableView.hidden=YES;
     _gendertableview.hidden=YES;
       activeField = textField;
+     _gestureRecognizer.enabled=YES;
 }
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
@@ -165,8 +174,9 @@
     [constant SetBorderForTextview:_addressTextView];
     [constant SetBorderForTextField:_nameTF];
     [constant SetBorderForTextField:_dateOfBirthTF];
-    _addressTextView.contentInset = UIEdgeInsetsMake(0,20,10,0);
+     _addressTextView.textContainerInset = UIEdgeInsetsMake(10, 10,10, 10);
 }
+//Move the TextField Up
 - (void)registerForKeyboardNotifications
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardWillShowNotification object:nil];
@@ -191,5 +201,21 @@
     UIEdgeInsets contentInsets =UIEdgeInsetsZero;
     _scrollView.contentInset = contentInsets;
     _scrollView.scrollIndicatorInsets = contentInsets;
+}
+//TextVie Delegate Method
+- (void)textViewDidBeginEditing:(UITextView *)textView{
+    _maritialTableView.hidden=YES;
+    _gendertableview.hidden=YES;
+    //activeField = textView;
+}
+- (void)textViewDidEndEditing:(UITextView *)textView{
+    activeField = nil;
+}
+//add gesture for view
+-(void)addGestureForView{
+    UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gestureMethod:)];
+    [_addView addGestureRecognizer:tap];
+    [self.view addGestureRecognizer:tap];
+    
 }
 @end
