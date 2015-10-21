@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA4461E61BD771F600F80F5A /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC027B1BD514340095C6AE /* OpenSans-Semibold.ttf */; };
+		DA4461E71BD7720300F80F5A /* OpenSans-Semibold.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC027B1BD514340095C6AE /* OpenSans-Semibold.ttf */; };
+		DAE9555A1BD24A7500EDFD8F /* PatientSheetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE955591BD24A7500EDFD8F /* PatientSheetViewController.m */; };
+		DAE9555D1BD24D1800EDFD8F /* PatientSheetTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE9555C1BD24D1800EDFD8F /* PatientSheetTableViewCell.m */; };
+		DAEC02711BD513500095C6AE /* customFont.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEC02701BD513500095C6AE /* customFont.m */; };
+		DAEC027E1BD51D0C0095C6AE /* OpenSans-Bold.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC02731BD514180095C6AE /* OpenSans-Bold.ttf */; };
+		DAEC027F1BD5219A0095C6AE /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC02731BD514180095C6AE /* OpenSans-Bold.ttf */; };
+		DAEF6AEE1BD5FA37006868C8 /* OpenSans-Regular.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC027A1BD514340095C6AE /* OpenSans-Regular.ttf */; };
+		DAEF6AEF1BD5FA52006868C8 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC027A1BD514340095C6AE /* OpenSans-Regular.ttf */; };
+		DAEF6AF31BD65C61006868C8 /* DatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEF6AF21BD65C61006868C8 /* DatePicker.m */; };
+		DAEF6AF51BD65C9B006868C8 /* DatePickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAEF6AF41BD65C9B006868C8 /* DatePickerView.xib */; };
 		DAEFA1941BD0B11500900379 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1931BD0B11500900379 /* main.m */; };
 		DAEFA1971BD0B11500900379 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1961BD0B11500900379 /* AppDelegate.m */; };
 		DAEFA19D1BD0B11500900379 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAEFA19B1BD0B11500900379 /* Main.storyboard */; };
@@ -14,13 +25,25 @@
 		DAEFA1A21BD0B11500900379 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAEFA1A01BD0B11500900379 /* LaunchScreen.xib */; };
 		DAEFA1AE1BD0B11500900379 /* GarciaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1AD1BD0B11500900379 /* GarciaTests.m */; };
 		DAEFA1B91BD0B49A00900379 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1B81BD0B49A00900379 /* LoginViewController.m */; };
-		DAEFA1BC1BD0B4BA00900379 /* SearchPatientTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1BB1BD0B4BA00900379 /* SearchPatientTableViewController.m */; };
+		DAEFA1BC1BD0B4BA00900379 /* SearchPatientViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1BB1BD0B4BA00900379 /* SearchPatientViewController.m */; };
 		DAEFA1BF1BD0B4EB00900379 /* PatientViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1BE1BD0B4EB00900379 /* PatientViewController.m */; };
 		DAEFA1C21BD0B4FA00900379 /* AddPatientViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1C11BD0B4FA00900379 /* AddPatientViewController.m */; };
 		DAEFA1C51BD0B50800900379 /* EditPatientViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1C41BD0B50800900379 /* EditPatientViewController.m */; };
 		DAEFA1C81BD0B6C900900379 /* Constant.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1C71BD0B6C900900379 /* Constant.m */; };
 		DAEFA1CB1BD0B6D600900379 /* Postman.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1CA1BD0B6D600900379 /* Postman.m */; };
 		DAEFA1CE1BD0B6E300900379 /* DefaultValues.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1CD1BD0B6E300900379 /* DefaultValues.m */; };
+		DAEFA1D91BD0D8ED00900379 /* SearchPatientTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1D81BD0D8ED00900379 /* SearchPatientTableViewCell.m */; };
+		DAF82CD81BD4A31F006AF1E1 /* SettingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF82CD71BD4A31F006AF1E1 /* SettingView.xib */; };
+		DAF82CDC1BD4A34E006AF1E1 /* SettingView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF82CDB1BD4A34E006AF1E1 /* SettingView.m */; };
+		DAF82CE01BD4BA74006AF1E1 /* ContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF82CDF1BD4BA74006AF1E1 /* ContainerViewController.m */; };
+		DAF82CE41BD4C80E006AF1E1 /* AddSection.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF82CE31BD4C80E006AF1E1 /* AddSection.m */; };
+		DAF82CE61BD4C828006AF1E1 /* AddSection.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF82CE51BD4C828006AF1E1 /* AddSection.xib */; };
+		DAF82CEA1BD4CB24006AF1E1 /* AddSectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF82CE91BD4CB24006AF1E1 /* AddSectionCell.xib */; };
+		DAF82CED1BD4CC06006AF1E1 /* AddSectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF82CEC1BD4CC06006AF1E1 /* AddSectionCell.m */; };
+		DAF82CF11BD4CECB006AF1E1 /* SectionDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF82CF01BD4CECB006AF1E1 /* SectionDetail.m */; };
+		DAF82CF41BD4CEE6006AF1E1 /* SectionDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF82CF31BD4CEE6006AF1E1 /* SectionDetailCell.m */; };
+		DAF82CF61BD4CF01006AF1E1 /* SectionDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF82CF51BD4CF01006AF1E1 /* SectionDetailCell.xib */; };
+		DAF82CF81BD4CF0D006AF1E1 /* SectionDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF82CF71BD4CF0D006AF1E1 /* SectionDetail.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +57,25 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DAE955581BD24A7500EDFD8F /* PatientSheetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatientSheetViewController.h; sourceTree = "<group>"; };
+		DAE955591BD24A7500EDFD8F /* PatientSheetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PatientSheetViewController.m; sourceTree = "<group>"; };
+		DAE9555B1BD24D1800EDFD8F /* PatientSheetTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatientSheetTableViewCell.h; sourceTree = "<group>"; };
+		DAE9555C1BD24D1800EDFD8F /* PatientSheetTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PatientSheetTableViewCell.m; sourceTree = "<group>"; };
+		DAEC026F1BD513500095C6AE /* customFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = customFont.h; sourceTree = "<group>"; };
+		DAEC02701BD513500095C6AE /* customFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = customFont.m; sourceTree = "<group>"; };
+		DAEC02731BD514180095C6AE /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Bold.ttf"; path = "Fonts/OpenSans-Bold.ttf"; sourceTree = SOURCE_ROOT; };
+		DAEC02741BD5141E0095C6AE /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-BoldItalic.ttf"; path = "Fonts/OpenSans-BoldItalic.ttf"; sourceTree = SOURCE_ROOT; };
+		DAEC02751BD514240095C6AE /* OpenSans-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-ExtraBold.ttf"; path = "Fonts/OpenSans-ExtraBold.ttf"; sourceTree = SOURCE_ROOT; };
+		DAEC02761BD5142B0095C6AE /* OpenSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-ExtraBoldItalic.ttf"; path = "Fonts/OpenSans-ExtraBoldItalic.ttf"; sourceTree = SOURCE_ROOT; };
+		DAEC02771BD514340095C6AE /* OpenSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Italic.ttf"; path = "Fonts/OpenSans-Italic.ttf"; sourceTree = SOURCE_ROOT; };
+		DAEC02781BD514340095C6AE /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Light.ttf"; path = "Fonts/OpenSans-Light.ttf"; sourceTree = SOURCE_ROOT; };
+		DAEC02791BD514340095C6AE /* OpenSans-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-LightItalic.ttf"; path = "Fonts/OpenSans-LightItalic.ttf"; sourceTree = SOURCE_ROOT; };
+		DAEC027A1BD514340095C6AE /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Regular.ttf"; path = "Fonts/OpenSans-Regular.ttf"; sourceTree = SOURCE_ROOT; };
+		DAEC027B1BD514340095C6AE /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Semibold.ttf"; path = "Fonts/OpenSans-Semibold.ttf"; sourceTree = SOURCE_ROOT; };
+		DAEC027C1BD514340095C6AE /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-SemiboldItalic.ttf"; path = "Fonts/OpenSans-SemiboldItalic.ttf"; sourceTree = SOURCE_ROOT; };
+		DAEF6AF11BD65C61006868C8 /* DatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePicker.h; sourceTree = "<group>"; };
+		DAEF6AF21BD65C61006868C8 /* DatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePicker.m; sourceTree = "<group>"; };
+		DAEF6AF41BD65C9B006868C8 /* DatePickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DatePickerView.xib; sourceTree = "<group>"; };
 		DAEFA18E1BD0B11500900379 /* Garcia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Garcia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAEFA1921BD0B11500900379 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAEFA1931BD0B11500900379 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -47,8 +89,8 @@
 		DAEFA1AD1BD0B11500900379 /* GarciaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GarciaTests.m; sourceTree = "<group>"; };
 		DAEFA1B71BD0B49A00900379 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		DAEFA1B81BD0B49A00900379 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
-		DAEFA1BA1BD0B4BA00900379 /* SearchPatientTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchPatientTableViewController.h; sourceTree = "<group>"; };
-		DAEFA1BB1BD0B4BA00900379 /* SearchPatientTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchPatientTableViewController.m; sourceTree = "<group>"; };
+		DAEFA1BA1BD0B4BA00900379 /* SearchPatientViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchPatientViewController.h; sourceTree = "<group>"; };
+		DAEFA1BB1BD0B4BA00900379 /* SearchPatientViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchPatientViewController.m; sourceTree = "<group>"; };
 		DAEFA1BD1BD0B4EB00900379 /* PatientViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatientViewController.h; sourceTree = "<group>"; };
 		DAEFA1BE1BD0B4EB00900379 /* PatientViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PatientViewController.m; sourceTree = "<group>"; };
 		DAEFA1C01BD0B4FA00900379 /* AddPatientViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddPatientViewController.h; sourceTree = "<group>"; };
@@ -61,6 +103,25 @@
 		DAEFA1CA1BD0B6D600900379 /* Postman.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Postman.m; sourceTree = "<group>"; };
 		DAEFA1CC1BD0B6E300900379 /* DefaultValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultValues.h; sourceTree = "<group>"; };
 		DAEFA1CD1BD0B6E300900379 /* DefaultValues.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultValues.m; sourceTree = "<group>"; };
+		DAEFA1D71BD0D8ED00900379 /* SearchPatientTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchPatientTableViewCell.h; sourceTree = "<group>"; };
+		DAEFA1D81BD0D8ED00900379 /* SearchPatientTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchPatientTableViewCell.m; sourceTree = "<group>"; };
+		DAF82CD71BD4A31F006AF1E1 /* SettingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingView.xib; sourceTree = "<group>"; };
+		DAF82CDA1BD4A34E006AF1E1 /* SettingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingView.h; sourceTree = "<group>"; };
+		DAF82CDB1BD4A34E006AF1E1 /* SettingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingView.m; sourceTree = "<group>"; };
+		DAF82CDE1BD4BA74006AF1E1 /* ContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContainerViewController.h; sourceTree = "<group>"; };
+		DAF82CDF1BD4BA74006AF1E1 /* ContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContainerViewController.m; sourceTree = "<group>"; };
+		DAF82CE21BD4C80E006AF1E1 /* AddSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddSection.h; sourceTree = "<group>"; };
+		DAF82CE31BD4C80E006AF1E1 /* AddSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddSection.m; sourceTree = "<group>"; };
+		DAF82CE51BD4C828006AF1E1 /* AddSection.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddSection.xib; sourceTree = "<group>"; };
+		DAF82CE91BD4CB24006AF1E1 /* AddSectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddSectionCell.xib; path = ../AddSectionCell.xib; sourceTree = "<group>"; };
+		DAF82CEB1BD4CC06006AF1E1 /* AddSectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddSectionCell.h; sourceTree = "<group>"; };
+		DAF82CEC1BD4CC06006AF1E1 /* AddSectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddSectionCell.m; sourceTree = "<group>"; };
+		DAF82CEF1BD4CECB006AF1E1 /* SectionDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionDetail.h; sourceTree = "<group>"; };
+		DAF82CF01BD4CECB006AF1E1 /* SectionDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionDetail.m; sourceTree = "<group>"; };
+		DAF82CF21BD4CEE6006AF1E1 /* SectionDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionDetailCell.h; sourceTree = "<group>"; };
+		DAF82CF31BD4CEE6006AF1E1 /* SectionDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionDetailCell.m; sourceTree = "<group>"; };
+		DAF82CF51BD4CF01006AF1E1 /* SectionDetailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SectionDetailCell.xib; sourceTree = "<group>"; };
+		DAF82CF71BD4CF0D006AF1E1 /* SectionDetail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SectionDetail.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +142,54 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DAE955571BD24A4900EDFD8F /* PtientSheet */ = {
+			isa = PBXGroup;
+			children = (
+				DAE955581BD24A7500EDFD8F /* PatientSheetViewController.h */,
+				DAE955591BD24A7500EDFD8F /* PatientSheetViewController.m */,
+				DAE9555B1BD24D1800EDFD8F /* PatientSheetTableViewCell.h */,
+				DAE9555C1BD24D1800EDFD8F /* PatientSheetTableViewCell.m */,
+			);
+			name = PtientSheet;
+			sourceTree = "<group>";
+		};
+		DAEC026E1BD5131F0095C6AE /* CustomFont */ = {
+			isa = PBXGroup;
+			children = (
+				DAEC027D1BD5143B0095C6AE /* Font */,
+				DAEC026F1BD513500095C6AE /* customFont.h */,
+				DAEC02701BD513500095C6AE /* customFont.m */,
+			);
+			name = CustomFont;
+			sourceTree = "<group>";
+		};
+		DAEC027D1BD5143B0095C6AE /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				DAEC02731BD514180095C6AE /* OpenSans-Bold.ttf */,
+				DAEC02741BD5141E0095C6AE /* OpenSans-BoldItalic.ttf */,
+				DAEC02751BD514240095C6AE /* OpenSans-ExtraBold.ttf */,
+				DAEC02761BD5142B0095C6AE /* OpenSans-ExtraBoldItalic.ttf */,
+				DAEC02771BD514340095C6AE /* OpenSans-Italic.ttf */,
+				DAEC02781BD514340095C6AE /* OpenSans-Light.ttf */,
+				DAEC02791BD514340095C6AE /* OpenSans-LightItalic.ttf */,
+				DAEC027A1BD514340095C6AE /* OpenSans-Regular.ttf */,
+				DAEC027B1BD514340095C6AE /* OpenSans-Semibold.ttf */,
+				DAEC027C1BD514340095C6AE /* OpenSans-SemiboldItalic.ttf */,
+			);
+			name = Font;
+			sourceTree = "<group>";
+		};
+		DAEF6AF01BD65C2C006868C8 /* DatePicker */ = {
+			isa = PBXGroup;
+			children = (
+				DAEF6AF11BD65C61006868C8 /* DatePicker.h */,
+				DAEF6AF21BD65C61006868C8 /* DatePicker.m */,
+				DAEF6AF41BD65C9B006868C8 /* DatePickerView.xib */,
+			);
+			name = DatePicker;
+			sourceTree = "<group>";
+		};
 		DAEFA1851BD0B11500900379 = {
 			isa = PBXGroup;
 			children = (
@@ -109,9 +218,16 @@
 				DAEFA1D31BD0B71D00900379 /* SearchPatient */,
 				DAEFA1D51BD0B74A00900379 /* EditPatient */,
 				DAEFA1D41BD0B72E00900379 /* AddPatient */,
+				DAE955571BD24A4900EDFD8F /* PtientSheet */,
+				DAF82CD91BD4A327006AF1E1 /* Setting */,
+				DAF82CE11BD4C7E9006AF1E1 /* Section */,
+				DAF82CEE1BD4CE92006AF1E1 /* singleSectionDetail */,
 				DAEFA1D21BD0B70900900379 /* DammyData */,
-				DAEFA1D11BD0B70000900379 /* Postman */,
+				DAF82CDD1BD4BA4E006AF1E1 /* ContainerVC */,
 				DAEFA1D01BD0B6F400900379 /* Constant */,
+				DAEC026E1BD5131F0095C6AE /* CustomFont */,
+				DAEFA1D11BD0B70000900379 /* Postman */,
+				DAEF6AF01BD65C2C006868C8 /* DatePicker */,
 				DAEFA19B1BD0B11500900379 /* Main.storyboard */,
 				DAEFA19E1BD0B11500900379 /* Images.xcassets */,
 				DAEFA1A01BD0B11500900379 /* LaunchScreen.xib */,
@@ -185,8 +301,10 @@
 		DAEFA1D31BD0B71D00900379 /* SearchPatient */ = {
 			isa = PBXGroup;
 			children = (
-				DAEFA1BA1BD0B4BA00900379 /* SearchPatientTableViewController.h */,
-				DAEFA1BB1BD0B4BA00900379 /* SearchPatientTableViewController.m */,
+				DAEFA1BA1BD0B4BA00900379 /* SearchPatientViewController.h */,
+				DAEFA1BB1BD0B4BA00900379 /* SearchPatientViewController.m */,
+				DAEFA1D71BD0D8ED00900379 /* SearchPatientTableViewCell.h */,
+				DAEFA1D81BD0D8ED00900379 /* SearchPatientTableViewCell.m */,
 			);
 			name = SearchPatient;
 			sourceTree = "<group>";
@@ -216,6 +334,51 @@
 				DAEFA1BE1BD0B4EB00900379 /* PatientViewController.m */,
 			);
 			name = Patient;
+			sourceTree = "<group>";
+		};
+		DAF82CD91BD4A327006AF1E1 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				DAF82CD71BD4A31F006AF1E1 /* SettingView.xib */,
+				DAF82CDA1BD4A34E006AF1E1 /* SettingView.h */,
+				DAF82CDB1BD4A34E006AF1E1 /* SettingView.m */,
+			);
+			name = Setting;
+			sourceTree = "<group>";
+		};
+		DAF82CDD1BD4BA4E006AF1E1 /* ContainerVC */ = {
+			isa = PBXGroup;
+			children = (
+				DAF82CDE1BD4BA74006AF1E1 /* ContainerViewController.h */,
+				DAF82CDF1BD4BA74006AF1E1 /* ContainerViewController.m */,
+			);
+			name = ContainerVC;
+			sourceTree = "<group>";
+		};
+		DAF82CE11BD4C7E9006AF1E1 /* Section */ = {
+			isa = PBXGroup;
+			children = (
+				DAF82CE51BD4C828006AF1E1 /* AddSection.xib */,
+				DAF82CE21BD4C80E006AF1E1 /* AddSection.h */,
+				DAF82CE31BD4C80E006AF1E1 /* AddSection.m */,
+				DAF82CE91BD4CB24006AF1E1 /* AddSectionCell.xib */,
+				DAF82CEB1BD4CC06006AF1E1 /* AddSectionCell.h */,
+				DAF82CEC1BD4CC06006AF1E1 /* AddSectionCell.m */,
+			);
+			name = Section;
+			sourceTree = "<group>";
+		};
+		DAF82CEE1BD4CE92006AF1E1 /* singleSectionDetail */ = {
+			isa = PBXGroup;
+			children = (
+				DAF82CF71BD4CF0D006AF1E1 /* SectionDetail.xib */,
+				DAF82CEF1BD4CECB006AF1E1 /* SectionDetail.h */,
+				DAF82CF01BD4CECB006AF1E1 /* SectionDetail.m */,
+				DAF82CF51BD4CF01006AF1E1 /* SectionDetailCell.xib */,
+				DAF82CF21BD4CEE6006AF1E1 /* SectionDetailCell.h */,
+				DAF82CF31BD4CEE6006AF1E1 /* SectionDetailCell.m */,
+			);
+			name = singleSectionDetail;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -298,9 +461,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA4461E61BD771F600F80F5A /* OpenSans-Semibold.ttf in Resources */,
+				DAEF6AEF1BD5FA52006868C8 /* OpenSans-Regular.ttf in Resources */,
+				DAEC027F1BD5219A0095C6AE /* OpenSans-Bold.ttf in Resources */,
 				DAEFA19D1BD0B11500900379 /* Main.storyboard in Resources */,
+				DAF82CE61BD4C828006AF1E1 /* AddSection.xib in Resources */,
+				DAF82CF81BD4CF0D006AF1E1 /* SectionDetail.xib in Resources */,
+				DAF82CD81BD4A31F006AF1E1 /* SettingView.xib in Resources */,
+				DAF82CF61BD4CF01006AF1E1 /* SectionDetailCell.xib in Resources */,
+				DAEF6AF51BD65C9B006868C8 /* DatePickerView.xib in Resources */,
 				DAEFA1A21BD0B11500900379 /* LaunchScreen.xib in Resources */,
 				DAEFA19F1BD0B11500900379 /* Images.xcassets in Resources */,
+				DAF82CEA1BD4CB24006AF1E1 /* AddSectionCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,16 +490,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA4461E71BD7720300F80F5A /* OpenSans-Semibold.ttf in Sources */,
+				DAEF6AEE1BD5FA37006868C8 /* OpenSans-Regular.ttf in Sources */,
+				DAEC027E1BD51D0C0095C6AE /* OpenSans-Bold.ttf in Sources */,
 				DAEFA1971BD0B11500900379 /* AppDelegate.m in Sources */,
+				DAEC02711BD513500095C6AE /* customFont.m in Sources */,
 				DAEFA1BF1BD0B4EB00900379 /* PatientViewController.m in Sources */,
+				DAEF6AF31BD65C61006868C8 /* DatePicker.m in Sources */,
 				DAEFA1C51BD0B50800900379 /* EditPatientViewController.m in Sources */,
 				DAEFA1CB1BD0B6D600900379 /* Postman.m in Sources */,
 				DAEFA1941BD0B11500900379 /* main.m in Sources */,
+				DAF82CE41BD4C80E006AF1E1 /* AddSection.m in Sources */,
 				DAEFA1B91BD0B49A00900379 /* LoginViewController.m in Sources */,
 				DAEFA1C21BD0B4FA00900379 /* AddPatientViewController.m in Sources */,
-				DAEFA1BC1BD0B4BA00900379 /* SearchPatientTableViewController.m in Sources */,
+				DAEFA1D91BD0D8ED00900379 /* SearchPatientTableViewCell.m in Sources */,
+				DAF82CED1BD4CC06006AF1E1 /* AddSectionCell.m in Sources */,
+				DAE9555D1BD24D1800EDFD8F /* PatientSheetTableViewCell.m in Sources */,
+				DAF82CF41BD4CEE6006AF1E1 /* SectionDetailCell.m in Sources */,
+				DAF82CDC1BD4A34E006AF1E1 /* SettingView.m in Sources */,
+				DAF82CF11BD4CECB006AF1E1 /* SectionDetail.m in Sources */,
+				DAE9555A1BD24A7500EDFD8F /* PatientSheetViewController.m in Sources */,
+				DAEFA1BC1BD0B4BA00900379 /* SearchPatientViewController.m in Sources */,
 				DAEFA1C81BD0B6C900900379 /* Constant.m in Sources */,
 				DAEFA1CE1BD0B6E300900379 /* DefaultValues.m in Sources */,
+				DAF82CE01BD4BA74006AF1E1 /* ContainerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -456,6 +642,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Garcia/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -466,6 +653,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Garcia/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -524,6 +712,7 @@
 				DAEFA1B31BD0B11500900379 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DAEFA1B41BD0B11500900379 /* Build configuration list for PBXNativeTarget "GarciaTests" */ = {
 			isa = XCConfigurationList;
@@ -532,6 +721,7 @@
 				DAEFA1B61BD0B11500900379 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
