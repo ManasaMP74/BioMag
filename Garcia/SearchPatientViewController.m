@@ -36,7 +36,7 @@
     [self dummyData];
     NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:1 inSection:0];
     [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
-    [_patientListTableView selectRowAtIndexPath:selectedCellIndexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+//    [_patientListTableView selectRowAtIndexPath:selectedCellIndexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
 }
 //TableView Number of section
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
