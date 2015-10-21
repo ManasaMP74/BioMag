@@ -85,8 +85,8 @@
     tableView.tableFooterView=[UIView new];
     return cell;
 }
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [containerVC pushPatientSheetVC];
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPat{
+   
 }
 -(void)dummyData{
     treatmentArray =@[@"Neck Pain",@"Chest Pain",@"Back Pain",@"Eye"];

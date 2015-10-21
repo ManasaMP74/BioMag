@@ -1717,7 +1717,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Search" translatesAutoresizingMaskIntoConstraints="NO" id="dJX-3e-jjV">
-                                <rect key="frame" x="168" y="17" width="25" height="25"/>
+                                <rect key="frame" x="168" y="13" width="25" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="25" id="1rl-HH-YLl"/>
                                     <constraint firstAttribute="height" constant="25" id="X9a-Rj-3i9"/>
@@ -1806,8 +1806,8 @@
                             <constraint firstItem="Ucl-D4-UHY" firstAttribute="top" secondItem="UmG-3u-my8" secondAttribute="bottom" id="Emr-Dy-uld"/>
                             <constraint firstItem="bI6-Wn-sP0" firstAttribute="top" secondItem="JbX-Zi-nWf" secondAttribute="bottom" constant="5" id="HZE-Ip-Zr2"/>
                             <constraint firstItem="UmG-3u-my8" firstAttribute="leading" secondItem="nS1-9q-DXe" secondAttribute="leading" id="K5i-4T-Nb1"/>
+                            <constraint firstItem="JbX-Zi-nWf" firstAttribute="centerY" secondItem="dJX-3e-jjV" secondAttribute="centerY" id="OpS-Pl-kff"/>
                             <constraint firstAttribute="centerX" secondItem="JbX-Zi-nWf" secondAttribute="centerX" id="T2O-wg-DTw"/>
-                            <constraint firstItem="JbX-Zi-nWf" firstAttribute="top" secondItem="dJX-3e-jjV" secondAttribute="bottom" constant="-34" id="aO5-uA-2v2"/>
                             <constraint firstAttribute="trailing" secondItem="bI6-Wn-sP0" secondAttribute="trailing" id="czf-07-HTq"/>
                             <constraint firstItem="dJX-3e-jjV" firstAttribute="leading" secondItem="JbX-Zi-nWf" secondAttribute="trailing" constant="-36" id="dD6-Mz-MNn"/>
                             <constraint firstItem="UmG-3u-my8" firstAttribute="top" secondItem="bI6-Wn-sP0" secondAttribute="bottom" constant="5" id="haP-kR-TgW"/>

@@ -15,8 +15,8 @@
             <rect key="frame" x="0.0" y="0.0" width="311" height="198"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Head" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LHz-hF-KXf">
-                    <rect key="frame" x="8" y="8" width="42" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Head" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LHz-hF-KXf">
+                    <rect key="frame" x="8" y="8" width="41" height="21"/>
                     <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="xhF-3S-G6s"/>
@@ -25,26 +25,26 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AgX-MV-VeV">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AgX-MV-VeV">
                     <rect key="frame" x="8" y="156" width="46" height="30"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="46" id="0Tt-bY-VKc"/>
                         <constraint firstAttribute="height" constant="30" id="ugS-Zq-S6b"/>
                     </constraints>
-                    <state key="normal" title="Button">
+                    <state key="normal" image="Arrow-02">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
                         <action selector="previous:" destination="-1" eventType="touchUpInside" id="d9e-At-Bw1"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1d2-JE-noX">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1d2-JE-noX">
                     <rect key="frame" x="257" y="153" width="46" height="30"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="46" id="R5A-lg-xPR"/>
                         <constraint firstAttribute="height" constant="30" id="n6n-GY-rbc"/>
                     </constraints>
-                    <state key="normal" title="Button">
+                    <state key="normal" image="Arrow-03">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -81,4 +81,8 @@
             <point key="canvasLocation" x="209.5" y="-54"/>
         </view>
     </objects>
+    <resources>
+        <image name="Arrow-02" width="28" height="28"/>
+        <image name="Arrow-03" width="28" height="28"/>
+    </resources>
 </document>

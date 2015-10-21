@@ -27,15 +27,11 @@
 -(void)popToViewController{
     [self.navigationController popViewControllerAnimated:YES];
 }
-//push Add Patient ViewController
--(void)pushAddPatientSheetVC{
-    AddPatientViewController *addpatientVC=[self.storyboard instantiateViewControllerWithIdentifier:@"AddPatientViewController"];
-    [self.navigationController pushViewController:addpatientVC animated:YES];
-}
 //pass data from one viewController to another
 -(void)passDataFromsearchPatientTableViewToPatient:(NSString *)str{
     UINavigationController * nav=[self.childViewControllers lastObject];
     PatientViewController *patientVc=nav.viewControllers[0];
+    [nav popViewControllerAnimated:YES];
     patientVc.patientName = str;
     [patientVc setDefaultValues];
 }

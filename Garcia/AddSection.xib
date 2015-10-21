@@ -36,30 +36,30 @@
                         <outlet property="delegate" destination="-1" id="CPg-Kt-2JX"/>
                     </connections>
                 </tableView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MNN-zd-iFl">
-                    <rect key="frame" x="244" y="179" width="59" height="30"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="30" id="JHc-wt-HcE"/>
-                        <constraint firstAttribute="width" constant="59" id="bEu-xS-q9v"/>
-                    </constraints>
-                    <state key="normal" title="Button">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="next:" destination="-1" eventType="touchUpInside" id="UQz-kC-UrU"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uec-TF-vE8">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uec-TF-vE8">
                     <rect key="frame" x="8" y="179" width="59" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="Vw3-l8-dxv"/>
                         <constraint firstAttribute="width" constant="59" id="cEY-HM-jrM"/>
                     </constraints>
-                    <state key="normal" title="Button">
+                    <state key="normal" image="Arrow-02">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
                         <action selector="previous:" destination="-1" eventType="touchUpInside" id="0AA-us-843"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MNN-zd-iFl">
+                    <rect key="frame" x="244" y="179" width="59" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="JHc-wt-HcE"/>
+                        <constraint firstAttribute="width" constant="59" id="bEu-xS-q9v"/>
+                    </constraints>
+                    <state key="normal" image="Arrow-03">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="next:" destination="-1" eventType="touchUpInside" id="UQz-kC-UrU"/>
                     </connections>
                 </button>
             </subviews>
@@ -81,4 +81,8 @@
             <point key="canvasLocation" x="251.5" y="113"/>
         </view>
     </objects>
+    <resources>
+        <image name="Arrow-02" width="28" height="28"/>
+        <image name="Arrow-03" width="28" height="28"/>
+    </resources>
 </document>
