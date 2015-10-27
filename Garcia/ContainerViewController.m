@@ -1,9 +1,7 @@
 #import "ContainerViewController.h"
-#import "AddPatientViewController.h"
-#import "PatientSheetViewController.h"
-#import "SearchPatientViewController.h"
 #import "PatientViewController.h"
 #import "AddPatientViewController.h"
+#import "PatientSheetViewController.h"
 @interface ContainerViewController ()
 
 @end
@@ -16,8 +14,19 @@
     [super viewDidLoad];
       self.navigationController.navigationBarHidden=NO;
     self.navigationItem.hidesBackButton = YES;
-  UIBarButtonItem *leftbarbutton=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(popToViewController)];
-    self.navigationItem.leftBarButtonItem=leftbarbutton;
+    
+    UIImage* image3 = [UIImage imageNamed:@"Icon-Signout.png"];
+    CGRect frameimg = CGRectMake(0, 0, image3.size.width, image3.size.height);
+    UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
+    [someButton setBackgroundImage:image3 forState:UIControlStateNormal];
+    [someButton addTarget:self action:@selector(popToViewController) forControlEvents:UIControlEventTouchUpInside];
+    [someButton setShowsTouchWhenHighlighted:YES];
+    
+    UIBarButtonItem *mailbutton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
+    self.navigationItem.rightBarButtonItem=mailbutton;
+    
+
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -29,16 +38,23 @@
 }
 //pass data from one viewController to another
 -(void)passDataFromsearchPatientTableViewToPatient:(NSString *)str{
-    UINavigationController * nav=[self.childViewControllers lastObject];
-    PatientViewController *patientVc=nav.viewControllers[0];
-    [nav popViewControllerAnimated:YES];
-    patientVc.patientName = str;
-    [patientVc setDefaultValues];
+    if ([_viewControllerDiffer isEqualToString:@""]) {
+        UINavigationController * nav=[self.childViewControllers lastObject];
+        PatientViewController *patientVc=nav.viewControllers[0];
+        [nav popToViewController:patientVc animated:YES];
+        patientVc.patientName = str;
+        [patientVc setDefaultValues];
+    }
 }
 //Change the UiviewController
 -(void)ChangeTheContainerViewViewController{
     UINavigationController * nav=[self.childViewControllers lastObject];
     AddPatientViewController *addPatientVc=[self.storyboard instantiateViewControllerWithIdentifier:@"AddPatientViewController"];
     [nav initWithRootViewController:addPatientVc];
+}
+//push treatmentViewController
+-(void)pushTreatmentViewController{
+    PatientSheetViewController *patientSheet=[self.storyboard instantiateViewControllerWithIdentifier:@"PatientSheetViewController"];
+    [self.navigationController pushViewController:patientSheet animated:YES];
 }
 @end

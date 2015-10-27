@@ -89,6 +89,7 @@
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPat{
+    [containerVC pushTreatmentViewController];
 }
 - (IBAction)gestureRecognizer:(id)sender {
     [self.view endEditing:YES];

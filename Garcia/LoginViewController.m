@@ -20,10 +20,11 @@
        [self placeHolderText];
     _loginView.layer.cornerRadius=10;
     _loginView.backgroundColor=[UIColor colorWithRed:0.741 green:0.906 blue:0.965 alpha:0.9];
-    
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
+    self.userNameTf.text=nil;
+    self.passwordTF.text=nil;
     self.navigationController.navigationBarHidden=YES;
 }
 - (void)didReceiveMemoryWarning {
@@ -42,8 +43,8 @@
     [constant spaceAtTheBeginigOfTextField:_passwordTF];
     [constant setFontFortextField:_userNameTf];
     [constant setFontFortextField:_passwordTF];
-    [constant SetBorderForTextField:_userNameTf];
-    [constant SetBorderForTextField:_passwordTF];
+    [constant SetBorderForLoginTextField:_userNameTf];
+    [constant SetBorderForLoginTextField:_passwordTF];
     _signIn.layer.cornerRadius=5;
 }
 //Hide Keyboard after tap on return
