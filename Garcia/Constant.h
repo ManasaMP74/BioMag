@@ -15,4 +15,6 @@
 -(void)setColorForLabel:(UILabel*)label;
 -(NSAttributedString*)textFieldPlaceLogin:(NSString *)text;
 -(void)setFontbold:(UITextField*)text;
+-(void)setFontSemibold:(UITextField*)text;
+-(NSAttributedString*)textFieldPatient:(NSString *)text;
 @end

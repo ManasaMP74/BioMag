@@ -10,6 +10,10 @@
     NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.333 green:0.329 blue:0.39 alpha:1], NSFontAttributeName :[self customFont:18 ofName:OpenSansRegular]}];
     return str;
 }
+-(NSAttributedString*)textFieldPatient:(NSString *)text{
+    NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.318 green:0.416 blue:0.463 alpha:1], NSFontAttributeName :[self customFont:16 ofName:OpenSansRegular]}];
+    return str;
+}
 //Space At Beging of TextField
 -(void)spaceAtTheBeginigOfTextField:(UITextField*)textField{
     UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0,10, 44)];
@@ -42,7 +46,7 @@
 //set Font for Headers
 -(void)setFontForHeaders:(UILabel*)label{
     label.font=[self customFont:17 ofName:OpenSansSemibold];
-    label.textColor=[UIColor blackColor];
+    label.textColor=[UIColor colorWithRed:0.04 green:0.216 blue:.294 alpha:1];
 }
 //set Font for normal label
 -(void)setFontForLabel:(UILabel*)label{
@@ -66,6 +70,11 @@
 }
 //setBold
 -(void)setFontbold:(UITextField*)text{
-    text.font=[self customFont:20 ofName:OpenSansBold];
+    text.font=[self customFont:18 ofName:OpenSansBold];
 }
+//setSemiBold
+-(void)setFontSemibold:(UITextField*)text{
+    text.font=[self customFont:14 ofName:OpenSansSemibold];
+}
+
 @end
