@@ -6,10 +6,6 @@
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-   // UITableView *table
-    NSLog(@"%@",[self superview]);
-
 }
 - (IBAction)headButton:(id)sender {
 }
