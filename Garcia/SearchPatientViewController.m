@@ -7,6 +7,8 @@
 @property (strong, nonatomic) IBOutlet UITextField *searchTextField;
 
 @property (strong, nonatomic) IBOutlet UITableView *patientListTableView;
+
+- (IBAction)hideKeyboard:(UIControl *)sender;
 @end
 
 @implementation SearchPatientViewController
@@ -30,6 +32,9 @@
     _searchTextField.layer.borderWidth=1;
     selectedIndexPath=nil;
      [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-02.jpg"]]];
+     NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:1 inSection:0];
+      [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
+     [constant setFontFortextField:_searchTextField];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -37,8 +42,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     [self dummyData];
-    NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:1 inSection:0];
-    [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
+   
 //    [_patientListTableView selectRowAtIndexPath:selectedCellIndexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
 }
 //TableView Number of section
@@ -101,14 +105,16 @@
     if (selectedIndexPath) {
         cell=(SearchPatientTableViewCell*)[tableView cellForRowAtIndexPath:selectedIndexPath];
         cell.patientNameLabel.textColor=[UIColor whiteColor];
-        cell.accessoryType=0;
+        NSLog(@"patient updated name..  %@",cell.patientNameLabel.text);
+     cell.accessoryView = [[UIImageView alloc] initWithImage:nil];
         selectedIndexPath=nil;
     }
 if (selectedIndexPath!=indexPath){
         cell=(SearchPatientTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
     selectedIndexPath=indexPath;
     cell.patientNameLabel.textColor=[UIColor colorWithRed:0.7098 green:0.99 blue:0.98 alpha:1];
-    cell.accessoryType=1;
+     cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow-3"]];
+   containerVc.viewControllerDiffer=@"";
     [containerVc passDataFromsearchPatientTableViewToPatient:cell.patientNameLabel.text];
     
     }
@@ -124,5 +130,10 @@ patentnameArray =@[@"Michael Ethan",@"Tyler Aiden",@"Aiden Joshua",@"Joseph Noah
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [self.view endEditing:YES];
     return YES;
+}
+
+- (IBAction)hideKeyboard:(UIControl *)sender
+{
+    [self.view endEditing:YES];
 }
 @end
