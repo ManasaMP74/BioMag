@@ -1,5 +1,7 @@
 #import <UIKit/UIKit.h>
-
+@protocol getTableViewHeight<NSObject>
+-(void)HeaderTableViewHeight;
+@end
 @interface CollectionViewTableViewCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UILabel *headLabel;
 @property (strong, nonatomic) IBOutlet UILabel *scanPointLabel;
