@@ -12,4 +12,5 @@
 @property (strong, nonatomic) IBOutlet UIView *uploadLabelView;
 @property (strong, nonatomic) IBOutlet UIView *symptomLabelView;
 @property (strong, nonatomic) IBOutlet UIView *treatmentClosureLabelView;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *sittingcollectionViewHeight;
 @end
