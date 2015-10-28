@@ -2,6 +2,9 @@
 #import "Constant.h"
 #import "PatientSheetTableViewCell.h"
 #import "SettingView.h"
+#import "AttachmentView.h"
+#import "CollectionViewTableViewCell.h"
+#import "SittingCollectionViewCell.h"
 @interface PatientSheetViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) IBOutlet UILabel *nameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *nameValueLabel;
@@ -53,13 +56,14 @@
 @property (strong, nonatomic) IBOutlet UIView *increasePatientView;
 @property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *symptomTagViewHeight;
+@property (strong, nonatomic) IBOutlet UICollectionView *sittingCollectionView;
 @end
 
 @implementation PatientSheetViewController
 {
     Constant *constant;
     SettingView *setingView;
-    NSMutableArray *tagListArray,*diagnosisTableListArray,*medicalTableListArray;
+    NSMutableArray *tagListArray,*diagnosisTableListArray,*medicalTableListArray,*sittingArray;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -72,6 +76,8 @@
     [_treatmentNameTF addTarget:self action:@selector(enableAndDisableTreatmenyName) forControlEvents:UIControlEventEditingChanged];
     diagnosisTableListArray=[[NSMutableArray alloc]init];
     medicalTableListArray=[[NSMutableArray alloc]init];
+    sittingArray=[[NSMutableArray alloc]init];
+    sittingArray=[@[@"Head",@"Interval",@"Notes",@"Completed"]mutableCopy];
 }
 -(void)enableAndDisableTreatmenyName{
     if (![_treatmentNameTF.text isEqualToString:@""]) {
@@ -99,7 +105,7 @@
 - (IBAction)upload:(id)sender {
     if ([_increaseUploadViewButton.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
         _uploadView.hidden=NO;
-        _uploadViewHeigh.constant=99;
+        _uploadViewHeigh.constant=200;
         [self ChangeIncreaseDecreaseButtonImage:_increaseUploadViewButton];
     }
     else{
@@ -146,8 +152,8 @@
 }
 - (IBAction)saveDiagnosisTextViewValue:(id)sender {
     if (![_diagnosisTextView.text isEqualToString:@""]) {
-    [self getCurrentTimeAndDate:@"Diagnosis"];
-    [_diagnosisTableView reloadData];
+        [self getCurrentTimeAndDate:@"Diagnosis"];
+        [_diagnosisTableView reloadData];
         _diagnosisTextView.text=@"";
     }
 }
@@ -155,7 +161,8 @@
 - (IBAction)increaseSettingView:(id)sender {
     if ([_increasesettingViewButton.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
         _settingView.hidden=NO;
-        _settingViewHeight.constant=111;
+        _sittingcollectionViewHeight.constant=_sittingCollectionView.contentSize.height;
+        _settingViewHeight.constant=_sittingCollectionView.contentSize.height+30;
         [self ChangeIncreaseDecreaseButtonImage:_increasesettingViewButton];
     }
     else{
@@ -198,73 +205,112 @@
 }
 //tableview Datasource method
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 1;
+    if (tableView==_MedicaltableView | tableView==_diagnosisTableView)
+        return 1;
+    else return 1;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     if (tableView==_MedicaltableView) {
         return medicalTableListArray.count+2;
     }
-    else
+    else  if (tableView==_diagnosisTableView)
         return diagnosisTableListArray.count+2;
+    else return sittingArray.count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    PatientSheetTableViewCell *cell;
-    if (indexPath.section==0) {
-        cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
-    }
-   else if (indexPath.section==1) {
-        cell=[tableView dequeueReusableCellWithIdentifier:@"cell1"];
-    }
-    else {
-        cell=[tableView dequeueReusableCellWithIdentifier:@"cell1"];
-        if (medicalTableListArray.count!=0 | diagnosisTableListArray.count!=0) {
-            if (tableView==_MedicaltableView) {
-                NSDictionary *dict=medicalTableListArray[indexPath.section-2];
-                cell.dateValueLabel.text=dict[@"currentDateValue"];
-                cell.timeValueLabel.text=dict[@"currentTimeValue"];
-                cell.messageValueLabel.text=dict[@"message"];
-            }
-            else{
-                 NSDictionary *dict=diagnosisTableListArray[indexPath.section-2];
-                cell.dateValueLabel.text=dict[@"currentDateValue"];
-                cell.timeValueLabel.text=dict[@"currentTimeValue"];
-                cell.messageValueLabel.text=dict[@"message"];
+    
+    if (tableView==_MedicaltableView | tableView==_diagnosisTableView){
+        PatientSheetTableViewCell *cell;
+        if (indexPath.section==0) {
+            cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
+        }
+        else if (indexPath.section==1) {
+            cell=[tableView dequeueReusableCellWithIdentifier:@"cell1"];
+        }
+        else {
+            cell=[tableView dequeueReusableCellWithIdentifier:@"cell1"];
+            if (medicalTableListArray.count!=0 | diagnosisTableListArray.count!=0) {
+                if (tableView==_MedicaltableView) {
+                    NSDictionary *dict=medicalTableListArray[indexPath.section-2];
+                    cell.dateValueLabel.text=dict[@"currentDateValue"];
+                    cell.timeValueLabel.text=dict[@"currentTimeValue"];
+                    cell.messageValueLabel.text=dict[@"message"];
+                }
+                else{
+                    NSDictionary *dict=diagnosisTableListArray[indexPath.section-2];
+                    cell.dateValueLabel.text=dict[@"currentDateValue"];
+                    cell.timeValueLabel.text=dict[@"currentTimeValue"];
+                    cell.messageValueLabel.text=dict[@"message"];
+                }
             }
         }
+         tableView.tableFooterView=[UIView new];
+        return cell;
     }
-    return cell;
+    else {
+        CollectionViewTableViewCell *cell;
+        if (indexPath.row==sittingArray.count-1) {
+            cell=[tableView dequeueReusableCellWithIdentifier:@"cell3"];
+        }
+        else {
+         cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
+            cell.headLabel.text=sittingArray[indexPath.section];
+        }
+         tableView.tableFooterView=[UIView new];
+        return cell;
+    }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (tableView==_MedicaltableView | tableView==_diagnosisTableView){
     if (indexPath.section==0) {
         return 35;
     }
     else return 20;
+    }
+    else return 25;
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     cell.backgroundColor=[UIColor clearColor];
 }
 //CollectionView datasource Methods
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return tagListArray.count;
+    if (collectionView== _sittingCollectionView) {
+        return 1;
+    }
+    else
+        return tagListArray.count;
 }
 -(UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-    UILabel *label=(UILabel*)[cell viewWithTag:100];
-    label.text=tagListArray[indexPath.row];
-    NSLog(@"%f",label.frame.size.width);
-    cell.layer.masksToBounds = YES;
-    cell.layer.cornerRadius = 6;
-//    _collectionViewHeight.constant=_collectionView.contentSize.height;
-//    [self setSymptomViewHeight];
-    return cell;
+   
+    if (collectionView==_sittingCollectionView) {
+       SittingCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"collectionViewCell" forIndexPath:indexPath];
+        return cell;
+    }
+    else{
+      UICollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+        UILabel *label=(UILabel*)[cell viewWithTag:100];
+        label.text=tagListArray[indexPath.row];
+        NSLog(@"%f",label.frame.size.width);
+        cell.layer.masksToBounds = YES;
+        cell.layer.cornerRadius = 6;
+         return cell;
+    }
+    //    _collectionViewHeight.constant=_collectionView.contentSize.height;
+    //    [self setSymptomViewHeight];
+   
 }
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout
-  sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    NSString *text = tagListArray[indexPath.row];
-    //    CGFloat width =[text sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:12],NSFontAttributeName, nil]].width;
-    CGFloat width =  [text boundingRectWithSize:(CGSizeMake(NSIntegerMax, 40)) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:12]} context:nil].size.width;
-    NSLog(@"%f",width);
-    return CGSizeMake(width+10,40);
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (collectionView==_sittingCollectionView) {
+        return CGSizeMake(280,collectionView.contentSize.height);
+    }
+    else{
+        NSString *text = tagListArray[indexPath.row];
+        //    CGFloat width =[text sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:12],NSFontAttributeName, nil]].width;
+        CGFloat width =  [text boundingRectWithSize:(CGSizeMake(NSIntegerMax, 40)) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:12]} context:nil].size.width;
+        NSLog(@"%f",width);
+        return CGSizeMake(width+10,40);
+    }
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionView *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
@@ -387,8 +433,11 @@
         [medicalTableListArray addObject:dict];
     }
     else{
-         NSDictionary *dict=@{@"currentDateValue":currentDate,@"currentTimeValue":currentTime,@"message":_diagnosisTextView.text};
+        NSDictionary *dict=@{@"currentDateValue":currentDate,@"currentTimeValue":currentTime,@"message":_diagnosisTextView.text};
         [diagnosisTableListArray addObject:dict];
     }
+}
+- (IBAction)attachFile:(id)sender {
+    
 }
 @end
