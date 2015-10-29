@@ -8,14 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		8678F1AC1BE1DC54006046CF /* HexColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 8678F1AB1BE1DC54006046CF /* HexColors.m */; };
-		8678F1B01BE1DE21006046CF /* SettingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8678F1AD1BE1DE21006046CF /* SettingView.xib */; };
 		8678F1B11BE1DE21006046CF /* SettingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8678F1AF1BE1DE21006046CF /* SettingView.m */; };
-		8678F1BE1BE1DE65006046CF /* AddSection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8678F1B21BE1DE65006046CF /* AddSection.xib */; };
 		8678F1BF1BE1DE65006046CF /* AddSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 8678F1B41BE1DE65006046CF /* AddSection.m */; };
-		8678F1C01BE1DE65006046CF /* AddSectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8678F1B51BE1DE65006046CF /* AddSectionCell.xib */; };
 		8678F1C11BE1DE65006046CF /* AddSectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8678F1B71BE1DE65006046CF /* AddSectionCell.m */; };
 		8678F1C21BE1DE65006046CF /* SectionBodyDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 8678F1B91BE1DE65006046CF /* SectionBodyDetails.m */; };
-		8678F1C31BE1DE65006046CF /* SectionBodyDetails.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8678F1BA1BE1DE65006046CF /* SectionBodyDetails.xib */; };
 		8678F1C41BE1DE65006046CF /* DetailsSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 8678F1BC1BE1DE65006046CF /* DetailsSection.m */; };
 		8678F1C51BE1DE65006046CF /* DetailsSection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8678F1BD1BE1DE65006046CF /* DetailsSection.xib */; };
 		DA4461E61BD771F600F80F5A /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC027B1BD514340095C6AE /* OpenSans-Semibold.ttf */; };
@@ -56,8 +52,7 @@
 		DAEFA1CE1BD0B6E300900379 /* DefaultValues.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1CD1BD0B6E300900379 /* DefaultValues.m */; };
 		DAEFA1D91BD0D8ED00900379 /* SearchPatientTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1D81BD0D8ED00900379 /* SearchPatientTableViewCell.m */; };
 		DAF2E12E1BE1CE3F00C20332 /* ScanPointView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF2E12D1BE1CE3F00C20332 /* ScanPointView.xib */; };
-		DAF82CD81BD4A31F006AF1E1 /* SettingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF82CD71BD4A31F006AF1E1 /* SettingView.xib */; };
-		DAF82CDC1BD4A34E006AF1E1 /* SettingView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF82CDB1BD4A34E006AF1E1 /* SettingView.m */; };
+		DAF2E1321BE1E46D00C20332 /* SettingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF2E1311BE1E46D00C20332 /* SettingView.xib */; };
 		DAF82CE01BD4BA74006AF1E1 /* ContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF82CDF1BD4BA74006AF1E1 /* ContainerViewController.m */; };
 		DAF82CF11BD4CECB006AF1E1 /* SectionDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF82CF01BD4CECB006AF1E1 /* SectionDetail.m */; };
 		DAF82CF41BD4CEE6006AF1E1 /* SectionDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF82CF31BD4CEE6006AF1E1 /* SectionDetailCell.m */; };
@@ -78,7 +73,6 @@
 /* Begin PBXFileReference section */
 		8678F1AA1BE1DC54006046CF /* HexColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HexColors.h; sourceTree = "<group>"; };
 		8678F1AB1BE1DC54006046CF /* HexColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HexColors.m; sourceTree = "<group>"; };
-		8678F1AD1BE1DE21006046CF /* SettingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingView.xib; sourceTree = "<group>"; };
 		8678F1AE1BE1DE21006046CF /* SettingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingView.h; sourceTree = "<group>"; };
 		8678F1AF1BE1DE21006046CF /* SettingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingView.m; sourceTree = "<group>"; };
 		8678F1B21BE1DE65006046CF /* AddSection.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddSection.xib; sourceTree = "<group>"; };
@@ -160,9 +154,7 @@
 		DAEFA1D71BD0D8ED00900379 /* SearchPatientTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchPatientTableViewCell.h; sourceTree = "<group>"; };
 		DAEFA1D81BD0D8ED00900379 /* SearchPatientTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchPatientTableViewCell.m; sourceTree = "<group>"; };
 		DAF2E12D1BE1CE3F00C20332 /* ScanPointView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScanPointView.xib; sourceTree = "<group>"; };
-		DAF82CD71BD4A31F006AF1E1 /* SettingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingView.xib; sourceTree = "<group>"; };
-		DAF82CDA1BD4A34E006AF1E1 /* SettingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingView.h; sourceTree = "<group>"; };
-		DAF82CDB1BD4A34E006AF1E1 /* SettingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingView.m; sourceTree = "<group>"; };
+		DAF2E1311BE1E46D00C20332 /* SettingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingView.xib; sourceTree = "<group>"; };
 		DAF82CDE1BD4BA74006AF1E1 /* ContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContainerViewController.h; sourceTree = "<group>"; };
 		DAF82CDF1BD4BA74006AF1E1 /* ContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContainerViewController.m; sourceTree = "<group>"; };
 		DAF82CEF1BD4CECB006AF1E1 /* SectionDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionDetail.h; sourceTree = "<group>"; };
@@ -425,7 +417,7 @@
 		DAF82CD91BD4A327006AF1E1 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
-				8678F1AD1BE1DE21006046CF /* SettingView.xib */,
+				DAF2E1311BE1E46D00C20332 /* SettingView.xib */,
 				8678F1AE1BE1DE21006046CF /* SettingView.h */,
 				8678F1AF1BE1DE21006046CF /* SettingView.m */,
 			);
@@ -561,15 +553,13 @@
 				8678F1C51BE1DE65006046CF /* DetailsSection.xib in Resources */,
 				DAEFA19D1BD0B11500900379 /* Main.storyboard in Resources */,
 				DA6C7B961BE0D0D600D1130A /* HeaderTableView.xib in Resources */,
-				DAF82CE61BD4C828006AF1E1 /* AddSection.xib in Resources */,
 				DAF82CF81BD4CF0D006AF1E1 /* SectionDetail.xib in Resources */,
+				DAF2E1321BE1E46D00C20332 /* SettingView.xib in Resources */,
 				DA6C7BA41BE0E0CC00D1130A /* ScanPointCell.xib in Resources */,
-				DAF82CD81BD4A31F006AF1E1 /* SettingView.xib in Resources */,
 				DA6C7B881BE0860900D1130A /* AttachmentView.xib in Resources */,
 				DAF82CF61BD4CF01006AF1E1 /* SectionDetailCell.xib in Resources */,
 				DAEF6AF51BD65C9B006868C8 /* DatePickerView.xib in Resources */,
 				DAEFA1A21BD0B11500900379 /* LaunchScreen.xib in Resources */,
-				8678F1B01BE1DE21006046CF /* SettingView.xib in Resources */,
 				DAEFA19F1BD0B11500900379 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -607,7 +597,6 @@
 				DAEFA1B91BD0B49A00900379 /* LoginViewController.m in Sources */,
 				DAEFA1C21BD0B4FA00900379 /* AddPatientViewController.m in Sources */,
 				DAEFA1D91BD0D8ED00900379 /* SearchPatientTableViewCell.m in Sources */,
-				DAF82CED1BD4CC06006AF1E1 /* AddSectionCell.m in Sources */,
 				DA6C7B941BE0D0B600D1130A /* HeaderTableView.m in Sources */,
 				DAE9555D1BD24D1800EDFD8F /* PatientSheetTableViewCell.m in Sources */,
 				8678F1B11BE1DE21006046CF /* SettingView.m in Sources */,
