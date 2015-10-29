@@ -11,5 +11,9 @@
 @property (strong, nonatomic) IBOutlet UIButton *completedCheckBox;
 @property (strong, nonatomic) IBOutlet UITextField *intervalTF;
 @property (strong, nonatomic) IBOutlet UITextField *visitTF;
+@property (strong, nonatomic) IBOutlet UITextView *notesTextView;
+@property (strong, nonatomic) IBOutlet UILabel *notesLabel;
+@property (strong, nonatomic) IBOutlet UIButton *SaveBtnClicked;
+@property (strong, nonatomic) IBOutlet UILabel *saveLabel;
 -(void)alphaViewInitialize;
 @end
