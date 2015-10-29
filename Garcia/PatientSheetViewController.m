@@ -5,7 +5,7 @@
 #import "AttachmentView.h"
 #import "CollectionViewTableViewCell.h"
 #import "SittingCollectionViewCell.h"
-@interface PatientSheetViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
+@interface PatientSheetViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,headerCellHeight>
 @property (strong, nonatomic) IBOutlet UILabel *nameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *nameValueLabel;
 @property (strong, nonatomic) IBOutlet UILabel *genderLabel;
@@ -63,7 +63,7 @@
 {
     Constant *constant;
     SettingView *setingView;
-    NSMutableArray *tagListArray,*diagnosisTableListArray,*medicalTableListArray,*sittingArray;
+    NSMutableArray *tagListArray,*diagnosisTableListArray,*medicalTableListArray;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -76,8 +76,10 @@
     [_treatmentNameTF addTarget:self action:@selector(enableAndDisableTreatmenyName) forControlEvents:UIControlEventEditingChanged];
     diagnosisTableListArray=[[NSMutableArray alloc]init];
     medicalTableListArray=[[NSMutableArray alloc]init];
-    sittingArray=[[NSMutableArray alloc]init];
-    sittingArray=[@[@"Head",@"Interval",@"Notes",@"Completed"]mutableCopy];
+}
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [_sittingCollectionView reloadData];
 }
 -(void)enableAndDisableTreatmenyName{
     if (![_treatmentNameTF.text isEqualToString:@""]) {
@@ -213,13 +215,10 @@
     if (tableView==_MedicaltableView) {
         return medicalTableListArray.count+2;
     }
-    else  if (tableView==_diagnosisTableView)
+    else
         return diagnosisTableListArray.count+2;
-    else return sittingArray.count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if (tableView==_MedicaltableView | tableView==_diagnosisTableView){
         PatientSheetTableViewCell *cell;
         if (indexPath.section==0) {
             cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
@@ -246,28 +245,12 @@
         }
          tableView.tableFooterView=[UIView new];
         return cell;
-    }
-    else {
-        CollectionViewTableViewCell *cell;
-        if (indexPath.section==sittingArray.count-1) {
-            cell=[tableView dequeueReusableCellWithIdentifier:@"cell3"];
-        }
-        else {
-         cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
-            cell.headLabel.text=sittingArray[indexPath.section];
-        }
-         tableView.tableFooterView=[UIView new];
-        return cell;
-    }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (tableView==_MedicaltableView | tableView==_diagnosisTableView){
     if (indexPath.section==0) {
         return 35;
     }
     else return 20;
-    }
-    else return 35;
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     cell.backgroundColor=[UIColor clearColor];
@@ -284,6 +267,11 @@
    
     if (collectionView==_sittingCollectionView) {
        SittingCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"collectionViewCell" forIndexPath:indexPath];
+        cell.headerView.delegate=self;
+        cell.headerViewHeight.constant=cell.headerView.headerTableview.contentSize.height;
+        _sittingcollectionViewHeight.constant= cell.headerViewHeight.constant+80;
+        NSLog(@"%f",cell.headerViewHeight.constant);
+        NSLog(@"%f",_sittingcollectionViewHeight.constant);
         return cell;
     }
     else{
@@ -295,13 +283,17 @@
         cell.layer.cornerRadius = 6;
          return cell;
     }
-    //    _collectionViewHeight.constant=_collectionView.contentSize.height;
-    //    [self setSymptomViewHeight];
-   
+}
+-(void)headCellHeight{
+    [_sittingCollectionView reloadData];
+    [_scrollview layoutIfNeeded];
+    _settingViewHeight.constant=_sittingCollectionView.contentSize.height;
+    NSLog(@"%f",_settingViewHeight.constant);
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     
     if (collectionView==_sittingCollectionView) {
+        NSLog(@"%f",collectionView.contentSize.height);
         return CGSizeMake(280,collectionView.contentSize.height);
     }
     else{
