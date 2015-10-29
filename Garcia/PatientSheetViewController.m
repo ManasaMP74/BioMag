@@ -249,7 +249,7 @@
     }
     else {
         CollectionViewTableViewCell *cell;
-        if (indexPath.row==sittingArray.count-1) {
+        if (indexPath.section==sittingArray.count-1) {
             cell=[tableView dequeueReusableCellWithIdentifier:@"cell3"];
         }
         else {
@@ -267,7 +267,7 @@
     }
     else return 20;
     }
-    else return 25;
+    else return 35;
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     cell.backgroundColor=[UIColor clearColor];
