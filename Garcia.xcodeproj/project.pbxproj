@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8678F1AC1BE1DC54006046CF /* HexColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 8678F1AB1BE1DC54006046CF /* HexColors.m */; };
+		8678F1B01BE1DE21006046CF /* SettingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8678F1AD1BE1DE21006046CF /* SettingView.xib */; };
+		8678F1B11BE1DE21006046CF /* SettingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8678F1AF1BE1DE21006046CF /* SettingView.m */; };
+		8678F1BE1BE1DE65006046CF /* AddSection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8678F1B21BE1DE65006046CF /* AddSection.xib */; };
+		8678F1BF1BE1DE65006046CF /* AddSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 8678F1B41BE1DE65006046CF /* AddSection.m */; };
+		8678F1C01BE1DE65006046CF /* AddSectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8678F1B51BE1DE65006046CF /* AddSectionCell.xib */; };
+		8678F1C11BE1DE65006046CF /* AddSectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8678F1B71BE1DE65006046CF /* AddSectionCell.m */; };
+		8678F1C21BE1DE65006046CF /* SectionBodyDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 8678F1B91BE1DE65006046CF /* SectionBodyDetails.m */; };
+		8678F1C31BE1DE65006046CF /* SectionBodyDetails.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8678F1BA1BE1DE65006046CF /* SectionBodyDetails.xib */; };
+		8678F1C41BE1DE65006046CF /* DetailsSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 8678F1BC1BE1DE65006046CF /* DetailsSection.m */; };
+		8678F1C51BE1DE65006046CF /* DetailsSection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8678F1BD1BE1DE65006046CF /* DetailsSection.xib */; };
 		DA4461E61BD771F600F80F5A /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC027B1BD514340095C6AE /* OpenSans-Semibold.ttf */; };
 		DA4461E71BD7720300F80F5A /* OpenSans-Semibold.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC027B1BD514340095C6AE /* OpenSans-Semibold.ttf */; };
 		DA6C7B881BE0860900D1130A /* AttachmentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA6C7B871BE0860900D1130A /* AttachmentView.xib */; };
@@ -48,10 +59,6 @@
 		DAF82CD81BD4A31F006AF1E1 /* SettingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF82CD71BD4A31F006AF1E1 /* SettingView.xib */; };
 		DAF82CDC1BD4A34E006AF1E1 /* SettingView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF82CDB1BD4A34E006AF1E1 /* SettingView.m */; };
 		DAF82CE01BD4BA74006AF1E1 /* ContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF82CDF1BD4BA74006AF1E1 /* ContainerViewController.m */; };
-		DAF82CE41BD4C80E006AF1E1 /* AddSection.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF82CE31BD4C80E006AF1E1 /* AddSection.m */; };
-		DAF82CE61BD4C828006AF1E1 /* AddSection.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF82CE51BD4C828006AF1E1 /* AddSection.xib */; };
-		DAF82CEA1BD4CB24006AF1E1 /* AddSectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF82CE91BD4CB24006AF1E1 /* AddSectionCell.xib */; };
-		DAF82CED1BD4CC06006AF1E1 /* AddSectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF82CEC1BD4CC06006AF1E1 /* AddSectionCell.m */; };
 		DAF82CF11BD4CECB006AF1E1 /* SectionDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF82CF01BD4CECB006AF1E1 /* SectionDetail.m */; };
 		DAF82CF41BD4CEE6006AF1E1 /* SectionDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF82CF31BD4CEE6006AF1E1 /* SectionDetailCell.m */; };
 		DAF82CF61BD4CF01006AF1E1 /* SectionDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF82CF51BD4CF01006AF1E1 /* SectionDetailCell.xib */; };
@@ -69,6 +76,23 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8678F1AA1BE1DC54006046CF /* HexColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HexColors.h; sourceTree = "<group>"; };
+		8678F1AB1BE1DC54006046CF /* HexColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HexColors.m; sourceTree = "<group>"; };
+		8678F1AD1BE1DE21006046CF /* SettingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingView.xib; sourceTree = "<group>"; };
+		8678F1AE1BE1DE21006046CF /* SettingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingView.h; sourceTree = "<group>"; };
+		8678F1AF1BE1DE21006046CF /* SettingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingView.m; sourceTree = "<group>"; };
+		8678F1B21BE1DE65006046CF /* AddSection.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddSection.xib; sourceTree = "<group>"; };
+		8678F1B31BE1DE65006046CF /* AddSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddSection.h; sourceTree = "<group>"; };
+		8678F1B41BE1DE65006046CF /* AddSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddSection.m; sourceTree = "<group>"; };
+		8678F1B51BE1DE65006046CF /* AddSectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddSectionCell.xib; sourceTree = "<group>"; };
+		8678F1B61BE1DE65006046CF /* AddSectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddSectionCell.h; sourceTree = "<group>"; };
+		8678F1B71BE1DE65006046CF /* AddSectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddSectionCell.m; sourceTree = "<group>"; };
+		8678F1B81BE1DE65006046CF /* SectionBodyDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionBodyDetails.h; sourceTree = "<group>"; };
+		8678F1B91BE1DE65006046CF /* SectionBodyDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionBodyDetails.m; sourceTree = "<group>"; };
+		8678F1BA1BE1DE65006046CF /* SectionBodyDetails.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SectionBodyDetails.xib; sourceTree = "<group>"; };
+		8678F1BB1BE1DE65006046CF /* DetailsSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsSection.h; sourceTree = "<group>"; };
+		8678F1BC1BE1DE65006046CF /* DetailsSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsSection.m; sourceTree = "<group>"; };
+		8678F1BD1BE1DE65006046CF /* DetailsSection.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailsSection.xib; sourceTree = "<group>"; };
 		DA6C7B871BE0860900D1130A /* AttachmentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttachmentView.xib; sourceTree = "<group>"; };
 		DA6C7B891BE0861700D1130A /* AttachmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentView.h; sourceTree = "<group>"; };
 		DA6C7B8A1BE0861700D1130A /* AttachmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentView.m; sourceTree = "<group>"; };
@@ -141,12 +165,6 @@
 		DAF82CDB1BD4A34E006AF1E1 /* SettingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingView.m; sourceTree = "<group>"; };
 		DAF82CDE1BD4BA74006AF1E1 /* ContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContainerViewController.h; sourceTree = "<group>"; };
 		DAF82CDF1BD4BA74006AF1E1 /* ContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContainerViewController.m; sourceTree = "<group>"; };
-		DAF82CE21BD4C80E006AF1E1 /* AddSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddSection.h; sourceTree = "<group>"; };
-		DAF82CE31BD4C80E006AF1E1 /* AddSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddSection.m; sourceTree = "<group>"; };
-		DAF82CE51BD4C828006AF1E1 /* AddSection.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddSection.xib; sourceTree = "<group>"; };
-		DAF82CE91BD4CB24006AF1E1 /* AddSectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddSectionCell.xib; path = ../AddSectionCell.xib; sourceTree = "<group>"; };
-		DAF82CEB1BD4CC06006AF1E1 /* AddSectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddSectionCell.h; sourceTree = "<group>"; };
-		DAF82CEC1BD4CC06006AF1E1 /* AddSectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddSectionCell.m; sourceTree = "<group>"; };
 		DAF82CEF1BD4CECB006AF1E1 /* SectionDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionDetail.h; sourceTree = "<group>"; };
 		DAF82CF01BD4CECB006AF1E1 /* SectionDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionDetail.m; sourceTree = "<group>"; };
 		DAF82CF21BD4CEE6006AF1E1 /* SectionDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionDetailCell.h; sourceTree = "<group>"; };
@@ -338,6 +356,8 @@
 		DAEFA1D01BD0B6F400900379 /* Constant */ = {
 			isa = PBXGroup;
 			children = (
+				8678F1AA1BE1DC54006046CF /* HexColors.h */,
+				8678F1AB1BE1DC54006046CF /* HexColors.m */,
 				DAEFA1C61BD0B6C900900379 /* Constant.h */,
 				DAEFA1C71BD0B6C900900379 /* Constant.m */,
 				DA6D1A611BDA356F00D91ED3 /* PlaceholderTextView.h */,
@@ -405,9 +425,9 @@
 		DAF82CD91BD4A327006AF1E1 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
-				DAF82CD71BD4A31F006AF1E1 /* SettingView.xib */,
-				DAF82CDA1BD4A34E006AF1E1 /* SettingView.h */,
-				DAF82CDB1BD4A34E006AF1E1 /* SettingView.m */,
+				8678F1AD1BE1DE21006046CF /* SettingView.xib */,
+				8678F1AE1BE1DE21006046CF /* SettingView.h */,
+				8678F1AF1BE1DE21006046CF /* SettingView.m */,
 			);
 			name = Setting;
 			sourceTree = "<group>";
@@ -424,12 +444,18 @@
 		DAF82CE11BD4C7E9006AF1E1 /* Section */ = {
 			isa = PBXGroup;
 			children = (
-				DAF82CE51BD4C828006AF1E1 /* AddSection.xib */,
-				DAF82CE21BD4C80E006AF1E1 /* AddSection.h */,
-				DAF82CE31BD4C80E006AF1E1 /* AddSection.m */,
-				DAF82CE91BD4CB24006AF1E1 /* AddSectionCell.xib */,
-				DAF82CEB1BD4CC06006AF1E1 /* AddSectionCell.h */,
-				DAF82CEC1BD4CC06006AF1E1 /* AddSectionCell.m */,
+				8678F1B21BE1DE65006046CF /* AddSection.xib */,
+				8678F1B31BE1DE65006046CF /* AddSection.h */,
+				8678F1B41BE1DE65006046CF /* AddSection.m */,
+				8678F1B51BE1DE65006046CF /* AddSectionCell.xib */,
+				8678F1B61BE1DE65006046CF /* AddSectionCell.h */,
+				8678F1B71BE1DE65006046CF /* AddSectionCell.m */,
+				8678F1B81BE1DE65006046CF /* SectionBodyDetails.h */,
+				8678F1B91BE1DE65006046CF /* SectionBodyDetails.m */,
+				8678F1BA1BE1DE65006046CF /* SectionBodyDetails.xib */,
+				8678F1BB1BE1DE65006046CF /* DetailsSection.h */,
+				8678F1BC1BE1DE65006046CF /* DetailsSection.m */,
+				8678F1BD1BE1DE65006046CF /* DetailsSection.xib */,
 			);
 			name = Section;
 			sourceTree = "<group>";
@@ -532,6 +558,7 @@
 				DA6C7B991BE0D26000D1130A /* CollectionViewTableViewCell.xib in Resources */,
 				DAEF6AEF1BD5FA52006868C8 /* OpenSans-Regular.ttf in Resources */,
 				DAEC027F1BD5219A0095C6AE /* OpenSans-Bold.ttf in Resources */,
+				8678F1C51BE1DE65006046CF /* DetailsSection.xib in Resources */,
 				DAEFA19D1BD0B11500900379 /* Main.storyboard in Resources */,
 				DA6C7B961BE0D0D600D1130A /* HeaderTableView.xib in Resources */,
 				DAF82CE61BD4C828006AF1E1 /* AddSection.xib in Resources */,
@@ -542,8 +569,8 @@
 				DAF82CF61BD4CF01006AF1E1 /* SectionDetailCell.xib in Resources */,
 				DAEF6AF51BD65C9B006868C8 /* DatePickerView.xib in Resources */,
 				DAEFA1A21BD0B11500900379 /* LaunchScreen.xib in Resources */,
+				8678F1B01BE1DE21006046CF /* SettingView.xib in Resources */,
 				DAEFA19F1BD0B11500900379 /* Images.xcassets in Resources */,
-				DAF82CEA1BD4CB24006AF1E1 /* AddSectionCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -566,31 +593,35 @@
 				DA6D1A631BDA356F00D91ED3 /* PlaceholderTextView.m in Sources */,
 				DAEC027E1BD51D0C0095C6AE /* OpenSans-Bold.ttf in Sources */,
 				DAEFA1971BD0B11500900379 /* AppDelegate.m in Sources */,
+				8678F1BF1BE1DE65006046CF /* AddSection.m in Sources */,
 				DAEC02711BD513500095C6AE /* customFont.m in Sources */,
+				8678F1C41BE1DE65006046CF /* DetailsSection.m in Sources */,
 				DAEFA1BF1BD0B4EB00900379 /* PatientViewController.m in Sources */,
 				DAEF6AF31BD65C61006868C8 /* DatePicker.m in Sources */,
 				DA6C7B9F1BE0DFF100D1130A /* ScanPointView.m in Sources */,
 				DAEFA1C51BD0B50800900379 /* EditPatientViewController.m in Sources */,
+				8678F1C11BE1DE65006046CF /* AddSectionCell.m in Sources */,
+				8678F1AC1BE1DC54006046CF /* HexColors.m in Sources */,
 				DAEFA1CB1BD0B6D600900379 /* Postman.m in Sources */,
 				DAEFA1941BD0B11500900379 /* main.m in Sources */,
-				DAF82CE41BD4C80E006AF1E1 /* AddSection.m in Sources */,
 				DAEFA1B91BD0B49A00900379 /* LoginViewController.m in Sources */,
 				DAEFA1C21BD0B4FA00900379 /* AddPatientViewController.m in Sources */,
 				DAEFA1D91BD0D8ED00900379 /* SearchPatientTableViewCell.m in Sources */,
 				DAF82CED1BD4CC06006AF1E1 /* AddSectionCell.m in Sources */,
 				DA6C7B941BE0D0B600D1130A /* HeaderTableView.m in Sources */,
 				DAE9555D1BD24D1800EDFD8F /* PatientSheetTableViewCell.m in Sources */,
+				8678F1B11BE1DE21006046CF /* SettingView.m in Sources */,
 				DA6C7B8B1BE0861700D1130A /* AttachmentView.m in Sources */,
 				DA6C7BA21BE0E0AD00D1130A /* ScanPointCell.m in Sources */,
 				DA6C7B911BE0A11800D1130A /* CollectionViewTableViewCell.m in Sources */,
 				DAF82CF41BD4CEE6006AF1E1 /* SectionDetailCell.m in Sources */,
-				DAF82CDC1BD4A34E006AF1E1 /* SettingView.m in Sources */,
 				DAF82CF11BD4CECB006AF1E1 /* SectionDetail.m in Sources */,
 				DAE9555A1BD24A7500EDFD8F /* PatientSheetViewController.m in Sources */,
 				DA6C7B8E1BE09F9500D1130A /* SittingCollectionViewCell.m in Sources */,
 				DAEFA1BC1BD0B4BA00900379 /* SearchPatientViewController.m in Sources */,
 				DAEFA1C81BD0B6C900900379 /* Constant.m in Sources */,
 				DAEFA1CE1BD0B6E300900379 /* DefaultValues.m in Sources */,
+				8678F1C21BE1DE65006046CF /* SectionBodyDetails.m in Sources */,
 				DAF82CE01BD4BA74006AF1E1 /* ContainerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

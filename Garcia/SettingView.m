@@ -2,6 +2,7 @@
 #import "Constant.h"
 #import "AppDelegate.h"
 #import "AddSection.h"
+#import "HexColors.h"
 @implementation SettingView
 {
     UIView *view;
@@ -26,6 +27,17 @@
         [alphaView addSubview:view];
     }
     view.center = alphaView.center;
+    self.settingHeaderLabel.textColor=[UIColor colorWithHexString:@"#FFFFFF"];
+    self.visitLabel.textColor=[UIColor colorWithHexString:@"#063B4F"];
+    self.intervalLabel.textColor=[UIColor colorWithHexString:@"#063B4F"];
+     self.notesLabel.textColor=[UIColor colorWithHexString:@"#063B4F"];
+     self.completedLabel.textColor=[UIColor colorWithHexString:@"#063B4F"];
+     self.sectionLabel.textColor=[UIColor colorWithHexString:@"#063B4F"];
+     self.saveLabel.textColor=[UIColor colorWithHexString:@"#FFFFFF"];
+    self.AddButton.backgroundColor=[UIColor colorWithHexString:@"#9295CA"];
+    self.SaveBtnClicked.backgroundColor=[UIColor colorWithHexString:@"#9295CA"];
+    [self.AddButton setTitleColor:[UIColor colorWithHexString:@"#FFFFFF"] forState:UIControlStateNormal];
+    
     AppDelegate *appDel = [UIApplication sharedApplication].delegate;
     [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
     [appDel.window addSubview:alphaView];
@@ -51,7 +63,7 @@
 }
 - (IBAction)add:(id)sender {
     if (addsection==nil)
-        addsection=[[AddSection alloc]initWithFrame:CGRectMake(view.frame.origin.x, view.frame.origin.y,311, 222)];
+        addsection=[[AddSection alloc]initWithFrame:CGRectMake(view.frame.origin.x, view.frame.origin.y-50,503, 413)];
     [addsection alphaViewInitialize];
 }
 - (IBAction)completed:(id)sender {
