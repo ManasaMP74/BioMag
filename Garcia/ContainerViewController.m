@@ -2,6 +2,7 @@
 #import "PatientViewController.h"
 #import "AddPatientViewController.h"
 #import "PatientSheetViewController.h"
+#import "SearchPatientViewController.h"
 @interface ContainerViewController ()
 
 @end
@@ -24,9 +25,6 @@
     
     UIBarButtonItem *mailbutton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
     self.navigationItem.rightBarButtonItem=mailbutton;
-    
-
-    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -53,8 +51,14 @@
     [nav initWithRootViewController:addPatientVc];
 }
 //push treatmentViewController
--(void)pushTreatmentViewController{
+-(void)pushTreatmentViewController:(NSString *)str{
     PatientSheetViewController *patientSheet=[self.storyboard instantiateViewControllerWithIdentifier:@"PatientSheetViewController"];
+    patientSheet.TitleName=str;
     [self.navigationController pushViewController:patientSheet animated:YES];
+}
+//callEndEditing
+-(void)callEndEditing{
+    SearchPatientViewController *searchVC=self.childViewControllers[0];
+    [searchVC hideKeyBoard];
 }
 @end

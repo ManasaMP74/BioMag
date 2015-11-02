@@ -1,5 +1,4 @@
 #import <UIKit/UIKit.h>
-#import "ScanPointView.h"
 @protocol getTableViewHeight<NSObject>
 -(void)HeaderTableViewHeight:(UIImage*)image;
 @end
@@ -7,7 +6,8 @@
 @property (strong, nonatomic) IBOutlet UILabel *headLabel;
 @property (strong, nonatomic) IBOutlet UIButton *headIncreaseButton;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *scanPointViewHeight;
-@property (strong, nonatomic) IBOutlet ScanPointView *scanPointView;
 @property(weak,nonatomic)id<getTableViewHeight>delegate;
-@property (strong, nonatomic) IBOutlet ScanPointView *view;
+@property (strong, nonatomic) IBOutlet UILabel *intervalLabel;
+@property (strong, nonatomic) IBOutlet UIImageView *switchImageView;
+
 @end

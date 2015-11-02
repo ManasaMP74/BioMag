@@ -6,6 +6,10 @@
     NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.333 green:0.329 blue:0.39 alpha:1], NSFontAttributeName :[self customFont:12 ofName:OpenSansRegular]}];
     return str;
 }
+-(NSAttributedString*)PatientSheetPlaceHolderText:(NSString *)text{
+    NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.333 green:0.329 blue:0.39 alpha:1], NSFontAttributeName :[self customFont:15 ofName:OpenSansRegular]}];
+    return str;
+}
 -(NSAttributedString*)textFieldPlaceLogin:(NSString *)text{
     NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.333 green:0.329 blue:0.39 alpha:1], NSFontAttributeName :[self customFont:18 ofName:OpenSansRegular]}];
     return str;
@@ -70,11 +74,11 @@
 }
 //setBold
 -(void)setFontbold:(UITextField*)text{
-    text.font=[self customFont:18 ofName:OpenSansBold];
+    text.font=[self customFont:20 ofName:OpenSansBold];
 }
 //setSemiBold
 -(void)setFontSemibold:(UITextField*)text{
-    text.font=[self customFont:14 ofName:OpenSansSemibold];
+    text.font=[self customFont:18 ofName:OpenSansSemibold];
 }
 
 @end

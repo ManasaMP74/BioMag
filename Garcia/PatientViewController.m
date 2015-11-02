@@ -24,7 +24,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *patientNameTF;
 @property (strong, nonatomic) IBOutlet UIView *TreatmentView;
 @property (strong, nonatomic) IBOutlet UITableView *tableview;
-@property (strong, nonatomic) IBOutlet UITapGestureRecognizer *gestureRecognizer;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *tableViewHeight;
 @end
 
@@ -89,10 +88,9 @@
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPat{
-    [containerVC pushTreatmentViewController];
-}
-- (IBAction)gestureRecognizer:(id)sender {
-    [self.view endEditing:YES];
+    UITableViewCell *cell=(UITableViewCell*)[tableView cellForRowAtIndexPath:indexPat];
+     UILabel *label=(UILabel*)[cell viewWithTag:10];
+    [containerVC pushTreatmentViewController:label.text];
 }
 //DummyData
 -(void)dummyData{
@@ -104,5 +102,12 @@
         EditPatientViewController *edit=segue.destinationViewController;
         edit.detailOfPatient=@[_patientNameTF.text,_genderValueLabel.text,_mariedValueLabel.text,_dobValueLabel.text,_ageValueLabel.text,_mobileValueLabel.text,_emailValueLabel.text, _addressValueLabel.text];
     }
+}
+- (IBAction)addTreatment:(id)sender {
+[containerVC pushTreatmentViewController:@""];
+}
+- (IBAction)gesture:(id)sender {
+    [self.view endEditing:YES];
+    [containerVC callEndEditing];
 }
 @end
