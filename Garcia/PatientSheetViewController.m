@@ -8,7 +8,7 @@
 #import "UploadCollectionViewCell.h"
 #import "TagCollectionViewCell.h"
 #import "SittingModelClass.h"
-#import "SettingView.h"
+
 @interface PatientSheetViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextFieldDelegate,UITextViewDelegate,deleteCell,deleteTagCell,selectedImage,cellHeight>
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UILabel *nameLabel;
@@ -324,13 +324,14 @@
         else _sittingCollectionViewWidth.constant=_sittingCollectionView.contentSize.width;
         cell.sittingLabel.text=[NSString stringWithFormat:@"%@%d",@"Sitting #",indexPath.row+1];
          CollectionViewTableViewCell *c=(CollectionViewTableViewCell*)[cell.headerView.headerTableview cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:3]];
-        if (indexPath.row+1==sittingCollectionArray.count)
+       
+        
+        SittingModelClass *model=sittingCollectionArray[indexPath.row];
+        if ([model.completed isEqualToString:@"Yes"])
             c.switchImageView.image=[UIImage imageNamed:@"Button-on"];
         else c.switchImageView.image=[UIImage imageNamed:@"Button-off"];
         cell.layer.cornerRadius=8;
         
-       
-        SittingModelClass *model=sittingCollectionArray[indexPath.row];
         if (model.selectedHeader==YES) {
                 cell.headerViewHeight.constant= [cell.headerView increaseHeaderinHeaderTV:model.selectedScanPointIndexpath];
         }
@@ -621,17 +622,21 @@
     }
     - (IBAction)addSitting:(id)sender {
         if(sectionView==nil)
-            sectionView=[[SettingView alloc]initWithFrame:CGRectMake(150, 140,500,364)];
+            sectionView=[[SettingView alloc]initWithFrame:CGRectMake(150, 140,500,330)];
+        sectionView.delegate=self;
         [sectionView alphaViewInitialize];
-//        SittingModelClass *model=[[SittingModelClass alloc]init];
-//        model.height=128;
-//        model.selectedScanPointIndexpath=nil;
-//        [sittingCollectionArray addObject:model];
-//        [_sittingCollectionView reloadData];
-//         [self.view layoutIfNeeded];
-//        NSIndexPath *index=[NSIndexPath indexPathForRow:sittingCollectionArray.count-1 inSection:0];
-//        [_sittingCollectionView scrollToItemAtIndexPath:index atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
-    }
+}
+-(void)incrementSittingCell:(NSString *)completed{
+            SittingModelClass *model=[[SittingModelClass alloc]init];
+            model.height=128;
+            model.selectedScanPointIndexpath=nil;
+            model.completed=completed;
+            [sittingCollectionArray addObject:model];
+            [_sittingCollectionView reloadData];
+             [self.view layoutIfNeeded];
+            NSIndexPath *index=[NSIndexPath indexPathForRow:sittingCollectionArray.count-1 inSection:0];
+            [_sittingCollectionView scrollToItemAtIndexPath:index atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+}
 - (void)registerForKeyboardNotifications
 {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardWillShowNotification object:nil];

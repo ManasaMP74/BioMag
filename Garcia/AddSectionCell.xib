@@ -3,6 +3,11 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="OpenSans-Regular.ttf">
+            <string>OpenSans</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddSection">
             <connections>
@@ -17,48 +22,40 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IUn-AH-Mkp">
-                        <rect key="frame" x="9" y="5" width="42" height="21"/>
+                        <rect key="frame" x="9" y="8" width="36" height="21"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="21" id="AEX-9a-vg6"/>
+                            <constraint firstAttribute="height" constant="21" id="kyt-mP-OVX"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="14"/>
+                        <color key="textColor" red="0.023529411764705882" green="0.23137254901960785" blue="0.30980392156862746" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Arrow" translatesAutoresizingMaskIntoConstraints="NO" id="jDD-1o-FLl">
-                        <rect key="frame" x="295" y="8" width="16" height="16"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Arrow-01" translatesAutoresizingMaskIntoConstraints="NO" id="jDD-1o-FLl">
+                        <rect key="frame" x="292" y="9" width="19" height="19"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="16" id="72F-3z-HZ4"/>
-                            <constraint firstAttribute="height" constant="16" id="CJi-jx-265"/>
+                            <constraint firstAttribute="width" constant="19" id="0qW-pS-vLj"/>
+                            <constraint firstAttribute="height" constant="19" id="vQl-Ic-PCF"/>
                         </constraints>
                     </imageView>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CGM-Wo-J2T">
-                        <rect key="frame" x="0.0" y="36" width="319" height="1"/>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="1" id="OiD-zR-aAn"/>
-                        </constraints>
-                    </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
-                    <constraint firstItem="jDD-1o-FLl" firstAttribute="top" secondItem="k3C-B9-7ve" secondAttribute="top" constant="8" id="RDt-4w-hOk"/>
-                    <constraint firstAttribute="trailing" secondItem="CGM-Wo-J2T" secondAttribute="trailing" id="S2f-Tx-HyC"/>
-                    <constraint firstItem="IUn-AH-Mkp" firstAttribute="leading" secondItem="k3C-B9-7ve" secondAttribute="leading" constant="9" id="VoE-zE-G5M"/>
-                    <constraint firstAttribute="trailing" secondItem="jDD-1o-FLl" secondAttribute="trailing" constant="8" id="ZWD-P9-U1y"/>
-                    <constraint firstItem="CGM-Wo-J2T" firstAttribute="leading" secondItem="k3C-B9-7ve" secondAttribute="leading" id="gPb-GM-Jv2"/>
-                    <constraint firstItem="IUn-AH-Mkp" firstAttribute="top" secondItem="k3C-B9-7ve" secondAttribute="top" constant="5" id="lwM-Er-mZl"/>
-                    <constraint firstAttribute="bottom" secondItem="CGM-Wo-J2T" secondAttribute="bottom" id="ppq-2E-LkQ"/>
+                    <constraint firstAttribute="centerY" secondItem="IUn-AH-Mkp" secondAttribute="centerY" id="0GG-oK-q06"/>
+                    <constraint firstAttribute="trailing" secondItem="jDD-1o-FLl" secondAttribute="trailing" constant="8" id="MUB-7d-Hfe"/>
+                    <constraint firstAttribute="centerY" secondItem="jDD-1o-FLl" secondAttribute="centerY" constant="-0.5" id="vHK-E8-zOA"/>
+                    <constraint firstItem="jDD-1o-FLl" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="IUn-AH-Mkp" secondAttribute="trailing" constant="8" id="xOS-cd-ghN"/>
+                    <constraint firstItem="IUn-AH-Mkp" firstAttribute="leading" secondItem="k3C-B9-7ve" secondAttribute="leading" constant="9" id="xbP-L9-Bb9"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <connections>
                 <outlet property="sectionImageView" destination="jDD-1o-FLl" id="hBi-Mi-eeG"/>
                 <outlet property="sectionLabel" destination="IUn-AH-Mkp" id="OVe-Yr-Uv3"/>
             </connections>
-            <point key="canvasLocation" x="291.5" y="315"/>
+            <point key="canvasLocation" x="257.5" y="105"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="Arrow" width="16" height="16"/>
+        <image name="Arrow-01" width="19" height="19"/>
     </resources>
 </document>

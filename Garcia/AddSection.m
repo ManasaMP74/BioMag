@@ -18,35 +18,6 @@
 
 }
 
-
-//- (id)initWithCoder:(NSCoder *)aDecoder
-//{
-//    if ((self = [super initWithCoder:aDecoder])){
-//        view = [[[NSBundle mainBundle] loadNibNamed:@"AddSection"
-//                                                         owner:self
-//                                                       options:nil] objectAtIndex:0];
-//        [self addSubview: view];
-//        view.translatesAutoresizingMaskIntoConstraints = NO;
-//        NSDictionary *views = NSDictionaryOfVariableBindings(view);
-//        
-//        NSArray *constrains = [NSLayoutConstraint constraintsWithVisualFormat:@"|-(0)-[subView]-(0)-|"
-//                                                                      options:kNilOptions
-//                                                                      metrics:nil
-//                                                                        views:views];
-//        [self addConstraints:constrains];
-//        
-//        constrains = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(0)-[subView]-(0)-|"
-//                                                             options:kNilOptions
-//                                                             metrics:nil
-//                                                               views:views];
-//        [self addConstraints:constrains];
-//        sectionArray=[[NSMutableArray alloc]init];
-//        sectionArray=[@[@"Head",@"Arm",@"Leg"]mutableCopy];
-//       selectedIndexPath=nil;
-//       [self.tableview reloadData];
-//    }
-//    return self;
-//}
 -(id)initWithFrame:(CGRect)frame
 {
      sectonBodyObject.bodyPartHeaderlabel.hidden=YES;
@@ -61,42 +32,40 @@
     if (alphaView == nil)
     {
         alphaView = [[UIControl alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        alphaView.backgroundColor = [UIColor clearColor];
+         alphaView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
         [alphaView addSubview:view];
     }
+    view.hidden=NO;
     sectonBodyObject.bodyPartHeaderlabel.hidden=YES;
     view.center = alphaView.center;
     AppDelegate *appDel = [UIApplication sharedApplication].delegate;
     [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
     [appDel.window addSubview:alphaView];
-   
-}
--(void)hide{
-    [alphaView removeFromSuperview];
+    _tableViewHeight.constant=_tableview.contentSize.height;
+    CGRect frame=view.frame;
+    frame.size.height=_tableview.contentSize.height+151;
+    view.frame=frame;
 }
 -(void)initializeView
 {
     constant=[[Constant alloc]init];
-    view.layer.cornerRadius = 10;
+    view.layer.cornerRadius =3;
     view.layer.masksToBounds  = YES;
-//     sectionArray=[[NSMutableArray alloc]init];
-//    sectionArray=[@[@"Head",@"Arm",@"Leg"]mutableCopy];
-   
-   
-    [constant setFontForHeaders:_sectionHeaderLabel];
+}
+-(void)hide{
+     [self.delegate HideSection:NO];
+    [alphaView removeFromSuperview];
 }
 - (IBAction)previous:(id)sender {
-    
+    [self.delegate HideSection:NO];
     [alphaView removeFromSuperview];
 }
 - (IBAction)next:(id)sender {
+
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return _allSections.count;
 }
-
-
-
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     AddSectionCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
@@ -108,50 +77,31 @@
        cell.sectionLabel.text = section.title;
         
     }
-    
-//     sectonBodyObject.bodyPartHeaderlabel.hidden=YES;
-//    [constant setFontForLabel:cell.sectionLabel];
-    
     return cell;
 }
-
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 35;
+}
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    cell.backgroundColor=[UIColor colorWithRed:0.933 green:0.933 blue:0.941 alpha:1];
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
     sectonBodyObject.bodyPartHeaderlabel.hidden=YES;
-    
     if (sectonBodyObject==nil)
-        sectonBodyObject=[[SectionBodyDetails alloc]initWithFrame:CGRectMake(view.frame.origin.x, view.frame.origin.y-50,503, 413)];
-
+        sectonBodyObject=[[SectionBodyDetails alloc]initWithFrame:CGRectMake(view.frame.origin.x, view.frame.origin.y,503, 413)];
+    view.hidden=YES;
     sectonBodyObject.selectedSection = _allSections[indexPath.row];
-//    sectonBodyObject.partModelObj=_allSections[indexPath.row];
-//    sectonBodyObject.selectedSection=
-//    sectonBodyObject.showBodyPartLabel = NO;
-
    [sectonBodyObject alphaViewInitialize];
     sectonBodyObject.showBodyPartLabel = NO;
-    
-    
+    sectonBodyObject.delegate=self;
 }
-
-
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    cell.backgroundColor=[UIColor colorWithHexString:@"#eeeeee"];
+-(void)HideofSectionDetail:(BOOL)status{
+    view.hidden=NO;
 }
-
-//-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    if ([selectedIndexPath isEqual:indexPath]) {
-//        //  CollectionViewTableViewCell *cell = (CollectionViewTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-//        //        cell.scanPointView.hidden=NO;
-//        //        cell.scanPointViewHeight.constant=cell.scanPointView.scanPointTableView.contentSize.height;
-//        //        return cell.scanPointView.scanPointTableView.contentSize.height+37;
-//        return 100;
-//    }
-//    else {
-//        //        CollectionViewTableViewCell *cell = (CollectionViewTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-//        //        cell.scanPointView.hidden=YES;
-//        //        cell.scanPointViewHeight.constant=0;
-//        return 24;
-//    }
-//}
+-(void)hideAllView{
+    [alphaView removeFromSuperview];
+    [self.delegate hideAllView];
+}
 @end;

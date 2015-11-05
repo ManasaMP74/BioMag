@@ -1,6 +1,10 @@
 #import <UIKit/UIKit.h>
-
-@interface SettingView : UIView
+#import "DatePicker.h"
+#import "AddSection.h"
+@protocol addSetting<NSObject>
+-(void)incrementSittingCell:(NSString*)completed;
+@end
+@interface SettingView : UIView<datePickerProtocol,hidePreviousViewofSection>
 
 @property (strong, nonatomic) IBOutlet UILabel *settingHeaderLabel;
 @property (strong, nonatomic) IBOutlet UILabel *visitLabel;
@@ -17,4 +21,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *saveLabel;
 -(void)alphaViewInitialize;
 -(NSArray *)dummyPartModels;
+@property (strong, nonatomic) IBOutlet UIView *noteView;
+@property (strong, nonatomic) IBOutlet UIButton *visitButton;
+@property(weak,nonatomic)id<addSetting>delegate;
 @end

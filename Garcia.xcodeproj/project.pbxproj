@@ -209,7 +209,6 @@
 				DA130F321BEA1E1900B5B9FF /* SettingView.h */,
 				DA130F331BEA1E1900B5B9FF /* SettingView.m */,
 				DA130F471BEA225B00B5B9FF /* SectionBodyDetail */,
-				DA130F461BEA223700B5B9FF /* DetailSection */,
 				DA130F451BEA221100B5B9FF /* Child */,
 				DA130F441BEA21F900B5B9FF /* AddSection */,
 				DA130F2B1BEA1E1900B5B9FF /* PartModel.h */,
@@ -223,10 +222,10 @@
 		DA130F441BEA21F900B5B9FF /* AddSection */ = {
 			isa = PBXGroup;
 			children = (
-				DA130F421BEA20CC00B5B9FF /* AddSectionCell.xib */,
+				DA130F221BEA1E1900B5B9FF /* AddSection.xib */,
 				DA130F201BEA1E1900B5B9FF /* AddSection.h */,
 				DA130F211BEA1E1900B5B9FF /* AddSection.m */,
-				DA130F221BEA1E1900B5B9FF /* AddSection.xib */,
+				DA130F421BEA20CC00B5B9FF /* AddSectionCell.xib */,
 				DA130F231BEA1E1900B5B9FF /* AddSectionCell.h */,
 				DA130F241BEA1E1900B5B9FF /* AddSectionCell.m */,
 			);
@@ -243,22 +242,15 @@
 			name = Child;
 			sourceTree = "<group>";
 		};
-		DA130F461BEA223700B5B9FF /* DetailSection */ = {
-			isa = PBXGroup;
-			children = (
-				DA130F281BEA1E1900B5B9FF /* DetailsSection.h */,
-				DA130F291BEA1E1900B5B9FF /* DetailsSection.m */,
-				DA130F2A1BEA1E1900B5B9FF /* DetailsSection.xib */,
-			);
-			name = DetailSection;
-			sourceTree = "<group>";
-		};
 		DA130F471BEA225B00B5B9FF /* SectionBodyDetail */ = {
 			isa = PBXGroup;
 			children = (
+				DA130F2F1BEA1E1900B5B9FF /* SectionBodyDetails.xib */,
 				DA130F2D1BEA1E1900B5B9FF /* SectionBodyDetails.h */,
 				DA130F2E1BEA1E1900B5B9FF /* SectionBodyDetails.m */,
-				DA130F2F1BEA1E1900B5B9FF /* SectionBodyDetails.xib */,
+				DA130F2A1BEA1E1900B5B9FF /* DetailsSection.xib */,
+				DA130F281BEA1E1900B5B9FF /* DetailsSection.h */,
+				DA130F291BEA1E1900B5B9FF /* DetailsSection.m */,
 			);
 			name = SectionBodyDetail;
 			sourceTree = "<group>";

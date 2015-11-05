@@ -1,11 +1,3 @@
-//
-//  SectionBodyDetails.m
-//  Garcia
-//
-//  Created by Vmoksha on 27/10/15.
-//  Copyright (c) 2015 manasap. All rights reserved.
-//
-
 #import "SectionBodyDetails.h"
 #import "Constant.h"
 #import "AppDelegate.h"
@@ -47,7 +39,6 @@
     [self initializeView];
     [self addSubview:view];
     view.frame=self.bounds;
-    
     return self;
 }
 
@@ -62,8 +53,7 @@
     if (alphaView == nil)
     {
         alphaView = [[UIControl alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        alphaView.backgroundColor = [UIColor clearColor];
-        [alphaView addSubview:view];
+        alphaView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];        [alphaView addSubview:view];
     }
     selectedIndexPathArray=[[NSMutableArray alloc]init];
     str=@"Head";
@@ -81,17 +71,22 @@
         
         view.center = alphaView.center;
         AppDelegate *appDel = [UIApplication sharedApplication].delegate;
-        [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
-        //    self.sectionHeaderLabel.text = @"AMit";
-         self.sectionHeaderLabel.text =_partModelObj.title;
+    [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
+        self.sectionHeaderLabel.text =_partModelObj.title;
         [appDel.window addSubview:alphaView];
-        //    sectionArray=@[@"Eye",@"Ear",@"Neck"];
-        
     }
-
+    view.hidden=NO;
+    _tableViewHeight.constant=_tableview.contentSize.height;
+    CGRect frame=view.frame;
+    frame.size.height=_tableview.contentSize.height+146;
+    view.frame=frame;
 }
-
-
+-(void)initializeView
+{
+    constant=[[Constant alloc]init];
+    view.layer.cornerRadius = 10;
+    view.layer.masksToBounds  = YES;
+}
 -(void) setListingElements:(NSArray *)listingElements
 {
     _listingElements = listingElements;
@@ -103,40 +98,42 @@
     
     
 }
-
-
 - (void)setShowBodyPartLabel:(BOOL)showBodyPartLabel
 {
     _showBodyPartLabel = showBodyPartLabel;
     self.bodyPartHeaderlabel.hidden=!showBodyPartLabel;
 
 }
-
-
 -(void)hide{
-    [alphaView removeFromSuperview];
-    [self removeChildTable];
-    if (self.mPrevBtn) {
-        self.mPrevBtn.hidden=FALSE;
-        
+    
+    self.mNxtbtn.hidden=FALSE;
+    nextFlag-=1;
+    if (nextFlag<=0) {
+        if (nextFlag<=0) {
+            if ([str isEqual:@"Correspond"]) {
+                [self removeChildTable];
+                str=@"Head";
+                _sectionHeaderLabel.text=_title;
+                _correspondPointLabel.hidden=YES;
+                _bodyPartHeight.constant=0;
+                [_tableview reloadData];
+            }
+            else{
+                [self.delegate HideofSectionDetail:NO];
+                [alphaView removeFromSuperview];
+            }
+            return;
+        }
+        nextFlag=1;
     }
-    if (self.mNxtbtn) {
-        self.mNxtbtn.hidden=FALSE;
-        
+    
+    if (theSelIndex.count>0) {
+        if (theSelIndex.count>=nextFlag) {
+            selRow=nextFlag-1;
+            [self createChildTable];
+        }
     }
 }
-
-
--(void)initializeView
-{
-    constant=[[Constant alloc]init];
-    view.layer.cornerRadius = 10;
-    view.layer.masksToBounds  = YES;
-//    sectionArray=@[@"Eye",@"Ear",@"Neck"];
-    [constant setFontForHeaders:_sectionHeaderLabel];
-}
-
-
 - (IBAction)previous:(id)sender {
     
    self.mNxtbtn.hidden=FALSE;
@@ -152,6 +149,7 @@
                 [_tableview reloadData];
             }
             else{
+                [self.delegate HideofSectionDetail:NO];
                 [alphaView removeFromSuperview];
             }
             return;
@@ -187,8 +185,6 @@
     }
     return YES;
 }
-
-
 - (IBAction)next:(id)sender {
     
     self.mPrevBtn.hidden=FALSE;
@@ -197,6 +193,8 @@
     }
     if(theSelIndex.count==nextFlag){
         self.mNxtbtn.hidden=TRUE;
+        _saveLabel.text=@"Done";
+        
     }
     if ([str isEqual:@"Head"]) {
         if ([self validateConditions])
@@ -205,6 +203,7 @@
             self.mNxtbtn.hidden=FALSE;
             if(theSelIndex.count==nextFlag){
                 self.mNxtbtn.hidden=TRUE;
+                _saveLabel.text=@"Done";
             }
 
             [self setTitle:_sectionHeaderLabel.text];
@@ -272,10 +271,6 @@ return part.allScanPoints.count;
         [[NSBundle mainBundle]loadNibNamed:@"DetailsSection" owner:self options:nil];
         cell = self.detailsSectionCell;
     }
-    
-    [constant setFontForLabel:cell.sectionLabel];
-    
-    
     if ([tableView isEqual:self.tableview]) {
         
         if ([self->cellSelected containsObject:indexPath]){
@@ -287,6 +282,7 @@ return part.allScanPoints.count;
         
        PartModel *part = self.selectedSection.allParts[indexPath.row];
         cell.sectionLabel.text = part.title;
+        tableView.separatorStyle=0;
         return cell;
      }
    
@@ -315,7 +311,7 @@ return part.allScanPoints.count;
         
     }
     self.bodyPartHeaderlabel.hidden=YES;
-    
+    tableView.separatorStyle=0;
     return cell;
 }
 
@@ -374,11 +370,16 @@ return part.allScanPoints.count;
             [tableView reloadData];
 }
 
-
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    cell.backgroundColor=[UIColor lightGrayColor];
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    cell.backgroundColor=[UIColor whiteColor];
 }
-
-
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 33;
+}
+- (IBAction)saveAndDone:(id)sender {
+    if ([_saveLabel.text isEqualToString:@"Done"]) {
+        [alphaView removeFromSuperview];
+        [self.delegate hideAllView];
+    }
+}
 @end
