@@ -285,16 +285,6 @@
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-//     if (medicalTableListArray.count!=0 | diagnosisTableListArray.count!=0) {
-//         CGFloat height;
-//      if (tableView==_MedicaltableView) {
-//          NSDictionary *dict=medicalTableListArray[indexPath.row];
-//          NSString *text = [dict objectForKey:@"message"];
-//   height  =  [text boundingRectWithSize:(CGSizeMake(NSIntegerMax, 40)) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:12]} context:nil].size.width;
-//      }
-//         return height;
-//     }
-//    else
     return 25;
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -678,4 +668,21 @@
     -(void)textViewDidEndEditing:(UITextView *)textView{
         activeField=textView;
     }
-    @end
+-(void)deleteSittingCell:(UICollectionViewCell *)cell{
+    NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
+    [sittingCollectionArray removeObjectAtIndex:index.row];
+    if (sittingCollectionArray.count>0) {
+        [_sittingCollectionView reloadData];
+    }
+    else    _sittingCollectionViewWidth.constant=0;
+}
+-(void)editSittingCell:(UICollectionViewCell *)cell{
+  NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
+    [sittingCollectionArray removeObjectAtIndex:index.row];
+    if(sectionView==nil)
+        sectionView=[[SettingView alloc]initWithFrame:CGRectMake(150, 140,500,330)];
+    sectionView.delegate=self;
+    sectionView.dummyData=@[[NSString stringWithFormat:@"%@%d",@"Sitting #",index.row+1]];
+    [sectionView alphaViewInitialize];
+}
+@end

@@ -3,6 +3,8 @@
 @protocol cellHeight<NSObject>
 -(void)increaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath;
 -(void)decreaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath;
+-(void)deleteSittingCell:(UICollectionViewCell*)cell;
+-(void)editSittingCell:(UICollectionViewCell*)cell;
 @end
 @interface SittingCollectionViewCell : UICollectionViewCell<headerCellHeight>
 @property (strong, nonatomic) IBOutlet UILabel *visitLabel;

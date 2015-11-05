@@ -24,4 +24,7 @@
 @property (strong, nonatomic) IBOutlet UIView *noteView;
 @property (strong, nonatomic) IBOutlet UIButton *visitButton;
 @property(weak,nonatomic)id<addSetting>delegate;
+
+
+@property(strong,nonatomic)NSArray*dummyData;
 @end

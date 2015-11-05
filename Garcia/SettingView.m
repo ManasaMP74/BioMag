@@ -43,6 +43,9 @@
     section.allParts = [self dummyArmPartModels];
     [allSections addObject:section];
     view.hidden=NO;
+    if (_dummyData.count>0) {
+        _settingHeaderLabel.text=_dummyData[0];
+    }
     section = [[SectionModel alloc] init];
     section.title = @"Leg";
     section.allParts = [self dummyLegPartModels];
