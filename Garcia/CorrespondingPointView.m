@@ -64,7 +64,9 @@
     }
        return cell;
 }
--(float)corespondingCellHeight{
+
+-(float)corespondingCellHeight
+{
     return _correspondingTableView.contentSize.height;
 }
 @end

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SectionBodyDetails">
+            <connections>
+                <outlet property="childCell" destination="Ez5-hk-7pW" id="ldW-ZP-p4S"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="Ez5-hk-7pW" customClass="Child">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ez5-hk-7pW" id="fSG-ot-nCw">
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oom-Pp-Pql">
+                        <rect key="frame" x="7" y="8" width="244" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dSg-v1-bk4">
+                        <rect key="frame" x="280" y="11" width="32" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="32" id="E4k-2S-5EA"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="dSg-v1-bk4" firstAttribute="top" secondItem="fSG-ot-nCw" secondAttribute="top" constant="11" id="3Qb-qK-gl0"/>
+                    <constraint firstAttribute="bottom" secondItem="Oom-Pp-Pql" secondAttribute="bottom" constant="14" id="4Bt-vX-hxi"/>
+                    <constraint firstAttribute="bottom" secondItem="dSg-v1-bk4" secondAttribute="bottom" constant="10" id="FBJ-x5-WCy"/>
+                    <constraint firstAttribute="trailing" secondItem="dSg-v1-bk4" secondAttribute="trailing" constant="8" id="N4x-F6-zLo"/>
+                    <constraint firstItem="Oom-Pp-Pql" firstAttribute="leading" secondItem="fSG-ot-nCw" secondAttribute="leading" constant="7" id="bHq-cS-WX4"/>
+                    <constraint firstItem="dSg-v1-bk4" firstAttribute="leading" secondItem="Oom-Pp-Pql" secondAttribute="trailing" constant="29" id="hwf-ax-0yg"/>
+                    <constraint firstItem="Oom-Pp-Pql" firstAttribute="top" secondItem="fSG-ot-nCw" secondAttribute="top" constant="8" id="ibe-wz-eop"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="mCheckedImgVew" destination="dSg-v1-bk4" id="l4k-SZ-qm6"/>
+                <outlet property="mTitleLabel" destination="Oom-Pp-Pql" id="DJ6-Km-Nw6"/>
+            </connections>
+            <point key="canvasLocation" x="210" y="295"/>
+        </tableViewCell>
+    </objects>
+</document>

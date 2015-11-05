@@ -16,4 +16,5 @@
 @property (strong, nonatomic) IBOutlet UIButton *SaveBtnClicked;
 @property (strong, nonatomic) IBOutlet UILabel *saveLabel;
 -(void)alphaViewInitialize;
+-(NSArray *)dummyPartModels;
 @end

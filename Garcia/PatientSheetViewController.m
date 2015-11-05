@@ -1,14 +1,15 @@
 #import "PatientSheetViewController.h"
 #import "Constant.h"
 #import "PatientSheetTableViewCell.h"
-#import "SettingView.h"
 #import "AttachmentViewController.h"
 #import "CollectionViewTableViewCell.h"
 #import "SittingCollectionViewCell.h"
 #import "CollectionViewTableViewCell.h"
 #import "UploadCollectionViewCell.h"
 #import "TagCollectionViewCell.h"
-@interface PatientSheetViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,headerCellHeight,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextFieldDelegate,UITextViewDelegate,deleteCell,deleteTagCell,selectedImage>
+#import "SittingModelClass.h"
+#import "SettingView.h"
+@interface PatientSheetViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextFieldDelegate,UITextViewDelegate,deleteCell,deleteTagCell,selectedImage,cellHeight>
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UILabel *nameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *nameValueLabel;
@@ -66,17 +67,15 @@
 @implementation PatientSheetViewController
 {
     Constant *constant;
-    SettingView *setingView;
     NSMutableArray *tagListArray,*diagnosisTableListArray,*medicalTableListArray;
     float sittingCollectionViewHeight;
-    int i;
     AttachmentViewController *attachView;
     UIView *activeField;
-    NSMutableArray *uploadedImageArray;
+    NSMutableArray *uploadedImageArray,*sittingCollectionArray;
+    SettingView *sectionView;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    i=1;
     sittingCollectionViewHeight=0.0;
     constant=[[Constant alloc]init];
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-02.jpg"]]];
@@ -86,6 +85,7 @@
     diagnosisTableListArray=[[NSMutableArray alloc]init];
     medicalTableListArray=[[NSMutableArray alloc]init];
     uploadedImageArray=[[NSMutableArray alloc]init];
+    sittingCollectionArray=[[NSMutableArray alloc]init];
      [self defaultValue];
     [self registerForKeyboardNotifications];
     [self navigationItemMethod];
@@ -107,11 +107,8 @@
     [someButton setBackgroundImage:image3 forState:UIControlStateNormal];
     [someButton addTarget:self action:@selector(popToViewController) forControlEvents:UIControlEventTouchUpInside];
     [someButton setShowsTouchWhenHighlighted:YES];
-    
     UIBarButtonItem *mailbutton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
     self.navigationItem.rightBarButtonItem=mailbutton;
-    
-   
     UIImage* image = [UIImage imageNamed:@"Back button.png"];
     CGRect frameimg1 = CGRectMake(100, 0, image.size.width+30, image.size.height);
     UIButton *button=[[UIButton alloc]initWithFrame:frameimg1];
@@ -306,7 +303,7 @@
 //CollectionView datasource Methods
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     if (collectionView== _sittingCollectionView) {
-        return i;
+        return sittingCollectionArray.count;
     }
     else if (collectionView ==_uploadCollectionView) {
         NSLog(@"%d",uploadedImageArray.count);
@@ -320,19 +317,30 @@
     
     if (collectionView==_sittingCollectionView) {
         SittingCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"collectionViewCell" forIndexPath:indexPath];
-        cell.headerView.delegate=self;
-        cell.headerViewHeight.constant=cell.headerView.headerTableview.contentSize.height;
-        _sittingcollectionViewHeight.constant= cell.headerViewHeight.constant+100;
+        cell.delegate=self;
         if (_sittingCollectionView.contentSize.width>_settingView .frame.size.width-100) {
             _sittingCollectionViewWidth.constant=_settingView.frame.size.width-100;
         }
         else _sittingCollectionViewWidth.constant=_sittingCollectionView.contentSize.width;
         cell.sittingLabel.text=[NSString stringWithFormat:@"%@%d",@"Sitting #",indexPath.row+1];
          CollectionViewTableViewCell *c=(CollectionViewTableViewCell*)[cell.headerView.headerTableview cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:3]];
-        if (indexPath.row+1==i)
+        if (indexPath.row+1==sittingCollectionArray.count)
             c.switchImageView.image=[UIImage imageNamed:@"Button-on"];
         else c.switchImageView.image=[UIImage imageNamed:@"Button-off"];
         cell.layer.cornerRadius=8;
+        
+       
+        SittingModelClass *model=sittingCollectionArray[indexPath.row];
+        if (model.selectedHeader==YES) {
+                cell.headerViewHeight.constant= [cell.headerView increaseHeaderinHeaderTV:model.selectedScanPointIndexpath];
+        }
+        else
+        {
+            if (sittingCollectionViewHeight==0)
+                cell.headerViewHeight.constant=cell.headerView.headerTableview.contentSize.height;
+            else  cell.headerViewHeight.constant= [cell.headerView decreaseHeaderinHeaderTV:model.selectedScanPointIndexpath];
+        }
+         _sittingcollectionViewHeight.constant=MAX(model.height+100,_sittingcollectionViewHeight.constant);
         return cell;
     }
     else if (collectionView==_uploadCollectionView){
@@ -357,18 +365,31 @@
             return cell;
         }
 }
--(void)headCellHeight:(float)height{
-        [_sittingCollectionView reloadData];
-        sittingCollectionViewHeight=height;
-        _settingViewHeight.constant=height+140;
+-(void)increaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath{
+    NSIndexPath *indexpath1=[_sittingCollectionView indexPathForCell:cell];
+    SittingModelClass *model=sittingCollectionArray[indexpath1.row];
+    model.selectedHeader=YES;
+    model.height=height;
+    model.selectedScanPointIndexpath=selectedScanPointindexpath;
+    [_sittingCollectionView reloadData];
+    [self.view layoutIfNeeded];
+    _settingViewHeight.constant=height+140;
 }
-    - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+-(void)decreaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath{
+    NSIndexPath *indexpath1=[_sittingCollectionView indexPathForCell:cell];
+    SittingModelClass *model=sittingCollectionArray[indexpath1.row];
+    model.height=height;
+    model.selectedHeader=NO;
+    model.selectedScanPointIndexpath=selectedScanPointindexpath;
+    [_sittingCollectionView reloadData];
+    [self.view layoutIfNeeded];
+    _settingViewHeight.constant=height+140;
+}
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    SittingModelClass *model=sittingCollectionArray[indexPath.row];
+    sittingCollectionViewHeight=MAX(model.height, sittingCollectionViewHeight);
         if (collectionView==_sittingCollectionView) {
-            if (sittingCollectionViewHeight>0) {
                 return CGSizeMake(280,sittingCollectionViewHeight+100);
-            }
-            else
-                return CGSizeMake(280,collectionView.contentSize.height);
         }
         else if (collectionView==_uploadCollectionView)
         {
@@ -599,11 +620,17 @@
         [self.view endEditing:YES];
     }
     - (IBAction)addSitting:(id)sender {
-        i++;
-        [_sittingCollectionView reloadData];
-        NSIndexPath *index=[NSIndexPath indexPathForRow:i-1 inSection:0];
-        [self.view layoutIfNeeded];
-        [_sittingCollectionView scrollToItemAtIndexPath:index atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+        if(sectionView==nil)
+            sectionView=[[SettingView alloc]initWithFrame:CGRectMake(150, 140,500,364)];
+        [sectionView alphaViewInitialize];
+//        SittingModelClass *model=[[SittingModelClass alloc]init];
+//        model.height=128;
+//        model.selectedScanPointIndexpath=nil;
+//        [sittingCollectionArray addObject:model];
+//        [_sittingCollectionView reloadData];
+//         [self.view layoutIfNeeded];
+//        NSIndexPath *index=[NSIndexPath indexPathForRow:sittingCollectionArray.count-1 inSection:0];
+//        [_sittingCollectionView scrollToItemAtIndexPath:index atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
     }
 - (void)registerForKeyboardNotifications
 {

@@ -1,6 +1,11 @@
 #import <UIKit/UIKit.h>
-@interface PatientSheetViewController : UIViewController<UITextViewDelegate>
+#if !defined(MAX)
+#define MAX(A,B)((A) > (B) ? (A) : (B))
+#endif
 
+
+
+@interface PatientSheetViewController : UIViewController<UITextViewDelegate>
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollview;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *collectionViewHeight;
 @property (strong, nonatomic) IBOutlet UIButton *treatmentButton;
