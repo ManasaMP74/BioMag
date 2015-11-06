@@ -3,6 +3,7 @@
 #import "AppDelegate.h"
 #import "HexColors.h"
 #import "SectionBodyDetails.h"
+#import "SectionModel.h"
 
 
 @implementation AddSection
@@ -10,9 +11,13 @@
     UIView *view;
     UIControl  *alphaView;
     Constant *constant;
-    NSArray *sectionArray;
+
     SectionBodyDetails *sectonBodyObject;
+    NSInteger selectedIndex;
+    NSIndexPath *selectedIndexPath;
+
 }
+
 -(id)initWithFrame:(CGRect)frame
 {
      sectonBodyObject.bodyPartHeaderlabel.hidden=YES;
@@ -27,63 +32,76 @@
     if (alphaView == nil)
     {
         alphaView = [[UIControl alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        alphaView.backgroundColor = [UIColor clearColor];
+         alphaView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
         [alphaView addSubview:view];
     }
+    view.hidden=NO;
     sectonBodyObject.bodyPartHeaderlabel.hidden=YES;
     view.center = alphaView.center;
     AppDelegate *appDel = [UIApplication sharedApplication].delegate;
     [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
     [appDel.window addSubview:alphaView];
-    sectionArray=@[@"Head",@"Arm",@"Leg"];
-}
--(void)hide{
-    [alphaView removeFromSuperview];
+    _tableViewHeight.constant=_tableview.contentSize.height;
+    CGRect frame=view.frame;
+    frame.size.height=_tableview.contentSize.height+151;
+    view.frame=frame;
 }
 -(void)initializeView
 {
     constant=[[Constant alloc]init];
-    view.layer.cornerRadius = 10;
+    view.layer.cornerRadius =3;
     view.layer.masksToBounds  = YES;
-    [constant setFontForHeaders:_sectionHeaderLabel];
+}
+-(void)hide{
+     [self.delegate HideSection:NO];
+    [alphaView removeFromSuperview];
 }
 - (IBAction)previous:(id)sender {
-    
+    [self.delegate HideSection:NO];
     [alphaView removeFromSuperview];
 }
 - (IBAction)next:(id)sender {
+
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return sectionArray.count;
+    return _allSections.count;
 }
--(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     AddSectionCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
     
     if (cell==nil) {
         [[NSBundle mainBundle]loadNibNamed:@"AddSectionCell" owner:self options:nil];
-        cell=_addsectionCell;
-        _addsectionCell=nil;
+        SectionModel *section = self.allSections[indexPath.row];
+        cell = self.addsectionCell;
+       cell.sectionLabel.text = section.title;
+        
     }
-     sectonBodyObject.bodyPartHeaderlabel.hidden=YES;
-    [constant setFontForLabel:cell.sectionLabel];
-    cell.sectionLabel.text=sectionArray[indexPath.row];
     return cell;
 }
-
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 35;
+}
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    cell.backgroundColor=[UIColor colorWithRed:0.933 green:0.933 blue:0.941 alpha:1];
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    sectonBodyObject.bodyPartHeaderlabel.hidden=YES;
     
+    sectonBodyObject.bodyPartHeaderlabel.hidden=YES;
     if (sectonBodyObject==nil)
-        sectonBodyObject=[[SectionBodyDetails alloc]initWithFrame:CGRectMake(view.frame.origin.x, view.frame.origin.y-50,503, 413)];
+        sectonBodyObject=[[SectionBodyDetails alloc]initWithFrame:CGRectMake(view.frame.origin.x, view.frame.origin.y,503, 413)];
+    view.hidden=YES;
+    sectonBodyObject.selectedSection = _allSections[indexPath.row];
    [sectonBodyObject alphaViewInitialize];
     sectonBodyObject.showBodyPartLabel = NO;
-    
-    
+    sectonBodyObject.delegate=self;
 }
-
-
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    cell.backgroundColor=[UIColor lightGrayColor];
+-(void)HideofSectionDetail:(BOOL)status{
+    view.hidden=NO;
 }
-@end
+-(void)hideAllView{
+    [alphaView removeFromSuperview];
+    [self.delegate hideAllView];
+}
+@end;

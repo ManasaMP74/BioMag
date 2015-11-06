@@ -42,8 +42,6 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     [self dummyData];
-   
-//    [_patientListTableView selectRowAtIndexPath:selectedCellIndexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
 }
 //TableView Number of section
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -54,24 +52,19 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if ([_searchTextField.text isEqualToString:@""]) {
 
-        return patentnameArray.count+1;
+        return patentnameArray.count;
     }
     else
-        return patentFilteredArray.count+1;
+        return patentFilteredArray.count;
 }
 //TableView cell 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     SearchPatientTableViewCell *cell;
-    if(indexPath.row==0){
-    cell=[tableView dequeueReusableCellWithIdentifier:@"cell1"];
-    }
-    else{
      cell =[tableView dequeueReusableCellWithIdentifier:@"cell"];
      if ([_searchTextField.text isEqualToString:@""]) {
-    cell.patientNameLabel.text=patentnameArray[indexPath.row-1];
+    cell.patientNameLabel.text=patentnameArray[indexPath.row];
      }
-    else cell.patientNameLabel.text=patentFilteredArray[indexPath.row-1];
-    }
+    else cell.patientNameLabel.text=patentFilteredArray[indexPath.row];
     [constant setFontForLabel:cell.patientNameLabel];
     cell.patientNameLabel.textColor=[UIColor whiteColor];
      tableView.tableFooterView=[UIView new];
@@ -97,10 +90,7 @@
 //cell select
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     ContainerViewController *containerVc=(ContainerViewController*)self.parentViewController;
-    if (indexPath.row==0) {
-        [containerVc ChangeTheContainerViewViewController];
-    }
-    else{
+    
     SearchPatientTableViewCell *cell;
     if (selectedIndexPath) {
         cell=(SearchPatientTableViewCell*)[tableView cellForRowAtIndexPath:selectedIndexPath];
@@ -118,22 +108,34 @@ if (selectedIndexPath!=indexPath){
     [containerVc passDataFromsearchPatientTableViewToPatient:cell.patientNameLabel.text];
     
     }
+    [self.view endEditing:YES];
 }
-}
-- (IBAction)popViewController:(id)sender {
-
-}
+//Dummy data
 -(void)dummyData{
 patentnameArray =@[@"Michael Ethan",@"Tyler Aiden",@"Aiden Joshua",@"Joseph Noah",@"Anthony Daniel",@"Angel Alexander",@"Jacob Michael",@"Ethan Jose",@"Jackson Jose"];
     [_patientListTableView reloadData];
 }
+//TextField Delegat
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [self.view endEditing:YES];
     return YES;
 }
-
+//Gesture Method
+- (IBAction)gesture:(id)sender {
+    [self.view endEditing:YES];
+}
+//HideKeyboard
 - (IBAction)hideKeyboard:(UIControl *)sender
 {
     [self.view endEditing:YES];
+}
+//AddPatient
+- (IBAction)addPatient:(id)sender {
+     ContainerViewController *containerVc=(ContainerViewController*)self.parentViewController;
+    [containerVc ChangeTheContainerViewViewController];
+}
+-(void)hideKeyBoard{
+    [self.view endEditing:YES];
+
 }
 @end

@@ -80,7 +80,6 @@
     _maritialTableView.hidden=YES;
     if(datePicker==nil)
         datePicker= [[DatePicker alloc]initWithFrame:CGRectMake(self.view.frame.origin.x+50, self.view.frame.origin.y+230,self.view.frame.size.width-100,220)];
-    [datePicker.datePicker setMinimumDate:[NSDate date]];
     [datePicker alphaViewInitialize];
     datePicker.delegate=self;
 }
@@ -137,17 +136,15 @@
 //select tableviewContent
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
     if ([self.gendertableview isEqual:tableView ])
    {
-        
-        UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
-        _genderTF.text=cell.textLabel.text;
+       
+        _genderTF.text=genderArray[indexPath.row];
         _gendertableview.hidden=YES;
     }
     else if([self.maritialTableView isEqual:tableView ])
     {
-        _maritialStatus.text=cell.textLabel.text;
+        _maritialStatus.text=MaritialStatusArray[indexPath.row];
         _maritialTableView.hidden=YES;
     }
 }
@@ -190,7 +187,7 @@
     [constant setFontFortextField:_maritialStatus];
     [constant setFontFortextField:_dateOfBirthTF];
     [constant setFontFortextField:_mobileNoTF];
-    _addressTextView.textContainerInset = UIEdgeInsetsMake(10, 10,10, 10);
+    _addressTextView.textContainerInset = UIEdgeInsetsMake(10, 5, 10, 10);
 }
 //textField Begin Editing
 -(void)textFieldDidBeginEditing:(UITextField *)textField
@@ -296,6 +293,9 @@
 }
 
 
+- (IBAction)gesture:(id)sender {
+    [self.view endEditing:YES];
+}
 
 
 

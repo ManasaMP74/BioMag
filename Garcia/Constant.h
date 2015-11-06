@@ -17,4 +17,5 @@
 -(void)setFontbold:(UITextField*)text;
 -(void)setFontSemibold:(UITextField*)text;
 -(NSAttributedString*)textFieldPatient:(NSString *)text;
+-(NSAttributedString*)PatientSheetPlaceHolderText:(NSString *)text;
 @end

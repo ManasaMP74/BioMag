@@ -3,6 +3,12 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="OpenSans-Semibold.ttf">
+            <string>OpenSans-Semibold</string>
+            <string>OpenSans-Semibold</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DatePicker">
             <connections>
@@ -17,11 +23,11 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vWc-gC-DKO">
-                    <rect key="frame" x="119" y="166" width="106" height="42"/>
+                    <rect key="frame" x="119" y="166" width="64" height="42"/>
                     <color key="backgroundColor" red="0.0" green="0.62352941179999999" blue="0.29411764709999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="17"/>
                     <state key="normal" title="Done">
-                        <color key="titleColor" red="0.13725490200000001" green="0.1215686275" blue="0.12549019610000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -29,14 +35,14 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ksb-dT-cne">
-                    <rect key="frame" x="8" y="166" width="107" height="42"/>
+                    <rect key="frame" x="50" y="166" width="65" height="42"/>
                     <color key="backgroundColor" red="0.98039215690000003" green="0.71764705880000002" blue="0.074509803920000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="42" id="Uas-XC-aKw"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="17"/>
                     <state key="normal" title="Cancel">
-                        <color key="titleColor" red="0.13725490200000001" green="0.1215686275" blue="0.12549019610000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -63,9 +69,9 @@
                 <constraint firstItem="Ksb-dT-cne" firstAttribute="height" secondItem="vWc-gC-DKO" secondAttribute="height" id="4hH-Mb-bha"/>
                 <constraint firstAttribute="trailing" secondItem="Sua-sO-PHy" secondAttribute="trailing" id="7hq-lI-nhD"/>
                 <constraint firstItem="vWc-gC-DKO" firstAttribute="leading" secondItem="Ksb-dT-cne" secondAttribute="trailing" constant="4" id="7oj-RL-hFm"/>
-                <constraint firstAttribute="trailing" secondItem="vWc-gC-DKO" secondAttribute="trailing" constant="8" id="8vc-bR-NuM"/>
+                <constraint firstAttribute="trailing" secondItem="vWc-gC-DKO" secondAttribute="trailing" constant="50" id="8vc-bR-NuM"/>
                 <constraint firstItem="Sua-sO-PHy" firstAttribute="leading" secondItem="spa-Yr-0XN" secondAttribute="leading" id="EXK-iE-Gf5"/>
-                <constraint firstItem="Ksb-dT-cne" firstAttribute="leading" secondItem="spa-Yr-0XN" secondAttribute="leading" constant="8" id="FAy-M0-o3p"/>
+                <constraint firstItem="Ksb-dT-cne" firstAttribute="leading" secondItem="spa-Yr-0XN" secondAttribute="leading" constant="50" id="FAy-M0-o3p"/>
                 <constraint firstItem="Sua-sO-PHy" firstAttribute="top" secondItem="spa-Yr-0XN" secondAttribute="top" constant="-12" id="I26-2t-45i"/>
                 <constraint firstItem="Ksb-dT-cne" firstAttribute="top" secondItem="Sua-sO-PHy" secondAttribute="bottom" constant="16" id="dFM-Du-ewe"/>
                 <constraint firstItem="vWc-gC-DKO" firstAttribute="top" secondItem="Sua-sO-PHy" secondAttribute="bottom" constant="16" id="nk5-OB-9hC"/>

@@ -28,6 +28,14 @@
     [appDel.window addSubview:alphaView];
 }
 -(void)hide{
-    [view removeFromSuperview];
+    [alphaView removeFromSuperview];
+}
+- (IBAction)takePic:(id)sender {
+    [self.delegate throughCamera];
+    [self hide];
+}
+- (IBAction)takePicFromAlbum:(id)sender {
+    [self.delegate throughAlbum];
+     [self hide];
 }
 @end

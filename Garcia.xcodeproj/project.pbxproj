@@ -8,25 +8,37 @@
 
 /* Begin PBXBuildFile section */
 		8678F1AC1BE1DC54006046CF /* HexColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 8678F1AB1BE1DC54006046CF /* HexColors.m */; };
-		8678F1B11BE1DE21006046CF /* SettingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8678F1AF1BE1DE21006046CF /* SettingView.m */; };
-		8678F1BF1BE1DE65006046CF /* AddSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 8678F1B41BE1DE65006046CF /* AddSection.m */; };
-		8678F1C11BE1DE65006046CF /* AddSectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8678F1B71BE1DE65006046CF /* AddSectionCell.m */; };
-		8678F1C21BE1DE65006046CF /* SectionBodyDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 8678F1B91BE1DE65006046CF /* SectionBodyDetails.m */; };
-		8678F1C41BE1DE65006046CF /* DetailsSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 8678F1BC1BE1DE65006046CF /* DetailsSection.m */; };
-		8678F1C51BE1DE65006046CF /* DetailsSection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8678F1BD1BE1DE65006046CF /* DetailsSection.xib */; };
+		DA130F351BEA1E1900B5B9FF /* AddSection.m in Sources */ = {isa = PBXBuildFile; fileRef = DA130F211BEA1E1900B5B9FF /* AddSection.m */; };
+		DA130F361BEA1E1900B5B9FF /* AddSection.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA130F221BEA1E1900B5B9FF /* AddSection.xib */; };
+		DA130F371BEA1E1900B5B9FF /* AddSectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA130F241BEA1E1900B5B9FF /* AddSectionCell.m */; };
+		DA130F381BEA1E1900B5B9FF /* Child.m in Sources */ = {isa = PBXBuildFile; fileRef = DA130F261BEA1E1900B5B9FF /* Child.m */; };
+		DA130F391BEA1E1900B5B9FF /* Child.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA130F271BEA1E1900B5B9FF /* Child.xib */; };
+		DA130F3A1BEA1E1900B5B9FF /* DetailsSection.m in Sources */ = {isa = PBXBuildFile; fileRef = DA130F291BEA1E1900B5B9FF /* DetailsSection.m */; };
+		DA130F3B1BEA1E1900B5B9FF /* DetailsSection.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA130F2A1BEA1E1900B5B9FF /* DetailsSection.xib */; };
+		DA130F3C1BEA1E1900B5B9FF /* PartModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA130F2C1BEA1E1900B5B9FF /* PartModel.m */; };
+		DA130F3D1BEA1E1900B5B9FF /* SectionBodyDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = DA130F2E1BEA1E1900B5B9FF /* SectionBodyDetails.m */; };
+		DA130F3E1BEA1E1900B5B9FF /* SectionBodyDetails.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA130F2F1BEA1E1900B5B9FF /* SectionBodyDetails.xib */; };
+		DA130F3F1BEA1E1900B5B9FF /* SectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA130F311BEA1E1900B5B9FF /* SectionModel.m */; };
+		DA130F401BEA1E1900B5B9FF /* SettingView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA130F331BEA1E1900B5B9FF /* SettingView.m */; };
+		DA130F411BEA1E1900B5B9FF /* SettingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA130F341BEA1E1900B5B9FF /* SettingView.xib */; };
+		DA130F431BEA20CC00B5B9FF /* AddSectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA130F421BEA20CC00B5B9FF /* AddSectionCell.xib */; };
 		DA4461E61BD771F600F80F5A /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC027B1BD514340095C6AE /* OpenSans-Semibold.ttf */; };
 		DA4461E71BD7720300F80F5A /* OpenSans-Semibold.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC027B1BD514340095C6AE /* OpenSans-Semibold.ttf */; };
-		DA6C7B881BE0860900D1130A /* AttachmentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA6C7B871BE0860900D1130A /* AttachmentView.xib */; };
-		DA6C7B8B1BE0861700D1130A /* AttachmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA6C7B8A1BE0861700D1130A /* AttachmentView.m */; };
 		DA6C7B8E1BE09F9500D1130A /* SittingCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA6C7B8D1BE09F9500D1130A /* SittingCollectionViewCell.m */; };
 		DA6C7B911BE0A11800D1130A /* CollectionViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA6C7B901BE0A11800D1130A /* CollectionViewTableViewCell.m */; };
 		DA6C7B941BE0D0B600D1130A /* HeaderTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA6C7B931BE0D0B600D1130A /* HeaderTableView.m */; };
 		DA6C7B961BE0D0D600D1130A /* HeaderTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA6C7B951BE0D0D600D1130A /* HeaderTableView.xib */; };
 		DA6C7B991BE0D26000D1130A /* CollectionViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA6C7B981BE0D26000D1130A /* CollectionViewTableViewCell.xib */; };
-		DA6C7B9F1BE0DFF100D1130A /* ScanPointView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA6C7B9E1BE0DFF100D1130A /* ScanPointView.m */; };
-		DA6C7BA21BE0E0AD00D1130A /* ScanPointCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA6C7BA11BE0E0AD00D1130A /* ScanPointCell.m */; };
-		DA6C7BA41BE0E0CC00D1130A /* ScanPointCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA6C7BA31BE0E0CC00D1130A /* ScanPointCell.xib */; };
 		DA6D1A631BDA356F00D91ED3 /* PlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA6D1A621BDA356F00D91ED3 /* PlaceholderTextView.m */; };
+		DA7502BB1BE867A100C9C3F6 /* HeaderTableViewModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7502BA1BE867A100C9C3F6 /* HeaderTableViewModelClass.m */; };
+		DA7502BE1BE8955C00C9C3F6 /* SittingModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7502BD1BE8955C00C9C3F6 /* SittingModelClass.m */; };
+		DAE637851BE32D2F000C6FAB /* CorrespondingPointView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAE637841BE32D2F000C6FAB /* CorrespondingPointView.xib */; };
+		DAE637881BE32D55000C6FAB /* CorrespondingPointView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE637871BE32D55000C6FAB /* CorrespondingPointView.m */; };
+		DAE6378A1BE32D8F000C6FAB /* CorrespondingPointCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAE637891BE32D8F000C6FAB /* CorrespondingPointCell.xib */; };
+		DAE6378D1BE32E46000C6FAB /* CorrespondingPointCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE6378C1BE32E46000C6FAB /* CorrespondingPointCell.m */; };
+		DAE6FBB41BE483BA00952812 /* AttachmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE6FBB31BE483BA00952812 /* AttachmentViewController.m */; };
+		DAE6FBB71BE4AB8300952812 /* UploadCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE6FBB61BE4AB8300952812 /* UploadCollectionViewCell.m */; };
+		DAE6FBBB1BE4DC3500952812 /* TagCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE6FBBA1BE4DC3500952812 /* TagCollectionViewCell.m */; };
 		DAE9555A1BD24A7500EDFD8F /* PatientSheetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE955591BD24A7500EDFD8F /* PatientSheetViewController.m */; };
 		DAE9555D1BD24D1800EDFD8F /* PatientSheetTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE9555C1BD24D1800EDFD8F /* PatientSheetTableViewCell.m */; };
 		DAEC02711BD513500095C6AE /* customFont.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEC02701BD513500095C6AE /* customFont.m */; };
@@ -51,13 +63,9 @@
 		DAEFA1CB1BD0B6D600900379 /* Postman.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1CA1BD0B6D600900379 /* Postman.m */; };
 		DAEFA1CE1BD0B6E300900379 /* DefaultValues.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1CD1BD0B6E300900379 /* DefaultValues.m */; };
 		DAEFA1D91BD0D8ED00900379 /* SearchPatientTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1D81BD0D8ED00900379 /* SearchPatientTableViewCell.m */; };
-		DAF2E12E1BE1CE3F00C20332 /* ScanPointView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF2E12D1BE1CE3F00C20332 /* ScanPointView.xib */; };
-		DAF2E1321BE1E46D00C20332 /* SettingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF2E1311BE1E46D00C20332 /* SettingView.xib */; };
+		DAEFD0FA1BE732020054106B /* ScanPoinTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFD0F91BE732020054106B /* ScanPoinTableViewCell.m */; };
+		DAEFD0FC1BE732280054106B /* ScanPointTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAEFD0FB1BE732280054106B /* ScanPointTableViewCell.xib */; };
 		DAF82CE01BD4BA74006AF1E1 /* ContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF82CDF1BD4BA74006AF1E1 /* ContainerViewController.m */; };
-		DAF82CF11BD4CECB006AF1E1 /* SectionDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF82CF01BD4CECB006AF1E1 /* SectionDetail.m */; };
-		DAF82CF41BD4CEE6006AF1E1 /* SectionDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF82CF31BD4CEE6006AF1E1 /* SectionDetailCell.m */; };
-		DAF82CF61BD4CF01006AF1E1 /* SectionDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF82CF51BD4CF01006AF1E1 /* SectionDetailCell.xib */; };
-		DAF82CF81BD4CF0D006AF1E1 /* SectionDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF82CF71BD4CF0D006AF1E1 /* SectionDetail.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,23 +81,28 @@
 /* Begin PBXFileReference section */
 		8678F1AA1BE1DC54006046CF /* HexColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HexColors.h; sourceTree = "<group>"; };
 		8678F1AB1BE1DC54006046CF /* HexColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HexColors.m; sourceTree = "<group>"; };
-		8678F1AE1BE1DE21006046CF /* SettingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingView.h; sourceTree = "<group>"; };
-		8678F1AF1BE1DE21006046CF /* SettingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingView.m; sourceTree = "<group>"; };
-		8678F1B21BE1DE65006046CF /* AddSection.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddSection.xib; sourceTree = "<group>"; };
-		8678F1B31BE1DE65006046CF /* AddSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddSection.h; sourceTree = "<group>"; };
-		8678F1B41BE1DE65006046CF /* AddSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddSection.m; sourceTree = "<group>"; };
-		8678F1B51BE1DE65006046CF /* AddSectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddSectionCell.xib; sourceTree = "<group>"; };
-		8678F1B61BE1DE65006046CF /* AddSectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddSectionCell.h; sourceTree = "<group>"; };
-		8678F1B71BE1DE65006046CF /* AddSectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddSectionCell.m; sourceTree = "<group>"; };
-		8678F1B81BE1DE65006046CF /* SectionBodyDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionBodyDetails.h; sourceTree = "<group>"; };
-		8678F1B91BE1DE65006046CF /* SectionBodyDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionBodyDetails.m; sourceTree = "<group>"; };
-		8678F1BA1BE1DE65006046CF /* SectionBodyDetails.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SectionBodyDetails.xib; sourceTree = "<group>"; };
-		8678F1BB1BE1DE65006046CF /* DetailsSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsSection.h; sourceTree = "<group>"; };
-		8678F1BC1BE1DE65006046CF /* DetailsSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsSection.m; sourceTree = "<group>"; };
-		8678F1BD1BE1DE65006046CF /* DetailsSection.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailsSection.xib; sourceTree = "<group>"; };
-		DA6C7B871BE0860900D1130A /* AttachmentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttachmentView.xib; sourceTree = "<group>"; };
-		DA6C7B891BE0861700D1130A /* AttachmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentView.h; sourceTree = "<group>"; };
-		DA6C7B8A1BE0861700D1130A /* AttachmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentView.m; sourceTree = "<group>"; };
+		DA130F201BEA1E1900B5B9FF /* AddSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddSection.h; sourceTree = "<group>"; };
+		DA130F211BEA1E1900B5B9FF /* AddSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddSection.m; sourceTree = "<group>"; };
+		DA130F221BEA1E1900B5B9FF /* AddSection.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddSection.xib; sourceTree = "<group>"; };
+		DA130F231BEA1E1900B5B9FF /* AddSectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddSectionCell.h; sourceTree = "<group>"; };
+		DA130F241BEA1E1900B5B9FF /* AddSectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddSectionCell.m; sourceTree = "<group>"; };
+		DA130F251BEA1E1900B5B9FF /* Child.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Child.h; sourceTree = "<group>"; };
+		DA130F261BEA1E1900B5B9FF /* Child.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Child.m; sourceTree = "<group>"; };
+		DA130F271BEA1E1900B5B9FF /* Child.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Child.xib; sourceTree = "<group>"; };
+		DA130F281BEA1E1900B5B9FF /* DetailsSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsSection.h; sourceTree = "<group>"; };
+		DA130F291BEA1E1900B5B9FF /* DetailsSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsSection.m; sourceTree = "<group>"; };
+		DA130F2A1BEA1E1900B5B9FF /* DetailsSection.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailsSection.xib; sourceTree = "<group>"; };
+		DA130F2B1BEA1E1900B5B9FF /* PartModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PartModel.h; sourceTree = "<group>"; };
+		DA130F2C1BEA1E1900B5B9FF /* PartModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PartModel.m; sourceTree = "<group>"; };
+		DA130F2D1BEA1E1900B5B9FF /* SectionBodyDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionBodyDetails.h; sourceTree = "<group>"; };
+		DA130F2E1BEA1E1900B5B9FF /* SectionBodyDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionBodyDetails.m; sourceTree = "<group>"; };
+		DA130F2F1BEA1E1900B5B9FF /* SectionBodyDetails.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SectionBodyDetails.xib; sourceTree = "<group>"; };
+		DA130F301BEA1E1900B5B9FF /* SectionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionModel.h; sourceTree = "<group>"; };
+		DA130F311BEA1E1900B5B9FF /* SectionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionModel.m; sourceTree = "<group>"; };
+		DA130F321BEA1E1900B5B9FF /* SettingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingView.h; sourceTree = "<group>"; };
+		DA130F331BEA1E1900B5B9FF /* SettingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingView.m; sourceTree = "<group>"; };
+		DA130F341BEA1E1900B5B9FF /* SettingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingView.xib; sourceTree = "<group>"; };
+		DA130F421BEA20CC00B5B9FF /* AddSectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddSectionCell.xib; sourceTree = "<group>"; };
 		DA6C7B8C1BE09F9500D1130A /* SittingCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SittingCollectionViewCell.h; sourceTree = "<group>"; };
 		DA6C7B8D1BE09F9500D1130A /* SittingCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SittingCollectionViewCell.m; sourceTree = "<group>"; };
 		DA6C7B8F1BE0A11800D1130A /* CollectionViewTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewTableViewCell.h; sourceTree = "<group>"; };
@@ -98,13 +111,24 @@
 		DA6C7B931BE0D0B600D1130A /* HeaderTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderTableView.m; sourceTree = "<group>"; };
 		DA6C7B951BE0D0D600D1130A /* HeaderTableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderTableView.xib; sourceTree = "<group>"; };
 		DA6C7B981BE0D26000D1130A /* CollectionViewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewTableViewCell.xib; sourceTree = "<group>"; };
-		DA6C7B9D1BE0DFF100D1130A /* ScanPointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanPointView.h; sourceTree = "<group>"; };
-		DA6C7B9E1BE0DFF100D1130A /* ScanPointView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanPointView.m; sourceTree = "<group>"; };
-		DA6C7BA01BE0E0AD00D1130A /* ScanPointCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanPointCell.h; sourceTree = "<group>"; };
-		DA6C7BA11BE0E0AD00D1130A /* ScanPointCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanPointCell.m; sourceTree = "<group>"; };
-		DA6C7BA31BE0E0CC00D1130A /* ScanPointCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScanPointCell.xib; sourceTree = "<group>"; };
 		DA6D1A611BDA356F00D91ED3 /* PlaceholderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceholderTextView.h; sourceTree = "<group>"; };
 		DA6D1A621BDA356F00D91ED3 /* PlaceholderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceholderTextView.m; sourceTree = "<group>"; };
+		DA7502B91BE867A100C9C3F6 /* HeaderTableViewModelClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderTableViewModelClass.h; sourceTree = "<group>"; };
+		DA7502BA1BE867A100C9C3F6 /* HeaderTableViewModelClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderTableViewModelClass.m; sourceTree = "<group>"; };
+		DA7502BC1BE8955C00C9C3F6 /* SittingModelClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SittingModelClass.h; sourceTree = "<group>"; };
+		DA7502BD1BE8955C00C9C3F6 /* SittingModelClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SittingModelClass.m; sourceTree = "<group>"; };
+		DAE637841BE32D2F000C6FAB /* CorrespondingPointView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CorrespondingPointView.xib; sourceTree = "<group>"; };
+		DAE637861BE32D55000C6FAB /* CorrespondingPointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CorrespondingPointView.h; sourceTree = "<group>"; };
+		DAE637871BE32D55000C6FAB /* CorrespondingPointView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CorrespondingPointView.m; sourceTree = "<group>"; };
+		DAE637891BE32D8F000C6FAB /* CorrespondingPointCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CorrespondingPointCell.xib; sourceTree = "<group>"; };
+		DAE6378B1BE32E46000C6FAB /* CorrespondingPointCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CorrespondingPointCell.h; sourceTree = "<group>"; };
+		DAE6378C1BE32E46000C6FAB /* CorrespondingPointCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CorrespondingPointCell.m; sourceTree = "<group>"; };
+		DAE6FBB21BE483BA00952812 /* AttachmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentViewController.h; sourceTree = "<group>"; };
+		DAE6FBB31BE483BA00952812 /* AttachmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentViewController.m; sourceTree = "<group>"; };
+		DAE6FBB51BE4AB8300952812 /* UploadCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadCollectionViewCell.h; sourceTree = "<group>"; };
+		DAE6FBB61BE4AB8300952812 /* UploadCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadCollectionViewCell.m; sourceTree = "<group>"; };
+		DAE6FBB91BE4DC3500952812 /* TagCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagCollectionViewCell.h; sourceTree = "<group>"; };
+		DAE6FBBA1BE4DC3500952812 /* TagCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagCollectionViewCell.m; sourceTree = "<group>"; };
 		DAE955581BD24A7500EDFD8F /* PatientSheetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatientSheetViewController.h; sourceTree = "<group>"; };
 		DAE955591BD24A7500EDFD8F /* PatientSheetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PatientSheetViewController.m; sourceTree = "<group>"; };
 		DAE9555B1BD24D1800EDFD8F /* PatientSheetTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatientSheetTableViewCell.h; sourceTree = "<group>"; };
@@ -153,16 +177,11 @@
 		DAEFA1CD1BD0B6E300900379 /* DefaultValues.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultValues.m; sourceTree = "<group>"; };
 		DAEFA1D71BD0D8ED00900379 /* SearchPatientTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchPatientTableViewCell.h; sourceTree = "<group>"; };
 		DAEFA1D81BD0D8ED00900379 /* SearchPatientTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchPatientTableViewCell.m; sourceTree = "<group>"; };
-		DAF2E12D1BE1CE3F00C20332 /* ScanPointView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScanPointView.xib; sourceTree = "<group>"; };
-		DAF2E1311BE1E46D00C20332 /* SettingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingView.xib; sourceTree = "<group>"; };
+		DAEFD0F81BE732020054106B /* ScanPoinTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanPoinTableViewCell.h; sourceTree = "<group>"; };
+		DAEFD0F91BE732020054106B /* ScanPoinTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanPoinTableViewCell.m; sourceTree = "<group>"; };
+		DAEFD0FB1BE732280054106B /* ScanPointTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScanPointTableViewCell.xib; sourceTree = "<group>"; };
 		DAF82CDE1BD4BA74006AF1E1 /* ContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContainerViewController.h; sourceTree = "<group>"; };
 		DAF82CDF1BD4BA74006AF1E1 /* ContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContainerViewController.m; sourceTree = "<group>"; };
-		DAF82CEF1BD4CECB006AF1E1 /* SectionDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionDetail.h; sourceTree = "<group>"; };
-		DAF82CF01BD4CECB006AF1E1 /* SectionDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionDetail.m; sourceTree = "<group>"; };
-		DAF82CF21BD4CEE6006AF1E1 /* SectionDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionDetailCell.h; sourceTree = "<group>"; };
-		DAF82CF31BD4CEE6006AF1E1 /* SectionDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionDetailCell.m; sourceTree = "<group>"; };
-		DAF82CF51BD4CF01006AF1E1 /* SectionDetailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SectionDetailCell.xib; sourceTree = "<group>"; };
-		DAF82CF71BD4CF0D006AF1E1 /* SectionDetail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SectionDetail.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,30 +202,103 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DA130F1F1BEA1DBD00B5B9FF /* SettingView */ = {
+			isa = PBXGroup;
+			children = (
+				DA130F341BEA1E1900B5B9FF /* SettingView.xib */,
+				DA130F321BEA1E1900B5B9FF /* SettingView.h */,
+				DA130F331BEA1E1900B5B9FF /* SettingView.m */,
+				DA130F471BEA225B00B5B9FF /* SectionBodyDetail */,
+				DA130F451BEA221100B5B9FF /* Child */,
+				DA130F441BEA21F900B5B9FF /* AddSection */,
+				DA130F2B1BEA1E1900B5B9FF /* PartModel.h */,
+				DA130F2C1BEA1E1900B5B9FF /* PartModel.m */,
+				DA130F301BEA1E1900B5B9FF /* SectionModel.h */,
+				DA130F311BEA1E1900B5B9FF /* SectionModel.m */,
+			);
+			name = SettingView;
+			sourceTree = "<group>";
+		};
+		DA130F441BEA21F900B5B9FF /* AddSection */ = {
+			isa = PBXGroup;
+			children = (
+				DA130F221BEA1E1900B5B9FF /* AddSection.xib */,
+				DA130F201BEA1E1900B5B9FF /* AddSection.h */,
+				DA130F211BEA1E1900B5B9FF /* AddSection.m */,
+				DA130F421BEA20CC00B5B9FF /* AddSectionCell.xib */,
+				DA130F231BEA1E1900B5B9FF /* AddSectionCell.h */,
+				DA130F241BEA1E1900B5B9FF /* AddSectionCell.m */,
+			);
+			name = AddSection;
+			sourceTree = "<group>";
+		};
+		DA130F451BEA221100B5B9FF /* Child */ = {
+			isa = PBXGroup;
+			children = (
+				DA130F251BEA1E1900B5B9FF /* Child.h */,
+				DA130F261BEA1E1900B5B9FF /* Child.m */,
+				DA130F271BEA1E1900B5B9FF /* Child.xib */,
+			);
+			name = Child;
+			sourceTree = "<group>";
+		};
+		DA130F471BEA225B00B5B9FF /* SectionBodyDetail */ = {
+			isa = PBXGroup;
+			children = (
+				DA130F2F1BEA1E1900B5B9FF /* SectionBodyDetails.xib */,
+				DA130F2D1BEA1E1900B5B9FF /* SectionBodyDetails.h */,
+				DA130F2E1BEA1E1900B5B9FF /* SectionBodyDetails.m */,
+				DA130F2A1BEA1E1900B5B9FF /* DetailsSection.xib */,
+				DA130F281BEA1E1900B5B9FF /* DetailsSection.h */,
+				DA130F291BEA1E1900B5B9FF /* DetailsSection.m */,
+			);
+			name = SectionBodyDetail;
+			sourceTree = "<group>";
+		};
 		DA6C7B971BE0D12C00D1130A /* HeaderTableView */ = {
 			isa = PBXGroup;
 			children = (
 				DA6C7B921BE0D0B600D1130A /* HeaderTableView.h */,
 				DA6C7B931BE0D0B600D1130A /* HeaderTableView.m */,
 				DA6C7B951BE0D0D600D1130A /* HeaderTableView.xib */,
+				DA7502B91BE867A100C9C3F6 /* HeaderTableViewModelClass.h */,
+				DA7502BA1BE867A100C9C3F6 /* HeaderTableViewModelClass.m */,
 				DA6C7B981BE0D26000D1130A /* CollectionViewTableViewCell.xib */,
 				DA6C7B8F1BE0A11800D1130A /* CollectionViewTableViewCell.h */,
 				DA6C7B901BE0A11800D1130A /* CollectionViewTableViewCell.m */,
+				DAEFD0FB1BE732280054106B /* ScanPointTableViewCell.xib */,
+				DAEFD0F81BE732020054106B /* ScanPoinTableViewCell.h */,
+				DAEFD0F91BE732020054106B /* ScanPoinTableViewCell.m */,
 			);
 			name = HeaderTableView;
 			sourceTree = "<group>";
 		};
-		DA6C7B9A1BE0DFB600D1130A /* ScanPoinView */ = {
+		DA6C7B9A1BE0DFB600D1130A /* CorrespondPoint */ = {
 			isa = PBXGroup;
 			children = (
-				DAF2E12D1BE1CE3F00C20332 /* ScanPointView.xib */,
-				DA6C7B9D1BE0DFF100D1130A /* ScanPointView.h */,
-				DA6C7B9E1BE0DFF100D1130A /* ScanPointView.m */,
-				DA6C7BA31BE0E0CC00D1130A /* ScanPointCell.xib */,
-				DA6C7BA01BE0E0AD00D1130A /* ScanPointCell.h */,
-				DA6C7BA11BE0E0AD00D1130A /* ScanPointCell.m */,
+				DAE637841BE32D2F000C6FAB /* CorrespondingPointView.xib */,
+				DAE637861BE32D55000C6FAB /* CorrespondingPointView.h */,
+				DAE637871BE32D55000C6FAB /* CorrespondingPointView.m */,
+				DAE637891BE32D8F000C6FAB /* CorrespondingPointCell.xib */,
+				DAE6378B1BE32E46000C6FAB /* CorrespondingPointCell.h */,
+				DAE6378C1BE32E46000C6FAB /* CorrespondingPointCell.m */,
 			);
-			name = ScanPoinView;
+			name = CorrespondPoint;
+			sourceTree = "<group>";
+		};
+		DAE6FBB81BE4DBDB00952812 /* CustomCell */ = {
+			isa = PBXGroup;
+			children = (
+				DAE9555B1BD24D1800EDFD8F /* PatientSheetTableViewCell.h */,
+				DAE9555C1BD24D1800EDFD8F /* PatientSheetTableViewCell.m */,
+				DA6C7B8C1BE09F9500D1130A /* SittingCollectionViewCell.h */,
+				DA6C7B8D1BE09F9500D1130A /* SittingCollectionViewCell.m */,
+				DAE6FBB51BE4AB8300952812 /* UploadCollectionViewCell.h */,
+				DAE6FBB61BE4AB8300952812 /* UploadCollectionViewCell.m */,
+				DAE6FBB91BE4DC3500952812 /* TagCollectionViewCell.h */,
+				DAE6FBBA1BE4DC3500952812 /* TagCollectionViewCell.m */,
+			);
+			name = CustomCell;
 			sourceTree = "<group>";
 		};
 		DAE955571BD24A4900EDFD8F /* PtientSheet */ = {
@@ -214,15 +306,12 @@
 			children = (
 				DAE955581BD24A7500EDFD8F /* PatientSheetViewController.h */,
 				DAE955591BD24A7500EDFD8F /* PatientSheetViewController.m */,
-				DAE9555B1BD24D1800EDFD8F /* PatientSheetTableViewCell.h */,
-				DAE9555C1BD24D1800EDFD8F /* PatientSheetTableViewCell.m */,
-				DA6C7B8C1BE09F9500D1130A /* SittingCollectionViewCell.h */,
-				DA6C7B8D1BE09F9500D1130A /* SittingCollectionViewCell.m */,
+				DA7502BC1BE8955C00C9C3F6 /* SittingModelClass.h */,
+				DA7502BD1BE8955C00C9C3F6 /* SittingModelClass.m */,
+				DAE6FBB81BE4DBDB00952812 /* CustomCell */,
 				DA6C7B971BE0D12C00D1130A /* HeaderTableView */,
-				DA6C7B9A1BE0DFB600D1130A /* ScanPoinView */,
-				DA6C7B871BE0860900D1130A /* AttachmentView.xib */,
-				DA6C7B891BE0861700D1130A /* AttachmentView.h */,
-				DA6C7B8A1BE0861700D1130A /* AttachmentView.m */,
+				DA6C7B9A1BE0DFB600D1130A /* CorrespondPoint */,
+				DAF2E1331BE235D300C20332 /* AttachFile */,
 			);
 			name = PtientSheet;
 			sourceTree = "<group>";
@@ -293,14 +382,12 @@
 				DAEFA1D51BD0B74A00900379 /* EditPatient */,
 				DAEFA1D41BD0B72E00900379 /* AddPatient */,
 				DAE955571BD24A4900EDFD8F /* PtientSheet */,
-				DAF82CD91BD4A327006AF1E1 /* Setting */,
-				DAF82CE11BD4C7E9006AF1E1 /* Section */,
-				DAF82CEE1BD4CE92006AF1E1 /* singleSectionDetail */,
 				DAEFA1D21BD0B70900900379 /* DammyData */,
 				DAF82CDD1BD4BA4E006AF1E1 /* ContainerVC */,
 				DAEFA1D01BD0B6F400900379 /* Constant */,
 				DAEC026E1BD5131F0095C6AE /* CustomFont */,
 				DAEFA1D11BD0B70000900379 /* Postman */,
+				DA130F1F1BEA1DBD00B5B9FF /* SettingView */,
 				DAEF6AF01BD65C2C006868C8 /* DatePicker */,
 				DAEFA19B1BD0B11500900379 /* Main.storyboard */,
 				DAEFA19E1BD0B11500900379 /* Images.xcassets */,
@@ -414,14 +501,13 @@
 			name = Patient;
 			sourceTree = "<group>";
 		};
-		DAF82CD91BD4A327006AF1E1 /* Setting */ = {
+		DAF2E1331BE235D300C20332 /* AttachFile */ = {
 			isa = PBXGroup;
 			children = (
-				DAF2E1311BE1E46D00C20332 /* SettingView.xib */,
-				8678F1AE1BE1DE21006046CF /* SettingView.h */,
-				8678F1AF1BE1DE21006046CF /* SettingView.m */,
+				DAE6FBB21BE483BA00952812 /* AttachmentViewController.h */,
+				DAE6FBB31BE483BA00952812 /* AttachmentViewController.m */,
 			);
-			name = Setting;
+			name = AttachFile;
 			sourceTree = "<group>";
 		};
 		DAF82CDD1BD4BA4E006AF1E1 /* ContainerVC */ = {
@@ -431,38 +517,6 @@
 				DAF82CDF1BD4BA74006AF1E1 /* ContainerViewController.m */,
 			);
 			name = ContainerVC;
-			sourceTree = "<group>";
-		};
-		DAF82CE11BD4C7E9006AF1E1 /* Section */ = {
-			isa = PBXGroup;
-			children = (
-				8678F1B21BE1DE65006046CF /* AddSection.xib */,
-				8678F1B31BE1DE65006046CF /* AddSection.h */,
-				8678F1B41BE1DE65006046CF /* AddSection.m */,
-				8678F1B51BE1DE65006046CF /* AddSectionCell.xib */,
-				8678F1B61BE1DE65006046CF /* AddSectionCell.h */,
-				8678F1B71BE1DE65006046CF /* AddSectionCell.m */,
-				8678F1B81BE1DE65006046CF /* SectionBodyDetails.h */,
-				8678F1B91BE1DE65006046CF /* SectionBodyDetails.m */,
-				8678F1BA1BE1DE65006046CF /* SectionBodyDetails.xib */,
-				8678F1BB1BE1DE65006046CF /* DetailsSection.h */,
-				8678F1BC1BE1DE65006046CF /* DetailsSection.m */,
-				8678F1BD1BE1DE65006046CF /* DetailsSection.xib */,
-			);
-			name = Section;
-			sourceTree = "<group>";
-		};
-		DAF82CEE1BD4CE92006AF1E1 /* singleSectionDetail */ = {
-			isa = PBXGroup;
-			children = (
-				DAF82CF71BD4CF0D006AF1E1 /* SectionDetail.xib */,
-				DAF82CEF1BD4CECB006AF1E1 /* SectionDetail.h */,
-				DAF82CF01BD4CECB006AF1E1 /* SectionDetail.m */,
-				DAF82CF51BD4CF01006AF1E1 /* SectionDetailCell.xib */,
-				DAF82CF21BD4CEE6006AF1E1 /* SectionDetailCell.h */,
-				DAF82CF31BD4CEE6006AF1E1 /* SectionDetailCell.m */,
-			);
-			name = singleSectionDetail;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -545,19 +599,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA130F3E1BEA1E1900B5B9FF /* SectionBodyDetails.xib in Resources */,
+				DAE6378A1BE32D8F000C6FAB /* CorrespondingPointCell.xib in Resources */,
+				DA130F361BEA1E1900B5B9FF /* AddSection.xib in Resources */,
 				DA4461E61BD771F600F80F5A /* OpenSans-Semibold.ttf in Resources */,
-				DAF2E12E1BE1CE3F00C20332 /* ScanPointView.xib in Resources */,
+				DA130F3B1BEA1E1900B5B9FF /* DetailsSection.xib in Resources */,
+				DA130F431BEA20CC00B5B9FF /* AddSectionCell.xib in Resources */,
 				DA6C7B991BE0D26000D1130A /* CollectionViewTableViewCell.xib in Resources */,
 				DAEF6AEF1BD5FA52006868C8 /* OpenSans-Regular.ttf in Resources */,
 				DAEC027F1BD5219A0095C6AE /* OpenSans-Bold.ttf in Resources */,
-				8678F1C51BE1DE65006046CF /* DetailsSection.xib in Resources */,
 				DAEFA19D1BD0B11500900379 /* Main.storyboard in Resources */,
 				DA6C7B961BE0D0D600D1130A /* HeaderTableView.xib in Resources */,
-				DAF82CF81BD4CF0D006AF1E1 /* SectionDetail.xib in Resources */,
-				DAF2E1321BE1E46D00C20332 /* SettingView.xib in Resources */,
-				DA6C7BA41BE0E0CC00D1130A /* ScanPointCell.xib in Resources */,
-				DA6C7B881BE0860900D1130A /* AttachmentView.xib in Resources */,
-				DAF82CF61BD4CF01006AF1E1 /* SectionDetailCell.xib in Resources */,
+				DAEFD0FC1BE732280054106B /* ScanPointTableViewCell.xib in Resources */,
+				DAE637851BE32D2F000C6FAB /* CorrespondingPointView.xib in Resources */,
+				DA130F411BEA1E1900B5B9FF /* SettingView.xib in Resources */,
+				DA130F391BEA1E1900B5B9FF /* Child.xib in Resources */,
 				DAEF6AF51BD65C9B006868C8 /* DatePickerView.xib in Resources */,
 				DAEFA1A21BD0B11500900379 /* LaunchScreen.xib in Resources */,
 				DAEFA19F1BD0B11500900379 /* Images.xcassets in Resources */,
@@ -582,36 +638,42 @@
 				DAEF6AEE1BD5FA37006868C8 /* OpenSans-Regular.ttf in Sources */,
 				DA6D1A631BDA356F00D91ED3 /* PlaceholderTextView.m in Sources */,
 				DAEC027E1BD51D0C0095C6AE /* OpenSans-Bold.ttf in Sources */,
+				DAE6378D1BE32E46000C6FAB /* CorrespondingPointCell.m in Sources */,
+				DAE6FBB41BE483BA00952812 /* AttachmentViewController.m in Sources */,
 				DAEFA1971BD0B11500900379 /* AppDelegate.m in Sources */,
-				8678F1BF1BE1DE65006046CF /* AddSection.m in Sources */,
+				DAE637881BE32D55000C6FAB /* CorrespondingPointView.m in Sources */,
 				DAEC02711BD513500095C6AE /* customFont.m in Sources */,
-				8678F1C41BE1DE65006046CF /* DetailsSection.m in Sources */,
+				DA130F401BEA1E1900B5B9FF /* SettingView.m in Sources */,
+				DA130F371BEA1E1900B5B9FF /* AddSectionCell.m in Sources */,
+				DA130F3C1BEA1E1900B5B9FF /* PartModel.m in Sources */,
+				DA130F3A1BEA1E1900B5B9FF /* DetailsSection.m in Sources */,
 				DAEFA1BF1BD0B4EB00900379 /* PatientViewController.m in Sources */,
 				DAEF6AF31BD65C61006868C8 /* DatePicker.m in Sources */,
-				DA6C7B9F1BE0DFF100D1130A /* ScanPointView.m in Sources */,
+				DAE6FBBB1BE4DC3500952812 /* TagCollectionViewCell.m in Sources */,
 				DAEFA1C51BD0B50800900379 /* EditPatientViewController.m in Sources */,
-				8678F1C11BE1DE65006046CF /* AddSectionCell.m in Sources */,
+				DAEFD0FA1BE732020054106B /* ScanPoinTableViewCell.m in Sources */,
 				8678F1AC1BE1DC54006046CF /* HexColors.m in Sources */,
+				DA130F3D1BEA1E1900B5B9FF /* SectionBodyDetails.m in Sources */,
 				DAEFA1CB1BD0B6D600900379 /* Postman.m in Sources */,
 				DAEFA1941BD0B11500900379 /* main.m in Sources */,
+				DAE6FBB71BE4AB8300952812 /* UploadCollectionViewCell.m in Sources */,
+				DA130F351BEA1E1900B5B9FF /* AddSection.m in Sources */,
 				DAEFA1B91BD0B49A00900379 /* LoginViewController.m in Sources */,
 				DAEFA1C21BD0B4FA00900379 /* AddPatientViewController.m in Sources */,
 				DAEFA1D91BD0D8ED00900379 /* SearchPatientTableViewCell.m in Sources */,
 				DA6C7B941BE0D0B600D1130A /* HeaderTableView.m in Sources */,
+				DA7502BE1BE8955C00C9C3F6 /* SittingModelClass.m in Sources */,
 				DAE9555D1BD24D1800EDFD8F /* PatientSheetTableViewCell.m in Sources */,
-				8678F1B11BE1DE21006046CF /* SettingView.m in Sources */,
-				DA6C7B8B1BE0861700D1130A /* AttachmentView.m in Sources */,
-				DA6C7BA21BE0E0AD00D1130A /* ScanPointCell.m in Sources */,
+				DA130F3F1BEA1E1900B5B9FF /* SectionModel.m in Sources */,
 				DA6C7B911BE0A11800D1130A /* CollectionViewTableViewCell.m in Sources */,
-				DAF82CF41BD4CEE6006AF1E1 /* SectionDetailCell.m in Sources */,
-				DAF82CF11BD4CECB006AF1E1 /* SectionDetail.m in Sources */,
 				DAE9555A1BD24A7500EDFD8F /* PatientSheetViewController.m in Sources */,
 				DA6C7B8E1BE09F9500D1130A /* SittingCollectionViewCell.m in Sources */,
 				DAEFA1BC1BD0B4BA00900379 /* SearchPatientViewController.m in Sources */,
+				DA7502BB1BE867A100C9C3F6 /* HeaderTableViewModelClass.m in Sources */,
 				DAEFA1C81BD0B6C900900379 /* Constant.m in Sources */,
 				DAEFA1CE1BD0B6E300900379 /* DefaultValues.m in Sources */,
-				8678F1C21BE1DE65006046CF /* SectionBodyDetails.m in Sources */,
 				DAF82CE01BD4BA74006AF1E1 /* ContainerViewController.m in Sources */,
+				DA130F381BEA1E1900B5B9FF /* Child.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,23 +16,23 @@
     [self addSubview:view];
     view.frame=self.bounds;
     _datePicker.datePickerMode=1;
+    _datePicker.maximumDate=[NSDate date];
     return self;
 }
 -(void)initializeView
 {
     view.layer.cornerRadius = 10;
     view.layer.masksToBounds  = YES;
-    _doneButton.layer.cornerRadius=5;
-    _cancelButton.layer.cornerRadius=5;
+    _doneButton.layer.cornerRadius=21;
+    _cancelButton.layer.cornerRadius=21;
     formater=[[NSDateFormatter alloc]init];
     [formater setTimeZone:[NSTimeZone localTimeZone]];
-    [formater setDateFormat:@"EEE, MMM dd, yyyy"];
+    [formater setDateFormat:@"dd-MMM-yyyy"];
+    _cancelButton.backgroundColor=[UIColor colorWithRed:1 green:0.62 blue:0.57 alpha:1];
+    _doneButton.backgroundColor=[UIColor colorWithRed:0.56 green:0.59 blue:0.78 alpha:1];
     date=[formater stringFromDate:self.datePicker.date];
 }
 - (IBAction)datePickerAction:(id)sender {
-    formater=[[NSDateFormatter alloc]init];
-    [formater setTimeZone:[NSTimeZone localTimeZone]];
-    [formater setDateFormat:@"EEE, MMM dd, yyyy"];
     date=[formater stringFromDate:self.datePicker.date];
 }
 -(void)alphaViewInitialize{
@@ -42,7 +42,6 @@
         alphaView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
         [alphaView addSubview:view];
     }
-    _datePicker.minimumDate=[NSDate date];
     view.center = alphaView.center;
     AppDelegate *appDel = [UIApplication sharedApplication].delegate;
     [alphaView addTarget:self action:@selector(cancelButtonAction:) forControlEvents:UIControlEventTouchUpInside];

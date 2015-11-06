@@ -3,31 +3,61 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="OpenSans-Semibold.ttf">
+            <string>OpenSans-Semibold</string>
+            <string>OpenSans-Semibold</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AttachmentView"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="AttachmentView">
-            <rect key="frame" x="0.0" y="0.0" width="312" height="147"/>
+            <rect key="frame" x="0.0" y="0.0" width="311" height="105"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L7Y-Ke-mCY">
-                    <rect key="frame" x="32" y="59" width="107" height="30"/>
-                    <color key="backgroundColor" red="0.68235294120000001" green="0.71764705880000002" blue="0.72941176470000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <state key="normal" title="Image">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L7Y-Ke-mCY">
+                    <rect key="frame" x="10" y="15" width="291" height="30"/>
+                    <color key="backgroundColor" red="0.41176470590000003" green="0.42745098040000001" blue="0.68235294120000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="jSQ-O0-cVS"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="15"/>
+                    <state key="normal" title="Take a Picture">
+                        <color key="titleColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="takePic:" destination="-1" eventType="touchUpInside" id="6kE-F5-ax9"/>
+                    </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bBm-f4-T2l">
-                    <rect key="frame" x="195" y="59" width="89" height="30"/>
-                    <color key="backgroundColor" red="0.68235294120000001" green="0.71764705880000002" blue="0.72941176470000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <state key="normal" title="Video">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TQT-wI-Sbt">
+                    <rect key="frame" x="10" y="55" width="291" height="30"/>
+                    <color key="backgroundColor" red="0.41176470590000003" green="0.42745098040000001" blue="0.68235294120000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="YfQ-Qh-Kul"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="15"/>
+                    <state key="normal" title="Choose from Album">
+                        <color key="titleColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="takePicFromAlbum:" destination="-1" eventType="touchUpInside" id="2WA-ax-Tol"/>
+                    </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="TQT-wI-Sbt" firstAttribute="leading" secondItem="L7Y-Ke-mCY" secondAttribute="leading" id="0oF-8u-rM1"/>
+                <constraint firstItem="L7Y-Ke-mCY" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="EAu-L1-7pe"/>
+                <constraint firstItem="L7Y-Ke-mCY" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="M5a-mh-1J3"/>
+                <constraint firstItem="TQT-wI-Sbt" firstAttribute="top" secondItem="L7Y-Ke-mCY" secondAttribute="bottom" constant="10" id="Opn-e3-zak"/>
+                <constraint firstAttribute="trailing" secondItem="L7Y-Ke-mCY" secondAttribute="trailing" constant="10" id="h0e-fq-hGc"/>
+                <constraint firstItem="TQT-wI-Sbt" firstAttribute="trailing" secondItem="L7Y-Ke-mCY" secondAttribute="trailing" id="r1l-S8-noE"/>
+            </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="375" y="52.5"/>
+            <point key="canvasLocation" x="374.5" y="31.5"/>
         </view>
     </objects>
 </document>
