@@ -58,6 +58,7 @@
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     AddSectionCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
+    
     if (cell==nil) {
         [[NSBundle mainBundle]loadNibNamed:@"AddSectionCell" owner:self options:nil];
         cell=_addsectionCell;
