@@ -197,9 +197,6 @@
         [selectedScanPointIndexPath addObject:indexpath];
         [_headerTableview reloadData];
     }
-    else {
-        selectedHeaderIndexPath=[NSIndexPath indexPathForRow:0 inSection:0];
-    }
     [_headerTableview reloadData];
     CGRect frame=_headerTableview.frame;
     frame.size.height=_headerTableview.contentSize.height;
@@ -207,14 +204,7 @@
     return _headerTableview.contentSize.height;
 }
 -(float)decreaseHeaderinHeaderTV :(NSArray*)indexpath{
-    if (indexpath.count>0) {
-         selectedHeaderIndexPath=[NSIndexPath indexPathForRow:0 inSection:0];
-        [selectedScanPointIndexPath addObject:indexpath];
-        [_headerTableview reloadData];
-    }
-    else {
-         selectedHeaderIndexPath=nil;
-    }
+    selectedHeaderIndexPath=nil;
     [_headerTableview reloadData];
     CGRect frame=_headerTableview.frame;
     frame.size.height=_headerTableview.contentSize.height;

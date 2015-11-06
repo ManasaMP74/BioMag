@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 @protocol selectedImage<NSObject>
--(void)selectedImage:(UIImage*)image;
+-(void)selectedImage:(UIImage*)image withCaption:(NSString *)captionText;
 @end
 @interface AttachmentViewController : UIViewController
 @property(strong,nonatomic)NSString *selectedPickerSource;
@@ -10,4 +10,6 @@
 @property (strong, nonatomic) IBOutlet UITextView *textView;
 @property (strong, nonatomic) IBOutlet UIButton *CancelButton;
 @property (strong, nonatomic) IBOutlet UIButton *okButton;
+@property(strong,nonatomic)NSString *captionText;
+@property(assign,nonatomic)BOOL textViewEnabled;
 @end

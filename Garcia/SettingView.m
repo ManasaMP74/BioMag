@@ -1,10 +1,10 @@
 #import "SettingView.h"
 #import "Constant.h"
 #import "AppDelegate.h"
+#import "AddSection.h"
 #import "HexColors.h"
 #import "SectionModel.h"
 #import "PartModel.h"
-
 
 @implementation SettingView
 {
@@ -24,6 +24,13 @@
     view.frame=self.bounds;
     return self;
 }
+-(void)initializeView
+{
+    constant=[[Constant alloc]init];
+    view.layer.cornerRadius = 10;
+    view.layer.masksToBounds  = YES;
+}
+
 -(void)alphaViewInitialize{
     if (alphaView == nil)
     {
@@ -31,8 +38,10 @@
         alphaView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
         [alphaView addSubview:view];
     }
+    view.hidden=NO;
     view.center = alphaView.center;
     allSections = [[NSMutableArray alloc] init];
+    
     SectionModel *section = [[SectionModel alloc] init];
     section.title = @"Head";
     section.allParts = [self dummyPartModels];
@@ -42,33 +51,19 @@
     section.title = @"Arm";
     section.allParts = [self dummyArmPartModels];
     [allSections addObject:section];
-    view.hidden=NO;
-    if (_dummyData.count>0) {
-        _settingHeaderLabel.text=_dummyData[0];
-    }
+    
     section = [[SectionModel alloc] init];
     section.title = @"Leg";
     section.allParts = [self dummyLegPartModels];
     [allSections addObject:section];
+    
+    
+    
+    
+    
     AppDelegate *appDel = [UIApplication sharedApplication].delegate;
     [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
     [appDel.window addSubview:alphaView];
-}
-
--(void)initializeView
-{
-    constant=[[Constant alloc]init];
-    view.layer.cornerRadius =3;
-    view.layer.masksToBounds  = YES;
-     [constant spaceAtTheBeginigOfTextField:_visitTF];
-    _noteView.layer.cornerRadius=7;
-    _noteView.layer.masksToBounds  = YES;
-    _notesTextView.layer.cornerRadius=5;
-    _completedCheckBox.layer.cornerRadius=5;
-    _visitTF.layer.cornerRadius=5;
-    _AddButton.layer.cornerRadius=5;
-    _intervalTF.layer.cornerRadius=5;
-    _visitButton.layer.cornerRadius=5;
 }
 -(void)hide{
     [alphaView removeFromSuperview];
@@ -138,10 +133,9 @@
     
     return mut;
 }
-
 - (IBAction)add:(id)sender {
     if (addsection==nil)
-        addsection=[[AddSection alloc]initWithFrame:CGRectMake(view.frame.origin.x,view.frame.origin.y,view.frame.size.width,230)];
+        addsection=[[AddSection alloc]initWithFrame:CGRectMake(view.frame.origin.x, view.frame.origin.y,view.frame.size.width,146)];
     view.hidden=YES;
     addsection.allSections=allSections;
     addsection.allScanPointsArray=(NSArray *)[self dummyPartModels];
@@ -151,14 +145,12 @@
 -(void)HideSection:(BOOL)status{
     view.hidden=NO;
 }
-- (IBAction)completed:(id)sender {
-    if (_completedCheckBox.currentImage) {
-        [_completedCheckBox setImage:nil forState:normal];
+-(void)hideAllView{
+    [alphaView removeFromSuperview];
+    if (_completedSwitch) {
+        [self.delegate incrementSittingCell:@"Yes"];
     }
-   else
-   {
-        [_completedCheckBox setImage:[UIImage imageNamed:@"Tick"] forState:normal];
-    }
+   else [self.delegate incrementSittingCell:@"No"];
 }
 - (IBAction)datePicker:(id)sender {
     if(datePicker==nil)
@@ -167,12 +159,8 @@
     datePicker.delegate=self;
 }
 -(void)selectingDatePicker:(NSString *)date{
-   _visitTF.text=date;
+    [constant spaceAtTheBeginigOfTextField:_visitTF];
+    _visitTF.text=date;
 }
--(void)hideAllView{
-    [alphaView removeFromSuperview];
-    if ([_completedCheckBox.currentImage isEqual:[UIImage imageNamed:@"Tick"]]) {
-        [self.delegate incrementSittingCell:@"Yes"];
-    }else [self.delegate incrementSittingCell:@"No"];
-}
+
 @end

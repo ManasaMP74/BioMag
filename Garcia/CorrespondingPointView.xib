@@ -16,8 +16,8 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="dataSource" destination="-1" id="jN2-A4-wZn"/>
-                <outlet property="delegate" destination="-1" id="Iq5-kf-6Ah"/>
+                <outlet property="dataSource" destination="-1" id="uBi-re-mgR"/>
+                <outlet property="delegate" destination="-1" id="z52-cl-FeF"/>
             </connections>
             <point key="canvasLocation" x="226" y="-170"/>
         </tableView>
