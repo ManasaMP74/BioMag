@@ -50,7 +50,6 @@
     constant=[[Constant alloc]init];
     view.layer.cornerRadius = 10;
     view.layer.masksToBounds  = YES;
-      [constant setFontForHeaders:_sectionHeaderLabel];
 }
 - (IBAction)previous:(id)sender {
     [self.delegate HideSection:NO];
@@ -86,7 +85,7 @@
     sectonBodyObject.bodyPartHeaderlabel.hidden=YES;
     
     if (sectonBodyObject==nil)
-        sectonBodyObject=[[SectionBodyDetails alloc]initWithFrame:CGRectMake(view.frame.origin.x, view.frame.origin.y,view.frame.size.width, 416)];
+        sectonBodyObject=[[SectionBodyDetails alloc]initWithFrame:CGRectMake(134,439,view.frame.size.width, 416)];
     sectonBodyObject.selectedSection = _allSections[indexPath.row];
        [sectonBodyObject alphaViewInitialize];
        sectonBodyObject.delegate=self;

@@ -1,8 +1,8 @@
 #import <UIKit/UIKit.h>
 #import "HeaderTableView.h"
 @protocol cellHeight<NSObject>
--(void)increaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath;
--(void)decreaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath;
+-(void)increaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath withHeader:(NSIndexPath*)headerIndex;
+-(void)decreaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath withHeader:(NSIndexPath*)headerIndex;
 -(void)deleteSittingCell:(UICollectionViewCell*)cell;
 -(void)editSittingCell:(UICollectionViewCell*)cell;
 @end

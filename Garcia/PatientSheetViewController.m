@@ -153,7 +153,7 @@
     if ([_increaseUploadViewButton.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
         _uploadView.hidden=NO;
         if (uploadedImageArray.count>0) {
-            _uploadViewHeigh.constant=210;
+            _uploadViewHeigh.constant=uploadCellHeight+230;
             _uploadCollectionView.hidden=NO;
         }
         else  _uploadViewHeigh.constant=69;
@@ -296,7 +296,6 @@
         return sittingCollectionArray.count;
     }
     else if (collectionView ==_uploadCollectionView) {
-        NSLog(@"%d",uploadedImageArray.count);
         return uploadedImageArray.count;
     }
     else
@@ -322,10 +321,10 @@
         else c.switchImageView.image=[UIImage imageNamed:@"Button-off"];
        
         if (model.selectedHeader) {
-            cell.headerViewHeight.constant=[cell.headerView increaseHeaderinHeaderTV:model.selectedScanPointIndexpath];
+            cell.headerViewHeight.constant=[cell.headerView increaseHeaderinHeaderTV:model.selectedScanPointIndexpath withHeader:model.headerIndex];
         }
         else {
-           cell.headerViewHeight.constant=[cell.headerView decreaseHeaderinHeaderTV:model.selectedScanPointIndexpath];
+           cell.headerViewHeight.constant=[cell.headerView decreaseHeaderinHeaderTV:model.selectedScanPointIndexpath withHeader:model.headerIndex];
         }
         cell.headerViewHeight.constant=cell.headerView.headerTableview.contentSize.height;       _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
         return cell;
@@ -357,11 +356,12 @@
             return cell;
         }
 }
--(void)increaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath{
+-(void)increaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath withHeader:(NSIndexPath*)headerIndex{
     NSIndexPath *indexpath1=[_sittingCollectionView indexPathForCell:cell];
     SittingModelClass *model=sittingCollectionArray[indexpath1.row];
     model.selectedHeader=YES;
     model.height=height;
+    model.headerIndex=headerIndex;
     model.selectedScanPointIndexpath=selectedScanPointindexpath;
     for (SittingModelClass *m in sittingCollectionArray) {
         sittingCollectionViewHeight=MAX(m.height,sittingCollectionViewHeight);
@@ -370,11 +370,12 @@
     [self.view layoutIfNeeded];
     _settingViewHeight.constant=sittingCollectionViewHeight+140;
 }
--(void)decreaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath{
+-(void)decreaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath withHeader:(NSIndexPath*)headerIndex{
     sittingCollectionViewHeight=0.0;
     NSIndexPath *indexpath1=[_sittingCollectionView indexPathForCell:cell];
     SittingModelClass *model=sittingCollectionArray[indexpath1.row];
     model.height=height;
+    model.headerIndex=headerIndex;
     if (selectedScanPointindexpath.count>0) {
         model.selectedHeader=YES;
     }
@@ -421,6 +422,7 @@
         UploadModelClass *model=uploadedImageArray[indexPath.row];
         attachView.selectedImage=model.imageName;
         attachView.captionText=model.captionText;
+        attachView.imageViewHeight.constant=self.view.frame.size.height-300;
         attachView.okButton.hidden=YES;
         attachView.CancelButton.hidden=YES;
         attachView.textViewEnabled=NO;
@@ -586,6 +588,7 @@
             attachView.textViewEnabled=YES;
             attachView.okButton.hidden=NO;
             attachView.CancelButton.hidden=NO;
+            attachView.imageViewHeight.constant=350;
             attachView.delegate=self;
         [self dismissViewControllerAnimated:YES completion:nil];
         }
@@ -603,7 +606,7 @@
     [_uploadCollectionView reloadData];
     [self.view layoutIfNeeded];
     _uploadCollectionView.hidden=NO;
-    _uploadViewHeigh.constant=uploadCellHeight+250;
+    _uploadViewHeigh.constant=uploadCellHeight+230;
 }
 -(void)deleteCell:(id)cell{
     uploadCellHeight=0.0;
@@ -717,11 +720,9 @@
 }
 -(void)editSittingCell:(UICollectionViewCell *)cell{
   NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
-    [sittingCollectionArray removeObjectAtIndex:index.row];
-    if(sectionView==nil)
-        sectionView=[[SettingView alloc]initWithFrame:CGRectMake(150, 140,500,330)];
+    sectionView=[[SettingView alloc]initWithFrame:CGRectMake(150, 140,500,330)];
     sectionView.delegate=self;
-    sectionView.dummyData=@[[NSString stringWithFormat:@"%@%d",@"Sitting #",index.row+1]];
+    sectionView.dummyData=@[[NSString stringWithFormat:@"%@%ld",@"Sitting #",index.row+1],@"Head",@"7-Nov-2015"];
     [sectionView alphaViewInitialize];
 }
 @end

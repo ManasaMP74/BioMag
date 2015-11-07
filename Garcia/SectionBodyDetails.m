@@ -257,7 +257,6 @@
 return part.allScanPoints.count;
 }
 
-
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 
 {

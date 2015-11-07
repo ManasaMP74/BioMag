@@ -56,14 +56,15 @@
     section.title = @"Leg";
     section.allParts = [self dummyLegPartModels];
     [allSections addObject:section];
-    
-    
-    
-    
-    
     AppDelegate *appDel = [UIApplication sharedApplication].delegate;
     [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
     [appDel.window addSubview:alphaView];
+    [constant spaceAtTheBeginigOfTextField:_visitTF];
+    if (_dummyData.count>0) {
+        _visitTF.text=_dummyData[2];
+        [_AddButton setTitle:_dummyData[1] forState:normal];
+        _settingHeaderLabel.text=_dummyData[0];
+    }
 }
 -(void)hide{
     [alphaView removeFromSuperview];
@@ -75,17 +76,17 @@
     
     PartModel *part = [[PartModel alloc] init];
     part.title = @"Eye";
-    part.allScanPoints = @[@"scan point 1", @"Scan point 2"];
+    part.allScanPoints = @[@"Eye Optic Nerve", @"Opposite Eye",@"Cerebellum"];
     [mut addObject:part];
     
     part = [[PartModel alloc] init];
-    part.title = @"Lips";
-    part.allScanPoints = @[@"Tounge Scan1", @"Teeth Scan2"];
+    part.title = @"Thyroid";
+    part.allScanPoints = @[@"Cheekbone", @"Liver",@"Adrenal Glands"];
     [mut addObject:part];
     
     part = [[PartModel alloc] init];
-    part.title = @"Ear";
-    part.allScanPoints = @[@"Ear Scan", @"EarScan 2"];
+    part.title = @"Inter Ciliary";
+    part.allScanPoints = @[@"Medulla Oblongata", @"Kidney",@"Sacrum"];
     [mut addObject:part];
     
     return mut;
@@ -96,18 +97,18 @@
     NSMutableArray *mut = [[NSMutableArray alloc] init];
     
     PartModel *part = [[PartModel alloc] init];
-    part.title = @"Finger";
-    part.allScanPoints = @[@"Finger point 1", @"Finger point 2"];
+    part.title = @"Triceps of Arm";
+    part.allScanPoints = @[@"Lesser Trochanter", @"Triceps of Arm"];
     [mut addObject:part];
     
     part = [[PartModel alloc] init];
-    part.title = @"Knee";
-    part.allScanPoints = @[@"Knee Scan1", @"Knee Scan2"];
+    part.title = @"Brachial Plexus";
+    part.allScanPoints = @[@"Artery", @"Bursae"];
     [mut addObject:part];
     
     part = [[PartModel alloc] init];
-    part.title = @"Thumb";
-    part.allScanPoints = @[@"Thumb Scan", @"Thumb 2"];
+    part.title = @"Palm";
+    part.allScanPoints = @[@"Palm", @"Bladder",@"Thigh"];
     [mut addObject:part];
     
     return mut;
@@ -117,18 +118,18 @@
     NSMutableArray *mut = [[NSMutableArray alloc] init];
     
     PartModel *part = [[PartModel alloc] init];
-    part.title = @"Toe";
-    part.allScanPoints = @[@"Toe point 1", @"Toe point 2"];
+    part.title = @"Waist";
+    part.allScanPoints = @[@"Waist"];
     [mut addObject:part];
     
     part = [[PartModel alloc] init];
-    part.title = @"LegFiger";
-    part.allScanPoints = @[@"LegFiger Scan1", @"LegFiger Scan2"];
+    part.title = @"Sacrum";
+    part.allScanPoints = @[@"Waist", @"Bladder"];
     [mut addObject:part];
     
     part = [[PartModel alloc] init];
-    part.title = @"LegThumb";
-    part.allScanPoints = @[@"LegThumb Scan", @"LegThumb 2"];
+    part.title = @"Lesser Trochanter";
+    part.allScanPoints = @[@"Greater Trochanter", @"Kidney"];
     [mut addObject:part];
     
     return mut;
@@ -155,6 +156,7 @@
 - (IBAction)datePicker:(id)sender {
     if(datePicker==nil)
         datePicker= [[DatePicker alloc]initWithFrame:CGRectMake(view.frame.origin.x,view.frame.origin.y,view.frame.size.width,220)];
+    datePicker.datePicker.minimumDate=[NSDate date];
     [datePicker alphaViewInitialize];
     datePicker.delegate=self;
 }
