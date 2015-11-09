@@ -9,4 +9,5 @@
 @property(weak,nonatomic)id<selectedScanPoint>delegate;
 @property (strong, nonatomic) IBOutlet CorrespondingPointView *correspondingView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *correspondingViewHeight;
+@property (strong, nonatomic) IBOutlet UIButton *tapOnButton;
 @end

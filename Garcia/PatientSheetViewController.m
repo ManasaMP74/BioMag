@@ -8,7 +8,7 @@
 #import "UploadCollectionViewCell.h"
 #import "TagCollectionViewCell.h"
 #import "SittingModelClass.h"
-
+#import "UploadModelClass.h"
 @interface PatientSheetViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextFieldDelegate,UITextViewDelegate,deleteCell,deleteTagCell,selectedImage,cellHeight>
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UILabel *nameLabel;
@@ -68,7 +68,7 @@
 {
     Constant *constant;
     NSMutableArray *tagListArray,*diagnosisTableListArray,*medicalTableListArray;
-    float sittingCollectionViewHeight;
+    float sittingCollectionViewHeight,uploadCellHeight;
     AttachmentViewController *attachView;
     UIView *activeField;
     NSMutableArray *uploadedImageArray,*sittingCollectionArray;
@@ -76,7 +76,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    sittingCollectionViewHeight=0.0;
+    sittingCollectionViewHeight=0.0,uploadCellHeight=0.0;
     constant=[[Constant alloc]init];
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-02.jpg"]]];
     self.title=@"Patient Sheet";
@@ -153,7 +153,7 @@
     if ([_increaseUploadViewButton.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
         _uploadView.hidden=NO;
         if (uploadedImageArray.count>0) {
-            _uploadViewHeigh.constant=210;
+            _uploadViewHeigh.constant=uploadCellHeight+230;
             _uploadCollectionView.hidden=NO;
         }
         else  _uploadViewHeigh.constant=69;
@@ -296,7 +296,6 @@
         return sittingCollectionArray.count;
     }
     else if (collectionView ==_uploadCollectionView) {
-        NSLog(@"%d",uploadedImageArray.count);
         return uploadedImageArray.count;
     }
     else
@@ -314,24 +313,20 @@
         else _sittingCollectionViewWidth.constant=_sittingCollectionView.contentSize.width;
         cell.sittingLabel.text=[NSString stringWithFormat:@"%@%d",@"Sitting #",indexPath.row+1];
          CollectionViewTableViewCell *c=(CollectionViewTableViewCell*)[cell.headerView.headerTableview cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:3]];
-       
+        cell.layer.cornerRadius=8;
         
         SittingModelClass *model=sittingCollectionArray[indexPath.row];
         if ([model.completed isEqualToString:@"Yes"])
             c.switchImageView.image=[UIImage imageNamed:@"Button-on"];
         else c.switchImageView.image=[UIImage imageNamed:@"Button-off"];
-        cell.layer.cornerRadius=8;
-        
-        if (model.selectedHeader==YES) {
-                cell.headerViewHeight.constant= [cell.headerView increaseHeaderinHeaderTV:model.selectedScanPointIndexpath];
+       
+        if (model.selectedHeader) {
+            cell.headerViewHeight.constant=[cell.headerView increaseHeaderinHeaderTV:model.selectedScanPointIndexpath withHeader:model.headerIndex];
         }
-        else
-        {
-            if (sittingCollectionViewHeight==0)
-                cell.headerViewHeight.constant=cell.headerView.headerTableview.contentSize.height;
-            else  cell.headerViewHeight.constant= [cell.headerView decreaseHeaderinHeaderTV:model.selectedScanPointIndexpath];
+        else {
+           cell.headerViewHeight.constant=[cell.headerView decreaseHeaderinHeaderTV:model.selectedScanPointIndexpath withHeader:model.headerIndex];
         }
-         _sittingcollectionViewHeight.constant=MAX(model.height+100,_sittingcollectionViewHeight.constant);
+        cell.headerViewHeight.constant=cell.headerView.headerTableview.contentSize.height;       _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
         return cell;
     }
     else if (collectionView==_uploadCollectionView){
@@ -341,9 +336,14 @@
                 _uploadCollectionViewWidth.constant=_uploadView.frame.size.width-14;
             }
             else _uploadCollectionViewWidth.constant=_uploadCollectionView.contentSize.width;
-            UIImage *img=uploadedImageArray[indexPath.row];
+            _uploadCollectionViewHeight.constant=uploadCellHeight+150;
+            UploadModelClass *model=uploadedImageArray[indexPath.row];
+            UIImage *img=model.imageName;
             cell.uploadImageView.image=img;
-                   cell.delegate=self;
+            cell.labelHeight.constant =[model.captionText boundingRectWithSize:(CGSize){136,CGFLOAT_MAX } options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:12]} context:nil].size.height+10;
+                   NSLog(@"%f %f",cell.labelHeight.constant,uploadCellHeight);
+            cell.captionLabel.text=model.captionText;
+            cell.delegate=self;
         }
         return cell;
         }
@@ -356,41 +356,50 @@
             return cell;
         }
 }
--(void)increaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath{
+-(void)increaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath withHeader:(NSIndexPath*)headerIndex{
     NSIndexPath *indexpath1=[_sittingCollectionView indexPathForCell:cell];
     SittingModelClass *model=sittingCollectionArray[indexpath1.row];
     model.selectedHeader=YES;
     model.height=height;
+    model.headerIndex=headerIndex;
     model.selectedScanPointIndexpath=selectedScanPointindexpath;
+    for (SittingModelClass *m in sittingCollectionArray) {
+        sittingCollectionViewHeight=MAX(m.height,sittingCollectionViewHeight);
+    }
     [_sittingCollectionView reloadData];
     [self.view layoutIfNeeded];
-    _settingViewHeight.constant=height+140;
+    _settingViewHeight.constant=sittingCollectionViewHeight+140;
 }
--(void)decreaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath{
+-(void)decreaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath withHeader:(NSIndexPath*)headerIndex{
+    sittingCollectionViewHeight=0.0;
     NSIndexPath *indexpath1=[_sittingCollectionView indexPathForCell:cell];
     SittingModelClass *model=sittingCollectionArray[indexpath1.row];
     model.height=height;
-    model.selectedHeader=NO;
+    model.headerIndex=headerIndex;
+    if (selectedScanPointindexpath.count>0) {
+        model.selectedHeader=YES;
+    }
+   else model.selectedHeader=NO;
     model.selectedScanPointIndexpath=selectedScanPointindexpath;
+    for (SittingModelClass *m in sittingCollectionArray) {
+        sittingCollectionViewHeight=MAX(m.height,sittingCollectionViewHeight);
+    }
     [_sittingCollectionView reloadData];
     [self.view layoutIfNeeded];
-    _settingViewHeight.constant=height+140;
+    _settingViewHeight.constant=sittingCollectionViewHeight+140;
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    SittingModelClass *model=sittingCollectionArray[indexPath.row];
-    sittingCollectionViewHeight=MAX(model.height, sittingCollectionViewHeight);
         if (collectionView==_sittingCollectionView) {
                 return CGSizeMake(280,sittingCollectionViewHeight+100);
         }
         else if (collectionView==_uploadCollectionView)
         {
-            return CGSizeMake(140,120);
+            return CGSizeMake(140,uploadCellHeight+150);
         }
         else{
             NSString *text = tagListArray[indexPath.row];
 //               CGFloat width =[text sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:12],NSFontAttributeName, nil]].width;
             CGFloat width =  [text boundingRectWithSize:(CGSizeMake(NSIntegerMax, 40)) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:12]} context:nil].size.width;
-            NSLog(@"%f",width);
           return CGSizeMake(width+10,40);
         }
     }
@@ -410,9 +419,13 @@
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     if (collectionView==_uploadCollectionView) {
         [self.navigationController pushViewController:attachView animated:YES];
-        attachView.selectedImage=uploadedImageArray[indexPath.row];
+        UploadModelClass *model=uploadedImageArray[indexPath.row];
+        attachView.selectedImage=model.imageName;
+        attachView.captionText=model.captionText;
+        attachView.imageViewHeight.constant=self.view.frame.size.height-300;
         attachView.okButton.hidden=YES;
         attachView.CancelButton.hidden=YES;
+        attachView.textViewEnabled=NO;
     }
 }
 //Add tag
@@ -473,7 +486,6 @@
         _medicalHistoryTextView.layer.borderColor=[UIColor colorWithRed:0.682 green:0.718 blue:0.729 alpha:0.6].CGColor;
         _medicalHistoryTextView.layer.borderWidth=1;
         _medicalHistoryTextView.layer.cornerRadius=5;
-        
         _diagnosisTextView.layer.borderColor=[UIColor colorWithRed:0.682 green:0.718 blue:0.729 alpha:0.6].CGColor;
         _diagnosisTextView.layer.borderWidth=1;
         _diagnosisTextView.layer.cornerRadius=5;
@@ -572,29 +584,45 @@
             UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
             [self.navigationController pushViewController:attachView animated:YES];
             attachView.selectedImage=image;
-            attachView.textView.userInteractionEnabled=YES;
+            attachView.captionText=nil;
+            attachView.textViewEnabled=YES;
             attachView.okButton.hidden=NO;
             attachView.CancelButton.hidden=NO;
+            attachView.imageViewHeight.constant=350;
             attachView.delegate=self;
         [self dismissViewControllerAnimated:YES completion:nil];
         }
 }
--(void)selectedImage:(UIImage *)image{
-    [uploadedImageArray addObject:image];
+-(void)selectedImage:(UIImage *)image withCaption:(NSString *)captionText{
+    UploadModelClass *uploadModel=[[UploadModelClass alloc]init];
+    uploadModel.imageName=image;
+    uploadModel.captionText=captionText;
+    [uploadedImageArray addObject:uploadModel];
+    for (UploadModelClass *m in uploadedImageArray) {
+        CGFloat labelHeight=[m.captionText boundingRectWithSize:(CGSize){136,CGFLOAT_MAX }
+   options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:12]} context:nil].size.height;
+        uploadCellHeight=MAX(uploadCellHeight, labelHeight);
+    }
     [_uploadCollectionView reloadData];
     [self.view layoutIfNeeded];
     _uploadCollectionView.hidden=NO;
-    _uploadViewHeigh.constant=210;
+    _uploadViewHeigh.constant=uploadCellHeight+230;
 }
 -(void)deleteCell:(id)cell{
+    uploadCellHeight=0.0;
     NSIndexPath *index=[_uploadCollectionView indexPathForCell:cell];
     [uploadedImageArray removeObjectAtIndex:index.row];
+    for (UploadModelClass *m in uploadedImageArray) {
+        CGFloat labelHeight=[m.captionText boundingRectWithSize:(CGSize){136,CGFLOAT_MAX }
+     options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:12]} context:nil].size.height;
+        uploadCellHeight=MAX(uploadCellHeight, labelHeight);
+    }
     [_uploadCollectionView reloadData];
     [_scrollView layoutIfNeeded];
     if (uploadedImageArray.count==0) {
         _uploadViewHeigh.constant=69;
     }
-    else _uploadViewHeigh.constant=210;
+    else _uploadViewHeigh.constant=uploadCellHeight+250;
 }
 -(void)deleteTagCell:(UICollectionViewCell *)cell{
  NSIndexPath *index=[_tagCollectionView indexPathForCell:cell];
@@ -611,7 +639,7 @@
         [self.view endEditing:YES];
     }
     - (IBAction)addSitting:(id)sender {
-        if(sectionView==nil)
+        //if(sectionView==nil)
             sectionView=[[SettingView alloc]initWithFrame:CGRectMake(150, 140,500,330)];
         sectionView.delegate=self;
         [sectionView alphaViewInitialize];
@@ -622,10 +650,14 @@
             model.selectedScanPointIndexpath=nil;
             model.completed=completed;
             [sittingCollectionArray addObject:model];
+    for (SittingModelClass *m in sittingCollectionArray) {
+        sittingCollectionViewHeight=MAX(sittingCollectionViewHeight, m.height);
+    }
             [_sittingCollectionView reloadData];
              [self.view layoutIfNeeded];
             NSIndexPath *index=[NSIndexPath indexPathForRow:sittingCollectionArray.count-1 inSection:0];
             [_sittingCollectionView scrollToItemAtIndexPath:index atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+    _settingViewHeight.constant=sittingCollectionViewHeight+130;
 }
 - (void)registerForKeyboardNotifications
 {
@@ -643,13 +675,14 @@
         self.scrollView.contentInset = contentInsets;
         self.scrollView.scrollIndicatorInsets = contentInsets;
         CGRect aRect = self.view.frame;
-        NSLog(@"%@",activeField);
+    CGRect frameOfActiveTextField = [activeField convertRect:activeField.bounds toView:self.scrollView];
+        NSLog(@"%@, ",NSStringFromCGRect(activeField.frame));
         aRect.size.height -= kbSize.height;
-        if (!CGRectContainsPoint(aRect, activeField.frame.origin) ) {
-            [self.scrollView scrollRectToVisible:activeField.frame animated:YES];
+        if (!CGRectContainsPoint(aRect, frameOfActiveTextField.origin) ) {
+            [self.scrollView scrollRectToVisible:frameOfActiveTextField animated:YES];
         }
 }
-    
+
     - (void)keyboardWillBeHidden:(NSNotification*)aNotification
     {
         UIEdgeInsets contentInsets=UIEdgeInsetsZero;
@@ -662,27 +695,34 @@
     -(void)textFieldDidEndEditing:(UITextField *)textField{
         activeField=nil;
     }
-    -(void)textViewDidBeginEditing:(UITextView *)textView{
-        activeField=textView;
-    }
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
+    activeField=textView;
+    return YES;
+}
+
     -(void)textViewDidEndEditing:(UITextView *)textView{
-        activeField=textView;
+        activeField=nil;
     }
+
 -(void)deleteSittingCell:(UICollectionViewCell *)cell{
+    sittingCollectionViewHeight=0;
     NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
     [sittingCollectionArray removeObjectAtIndex:index.row];
     if (sittingCollectionArray.count>0) {
+        for (SittingModelClass *m in sittingCollectionArray) {
+            sittingCollectionViewHeight=MAX(sittingCollectionViewHeight, m.height);
+        }
         [_sittingCollectionView reloadData];
     }
     else    _sittingCollectionViewWidth.constant=0;
+    _settingViewHeight.constant=sittingCollectionViewHeight+130;
 }
 -(void)editSittingCell:(UICollectionViewCell *)cell{
   NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
-    [sittingCollectionArray removeObjectAtIndex:index.row];
-    if(sectionView==nil)
-        sectionView=[[SettingView alloc]initWithFrame:CGRectMake(150, 140,500,330)];
+    sectionView=[[SettingView alloc]initWithFrame:CGRectMake(150, 140,500,330)];
     sectionView.delegate=self;
-    sectionView.dummyData=@[[NSString stringWithFormat:@"%@%d",@"Sitting #",index.row+1]];
+    sectionView.dummyData=@[[NSString stringWithFormat:@"%@%ld",@"Sitting #",index.row+1],@"Head",@"7-Nov-2015"];
     [sectionView alphaViewInitialize];
 }
 @end

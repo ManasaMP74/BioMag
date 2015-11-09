@@ -2,6 +2,7 @@
 #import "AddSectionCell.h"
 #import "SectionBodyDetails.h"
 @protocol hidePreviousViewofSection<NSObject>
+@optional
 -(void)HideSection:(BOOL)status;
 -(void)hideAllView;
 @end

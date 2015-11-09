@@ -75,7 +75,7 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="saveAndDone:" destination="-1" eventType="touchUpInside" id="o2w-Jd-FVq"/>
+                        <action selector="saveAndDone:" destination="-1" eventType="touchUpInside" id="OLK-Gq-erG"/>
                     </connections>
                 </button>
                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Corresponding Points" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZU0-gE-Ys0">
@@ -131,7 +131,7 @@
                 <constraint firstItem="qyr-R7-UK6" firstAttribute="centerY" secondItem="JfW-k4-9F9" secondAttribute="centerY" constant="-0.5" id="yOH-p0-Ydm"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="633" y="197.5"/>
+            <point key="canvasLocation" x="463" y="102.5"/>
         </view>
     </objects>
     <resources>

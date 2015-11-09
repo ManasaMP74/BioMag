@@ -25,7 +25,6 @@
         
     }
 
-
 -(id)initWithFrame:(CGRect)frame
 {
     self=[super initWithFrame:frame];
@@ -43,9 +42,11 @@
 }
 
 -(void)alphaViewInitialize{
+    view.hidden=NO;
     self->cellSelected = [NSMutableArray array];
     self->theRetainedArray =[NSMutableArray array];
     theSelIndex=[[NSMutableArray alloc] init];
+    _saveLabel.text=@"Save";
     if (self.tableview) {
         [self.tableview reloadData];
     }
@@ -57,7 +58,6 @@
     }
     selectedIndexPathArray=[[NSMutableArray alloc]init];
     str=@"Head";
-    
     if ([str isEqual:@"Head"])
     
     {
@@ -65,6 +65,7 @@
     AppDelegate *appDel = [UIApplication sharedApplication].delegate;
     [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
     self.sectionHeaderLabel.text =_selectedSection.title;
+        [_tableview reloadData];
     [appDel.window addSubview:alphaView];
 }
     else{
@@ -75,7 +76,6 @@
         self.sectionHeaderLabel.text =_partModelObj.title;
         [appDel.window addSubview:alphaView];
     }
-    view.hidden=NO;
     _tableViewHeight.constant=_tableview.contentSize.height;
     CGRect frame=view.frame;
     frame.size.height=_tableview.contentSize.height+146;
@@ -119,7 +119,7 @@
                 [_tableview reloadData];
             }
             else{
-                [self.delegate HideofSectionDetail:NO];
+                [self CallHideView];
                 [alphaView removeFromSuperview];
             }
             return;
@@ -149,7 +149,7 @@
                 [_tableview reloadData];
             }
             else{
-                [self.delegate HideofSectionDetail:NO];
+                [self CallHideView];
                 [alphaView removeFromSuperview];
             }
             return;
@@ -164,7 +164,6 @@
         }
     }
 }
-
 -(void)removeChildTable
 {
     if (self.ChildTableView) {
@@ -227,9 +226,6 @@
         }
         
     }
-    
-   
-    
 }
 
 -(void)createChildTable
@@ -260,7 +256,6 @@
     
 return part.allScanPoints.count;
 }
-
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 
@@ -381,5 +376,8 @@ return part.allScanPoints.count;
         [alphaView removeFromSuperview];
         [self.delegate hideAllView];
     }
+}
+-(void)CallHideView{
+    [self.delegate HideofSectionDetail:NO];
 }
 @end

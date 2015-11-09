@@ -3,6 +3,7 @@
 #import "DefaultValues.h"
 #import "Constant.h"
 #import "ContainerViewController.h"
+#import "MBProgressHUD.h"
 @interface SearchPatientViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *searchTextField;
 
@@ -18,10 +19,14 @@
     Constant *constant;
     NSArray *patentnameArray;
     NSIndexPath *selectedIndexPath;
+    PostmanConstant *postmanConstant;
+    Postman *postman;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     defaultValue=[[DefaultValues alloc]init];
+    postman=[[Postman alloc]init];
+    postmanConstant=[[PostmanConstant alloc]init];
     constant=[[Constant alloc]init];
      [_searchTextField addTarget:self action:@selector(searchDoctorOnProfession) forControlEvents:UIControlEventEditingChanged];
     patentFilteredArray=[[NSMutableArray alloc]init];
@@ -136,6 +141,26 @@ patentnameArray =@[@"Michael Ethan",@"Tyler Aiden",@"Aiden Joshua",@"Joseph Noah
 }
 -(void)hideKeyBoard{
     [self.view endEditing:YES];
+
+}
+-(void)callApi{
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPatientList];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    }];
+
+}
+-(void)processResponseObject:(id)responseObject{
+    NSDictionary *dict1=responseObject;
+    for (NSDictionary *dict in dict1[@"User"]) {
+        if (dict[@"Status"]) {
+            
+        }
+    }
 
 }
 @end

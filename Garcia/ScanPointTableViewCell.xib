@@ -88,6 +88,7 @@
                 <outlet property="correspondingViewHeight" destination="qjR-Re-6rC" id="Vbd-YC-9JH"/>
                 <outlet property="sacnPointImageView" destination="Wb0-sO-J4Y" id="TaN-aW-WBI"/>
                 <outlet property="scanpointLabel" destination="mCF-Ya-aJv" id="5jD-ib-FuD"/>
+                <outlet property="tapOnButton" destination="BJi-Ip-vDM" id="xkG-JV-K6B"/>
             </connections>
             <point key="canvasLocation" x="242.5" y="-46.5"/>
         </tableViewCell>

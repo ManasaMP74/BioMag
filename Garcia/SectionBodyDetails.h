@@ -4,6 +4,7 @@
 #import "PartModel.h"
 #import "Child.h"
 @protocol hidePreviousViewofSectionDetail<NSObject>
+@optional
 -(void)HideofSectionDetail:(BOOL)status;
 -(void)hideAllView;
 @end

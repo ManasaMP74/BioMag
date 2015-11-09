@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		356395C9D84D848699E367C9 /* libPods-Garcia.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D07EC00CBB7D5717E349BCB /* libPods-Garcia.a */; };
 		8678F1AC1BE1DC54006046CF /* HexColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 8678F1AB1BE1DC54006046CF /* HexColors.m */; };
 		DA130F351BEA1E1900B5B9FF /* AddSection.m in Sources */ = {isa = PBXBuildFile; fileRef = DA130F211BEA1E1900B5B9FF /* AddSection.m */; };
 		DA130F361BEA1E1900B5B9FF /* AddSection.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA130F221BEA1E1900B5B9FF /* AddSection.xib */; };
@@ -39,6 +40,9 @@
 		DAE6FBB41BE483BA00952812 /* AttachmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE6FBB31BE483BA00952812 /* AttachmentViewController.m */; };
 		DAE6FBB71BE4AB8300952812 /* UploadCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE6FBB61BE4AB8300952812 /* UploadCollectionViewCell.m */; };
 		DAE6FBBB1BE4DC3500952812 /* TagCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE6FBBA1BE4DC3500952812 /* TagCollectionViewCell.m */; };
+		DAE7B7A61BEDE93B006C5C70 /* PostmanConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE7B7A51BEDE93B006C5C70 /* PostmanConstant.m */; };
+		DAE7B7AA1BEDFB8A006C5C70 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE7B7A91BEDFB8A006C5C70 /* MBProgressHUD.m */; };
+		DAE7B7AD1BEE080A006C5C70 /* searchPatientModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE7B7AC1BEE080A006C5C70 /* searchPatientModel.m */; };
 		DAE9555A1BD24A7500EDFD8F /* PatientSheetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE955591BD24A7500EDFD8F /* PatientSheetViewController.m */; };
 		DAE9555D1BD24D1800EDFD8F /* PatientSheetTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE9555C1BD24D1800EDFD8F /* PatientSheetTableViewCell.m */; };
 		DAEC02711BD513500095C6AE /* customFont.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEC02701BD513500095C6AE /* customFont.m */; };
@@ -66,6 +70,7 @@
 		DAEFD0FA1BE732020054106B /* ScanPoinTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFD0F91BE732020054106B /* ScanPoinTableViewCell.m */; };
 		DAEFD0FC1BE732280054106B /* ScanPointTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAEFD0FB1BE732280054106B /* ScanPointTableViewCell.xib */; };
 		DAF82CE01BD4BA74006AF1E1 /* ContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF82CDF1BD4BA74006AF1E1 /* ContainerViewController.m */; };
+		DAFD52A71BEC62C80006AF02 /* UploadModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFD52A61BEC62C80006AF02 /* UploadModelClass.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,8 +84,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5D07EC00CBB7D5717E349BCB /* libPods-Garcia.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Garcia.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8678F1AA1BE1DC54006046CF /* HexColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HexColors.h; sourceTree = "<group>"; };
 		8678F1AB1BE1DC54006046CF /* HexColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HexColors.m; sourceTree = "<group>"; };
+		97825D78E04025E894A6D74A /* Pods-Garcia.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Garcia.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Garcia/Pods-Garcia.debug.xcconfig"; sourceTree = "<group>"; };
+		A0DD63534E2AB68F5ED56725 /* Pods-Garcia.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Garcia.release.xcconfig"; path = "Pods/Target Support Files/Pods-Garcia/Pods-Garcia.release.xcconfig"; sourceTree = "<group>"; };
 		DA130F201BEA1E1900B5B9FF /* AddSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddSection.h; sourceTree = "<group>"; };
 		DA130F211BEA1E1900B5B9FF /* AddSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddSection.m; sourceTree = "<group>"; };
 		DA130F221BEA1E1900B5B9FF /* AddSection.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddSection.xib; sourceTree = "<group>"; };
@@ -129,6 +137,12 @@
 		DAE6FBB61BE4AB8300952812 /* UploadCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadCollectionViewCell.m; sourceTree = "<group>"; };
 		DAE6FBB91BE4DC3500952812 /* TagCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagCollectionViewCell.h; sourceTree = "<group>"; };
 		DAE6FBBA1BE4DC3500952812 /* TagCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagCollectionViewCell.m; sourceTree = "<group>"; };
+		DAE7B7A41BEDE93B006C5C70 /* PostmanConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostmanConstant.h; sourceTree = "<group>"; };
+		DAE7B7A51BEDE93B006C5C70 /* PostmanConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostmanConstant.m; sourceTree = "<group>"; };
+		DAE7B7A81BEDFB8A006C5C70 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		DAE7B7A91BEDFB8A006C5C70 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		DAE7B7AB1BEE080A006C5C70 /* searchPatientModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = searchPatientModel.h; sourceTree = "<group>"; };
+		DAE7B7AC1BEE080A006C5C70 /* searchPatientModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = searchPatientModel.m; sourceTree = "<group>"; };
 		DAE955581BD24A7500EDFD8F /* PatientSheetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatientSheetViewController.h; sourceTree = "<group>"; };
 		DAE955591BD24A7500EDFD8F /* PatientSheetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PatientSheetViewController.m; sourceTree = "<group>"; };
 		DAE9555B1BD24D1800EDFD8F /* PatientSheetTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatientSheetTableViewCell.h; sourceTree = "<group>"; };
@@ -182,6 +196,8 @@
 		DAEFD0FB1BE732280054106B /* ScanPointTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScanPointTableViewCell.xib; sourceTree = "<group>"; };
 		DAF82CDE1BD4BA74006AF1E1 /* ContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContainerViewController.h; sourceTree = "<group>"; };
 		DAF82CDF1BD4BA74006AF1E1 /* ContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContainerViewController.m; sourceTree = "<group>"; };
+		DAFD52A51BEC62C80006AF02 /* UploadModelClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadModelClass.h; sourceTree = "<group>"; };
+		DAFD52A61BEC62C80006AF02 /* UploadModelClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadModelClass.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +205,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				356395C9D84D848699E367C9 /* libPods-Garcia.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,6 +219,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		31FB36A024EC5DFE48002A0A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5D07EC00CBB7D5717E349BCB /* libPods-Garcia.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		61464580F7E834B56E3FFE2D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				97825D78E04025E894A6D74A /* Pods-Garcia.debug.xcconfig */,
+				A0DD63534E2AB68F5ED56725 /* Pods-Garcia.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		DA130F1F1BEA1DBD00B5B9FF /* SettingView */ = {
 			isa = PBXGroup;
 			children = (
@@ -308,6 +342,8 @@
 				DAE955591BD24A7500EDFD8F /* PatientSheetViewController.m */,
 				DA7502BC1BE8955C00C9C3F6 /* SittingModelClass.h */,
 				DA7502BD1BE8955C00C9C3F6 /* SittingModelClass.m */,
+				DAFD52A51BEC62C80006AF02 /* UploadModelClass.h */,
+				DAFD52A61BEC62C80006AF02 /* UploadModelClass.m */,
 				DAE6FBB81BE4DBDB00952812 /* CustomCell */,
 				DA6C7B971BE0D12C00D1130A /* HeaderTableView */,
 				DA6C7B9A1BE0DFB600D1130A /* CorrespondPoint */,
@@ -359,6 +395,8 @@
 				DAEFA1901BD0B11500900379 /* Garcia */,
 				DAEFA1AA1BD0B11500900379 /* GarciaTests */,
 				DAEFA18F1BD0B11500900379 /* Products */,
+				61464580F7E834B56E3FFE2D /* Pods */,
+				31FB36A024EC5DFE48002A0A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -402,6 +440,8 @@
 			children = (
 				DAEFA1921BD0B11500900379 /* Info.plist */,
 				DAEFA1931BD0B11500900379 /* main.m */,
+				DAE7B7A81BEDFB8A006C5C70 /* MBProgressHUD.h */,
+				DAE7B7A91BEDFB8A006C5C70 /* MBProgressHUD.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -450,6 +490,8 @@
 			children = (
 				DAEFA1C91BD0B6D600900379 /* Postman.h */,
 				DAEFA1CA1BD0B6D600900379 /* Postman.m */,
+				DAE7B7A41BEDE93B006C5C70 /* PostmanConstant.h */,
+				DAE7B7A51BEDE93B006C5C70 /* PostmanConstant.m */,
 			);
 			name = Postman;
 			sourceTree = "<group>";
@@ -468,6 +510,8 @@
 			children = (
 				DAEFA1BA1BD0B4BA00900379 /* SearchPatientViewController.h */,
 				DAEFA1BB1BD0B4BA00900379 /* SearchPatientViewController.m */,
+				DAE7B7AB1BEE080A006C5C70 /* searchPatientModel.h */,
+				DAE7B7AC1BEE080A006C5C70 /* searchPatientModel.m */,
 				DAEFA1D71BD0D8ED00900379 /* SearchPatientTableViewCell.h */,
 				DAEFA1D81BD0D8ED00900379 /* SearchPatientTableViewCell.m */,
 			);
@@ -526,9 +570,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DAEFA1B11BD0B11500900379 /* Build configuration list for PBXNativeTarget "Garcia" */;
 			buildPhases = (
+				740A2F522C86D19ED866D8E5 /* Check Pods Manifest.lock */,
 				DAEFA18A1BD0B11500900379 /* Sources */,
 				DAEFA18B1BD0B11500900379 /* Frameworks */,
 				DAEFA18C1BD0B11500900379 /* Resources */,
+				CE548A001BE486A822098954 /* Embed Pods Frameworks */,
+				D1E1C1CF03D60BAF26968D42 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -629,6 +676,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		740A2F522C86D19ED866D8E5 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		CE548A001BE486A822098954 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Garcia/Pods-Garcia-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D1E1C1CF03D60BAF26968D42 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Garcia/Pods-Garcia-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		DAEFA18A1BD0B11500900379 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -637,6 +732,7 @@
 				DA4461E71BD7720300F80F5A /* OpenSans-Semibold.ttf in Sources */,
 				DAEF6AEE1BD5FA37006868C8 /* OpenSans-Regular.ttf in Sources */,
 				DA6D1A631BDA356F00D91ED3 /* PlaceholderTextView.m in Sources */,
+				DAFD52A71BEC62C80006AF02 /* UploadModelClass.m in Sources */,
 				DAEC027E1BD51D0C0095C6AE /* OpenSans-Bold.ttf in Sources */,
 				DAE6378D1BE32E46000C6FAB /* CorrespondingPointCell.m in Sources */,
 				DAE6FBB41BE483BA00952812 /* AttachmentViewController.m in Sources */,
@@ -653,8 +749,10 @@
 				DAEFA1C51BD0B50800900379 /* EditPatientViewController.m in Sources */,
 				DAEFD0FA1BE732020054106B /* ScanPoinTableViewCell.m in Sources */,
 				8678F1AC1BE1DC54006046CF /* HexColors.m in Sources */,
+				DAE7B7A61BEDE93B006C5C70 /* PostmanConstant.m in Sources */,
 				DA130F3D1BEA1E1900B5B9FF /* SectionBodyDetails.m in Sources */,
 				DAEFA1CB1BD0B6D600900379 /* Postman.m in Sources */,
+				DAE7B7AD1BEE080A006C5C70 /* searchPatientModel.m in Sources */,
 				DAEFA1941BD0B11500900379 /* main.m in Sources */,
 				DAE6FBB71BE4AB8300952812 /* UploadCollectionViewCell.m in Sources */,
 				DA130F351BEA1E1900B5B9FF /* AddSection.m in Sources */,
@@ -662,6 +760,7 @@
 				DAEFA1C21BD0B4FA00900379 /* AddPatientViewController.m in Sources */,
 				DAEFA1D91BD0D8ED00900379 /* SearchPatientTableViewCell.m in Sources */,
 				DA6C7B941BE0D0B600D1130A /* HeaderTableView.m in Sources */,
+				DAE7B7AA1BEDFB8A006C5C70 /* MBProgressHUD.m in Sources */,
 				DA7502BE1BE8955C00C9C3F6 /* SittingModelClass.m in Sources */,
 				DAE9555D1BD24D1800EDFD8F /* PatientSheetTableViewCell.m in Sources */,
 				DA130F3F1BEA1E1900B5B9FF /* SectionModel.m in Sources */,
@@ -799,23 +898,29 @@
 		};
 		DAEFA1B21BD0B11500900379 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 97825D78E04025E894A6D74A /* Pods-Garcia.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = Garcia/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		DAEFA1B31BD0B11500900379 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A0DD63534E2AB68F5ED56725 /* Pods-Garcia.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = Garcia/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

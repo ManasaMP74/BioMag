@@ -16,7 +16,6 @@
     [self addSubview:view];
     view.frame=self.bounds;
     _datePicker.datePickerMode=1;
-    _datePicker.maximumDate=[NSDate date];
     return self;
 }
 -(void)initializeView

@@ -2,7 +2,6 @@
 #import "AppDelegate.h"
 @implementation CorrespondingPointView
 {
-    NSMutableArray *correspondingPointArray;
     UIView *view;
     UIControl *alphaView;
 }
@@ -27,8 +26,6 @@
                                                              metrics:nil
                                                                views:views];
         [self addConstraints:constrains];
-        correspondingPointArray=[[NSMutableArray alloc]init];
-        correspondingPointArray=[@[@"Corresponding Point1",@"Corresponding Point2",@"Corresponding Point3"]mutableCopy];
 //        [_correspondingTableView registerNib:[UINib nibWithNibName:@"CorrespondingPointCell" bundle:nil] forCellReuseIdentifier:@"cell"];
         [_correspondingTableView reloadData];
     }
@@ -37,14 +34,10 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section==0) {
-        return 1;
-    }
-    else
-     return correspondingPointArray.count;
+     return _correspondingPointArray.count;
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 2;
+    return 1;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -54,19 +47,17 @@
         cell = _correspondingCell;
         _correspondingCell = nil;
     }
-    if (indexPath.section==0) {
-        cell.correspondingLabel.text=@"Corresponding Points";
-        cell.correspondingLabel.textColor=[UIColor colorWithRed:0.41176 green:0.42745 blue:0.683 alpha:1];
-        cell.correspondingLabel.font=[UIFont fontWithName:@"OpenSans-Semibold" size:15];
-    }
-    else {
-        cell.correspondingLabel.text=[NSString stringWithFormat:@"%@ %ld",@"Corresponding Point",(long)indexPath.row];
-    }
+        cell.correspondingLabel.text=_correspondingPointArray[indexPath.row];
        return cell;
 }
-
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+return 20;
+}
 -(float)corespondingCellHeight
 {
     return _correspondingTableView.contentSize.height;
+}
+-(void)reload{
+    [self.correspondingTableView reloadData];
 }
 @end

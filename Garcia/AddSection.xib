@@ -12,7 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddSection">
             <connections>
                 <outlet property="sectionHeaderLabel" destination="k6K-hd-Igq" id="f18-ZY-7QG"/>
-                <outlet property="tableViewHeight" destination="ab5-gc-mS7" id="aaV-eV-JzF"/>
+                <outlet property="tableViewHeight" destination="ab5-gc-mS7" id="QAp-iL-grN"/>
                 <outlet property="tableview" destination="ROY-za-Cxb" id="BvJ-ot-qwZ"/>
             </connections>
         </placeholder>
