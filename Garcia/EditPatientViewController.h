@@ -1,5 +1,5 @@
 #import <UIKit/UIKit.h>
-
-@interface EditPatientViewController : UIViewController<UITextViewDelegate>
-@property(strong,nonatomic)NSArray *detailOfPatient;
+#import "searchPatientModel.h"
+@interface EditPatientViewController : UIViewController<UITextViewDelegate,UIAlertViewDelegate>
+@property(strong,nonatomic)searchPatientModel *model;
 @end

@@ -4,6 +4,7 @@
 #import "Constant.h"
 #import "ContainerViewController.h"
 #import "MBProgressHUD.h"
+#import "searchPatientModel.h"
 @interface SearchPatientViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *searchTextField;
 
@@ -17,10 +18,11 @@
     DefaultValues *defaultValue;
     NSMutableArray *patentFilteredArray;
     Constant *constant;
-    NSArray *patentnameArray;
+    NSMutableArray *patentnameArray;
     NSIndexPath *selectedIndexPath;
     PostmanConstant *postmanConstant;
     Postman *postman;
+    NSDateFormatter *dateFormatter;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -37,16 +39,16 @@
     _searchTextField.layer.borderWidth=1;
     selectedIndexPath=nil;
      [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-02.jpg"]]];
-     NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:1 inSection:0];
-      [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
-     [constant setFontFortextField:_searchTextField];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
-    [self dummyData];
+    [constant setFontFortextField:_searchTextField];
+    dateFormatter=[[NSDateFormatter alloc]init];
+    patentnameArray=[[NSMutableArray alloc]init];
+    [self callApi];
 }
 //TableView Number of section
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -67,7 +69,8 @@
     SearchPatientTableViewCell *cell;
      cell =[tableView dequeueReusableCellWithIdentifier:@"cell"];
      if ([_searchTextField.text isEqualToString:@""]) {
-    cell.patientNameLabel.text=patentnameArray[indexPath.row];
+    searchPatientModel *model=patentnameArray[indexPath.row];
+    cell.patientNameLabel.text=model.name;
      }
     else cell.patientNameLabel.text=patentFilteredArray[indexPath.row];
     [constant setFontForLabel:cell.patientNameLabel];
@@ -86,8 +89,12 @@
 }
 //Search
 -(void)searchDoctorOnProfession{
+    NSMutableArray *ar=[[NSMutableArray alloc]init];
     NSPredicate *predicate=[NSPredicate predicateWithFormat:@"self CONTAINS[cd]%@",_searchTextField.text];
-    NSArray *array= [patentnameArray filteredArrayUsingPredicate:predicate];
+    for (searchPatientModel *model in patentnameArray) {
+        [ar addObject:model.name];
+    }
+    NSArray *array= [ar filteredArrayUsingPredicate:predicate];
     patentFilteredArray=[NSMutableArray arrayWithArray:array];
     [_patientListTableView reloadData];
     
@@ -100,7 +107,6 @@
     if (selectedIndexPath) {
         cell=(SearchPatientTableViewCell*)[tableView cellForRowAtIndexPath:selectedIndexPath];
         cell.patientNameLabel.textColor=[UIColor whiteColor];
-        NSLog(@"patient updated name..  %@",cell.patientNameLabel.text);
      cell.accessoryView = [[UIImageView alloc] initWithImage:nil];
         selectedIndexPath=nil;
     }
@@ -110,15 +116,9 @@ if (selectedIndexPath!=indexPath){
     cell.patientNameLabel.textColor=[UIColor colorWithRed:0.7098 green:0.99 blue:0.98 alpha:1];
      cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow-3"]];
    containerVc.viewControllerDiffer=@"";
-    [containerVc passDataFromsearchPatientTableViewToPatient:cell.patientNameLabel.text];
-    
+    [containerVc passDataFromsearchPatientTableViewToPatient:patentnameArray[indexPath.row]];
     }
     [self.view endEditing:YES];
-}
-//Dummy data
--(void)dummyData{
-patentnameArray =@[@"Michael Ethan",@"Tyler Aiden",@"Aiden Joshua",@"Joseph Noah",@"Anthony Daniel",@"Angel Alexander",@"Jacob Michael",@"Ethan Jose",@"Jackson Jose"];
-    [_patientListTableView reloadData];
 }
 //TextField Delegat
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
@@ -147,7 +147,7 @@ patentnameArray =@[@"Michael Ethan",@"Tyler Aiden",@"Aiden Joshua",@"Joseph Noah
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPatientList];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
+        [self processResponseObject:responseObject];
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -156,11 +156,59 @@ patentnameArray =@[@"Michael Ethan",@"Tyler Aiden",@"Aiden Joshua",@"Joseph Noah
 }
 -(void)processResponseObject:(id)responseObject{
     NSDictionary *dict1=responseObject;
+    if (dict1[@"Success"]) {
     for (NSDictionary *dict in dict1[@"User"]) {
         if (dict[@"Status"]) {
-            
+            searchPatientModel *model=[[searchPatientModel alloc]init];
+            model.name=dict[@"FirstName"];
+            model.Id=dict[@"Id"];
+            NSArray *dob=[dict[@"DOB"] componentsSeparatedByString:@"T"];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+            NSDate *dobDate=[dateFormatter dateFromString:dob[0]];
+            [dateFormatter setDateFormat:@"dd-MMM-yyyy"];
+            model.dob=[dateFormatter stringFromDate:dobDate];
+            model.code=dict[@"Code"];
+            model.emailId=dict[@"Email"];
+            NSString *addressJson=dict[@"Address"];
+            if (![addressJson isKindOfClass:[NSNull class]]) {
+                NSData *jsonData = [addressJson dataUsingEncoding:NSUTF8StringEncoding];
+                NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:nil];
+                NSDictionary *d=jsonDict[@"PermanentAddress"];
+                model.address=d[@"AddressLine1"];
+            }
+            NSString *Json=dict[@"JSON"];
+             if (![Json isKindOfClass:[NSNull class]]) {
+            NSData *jsonData1 = [Json dataUsingEncoding:NSUTF8StringEncoding];
+            NSDictionary *jsonDict1 = [NSJSONSerialization JSONObjectWithData:jsonData1 options:kNilOptions error:nil];
+                 model.genderCode=jsonDict1[@"Gender"];
+                 model.martialCode=jsonDict1[@"MaritalStatus"];
+            [model getJsonDataForMartial:jsonDict1[@"MaritalStatus"] onComplete:^(NSString *martialStatus) {
+                model.maritialStatus=martialStatus;
+            } onError:^(NSError *error) {
+                
+            }];
+            [model getJsonDataForGender:jsonDict1[@"Gender"] onComplete:^(NSString *genderName) {
+                model.gender=genderName;
+                [self reloadData];
+            } onError:^(NSError *error) {
+            }];
+            model.mobileNo=jsonDict1[@"ContactNo"];
+            NSDate *date = [dateFormatter dateFromString:model.dob];
+            NSDateComponents *agecomponent=[[NSCalendar currentCalendar]components:NSCalendarUnitYear fromDate:date toDate:[NSDate date] options:0];
+            model.age=[NSString stringWithFormat:@"%ld",(long)[agecomponent year]];
+            }
+            [patentnameArray addObject:model];
         }
     }
-
+}
+}
+-(void)reloadData{
+    [_patientListTableView reloadData];
+    NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
+    [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
+}
+-(void)againCallApiAfterAddPatient{
+    patentnameArray=[[NSMutableArray alloc]init];
+    [self callApi];
 }
 @end

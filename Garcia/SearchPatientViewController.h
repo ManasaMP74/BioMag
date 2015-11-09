@@ -7,4 +7,5 @@
 @interface SearchPatientViewController : UIViewController
 @property(weak,nonatomic)id<sendPatientDetailtoContainerVC>delegate;
 -(void)hideKeyBoard;
+-(void)againCallApiAfterAddPatient;
 @end
