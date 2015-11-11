@@ -54,7 +54,14 @@
 }
 //set the DefaultValues For Label
 -(void)setDefaultValues{
-    _patientNameTF.text=_patientName;
+    _patientNameTF.text=_model.name;
+    _ageValueLabel.text=_model.age;
+    _dobValueLabel.text=_model.dob;
+    _mobileValueLabel.text=_model.mobileNo;
+    _mariedValueLabel.text=_model.maritialStatus;
+    _genderValueLabel.text=_model.gender;
+    _emailValueLabel.text=_model.emailId;
+    _addressValueLabel.text=_model.address;
 }
 //setfont for label
 -(void)setFont{
@@ -100,7 +107,7 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"edit"]) {
         EditPatientViewController *edit=segue.destinationViewController;
-        edit.detailOfPatient=@[_patientNameTF.text,_genderValueLabel.text,_mariedValueLabel.text,_dobValueLabel.text,_ageValueLabel.text,_mobileValueLabel.text,_emailValueLabel.text, _addressValueLabel.text];
+        edit.model=_model;
     }
 }
 - (IBAction)addTreatment:(id)sender {

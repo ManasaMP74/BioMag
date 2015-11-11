@@ -3,7 +3,7 @@
 #import "AddPatientViewController.h"
 #import "PatientSheetViewController.h"
 #import "SearchPatientViewController.h"
-@interface ContainerViewController ()
+@interface ContainerViewController ()<addedPatient>
 
 @end
 
@@ -35,12 +35,12 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 //pass data from one viewController to another
--(void)passDataFromsearchPatientTableViewToPatient:(NSString *)str{
+-(void)passDataFromsearchPatientTableViewToPatient:(searchPatientModel*)model{
     if ([_viewControllerDiffer isEqualToString:@""]) {
         UINavigationController * nav=[self.childViewControllers lastObject];
         PatientViewController *patientVc=nav.viewControllers[0];
         [nav popToViewController:patientVc animated:YES];
-        patientVc.patientName = str;
+        patientVc.model =model;
         [patientVc setDefaultValues];
     }
 }
@@ -48,6 +48,7 @@
 -(void)ChangeTheContainerViewViewController{
     UINavigationController * nav=[self.childViewControllers lastObject];
     AddPatientViewController *addPatientVc=[self.storyboard instantiateViewControllerWithIdentifier:@"AddPatientViewController"];
+    addPatientVc.delegate=self;
     [nav initWithRootViewController:addPatientVc];
 }
 //push treatmentViewController
@@ -60,5 +61,9 @@
 -(void)callEndEditing{
     SearchPatientViewController *searchVC=self.childViewControllers[0];
     [searchVC hideKeyBoard];
+}
+-(void)successfullyAdded{
+ SearchPatientViewController *searchVC=[self.childViewControllers firstObject];
+    [searchVC againCallApiAfterAddPatient];
 }
 @end

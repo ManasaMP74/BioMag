@@ -54,7 +54,7 @@
 }
 //set Font for normal label
 -(void)setFontForLabel:(UILabel*)label{
-    label.font=[self customFont:14 ofName:OpenSansSemibold];
+    label.font=[self customFont:13 ofName:OpenSansSemibold];
     label.textColor=[UIColor colorWithRed:0.196 green:0.196 blue:0.196 alpha:1];
 }
 //set Color For Label for normal label

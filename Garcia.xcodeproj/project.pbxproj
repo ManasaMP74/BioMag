@@ -33,6 +33,7 @@
 		DA6D1A631BDA356F00D91ED3 /* PlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA6D1A621BDA356F00D91ED3 /* PlaceholderTextView.m */; };
 		DA7502BB1BE867A100C9C3F6 /* HeaderTableViewModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7502BA1BE867A100C9C3F6 /* HeaderTableViewModelClass.m */; };
 		DA7502BE1BE8955C00C9C3F6 /* SittingModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7502BD1BE8955C00C9C3F6 /* SittingModelClass.m */; };
+		DAE48C711BF07B8F008AD2D3 /* editModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE48C701BF07B8F008AD2D3 /* editModel.m */; };
 		DAE637851BE32D2F000C6FAB /* CorrespondingPointView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAE637841BE32D2F000C6FAB /* CorrespondingPointView.xib */; };
 		DAE637881BE32D55000C6FAB /* CorrespondingPointView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE637871BE32D55000C6FAB /* CorrespondingPointView.m */; };
 		DAE6378A1BE32D8F000C6FAB /* CorrespondingPointCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAE637891BE32D8F000C6FAB /* CorrespondingPointCell.xib */; };
@@ -125,6 +126,8 @@
 		DA7502BA1BE867A100C9C3F6 /* HeaderTableViewModelClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderTableViewModelClass.m; sourceTree = "<group>"; };
 		DA7502BC1BE8955C00C9C3F6 /* SittingModelClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SittingModelClass.h; sourceTree = "<group>"; };
 		DA7502BD1BE8955C00C9C3F6 /* SittingModelClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SittingModelClass.m; sourceTree = "<group>"; };
+		DAE48C6F1BF07B8F008AD2D3 /* editModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = editModel.h; sourceTree = "<group>"; };
+		DAE48C701BF07B8F008AD2D3 /* editModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = editModel.m; sourceTree = "<group>"; };
 		DAE637841BE32D2F000C6FAB /* CorrespondingPointView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CorrespondingPointView.xib; sourceTree = "<group>"; };
 		DAE637861BE32D55000C6FAB /* CorrespondingPointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CorrespondingPointView.h; sourceTree = "<group>"; };
 		DAE637871BE32D55000C6FAB /* CorrespondingPointView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CorrespondingPointView.m; sourceTree = "<group>"; };
@@ -532,6 +535,8 @@
 			children = (
 				DAEFA1C31BD0B50800900379 /* EditPatientViewController.h */,
 				DAEFA1C41BD0B50800900379 /* EditPatientViewController.m */,
+				DAE48C6F1BF07B8F008AD2D3 /* editModel.h */,
+				DAE48C701BF07B8F008AD2D3 /* editModel.m */,
 			);
 			name = EditPatient;
 			sourceTree = "<group>";
@@ -615,6 +620,7 @@
 				TargetAttributes = {
 					DAEFA18D1BD0B11500900379 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = QGMN7468R5;
 					};
 					DAEFA1A61BD0B11500900379 = {
 						CreatedOnToolsVersion = 6.4;
@@ -770,6 +776,7 @@
 				DAEFA1BC1BD0B4BA00900379 /* SearchPatientViewController.m in Sources */,
 				DA7502BB1BE867A100C9C3F6 /* HeaderTableViewModelClass.m in Sources */,
 				DAEFA1C81BD0B6C900900379 /* Constant.m in Sources */,
+				DAE48C711BF07B8F008AD2D3 /* editModel.m in Sources */,
 				DAEFA1CE1BD0B6E300900379 /* DefaultValues.m in Sources */,
 				DAF82CE01BD4BA74006AF1E1 /* ContainerViewController.m in Sources */,
 				DA130F381BEA1E1900B5B9FF /* Child.m in Sources */,
@@ -902,11 +909,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Garcia/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -916,11 +924,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Garcia/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};
