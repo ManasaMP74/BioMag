@@ -1,11 +1,12 @@
 #import <UIKit/UIKit.h>
 #import "PostmanConstant.h"
 #import "Postman.h"
-@protocol sendPatientDetailtoContainerVC<NSObject>
--(void)sendData:(NSString*)str;
+@protocol showMBProgressInContainerVC<NSObject>
+-(void)showMBprogressTillLoadThedata;
+-(void)hideMBprogressTillLoadThedata;
 @end
 @interface SearchPatientViewController : UIViewController
-@property(weak,nonatomic)id<sendPatientDetailtoContainerVC>delegate;
+@property(weak,nonatomic)id<showMBProgressInContainerVC>delegate;
 -(void)hideKeyBoard;
 -(void)againCallApiAfterAddPatient;
 @end

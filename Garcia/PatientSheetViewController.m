@@ -285,11 +285,11 @@
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (tableView==_diagnosisTableView) {
-    NSDictionary *dict= diagnosisTableListArray[indexPath.section];
-        CGFloat labelHeight=[dict[@"message"] boundingRectWithSize:(CGSize){136,CGFLOAT_MAX }
-        options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:12]} context:nil].size.height;
-    }
+//    if (tableView==_diagnosisTableView) {
+//    NSDictionary *dict= diagnosisTableListArray[indexPath.section];
+//        CGFloat labelHeight=[dict[@"message"] boundingRectWithSize:(CGSize){136,CGFLOAT_MAX }
+//        options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:12]} context:nil].size.height;
+//    }
     return 25;
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{

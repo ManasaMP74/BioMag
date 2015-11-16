@@ -3,7 +3,8 @@
 #import "AddPatientViewController.h"
 #import "PatientSheetViewController.h"
 #import "SearchPatientViewController.h"
-@interface ContainerViewController ()<addedPatient>
+#import "MBProgressHUD.h"
+@interface ContainerViewController ()<addedPatient,showMBProgressInContainerVC>
 
 @end
 
@@ -28,10 +29,11 @@
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-   
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    SearchPatientViewController *searchVC=[self.childViewControllers firstObject];
+    searchVC.delegate=self;
 }
 //pop back
 -(void)popToViewController{
@@ -70,5 +72,13 @@
 -(void)successfullyAdded{
  SearchPatientViewController *searchVC=[self.childViewControllers firstObject];
     [searchVC againCallApiAfterAddPatient];
+}
+//Show Mbprogress
+-(void)showMBprogressTillLoadThedata{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+}
+//hide mbprogress
+-(void)hideMBprogressTillLoadThedata{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 @end

@@ -69,7 +69,7 @@
      _dateOfBirthTF.text=_model.dob;
     _mobileNoTF.text=_model.mobileNo;
      _emailTF.text=_model.emailId;
-     _addressTextView.text=_model.addressLine1;
+     _addressTextView.text=_model.address;
     martialCode=_model.martialCode;
     genderCode=_model.genderCode;
 }
@@ -371,11 +371,11 @@
      dict[@"Postal"]=_model.pinCode;
     NSMutableDictionary *dict1 = [[NSMutableDictionary alloc] init];
     dict1[@"AddressLine1"]=_addressTextView.text;
-    dict1[@"AddressLine2"]=_model.addressline2;
-    dict1[@"Country"]=_model.country;
-    dict1[@"State"]=_model.state;
-    dict1[@"City"]=_model.city;
-    dict1[@"Postal"]=_model.pinCode;
+    dict1[@"AddressLine2"]=@"";
+    dict1[@"Country"]=@"";
+    dict1[@"State"]=@"";
+    dict1[@"City"]=@"";
+    dict1[@"Postal"]=@"";
   
     
     NSMutableDictionary *address=[[NSMutableDictionary alloc]init];
@@ -435,11 +435,11 @@ NSDateFormatter *format=[[NSDateFormatter alloc]init];
 -(void)processResponseObjectForEdit:(id)responseObject{
     NSDictionary *dict=responseObject;
     if ([dict[@"Success"] intValue]==1) {
-     successEditalert =[[UIAlertView alloc]initWithTitle:@"" message:dict[@"Message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+     successEditalert =[[UIAlertView alloc]initWithTitle:@"" message:dict[@"Message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
         [successEditalert show];
     }
     else {
-        failureEditAlert =[[UIAlertView alloc]initWithTitle:@"" message:dict[@"Message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        failureEditAlert =[[UIAlertView alloc]initWithTitle:@"" message:dict[@"Message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
         [failureEditAlert show];
     }
     

@@ -146,12 +146,12 @@ if (selectedIndexPath!=indexPath){
 }
 -(void)callApi{
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPatientList];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self.delegate showMBprogressTillLoadThedata];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObject:responseObject];
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [self.delegate hideMBprogressTillLoadThedata];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+       [self.delegate hideMBprogressTillLoadThedata];
     }];
 
 }
