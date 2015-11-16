@@ -311,7 +311,7 @@
             _sittingCollectionViewWidth.constant=_settingView.frame.size.width-100;
         }
         else _sittingCollectionViewWidth.constant=_sittingCollectionView.contentSize.width;
-        cell.sittingLabel.text=[NSString stringWithFormat:@"%@%d",@"Sitting #",indexPath.row+1];
+        cell.sittingLabel.text=[NSString stringWithFormat:@"%@%ld",@"Sitting #",indexPath.row+1];
          CollectionViewTableViewCell *c=(CollectionViewTableViewCell*)[cell.headerView.headerTableview cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:3]];
         cell.layer.cornerRadius=8;
         
@@ -336,7 +336,7 @@
                 _uploadCollectionViewWidth.constant=_uploadView.frame.size.width-14;
             }
             else _uploadCollectionViewWidth.constant=_uploadCollectionView.contentSize.width;
-            _uploadCollectionViewHeight.constant=uploadCellHeight+150;
+            _uploadCollectionViewHeight.constant=uploadCellHeight+120;
             UploadModelClass *model=uploadedImageArray[indexPath.row];
             UIImage *img=model.imageName;
             cell.uploadImageView.image=img;
@@ -394,7 +394,7 @@
         }
         else if (collectionView==_uploadCollectionView)
         {
-            return CGSizeMake(140,uploadCellHeight+150);
+            return CGSizeMake(140,uploadCellHeight+120);
         }
         else{
             NSString *text = tagListArray[indexPath.row];
@@ -606,7 +606,7 @@
     [_uploadCollectionView reloadData];
     [self.view layoutIfNeeded];
     _uploadCollectionView.hidden=NO;
-    _uploadViewHeigh.constant=uploadCellHeight+230;
+    _uploadViewHeigh.constant=uploadCellHeight+200;
 }
 -(void)deleteCell:(id)cell{
     uploadCellHeight=0.0;
