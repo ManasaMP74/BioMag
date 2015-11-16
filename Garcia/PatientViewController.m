@@ -2,7 +2,7 @@
 #import "Constant.h"
 #import "ContainerViewController.h"
 #import "EditPatientViewController.h"
-@interface PatientViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface PatientViewController ()<UITableViewDataSource,UITableViewDelegate,editPatient>
 
 @property (strong, nonatomic) IBOutlet UIButton *edit;
 @property (strong, nonatomic) IBOutlet UILabel *genderLabel;
@@ -97,6 +97,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPat{
     UITableViewCell *cell=(UITableViewCell*)[tableView cellForRowAtIndexPath:indexPat];
      UILabel *label=(UILabel*)[cell viewWithTag:10];
+    containerVC.model=_model;
     [containerVC pushTreatmentViewController:label.text];
 }
 //DummyData
@@ -108,13 +109,18 @@
     if ([segue.identifier isEqualToString:@"edit"]) {
         EditPatientViewController *edit=segue.destinationViewController;
         edit.model=_model;
+        edit.delegate=self;
     }
 }
 - (IBAction)addTreatment:(id)sender {
+    containerVC.model=_model;
 [containerVC pushTreatmentViewController:@""];
 }
 - (IBAction)gesture:(id)sender {
     [self.view endEditing:YES];
     [containerVC callEndEditing];
+}
+-(void)successfullyEdited{
+    [containerVC successfullyAdded];
 }
 @end

@@ -68,7 +68,7 @@
 {
     Constant *constant;
     NSMutableArray *tagListArray,*diagnosisTableListArray,*medicalTableListArray;
-    float sittingCollectionViewHeight,uploadCellHeight;
+    float sittingCollectionViewHeight,uploadCellHeight,diagnosisCellHeight,medicalHistoryCellHeight;
     AttachmentViewController *attachView;
     UIView *activeField;
     NSMutableArray *uploadedImageArray,*sittingCollectionArray;
@@ -76,7 +76,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    sittingCollectionViewHeight=0.0,uploadCellHeight=0.0;
+    sittingCollectionViewHeight=0.0,uploadCellHeight=0.0,diagnosisCellHeight=25.0,medicalHistoryCellHeight=25.0;
     constant=[[Constant alloc]init];
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-02.jpg"]]];
     self.title=@"Patient Sheet";
@@ -153,10 +153,10 @@
     if ([_increaseUploadViewButton.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
         _uploadView.hidden=NO;
         if (uploadedImageArray.count>0) {
-            _uploadViewHeigh.constant=uploadCellHeight+230;
+            _uploadViewHeigh.constant=uploadCellHeight+185;
             _uploadCollectionView.hidden=NO;
         }
-        else  _uploadViewHeigh.constant=69;
+        else  _uploadViewHeigh.constant=55;
         [self ChangeIncreaseDecreaseButtonImage:_increaseUploadViewButton];
     }
     else{
@@ -285,6 +285,11 @@
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (tableView==_diagnosisTableView) {
+    NSDictionary *dict= diagnosisTableListArray[indexPath.section];
+        CGFloat labelHeight=[dict[@"message"] boundingRectWithSize:(CGSize){136,CGFLOAT_MAX }
+        options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:12]} context:nil].size.height;
+    }
     return 25;
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -311,7 +316,7 @@
             _sittingCollectionViewWidth.constant=_settingView.frame.size.width-100;
         }
         else _sittingCollectionViewWidth.constant=_sittingCollectionView.contentSize.width;
-        cell.sittingLabel.text=[NSString stringWithFormat:@"%@%ld",@"Sitting #",indexPath.row+1];
+        cell.sittingLabel.text=[NSString stringWithFormat:@"%@%d",@"Sitting #",indexPath.row+1];
          CollectionViewTableViewCell *c=(CollectionViewTableViewCell*)[cell.headerView.headerTableview cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:3]];
         cell.layer.cornerRadius=8;
         
@@ -510,6 +515,15 @@
         _uploadView.hidden=YES;
         _uploadViewHeigh.constant=0;
          [_increaseUploadViewButton setImage:[UIImage imageNamed:@"Button-Collapse"] forState:normal];
+        
+        //Patient Detail
+        _nameValueLabel.text=_model.name;
+        _ageValueLabel.text=_model.age;
+        _dobValueLabel.text=_model.dob;
+        _mariedValueLabel.text=_model.maritialStatus;
+        _genderValueLabel.text=_model.gender;
+        _emailValueLabel.text=_model.emailId;
+        _addressValueLabel.text=_model.address;
     }
     -(void)changeTreatmentTF{
         if (![_TitleName isEqual:@""]) {
@@ -559,7 +573,7 @@
         [formatter setDateFormat:@"HH:mm:ss"];
         NSString *currentTime=[formatter stringFromDate:[NSDate date]];
         if ([str isEqualToString:@"medical"]) {
-            NSDictionary *dict=@{@"currentDateValue":currentDate,@"currentTimeValue":currentTime,@"message":_medicalHistoryTextView.text};
+NSDictionary *dict = @{@"currentDateValue":currentDate,@"currentTimeValue":currentTime,@"message":_medicalHistoryTextView.text};
             [medicalTableListArray addObject:dict];
         }
         else{
@@ -608,7 +622,7 @@
     [_uploadCollectionView reloadData];
     [self.view layoutIfNeeded];
     _uploadCollectionView.hidden=NO;
-    _uploadViewHeigh.constant=uploadCellHeight+200;
+    _uploadViewHeigh.constant=uploadCellHeight+185;
 }
 -(void)deleteCell:(id)cell{
     uploadCellHeight=0.0;
@@ -622,9 +636,9 @@
     [_uploadCollectionView reloadData];
     [_scrollView layoutIfNeeded];
     if (uploadedImageArray.count==0) {
-        _uploadViewHeigh.constant=69;
+        _uploadViewHeigh.constant=55;
     }
-    else _uploadViewHeigh.constant=uploadCellHeight+250;
+    else _uploadViewHeigh.constant=uploadCellHeight+185;
 }
 -(void)deleteTagCell:(UICollectionViewCell *)cell{
  NSIndexPath *index=[_tagCollectionView indexPathForCell:cell];
@@ -724,7 +738,7 @@
   NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
     sectionView=[[SettingView alloc]initWithFrame:CGRectMake(150, 140,500,330)];
     sectionView.delegate=self;
-    sectionView.dummyData=@[[NSString stringWithFormat:@"%@%ld",@"Sitting #",index.row+1],@"Head",@"7-Nov-2015"];
+    sectionView.dummyData=@[[NSString stringWithFormat:@"%@%d",@"Sitting #",index.row+1],@"Head",@"7-Nov-2015"];
     [sectionView alphaViewInitialize];
 }
 @end

@@ -38,7 +38,6 @@
 }
 //signin button action
 - (IBAction)signIn:(id)sender {
-
     NSString *urlString = [NSString stringWithFormat:@"%@%@",baseUrl, logIn];
     NSString *parameter = [NSString stringWithFormat:@"{\"Username\":\"drluisgarcia@mydomain.com\",\"Password\":\"Power@1234\"}"];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];

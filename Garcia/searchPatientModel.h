@@ -2,6 +2,7 @@
 
 @interface searchPatientModel : NSObject
 @property(strong,nonatomic)NSString *address;
+@property(strong,nonatomic)NSString *addressLine1;
 @property(strong,nonatomic)NSString *emailId;
 @property(strong,nonatomic)NSString *dob;
 @property(strong,nonatomic)NSString *name;
@@ -11,6 +12,11 @@
 @property(strong,nonatomic)NSString *Id;
 @property(strong,nonatomic)NSString *code;
 @property(strong,nonatomic)NSString *mobileNo;
+@property(strong,nonatomic)NSString *state;
+@property(strong,nonatomic)NSString *country;
+@property(strong,nonatomic)NSString *city;
+@property(strong,nonatomic)NSString *pinCode;
+@property(strong,nonatomic)NSString *addressline2;
 -(void)getJsonDataForGender:(NSString *)code
         onComplete:(void (^)(NSString *genderName))successBlock
            onError:(void (^)(NSError *error))errorBlock;
@@ -19,4 +25,14 @@
                     onError:(void (^)(NSError *error))errorBlock;
 @property(strong,nonatomic)NSString *genderCode;
 @property(strong,nonatomic)NSString *martialCode;
+
+@property(strong,nonatomic)NSDictionary *jsonDict;
+@property(strong,nonatomic)NSString *memo;
+@property(strong,nonatomic)NSString *companyCode;
+@property(strong,nonatomic)NSString *userTypeCode;
+@property(strong,nonatomic)NSString *roleCode;
+@property(strong,nonatomic)NSString *password;
+@property(strong,nonatomic)NSString *userID;
+
+
 @end

@@ -69,7 +69,7 @@
      _dateOfBirthTF.text=_model.dob;
     _mobileNoTF.text=_model.mobileNo;
      _emailTF.text=_model.emailId;
-     _addressTextView.text=_model.address;
+     _addressTextView.text=_model.addressLine1;
     martialCode=_model.martialCode;
     genderCode=_model.genderCode;
 }
@@ -363,19 +363,19 @@
 -(void)callApiForUpdate{
     postman =[[Postman alloc]init];
    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    dict[@"AddressLine1"]=_addressTextView.text;
-    dict[@"AddressLine2"]=@"";
-     dict[@"Country"]=@"";
-     dict[@"State"]=@"";
-     dict[@"City"]=@"";
-     dict[@"Postal"]=@"";
+    dict[@"AddressLine1"]=_model.addressLine1;
+    dict[@"AddressLine2"]=_model.addressline2;
+     dict[@"Country"]=_model.country;
+     dict[@"State"]=_model.state;
+     dict[@"City"]=_model.city;
+     dict[@"Postal"]=_model.pinCode;
     NSMutableDictionary *dict1 = [[NSMutableDictionary alloc] init];
     dict1[@"AddressLine1"]=_addressTextView.text;
-    dict1[@"AddressLine2"]=@"";
-    dict1[@"Country"]=@"";
-    dict1[@"State"]=@"";
-    dict1[@"City"]=@"";
-    dict1[@"Postal"]=@"";
+    dict1[@"AddressLine2"]=_model.addressline2;
+    dict1[@"Country"]=_model.country;
+    dict1[@"State"]=_model.state;
+    dict1[@"City"]=_model.city;
+    dict1[@"Postal"]=_model.pinCode;
   
     
     NSMutableDictionary *address=[[NSMutableDictionary alloc]init];
@@ -384,11 +384,16 @@
     NSData *jsonData1 = [NSJSONSerialization dataWithJSONObject:address options:kNilOptions error:nil];
     NSString *temporaryAddress = [[NSString alloc] initWithData:jsonData1 encoding:NSUTF8StringEncoding];
     
-     NSMutableDictionary *jsonWithGender=[[NSMutableDictionary alloc]init];
-     jsonWithGender[@"Gender"]=genderCode;
-     jsonWithGender[@"MaritalStatus"]=martialCode;
-     jsonWithGender[@"ContactNo"]=_mobileNoTF.text;
+    NSMutableDictionary *jsonWithGender=[self.model.jsonDict mutableCopy];
+    
+    jsonWithGender[@"Gender"]=genderCode;
+    
+    jsonWithGender[@"MaritalStatus"]=martialCode;
+    
+    jsonWithGender[@"ContactNo"]=_mobileNoTF.text;
+    
     NSData *jsonData2 = [NSJSONSerialization dataWithJSONObject:jsonWithGender options:kNilOptions error:nil];
+    
     NSString *genderData = [[NSString alloc] initWithData:jsonData2 encoding:NSUTF8StringEncoding];
     
     
@@ -404,15 +409,15 @@ NSDateFormatter *format=[[NSDateFormatter alloc]init];
     parameterDict[@"DOB"]=dobString;
     parameterDict[@"JSON"]=genderData;
     parameterDict[@"Status"]=@"true";
-    parameterDict[@"Id"]=@"1";
-    parameterDict[@"Memo"]=@"";
-    parameterDict[@"UserTypeCode"]=@"PAT123";
-    parameterDict[@"RoleCode"]=[NSNull null];
-    parameterDict[@"CompanyCode"]=@"A0I7LV";
+    parameterDict[@"Id"]=_model.Id;
+    parameterDict[@"Code"]=_model.code;
+    parameterDict[@"Memo"]=_model.memo;
+    parameterDict[@"UserTypeCode"]=_model.userTypeCode;
+    parameterDict[@"CompanyCode"]=_model.companyCode;
     parameterDict[@"Username"]=_emailTF.text;
     parameterDict[@"MethodType"]=@"PUT";
-    parameterDict[@"UserID"]=@"1";
-    parameterDict[@"Password"]=_emailTF.text;
+    parameterDict[@"UserID"]=_model.userID;
+    parameterDict[@"Password"]=_model.password;
     parameterDict[@"MiddleName"]=@"";
     parameterDict[@"LastName"]=@"";
 
@@ -441,6 +446,7 @@ NSDateFormatter *format=[[NSDateFormatter alloc]init];
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if ([alertView isEqual:successEditalert]) {
+        [self.delegate successfullyEdited];
         [self.navigationController popViewControllerAnimated:YES];
     }
 }

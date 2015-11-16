@@ -291,8 +291,6 @@
     jsonWithGender[@"ContactNo"]=_mobileNoTF.text;
     NSData *jsonData2 = [NSJSONSerialization dataWithJSONObject:jsonWithGender options:kNilOptions error:nil];
     NSString *genderData = [[NSString alloc] initWithData:jsonData2 encoding:NSUTF8StringEncoding];
-    
-    
     NSMutableDictionary *parameterDict=[[NSMutableDictionary alloc]init];
     NSDateFormatter *format=[[NSDateFormatter alloc]init];
     [format setDateFormat:@"dd-MMM-yyyy"];
@@ -313,7 +311,7 @@
      parameterDict[@"Username"]=_emailTF.text;
       parameterDict[@"MethodType"]=@"POST";
      parameterDict[@"UserID"]=@"1";
-    parameterDict[@"Password"]=_emailTF.text;
+    parameterDict[@"Password"]=@"Power@1234";
      parameterDict[@"MiddleName"]=@"";
     parameterDict[@"LastName"]=@"";
     

@@ -48,6 +48,7 @@
     [constant setFontFortextField:_searchTextField];
     dateFormatter=[[NSDateFormatter alloc]init];
     patentnameArray=[[NSMutableArray alloc]init];
+    _patientListTableView.tableFooterView=[UIView new];
     [self callApi];
 }
 //TableView Number of section
@@ -160,8 +161,14 @@ if (selectedIndexPath!=indexPath){
     for (NSDictionary *dict in dict1[@"User"]) {
         if ([dict[@"Status"] intValue]==1) {
             searchPatientModel *model=[[searchPatientModel alloc]init];
-            model.name=dict[@"FirstName"];
+            model.name=[NSString stringWithFormat:@"%@ %@",dict[@"FirstName"], dict[@"LastName"]];
             model.Id=dict[@"Id"];
+              model.userID=dict[@"Id"];
+              model.memo=dict[@"Memo"];
+              model.companyCode=dict[@"CompanyCode"];
+              model.password=dict[@"Password"];
+            model.userTypeCode=dict[@"UserTypeCode"];
+            model.roleCode=dict[@"RoleCode"];
             NSArray *dob=[dict[@"DOB"] componentsSeparatedByString:@"T"];
             [dateFormatter setDateFormat:@"yyyy-MM-dd"];
             NSDate *dobDate=[dateFormatter dateFromString:dob[0]];
@@ -175,6 +182,12 @@ if (selectedIndexPath!=indexPath){
                 NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:nil];
                 NSDictionary *d=jsonDict[@"TemporaryAddress"];
                 NSString *address=d[@"AddressLine1"];
+                model.addressLine1=address;
+                model.country=d[@"Country"];
+                model.city=d[@"City"];
+                model.state=d[@"State"];
+                model.pinCode=d[@"Postal"];
+                model.addressline2=d[@"AddressLine2"];
                 if (![d[@"Country"] isEqualToString:@""]) {
                     address = [address stringByAppendingFormat:@", %@",d[@"Country"]];
                 }
@@ -193,6 +206,7 @@ if (selectedIndexPath!=indexPath){
              if (![Json isKindOfClass:[NSNull class]]) {
             NSData *jsonData1 = [Json dataUsingEncoding:NSUTF8StringEncoding];
             NSDictionary *jsonDict1 = [NSJSONSerialization JSONObjectWithData:jsonData1 options:kNilOptions error:nil];
+                 model.jsonDict=jsonDict1;
                  model.genderCode=jsonDict1[@"Gender"];
                  model.martialCode=jsonDict1[@"MaritalStatus"];
             [model getJsonDataForMartial:jsonDict1[@"MaritalStatus"] onComplete:^(NSString *martialStatus) {

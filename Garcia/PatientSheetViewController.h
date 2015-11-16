@@ -1,10 +1,9 @@
 #import <UIKit/UIKit.h>
 #import "SettingView.h"
+#import "searchPatientModel.h"
 #if !defined(MAX)
 #define MAX(A,B)((A) > (B) ? (A) : (B))
 #endif
-
-
 
 @interface PatientSheetViewController : UIViewController<UITextViewDelegate,addSetting>
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollview;
@@ -25,4 +24,5 @@
 @property (strong, nonatomic) IBOutlet UICollectionView *uploadCollectionView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *uploadCollectionViewHeight;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *uploadCollectionViewWidth;
+@property(strong,nonatomic)searchPatientModel *model;
 @end

@@ -165,7 +165,7 @@
 		DAEF6AF11BD65C61006868C8 /* DatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePicker.h; sourceTree = "<group>"; };
 		DAEF6AF21BD65C61006868C8 /* DatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePicker.m; sourceTree = "<group>"; };
 		DAEF6AF41BD65C9B006868C8 /* DatePickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DatePickerView.xib; sourceTree = "<group>"; };
-		DAEFA18E1BD0B11500900379 /* Garcia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Garcia.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAEFA18E1BD0B11500900379 /* Biomag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Biomag.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAEFA1921BD0B11500900379 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAEFA1931BD0B11500900379 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DAEFA1951BD0B11500900379 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -173,7 +173,7 @@
 		DAEFA19C1BD0B11500900379 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DAEFA19E1BD0B11500900379 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		DAEFA1A11BD0B11500900379 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		DAEFA1A71BD0B11500900379 /* GarciaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GarciaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAEFA1A71BD0B11500900379 /* BiomagTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BiomagTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAEFA1AC1BD0B11500900379 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAEFA1AD1BD0B11500900379 /* GarciaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GarciaTests.m; sourceTree = "<group>"; };
 		DAEFA1B71BD0B49A00900379 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
@@ -406,8 +406,8 @@
 		DAEFA18F1BD0B11500900379 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DAEFA18E1BD0B11500900379 /* Garcia.app */,
-				DAEFA1A71BD0B11500900379 /* GarciaTests.xctest */,
+				DAEFA18E1BD0B11500900379 /* Biomag.app */,
+				DAEFA1A71BD0B11500900379 /* BiomagTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -571,9 +571,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		DAEFA18D1BD0B11500900379 /* Garcia */ = {
+		DAEFA18D1BD0B11500900379 /* Biomag */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DAEFA1B11BD0B11500900379 /* Build configuration list for PBXNativeTarget "Garcia" */;
+			buildConfigurationList = DAEFA1B11BD0B11500900379 /* Build configuration list for PBXNativeTarget "Biomag" */;
 			buildPhases = (
 				740A2F522C86D19ED866D8E5 /* Check Pods Manifest.lock */,
 				DAEFA18A1BD0B11500900379 /* Sources */,
@@ -586,14 +586,14 @@
 			);
 			dependencies = (
 			);
-			name = Garcia;
+			name = Biomag;
 			productName = Garcia;
-			productReference = DAEFA18E1BD0B11500900379 /* Garcia.app */;
+			productReference = DAEFA18E1BD0B11500900379 /* Biomag.app */;
 			productType = "com.apple.product-type.application";
 		};
-		DAEFA1A61BD0B11500900379 /* GarciaTests */ = {
+		DAEFA1A61BD0B11500900379 /* BiomagTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DAEFA1B41BD0B11500900379 /* Build configuration list for PBXNativeTarget "GarciaTests" */;
+			buildConfigurationList = DAEFA1B41BD0B11500900379 /* Build configuration list for PBXNativeTarget "BiomagTests" */;
 			buildPhases = (
 				DAEFA1A31BD0B11500900379 /* Sources */,
 				DAEFA1A41BD0B11500900379 /* Frameworks */,
@@ -604,9 +604,9 @@
 			dependencies = (
 				DAEFA1A91BD0B11500900379 /* PBXTargetDependency */,
 			);
-			name = GarciaTests;
+			name = BiomagTests;
 			productName = GarciaTests;
-			productReference = DAEFA1A71BD0B11500900379 /* GarciaTests.xctest */;
+			productReference = DAEFA1A71BD0B11500900379 /* BiomagTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -628,7 +628,7 @@
 					};
 				};
 			};
-			buildConfigurationList = DAEFA1891BD0B11500900379 /* Build configuration list for PBXProject "Garcia" */;
+			buildConfigurationList = DAEFA1891BD0B11500900379 /* Build configuration list for PBXProject "Biomag" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -641,8 +641,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DAEFA18D1BD0B11500900379 /* Garcia */,
-				DAEFA1A61BD0B11500900379 /* GarciaTests */,
+				DAEFA18D1BD0B11500900379 /* Biomag */,
+				DAEFA1A61BD0B11500900379 /* BiomagTests */,
 			);
 		};
 /* End PBXProject section */
@@ -796,7 +796,7 @@
 /* Begin PBXTargetDependency section */
 		DAEFA1A91BD0B11500900379 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DAEFA18D1BD0B11500900379 /* Garcia */;
+			target = DAEFA18D1BD0B11500900379 /* Biomag */;
 			targetProxy = DAEFA1A81BD0B11500900379 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -913,7 +913,7 @@
 				INFOPLIST_FILE = Garcia/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Biomag;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -928,7 +928,7 @@
 				INFOPLIST_FILE = Garcia/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Biomag;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
@@ -947,7 +947,7 @@
 				);
 				INFOPLIST_FILE = GarciaTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = BiomagTests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Garcia.app/Garcia";
 			};
 			name = Debug;
@@ -962,7 +962,7 @@
 				);
 				INFOPLIST_FILE = GarciaTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = BiomagTests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Garcia.app/Garcia";
 			};
 			name = Release;
@@ -970,7 +970,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		DAEFA1891BD0B11500900379 /* Build configuration list for PBXProject "Garcia" */ = {
+		DAEFA1891BD0B11500900379 /* Build configuration list for PBXProject "Biomag" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DAEFA1AF1BD0B11500900379 /* Debug */,
@@ -979,7 +979,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DAEFA1B11BD0B11500900379 /* Build configuration list for PBXNativeTarget "Garcia" */ = {
+		DAEFA1B11BD0B11500900379 /* Build configuration list for PBXNativeTarget "Biomag" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DAEFA1B21BD0B11500900379 /* Debug */,
@@ -988,7 +988,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DAEFA1B41BD0B11500900379 /* Build configuration list for PBXNativeTarget "GarciaTests" */ = {
+		DAEFA1B41BD0B11500900379 /* Build configuration list for PBXNativeTarget "BiomagTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DAEFA1B51BD0B11500900379 /* Debug */,

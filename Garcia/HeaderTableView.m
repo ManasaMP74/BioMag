@@ -269,6 +269,10 @@
         selectedHeaderIndexPath=nil;
         selectedScanPoint=nil;
     }
+    if (model.noteIndex !=nil) {
+        selectedNote=model.noteIndex;
+    }
+    else selectedNote=nil;
     [_headerTableview reloadData];
     CGRect frame=_headerTableview.frame;
     frame.size.height=_headerTableview.contentSize.height;

@@ -30,6 +30,9 @@
     [super didReceiveMemoryWarning];
    
 }
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+}
 //pop back
 -(void)popToViewController{
     [self.navigationController popViewControllerAnimated:YES];
@@ -55,6 +58,7 @@
 -(void)pushTreatmentViewController:(NSString *)str{
     PatientSheetViewController *patientSheet=[self.storyboard instantiateViewControllerWithIdentifier:@"PatientSheetViewController"];
     patientSheet.TitleName=str;
+    patientSheet.model=_model;
     [self.navigationController pushViewController:patientSheet animated:YES];
 }
 //callEndEditing
@@ -62,6 +66,7 @@
     SearchPatientViewController *searchVC=self.childViewControllers[0];
     [searchVC hideKeyBoard];
 }
+//Method Successfully Added
 -(void)successfullyAdded{
  SearchPatientViewController *searchVC=[self.childViewControllers firstObject];
     [searchVC againCallApiAfterAddPatient];
