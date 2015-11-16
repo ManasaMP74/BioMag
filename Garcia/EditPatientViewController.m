@@ -132,7 +132,6 @@
 //TableView cell
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
-    NSLog(@"%d",MaritialStatusArray.count);
     if ([tableView isEqual:self.gendertableview]) {
         editModel *model=genderArray[indexPath.row];
         cell.textLabel.text=model.genderName;
@@ -219,7 +218,7 @@
     {
         if (self.mobileNoTF.text.length==0)
         {
-            //            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Please enter the phone number" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        //            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Please enter the phone number" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             //            [alert show];
         }
         else if (self.mobileNoTF.text.length==10 && [self myMobileNumberValidate:self.mobileNoTF.text])
@@ -329,7 +328,7 @@
 -(void)prcessGenderObject:(id)responseObject{
     NSDictionary *dict=responseObject;
     for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
-        if (dict1[@"Status"]) {
+        if ([dict1[@"Status"]intValue]==1) {
             editModel *editModelValue=[[editModel alloc]init];
             editModelValue.genderName=dict1[@"Name"];
             editModelValue.genderCode=dict1[@"Code"];
@@ -352,7 +351,7 @@
 -(void)prcessMartialObject:(id)responseObject{
     NSDictionary *dict=responseObject;
     for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
-        if (dict1[@"Status"]) {
+        if ([dict1[@"Status"]intValue]==1) {
              editModel *editModelValue=[[editModel alloc]init];
             editModelValue.martialStatusName= dict1[@"Name"];
             editModelValue.martialCode=dict1[@"Code"];

@@ -82,8 +82,6 @@
     
     return NO;
 }
-
-
 - (BOOL)validateLoginFields
 {
     NSString *emailId = self.userNameTf.text;

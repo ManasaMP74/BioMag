@@ -321,10 +321,10 @@
         else c.switchImageView.image=[UIImage imageNamed:@"Button-off"];
        
         if (model.selectedHeader) {
-            cell.headerViewHeight.constant=[cell.headerView increaseHeaderinHeaderTV:model.selectedScanPointIndexpath withHeader:model.headerIndex];
+            cell.headerViewHeight.constant=[cell.headerView increaseHeaderinHeaderTV:model];
         }
         else {
-           cell.headerViewHeight.constant=[cell.headerView decreaseHeaderinHeaderTV:model.selectedScanPointIndexpath withHeader:model.headerIndex];
+           cell.headerViewHeight.constant=[cell.headerView decreaseHeaderinHeaderTV:model];
         }
         cell.headerViewHeight.constant=cell.headerView.headerTableview.contentSize.height;       _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
         return cell;
@@ -356,13 +356,14 @@
             return cell;
         }
 }
--(void)increaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath withHeader:(NSIndexPath*)headerIndex{
+-(void)increaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath withHeader:(NSIndexPath*)headerIndex withNoteHeader:(NSIndexPath*)NoteIndex{
     NSIndexPath *indexpath1=[_sittingCollectionView indexPathForCell:cell];
     SittingModelClass *model=sittingCollectionArray[indexpath1.row];
     model.selectedHeader=YES;
     model.height=height;
     model.headerIndex=headerIndex;
     model.selectedScanPointIndexpath=selectedScanPointindexpath;
+    model.noteIndex=NoteIndex;
     for (SittingModelClass *m in sittingCollectionArray) {
         sittingCollectionViewHeight=MAX(m.height,sittingCollectionViewHeight);
     }
@@ -370,13 +371,14 @@
     [self.view layoutIfNeeded];
     _settingViewHeight.constant=sittingCollectionViewHeight+140;
 }
--(void)decreaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath withHeader:(NSIndexPath*)headerIndex{
+-(void)decreaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath withHeader:(NSIndexPath*)headerIndex withNoteHeader:(NSIndexPath*)NoteIndex{
     sittingCollectionViewHeight=0.0;
     NSIndexPath *indexpath1=[_sittingCollectionView indexPathForCell:cell];
     SittingModelClass *model=sittingCollectionArray[indexpath1.row];
     model.height=height;
     model.headerIndex=headerIndex;
-    if (selectedScanPointindexpath.count>0) {
+    model.noteIndex=NoteIndex;
+    if (headerIndex!=nil) {
         model.selectedHeader=YES;
     }
    else model.selectedHeader=NO;

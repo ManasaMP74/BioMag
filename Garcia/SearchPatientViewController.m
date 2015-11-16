@@ -158,7 +158,7 @@ if (selectedIndexPath!=indexPath){
     NSDictionary *dict1=responseObject;
     if (dict1[@"Success"]) {
     for (NSDictionary *dict in dict1[@"User"]) {
-        if (dict[@"Status"]) {
+        if ([dict[@"Status"] intValue]==1) {
             searchPatientModel *model=[[searchPatientModel alloc]init];
             model.name=dict[@"FirstName"];
             model.Id=dict[@"Id"];
@@ -173,8 +173,21 @@ if (selectedIndexPath!=indexPath){
             if (![addressJson isKindOfClass:[NSNull class]]) {
                 NSData *jsonData = [addressJson dataUsingEncoding:NSUTF8StringEncoding];
                 NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:nil];
-                NSDictionary *d=jsonDict[@"PermanentAddress"];
-                model.address=d[@"AddressLine1"];
+                NSDictionary *d=jsonDict[@"TemporaryAddress"];
+                NSString *address=d[@"AddressLine1"];
+                if (![d[@"Country"] isEqualToString:@""]) {
+                    [address stringByAppendingFormat:@", %@",d[@"Country"]];
+                }
+                if (![d[@"State"] isEqualToString:@""]) {
+                [address stringByAppendingFormat:@", %@",d[@"State"]];
+                }
+                if (![d[@"City"] isEqualToString:@""]) {
+                [address stringByAppendingFormat:@", %@",d[@"City"]];
+                }
+                if (![d[@"Postal"] isEqualToString:@""]) {
+                [address stringByAppendingFormat:@", %@",d[@"Postal"]];
+                }
+                model.address=address;
             }
             NSString *Json=dict[@"JSON"];
              if (![Json isKindOfClass:[NSNull class]]) {

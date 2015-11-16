@@ -362,7 +362,7 @@
 -(void)prcessGenderObject:(id)responseObject{
     NSDictionary *dict=responseObject;
     for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
-        if (dict1[@"Status"]) {
+        if ([dict1[@"Status"]intValue]==1) {
             editModel *editModelValue=[[editModel alloc]init];
             editModelValue.genderName=dict1[@"Name"];
             editModelValue.genderCode=dict1[@"Code"];
@@ -385,7 +385,7 @@
 -(void)prcessMartialObject:(id)responseObject{
     NSDictionary *dict=responseObject;
     for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
-        if (dict1[@"Status"]) {
+        if ([dict1[@"Status"]intValue]==1) {
             editModel *editModelValue=[[editModel alloc]init];
             editModelValue.martialStatusName= dict1[@"Name"];
             editModelValue.martialCode=dict1[@"Code"];
