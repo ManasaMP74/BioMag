@@ -38,18 +38,8 @@
 }
 //signin button action
 - (IBAction)signIn:(id)sender {
-    
-    
-//    if (![self validateLoginFields])
-//    {
-//        
-//        return;
-//    }
-    
-    
+
     NSString *urlString = [NSString stringWithFormat:@"%@%@",baseUrl, logIn];
-//    NSString *parameter = [NSString stringWithFormat:@"{\"Username\":\"%@\",\"Password\":\"%@\"}", self.userNameTf.text,self.passwordTF.text];
-    
     NSString *parameter = [NSString stringWithFormat:@"{\"Username\":\"drluisgarcia@mydomain.com\",\"Password\":\"Power@1234\"}"];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman post:urlString withParameters:parameter
@@ -74,7 +64,6 @@
               [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
               
           }];
-//    [self performSegueWithIdentifier:@"loginSuccess" sender:nil];
 }
 
 
@@ -85,8 +74,6 @@
     {
         NSDictionary *userDict = responseDict[@"aaData"][@"UserDetailsViewModel"];
         NSLog(@"the complete login realted data of user is %@",userDict);
-        
-        
         return YES;
     }else
     {
@@ -119,15 +106,11 @@
     
     if (!goodToGo)
     {
-//        TOAST_MESSAGE(mutableString);
     }
     
     return goodToGo;
     
 }
-
-
-
 //placeHolderText
 -(void)placeHolderText{
     _userNameTf.attributedPlaceholder=[constant textFieldPlaceLogin:@"Username"];
