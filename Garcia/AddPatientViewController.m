@@ -259,7 +259,6 @@
     UIImage *profileImage =info[UIImagePickerControllerOriginalImage];
     _patientImageView.image=profileImage;
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-   // containerVC.viewControllerDiffer=@"Edit";
 }
 //Call Api for add patient
 -(void)callApiForAdd{

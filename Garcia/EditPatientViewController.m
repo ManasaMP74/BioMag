@@ -429,7 +429,7 @@ NSDateFormatter *format=[[NSDateFormatter alloc]init];
 }
 -(void)processResponseObjectForEdit:(id)responseObject{
     NSDictionary *dict=responseObject;
-    if (dict[@"Success"]) {
+    if ([dict[@"Success"] intValue]==1) {
      successEditalert =[[UIAlertView alloc]initWithTitle:@"" message:dict[@"Message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [successEditalert show];
     }

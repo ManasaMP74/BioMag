@@ -176,16 +176,16 @@ if (selectedIndexPath!=indexPath){
                 NSDictionary *d=jsonDict[@"TemporaryAddress"];
                 NSString *address=d[@"AddressLine1"];
                 if (![d[@"Country"] isEqualToString:@""]) {
-                    [address stringByAppendingFormat:@", %@",d[@"Country"]];
+                    address = [address stringByAppendingFormat:@", %@",d[@"Country"]];
                 }
                 if (![d[@"State"] isEqualToString:@""]) {
-                [address stringByAppendingFormat:@", %@",d[@"State"]];
+                address = [address stringByAppendingFormat:@", %@",d[@"State"]];
                 }
                 if (![d[@"City"] isEqualToString:@""]) {
-                [address stringByAppendingFormat:@", %@",d[@"City"]];
+                address = [address stringByAppendingFormat:@", %@",d[@"City"]];
                 }
                 if (![d[@"Postal"] isEqualToString:@""]) {
-                [address stringByAppendingFormat:@", %@",d[@"Postal"]];
+                address = [address stringByAppendingFormat:@", %@",d[@"Postal"]];
                 }
                 model.address=address;
             }
