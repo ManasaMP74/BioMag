@@ -70,6 +70,7 @@
 		DAEFA1D91BD0D8ED00900379 /* SearchPatientTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1D81BD0D8ED00900379 /* SearchPatientTableViewCell.m */; };
 		DAEFD0FA1BE732020054106B /* ScanPoinTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFD0F91BE732020054106B /* ScanPoinTableViewCell.m */; };
 		DAEFD0FC1BE732280054106B /* ScanPointTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAEFD0FB1BE732280054106B /* ScanPointTableViewCell.xib */; };
+		DAF277251BFAEC5A00D236B2 /* SymptomTagModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF277241BFAEC5A00D236B2 /* SymptomTagModel.m */; };
 		DAF82CE01BD4BA74006AF1E1 /* ContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF82CDF1BD4BA74006AF1E1 /* ContainerViewController.m */; };
 		DAFD52A71BEC62C80006AF02 /* UploadModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFD52A61BEC62C80006AF02 /* UploadModelClass.m */; };
 /* End PBXBuildFile section */
@@ -197,6 +198,8 @@
 		DAEFD0F81BE732020054106B /* ScanPoinTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanPoinTableViewCell.h; sourceTree = "<group>"; };
 		DAEFD0F91BE732020054106B /* ScanPoinTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanPoinTableViewCell.m; sourceTree = "<group>"; };
 		DAEFD0FB1BE732280054106B /* ScanPointTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScanPointTableViewCell.xib; sourceTree = "<group>"; };
+		DAF277231BFAEC5A00D236B2 /* SymptomTagModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymptomTagModel.h; sourceTree = "<group>"; };
+		DAF277241BFAEC5A00D236B2 /* SymptomTagModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymptomTagModel.m; sourceTree = "<group>"; };
 		DAF82CDE1BD4BA74006AF1E1 /* ContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContainerViewController.h; sourceTree = "<group>"; };
 		DAF82CDF1BD4BA74006AF1E1 /* ContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContainerViewController.m; sourceTree = "<group>"; };
 		DAFD52A51BEC62C80006AF02 /* UploadModelClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadModelClass.h; sourceTree = "<group>"; };
@@ -347,6 +350,8 @@
 				DA7502BD1BE8955C00C9C3F6 /* SittingModelClass.m */,
 				DAFD52A51BEC62C80006AF02 /* UploadModelClass.h */,
 				DAFD52A61BEC62C80006AF02 /* UploadModelClass.m */,
+				DAF277231BFAEC5A00D236B2 /* SymptomTagModel.h */,
+				DAF277241BFAEC5A00D236B2 /* SymptomTagModel.m */,
 				DAE6FBB81BE4DBDB00952812 /* CustomCell */,
 				DA6C7B971BE0D12C00D1130A /* HeaderTableView */,
 				DA6C7B9A1BE0DFB600D1130A /* CorrespondPoint */,
@@ -771,6 +776,7 @@
 				DAE9555D1BD24D1800EDFD8F /* PatientSheetTableViewCell.m in Sources */,
 				DA130F3F1BEA1E1900B5B9FF /* SectionModel.m in Sources */,
 				DA6C7B911BE0A11800D1130A /* CollectionViewTableViewCell.m in Sources */,
+				DAF277251BFAEC5A00D236B2 /* SymptomTagModel.m in Sources */,
 				DAE9555A1BD24A7500EDFD8F /* PatientSheetViewController.m in Sources */,
 				DA6C7B8E1BE09F9500D1130A /* SittingCollectionViewCell.m in Sources */,
 				DAEFA1BC1BD0B4BA00900379 /* SearchPatientViewController.m in Sources */,

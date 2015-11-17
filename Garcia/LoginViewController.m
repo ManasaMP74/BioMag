@@ -38,15 +38,16 @@
 }
 //signin button action
 - (IBAction)signIn:(id)sender {
+     [self performSegueWithIdentifier:@"loginSuccess" sender:nil];
     NSString *urlString = [NSString stringWithFormat:@"%@%@",baseUrl, logIn];
-    NSString *parameter = [NSString stringWithFormat:@"{\"Username\":\"drluisgarcia@mydomain.com\",\"Password\":\"Power@1234\"}"];
+    NSString *parameter = [NSString stringWithFormat:@"{\"Username\":\"%@\",\"Password\":\"%@\"}",_userNameTf.text,_passwordTF.text];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman post:urlString withParameters:parameter
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               
               NSLog(@"Operations = %@", responseObject);
               if (![self parseLoginResponse:responseObject]) {
-                  UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"error" message:@"Invalid Username or Password" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+                  UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:@"Invalid Username or Password" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                   [alert show];
                   
                   
@@ -65,16 +66,18 @@
           }];
 }
 
-
 - (BOOL)parseLoginResponse:(id)response
 {
     NSDictionary *responseDict = response;
     if ([responseDict[@"Success"] boolValue])
     {
         NSDictionary *userDict = responseDict[@"aaData"][@"UserDetailsViewModel"];
-        NSLog(@"the complete login realted data of user is %@",userDict);
-        return YES;
-    }else
+        if ([userDict[@"UserTypeCode"] isEqual:@"DOC123"]) {
+            return YES;
+        }
+        else return NO;
+    }
+    else
     {
         return NO;
     }

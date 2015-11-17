@@ -188,14 +188,14 @@ if (selectedIndexPath!=indexPath){
                 model.state=d[@"State"];
                 model.pinCode=d[@"Postal"];
                 model.addressline2=d[@"AddressLine2"];
-                if (![d[@"Country"] isEqualToString:@""]) {
-                    address = [address stringByAppendingFormat:@", %@",d[@"Country"]];
+                if (![d[@"City"] isEqualToString:@""]) {
+                    address = [address stringByAppendingFormat:@", %@",d[@"City"]];
                 }
                 if (![d[@"State"] isEqualToString:@""]) {
-                address = [address stringByAppendingFormat:@", %@",d[@"State"]];
+                    address = [address stringByAppendingFormat:@", %@",d[@"State"]];
                 }
-                if (![d[@"City"] isEqualToString:@""]) {
-                address = [address stringByAppendingFormat:@", %@",d[@"City"]];
+                if (![d[@"Country"] isEqualToString:@""]) {
+                    address = [address stringByAppendingFormat:@", %@",d[@"Country"]];
                 }
                 if (![d[@"Postal"] isEqualToString:@""]) {
                 address = [address stringByAppendingFormat:@", %@",d[@"Postal"]];

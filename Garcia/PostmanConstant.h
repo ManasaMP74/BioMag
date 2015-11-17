@@ -7,4 +7,6 @@ FOUNDATION_EXPORT NSString *const getPatientList;
 FOUNDATION_EXPORT NSString *const logIn;
 FOUNDATION_EXPORT NSString *const addPatient;
 FOUNDATION_EXPORT NSString *const editPatient;
+FOUNDATION_EXPORT NSString *const addSymptomTag;
+FOUNDATION_EXPORT NSString *const getSymptomTag;
 @end

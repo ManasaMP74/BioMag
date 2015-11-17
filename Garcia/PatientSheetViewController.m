@@ -9,6 +9,10 @@
 #import "TagCollectionViewCell.h"
 #import "SittingModelClass.h"
 #import "UploadModelClass.h"
+#import "Postman.h"
+#import "PostmanConstant.h"
+#import "MBProgressHUD.h"
+#import "SymptomTagModel.h"
 @interface PatientSheetViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextFieldDelegate,UITextViewDelegate,deleteCell,deleteTagCell,selectedImage,cellHeight>
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UILabel *nameLabel;
@@ -73,6 +77,7 @@
     UIView *activeField;
     NSMutableArray *uploadedImageArray,*sittingCollectionArray;
     SettingView *sectionView;
+    Postman *postman;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -90,6 +95,7 @@
     [self registerForKeyboardNotifications];
     [self navigationItemMethod];
     attachView=[self.storyboard instantiateViewControllerWithIdentifier:@"AttachmentViewController"];
+    postman=[[Postman alloc]init];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -740,5 +746,60 @@ NSDictionary *dict = @{@"currentDateValue":currentDate,@"currentTimeValue":curre
     sectionView.delegate=self;
     sectionView.dummyData=@[[NSString stringWithFormat:@"%@%d",@"Sitting #",index.row+1],@"Head",@"7-Nov-2015"];
     [sectionView alphaViewInitialize];
+}
+//add symptomTag
+-(void)callAPIforSymptomTag{
+    NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,addSymptomTag,_model.Id];
+    NSString *parameter=[NSString stringWithFormat:@"{\"Name\":\"%@\",\"Status\": true,\"UserID\": %@,\"MethodType\": \"POST\"}",_symptomtagTF.text,_model.Id];
+     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self processResponseObjectOfAddTag:responseObject];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+      [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
+}
+//process object
+-(void)processResponseObjectOfAddTag:(id)responseObject{
+    NSDictionary *dict=responseObject;
+    if ([dict[@"Success"] intValue]==1) {
+        [self callApiTogetSymptomTag];
+    }
+    else{
+        MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hubHUD.mode=MBProgressHUDModeText;
+        hubHUD.labelText=dict[@"Message"];
+        hubHUD.labelFont=[UIFont systemFontOfSize:15];
+        hubHUD.margin=20.f;
+        hubHUD.yOffset=150.f;
+        hubHUD.removeFromSuperViewOnHide = YES;
+        [hubHUD hide:YES afterDelay:1];
+    }
+}
+//get symptom tag
+-(void)callApiTogetSymptomTag{
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getSymptomTag];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self processResponseObjectOfGetAllTag:responseObject];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
+}
+-(void)processResponseObjectOfGetAllTag:(id)responseObject{
+    tagListArray =[[NSMutableArray alloc]init];
+    NSDictionary *dict=responseObject;
+    for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
+        if ([dict1[@"Status"]intValue]==1) {
+            if ([dict1[@"CreatedBy"] isEqual:_model.Id]) {
+                SymptomTagModel *model=[[SymptomTagModel alloc]init];
+                model.tagCode=dict1[@"Code"];
+                model.tagId=dict1[@"Id"];
+                model.tagName=dict1[@"Name"];
+                [tagListArray addObject:model];
+            }
+        }
+    }
 }
 @end
