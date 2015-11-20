@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "DAEFA18D1BD0B11500900379"
-               BuildableName = "Biomag.app"
-               BlueprintName = "Biomag"
-               ReferencedContainer = "container:Biomag.xcodeproj">
+               BuildableName = "Biomagatism.app"
+               BlueprintName = "Biomagnetism"
+               ReferencedContainer = "container:Biomagnetism.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "DAEFA1A61BD0B11500900379"
-               BuildableName = "BiomagTests.xctest"
-               BlueprintName = "BiomagTests"
-               ReferencedContainer = "container:Biomag.xcodeproj">
+               BuildableName = "BiomagatismTests.xctest"
+               BlueprintName = "BiomagnetismTests"
+               ReferencedContainer = "container:Biomagnetism.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "DAEFA1A61BD0B11500900379"
-               BuildableName = "BiomagTests.xctest"
-               BlueprintName = "BiomagTests"
-               ReferencedContainer = "container:Biomag.xcodeproj">
+               BuildableName = "BiomagatismTests.xctest"
+               BlueprintName = "BiomagnetismTests"
+               ReferencedContainer = "container:Biomagnetism.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,9 +57,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DAEFA18D1BD0B11500900379"
-            BuildableName = "Biomag.app"
-            BlueprintName = "Biomag"
-            ReferencedContainer = "container:Biomag.xcodeproj">
+            BuildableName = "Biomagatism.app"
+            BlueprintName = "Biomagnetism"
+            ReferencedContainer = "container:Biomagnetism.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -77,9 +77,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DAEFA18D1BD0B11500900379"
-            BuildableName = "Biomag.app"
-            BlueprintName = "Biomag"
-            ReferencedContainer = "container:Biomag.xcodeproj">
+            BuildableName = "Biomagatism.app"
+            BlueprintName = "Biomagnetism"
+            ReferencedContainer = "container:Biomagnetism.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -96,9 +96,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DAEFA18D1BD0B11500900379"
-            BuildableName = "Biomag.app"
-            BlueprintName = "Biomag"
-            ReferencedContainer = "container:Biomag.xcodeproj">
+            BuildableName = "Biomagatism.app"
+            BlueprintName = "Biomagnetism"
+            ReferencedContainer = "container:Biomagnetism.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

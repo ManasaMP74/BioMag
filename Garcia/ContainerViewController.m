@@ -73,6 +73,11 @@
  SearchPatientViewController *searchVC=[self.childViewControllers firstObject];
     [searchVC againCallApiAfterAddPatient];
 }
+//Method Successfully Edit
+-(void)successfullyEdit{
+    SearchPatientViewController *searchVC=[self.childViewControllers firstObject];
+    [searchVC againCallApiAfterEditPatient];
+}
 //Show Mbprogress
 -(void)showMBprogressTillLoadThedata{
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -80,5 +85,9 @@
 //hide mbprogress
 -(void)hideMBprogressTillLoadThedata{
     [MBProgressHUD hideHUDForView:self.view animated:YES];
+}
+//hide mbprogress
+-(void)hideAllMBprogressTillLoadThedata{
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
 @end

@@ -124,19 +124,25 @@
         if ([selectedScanPointIndexPath containsObject:indexPath]) {
             return correspondingViewHeight+32;
         }
+        else if (selectedNote != nil){
+            if (selectedNote.section == indexPath.section) {
+                return 150;
+            }
+            else return 32;
+        }
         else
             return 32;
-        }
-    else  if (selectedNote != nil) {
+    }
+    else if (selectedNote != nil) {
         if (selectedNote.section == indexPath.section) {
             return 150;
         }
         else
             return 32;
     }
-
+    
     else
-    return 32;
+        return 32;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -197,7 +203,7 @@
              scanCell.correspondingView.correspondingPointArray=@[@"Eye Optic Nerve", @"Opposite Eye",@"Cerebellum"];
             }
             else scanCell.correspondingView.correspondingPointArray=@[@"Cheekbone", @"Liver",@"Adrenal Glands"];
-            [scanCell.correspondingView reload];
+            [scanCell.correspondingView.correspondingTableView reloadData];
             correspondingViewHeight = [scanCell.correspondingView corespondingCellHeight];
             scanCell.correspondingView.hidden = NO;
             scanCell.correspondingViewHeight.constant=correspondingViewHeight;

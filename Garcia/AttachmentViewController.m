@@ -1,6 +1,7 @@
 #import "AttachmentViewController.h"
 
 @interface AttachmentViewController ()<UIImagePickerControllerDelegate,UITextViewDelegate>
+@property (strong, nonatomic) IBOutlet UILabel *addNoteLabel;
 
 @end
 
@@ -50,6 +51,10 @@
 }
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
+    if ([textView.text isEqualToString:@""]) {
+        _addNoteLabel.hidden=NO;
+    }
+    else _addNoteLabel.hidden=YES;
     if (textView.text.length + (text.length - range.length) > 150) {
         [self.view endEditing:YES];
         UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"" message:@"Text should be less than 150" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];

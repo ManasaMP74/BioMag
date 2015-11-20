@@ -57,7 +57,4 @@ return 20;
 {
     return _correspondingTableView.contentSize.height;
 }
--(void)reload{
-    [self.correspondingTableView reloadData];
-}
 @end

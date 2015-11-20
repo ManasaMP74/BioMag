@@ -72,13 +72,14 @@
      _addressTextView.text=_model.address;
     martialCode=_model.martialCode;
     genderCode=_model.genderCode;
+    _patientImageView.image=_model.profileImage;
 }
 - (IBAction)cancel:(id)sender {
 [self.navigationController popViewControllerAnimated:YES];
 }
 //Save the data
 - (IBAction)save:(id)sender {
-    [self callApiForUpdate];
+    [self validateEmail:_emailTF.text];
 }
 //maritialStatus field
 - (IBAction)maritalStatus:(id)sender {
@@ -179,7 +180,7 @@
 //set layesr for TextField and placeHolder
 -(void)textFieldLayer{
     _patientImageView.layer.cornerRadius=_patientImageView.frame.size.width/2;
-    _patientImageView.clipsToBounds=YES;
+    _patientImageView.layer.masksToBounds = YES;
     _nameTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Name"];
     _emailTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Email"];
     _genderTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Gender"];
@@ -377,7 +378,6 @@
     dict1[@"City"]=@"";
     dict1[@"Postal"]=@"";
   
-    
     NSMutableDictionary *address=[[NSMutableDictionary alloc]init];
     address[@"PermanentAddress"]=dict;
     address[@"TemporaryAddress"]=dict1;
@@ -411,15 +411,14 @@ NSDateFormatter *format=[[NSDateFormatter alloc]init];
     parameterDict[@"Status"]=@"true";
     parameterDict[@"Id"]=_model.Id;
     parameterDict[@"Code"]=_model.code;
-    parameterDict[@"Memo"]=_model.memo;
     parameterDict[@"UserTypeCode"]=_model.userTypeCode;
     parameterDict[@"CompanyCode"]=_model.companyCode;
     parameterDict[@"Username"]=_emailTF.text;
     parameterDict[@"MethodType"]=@"PUT";
     parameterDict[@"UserID"]=_model.userID;
-    parameterDict[@"Password"]=_model.password;
     parameterDict[@"MiddleName"]=@"";
     parameterDict[@"LastName"]=@"";
+     parameterDict[@"RoleCode"]=[NSNull null];
 
      NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,editPatient,_model.Id];
     NSData *parameterData = [NSJSONSerialization dataWithJSONObject:parameterDict options:NSJSONWritingPrettyPrinted error:nil];
@@ -450,4 +449,39 @@ NSDateFormatter *format=[[NSDateFormatter alloc]init];
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
+-(void)validateEmail:(NSString*)email{
+    NSString *emailRegEx=@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSPredicate *emailTest=[NSPredicate predicateWithFormat:@"self matches %@",emailRegEx];
+    BOOL validate= [emailTest evaluateWithObject:email];
+    if (!validate) {
+       int a= [self validPhonenumber:_mobileNoTF.text];
+        if (a==0) {
+        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:@"Invalid email id and mobile number" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [alert show];
+        }
+        else{
+            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:@"Invalid email id" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [alert show];
+        }
+    }
+    else{
+            int a= [self validPhonenumber:_mobileNoTF.text];
+            if (a==0) {
+                UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:@"Invalid mobile number" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                [alert show];
+            }
+            else [self callApiForUpdate];
+        }
+}
+-(int)validPhonenumber:(NSString *)string
+{
+    NSString *phoneRegex = @"[0-9]{0,10}";
+    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
+    BOOL validatePhone=[phoneTest evaluateWithObject:string];
+    if ((string.length!=10) | !validatePhone) {
+        return 0;
+    }
+    else return 1;
+}
+
 @end

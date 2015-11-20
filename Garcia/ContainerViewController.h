@@ -9,4 +9,5 @@
 -(void)callEndEditing;
 -(void)successfullyAdded;
 @property(strong,nonatomic)searchPatientModel *model;
+-(void)successfullyEdit;
 @end

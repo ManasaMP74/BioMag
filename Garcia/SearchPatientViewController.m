@@ -23,15 +23,16 @@
     PostmanConstant *postmanConstant;
     Postman *postman;
     NSDateFormatter *dateFormatter;
+    int initialSelectedRow;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    initialSelectedRow=0;
     defaultValue=[[DefaultValues alloc]init];
     postman=[[Postman alloc]init];
     postmanConstant=[[PostmanConstant alloc]init];
     constant=[[Constant alloc]init];
      [_searchTextField addTarget:self action:@selector(searchDoctorOnProfession) forControlEvents:UIControlEventEditingChanged];
-    patentFilteredArray=[[NSMutableArray alloc]init];
     [constant spaceAtTheBeginigOfTextField:_searchTextField];
     _searchTextField.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Search"];
     _searchTextField.layer.cornerRadius=18;
@@ -39,6 +40,7 @@
     _searchTextField.layer.borderWidth=1;
     selectedIndexPath=nil;
      [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-02.jpg"]]];
+    [self callApi];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -49,7 +51,6 @@
     dateFormatter=[[NSDateFormatter alloc]init];
     patentnameArray=[[NSMutableArray alloc]init];
     _patientListTableView.tableFooterView=[UIView new];
-    [self callApi];
 }
 //TableView Number of section
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -72,10 +73,26 @@
      if ([_searchTextField.text isEqualToString:@""]) {
     searchPatientModel *model=patentnameArray[indexPath.row];
     cell.patientNameLabel.text=model.name;
+         NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,model.profileImageCode];
+         NSURL *url=[NSURL URLWithString:str];
+   [cell.patientImageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"patient.jpg"]];
+         model.profileImage=cell.patientImageView.image;
      }
-    else cell.patientNameLabel.text=patentFilteredArray[indexPath.row];
+    else
+    {
+        searchPatientModel *model=patentFilteredArray[indexPath.row];
+        cell.patientNameLabel.text=model.name;
+          NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,model.profileImageCode];
+        [cell.patientImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"patient.jpg"]];
+        model.profileImage=cell.patientImageView.image;
+    }
+    cell.patientImageView.layer.cornerRadius=cell.patientImageView.frame.size.width/2;
+    cell.patientImageView.clipsToBounds=YES;
     [constant setFontForLabel:cell.patientNameLabel];
-    cell.patientNameLabel.textColor=[UIColor whiteColor];
+    if ([selectedIndexPath isEqual:indexPath]) {
+       cell.patientNameLabel.textColor=[UIColor colorWithRed:0.7098 green:0.99 blue:0.98 alpha:1];
+    }
+    else  cell.patientNameLabel.textColor=[UIColor whiteColor];
      tableView.tableFooterView=[UIView new];
      return cell;
 }
@@ -90,15 +107,29 @@
 }
 //Search
 -(void)searchDoctorOnProfession{
+    if (![_searchTextField.text isEqual:@""]) {
+     patentFilteredArray=[[NSMutableArray alloc]init];
     NSMutableArray *ar=[[NSMutableArray alloc]init];
     NSPredicate *predicate=[NSPredicate predicateWithFormat:@"self CONTAINS[cd]%@",_searchTextField.text];
     for (searchPatientModel *model in patentnameArray) {
         [ar addObject:model.name];
     }
     NSArray *array= [ar filteredArrayUsingPredicate:predicate];
-    patentFilteredArray=[NSMutableArray arrayWithArray:array];
+    for (searchPatientModel *model in patentnameArray) {
+        if ([array containsObject:model.name]) {
+            [patentFilteredArray addObject:model];
+        }
+    }
     [_patientListTableView reloadData];
-    
+    if (patentFilteredArray.count>0) {
+        NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
+        [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
+    }
+    }else{
+        [_patientListTableView reloadData];
+        NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
+        [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
+    }
 }
 //cell select
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -117,9 +148,11 @@ if (selectedIndexPath!=indexPath){
     cell.patientNameLabel.textColor=[UIColor colorWithRed:0.7098 green:0.99 blue:0.98 alpha:1];
      cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow-3"]];
    containerVc.viewControllerDiffer=@"";
-    [containerVc passDataFromsearchPatientTableViewToPatient:patentnameArray[indexPath.row]];
+    if ([_searchTextField.text isEqual:@""]) {
+        [containerVc passDataFromsearchPatientTableViewToPatient:patentnameArray[indexPath.row]];
     }
-    [self.view endEditing:YES];
+    else [containerVc passDataFromsearchPatientTableViewToPatient:patentFilteredArray[indexPath.row]];
+    }
 }
 //TextField Delegat
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
@@ -146,30 +179,29 @@ if (selectedIndexPath!=indexPath){
 }
 -(void)callApi{
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPatientList];
+    NSString *parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
     [self.delegate showMBprogressTillLoadThedata];
-    [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObject:responseObject];
         [self.delegate hideMBprogressTillLoadThedata];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
        [self.delegate hideMBprogressTillLoadThedata];
     }];
-
 }
 -(void)processResponseObject:(id)responseObject{
     NSDictionary *dict1=responseObject;
-    if (dict1[@"Success"]) {
-    for (NSDictionary *dict in dict1[@"User"]) {
-        if ([dict[@"Status"] intValue]==1) {
+    if ([dict1[@"Success"] intValue]==1) {
+    for (NSDictionary *dict in dict1[@"ViewModels"]) {
             searchPatientModel *model=[[searchPatientModel alloc]init];
-            model.name=[NSString stringWithFormat:@"%@ %@",dict[@"FirstName"], dict[@"LastName"]];
+        model.name=[NSString stringWithFormat:@"%@ %@",dict[@"Firstname"],dict[@"Lastname"]];
             model.Id=dict[@"Id"];
-              model.userID=dict[@"Id"];
-              model.memo=dict[@"Memo"];
-              model.companyCode=dict[@"CompanyCode"];
-              model.password=dict[@"Password"];
+            model.userID=dict[@"Id"];
+            model.memo=dict[@"Memo"];
+            model.companyCode=dict[@"CompanyCode"];
+            model.password=dict[@"Password"];
             model.userTypeCode=dict[@"UserTypeCode"];
             model.roleCode=dict[@"RoleCode"];
-            NSArray *dob=[dict[@"DOB"] componentsSeparatedByString:@"T"];
+            NSArray *dob=[dict[@"DOb"] componentsSeparatedByString:@"T"];
             [dateFormatter setDateFormat:@"yyyy-MM-dd"];
             NSDate *dobDate=[dateFormatter dateFromString:dob[0]];
             [dateFormatter setDateFormat:@"dd-MMM-yyyy"];
@@ -191,16 +223,29 @@ if (selectedIndexPath!=indexPath){
                 if (![d[@"City"] isEqualToString:@""]) {
                     address = [address stringByAppendingFormat:@", %@",d[@"City"]];
                 }
-                if (![d[@"State"] isEqualToString:@""]) {
-                    address = [address stringByAppendingFormat:@", %@",d[@"State"]];
+                if (![dict[@"StateName"] isEqualToString:@""]) {
+                    address = [address stringByAppendingFormat:@", %@",dict[@"StateName"]];
                 }
-                if (![d[@"Country"] isEqualToString:@""]) {
+                if (![dict[@"Country"] isKindOfClass:[NSNull class]]) {
                     address = [address stringByAppendingFormat:@", %@",d[@"Country"]];
                 }
                 if (![d[@"Postal"] isEqualToString:@""]) {
-                address = [address stringByAppendingFormat:@", %@",d[@"Postal"]];
+                    address = [address stringByAppendingFormat:@", %@",d[@"Postal"]];
                 }
                 model.address=address;
+            }
+         if (![dict[@"DocumentCode"] isKindOfClass:[NSNull class]]) {
+            model.documentCode=dict[@"DocumentCode"];
+         }
+          if (![dict[@"DocumentTypeCode"] isKindOfClass:[NSNull class]]) {
+              model.documentTypeCode=dict[@"DocumentTypeCode"];
+          }
+            NSArray *documentTypeArray=[model.documentTypeCode componentsSeparatedByString:@"|"];
+            NSArray *documentCodeArray=[model.documentCode componentsSeparatedByString:@"^$|"];
+            for (int i=0; i<documentTypeArray.count; i++) {
+                if ([documentTypeArray[i] isEqual:@"ABC123"]) {
+                    model.profileImageCode=documentCodeArray[i];
+                }
             }
             NSString *Json=dict[@"JSON"];
              if (![Json isKindOfClass:[NSNull class]]) {
@@ -209,6 +254,7 @@ if (selectedIndexPath!=indexPath){
                  model.jsonDict=jsonDict1;
                  model.genderCode=jsonDict1[@"Gender"];
                  model.martialCode=jsonDict1[@"MaritalStatus"];
+                 model.mobileNo=jsonDict1[@"ContactNo"];
             [model getJsonDataForMartial:jsonDict1[@"MaritalStatus"] onComplete:^(NSString *martialStatus) {
                 model.maritialStatus=martialStatus;
             } onError:^(NSError *error) {
@@ -219,23 +265,29 @@ if (selectedIndexPath!=indexPath){
                 [self reloadData];
             } onError:^(NSError *error) {
             }];
-            model.mobileNo=jsonDict1[@"ContactNo"];
             NSDate *date = [dateFormatter dateFromString:model.dob];
             NSDateComponents *agecomponent=[[NSCalendar currentCalendar]components:NSCalendarUnitYear fromDate:date toDate:[NSDate date] options:0];
             model.age=[NSString stringWithFormat:@"%ld",(long)[agecomponent year]];
             }
             [patentnameArray addObject:model];
-        }
     }
 }
 }
 -(void)reloadData{
     [_patientListTableView reloadData];
-    NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
-    [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
+    if (initialSelectedRow==0) {
+        NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
+        [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
+    }
 }
 -(void)againCallApiAfterAddPatient{
     patentnameArray=[[NSMutableArray alloc]init];
+    initialSelectedRow=0;
+    [self callApi];
+}
+-(void)againCallApiAfterEditPatient{
+    patentnameArray=[[NSMutableArray alloc]init];
+    initialSelectedRow=-1;
     [self callApi];
 }
 @end

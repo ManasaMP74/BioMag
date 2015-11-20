@@ -75,7 +75,7 @@
     float sittingCollectionViewHeight,uploadCellHeight,diagnosisCellHeight,medicalHistoryCellHeight;
     AttachmentViewController *attachView;
     UIView *activeField;
-    NSMutableArray *uploadedImageArray,*sittingCollectionArray;
+    NSMutableArray *uploadedImageArray,*sittingCollectionArray,*allTagListArray,*filterdTagListArray;
     SettingView *sectionView;
     Postman *postman;
 }
@@ -96,11 +96,13 @@
     [self navigationItemMethod];
     attachView=[self.storyboard instantiateViewControllerWithIdentifier:@"AttachmentViewController"];
     postman=[[Postman alloc]init];
+    [_symptomtagTF addTarget:self action:@selector(tagTextFieldChange) forControlEvents:UIControlEventEditingChanged];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self changeTreatmentTF];
     self.navigationItem.hidesBackButton=YES;
+    [self callApiTogetSymptomTag];
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
@@ -229,6 +231,7 @@
     }
 }
 - (IBAction)saveTreatmentEncloser:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 - (IBAction)closeTreatmentEncloser:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
@@ -265,12 +268,23 @@
     if (tableView==_MedicaltableView) {
         return medicalTableListArray.count+1;
     }
+    if (tableView==_allTaglistTableView) {
+        return filterdTagListArray.count;
+    }
     else
         return diagnosisTableListArray.count+1;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (tableView==_allTaglistTableView) {
+        UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
+        UILabel *label=(UILabel*)[cell viewWithTag:10];
+       label.text=filterdTagListArray[indexPath.section];
+        tableView.tableFooterView=[UIView new];
+        return cell;
+    }
+    else{
     PatientSheetTableViewCell *cell;
-        cell=[tableView dequeueReusableCellWithIdentifier:@"cell1"];
+    cell=[tableView dequeueReusableCellWithIdentifier:@"cell1"];
     if (indexPath.section>0) {
         if (medicalTableListArray.count!=0 | diagnosisTableListArray.count!=0) {
             if (tableView==_MedicaltableView) {
@@ -286,20 +300,53 @@
                 cell.messageValueLabel.text=dict[@"message"];
             }
     }
+ }
+        tableView.tableFooterView=[UIView new];
+        return cell;
 }
-    tableView.tableFooterView=[UIView new];
-    return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    if (tableView==_diagnosisTableView) {
-//    NSDictionary *dict= diagnosisTableListArray[indexPath.section];
-//        CGFloat labelHeight=[dict[@"message"] boundingRectWithSize:(CGSize){136,CGFLOAT_MAX }
-//        options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:12]} context:nil].size.height;
-//    }
-    return 25;
+    if (tableView==_diagnosisTableView) {
+        if (diagnosisTableListArray.count>1) {
+            if (indexPath.section==0) {
+                return 25;
+            }
+            else{
+            NSDictionary *dict= diagnosisTableListArray[indexPath.section-1];
+            CGFloat labelHeight=[dict[@"message"] boundingRectWithSize:(CGSize){136,CGFLOAT_MAX }
+            options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
+            return labelHeight;
+            }
+        }
+        else return 25;
+    }
+    else if (tableView==_MedicaltableView){
+        if (tableView==_diagnosisTableView) {
+            if (diagnosisTableListArray.count>1) {
+                if (indexPath.section==0) {
+                    return 25;
+                }
+                else{
+            NSDictionary *dict= medicalTableListArray[indexPath.section-1];
+        CGFloat labelHeight=[dict[@"message"] boundingRectWithSize:(CGSize){136,CGFLOAT_MAX }
+    options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
+                    return labelHeight;
+                }
+            }
+            else return 25;
+        }
+         else return 25;
+    }
+ else if (tableView== _allTaglistTableView) {
+        return 30;
+    }
+  else  return 25;
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    cell.backgroundColor=[UIColor clearColor];
+    if (tableView==_allTaglistTableView) {
+        cell.backgroundColor=[UIColor whiteColor];
+    }
+    else cell.backgroundColor=[UIColor clearColor];
 }
 //CollectionView datasource Methods
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
@@ -312,7 +359,12 @@
     else
         return tagListArray.count;
 }
-
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (tableView==_allTaglistTableView) {
+        _symptomtagTF.text=filterdTagListArray[indexPath.section];
+        _allTaglistTableView.hidden=YES;
+    }
+}
 -(UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     if (collectionView==_sittingCollectionView) {
@@ -360,13 +412,55 @@
         }
         else {
             TagCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-            cell.tagLabel.text=tagListArray[indexPath.row];
+            SymptomTagModel *model=tagListArray[indexPath.row];
+            cell.tagLabel.text=model.tagName;
             cell.layer.masksToBounds = YES;
             cell.layer.cornerRadius = 6;
              cell.delegate=self;
             return cell;
         }
 }
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    if (collectionView==_sittingCollectionView) {
+        return CGSizeMake(280,sittingCollectionViewHeight+100);
+    }
+    else if (collectionView==_uploadCollectionView)
+    {
+        return CGSizeMake(140,uploadCellHeight+120);
+    }
+    else{
+        SymptomTagModel *model = tagListArray[indexPath.row];
+        //               CGFloat width =[text sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:12],NSFontAttributeName, nil]].width;
+        CGFloat width =  [model.tagName boundingRectWithSize:(CGSizeMake(NSIntegerMax, 40)) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:12]} context:nil].size.width;
+        return CGSizeMake(width+10,40);
+    }
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionView *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 10;
+}
+-(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
+    if (collectionView==_tagCollectionView) {
+        cell.backgroundColor=[UIColor colorWithRed:0.55 green:0.59 blue:0.78 alpha:0.7];
+    }
+    if (collectionView==_sittingCollectionView) {
+        cell.backgroundColor=[UIColor clearColor];
+    }
+}
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    if (collectionView==_uploadCollectionView) {
+        [self.navigationController pushViewController:attachView animated:YES];
+        UploadModelClass *model=uploadedImageArray[indexPath.row];
+        attachView.selectedImage=model.imageName;
+        attachView.captionText=model.captionText;
+        attachView.imageViewHeight.constant=self.view.frame.size.height-300;
+        attachView.okButton.hidden=YES;
+        attachView.CancelButton.hidden=YES;
+        attachView.textViewEnabled=NO;
+    }
+}
+
 -(void)increaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath withHeader:(NSIndexPath*)headerIndex withNoteHeader:(NSIndexPath*)NoteIndex{
     NSIndexPath *indexpath1=[_sittingCollectionView indexPathForCell:cell];
     SittingModelClass *model=sittingCollectionArray[indexpath1.row];
@@ -401,56 +495,11 @@
     [self.view layoutIfNeeded];
     _settingViewHeight.constant=sittingCollectionViewHeight+140;
 }
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-        if (collectionView==_sittingCollectionView) {
-                return CGSizeMake(280,sittingCollectionViewHeight+100);
-        }
-        else if (collectionView==_uploadCollectionView)
-        {
-            return CGSizeMake(140,uploadCellHeight+120);
-        }
-        else{
-            NSString *text = tagListArray[indexPath.row];
-//               CGFloat width =[text sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:12],NSFontAttributeName, nil]].width;
-            CGFloat width =  [text boundingRectWithSize:(CGSizeMake(NSIntegerMax, 40)) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:12]} context:nil].size.width;
-          return CGSizeMake(width+10,40);
-        }
-    }
-    
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionView *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
-{
-        return 10;
-}
--(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
-    if (collectionView==_tagCollectionView) {
-        cell.backgroundColor=[UIColor colorWithRed:0.55 green:0.59 blue:0.78 alpha:0.7];
-    }
-    if (collectionView==_sittingCollectionView) {
-        cell.backgroundColor=[UIColor clearColor];
-    }
-}
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    if (collectionView==_uploadCollectionView) {
-        [self.navigationController pushViewController:attachView animated:YES];
-        UploadModelClass *model=uploadedImageArray[indexPath.row];
-        attachView.selectedImage=model.imageName;
-        attachView.captionText=model.captionText;
-        attachView.imageViewHeight.constant=self.view.frame.size.height-300;
-        attachView.okButton.hidden=YES;
-        attachView.CancelButton.hidden=YES;
-        attachView.textViewEnabled=NO;
-    }
-}
 //Add tag
     - (IBAction)addTag:(id)sender {
         if (![_symptomtagTF.text isEqualToString:@""]) {
-            [tagListArray addObject:_symptomtagTF.text];
-            NSLog(@"%lu",(unsigned long)tagListArray.count);
-            [_tagCollectionView reloadData];
-            [self.view layoutIfNeeded];
-            _collectionViewHeight.constant=_tagCollectionView.contentSize.height;
-            [self setSymptomViewHeight];
-            _symptomtagTF.text=@"";
+             _allTaglistTableView.hidden=YES;
+            [self callAPIforAddSymptomTag];
         }
     }
     //default values
@@ -648,8 +697,8 @@ NSDictionary *dict = @{@"currentDateValue":currentDate,@"currentTimeValue":curre
 }
 -(void)deleteTagCell:(UICollectionViewCell *)cell{
  NSIndexPath *index=[_tagCollectionView indexPathForCell:cell];
-    [tagListArray removeObjectAtIndex:index.row];
-    NSLog(@"%lu",(unsigned long)tagListArray.count);
+    SymptomTagModel *model=tagListArray[index.row];
+    [self callApiForDeleteTag:model];
     [_tagCollectionView reloadData];
     [_scrollView layoutIfNeeded];
     if (tagListArray.count==0) {
@@ -715,6 +764,7 @@ NSDictionary *dict = @{@"currentDateValue":currentDate,@"currentTimeValue":curre
         activeField=textField;
     }
     -(void)textFieldDidEndEditing:(UITextField *)textField{
+         _allTaglistTableView.hidden=YES;
         activeField=nil;
     }
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
@@ -748,15 +798,15 @@ NSDictionary *dict = @{@"currentDateValue":currentDate,@"currentTimeValue":curre
     [sectionView alphaViewInitialize];
 }
 //add symptomTag
--(void)callAPIforSymptomTag{
+-(void)callAPIforAddSymptomTag{
     NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,addSymptomTag,_model.Id];
     NSString *parameter=[NSString stringWithFormat:@"{\"Name\":\"%@\",\"Status\": true,\"UserID\": %@,\"MethodType\": \"POST\"}",_symptomtagTF.text,_model.Id];
      [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectOfAddTag:responseObject];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-      [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }];
 }
 //process object
@@ -764,6 +814,7 @@ NSDictionary *dict = @{@"currentDateValue":currentDate,@"currentTimeValue":curre
     NSDictionary *dict=responseObject;
     if ([dict[@"Success"] intValue]==1) {
         [self callApiTogetSymptomTag];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
     }
     else{
         MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -782,16 +833,20 @@ NSDictionary *dict = @{@"currentDateValue":currentDate,@"currentTimeValue":curre
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectOfGetAllTag:responseObject];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }];
 }
 -(void)processResponseObjectOfGetAllTag:(id)responseObject{
     tagListArray =[[NSMutableArray alloc]init];
+    allTagListArray=[[NSMutableArray alloc]init];
     NSDictionary *dict=responseObject;
     for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
         if ([dict1[@"Status"]intValue]==1) {
+            if (![allTagListArray containsObject:dict1[@"Name"]]) {
+                 [allTagListArray addObject:dict1[@"Name"]];
+            }
             if ([dict1[@"CreatedBy"] isEqual:_model.Id]) {
                 SymptomTagModel *model=[[SymptomTagModel alloc]init];
                 model.tagCode=dict1[@"Code"];
@@ -801,5 +856,41 @@ NSDictionary *dict = @{@"currentDateValue":currentDate,@"currentTimeValue":curre
             }
         }
     }
+    [_tagCollectionView reloadData];
+    [self.view layoutIfNeeded];
+    _collectionViewHeight.constant=_tagCollectionView.contentSize.height;
+    [self setSymptomViewHeight];
+    _symptomtagTF.text=@"";
+}
+-(void)callApiForDeleteTag:(SymptomTagModel*)model
+{
+    NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,updateSymptomTag,model.tagCode];
+    NSString *parameter=[NSString stringWithFormat:@"{\"Name\": \"%@\",\"Status\": false, \"UserID\": %@,\"Id\": %@,\"MethodType\":\"PUT\"}",model.tagName,_model.Id,model.tagId];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [postman put:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self callApiTogetSymptomTag];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    }];
+}
+-(void)tagTextFieldChange{
+        if (allTagListArray.count>0) {
+            filterdTagListArray=[[NSMutableArray alloc]init];
+            NSPredicate *predicate=[NSPredicate predicateWithFormat:@"self CONTAINS[cd]%@",_symptomtagTF.text];
+            NSArray *array= [allTagListArray filteredArrayUsingPredicate:predicate];
+            [filterdTagListArray addObjectsFromArray:array];
+            if (filterdTagListArray.count>0) {
+                 _allTaglistTableView.hidden=NO;
+                _allTaglistTableView.layer.cornerRadius=5;
+                _allTaglistTableView.layer.borderWidth=1;
+                _allTaglistTableView.layer.borderColor=[UIColor lightGrayColor].CGColor;
+                [_allTaglistTableView reloadData];
+                if (_allTaglistTableView.contentSize.height>141) {
+                    _allTagListTableViewHeight.constant=141;
+                }else _allTagListTableViewHeight.constant=_allTaglistTableView.contentSize.height;
+            }
+            else  _allTaglistTableView.hidden=YES;
+        }
 }
 @end

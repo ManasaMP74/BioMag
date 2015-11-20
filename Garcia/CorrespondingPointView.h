@@ -5,5 +5,4 @@
 -(float)corespondingCellHeight;
 @property (strong, nonatomic) IBOutlet CorrespondingPointCell *correspondingCell;
 @property(strong,nonatomic)NSArray *correspondingPointArray;
--(void)reload;
 @end

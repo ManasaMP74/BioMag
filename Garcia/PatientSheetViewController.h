@@ -17,6 +17,7 @@
 @property (strong, nonatomic) IBOutlet UIView *symptomLabelView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *sittingCollectionViewWidth;
 @property (strong, nonatomic) IBOutlet UIView *treatmentClosureLabelView;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *allTagListTableViewHeight;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *sittingcollectionViewHeight;
 @property (strong, nonatomic) IBOutlet UIButton *takePic;
 @property (strong, nonatomic) IBOutlet UIButton *album;
@@ -25,4 +26,5 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *uploadCollectionViewHeight;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *uploadCollectionViewWidth;
 @property(strong,nonatomic)searchPatientModel *model;
+@property (strong, nonatomic) IBOutlet UITableView *allTaglistTableView;
 @end

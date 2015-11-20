@@ -25,6 +25,7 @@
 @property (strong, nonatomic) IBOutlet UIView *TreatmentView;
 @property (strong, nonatomic) IBOutlet UITableView *tableview;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *tableViewHeight;
+@property (strong, nonatomic) IBOutlet UIImageView *patientImageView;
 @end
 
 @implementation PatientViewController
@@ -62,6 +63,9 @@
     _genderValueLabel.text=_model.gender;
     _emailValueLabel.text=_model.emailId;
     _addressValueLabel.text=_model.address;
+    _patientImageView.image=_model.profileImage;
+    _patientImageView.layer.cornerRadius=_patientImageView.frame.size.width/2;
+    _patientImageView.clipsToBounds=YES;
 }
 //setfont for label
 -(void)setFont{
@@ -121,6 +125,6 @@
     [containerVC callEndEditing];
 }
 -(void)successfullyEdited{
-    [containerVC successfullyAdded];
+    [containerVC successfullyEdit];
 }
 @end

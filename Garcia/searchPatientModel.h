@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
-
+#import "ProfileImageModel.h"
+#import <UIKit/UIKit.h>
 @interface searchPatientModel : NSObject
 @property(strong,nonatomic)NSString *address;
 @property(strong,nonatomic)NSString *addressLine1;
@@ -33,6 +34,9 @@
 @property(strong,nonatomic)NSString *roleCode;
 @property(strong,nonatomic)NSString *password;
 @property(strong,nonatomic)NSString *userID;
-
+@property(strong,nonatomic)NSString *documentCode;
+@property(strong,nonatomic)NSString *documentTypeCode;
+@property(strong,nonatomic)NSString *profileImageCode;
+@property(strong,nonatomic)UIImage *profileImage;
 
 @end
