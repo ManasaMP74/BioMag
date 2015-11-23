@@ -66,6 +66,7 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *symptomTagViewHeight;
 @property (strong, nonatomic) IBOutlet UICollectionView *sittingCollectionView;
 @property (strong, nonatomic) IBOutlet UICollectionView *tagCollectionView;
+
 @end
 
 @implementation PatientSheetViewController
@@ -221,7 +222,7 @@
     if ([_increasesettingViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon-up"]]) {
         _settingView.hidden=NO;
         _sittingcollectionViewHeight.constant=sittingCollectionViewHeight;
-        _settingViewHeight.constant=sittingCollectionViewHeight+59;
+        _settingViewHeight.constant=sittingCollectionViewHeight+80;
         [self ChangeIncreaseDecreaseButtonImage:_increasesettingViewButton];
     }
     else{
@@ -234,7 +235,13 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (IBAction)closeTreatmentEncloser:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:@"Do you want to close TreatmentClosure" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK",@"Cancel", nil];
+    [alert show];
+}
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex==0) {
+          [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 //increase the View Height of patient view
 - (IBAction)increaseuploadView:(id)sender {
@@ -313,13 +320,13 @@
             }
             else{
                 NSDictionary *dict= diagnosisTableListArray[indexPath.section-1];
-                CGFloat i=_diagnosisView.frame.size.width-230;
+                CGFloat i=_diagnosisView.frame.size.width-229;
                 CGFloat labelHeight=[dict[@"message"] boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }
           options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
                 if (labelHeight<25) {
                     return 25;
                 }
-                else  return labelHeight+30;
+                else  return labelHeight;
             }
         }
         else return 25;
@@ -331,13 +338,13 @@
             }
             else{
                 NSDictionary *dict= medicalTableListArray[indexPath.section-1];
-                CGFloat i=_medicalHistoryView.frame.size.width-240;
+                CGFloat i=_medicalHistoryView.frame.size.width-231;
                 CGFloat labelHeight=[dict[@"message"] boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }
            options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
                 if (labelHeight<25) {
                     return 25;
                 }
-                else  return labelHeight+30;
+                else  return labelHeight;
             }
         }
         else return 25;
@@ -888,4 +895,26 @@ NSDictionary *dict = @{@"currentDateValue":currentDate,@"currentTimeValue":curre
             else  _allTaglistTableView.hidden=YES;
         }
 }
+-(void)textViewDidChange:(UITextView *)textView{
+    if (textView==_treatmentEncloserTextView) {
+        if ([_treatmentEncloserTextView.text isEqualToString:@""]) {
+            _addClosureNoteLabel.hidden=NO;
+        }
+        else _addClosureNoteLabel.hidden=YES;
+    }
+    if (textView==_medicalHistoryTextView) {
+        if ([_medicalHistoryTextView.text isEqualToString:@""]) {
+            _medicalNoteLabel.hidden=NO;
+        }
+        else _medicalNoteLabel.hidden=YES;
+    }
+    if (textView==_diagnosisTextView) {
+        if ([_diagnosisTextView.text isEqualToString:@""]) {
+            _diagnosisNoteLabel.hidden=NO;
+        }
+        else _diagnosisNoteLabel.hidden=YES;
+    }
+    
+}
+
 @end

@@ -5,7 +5,7 @@
 #define MAX(A,B)((A) > (B) ? (A) : (B))
 #endif
 
-@interface PatientSheetViewController : UIViewController<UITextViewDelegate,addSetting>
+@interface PatientSheetViewController : UIViewController<UITextViewDelegate,addSetting,UIAlertViewDelegate>
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollview;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *collectionViewHeight;
 @property (strong, nonatomic) IBOutlet UIButton *treatmentButton;
@@ -27,4 +27,7 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *uploadCollectionViewWidth;
 @property(strong,nonatomic)searchPatientModel *model;
 @property (strong, nonatomic) IBOutlet UITableView *allTaglistTableView;
+@property (strong, nonatomic) IBOutlet UILabel *diagnosisNoteLabel;
+@property (strong, nonatomic) IBOutlet UILabel *medicalNoteLabel;
+@property (strong, nonatomic) IBOutlet UILabel *addClosureNoteLabel;
 @end

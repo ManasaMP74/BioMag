@@ -39,7 +39,8 @@
 }
 - (void)get:(NSString *)URLString withParameters:(NSString *)parameter success:(void(^)(AFHTTPRequestOperation *operation,id responseObject))success failure:(void(^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
-    [self.manager GET:URLString parameters:parameter success:^(AFHTTPRequestOperation *operation,id responseObject)
+      NSDictionary *parameterDict=[NSJSONSerialization JSONObjectWithData:[parameter dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
+    [self.manager GET:URLString parameters:parameterDict success:^(AFHTTPRequestOperation *operation,id responseObject)
      {
          success(operation,responseObject);
          
