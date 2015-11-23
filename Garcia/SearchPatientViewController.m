@@ -40,7 +40,6 @@
     _searchTextField.layer.borderWidth=1;
     selectedIndexPath=nil;
      [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-02.jpg"]]];
-    [self callApi];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -51,6 +50,7 @@
     dateFormatter=[[NSDateFormatter alloc]init];
     patentnameArray=[[NSMutableArray alloc]init];
     _patientListTableView.tableFooterView=[UIView new];
+     [self callApi];
 }
 //TableView Number of section
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

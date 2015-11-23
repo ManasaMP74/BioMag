@@ -38,9 +38,9 @@
 }
 //signin button action
 - (IBAction)signIn:(id)sender {
-     [self performSegueWithIdentifier:@"loginSuccess" sender:nil];
     NSString *urlString = [NSString stringWithFormat:@"%@%@",baseUrl, logIn];
-    NSString *parameter = [NSString stringWithFormat:@"{\"Username\":\"%@\",\"Password\":\"%@\"}",_userNameTf.text,_passwordTF.text];
+   // NSString *parameter = [NSString stringWithFormat:@"{\"Username\":\"%@\",\"Password\":\"%@\"}",_userNameTf.text,_passwordTF.text];
+    NSString *parameter = [NSString stringWithFormat:@"{\"Username\":\"drluisgarcia@mydomain.com\",\"Password\":\"Power@1234\"}"];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman post:urlString withParameters:parameter
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -71,7 +71,7 @@
     NSDictionary *responseDict = response;
     if ([responseDict[@"Success"] boolValue])
     {
-        NSDictionary *userDict = responseDict[@"aaData"][@"UserDetailsViewModel"];
+        NSDictionary *userDict = responseDict[@"UserDetailsViewModel"];
         if ([userDict[@"UserTypeCode"] isEqual:@"DOC123"]) {
             return YES;
         }

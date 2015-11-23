@@ -69,7 +69,6 @@
 }
 //setfont for label
 -(void)setFont{
-    _TreatmentView.backgroundColor=[UIColor colorWithRed:0.73 green:0.76 blue:0.91 alpha:1];
     [constant setColorForLabel:_genderLabel];
     [constant setColorForLabel:_emailLabel];
     [constant setColorForLabel:_mobileLabel];

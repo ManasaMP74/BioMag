@@ -31,11 +31,11 @@
                         <color key="textColor" red="0.023529411764705882" green="0.23137254901960785" blue="0.30980392156862746" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Arrow-01" translatesAutoresizingMaskIntoConstraints="NO" id="jDD-1o-FLl">
-                        <rect key="frame" x="292" y="9" width="19" height="19"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Go-icon" translatesAutoresizingMaskIntoConstraints="NO" id="jDD-1o-FLl">
+                        <rect key="frame" x="299" y="13" width="12" height="12"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="19" id="0qW-pS-vLj"/>
-                            <constraint firstAttribute="height" constant="19" id="vQl-Ic-PCF"/>
+                            <constraint firstAttribute="width" constant="12" id="0qW-pS-vLj"/>
+                            <constraint firstAttribute="height" constant="12" id="vQl-Ic-PCF"/>
                         </constraints>
                     </imageView>
                 </subviews>
@@ -43,7 +43,7 @@
                 <constraints>
                     <constraint firstAttribute="centerY" secondItem="IUn-AH-Mkp" secondAttribute="centerY" id="0GG-oK-q06"/>
                     <constraint firstAttribute="trailing" secondItem="jDD-1o-FLl" secondAttribute="trailing" constant="8" id="MUB-7d-Hfe"/>
-                    <constraint firstAttribute="centerY" secondItem="jDD-1o-FLl" secondAttribute="centerY" constant="-0.5" id="vHK-E8-zOA"/>
+                    <constraint firstAttribute="centerY" secondItem="jDD-1o-FLl" secondAttribute="centerY" id="vHK-E8-zOA"/>
                     <constraint firstItem="jDD-1o-FLl" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="IUn-AH-Mkp" secondAttribute="trailing" constant="8" id="xOS-cd-ghN"/>
                     <constraint firstItem="IUn-AH-Mkp" firstAttribute="leading" secondItem="k3C-B9-7ve" secondAttribute="leading" constant="9" id="xbP-L9-Bb9"/>
                 </constraints>
@@ -57,6 +57,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="Arrow-01" width="19" height="19"/>
+        <image name="Go-icon" width="12" height="12"/>
     </resources>
 </document>

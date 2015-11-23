@@ -84,7 +84,7 @@
     sittingCollectionViewHeight=0.0,uploadCellHeight=0.0,diagnosisCellHeight=25.0,medicalHistoryCellHeight=25.0;
     constant=[[Constant alloc]init];
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-02.jpg"]]];
-    self.title=@"Patient Sheet";
+    self.title=@"Treatment Sheet";
     tagListArray=[[NSMutableArray alloc]init];
     [_treatmentNameTF addTarget:self action:@selector(enableAndDisableTreatmenyName) forControlEvents:UIControlEventEditingChanged];
     diagnosisTableListArray=[[NSMutableArray alloc]init];
@@ -145,7 +145,7 @@
 }
 //increase the View Height of patient view
 - (IBAction)increaseViewHeightOfPatientView:(id)sender {
-    if ([_increasePatientViewButton.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
+    if ([_increasePatientViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon-up"]]) {
         _increasePatientView.hidden=NO;
         _increasePatientViewHeight.constant=_addressLabel.frame.size.height+100;
         [self ChangeIncreaseDecreaseButtonImage:_increasePatientViewButton];
@@ -158,7 +158,7 @@
 }
 //increase the View Height of upload view
 - (IBAction)upload:(id)sender {
-    if ([_increaseUploadViewButton.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
+    if ([_increaseUploadViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon-up"]]) {
         _uploadView.hidden=NO;
         if (uploadedImageArray.count>0) {
             _uploadViewHeigh.constant=uploadCellHeight+185;
@@ -183,7 +183,7 @@
 }
 //increase the View Height of Daignosis view
 - (IBAction)increaseDiagnosisView:(id)sender {
-    if ([_increaseDiagnosisViewButton.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
+    if ([_increaseDiagnosisViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon-up"]]) {
         _diagnosisView.hidden=NO;
         _diagnosisViewHeight.constant=218;
         [self ChangeIncreaseDecreaseButtonImage:_increaseDiagnosisViewButton];
@@ -198,7 +198,7 @@
 }
 //increase the View Height of medical History view
 - (IBAction)increaseViewHeightOfMedicalHistort:(id)sender {
-    if ([_increaseMedicalViewButton.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
+    if ([_increaseMedicalViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon-up"]]) {
         _medicalHistoryView.hidden=NO;
         _medicalHistoryViewHeight.constant=250;
         [self ChangeIncreaseDecreaseButtonImage:_increaseMedicalViewButton];
@@ -218,10 +218,10 @@
 }
 //increase the View Height of setting view
 - (IBAction)increaseSettingView:(id)sender {
-    if ([_increasesettingViewButton.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
+    if ([_increasesettingViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon-up"]]) {
         _settingView.hidden=NO;
-        _sittingcollectionViewHeight.constant=_sittingCollectionView.contentSize.height;
-        _settingViewHeight.constant=_sittingCollectionView.contentSize.height+30;
+        _sittingcollectionViewHeight.constant=sittingCollectionViewHeight;
+        _settingViewHeight.constant=sittingCollectionViewHeight+59;
         [self ChangeIncreaseDecreaseButtonImage:_increasesettingViewButton];
     }
     else{
@@ -238,7 +238,7 @@
 }
 //increase the View Height of patient view
 - (IBAction)increaseuploadView:(id)sender {
-    if ([_increaseUploadViewButton.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
+    if ([_increaseUploadViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon-up"]]) {
         _uploadView.hidden=NO;
         _uploadViewHeigh.constant=250;
         [self ChangeIncreaseDecreaseButtonImage:_increaseUploadViewButton];
@@ -251,11 +251,11 @@
 }
 //set button color
 -(void)ChangeIncreaseDecreaseButtonImage:(UIButton*)btn{
-    if ([btn.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
-        [btn setImage:[UIImage imageNamed:@"Button-Expand"] forState:normal];
+    if ([btn.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon-up"]]) {
+        [btn setImage:[UIImage imageNamed:@"Dropdown-icon"] forState:normal];
     }
-    else  if ([btn.currentImage isEqual:[UIImage imageNamed:@"Button-Expand"]]) {
-        [btn setImage:[UIImage imageNamed:@"Button-Collapse"] forState:normal];
+    else  if ([btn.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
+        [btn setImage:[UIImage imageNamed:@"Dropdown-icon-up"] forState:normal];
     }
 }
 //tableview Datasource method
@@ -307,40 +307,41 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (tableView==_diagnosisTableView) {
-        if (diagnosisTableListArray.count>1) {
+        if (diagnosisTableListArray.count>0) {
             if (indexPath.section==0) {
                 return 25;
             }
             else{
-            NSDictionary *dict= diagnosisTableListArray[indexPath.section-1];
-            CGFloat labelHeight=[dict[@"message"] boundingRectWithSize:(CGSize){136,CGFLOAT_MAX }
-            options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
-            return labelHeight;
+                NSDictionary *dict= diagnosisTableListArray[indexPath.section-1];
+                CGFloat i=_diagnosisView.frame.size.width-230;
+                CGFloat labelHeight=[dict[@"message"] boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }
+          options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
+                if (labelHeight<25) {
+                    return 25;
+                }
+                else  return labelHeight+30;
             }
         }
         else return 25;
     }
-    else if (tableView==_MedicaltableView){
-        if (tableView==_diagnosisTableView) {
-            if (diagnosisTableListArray.count>1) {
-                if (indexPath.section==0) {
+    else {
+        if (medicalTableListArray.count>0) {
+            if (indexPath.section==0) {
+                return 25;
+            }
+            else{
+                NSDictionary *dict= medicalTableListArray[indexPath.section-1];
+                CGFloat i=_medicalHistoryView.frame.size.width-240;
+                CGFloat labelHeight=[dict[@"message"] boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }
+           options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
+                if (labelHeight<25) {
                     return 25;
                 }
-                else{
-            NSDictionary *dict= medicalTableListArray[indexPath.section-1];
-        CGFloat labelHeight=[dict[@"message"] boundingRectWithSize:(CGSize){136,CGFLOAT_MAX }
-    options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
-                    return labelHeight;
-                }
+                else  return labelHeight+30;
             }
-            else return 25;
         }
-         else return 25;
+        else return 25;
     }
- else if (tableView== _allTaglistTableView) {
-        return 30;
-    }
-  else  return 25;
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     if (tableView==_allTaglistTableView) {
@@ -348,6 +349,13 @@
     }
     else cell.backgroundColor=[UIColor clearColor];
 }
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (tableView==_allTaglistTableView) {
+        _symptomtagTF.text=filterdTagListArray[indexPath.section];
+        _allTaglistTableView.hidden=YES;
+    }
+}
+
 //CollectionView datasource Methods
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     if (collectionView== _sittingCollectionView) {
@@ -358,12 +366,6 @@
     }
     else
         return tagListArray.count;
-}
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (tableView==_allTaglistTableView) {
-        _symptomtagTF.text=filterdTagListArray[indexPath.section];
-        _allTaglistTableView.hidden=YES;
-    }
 }
 -(UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -377,7 +379,6 @@
         cell.sittingLabel.text=[NSString stringWithFormat:@"%@%d",@"Sitting #",indexPath.row+1];
          CollectionViewTableViewCell *c=(CollectionViewTableViewCell*)[cell.headerView.headerTableview cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:3]];
         cell.layer.cornerRadius=8;
-        
         SittingModelClass *model=sittingCollectionArray[indexPath.row];
         if ([model.completed isEqualToString:@"Yes"])
             c.switchImageView.image=[UIImage imageNamed:@"Button-on"];
@@ -502,89 +503,80 @@
             [self callAPIforAddSymptomTag];
         }
     }
-    //default values
-    -(void)defaultValue{
-        _treatmentClosureLabelView.layer.cornerRadius=1;
-        _treatmentclosureView.layer.cornerRadius=1;
-        _settingLabelView.layer.cornerRadius=1;
-        _settingView.layer.cornerRadius=1;
-        _uploadLabelView.layer.cornerRadius=1;
-        _uploadView.layer.cornerRadius=1;
-        _patientLabelView.layer.cornerRadius=1;
-        _increasePatientView.layer.cornerRadius=1;
-        _medicalHistoryLabelView .layer.cornerRadius=1;
-        _medicalHistoryView.layer.cornerRadius=1;
-        _diagnosisLabelView.layer.cornerRadius=1;
-        _diagnosisView.layer.cornerRadius=1;
-        _symptomLabelView.layer.cornerRadius=1;
-        _symptomView.layer.cornerRadius=1;
-        [self setSymptomViewHeight];
-        [constant spaceAtTheBeginigOfTextField:_symptomtagTF];
-        [constant SetBorderForTextField:_symptomtagTF];
-        [constant setFontForHeaders:_patientDetailLabel];
-        [constant setFontForHeaders:_treatmentEnclosure];
-        [constant setFontForHeaders:_settingLabel];
-        [constant setFontForHeaders:_uploadLabel];
-        [constant setFontForHeaders:_diagnosisLabel];
-        [constant setFontForHeaders:_medicalHistoryLabel];
-        [constant setFontForHeaders:_symptomtagLabel];
-        _medicalHistoryView.hidden=YES;
-        _medicalHistoryViewHeight.constant=0;
-        _diagnosisView.hidden=YES;
-        _diagnosisViewHeight.constant=0;
-        _settingView.hidden=YES;
-        _settingViewHeight.constant=0;
-        _increasePatientViewHeight.constant=_addressLabel.frame.size.height+100;
-        _increasePatientView.hidden=NO;
-        [_increaseDiagnosisViewButton setImage:[UIImage imageNamed:@"Button-Collapse"] forState:normal];
-        [_increaseMedicalViewButton setImage:[UIImage imageNamed:@"Button-Collapse"] forState:normal];
-        [_increasePatientViewButton setImage:[UIImage imageNamed:@"Button-Expand"] forState:normal];
-        [_increasesettingViewButton setImage:[UIImage imageNamed:@"Button-Collapse"] forState:normal];
-        _treatmentNameTF.attributedPlaceholder=[constant textFieldPatient:@"Title of the Treatment"];
-        [constant spaceAtTheBeginigOfTextField:_treatmentNameTF];
-        _treatmentEncloserTextView.layer.borderColor=[UIColor colorWithRed:0.682 green:0.718 blue:0.729 alpha:0.6].CGColor;
-        _treatmentEncloserTextView.layer.borderWidth=1;
-        _treatmentEncloserTextView.layer.cornerRadius=5;
-        _medicalHistoryTextView.layer.borderColor=[UIColor colorWithRed:0.682 green:0.718 blue:0.729 alpha:0.6].CGColor;
-        _medicalHistoryTextView.layer.borderWidth=1;
-        _medicalHistoryTextView.layer.cornerRadius=5;
-        _diagnosisTextView.layer.borderColor=[UIColor colorWithRed:0.682 green:0.718 blue:0.729 alpha:0.6].CGColor;
-        _diagnosisTextView.layer.borderWidth=1;
-        _diagnosisTextView.layer.cornerRadius=5;
-        _medicalHistoryTextView.textContainerInset = UIEdgeInsetsMake(10, 10,10, 10);
-        _diagnosisTextView.textContainerInset = UIEdgeInsetsMake(10, 10,10, 10);
-        [constant setColorForLabel:_nameLabel];
-        [constant setColorForLabel:_genderLabel];
-        [constant setColorForLabel:_emailLabel];
-        [constant setColorForLabel:_addressLabel];
-        [constant setColorForLabel:_ageLabel];
-        [constant setColorForLabel:_dobLabel];
-        [constant setColorForLabel:_martiralStatus];
-        [constant setFontForLabel:_genderValueLabel];
-        [constant setFontForLabel:_emailValueLabel];
-        [constant setFontForLabel:_nameValueLabel];
-        [constant setFontForLabel:_addressValueLabel];
-        [constant setFontForLabel:_ageValueLabel];
-        [constant setFontForLabel:_dobValueLabel];
-        [constant setFontForLabel:_mariedValueLabel];
-        _uploadView.hidden=YES;
-        _uploadViewHeigh.constant=0;
-         [_increaseUploadViewButton setImage:[UIImage imageNamed:@"Button-Collapse"] forState:normal];
-        
-        //Patient Detail
-        _nameValueLabel.text=_model.name;
-        _ageValueLabel.text=_model.age;
-        _dobValueLabel.text=_model.dob;
-        _mariedValueLabel.text=_model.maritialStatus;
-        _genderValueLabel.text=_model.gender;
-        _emailValueLabel.text=_model.emailId;
-        _addressValueLabel.text=_model.address;
-    }
+-(void)defaultValue{
+    _treatmentClosureLabelView.layer.cornerRadius=1;
+    _treatmentclosureView.layer.cornerRadius=1;
+    _settingLabelView.layer.cornerRadius=1;
+    _settingView.layer.cornerRadius=1;
+    _uploadLabelView.layer.cornerRadius=1;
+    _uploadView.layer.cornerRadius=1;
+    _patientLabelView.layer.cornerRadius=1;
+    _increasePatientView.layer.cornerRadius=1;
+    _medicalHistoryLabelView .layer.cornerRadius=1;
+    _medicalHistoryView.layer.cornerRadius=1;
+    _diagnosisLabelView.layer.cornerRadius=1;
+    _diagnosisView.layer.cornerRadius=1;
+    _symptomLabelView.layer.cornerRadius=1;
+    _symptomView.layer.cornerRadius=1;
+    [self setSymptomViewHeight];
+    [constant spaceAtTheBeginigOfTextField:_symptomtagTF];
+    [constant SetBorderForTextField:_symptomtagTF];
+    [constant setFontForHeaders:_patientDetailLabel];
+    [constant setFontForHeaders:_treatmentEnclosure];
+    [constant setFontForHeaders:_settingLabel];
+    [constant setFontForHeaders:_uploadLabel];
+    [constant setFontForHeaders:_diagnosisLabel];
+    [constant setFontForHeaders:_medicalHistoryLabel];
+    [constant setFontForHeaders:_symptomtagLabel];
+    _medicalHistoryView.hidden=YES;
+    _medicalHistoryViewHeight.constant=0;
+    _diagnosisView.hidden=YES;
+    _diagnosisViewHeight.constant=0;
+    _settingView.hidden=YES;
+    _settingViewHeight.constant=0;
+    _increasePatientViewHeight.constant=_addressLabel.frame.size.height+100;
+    _increasePatientView.hidden=NO;
+    [_increaseDiagnosisViewButton setImage:[UIImage imageNamed:@"Dropdown-icon-up"] forState:normal];
+    [_increaseMedicalViewButton setImage:[UIImage imageNamed:@"Dropdown-icon-up"] forState:normal];
+    [_increasePatientViewButton setImage:[UIImage imageNamed:@"Dropdown-icon"] forState:normal];
+    [_increasesettingViewButton setImage:[UIImage imageNamed:@"Dropdown-icon-up"] forState:normal];
+    _treatmentNameTF.attributedPlaceholder=[constant textFieldPatient:@"Title of the Treatment"];
+    [constant spaceAtTheBeginigOfTextField:_treatmentNameTF];
+    _treatmentEncloserTextView.layer.borderColor=[UIColor colorWithRed:0.682 green:0.718 blue:0.729 alpha:0.6].CGColor;
+    _treatmentEncloserTextView.layer.borderWidth=1;
+    _treatmentEncloserTextView.layer.cornerRadius=5;
+    _medicalHistoryTextView.layer.borderColor=[UIColor colorWithRed:0.682 green:0.718 blue:0.729 alpha:0.6].CGColor;
+    _medicalHistoryTextView.layer.borderWidth=1;
+    _medicalHistoryTextView.layer.cornerRadius=5;
+    _diagnosisTextView.layer.borderColor=[UIColor colorWithRed:0.682 green:0.718 blue:0.729 alpha:0.6].CGColor;
+    _diagnosisTextView.layer.borderWidth=1;
+    _diagnosisTextView.layer.cornerRadius=5;
+    _medicalHistoryTextView.textContainerInset = UIEdgeInsetsMake(10, 10,10, 10);
+    _diagnosisTextView.textContainerInset = UIEdgeInsetsMake(10, 10,10, 10);
+    [constant setColorForLabel:_nameLabel];
+    [constant setColorForLabel:_genderLabel];
+    [constant setColorForLabel:_emailLabel];
+    [constant setColorForLabel:_addressLabel];
+    [constant setColorForLabel:_ageLabel];
+    [constant setColorForLabel:_dobLabel];
+    [constant setColorForLabel:_martiralStatus];
+    [constant setFontForLabel:_genderValueLabel];
+    [constant setFontForLabel:_emailValueLabel];
+    [constant setFontForLabel:_nameValueLabel];
+    [constant setFontForLabel:_addressValueLabel];
+    [constant setFontForLabel:_ageValueLabel];
+    [constant setFontForLabel:_dobValueLabel];
+    [constant setFontForLabel:_mariedValueLabel];
+    _uploadView.hidden=YES;
+    _uploadViewHeigh.constant=0;
+    [_increaseUploadViewButton setImage:[UIImage imageNamed:@"Dropdown-icon-up"] forState:normal];
+    _symptomtagTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Add Symptom Tag"];
+}
     -(void)changeTreatmentTF{
         if (![_TitleName isEqual:@""]) {
             _treatmentNameTF.text=_TitleName;
             _treatmentNameTF.layer.borderWidth=0;
-            [_treatmentButton setImage:[UIImage imageNamed:@"Edit"] forState:normal];
+            [_treatmentButton setImage:[UIImage imageNamed:@"Edit-icon.png"] forState:normal];
             [constant setFontbold:_treatmentNameTF];
             _treatmentNameTF.enabled=NO;
             _treatmentButton.userInteractionEnabled=YES;
@@ -595,7 +587,7 @@
             _treatmentNameTF.layer.borderColor=[UIColor colorWithRed:0.557 green:0.733 blue:0.796 alpha:1].CGColor;
             _treatmentNameTF.attributedPlaceholder=[constant PatientSheetPlaceHolderText:@"Title of the Treatment"];
             _treatmentButton.userInteractionEnabled=NO;
-            [_treatmentButton setImage:[UIImage imageNamed:@"Button-Tick"] forState:normal];
+            [_treatmentButton setImage:[UIImage imageNamed:@"Tick-icon1.png"] forState:normal];
             _treatmentNameTF.enabled=YES;
             [constant spaceAtTheBeginigOfTextField:_treatmentNameTF];
         }
@@ -604,9 +596,9 @@
         _symptomTagViewHeight.constant=_tagCollectionView.contentSize.height+65;
     }
     - (IBAction)TreatmentButton:(id)sender {
-        if (![_treatmentButton.currentImage isEqual:[UIImage imageNamed:@"Edit"]]) {
+        if (![_treatmentButton.currentImage isEqual:[UIImage imageNamed:@"Edit-icon.png"]]) {
             _treatmentNameTF.layer.borderWidth=0;
-            [_treatmentButton setImage:[UIImage imageNamed:@"Edit"] forState:normal];
+            [_treatmentButton setImage:[UIImage imageNamed:@"Edit-icon.png"] forState:normal];
             [constant setFontbold:_treatmentNameTF];
             _treatmentNameTF.enabled=NO;
         }
@@ -614,7 +606,7 @@
             _treatmentNameTF.layer.borderWidth=1;
             _treatmentNameTF.layer.cornerRadius=5;
             _treatmentNameTF.layer.borderColor=[UIColor lightGrayColor].CGColor;
-            [_treatmentButton setImage:[UIImage imageNamed:@"Button-Tick"] forState:normal];
+            [_treatmentButton setImage:[UIImage imageNamed:@"Tick-icon1.png"] forState:normal];
             _treatmentNameTF.enabled=YES;
             [constant setFontSemibold:_treatmentNameTF];
         }
@@ -720,10 +712,13 @@ NSDictionary *dict = @{@"currentDateValue":currentDate,@"currentTimeValue":curre
             model.height=128;
             model.selectedScanPointIndexpath=nil;
             model.completed=completed;
+            model.noteIndex=nil;
+            model.headerIndex=nil;
             [sittingCollectionArray addObject:model];
     for (SittingModelClass *m in sittingCollectionArray) {
         sittingCollectionViewHeight=MAX(sittingCollectionViewHeight, m.height);
     }
+    _sittingcollectionViewHeight.constant=sittingCollectionViewHeight;
             [_sittingCollectionView reloadData];
              [self.view layoutIfNeeded];
             NSIndexPath *index=[NSIndexPath indexPathForRow:sittingCollectionArray.count-1 inSection:0];
