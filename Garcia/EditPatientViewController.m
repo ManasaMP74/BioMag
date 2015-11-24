@@ -65,6 +65,7 @@
     [super didReceiveMemoryWarning];
    
 }
+//default values
 -(void)defaultValues{
     _nameTF.text=_model.name;
      _genderTF.text=_model.gender;
@@ -232,7 +233,7 @@
         }
     }
 }
-
+//textField EndEditing
 - (void)textFieldDidEndEditing:(UITextField *)textFieldcs
 {
     activeField = nil;
@@ -243,10 +244,11 @@
     _gendertableview.hidden=YES;
     //activeField = textView;
 }
+//textField EndEditing
 - (void)textViewDidEndEditing:(UITextView *)textView{
     activeField = nil;
 }
-
+//Mobile number valid
 - (BOOL)myMobileNumberValidate:(NSString*)number
 {
     NSString *numberRegEx = @"[1-9]{1}[0-9]{9}";
@@ -256,7 +258,7 @@
     else
         return NO;
 }
-
+//Age Valid
 - (BOOL)myAgeValidate:(NSString*)number
 {
     NSString *numberRegEx = @"[0-9]{2}";
@@ -273,6 +275,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
 }
+//KeyBoard Shown
 - (void)keyboardWasShown:(NSNotification*)aNotification
 {
     NSDictionary* info = [aNotification userInfo];
@@ -286,19 +289,21 @@
         [self.scrollView scrollRectToVisible:activeField.frame animated:YES];
     }
 }
+//Keyboard Hidden
 - (void)keyboardWillBeHidden:(NSNotification*)aNotification
 {
     UIEdgeInsets contentInsets =UIEdgeInsetsZero;
     _scrollView.contentInset = contentInsets;
     _scrollView.scrollIndicatorInsets = contentInsets;
 }
-
+//get image
 -(void)getImage{
     UIImagePickerController *picker=[[UIImagePickerController alloc]init];
     picker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
     picker.delegate=self;
     [self.navigationController presentViewController:picker animated:YES completion:nil];
    }
+//image picker delegate
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
  UIImage *profileImage =info[UIImagePickerControllerOriginalImage];
        _patientImageView.image=profileImage;
@@ -330,6 +335,7 @@
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }];
 }
+//response object for gender
 -(void)prcessGenderObject:(id)responseObject{
     NSDictionary *dict=responseObject;
     for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
@@ -353,6 +359,7 @@
          [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }];
 }
+//for martial api
 -(void)prcessMartialObject:(id)responseObject{
     NSDictionary *dict=responseObject;
     for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
@@ -424,14 +431,15 @@
      NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,editPatient,_model.Id];
     NSData *parameterData = [NSJSONSerialization dataWithJSONObject:parameterDict options:NSJSONWritingPrettyPrinted error:nil];
      NSString *parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [containerVC showMBprogressTillLoadThedata];
     [postman put:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectForEdit:responseObject];
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [containerVC hideAllMBprogressTillLoadThedata];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [containerVC hideAllMBprogressTillLoadThedata];
     }];
 }
+//process response object for edit
 -(void)processResponseObjectForEdit:(id)responseObject{
     NSDictionary *dict=responseObject;
     if ([dict[@"Success"] intValue]==1) {
@@ -444,12 +452,14 @@
     }
     
 }
+//UIAlertView
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if ([alertView isEqual:successEditalert]) {
         [self.delegate successfullyEdited];
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
+//validate email
 -(void)validateEmail:(NSString*)email{
     NSString *emailRegEx=@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
     NSPredicate *emailTest=[NSPredicate predicateWithFormat:@"self matches %@",emailRegEx];
@@ -474,6 +484,7 @@
             else [self callApiForUpdate];
         }
 }
+//validate phone number
 -(int)validPhonenumber:(NSString *)string
 {
     NSString *phoneRegex = @"[0-9]{0,10}";
@@ -484,7 +495,7 @@
     }
     else return 1;
 }
-
+//save profile
 - (void)saveImage: (UIImage*)image
 {
     if (image != nil)
@@ -497,7 +508,6 @@
         
         [data writeToFile:path atomically:YES];
         [imageManager uploadUserImagePath:path forRequestCode:_model.code withDocumentType:@"ABC123" onCompletion:^(BOOL success){
-            NSLog(@"Image is uplodaded");
             if (success)
             {
             

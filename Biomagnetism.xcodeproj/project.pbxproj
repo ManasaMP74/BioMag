@@ -66,7 +66,6 @@
 		DAEFA1C51BD0B50800900379 /* EditPatientViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1C41BD0B50800900379 /* EditPatientViewController.m */; };
 		DAEFA1C81BD0B6C900900379 /* Constant.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1C71BD0B6C900900379 /* Constant.m */; };
 		DAEFA1CB1BD0B6D600900379 /* Postman.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1CA1BD0B6D600900379 /* Postman.m */; };
-		DAEFA1CE1BD0B6E300900379 /* DefaultValues.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1CD1BD0B6E300900379 /* DefaultValues.m */; };
 		DAEFA1D91BD0D8ED00900379 /* SearchPatientTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1D81BD0D8ED00900379 /* SearchPatientTableViewCell.m */; };
 		DAEFD0FA1BE732020054106B /* ScanPoinTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFD0F91BE732020054106B /* ScanPoinTableViewCell.m */; };
 		DAEFD0FC1BE732280054106B /* ScanPointTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAEFD0FB1BE732280054106B /* ScanPointTableViewCell.xib */; };
@@ -193,8 +192,6 @@
 		DAEFA1C71BD0B6C900900379 /* Constant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constant.m; sourceTree = "<group>"; };
 		DAEFA1C91BD0B6D600900379 /* Postman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Postman.h; sourceTree = "<group>"; };
 		DAEFA1CA1BD0B6D600900379 /* Postman.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Postman.m; sourceTree = "<group>"; };
-		DAEFA1CC1BD0B6E300900379 /* DefaultValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultValues.h; sourceTree = "<group>"; };
-		DAEFA1CD1BD0B6E300900379 /* DefaultValues.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultValues.m; sourceTree = "<group>"; };
 		DAEFA1D71BD0D8ED00900379 /* SearchPatientTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchPatientTableViewCell.h; sourceTree = "<group>"; };
 		DAEFA1D81BD0D8ED00900379 /* SearchPatientTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchPatientTableViewCell.m; sourceTree = "<group>"; };
 		DAEFD0F81BE732020054106B /* ScanPoinTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanPoinTableViewCell.h; sourceTree = "<group>"; };
@@ -434,7 +431,6 @@
 				DAEFA1D51BD0B74A00900379 /* EditPatient */,
 				DAEFA1D41BD0B72E00900379 /* AddPatient */,
 				DAE955571BD24A4900EDFD8F /* PtientSheet */,
-				DAEFA1D21BD0B70900900379 /* DammyData */,
 				DAF82CDD1BD4BA4E006AF1E1 /* ContainerVC */,
 				DAEFA1D01BD0B6F400900379 /* Constant */,
 				DAEC026E1BD5131F0095C6AE /* CustomFont */,
@@ -510,15 +506,6 @@
 				DAF616811C0428E500B54F5D /* ImageUploadAPI.m */,
 			);
 			name = Postman;
-			sourceTree = "<group>";
-		};
-		DAEFA1D21BD0B70900900379 /* DammyData */ = {
-			isa = PBXGroup;
-			children = (
-				DAEFA1CC1BD0B6E300900379 /* DefaultValues.h */,
-				DAEFA1CD1BD0B6E300900379 /* DefaultValues.m */,
-			);
-			name = DammyData;
 			sourceTree = "<group>";
 		};
 		DAEFA1D31BD0B71D00900379 /* SearchPatient */ = {
@@ -795,7 +782,6 @@
 				DA7502BB1BE867A100C9C3F6 /* HeaderTableViewModelClass.m in Sources */,
 				DAEFA1C81BD0B6C900900379 /* Constant.m in Sources */,
 				DAE48C711BF07B8F008AD2D3 /* editModel.m in Sources */,
-				DAEFA1CE1BD0B6E300900379 /* DefaultValues.m in Sources */,
 				DAF82CE01BD4BA74006AF1E1 /* ContainerViewController.m in Sources */,
 				DA130F381BEA1E1900B5B9FF /* Child.m in Sources */,
 			);

@@ -1,6 +1,5 @@
 #import "SearchPatientViewController.h"
 #import "SearchPatientTableViewCell.h"
-#import "DefaultValues.h"
 #import "Constant.h"
 #import "ContainerViewController.h"
 #import "MBProgressHUD.h"
@@ -15,7 +14,6 @@
 
 @implementation SearchPatientViewController
 {
-    DefaultValues *defaultValue;
     NSMutableArray *patentFilteredArray;
     Constant *constant;
     NSMutableArray *patentnameArray;
@@ -28,7 +26,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     initialSelectedRow=0;
-    defaultValue=[[DefaultValues alloc]init];
     postman=[[Postman alloc]init];
     postmanConstant=[[PostmanConstant alloc]init];
     constant=[[Constant alloc]init];
@@ -181,13 +178,14 @@ if (selectedIndexPath!=indexPath){
 
 }
 -(void)callApi{
-     [self.delegate showMBprogressTillLoadThedata];
+      ContainerViewController *containerVc=(ContainerViewController*)self.parentViewController;
+     [containerVc showMBprogressTillLoadThedata];
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPatientList];
     NSString *parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObject:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-       [self.delegate hideAllMBprogressTillLoadThedata];
+       [containerVc hideAllMBprogressTillLoadThedata];
     }];
 }
 -(void)processResponseObject:(id)responseObject{
@@ -195,7 +193,7 @@ if (selectedIndexPath!=indexPath){
     if ([dict1[@"Success"] intValue]==1) {
     for (NSDictionary *dict in dict1[@"ViewModels"]) {
             searchPatientModel *model=[[searchPatientModel alloc]init];
-        model.name=[NSString stringWithFormat:@"%@ %@",dict[@"Firstname"],dict[@"Lastname"]];
+            model.name=[NSString stringWithFormat:@"%@ %@",dict[@"Firstname"],dict[@"Lastname"]];
             model.Id=dict[@"Id"];
             model.userID=dict[@"Id"];
             model.memo=dict[@"Memo"];
@@ -262,11 +260,12 @@ if (selectedIndexPath!=indexPath){
             } onError:^(NSError *error) {
                 
             }];
+                ContainerViewController *containerVc=(ContainerViewController*)self.parentViewController;
             [model getJsonDataForGender:jsonDict1[@"Gender"] onComplete:^(NSString *genderName) {
                 model.gender=genderName;
                 [self reloadData];
                 if(MBProgressCountToHide==patentnameArray.count){
-                     [self.delegate hideAllMBprogressTillLoadThedata];
+                    [containerVc hideAllMBprogressTillLoadThedata];
                 }
             } onError:^(NSError *error) {
             }];

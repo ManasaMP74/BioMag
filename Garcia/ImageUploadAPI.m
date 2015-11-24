@@ -9,11 +9,12 @@
     NSString *_imagePath;
     NSString *_pathToDoc;
 }
+//get image
 - (void)uploadUserImagePath:(NSString *)imagePath forRequestCode:(NSString *)reqCode withDocumentType:(NSString*)docType onCompletion:(void (^)(BOOL))completionHandler
 {
     [self uploadImagePath:imagePath forRequestCode:reqCode withType:@"User"  withDocumentType:docType onCompletion:completionHandler];
 }
-
+//post image
 - (void)uploadImagePath:(NSString *)imagePath forRequestCode:(NSString *)reqCode withType:(NSString *)type withDocumentType:(NSString*)docType onCompletion:(void (^)(BOOL))completionHandler
 {
     if ([reqCode isKindOfClass:[NSNull class]])
@@ -39,9 +40,11 @@
     NSString *URLString = [NSString stringWithFormat:@"%@%@", baseUrl, uploadFile];
     
     [manager POST:URLString parameters:parameter constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        NSError *error;
         [formData appendPartWithFileURL:[NSURL fileURLWithPath:imagePath]
                                    name:@"Files"
-                                  error:nil];
+                                  error:&error];
+        NSLog(@"Error  formadata %@", error);
         
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         

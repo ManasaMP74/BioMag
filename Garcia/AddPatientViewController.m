@@ -86,6 +86,7 @@
     [datePicker alphaViewInitialize];
     datePicker.delegate=self;
 }
+//datepicker Delegate
 -(void)selectingDatePicker:(NSString *)date{
     _dateOfBirthTF.text=date;
 }
@@ -214,6 +215,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
 }
+//Keyboard shown
 - (void)keyboardWasShown:(NSNotification*)aNotification
 {
     NSDictionary* info = [aNotification userInfo];
@@ -227,6 +229,7 @@
         [self.scrollView scrollRectToVisible:activeField.frame animated:YES];
     }
 }
+//Keyboard Hidden
 - (void)keyboardWillBeHidden:(NSNotification*)aNotification
 {
     UIEdgeInsets contentInsets =UIEdgeInsetsZero;
@@ -239,22 +242,25 @@
     _gendertableview.hidden=YES;
     //activeField = textView;
 }
+//TextVie Delegate Method
 - (void)textViewDidEndEditing:(UITextView *)textView{
     activeField = nil;
 }
-
+//hide keyboard
 - (IBAction)hideKeyboard:(UIControl *)sender
 {
     [self.view endEditing:YES];
     _maritialTableView.hidden=YES;
     _gendertableview.hidden=YES;
 }
+//get image
 -(void)getImage{
     UIImagePickerController *picker=[[UIImagePickerController alloc]init];
     picker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
     picker.delegate=self;
     [self.navigationController presentViewController:picker animated:YES completion:nil];
 }
+//imagepicker delegate
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     UIImage *profileImage =info[UIImagePickerControllerOriginalImage];
     _patientImageView.image=profileImage;
@@ -315,17 +321,20 @@
      parameterDict[@"MiddleName"]=@"";
     parameterDict[@"LastName"]=@"";
     
+    UINavigationController *nav=(UINavigationController*)self.parentViewController;
+     ContainerViewController *containerVC=(ContainerViewController*)nav.parentViewController;
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,addPatient];
     NSData *parameterData = [NSJSONSerialization dataWithJSONObject:parameterDict options:NSJSONWritingPrettyPrinted error:nil];
     NSString *parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [containerVC showMBprogressTillLoadThedata];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectForAdd:responseObject];
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [containerVC hideAllMBprogressTillLoadThedata];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [containerVC hideAllMBprogressTillLoadThedata];
     }];
 }
+//response object of add patient
 -(void)processResponseObjectForAdd:(id)responseObject{
     NSDictionary *dict=responseObject;
     if ([dict[@"Success"] intValue]==1) {
@@ -338,6 +347,7 @@
     }
     
 }
+//alertview
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if ([alertView isEqual:successEditalert]) {
         [self.delegate successfullyAdded];
@@ -356,6 +366,7 @@
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }];
 }
+//response object of gender
 -(void)prcessGenderObject:(id)responseObject{
     NSDictionary *dict=responseObject;
     for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
@@ -379,6 +390,7 @@
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }];
 }
+//response object of martial status
 -(void)prcessMartialObject:(id)responseObject{
     NSDictionary *dict=responseObject;
     for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
@@ -390,6 +402,7 @@
         }
     }
 }
+//validate email
 -(void)validateEmail:(NSString*)email{
     NSString *emailRegEx=@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
     NSPredicate *emailTest=[NSPredicate predicateWithFormat:@"self matches %@",emailRegEx];
@@ -413,6 +426,7 @@
         }
         else [self callApiForAdd];
     }}
+//validate phone number
 -(int)validPhonenumber:(NSString *)string
 {
     NSString *phoneRegex = @"[0-9]{0,10}";

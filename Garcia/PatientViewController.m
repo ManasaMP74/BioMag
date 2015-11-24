@@ -98,6 +98,7 @@
     tableView.tableFooterView=[UIView new];
     return cell;
 }
+//table didselect
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPat{
     UITableViewCell *cell=(UITableViewCell*)[tableView cellForRowAtIndexPath:indexPat];
      UILabel *label=(UILabel*)[cell viewWithTag:10];
@@ -116,14 +117,17 @@
         edit.delegate=self;
     }
 }
+//add treatment
 - (IBAction)addTreatment:(id)sender {
     containerVC.model=_model;
 [containerVC pushTreatmentViewController:@""];
 }
+//add tap gesture
 - (IBAction)gesture:(id)sender {
     [self.view endEditing:YES];
     [containerVC callEndEditing];
 }
+//successfully edited
 -(void)successfullyEdited{
     [containerVC successfullyEdit];
 }

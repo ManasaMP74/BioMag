@@ -6,14 +6,17 @@
     NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.333 green:0.329 blue:0.39 alpha:1], NSFontAttributeName :[self customFont:12 ofName:OpenSansRegular]}];
     return str;
 }
+//textFieldPlaceHolder
 -(NSAttributedString*)PatientSheetPlaceHolderText:(NSString *)text{
     NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.333 green:0.329 blue:0.39 alpha:1], NSFontAttributeName :[self customFont:15 ofName:OpenSansRegular]}];
     return str;
 }
+//textFieldPlaceHolder
 -(NSAttributedString*)textFieldPlaceLogin:(NSString *)text{
     NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.333 green:0.329 blue:0.39 alpha:1], NSFontAttributeName :[self customFont:18 ofName:OpenSansRegular]}];
     return str;
 }
+//textFieldPlaceHolder
 -(NSAttributedString*)textFieldPatient:(NSString *)text{
     NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.318 green:0.416 blue:0.463 alpha:1], NSFontAttributeName :[self customFont:16 ofName:OpenSansRegular]}];
     return str;

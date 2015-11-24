@@ -4,7 +4,7 @@
 #import "PatientSheetViewController.h"
 #import "SearchPatientViewController.h"
 #import "MBProgressHUD.h"
-@interface ContainerViewController ()<addedPatient,showMBProgressInContainerVC>
+@interface ContainerViewController ()<addedPatient>
 
 @end
 
@@ -32,8 +32,6 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    SearchPatientViewController *searchVC=[self.childViewControllers firstObject];
-    searchVC.delegate=self;
 }
 //pop back
 -(void)popToViewController{

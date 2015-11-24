@@ -18,6 +18,7 @@
     [requestSerializer setValue:@"x-access-token" forHTTPHeaderField:@"x-access-token"];
     self.manager.requestSerializer=requestSerializer;
 }
+//post method
 - (void)post:(NSString *)URLString withParameters:(NSString *)parameter success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
     NSDictionary *parameterDict = [NSJSONSerialization JSONObjectWithData:[parameter dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
@@ -28,6 +29,7 @@
         NSLog(@"Error");
     }];
 }
+//put method
 - (void)put:(NSString *)URLString withParameters:(NSString *)parameter success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
     NSDictionary *parameterDict=[NSJSONSerialization JSONObjectWithData:[parameter dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
@@ -37,6 +39,7 @@
         failure(operation,error);
     }];
 }
+//get data
 - (void)get:(NSString *)URLString withParameters:(NSString *)parameter success:(void(^)(AFHTTPRequestOperation *operation,id responseObject))success failure:(void(^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
     [self.manager GET:URLString parameters:nil success:^(AFHTTPRequestOperation *operation,id responseObject)

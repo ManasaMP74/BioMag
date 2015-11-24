@@ -24,7 +24,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Sua-sO-PHy">
-                    <rect key="frame" x="0.0" y="10" width="233" height="162"/>
+                    <rect key="frame" x="16" y="10" width="201" height="162"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="162" id="8yq-2l-P6v"/>
@@ -87,9 +87,9 @@
             <constraints>
                 <constraint firstItem="lwm-y7-pco" firstAttribute="leading" secondItem="spa-Yr-0XN" secondAttribute="leading" id="0ha-3b-GTX"/>
                 <constraint firstItem="lwm-y7-pco" firstAttribute="top" secondItem="Sua-sO-PHy" secondAttribute="bottom" id="6Fh-h4-qJY"/>
-                <constraint firstAttribute="trailing" secondItem="Sua-sO-PHy" secondAttribute="trailing" id="7hq-lI-nhD"/>
+                <constraint firstAttribute="trailing" secondItem="Sua-sO-PHy" secondAttribute="trailing" constant="16" id="7hq-lI-nhD"/>
                 <constraint firstItem="lwm-y7-pco" firstAttribute="centerX" secondItem="Sua-sO-PHy" secondAttribute="centerX" id="ELt-JO-IAS"/>
-                <constraint firstItem="Sua-sO-PHy" firstAttribute="leading" secondItem="spa-Yr-0XN" secondAttribute="leading" id="EXK-iE-Gf5"/>
+                <constraint firstItem="Sua-sO-PHy" firstAttribute="leading" secondItem="spa-Yr-0XN" secondAttribute="leading" constant="16" id="EXK-iE-Gf5"/>
                 <constraint firstItem="Sua-sO-PHy" firstAttribute="top" secondItem="spa-Yr-0XN" secondAttribute="top" constant="10" id="I26-2t-45i"/>
                 <constraint firstAttribute="bottom" secondItem="lwm-y7-pco" secondAttribute="bottom" id="NHv-j2-oDq"/>
                 <constraint firstAttribute="trailing" secondItem="lwm-y7-pco" secondAttribute="trailing" id="lLz-Lg-rJf"/>

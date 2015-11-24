@@ -12,4 +12,5 @@ NSString *const getSymptomTag=@"symptomtag";
 NSString *const updateSymptomTag=@"symptomtag/";
 NSString *const getProfile=@"DownloadDoc/";
 NSString *const uploadFile=@"upload";
+NSString *const section=@"Section";
 @end

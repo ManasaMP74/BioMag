@@ -87,7 +87,7 @@
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-02.jpg"]]];
     self.title=@"Treatment Sheet";
     tagListArray=[[NSMutableArray alloc]init];
-    [_treatmentNameTF addTarget:self action:@selector(enableAndDisableTreatmenyName) forControlEvents:UIControlEventEditingChanged];
+    [_treatmentNameTF addTarget:self action:@selector(enableAndDisableTreatmentName) forControlEvents:UIControlEventEditingChanged];
     diagnosisTableListArray=[[NSMutableArray alloc]init];
     medicalTableListArray=[[NSMutableArray alloc]init];
     uploadedImageArray=[[NSMutableArray alloc]init];
@@ -109,6 +109,7 @@
     [super viewDidAppear:animated];
     [_sittingCollectionView reloadData];
 }
+//navigation bar
 -(void)navigationItemMethod{
     UIImage* image3 = [UIImage imageNamed:@"Icon-Signout.png"];
     CGRect frameimg = CGRectMake(0, 0, image3.size.width, image3.size.height);
@@ -129,13 +130,16 @@
     [button addTarget:self action:@selector(popView) forControlEvents:UIControlEventTouchUpInside];
 
 }
+//pop view
 -(void)popView{
     [self.navigationController popViewControllerAnimated:YES];
 }
+//pop to root view
 -(void)popToViewController{
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
--(void)enableAndDisableTreatmenyName{
+//enable disable treatmentName
+-(void)enableAndDisableTreatmentName{
     if (![_treatmentNameTF.text isEqualToString:@""]) {
         _treatmentButton.userInteractionEnabled=YES;
     }
@@ -174,6 +178,7 @@
         [self ChangeIncreaseDecreaseButtonImage:_increaseUploadViewButton];
     }
 }
+//save medical history
 - (IBAction)saveMedicalHistory:(id)sender {
     if (![_medicalHistoryTextView.text isEqualToString:@""]) {
         [self getCurrentTimeAndDate:@"medical"];
@@ -195,6 +200,7 @@
         [self ChangeIncreaseDecreaseButtonImage:_increaseDiagnosisViewButton];
     }
 }
+//record medical history
 - (IBAction)recordMedicalHistory:(id)sender {
 }
 //increase the View Height of medical History view
@@ -210,6 +216,7 @@
         [self ChangeIncreaseDecreaseButtonImage:_increaseMedicalViewButton];
     }
 }
+//save diagnosis textview
 - (IBAction)saveDiagnosisTextViewValue:(id)sender {
     if (![_diagnosisTextView.text isEqualToString:@""]) {
         [self getCurrentTimeAndDate:@"Diagnosis"];
@@ -231,13 +238,16 @@
         [self ChangeIncreaseDecreaseButtonImage:_increasesettingViewButton];
     }
 }
+//save treatment enclosure
 - (IBAction)saveTreatmentEncloser:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
+//cancel treatment enclosure
 - (IBAction)closeTreatmentEncloser:(id)sender {
     UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:@"Do you want to close Treatment Closure?" delegate:self cancelButtonTitle:nil otherButtonTitles:@"YES",@"NO", nil];
     [alert show];
 }
+//alert view delegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex==0) {
           [self.navigationController popViewControllerAnimated:YES];
@@ -281,6 +291,7 @@
     else
         return diagnosisTableListArray.count+1;
 }
+//table view delegate
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (tableView==_allTaglistTableView) {
         UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
@@ -312,6 +323,7 @@
         return cell;
 }
 }
+//height for row
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (tableView==_diagnosisTableView) {
         if (diagnosisTableListArray.count>0) {
@@ -350,12 +362,14 @@
         else return 25;
     }
 }
+//display cell
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     if (tableView==_allTaglistTableView) {
         cell.backgroundColor=[UIColor whiteColor];
     }
     else cell.backgroundColor=[UIColor clearColor];
 }
+//select tableview cell
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (tableView==_allTaglistTableView) {
         _symptomtagTF.text=filterdTagListArray[indexPath.section];
@@ -374,6 +388,7 @@
     else
         return tagListArray.count;
 }
+//collectionview cell
 -(UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     if (collectionView==_sittingCollectionView) {
@@ -428,6 +443,7 @@
             return cell;
         }
 }
+//collectionview cell size
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     if (collectionView==_sittingCollectionView) {
         return CGSizeMake(280,sittingCollectionViewHeight+100);
@@ -443,11 +459,12 @@
         return CGSizeMake(width+10,40);
     }
 }
-
+//spacing between cell
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionView *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
     return 10;
 }
+//collectionview cell display
 -(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
     if (collectionView==_tagCollectionView) {
         cell.backgroundColor=[UIColor colorWithRed:0.55 green:0.59 blue:0.78 alpha:0.7];
@@ -456,6 +473,7 @@
         cell.backgroundColor=[UIColor clearColor];
     }
 }
+//select collection view cell
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     if (collectionView==_uploadCollectionView) {
         [self.navigationController pushViewController:attachView animated:YES];
@@ -468,7 +486,7 @@
         attachView.textViewEnabled=NO;
     }
 }
-
+//increase cell height of sitting
 -(void)increaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath withHeader:(NSIndexPath*)headerIndex withNoteHeader:(NSIndexPath*)NoteIndex{
     NSIndexPath *indexpath1=[_sittingCollectionView indexPathForCell:cell];
     SittingModelClass *model=sittingCollectionArray[indexpath1.row];
@@ -484,6 +502,7 @@
     [self.view layoutIfNeeded];
     _settingViewHeight.constant=sittingCollectionViewHeight+140;
 }
+//decrease sitting
 -(void)decreaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath withHeader:(NSIndexPath*)headerIndex withNoteHeader:(NSIndexPath*)NoteIndex{
     sittingCollectionViewHeight=0.0;
     NSIndexPath *indexpath1=[_sittingCollectionView indexPathForCell:cell];
@@ -510,6 +529,7 @@
             [self callAPIforAddSymptomTag];
         }
     }
+//default values
 -(void)defaultValue{
     _treatmentClosureLabelView.layer.cornerRadius=1;
     _treatmentclosureView.layer.cornerRadius=1;
@@ -579,6 +599,7 @@
     [_increaseUploadViewButton setImage:[UIImage imageNamed:@"Dropdown-icon-up"] forState:normal];
     _symptomtagTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Add Symptom Tags"];
 }
+//change treatment textfield
     -(void)changeTreatmentTF{
         if (![_TitleName isEqual:@""]) {
             _treatmentNameTF.text=_TitleName;
@@ -599,9 +620,11 @@
             [constant spaceAtTheBeginigOfTextField:_treatmentNameTF];
         }
     }
+//set symptom height
     -(void)setSymptomViewHeight{
         _symptomTagViewHeight.constant=_tagCollectionView.contentSize.height+65;
     }
+//treatment button
     - (IBAction)TreatmentButton:(id)sender {
         if (![_treatmentButton.currentImage isEqual:[UIImage imageNamed:@"Edit-icon.png"]]) {
             _treatmentNameTF.layer.borderWidth=0;
@@ -635,6 +658,7 @@ NSDictionary *dict = @{@"currentDateValue":currentDate,@"currentTimeValue":curre
             [diagnosisTableListArray addObject:dict];
         }
     }
+//take pic
     - (IBAction)takePic:(id)sender {
         UIImagePickerController *picker=[[UIImagePickerController alloc]init];
         picker.sourceType=UIImagePickerControllerSourceTypeCamera;
@@ -642,12 +666,14 @@ NSDictionary *dict = @{@"currentDateValue":currentDate,@"currentTimeValue":curre
         [self presentViewController:picker animated:YES completion:nil];
         picker.delegate=self;
     }
+//take photo from library
     - (IBAction)album:(id)sender {
         UIImagePickerController *picker=[[UIImagePickerController alloc]init];
         picker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
         [self presentViewController:picker animated:YES completion:nil];
         picker.delegate=self;
     }
+//image picker delegate
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
         NSString *mediaType=[info objectForKey:UIImagePickerControllerMediaType];
         if ([mediaType isEqual:@"public.image"]) {

@@ -65,7 +65,7 @@
               
           }];
 }
-
+//parse login response
 - (BOOL)parseLoginResponse:(id)response
 {
     NSDictionary *responseDict = response;
@@ -84,6 +84,7 @@
     
     return NO;
 }
+//validate login
 - (BOOL)validateLoginFields
 {
     NSString *emailId = self.userNameTf.text;

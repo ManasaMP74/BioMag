@@ -10,4 +10,7 @@
 -(void)successfullyAdded;
 @property(strong,nonatomic)searchPatientModel *model;
 -(void)successfullyEdit;
+-(void)showMBprogressTillLoadThedata;
+-(void)hideMBprogressTillLoadThedata;
+-(void)hideAllMBprogressTillLoadThedata;
 @end
