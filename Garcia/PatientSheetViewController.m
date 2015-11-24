@@ -235,7 +235,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (IBAction)closeTreatmentEncloser:(id)sender {
-    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:@"Do you want to close TreatmentClosure" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK",@"Cancel", nil];
+    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:@"Do you want to close Treatment Closure?" delegate:self cancelButtonTitle:nil otherButtonTitles:@"YES",@"NO", nil];
     [alert show];
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -577,7 +577,7 @@
     _uploadView.hidden=YES;
     _uploadViewHeigh.constant=0;
     [_increaseUploadViewButton setImage:[UIImage imageNamed:@"Dropdown-icon-up"] forState:normal];
-    _symptomtagTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Add Symptom Tag"];
+    _symptomtagTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Add Symptom Tags"];
 }
     -(void)changeTreatmentTF{
         if (![_TitleName isEqual:@""]) {

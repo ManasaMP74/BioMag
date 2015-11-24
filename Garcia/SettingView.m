@@ -76,12 +76,12 @@
     
     PartModel *part = [[PartModel alloc] init];
     part.title = @"Eye";
-    part.allScanPoints = @[@"Eye Optic Nerve", @"Opposite Eye",@"Cerebellum"];
+    part.allScanPoints = @[@"Eye Optic Nerve", @"Opposite Eye",@"Cerebellum",@"Cornea",@"Retina"];
     [mut addObject:part];
     
     part = [[PartModel alloc] init];
     part.title = @"Thyroid";
-    part.allScanPoints = @[@"Cheekbone", @"Liver",@"Adrenal Glands"];
+    part.allScanPoints = @[@"Cheekbone", @"Liver",@"Adrenal Glands",@"Pyramidal Lobe",@"Thyroid Cartilage"];
     [mut addObject:part];
     
     part = [[PartModel alloc] init];

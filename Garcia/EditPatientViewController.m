@@ -7,6 +7,7 @@
 #import "PostmanConstant.h"
 #import "MBProgressHUD.h"
 #import "editModel.h"
+#import "ImageUploadAPI.h"
 @interface EditPatientViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,datePickerProtocol,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *nameTF;
 @property (strong, nonatomic) IBOutlet UITextField *genderTF;
@@ -34,10 +35,12 @@
     Postman *postman;
     UIAlertView *successEditalert,*failureEditAlert;
     NSString *genderCode,*martialCode;
+    ImageUploadAPI *imageManager;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     constant=[[Constant alloc]init];
+    imageManager=[[ImageUploadAPI alloc]init];
     [self textFieldLayer];
     genderArray=[[NSMutableArray alloc]init];
     MaritialStatusArray=[[NSMutableArray alloc]init];
@@ -301,6 +304,7 @@
        _patientImageView.image=profileImage;
     containerVC.viewControllerDiffer=@"Edit";
       [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    [self saveImage:_patientImageView.image];
 }
 // hide keyboard
 - (IBAction)hideKeyboard:(UIControl *)sender
@@ -377,7 +381,6 @@
     dict1[@"State"]=@"";
     dict1[@"City"]=@"";
     dict1[@"Postal"]=@"";
-  
     NSMutableDictionary *address=[[NSMutableDictionary alloc]init];
     address[@"PermanentAddress"]=dict;
     address[@"TemporaryAddress"]=dict1;
@@ -395,10 +398,8 @@
     NSData *jsonData2 = [NSJSONSerialization dataWithJSONObject:jsonWithGender options:kNilOptions error:nil];
     
     NSString *genderData = [[NSString alloc] initWithData:jsonData2 encoding:NSUTF8StringEncoding];
-    
-    
     NSMutableDictionary *parameterDict=[[NSMutableDictionary alloc]init];
-NSDateFormatter *format=[[NSDateFormatter alloc]init];
+    NSDateFormatter *format=[[NSDateFormatter alloc]init];
     [format setDateFormat:@"dd-MMM-yyyy"];
     NSDate *Dobdate=[format dateFromString:_dateOfBirthTF.text];
     [format setDateFormat:@"yyyy-MM-dd"];
@@ -482,6 +483,31 @@ NSDateFormatter *format=[[NSDateFormatter alloc]init];
         return 0;
     }
     else return 1;
+}
+
+- (void)saveImage: (UIImage*)image
+{
+    if (image != nil)
+    {
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString* path = [documentsDirectory stringByAppendingPathComponent:@"EdittedProfile.jpeg" ];
+        //        NSData* data = UIImagePNGRepresentation(image);
+        NSData* data = UIImageJPEGRepresentation(image, .5);
+        
+        [data writeToFile:path atomically:YES];
+        [imageManager uploadUserImagePath:path forRequestCode:_model.code withDocumentType:@"ABC123" onCompletion:^(BOOL success){
+            NSLog(@"Image is uplodaded");
+            if (success)
+            {
+            
+            }else
+            {
+                
+            }
+        }];
+        
+    }
 }
 
 @end

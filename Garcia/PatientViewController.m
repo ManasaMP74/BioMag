@@ -42,6 +42,7 @@
     [self setFont];
     [self dummyData];
     _tableViewHeight.constant=self.tableview.contentSize.height;
+    
 }
 
 - (void)didReceiveMemoryWarning {

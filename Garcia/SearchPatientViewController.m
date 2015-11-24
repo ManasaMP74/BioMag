@@ -23,7 +23,7 @@
     PostmanConstant *postmanConstant;
     Postman *postman;
     NSDateFormatter *dateFormatter;
-    int initialSelectedRow;
+    int initialSelectedRow,MBProgressCountToHide;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -40,6 +40,7 @@
     _searchTextField.layer.borderWidth=1;
     selectedIndexPath=nil;
      [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-02.jpg"]]];
+     patentnameArray=[[NSMutableArray alloc]init];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -48,9 +49,11 @@
     [super viewWillAppear:YES];
     [constant setFontFortextField:_searchTextField];
     dateFormatter=[[NSDateFormatter alloc]init];
-    patentnameArray=[[NSMutableArray alloc]init];
     _patientListTableView.tableFooterView=[UIView new];
-     [self callApi];
+    if (patentnameArray.count==0) {
+        MBProgressCountToHide=0;
+        [self callApi];
+    }
 }
 //TableView Number of section
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -178,14 +181,13 @@ if (selectedIndexPath!=indexPath){
 
 }
 -(void)callApi{
+     [self.delegate showMBprogressTillLoadThedata];
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPatientList];
     NSString *parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
-    [self.delegate showMBprogressTillLoadThedata];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObject:responseObject];
-        [self.delegate hideMBprogressTillLoadThedata];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-       [self.delegate hideMBprogressTillLoadThedata];
+       [self.delegate hideAllMBprogressTillLoadThedata];
     }];
 }
 -(void)processResponseObject:(id)responseObject{
@@ -263,6 +265,9 @@ if (selectedIndexPath!=indexPath){
             [model getJsonDataForGender:jsonDict1[@"Gender"] onComplete:^(NSString *genderName) {
                 model.gender=genderName;
                 [self reloadData];
+                if(MBProgressCountToHide==patentnameArray.count){
+                     [self.delegate hideAllMBprogressTillLoadThedata];
+                }
             } onError:^(NSError *error) {
             }];
             NSDate *date = [dateFormatter dateFromString:model.dob];
@@ -279,13 +284,17 @@ if (selectedIndexPath!=indexPath){
         NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
         [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
     }
+    [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedIndexPath];
+    MBProgressCountToHide++;
 }
 -(void)againCallApiAfterAddPatient{
+     MBProgressCountToHide=0;
     patentnameArray=[[NSMutableArray alloc]init];
     initialSelectedRow=0;
     [self callApi];
 }
 -(void)againCallApiAfterEditPatient{
+     MBProgressCountToHide=0;
     patentnameArray=[[NSMutableArray alloc]init];
     initialSelectedRow=-1;
     [self callApi];
