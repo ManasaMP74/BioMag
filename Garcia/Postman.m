@@ -11,8 +11,8 @@
 -(void)initiate
 
 {
-   
-    NSString *token=@"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ2IjowLCJpYXQiOjE0NDg0MjY2NzUsImQiOnsidWlkIjozMDA0MiwiRmlyc3ROYW1lIjoiTHVpcyIsIkVtYWlsIjoiZHJsdWlzZ2FyY2lhQG15ZG9tYWluLmNvbSJ9LCJleHAiOjE0NDg0MzAyNzUsIm5iZiI6MTQ0ODQyNjY3NSwiZGVidWciOnRydWV9.drqd8Pqtm9ItVsYMJa2igubTUojPSvZHSQ1hfQk00kI";
+    NSUserDefaults *defaultvalue=[NSUserDefaults standardUserDefaults];
+    NSString *token= [defaultvalue valueForKey:@"X-access-Token"];
     
     
     self.manager=[AFHTTPRequestOperationManager manager];

@@ -73,6 +73,8 @@
     {
         NSDictionary *userDict = responseDict[@"UserDetailsViewModel"];
         if ([userDict[@"UserTypeCode"] isEqual:@"DOC123"]) {
+            NSUserDefaults *defaultvalue=[NSUserDefaults standardUserDefaults];
+            [defaultvalue setValue:responseDict[@"token"] forKey:@"X-access-Token"];
             return YES;
         }
         else return NO;
