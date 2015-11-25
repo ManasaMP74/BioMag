@@ -518,15 +518,10 @@
         }];
     }
 }
-
-
 - (void)uploadUserImagePath:(NSString *)imagePath forRequestCode:(NSString *)reqCode onCompletion:(void (^)(BOOL))completionHandler
 {
     [self uploadImagePath:imagePath forRequestCode:reqCode withType:@"user" onCompletion:completionHandler];
 }
-
-
-
 
 - (void)uploadImagePath:(NSString *)imagePath forRequestCode:(NSString *)reqCode withType:(NSString *)type onCompletion:(void (^)(BOOL))completionHandler
 {
@@ -538,9 +533,13 @@
     {
         return;
     }
+    NSUserDefaults *defaulValue=[NSUserDefaults standardUserDefaults];
+    NSString *token=[defaulValue valueForKey:@"X-access-Token"];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
     [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [requestSerializer setValue:token forHTTPHeaderField:@"x-access-token"];
+
     manager.requestSerializer = requestSerializer;
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"multipart/form-data"];
     

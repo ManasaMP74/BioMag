@@ -7,6 +7,7 @@
 #import "PartModel.h"
 #import "PostmanConstant.h"
 #import "Postman.h"
+#import "settingModel.h"
 #import "MBProgressHUD.h"
 @implementation SettingView
 {
@@ -185,9 +186,27 @@
     NSDictionary *dict=responseObject;
     for (NSDictionary *dict1 in dict[@"ViewModels"]) {
         if ([dict1[@"Status"] intValue]==1) {
-            
+            settingModel *model=[[settingModel alloc]init];
+            model.Id=dict1[@"Id"];
+            model.code=dict1[@"Code"];
+            model.sectionCode=dict1[@"SectionCode"];
         }
         
     }
+}
+-(void)callApiToGetTheallDetailofSection:(settingModel*)model{
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,anotomicalPointByCriteria];
+    NSString *parameter=[NSString stringWithFormat:@"{\"SectionCode\": \"%@\",}",model.sectionCode];
+    [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
+    [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self processSectionWithCriteria:responseObject];
+        [MBProgressHUD hideHUDForView:alphaView animated:YES];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [MBProgressHUD hideHUDForView:alphaView animated:YES];
+    }];
+}
+-(void)processSectionWithCriteria:(id)responseObject{
+ NSDictionary *dict=responseObject;
+
 }
 @end

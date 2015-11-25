@@ -71,6 +71,7 @@
 		DAEFD0FC1BE732280054106B /* ScanPointTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAEFD0FB1BE732280054106B /* ScanPointTableViewCell.xib */; };
 		DAF277251BFAEC5A00D236B2 /* SymptomTagModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF277241BFAEC5A00D236B2 /* SymptomTagModel.m */; };
 		DAF277281BFB135300D236B2 /* ProfileImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF277271BFB135300D236B2 /* ProfileImageModel.m */; };
+		DAF450461C05DCFC00AF5FEB /* settingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF450451C05DCFC00AF5FEB /* settingModel.m */; };
 		DAF616821C0428E500B54F5D /* ImageUploadAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF616811C0428E500B54F5D /* ImageUploadAPI.m */; };
 		DAF82CE01BD4BA74006AF1E1 /* ContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF82CDF1BD4BA74006AF1E1 /* ContainerViewController.m */; };
 		DAFD52A71BEC62C80006AF02 /* UploadModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFD52A61BEC62C80006AF02 /* UploadModelClass.m */; };
@@ -201,6 +202,8 @@
 		DAF277241BFAEC5A00D236B2 /* SymptomTagModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymptomTagModel.m; sourceTree = "<group>"; };
 		DAF277261BFB135300D236B2 /* ProfileImageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileImageModel.h; sourceTree = "<group>"; };
 		DAF277271BFB135300D236B2 /* ProfileImageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileImageModel.m; sourceTree = "<group>"; };
+		DAF450441C05DCFC00AF5FEB /* settingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = settingModel.h; sourceTree = "<group>"; };
+		DAF450451C05DCFC00AF5FEB /* settingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = settingModel.m; sourceTree = "<group>"; };
 		DAF616801C0428E500B54F5D /* ImageUploadAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageUploadAPI.h; sourceTree = "<group>"; };
 		DAF616811C0428E500B54F5D /* ImageUploadAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageUploadAPI.m; sourceTree = "<group>"; };
 		DAF82CDE1BD4BA74006AF1E1 /* ContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContainerViewController.h; sourceTree = "<group>"; };
@@ -258,6 +261,8 @@
 				DA130F2C1BEA1E1900B5B9FF /* PartModel.m */,
 				DA130F301BEA1E1900B5B9FF /* SectionModel.h */,
 				DA130F311BEA1E1900B5B9FF /* SectionModel.m */,
+				DAF450441C05DCFC00AF5FEB /* settingModel.h */,
+				DAF450451C05DCFC00AF5FEB /* settingModel.m */,
 			);
 			name = SettingView;
 			sourceTree = "<group>";
@@ -761,6 +766,7 @@
 				8678F1AC1BE1DC54006046CF /* HexColors.m in Sources */,
 				DAE7B7A61BEDE93B006C5C70 /* PostmanConstant.m in Sources */,
 				DA130F3D1BEA1E1900B5B9FF /* SectionBodyDetails.m in Sources */,
+				DAF450461C05DCFC00AF5FEB /* settingModel.m in Sources */,
 				DAEFA1CB1BD0B6D600900379 /* Postman.m in Sources */,
 				DAE7B7AD1BEE080A006C5C70 /* searchPatientModel.m in Sources */,
 				DAEFA1941BD0B11500900379 /* main.m in Sources */,
