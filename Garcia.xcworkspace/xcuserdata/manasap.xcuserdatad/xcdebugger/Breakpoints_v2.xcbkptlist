@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Garcia/ImageUploadAPI.m"
-            timestampString = "470057451.025391"
+            timestampString = "470118435.014962"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
             landmarkName = "-uploadImagePath:forRequestCode:withType:withDocumentType:onCompletion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Garcia/ImageUploadAPI.m"
-            timestampString = "470057451.025391"
+            timestampString = "470118543.401954"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
             landmarkName = "-uploadImagePath:forRequestCode:withType:withDocumentType:onCompletion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,43 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Garcia/ImageUploadAPI.m"
-            timestampString = "470057451.025391"
+            timestampString = "470118545.168961"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
-            landmarkName = "-uploadImagePath:forRequestCode:withType:withDocumentType:onCompletion:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Garcia/ImageUploadAPI.m"
-            timestampString = "470057451.025391"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "-parseData:withHandler:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Garcia/ImageUploadAPI.m"
-            timestampString = "470057451.025391"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
             landmarkName = "-uploadImagePath:forRequestCode:withType:withDocumentType:onCompletion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -90,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Garcia/EditPatientViewController.m"
-            timestampString = "470057451.025391"
+            timestampString = "470119507.86275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "308"
-            endingLineNumber = "308"
+            startingLineNumber = "310"
+            endingLineNumber = "310"
             landmarkName = "-imagePickerController:didFinishPickingMediaWithInfo:"
             landmarkType = "5">
          </BreakpointContent>
@@ -106,12 +74,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Garcia/EditPatientViewController.m"
-            timestampString = "470057451.025391"
+            timestampString = "470125412.521294"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "501"
-            endingLineNumber = "501"
-            landmarkName = "-saveImage:"
+            startingLineNumber = "543"
+            endingLineNumber = "543"
+            landmarkName = "-uploadImagePath:forRequestCode:withType:onCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -121,13 +89,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Garcia/ImageUploadAPI.m"
-            timestampString = "470057451.025391"
+            filePath = "Garcia/EditPatientViewController.m"
+            timestampString = "470125412.521294"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "15"
-            endingLineNumber = "15"
-            landmarkName = "-uploadUserImagePath:forRequestCode:withDocumentType:onCompletion:"
+            startingLineNumber = "525"
+            endingLineNumber = "525"
+            landmarkName = "-uploadUserImagePath:forRequestCode:onCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -137,13 +105,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Garcia/ImageUploadAPI.m"
-            timestampString = "470057451.025391"
+            filePath = "Garcia/EditPatientViewController.m"
+            timestampString = "470125412.521294"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "19"
-            endingLineNumber = "19"
-            landmarkName = "-uploadImagePath:forRequestCode:withType:withDocumentType:onCompletion:"
+            startingLineNumber = "533"
+            endingLineNumber = "533"
+            landmarkName = "-uploadImagePath:forRequestCode:withType:onCompletion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

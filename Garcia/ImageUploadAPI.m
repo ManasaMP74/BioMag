@@ -26,19 +26,17 @@
         return;
     }
     _imagePath = imagePath;
-    
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
-//    [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+   [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [requestSerializer setValue:@"x-access-token" forHTTPHeaderField:@"x-access-token"];
+    [requestSerializer setValue:@"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ2IjowLCJpYXQiOjE0NDg0MjY2NzUsImQiOnsidWlkIjozMDA0MiwiRmlyc3ROYW1lIjoiTHVpcyIsIkVtYWlsIjoiZHJsdWlzZ2FyY2lhQG15ZG9tYWluLmNvbSJ9LCJleHAiOjE0NDg0MzAyNzUsIm5iZiI6MTQ0ODQyNjY3NSwiZGVidWciOnRydWV9.drqd8Pqtm9ItVsYMJa2igubTUojPSvZHSQ1hfQk00kI" forHTTPHeaderField:@"x-access-token"];
     manager.requestSerializer = requestSerializer;
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"multipart/form-data"];
     
     NSString *jsonString = [NSString stringWithFormat:@"{\"RequestCode\":\"%@\",\"RequestType\":\"%@\",\"DocumentType\":\"%@\"}", reqCode, type,docType];
     NSDictionary *parameter = @{@"request" : jsonString};
     NSString *URLString = [NSString stringWithFormat:@"%@%@", baseUrl, uploadFile];
-    
     [manager POST:URLString parameters:parameter constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         NSError *error;
         [formData appendPartWithFileURL:[NSURL fileURLWithPath:imagePath]

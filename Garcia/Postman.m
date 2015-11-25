@@ -11,11 +11,15 @@
 -(void)initiate
 
 {
+   
+    NSString *token=@"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ2IjowLCJpYXQiOjE0NDg0MjY2NzUsImQiOnsidWlkIjozMDA0MiwiRmlyc3ROYW1lIjoiTHVpcyIsIkVtYWlsIjoiZHJsdWlzZ2FyY2lhQG15ZG9tYWluLmNvbSJ9LCJleHAiOjE0NDg0MzAyNzUsIm5iZiI6MTQ0ODQyNjY3NSwiZGVidWciOnRydWV9.drqd8Pqtm9ItVsYMJa2igubTUojPSvZHSQ1hfQk00kI";
+    
+    
     self.manager=[AFHTTPRequestOperationManager manager];
     AFJSONRequestSerializer *requestSerializer=[AFJSONRequestSerializer serializer];
     [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [requestSerializer setValue:@"x-access-token" forHTTPHeaderField:@"x-access-token"];
+    [requestSerializer setValue:token forHTTPHeaderField:@"x-access-token"];
     self.manager.requestSerializer=requestSerializer;
 }
 //post method

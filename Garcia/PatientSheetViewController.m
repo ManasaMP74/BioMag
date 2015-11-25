@@ -328,7 +328,7 @@
     if (tableView==_diagnosisTableView) {
         if (diagnosisTableListArray.count>0) {
             if (indexPath.section==0) {
-                return 25;
+                return 30;
             }
             else{
                 NSDictionary *dict= diagnosisTableListArray[indexPath.section-1];
@@ -336,17 +336,17 @@
                 CGFloat labelHeight=[dict[@"message"] boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }
           options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
                 if (labelHeight<25) {
-                    return 25;
+                    return 30;
                 }
-                else  return labelHeight;
+                else  return labelHeight+15;
             }
         }
-        else return 25;
+        else return 30;
     }
     else {
         if (medicalTableListArray.count>0) {
             if (indexPath.section==0) {
-                return 25;
+                return 30;
             }
             else{
                 NSDictionary *dict= medicalTableListArray[indexPath.section-1];
@@ -354,12 +354,12 @@
                 CGFloat labelHeight=[dict[@"message"] boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }
            options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
                 if (labelHeight<25) {
-                    return 25;
+                    return 30;
                 }
-                else  return labelHeight;
+                else  return labelHeight+15;
             }
         }
-        else return 25;
+        else return 30;
     }
 }
 //display cell

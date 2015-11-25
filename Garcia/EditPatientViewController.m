@@ -302,14 +302,17 @@
     picker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
     picker.delegate=self;
     [self.navigationController presentViewController:picker animated:YES completion:nil];
-   }
+   
+
+
+}
 //image picker delegate
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
  UIImage *profileImage =info[UIImagePickerControllerOriginalImage];
        _patientImageView.image=profileImage;
     containerVC.viewControllerDiffer=@"Edit";
       [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-    [self saveImage:_patientImageView.image];
+    [self saveImage:profileImage];
 }
 // hide keyboard
 - (IBAction)hideKeyboard:(UIControl *)sender
@@ -505,19 +508,72 @@
         NSString* path = [documentsDirectory stringByAppendingPathComponent:@"EdittedProfile.jpeg" ];
         //        NSData* data = UIImagePNGRepresentation(image);
         NSData* data = UIImageJPEGRepresentation(image, .5);
-        
         [data writeToFile:path atomically:YES];
-        [imageManager uploadUserImagePath:path forRequestCode:_model.code withDocumentType:@"ABC123" onCompletion:^(BOOL success){
-            if (success)
+        [self uploadUserImagePath:path forRequestCode:_model.code onCompletion:^(BOOL success){
+        if (success)
             {
-            
+        
             }else
             {
                 
             }
         }];
-        
     }
+}
+
+
+- (void)uploadUserImagePath:(NSString *)imagePath forRequestCode:(NSString *)reqCode onCompletion:(void (^)(BOOL))completionHandler
+{
+    [self uploadImagePath:imagePath forRequestCode:reqCode withType:@"User" onCompletion:completionHandler];
+}
+
+
+
+
+- (void)uploadImagePath:(NSString *)imagePath forRequestCode:(NSString *)reqCode withType:(NSString *)type onCompletion:(void (^)(BOOL))completionHandler
+{
+    if ([reqCode isKindOfClass:[NSNull class]])
+    {
+        return;
+    }
+    if (reqCode.length == 0)
+    {
+        return;
+    }
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
+    [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+  
+    manager.requestSerializer = requestSerializer;
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"multipart/form-data"];
+    
+    NSString *jsonString = [NSString stringWithFormat:@"{\"RequestCode\":\"%@\",\"RequestType\":\"%@\",\"DocumentType\":\"ABC123\"}", reqCode, type];
+    NSDictionary *parameter = @{@"request" : jsonString};
+   
+  
+    
+//    NSDictionary *parameter = @{@"RequestCode":@"HCTI1B",@"RequestType":@"User",@"DocumentType":@"ABC123"};
+    
+    
+   // NSString *URLString = [NSString stringWithFormat:@"%@%@", baseUrl,uploadFile];
+    NSString *URLString = @"http://prithiviraj.vmokshagroup.com:8033/api/upload";
+    
+    [manager POST:URLString parameters:parameter constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        
+        [formData appendPartWithFileURL:[NSURL fileURLWithPath:imagePath]
+                                   name:@"Files"
+                                  error:nil];
+        
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSLog(@"Success %@", operation.responseString);
+        // [self  parseData:responseObject withHandler:completionHandler];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error %@ \n  Response %@", error, operation.responseString);
+        completionHandler(NO);
+    }];
 }
 
 @end
