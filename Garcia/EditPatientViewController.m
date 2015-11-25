@@ -302,8 +302,7 @@
     picker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
     picker.delegate=self;
     [self.navigationController presentViewController:picker animated:YES completion:nil];
-   
-}
+   }
 //image picker delegate
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
  UIImage *profileImage =info[UIImagePickerControllerOriginalImage];
@@ -545,10 +544,10 @@
     manager.requestSerializer = requestSerializer;
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"multipart/form-data"];
     
-    NSString *jsonString = [NSString stringWithFormat:@"{\"RequestCode\":\"%@\",\"RequestType\":\"%@\",\"DocumentTypeCode\":\"ABC123\"}", reqCode, type];
+    NSString *jsonString = [NSString stringWithFormat:@"{\"RequestCode\":\"%@\",\"RequestType\":\"%@\",\"DocumentTypeCode\":\"BLVT9P\"}", reqCode, type];
     NSDictionary *parameter = @{@"request" : jsonString};
     NSString *URLString = [NSString stringWithFormat:@"%@%@", baseUrl,uploadFile];
-  AFHTTPRequestOperation *op =   [manager POST:URLString parameters:parameter constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    [manager POST:URLString parameters:parameter constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         
         [formData appendPartWithFileURL:[NSURL fileURLWithPath:imagePath]
                                    name:@"Files"
@@ -563,7 +562,6 @@
         NSLog(@"Error %@ \n  Response %@", error, operation.responseString);
         completionHandler(NO);
     }];
-    [op start];
 }
 
 @end

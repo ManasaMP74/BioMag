@@ -169,7 +169,7 @@
     _visitTF.text=date;
 }
 -(void)callApiToGetSection{
-    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,section];
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,anotomicalPoint];
     [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectOfSection:responseObject];
