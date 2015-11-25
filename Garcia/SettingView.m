@@ -5,7 +5,9 @@
 #import "HexColors.h"
 #import "SectionModel.h"
 #import "PartModel.h"
-
+#import "PostmanConstant.h"
+#import "Postman.h"
+#import "MBProgressHUD.h"
 @implementation SettingView
 {
     UIView *view;
@@ -14,6 +16,7 @@
     AddSection *addsection;
     NSMutableArray *allSections;
     DatePicker *datePicker;
+    Postman *postman;
 }
 -(id)initWithFrame:(CGRect)frame
 {
@@ -22,6 +25,7 @@
     [self initializeView];
     [self addSubview:view];
     view.frame=self.bounds;
+    postman=[[Postman alloc]init];
     return self;
 }
 -(void)initializeView
@@ -165,7 +169,23 @@
     _visitTF.text=date;
 }
 -(void)callApiToGetSection{
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,section];
+    [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
+    [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self processResponseObjectOfSection:responseObject];
+        [MBProgressHUD hideHUDForView:alphaView animated:YES];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+       [MBProgressHUD hideHUDForView:alphaView animated:YES]; 
+    }];
     
-    
+}
+-(void)processResponseObjectOfSection:(id)responseObject{
+    NSDictionary *dict=responseObject;
+    for (NSDictionary *dict1 in dict[@"ViewModels"]) {
+        if ([dict1[@"Status"] intValue]==1) {
+            
+        }
+        
+    }
 }
 @end

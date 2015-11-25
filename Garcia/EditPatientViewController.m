@@ -303,8 +303,6 @@
     picker.delegate=self;
     [self.navigationController presentViewController:picker animated:YES completion:nil];
    
-
-
 }
 //image picker delegate
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
@@ -312,7 +310,7 @@
        _patientImageView.image=profileImage;
     containerVC.viewControllerDiffer=@"Edit";
       [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-    [self saveImage:profileImage];
+    [self saveImage:_patientImageView.image];
 }
 // hide keyboard
 - (IBAction)hideKeyboard:(UIControl *)sender
@@ -510,7 +508,8 @@
         NSData* data = UIImageJPEGRepresentation(image, .5);
         [data writeToFile:path atomically:YES];
         [self uploadUserImagePath:path forRequestCode:_model.code onCompletion:^(BOOL success){
-        if (success)
+            NSLog(@"Image is uplodaded");
+            if (success)
             {
         
             }else
@@ -524,7 +523,7 @@
 
 - (void)uploadUserImagePath:(NSString *)imagePath forRequestCode:(NSString *)reqCode onCompletion:(void (^)(BOOL))completionHandler
 {
-    [self uploadImagePath:imagePath forRequestCode:reqCode withType:@"User" onCompletion:completionHandler];
+    [self uploadImagePath:imagePath forRequestCode:reqCode withType:@"user" onCompletion:completionHandler];
 }
 
 
@@ -542,24 +541,14 @@
     }
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
-    [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-  
     manager.requestSerializer = requestSerializer;
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"multipart/form-data"];
     
-    NSString *jsonString = [NSString stringWithFormat:@"{\"RequestCode\":\"%@\",\"RequestType\":\"%@\",\"DocumentType\":\"ABC123\"}", reqCode, type];
+    NSString *jsonString = [NSString stringWithFormat:@"{\"RequestCode\":\"%@\",\"RequestType\":\"%@\",\"DocumentTypeCode\":\"ABC123\"}", reqCode, type];
     NSDictionary *parameter = @{@"request" : jsonString};
-   
-  
-    
-//    NSDictionary *parameter = @{@"RequestCode":@"HCTI1B",@"RequestType":@"User",@"DocumentType":@"ABC123"};
-    
-    
-   // NSString *URLString = [NSString stringWithFormat:@"%@%@", baseUrl,uploadFile];
-    NSString *URLString = @"http://prithiviraj.vmokshagroup.com:8033/api/upload";
-    
-    [manager POST:URLString parameters:parameter constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    NSString *URLString = [NSString stringWithFormat:@"%@%@", baseUrl,uploadFile];
+  AFHTTPRequestOperation *op =   [manager POST:URLString parameters:parameter constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         
         [formData appendPartWithFileURL:[NSURL fileURLWithPath:imagePath]
                                    name:@"Files"
@@ -574,6 +563,7 @@
         NSLog(@"Error %@ \n  Response %@", error, operation.responseString);
         completionHandler(NO);
     }];
+    [op start];
 }
 
 @end
