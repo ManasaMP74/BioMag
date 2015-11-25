@@ -41,6 +41,8 @@
         alphaView = [[UIControl alloc] initWithFrame:[UIScreen mainScreen].bounds];
         alphaView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
         [alphaView addSubview:view];
+   
+    
     }
     view.hidden=NO;
     view.center = alphaView.center;
