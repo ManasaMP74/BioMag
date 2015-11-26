@@ -12,6 +12,5 @@ FOUNDATION_EXPORT NSString *const getSymptomTag;
 FOUNDATION_EXPORT NSString *const updateSymptomTag;
 FOUNDATION_EXPORT NSString *const getProfile;
 FOUNDATION_EXPORT NSString *const uploadFile;
-FOUNDATION_EXPORT NSString *const anotomicalPoint;
-FOUNDATION_EXPORT NSString *const anotomicalPointByCriteria;
+FOUNDATION_EXPORT NSString *const allScanpointsApi;
 @end

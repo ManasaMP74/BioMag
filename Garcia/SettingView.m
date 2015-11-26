@@ -7,8 +7,9 @@
 #import "PartModel.h"
 #import "PostmanConstant.h"
 #import "Postman.h"
-#import "settingModel.h"
 #import "MBProgressHUD.h"
+#import "ScanPointModel.h"
+#import "CorrespondingModelClass.h"
 @implementation SettingView
 {
     UIView *view;
@@ -48,20 +49,21 @@
     view.hidden=NO;
     view.center = alphaView.center;
     allSections = [[NSMutableArray alloc] init];
+   // [self callApiToGetSection];
     
     SectionModel *section = [[SectionModel alloc] init];
     section.title = @"Head";
-    section.allParts = [self dummyPartModels];
+    section.scanpointArray = [self dummyPartModels];
     [allSections addObject:section];
     
     section = [[SectionModel alloc] init];
     section.title = @"Arm";
-    section.allParts = [self dummyArmPartModels];
+    section.scanpointArray = [self dummyArmPartModels];
     [allSections addObject:section];
     
     section = [[SectionModel alloc] init];
     section.title = @"Leg";
-    section.allParts = [self dummyLegPartModels];
+    section.scanpointArray = [self dummyLegPartModels];
     [allSections addObject:section];
     AppDelegate *appDel = [UIApplication sharedApplication].delegate;
     [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
@@ -172,7 +174,7 @@
     _visitTF.text=date;
 }
 -(void)callApiToGetSection{
-    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,anotomicalPoint];
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,allScanpointsApi];
     [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectOfSection:responseObject];
@@ -184,29 +186,33 @@
 }
 -(void)processResponseObjectOfSection:(id)responseObject{
     NSDictionary *dict=responseObject;
-    for (NSDictionary *dict1 in dict[@"ViewModels"]) {
-        if ([dict1[@"Status"] intValue]==1) {
-            settingModel *model=[[settingModel alloc]init];
-            model.Id=dict1[@"Id"];
+    for (NSDictionary *dict1 in [dict[@"ViewModels"]objectForKey:@"Section"]) {
+            SectionModel *model=[[SectionModel alloc]init];
+            model.title=dict1[@"Name"];
             model.code=dict1[@"Code"];
-            model.sectionCode=dict1[@"SectionCode"];
-        }
-        
+            model.scanpointArray=[self getAllScanpoint:dict1[@"Scanpoint"]];
+        [allSections addObject:model];
     }
 }
--(void)callApiToGetTheallDetailofSection:(settingModel*)model{
-    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,anotomicalPointByCriteria];
-    NSString *parameter=[NSString stringWithFormat:@"{\"SectionCode\": \"%@\",}",model.sectionCode];
-    [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
-    [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [self processSectionWithCriteria:responseObject];
-        [MBProgressHUD hideHUDForView:alphaView animated:YES];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [MBProgressHUD hideHUDForView:alphaView animated:YES];
-    }];
+-(NSArray*)getAllScanpoint:(NSArray*)scanpointArray{
+    NSMutableArray *allScanpoint=[[NSMutableArray alloc]init];
+    for (NSDictionary *dict in scanpointArray) {
+        ScanPointModel *model=[[ScanPointModel alloc]init];
+        model.code=dict[@"Code"];
+        model.title=dict[@"Name"];
+        model.correspondingpairArray=[self getAllCorrespondingArray:dict[@"Correspondingpair"]];
+        [allScanpoint addObject:model];
+    }
+    return allScanpoint;
 }
--(void)processSectionWithCriteria:(id)responseObject{
- NSDictionary *dict=responseObject;
-
+-(NSArray*)getAllCorrespondingArray:(NSArray*)correspondingPoint{
+    NSMutableArray *correspondingPointArray=[[NSMutableArray alloc]init];
+    for (NSDictionary *dict in correspondingPoint) {
+        CorrespondingModelClass *model=[[CorrespondingModelClass alloc]init];
+        model.code=dict[@"Code"];
+        model.title=dict[@"Name"];
+        [correspondingPointArray addObject:model];
+    }
+    return correspondingPointArray;
 }
 @end

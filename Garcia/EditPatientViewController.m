@@ -504,7 +504,7 @@
         NSString *documentsDirectory = [paths objectAtIndex:0];
         NSString* path = [documentsDirectory stringByAppendingPathComponent:@"EdittedProfile.jpeg" ];
         //        NSData* data = UIImagePNGRepresentation(image);
-        NSData* data = UIImageJPEGRepresentation(image, .5);
+        NSData* data = UIImageJPEGRepresentation(image,.01);
         [data writeToFile:path atomically:YES];
         [self uploadUserImagePath:path forRequestCode:_model.code onCompletion:^(BOOL success){
             NSLog(@"Image is uplodaded");
@@ -547,10 +547,7 @@
     NSDictionary *parameter = @{@"request" : jsonString};
     NSString *URLString = [NSString stringWithFormat:@"%@%@", baseUrl,uploadFile];
     [manager POST:URLString parameters:parameter constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        
-        [formData appendPartWithFileURL:[NSURL fileURLWithPath:imagePath]
-                                   name:@"Files"
-                                  error:nil];
+    [formData appendPartWithFileURL:[NSURL fileURLWithPath:imagePath]name:@"Files" error:nil];
         
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
