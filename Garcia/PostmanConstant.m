@@ -12,6 +12,5 @@ NSString *const getSymptomTag=@"symptomtag";
 NSString *const updateSymptomTag=@"symptomtag/";
 NSString *const getProfile=@"DownloadDoc/";
 NSString *const uploadFile=@"upload";
-NSString *const anotomicalPoint=@"anatomicalbiomagneticmatrix?page=1&limit=5";
-NSString *const anotomicalPointByCriteria=@"anatomicalbiomagneticmatrix?page=1&limit=5";
+NSString *const allScanpointsApi=@"AnatomicalDetails";
 @end
