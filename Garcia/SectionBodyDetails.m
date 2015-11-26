@@ -170,8 +170,6 @@
         [self.ChildTableView removeFromSuperview];
         self.ChildTableView=nil;
     }
-    
-   
 }
 - (BOOL)validateConditions
 {
@@ -216,7 +214,6 @@
         {
             self.mNxtbtn.hidden=FALSE;
         }
-        
     }
     
     if (theSelIndex.count>0) {
@@ -224,10 +221,8 @@
             selRow=nextFlag-1;
             [self createChildTable];
         }
-        
     }
 }
-
 -(void)createChildTable
 {
     if (self.ChildTableView) {
@@ -243,7 +238,6 @@
     if ([tableView isEqual:self.tableview]) {
          return self.selectedSection.scanpointArray.count;
     }
-    
     PartModel *part=nil;
     if (selRow>theSelIndex.count) {
         part = self.selectedSection.scanpointArray[selRow];
@@ -274,7 +268,6 @@ return part.allScanPoints.count;
         else{
             cell.DetailSectionImageView.image=[UIImage imageNamed:@"Box1-Uncheck"];
         }
-        
        PartModel *part = self.selectedSection.scanpointArray[indexPath.row];
         cell.sectionLabel.text = part.title;
         tableView.separatorStyle=0;
@@ -309,18 +302,11 @@ return part.allScanPoints.count;
     tableView.separatorStyle=0;
     return cell;
 }
-
-
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-   
-    
     if ([self.tableview isEqual:tableView])
     {
-        
             selRow=indexPath.row;
-            
             PartModel *part = self.selectedSection.scanpointArray[selRow];
             selectedIndexPath = indexPath;
             if ([self->cellSelected containsObject:indexPath]){
@@ -339,7 +325,6 @@ return part.allScanPoints.count;
             }
             NSLog(@"the Sel array is %@",theSelIndex);
         }
-        
     else
         {
             childSelRow=indexPath.row;
