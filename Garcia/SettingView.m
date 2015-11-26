@@ -46,34 +46,35 @@
    
     
     }
+    [self callApiToGetSection];
     view.hidden=NO;
     view.center = alphaView.center;
-    allSections = [[NSMutableArray alloc] init];
-   // [self callApiToGetSection];
-    
-    SectionModel *section = [[SectionModel alloc] init];
-    section.title = @"Head";
-    section.scanpointArray = [self dummyPartModels];
-    [allSections addObject:section];
-    
-    section = [[SectionModel alloc] init];
-    section.title = @"Arm";
-    section.scanpointArray = [self dummyArmPartModels];
-    [allSections addObject:section];
-    
-    section = [[SectionModel alloc] init];
-    section.title = @"Leg";
-    section.scanpointArray = [self dummyLegPartModels];
-    [allSections addObject:section];
-    AppDelegate *appDel = [UIApplication sharedApplication].delegate;
-    [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
-    [appDel.window addSubview:alphaView];
-    [constant spaceAtTheBeginigOfTextField:_visitTF];
-    if (_dummyData.count>0) {
-        _visitTF.text=_dummyData[2];
-        [_AddButton setTitle:_dummyData[1] forState:normal];
-        _settingHeaderLabel.text=_dummyData[0];
-    }
+//    allSections = [[NSMutableArray alloc] init];
+//   // [self callApiToGetSection];
+//    
+//    SectionModel *section = [[SectionModel alloc] init];
+//    section.title = @"Head";
+//    section.scanpointArray = [self dummyPartModels];
+//    [allSections addObject:section];
+//    
+//    section = [[SectionModel alloc] init];
+//    section.title = @"Arm";
+//    section.scanpointArray = [self dummyArmPartModels];
+//    [allSections addObject:section];
+//    
+//    section = [[SectionModel alloc] init];
+//    section.title = @"Leg";
+//    section.scanpointArray = [self dummyLegPartModels];
+//    [allSections addObject:section];
+//    AppDelegate *appDel = [UIApplication sharedApplication].delegate;
+//    [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
+//    [appDel.window addSubview:alphaView];
+//    [constant spaceAtTheBeginigOfTextField:_visitTF];
+//    if (_dummyData.count>0) {
+//        _visitTF.text=_dummyData[2];
+//        [_AddButton setTitle:_dummyData[1] forState:normal];
+//        _settingHeaderLabel.text=_dummyData[0];
+//    }
 }
 -(void)hide{
     [alphaView removeFromSuperview];
@@ -192,6 +193,11 @@
             model.code=dict1[@"Code"];
             model.scanpointArray=[self getAllScanpoint:dict1[@"Scanpoint"]];
         [allSections addObject:model];
+        
+        AppDelegate *appDel = [UIApplication sharedApplication].delegate;
+        [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
+        [appDel.window addSubview:alphaView];
+        [constant spaceAtTheBeginigOfTextField:_visitTF];
     }
 }
 -(NSArray*)getAllScanpoint:(NSArray*)scanpointArray{
