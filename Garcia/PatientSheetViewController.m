@@ -819,10 +819,10 @@ NSDictionary *dict = @{@"currentDateValue":currentDate,@"currentTimeValue":curre
     _settingViewHeight.constant=sittingCollectionViewHeight+130;
 }
 -(void)editSittingCell:(UICollectionViewCell *)cell{
-  NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
+ // NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
     sectionView=[[SettingView alloc]initWithFrame:CGRectMake(150, 140,500,330)];
     sectionView.delegate=self;
-    sectionView.dummyData=@[[NSString stringWithFormat:@"%@%d",@"Sitting #",index.row+1],@"Head",@"7-Nov-2015"];
+//    sectionView.dummyData=@[[NSString stringWithFormat:@"%@%d",@"Sitting #",index.row+1],@"Head",@"7-Nov-2015"];
     [sectionView alphaViewInitialize];
 }
 //add symptomTag

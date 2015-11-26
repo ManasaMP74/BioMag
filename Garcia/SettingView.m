@@ -43,8 +43,6 @@
         alphaView = [[UIControl alloc] initWithFrame:[UIScreen mainScreen].bounds];
         alphaView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
         [alphaView addSubview:view];
-   
-    
     }
     [self callApiToGetSection];
     view.hidden=NO;
@@ -79,77 +77,11 @@
 -(void)hide{
     [alphaView removeFromSuperview];
 }
-
--(NSArray *)dummyPartModels
-{
-    NSMutableArray *mut = [[NSMutableArray alloc] init];
-    
-    PartModel *part = [[PartModel alloc] init];
-    part.title = @"Eye";
-    part.allScanPoints = @[@"Eye Optic Nerve", @"Opposite Eye",@"Cerebellum",@"Cornea",@"Retina"];
-    [mut addObject:part];
-    
-    part = [[PartModel alloc] init];
-    part.title = @"Thyroid";
-    part.allScanPoints = @[@"Cheekbone", @"Liver",@"Adrenal Glands",@"Pyramidal Lobe",@"Thyroid Cartilage"];
-    [mut addObject:part];
-    
-    part = [[PartModel alloc] init];
-    part.title = @"Inter Ciliary";
-    part.allScanPoints = @[@"Medulla Oblongata", @"Kidney",@"Sacrum"];
-    [mut addObject:part];
-    
-    return mut;
-}
-
--(NSArray *)dummyArmPartModels
-{
-    NSMutableArray *mut = [[NSMutableArray alloc] init];
-    
-    PartModel *part = [[PartModel alloc] init];
-    part.title = @"Triceps of Arm";
-    part.allScanPoints = @[@"Lesser Trochanter", @"Triceps of Arm"];
-    [mut addObject:part];
-    
-    part = [[PartModel alloc] init];
-    part.title = @"Brachial Plexus";
-    part.allScanPoints = @[@"Artery", @"Bursae"];
-    [mut addObject:part];
-    
-    part = [[PartModel alloc] init];
-    part.title = @"Palm";
-    part.allScanPoints = @[@"Palm", @"Bladder",@"Thigh"];
-    [mut addObject:part];
-    
-    return mut;
-}
--(NSArray *)dummyLegPartModels
-{
-    NSMutableArray *mut = [[NSMutableArray alloc] init];
-    
-    PartModel *part = [[PartModel alloc] init];
-    part.title = @"Waist";
-    part.allScanPoints = @[@"Waist"];
-    [mut addObject:part];
-    
-    part = [[PartModel alloc] init];
-    part.title = @"Sacrum";
-    part.allScanPoints = @[@"Waist", @"Bladder"];
-    [mut addObject:part];
-    
-    part = [[PartModel alloc] init];
-    part.title = @"Lesser Trochanter";
-    part.allScanPoints = @[@"Greater Trochanter", @"Kidney"];
-    [mut addObject:part];
-    
-    return mut;
-}
 - (IBAction)add:(id)sender {
     if (addsection==nil)
         addsection=[[AddSection alloc]initWithFrame:CGRectMake(view.frame.origin.x, view.frame.origin.y,view.frame.size.width,146)];
     view.hidden=YES;
     addsection.allSections=allSections;
-    addsection.allScanPointsArray=(NSArray *)[self dummyPartModels];
     [addsection alphaViewInitialize];
     addsection.delegate=self;
 }
