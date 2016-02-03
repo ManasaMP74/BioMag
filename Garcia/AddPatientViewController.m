@@ -413,7 +413,7 @@
         }
     }
     else {
-         [self alertmessageForFailure:dict[@"Message"]];
+         [self alertView:dict[@"Message"]];
         [containerVC hideAllMBprogressTillLoadThedata];
     }
 }
@@ -500,7 +500,6 @@
         }
     }
 }
-
 
 //validate email
 -(void)validateEmail:(NSString*)email{
@@ -617,7 +616,7 @@
                  [containerVC hideAllMBprogressTillLoadThedata];
             }else
             {
-              [self alertmessageForFailure:@"Saved Failed"];
+              [self alertView:@"Saved Failed"];
                  [containerVC hideAllMBprogressTillLoadThedata];
             }
         }];
@@ -628,14 +627,6 @@
     UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
         [self.delegate successfullyAdded:addedPatientCode];
         [self.navigationController popViewControllerAnimated:YES];
-        [alertView dismissViewControllerAnimated:YES completion:nil];
-    }];
-    [alertView addAction:success];
-    [self presentViewController:alertView animated:YES completion:nil];
-}
--(void)alertmessageForFailure:(NSString*)msg{
-    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
         [alertView dismissViewControllerAnimated:YES completion:nil];
     }];
     [alertView addAction:success];

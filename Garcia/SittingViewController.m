@@ -665,6 +665,7 @@
         [userDefault setBool:NO forKey:@"anatomicalbiomagneticmatrix_FLAG"];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self showAlerView:[NSString stringWithFormat:@"%@",error]];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
 }
@@ -884,6 +885,7 @@
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self processResponseObjectOfSaveTreatment:responseObject];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self showAlerView:[NSString stringWithFormat:@"%@",error]];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
         }];
     }
@@ -1094,6 +1096,7 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         [userDefault setBool:NO forKey:@"toxicdeficiencytype_FLAG"];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self showAlerView:[NSString stringWithFormat:@"%@",error]];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
      }else{
@@ -1142,5 +1145,14 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
 -(void)sittingFromSlideOut{
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft];
     [self setTheValuesInTableView];
+}
+//Alert Message
+-(void)showAlerView:(NSString*)msg{
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertView addAction:success];
+    [self presentViewController:alertView animated:YES completion:nil];
 }
 @end

@@ -9,6 +9,7 @@
 #import "ProfileImageView.h"
 #import "AppDelegate.h"
 #import "PatientTitleModel.h"
+#import <MCLocalization/MCLocalization.h>
 @interface PatientViewController ()<UITableViewDataSource,UITableViewDelegate,editPatient>
 @property (weak, nonatomic) IBOutlet UILabel *transfusinTF;
 @property (weak, nonatomic) IBOutlet UIButton *edit;
@@ -41,6 +42,7 @@
     Postman *postman;
     NSMutableArray *treatmentListArray;
     ProfileImageView *profileView;
+    NSString *alertTitle,*alertOK;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -52,6 +54,8 @@
     postman=[[Postman alloc]init];
     _tableViewHeight.constant=self.tableview.contentSize.height;
     treatmentListArray=[[NSMutableArray alloc]init];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(localize) name:MCLocalizationLanguageDidChangeNotification object:nil];
+    [self localize];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -162,6 +166,7 @@
         [containerVC hideAllMBprogressTillLoadThedata];
        [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self showAlerView:[NSString stringWithFormat:@"%@",error]];
         [containerVC hideAllMBprogressTillLoadThedata];
        [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
     }];
@@ -200,5 +205,17 @@
         _tableViewHeight.constant=self.tableview.contentSize.height;
     }
 }
-
+//Alert Message
+-(void)showAlerView:(NSString*)msg{
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alertTitle message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:alertOK style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertView addAction:success];
+    [self presentViewController:alertView animated:YES completion:nil];
+}
+-(void)localize{
+    alertTitle=[MCLocalization stringForKey:@"Alert!"];
+    alertOK=[MCLocalization stringForKey:@"AlertButtonOK"];
+}
 @end

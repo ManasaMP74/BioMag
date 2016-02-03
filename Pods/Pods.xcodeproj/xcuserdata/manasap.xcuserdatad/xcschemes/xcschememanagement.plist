@@ -9,7 +9,17 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>MCLocalization.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Biomagnetism.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>WYPopoverController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -17,12 +27,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>06F6374263F9CAD4A71468382C3AAAEA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>410B25DF16EA5C5B3E2698F74F9625FB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C2CA91CC08FDC9F294A08A808317645F</key>
+		<key>AC15C09334640380253D54159A3C9409</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E4B4F8D8E527880363D1CA5574A288E5</key>
 		<dict>
 			<key>primary</key>
 			<true/>

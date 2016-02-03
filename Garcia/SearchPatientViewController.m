@@ -230,7 +230,7 @@
 
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
     [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:NO];
-   parameter=[NSString stringWithFormat:@"{\"request\":{\"UserTypeCode\":\"PAT123\"}}"];
+   parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
     }else{
      parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
         [containerVc showMBprogressTillLoadThedata];
@@ -242,6 +242,7 @@
         [userDefault setBool:NO forKey:@"user_FLAG"];
         [containerVc hideMBprogressTillLoadThedata];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         [self showAlerView:[NSString stringWithFormat:@"%@",error]];
         [containerVc hideMBprogressTillLoadThedata];
     }];
 }
@@ -394,5 +395,14 @@
 }
 -(void)reloadTableviewAfterAddNewTreatment{
     [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedIndexPath];
+}
+//Alert Message
+-(void)showAlerView:(NSString*)msg{
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertView addAction:success];
+    [self presentViewController:alertView animated:YES completion:nil];
 }
 @end

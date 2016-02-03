@@ -10,6 +10,7 @@
 #import "ImageUploadAPI.h"
 #import "SeedSyncer.h"
 #import "UIImageView+clearCachImage.h"
+#import <MCLocalization/MCLocalization.h>
 @interface EditPatientViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,datePickerProtocol,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *nameTF;
 @property (strong, nonatomic) IBOutlet UITextField *genderTF;
@@ -38,6 +39,7 @@
     NSString *genderCode,*martialCode;
     ImageUploadAPI *imageManager;
     NSString *editedPatientCode;
+    NSString *alertOkStr,*alertStr,*updatedFailedStr,*updatedSuccessfullyStr,*requiredGenderFieldStr,*requiredNameField;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -53,6 +55,9 @@
     self.nameTF.delegate=self;
     self.mobileNoTF.delegate=self;
     MaritialStatusArray=[@[@"YES",@"NO"]mutableCopy];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(localize) name:MCLocalizationLanguageDidChangeNotification object:nil];
+    
+    [self localize];
     
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         //For Vzone API
@@ -384,7 +389,6 @@
         
     }
 }
-
 //response object of gender for Material Api
 -(void)prcessGenderObject:(id)responseObject{
     [genderArray removeAllObjects];
@@ -406,9 +410,7 @@
     }
 }
 
-
 //Martial API
-
 -(void)callApiForMaritial{
     postman =[[Postman alloc]init];
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getMartialStatus];
@@ -441,7 +443,6 @@
         }
     }
 }
-
 //Patient Update
 -(void)callApiForUpdate{
     postman =[[Postman alloc]init];
@@ -504,13 +505,13 @@
     parameterDict[@"DOB"]=dobString;
     parameterDict[@"JSON"]=genderData;
     parameterDict[@"Status"]=@"true";
-    parameterDict[@"Id"]=_model.Id;
+    parameterDict[@"Id"]=[NSString stringWithFormat:@"%@",_model.Id];
     parameterDict[@"Code"]=_model.code;
     parameterDict[@"UserTypeCode"]=_model.userTypeCode;
     parameterDict[@"CompanyCode"]=postmanCompanyCode;
     parameterDict[@"Username"]=_emailTF.text;
     parameterDict[@"MethodType"]=@"PUT";
-    parameterDict[@"UserID"]=_model.userID;
+    parameterDict[@"UserID"]=[NSString stringWithFormat:@"%@",_model.userID];
     parameterDict[@"MiddleName"]=@"";
     parameterDict[@"LastName"]=@"";
     parameterDict[@"RoleCode"]=@"B2ETN9";
@@ -533,6 +534,7 @@
     [postman put:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectForEdit:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self showFailureAlerMessage:[NSString stringWithFormat:@"%@",error]];
         [containerVC hideAllMBprogressTillLoadThedata];
     }];
 }
@@ -614,10 +616,10 @@
 -(NSMutableArray*)validateAllFields{
     NSMutableArray *alrtArray=[[NSMutableArray alloc]init];
     if(_genderTF.text.length==0){
-        [alrtArray addObject:@"required gender field\n"];
+        [alrtArray addObject:requiredGenderFieldStr];
     }
     if(_nameTF.text.length==0){
-        [alrtArray addObject:@"required name field\n"];
+        [alrtArray addObject:requiredNameField];
     }
     if(_maritialStatus.text.length==0){
         [alrtArray addObject:@"required transfusion field\n"];
@@ -664,19 +666,19 @@
                     NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,_model.profileImageCode];
                     [self.patientImageView clearImageCacheForURL:[NSURL URLWithString:str]];
                 }
-                [self alertmessage:@"Updated successfully"];
+                [self alertmessage:updatedSuccessfullyStr];
                 [containerVC hideAllMBprogressTillLoadThedata];
             }else
             {
-                [self showFailureAlerMessage:@"Updated Failed"];
+                [self showFailureAlerMessage:updatedFailedStr];
                 [containerVC hideAllMBprogressTillLoadThedata];
             }
         }];
     }
 }
 -(void)alertmessage :(NSString*)msg{
-    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alertStr message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:alertOkStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
         [self.delegate successfullyEdited:editedPatientCode];
         [self.navigationController popViewControllerAnimated:YES];
         [alertView dismissViewControllerAnimated:YES completion:nil];
@@ -685,12 +687,27 @@
     [self presentViewController:alertView animated:YES completion:nil];
 }
 -(void)showFailureAlerMessage:(NSString*)msg{
-    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alertStr message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:alertOkStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
         [alertView dismissViewControllerAnimated:YES completion:nil];
     }];
     [alertView addAction:success];
     [self presentViewController:alertView animated:YES completion:nil];
     
+}
+-(void)localize
+{
+    alertStr=[MCLocalization stringForKey:@"Alert!"];
+    alertOkStr=[MCLocalization stringForKey:@"AlertButtonOK"];
+    updatedFailedStr=[MCLocalization stringForKey:@"Updated.Failed"];
+    updatedSuccessfullyStr=[MCLocalization stringForKey:@"Updated.successfully"];
+    requiredGenderFieldStr=[MCLocalization stringForKey:@"required.gender.field"];
+    requiredNameField=[MCLocalization stringForKey:@"required.name.field"];
+     requiredGenderFieldStr=[MCLocalization stringForKey:@"required.gender.field"];
+     requiredGenderFieldStr=[MCLocalization stringForKey:@"required.gender.field"];
+     requiredGenderFieldStr=[MCLocalization stringForKey:@"required.gender.field"];
+     requiredGenderFieldStr=[MCLocalization stringForKey:@"required.gender.field"];
+     requiredGenderFieldStr=[MCLocalization stringForKey:@"required.gender.field"];
+   
 }
 @end

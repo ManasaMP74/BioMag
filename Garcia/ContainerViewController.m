@@ -6,13 +6,15 @@
 #import "MBProgressHUD.h"
 #import "AppDelegate.h"
 #import "PopOverViewController.h"
-@interface ContainerViewController ()<addedPatient,loadTreatmentDelegate>
-@property(nonatomic,retain)UIPopoverController *popController;
+#import <WYPopoverController/WYPopoverController.h>
+@interface ContainerViewController ()<addedPatient,loadTreatmentDelegate,selectedObjectInPop,WYPopoverControllerDelegate>
+
 @end
 
 @implementation ContainerViewController
 {
     NSString *patientName;
+    WYPopoverController *wypopOverController;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -55,11 +57,54 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 //LanguageChange
--(void)languageChange:(id)sender{
-    
+-(IBAction)languageChange:(id)sender{
+    UIView *btn = (UIView *)sender;
+    if (wypopOverController==nil){
+    PopOverViewController *pop=[self.storyboard instantiateViewControllerWithIdentifier:@"PopOverViewController"];
+        pop.delegate=self;
+        wypopOverController=[[WYPopoverController alloc]initWithContentViewController:pop];
+        wypopOverController.delegate=self;
+        wypopOverController.passthroughViews = @[btn];
+        wypopOverController.theme=[WYPopoverTheme themeForIOS6];
+        wypopOverController.theme.outerCornerRadius=2;
+        wypopOverController.theme.outerStrokeColor=[UIColor lightGrayColor];
+        wypopOverController.theme.arrowHeight = 8;
+        
+        wypopOverController.theme.arrowBase= 15;
+        
+        wypopOverController.theme.fillTopColor = [UIColor grayColor];
+        CGFloat height=[pop getHeightOfTableView];
+        CGSize contentSize = CGSizeMake(200,height);
+        pop.preferredContentSize=contentSize;
+        wypopOverController.theme.overlayColor= [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
+        CGRect biggerBounds = CGRectInset(btn.bounds, -6, -6);
+        [wypopOverController presentPopoverFromRect:biggerBounds inView:sender permittedArrowDirections:(WYPopoverArrowDirectionUp) animated:YES options:(WYPopoverAnimationOptionFadeWithScale)];
+    }else
+        
+    {
+        [wypopOverController dismissPopoverAnimated:YES completion:^{
+            wypopOverController.delegate = nil;
+            wypopOverController = nil;
+        }];
+        
+    }
+}
+-(void)selectedObject{
+  [wypopOverController dismissPopoverAnimated:NO];
 
 }
+-(BOOL)popoverControllerShouldDismissPopover:(WYPopoverController *)popoverController
 
+{
+    return YES;
+}
+
+-(void)popoverControllerDidDismissPopover:(WYPopoverController *)popoverController
+
+{
+    wypopOverController.delegate=nil;
+    wypopOverController=nil;
+}
 //pass data from one viewController to another
 -(void)passDataFromsearchPatientTableViewToPatient:(searchPatientModel*)model{
     if ([_viewControllerDiffer isEqualToString:@""]) {

@@ -5,11 +5,13 @@
 #import "Postman.h"
 #import "AppDelegate.h"
 #import "SeedSyncer.h"
+#import <MCLocalization/MCLocalization.h>
 @interface LoginViewController ()<UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *userNameTf;
 @property (strong, nonatomic) IBOutlet UITextField *passwordTF;
 @property (strong, nonatomic) IBOutlet UIButton *signIn;
 @property (strong, nonatomic) IBOutlet UIView *loginView;
+@property (weak, nonatomic) IBOutlet UIButton *forgotPassword;
 
 @end
 
@@ -18,6 +20,8 @@
     Constant *constant;
     Postman *postman;
     AppDelegate *app;
+    NSString *userNameRequiredStr,*PasswordRequiredStr,*alertOkStr,*alertStr,*authenticationFailedStr,*seedError,*loginFailed;
+
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -26,6 +30,10 @@
        [self placeHolderText];
     _loginView.layer.cornerRadius=10;
     _loginView.backgroundColor=[UIColor colorWithRed:0.741 green:0.906 blue:0.965 alpha:0.9];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(localize) name:MCLocalizationLanguageDidChangeNotification object:nil];
+    
+    [self localize];
+
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
@@ -56,7 +64,6 @@
     
     }
     
-    
 //    if (_userNameTf.text.length==0 & _passwordTF.text.length==0) {
 //        [self showAlerView:@"Username and Password is required"];
 //    }
@@ -73,6 +80,7 @@
               [MBProgressHUD hideHUDForView:self.view animated:YES];
           }
           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              [self showAlerView:[NSString stringWithFormat:@"%@",error]];
               [MBProgressHUD hideHUDForView:self.view animated:YES];
           }];
 // }
@@ -97,12 +105,12 @@
                     [self performSegueWithIdentifier:@"loginSuccess" sender:nil];
                 }
                 else{
-                   [self showAlerView:@"Login failed"];
+                   [self showAlerView:seedError];
                 }
             }];
         }
         else{
-            [self showAlerView:@"Authentication failed"];
+            [self showAlerView:loginFailed];
         }
     }
     else{
@@ -135,7 +143,7 @@
             //            }];
         }
         else{
-            [self showAlerView:@"Authentication failed"];
+            [self showAlerView:authenticationFailedStr];
         }
     }
     else{
@@ -145,8 +153,8 @@
 
 //Alert Message
 -(void)showAlerView:(NSString*)msg{
-    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alertStr message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:alertOkStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
         [alertView dismissViewControllerAnimated:YES completion:nil];
     }];
     [alertView addAction:success];
@@ -162,12 +170,12 @@
     if (emailId.length == 0)
     {
         goodToGo = NO;
-        [mutableString appendString:@"'User Name' is required\n"];
+        [mutableString appendString:userNameRequiredStr];
     }
     if (password.length == 0)
     {
         goodToGo = NO;
-        [mutableString appendString:@"'Password' is required"];
+        [mutableString appendString:PasswordRequiredStr];
     }
     if (!goodToGo)
     {
@@ -176,8 +184,6 @@
 }
 //placeHolderText
 -(void)placeHolderText{
-    _userNameTf.attributedPlaceholder=[constant textFieldPlaceLogin:@"Username"];
-    _passwordTF.attributedPlaceholder=[constant textFieldPlaceLogin:@"Password"];
     [constant spaceAtTheBeginigOfTextField:_userNameTf];
     [constant spaceAtTheBeginigOfTextField:_passwordTF];
     [constant setFontFortextField:_userNameTf];
@@ -194,5 +200,21 @@
 //Hide Keyboard after tap on view
 - (IBAction)tapGesture:(id)sender {
      [self.view endEditing:YES];
+}
+
+//languageChange
+-(void)localize
+{
+_userNameTf.attributedPlaceholder=[constant textFieldPlaceLogin:[MCLocalization stringForKey:@"Username"]];
+_passwordTF.attributedPlaceholder=[constant textFieldPlaceLogin:[MCLocalization stringForKey:@"Password"]];
+    authenticationFailedStr=[MCLocalization stringForKey:@"Authentication.failed"];
+    alertStr=[MCLocalization stringForKey:@"Alert!"];
+    alertOkStr=[MCLocalization stringForKey:@"AlertButtonOK"];
+    userNameRequiredStr=[MCLocalization stringForKey:@"User.Name.is.required"];
+    PasswordRequiredStr=[MCLocalization stringForKey:@"Password.is.required"];
+    seedError=@"Some.error.occured.Please.try.again";
+    loginFailed= @"Login.failed";
+    [_signIn setTitle:[MCLocalization stringForKey:@"Sign.In"] forState:normal];
+    [_forgotPassword setTitle:[MCLocalization stringForKey:@"Forgot.password?"] forState:normal];
 }
 @end

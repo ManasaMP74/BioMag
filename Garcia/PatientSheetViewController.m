@@ -954,6 +954,7 @@
         [self processResponseObject:responseObject];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self ShowAlert:[NSString stringWithFormat:@"%@",error]];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
     
@@ -1220,6 +1221,7 @@
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
             [userDefault setBool:NO forKey:@"symptomtag_FLAG"];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self ShowAlert:[NSString stringWithFormat:@"%@",error]];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
         }];
     }
@@ -1403,6 +1405,7 @@
         [self processResponseObjectToGetTreatmentDetail:responseObject];
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         [self ShowAlert:[NSString stringWithFormat:@"%@",error]];
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }];
 }
@@ -1441,7 +1444,6 @@
         [self showTreatmentDetail];
     }
 }
-
 -(void)uploadImageAfterSaveInSitting:(NSString*)code{
     [self saveImage:code];
 }
