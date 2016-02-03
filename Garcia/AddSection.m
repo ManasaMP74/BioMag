@@ -10,7 +10,8 @@
 {
     UIView *view;
     UIControl  *alphaView;
-    Constant *constantobj;
+    Constant *constant;
+    
     SectionBodyDetails *sectonBodyObject;
     NSInteger selectedIndex;
     NSIndexPath *selectedIndexPath;
@@ -39,18 +40,14 @@
     AppDelegate *appDel = [UIApplication sharedApplication].delegate;
     [alphaView addTarget:self action:@selector(previous:) forControlEvents:UIControlEventTouchUpInside];
     [appDel.window addSubview:alphaView];
-    if (_tableview.contentSize.height<100) {
-            _tableViewHeight.constant=_tableview.contentSize.height;
-    }
-    else _tableViewHeight.constant=100;
+    _tableViewHeight.constant=_tableview.contentSize.height;
     CGRect frame=view.frame;
     frame.size.height=_tableview.contentSize.height+146;
     view.frame=frame;
-
 }
 -(void)initializeView
 {
-    constantobj=[[Constant alloc]init];
+    constant=[[Constant alloc]init];
     view.layer.cornerRadius = 10;
     view.layer.masksToBounds  = YES;
 }
@@ -76,8 +73,8 @@
         cell.sectionLabel.text = section.title;
         
     }
-    
-    [constantobj setFontForLabel:cell.sectionLabel];
+    tableView.tableFooterView=[UIView new];
+    [constant setFontForLabel:cell.sectionLabel];
     
     return cell;
 }

@@ -12,6 +12,4 @@
 @property (strong, nonatomic) IBOutlet UIButton *okButton;
 @property(strong,nonatomic)NSString *captionText;
 @property(assign,nonatomic)BOOL textViewEnabled;
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *imageViewHeight;
-@property (strong, nonatomic) IBOutlet UILabel *addNoteLabel;
 @end

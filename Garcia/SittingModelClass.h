@@ -8,8 +8,4 @@
 @property(strong,nonatomic) NSString *completed;
 @property(strong,nonatomic) NSIndexPath *headerIndex;
 @property(strong,nonatomic) NSIndexPath *noteIndex;
-@property(strong,nonatomic)NSString *visit;
-@property(strong,nonatomic)NSString *price;
-@property(strong,nonatomic)NSString *sittingNumber;
-@property(strong,nonatomic)NSString *sittingID;
 @end

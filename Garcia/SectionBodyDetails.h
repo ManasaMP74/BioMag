@@ -29,4 +29,5 @@
 @property(strong,nonatomic) PartModel *partModelObj;
 @property (strong, nonatomic)Child *chiledSectionCell;
 @property (weak, nonatomic)id<hidePreviousViewofSectionDetail>delegate;
+@property (strong, nonatomic) IBOutlet UIButton *saveButton;
 @end

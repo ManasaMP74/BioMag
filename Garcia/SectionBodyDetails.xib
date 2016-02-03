@@ -15,7 +15,7 @@
                 <outlet property="correspondPointLabel" destination="ZU0-gE-Ys0" id="DHt-f5-GxE"/>
                 <outlet property="mNxtbtn" destination="CvM-QB-SUt" id="9p0-t0-vF7"/>
                 <outlet property="mPrevBtn" destination="Tlv-fW-rOU" id="0WW-BP-nS3"/>
-                <outlet property="saveLabel" destination="ilz-FJ-SKa" id="KOc-MK-Y8p"/>
+                <outlet property="saveButton" destination="UV6-pB-kla" id="u2g-80-CYY"/>
                 <outlet property="sectionHeaderLabel" destination="qyr-R7-UK6" id="8EK-RE-vfu"/>
                 <outlet property="tableViewHeight" destination="pUr-aW-n8F" id="rTL-4l-nEN"/>
                 <outlet property="tableview" destination="NLk-az-NBL" id="jh5-bI-KE5"/>
@@ -69,7 +69,8 @@
                         <constraint firstAttribute="height" constant="25" id="rLY-NL-PKx"/>
                         <constraint firstAttribute="width" constant="80" id="xqi-Ax-Fhj"/>
                     </constraints>
-                    <state key="normal" backgroundImage="Save-Button">
+                    <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="17"/>
+                    <state key="normal" title="Save" backgroundImage="Save-Button">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -82,7 +83,7 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Title-Button1" translatesAutoresizingMaskIntoConstraints="NO" id="JfW-k4-9F9">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Title-Button-1" translatesAutoresizingMaskIntoConstraints="NO" id="JfW-k4-9F9">
                     <rect key="frame" x="0.0" y="14" width="200" height="38"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="200" id="2bD-IN-aiO"/>
@@ -99,16 +100,6 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="save" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ilz-FJ-SKa">
-                    <rect key="frame" x="134" y="229" width="42" height="17"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="42" id="aeM-hg-Y9F"/>
-                        <constraint firstAttribute="height" constant="17" id="eNI-Ih-d1T"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="14"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
@@ -119,8 +110,6 @@
                 <constraint firstAttribute="centerX" secondItem="UV6-pB-kla" secondAttribute="centerX" constant="-1" id="FoZ-5P-VZF"/>
                 <constraint firstItem="NLk-az-NBL" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="36" id="Iab-WS-EfL"/>
                 <constraint firstAttribute="trailing" secondItem="NLk-az-NBL" secondAttribute="trailing" constant="36" id="NLs-JO-ZbT"/>
-                <constraint firstItem="ilz-FJ-SKa" firstAttribute="centerY" secondItem="UV6-pB-kla" secondAttribute="centerY" id="SOV-Vi-lu9"/>
-                <constraint firstItem="UV6-pB-kla" firstAttribute="centerX" secondItem="ilz-FJ-SKa" secondAttribute="centerX" id="VYD-mC-4Uv"/>
                 <constraint firstItem="CvM-QB-SUt" firstAttribute="top" secondItem="UV6-pB-kla" secondAttribute="top" id="Xu5-Ko-sYF"/>
                 <constraint firstItem="qyr-R7-UK6" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="3" id="dfc-7T-jHE"/>
                 <constraint firstItem="JfW-k4-9F9" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="gyw-0U-QkF"/>
@@ -129,13 +118,13 @@
                 <constraint firstItem="qyr-R7-UK6" firstAttribute="centerY" secondItem="JfW-k4-9F9" secondAttribute="centerY" constant="-0.5" id="yOH-p0-Ydm"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="212" y="133.5"/>
+            <point key="canvasLocation" x="-22" y="71.5"/>
         </view>
     </objects>
     <resources>
         <image name="Left-icon" width="15" height="15"/>
         <image name="Right-icon" width="15" height="15"/>
         <image name="Save-Button" width="80" height="25"/>
-        <image name="Title-Button1" width="200" height="38"/>
+        <image name="Title-Button-1" width="200" height="38"/>
     </resources>
 </document>

@@ -1,1 +1,0 @@
-../../../MCLocalization/Classes/MCLocalizationOneJSONFilePerLanguageDataSource.h

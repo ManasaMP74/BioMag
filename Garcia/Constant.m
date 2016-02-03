@@ -6,19 +6,16 @@
     NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.333 green:0.329 blue:0.39 alpha:1], NSFontAttributeName :[self customFont:12 ofName:OpenSansRegular]}];
     return str;
 }
-//textFieldPlaceHolder
 -(NSAttributedString*)PatientSheetPlaceHolderText:(NSString *)text{
     NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.333 green:0.329 blue:0.39 alpha:1], NSFontAttributeName :[self customFont:15 ofName:OpenSansRegular]}];
     return str;
 }
-//textFieldPlaceHolder
 -(NSAttributedString*)textFieldPlaceLogin:(NSString *)text{
     NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.333 green:0.329 blue:0.39 alpha:1], NSFontAttributeName :[self customFont:18 ofName:OpenSansRegular]}];
     return str;
 }
-//textFieldPlaceHolder
 -(NSAttributedString*)textFieldPatient:(NSString *)text{
-    NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.318 green:0.416 blue:0.463 alpha:1], NSFontAttributeName :[self customFont:16 ofName:OpenSansRegular]}];
+    NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.318 green:0.416 blue:0.463 alpha:0.8], NSFontAttributeName :[self customFont:16 ofName:OpenSansRegular]}];
     return str;
 }
 //Space At Beging of TextField
@@ -57,7 +54,7 @@
 }
 //set Font for normal label
 -(void)setFontForLabel:(UILabel*)label{
-    label.font=[self customFont:13 ofName:OpenSansSemibold];
+    label.font=[self customFont:12 ofName:OpenSansSemibold];
     label.textColor=[UIColor colorWithRed:0.192 green:0.196 blue:0.196 alpha:1];
 }
 //set Color For Label for normal label

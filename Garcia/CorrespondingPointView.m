@@ -26,7 +26,7 @@
                                                              metrics:nil
                                                                views:views];
         [self addConstraints:constrains];
-//        [_correspondingTableView registerNib:[UINib nibWithNibName:@"CorrespondingPointCell" bundle:nil] forCellReuseIdentifier:@"cell"];
+        //        [_correspondingTableView registerNib:[UINib nibWithNibName:@"CorrespondingPointCell" bundle:nil] forCellReuseIdentifier:@"cell"];
         [_correspondingTableView reloadData];
     }
     
@@ -34,24 +34,24 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-     return _correspondingPointArray.count;
+    return _correspondingPointArray.count;
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-   CorrespondingPointCell  *cell = (CorrespondingPointCell *)[tableView dequeueReusableCellWithIdentifier:@"cell2"];
+    CorrespondingPointCell  *cell = (CorrespondingPointCell *)[tableView dequeueReusableCellWithIdentifier:@"cell2"];
     if (cell == nil) {
         [[NSBundle mainBundle] loadNibNamed:@"CorrespondingPointCell" owner:self options:nil];
         cell = _correspondingCell;
         _correspondingCell = nil;
     }
-        cell.correspondingLabel.text=_correspondingPointArray[indexPath.row];
-       return cell;
+    cell.correspondingLabel.text=_correspondingPointArray[indexPath.row];
+    return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-return 20;
+    return 20;
 }
 -(float)corespondingCellHeight
 {

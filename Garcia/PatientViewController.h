@@ -1,6 +1,5 @@
 #import <UIKit/UIKit.h>
-#import "searchPatientModel.h"
 @interface PatientViewController : UIViewController
-@property(strong,nonatomic)searchPatientModel *model;
+@property(strong,nonatomic)NSString *patientName;
 -(void)setDefaultValues;
 @end
