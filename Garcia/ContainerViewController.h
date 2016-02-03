@@ -1,7 +1,7 @@
 #import <UIKit/UIKit.h>
 #import "searchPatientModel.h"
 #import "searchPatientModel.h"
-#import "PatientTitleModel.h"
+#import "PatientDetailModel.h"
 @protocol loadTreatmentDelegateInContainer <NSObject>
 @optional
 -(void)loadTreatment;
@@ -11,12 +11,12 @@
 @interface ContainerViewController : UIViewController
 -(void)passDataFromsearchPatientTableViewToPatient:(searchPatientModel*)model;
 -(void)ChangeTheContainerViewViewController;
--(void)pushTreatmentViewController:(PatientTitleModel *)model;
+-(void)pushTreatmentViewController:(PatientDetailModel *)model;
 @property(strong,nonatomic)NSString *viewControllerDiffer;
 -(void)callEndEditing;
--(void)successfullyAdded:(NSString *)code;
+-(void)successfullyAdded;
 @property(strong,nonatomic)searchPatientModel *model;
--(void)successfullyEdit:(NSString *)code;
+-(void)successfullyEdit;
 -(void)showMBprogressTillLoadThedata;
 -(void)hideMBprogressTillLoadThedata;
 -(void)hideAllMBprogressTillLoadThedata;

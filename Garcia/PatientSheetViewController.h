@@ -2,8 +2,6 @@
 #import "SettingView.h"
 #import "searchPatientModel.h"
 #import "PatientDetailModel.h"
-#import "UIImageView+AFNetworking.h"
-#import "PatientTitleModel.h"
 #if !defined(MAX)
 #define MAX(A,B)((A) > (B) ? (A) : (B))
 #endif
@@ -30,7 +28,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *takePic;
 @property (strong, nonatomic) IBOutlet UIButton *album;
 @property(strong,nonatomic)PatientDetailModel *patientDetailModel;
-@property(strong,nonatomic)PatientTitleModel *patientTitleModel;
 @property (strong, nonatomic) IBOutlet UICollectionView *uploadCollectionView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *uploadCollectionViewHeight;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *uploadCollectionViewWidth;
@@ -39,24 +36,5 @@
 @property (strong, nonatomic) IBOutlet UILabel *diagnosisNoteLabel;
 @property (strong, nonatomic) IBOutlet UILabel *medicalNoteLabel;
 @property (strong, nonatomic) IBOutlet UILabel *addClosureNoteLabel;
-@property (strong, nonatomic) IBOutlet UIButton *closeTreatmentClosure;
-@property (strong, nonatomic) IBOutlet UIButton *saveTreatmentClosure;
-@property (strong, nonatomic) IBOutlet UIButton *addDiagnosis;
-@property (strong, nonatomic) IBOutlet UIButton *cancelMedical;
-@property (strong, nonatomic) IBOutlet UIButton *addMedical;
-@property (strong, nonatomic) IBOutlet UIButton *exit;
-
-@property (strong, nonatomic) IBOutlet UIButton *addSittingButton;
-
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *medicalTVHeight;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *medicalTableHeight;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *diagnosisTableHeight;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *diagnosisTextViewHeight;
-
-
-
 @property(weak,nonatomic)id<loadTreatmentDelegate>delegate;
-
-
-
 @end

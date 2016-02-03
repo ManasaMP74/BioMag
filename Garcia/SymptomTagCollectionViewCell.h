@@ -5,5 +5,4 @@
 @interface SymptomTagCollectionViewCell : UICollectionViewCell
 @property (strong, nonatomic) IBOutlet UILabel *label;
 @property(weak,nonatomic)id<deleteCellValue>delegate;
-@property (strong, nonatomic) IBOutlet UIButton *deleteSymptom;
 @end

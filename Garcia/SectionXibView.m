@@ -1,9 +1,8 @@
 #import "SectionXibView.h"
-#import "ToxicDeficiency.h"
+
 @implementation SectionXibView
 {
     NSMutableArray *allSectionNameArray;
-    int selectedRow;
 }
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -40,29 +39,16 @@
         cell=_sectionXibCell;
         _sectionXibCell=nil;
     }
-    NSArray *ar;
-    if (selectedRow==0) {
-      ar=[allSectionNameArray[indexPath.row] componentsSeparatedByString:@"$"];
-        cell.label.text=ar[0];
-    }else{
-        ToxicDeficiency *model=allSectionNameArray[indexPath.row];
-     cell.label.text=model.name;
-    }
-       _tableView.tableFooterView=[UIView new];
+   NSArray *ar=[allSectionNameArray[indexPath.row] componentsSeparatedByString:@"$"];
+    cell.label.text=ar[0];
+    _tableView.tableFooterView=[UIView new];
     return cell;
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     cell.backgroundColor=[UIColor clearColor];
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (selectedRow==0) {
-          [self.delegateForGetName getSectionName:allSectionNameArray[indexPath.row] withIndex:indexPath withCellIndex:selectedRow];
-    }
-    else if (selectedRow==1) {
-    ToxicDeficiency *model=allSectionNameArray[indexPath.row];
-    NSString *str=  [NSString stringWithFormat:@"%@$%@",model.code,model.name];
-     [self.delegateForGetName getSectionName:str withIndex:indexPath withCellIndex:selectedRow];
-    }
+    [self.delegateForGetName getSectionName:allSectionNameArray[indexPath.row]];
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 35;
@@ -70,8 +56,7 @@
 -(CGFloat)getHeightOfView{
     return _tableView.contentSize.height;
 }
--(void)reloadData:(NSMutableArray*)array withIndex:(int)i{
-    selectedRow=i;
+-(void)reloadData:(NSMutableArray*)array{
     [allSectionNameArray removeAllObjects];
     [allSectionNameArray addObjectsFromArray:array];
     [_tableView reloadData];

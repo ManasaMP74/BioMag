@@ -6,46 +6,45 @@
 #import "PostmanConstant.h"
 #import "Postman.h"
 #import "PatientDetailModel.h"
-#import "ProfileImageView.h"
-#import "AppDelegate.h"
-#import "PatientTitleModel.h"
 @interface PatientViewController ()<UITableViewDataSource,UITableViewDelegate,editPatient>
-@property (weak, nonatomic) IBOutlet UILabel *transfusinTF;
-@property (weak, nonatomic) IBOutlet UIButton *edit;
-@property (weak, nonatomic) IBOutlet UILabel *genderLabel;
-@property (weak, nonatomic) IBOutlet UILabel *martiralStatus;
-@property (weak, nonatomic) IBOutlet UILabel *dobLabel;
-@property (weak, nonatomic) IBOutlet UILabel *ageLabel;
-@property (weak, nonatomic) IBOutlet UILabel *mobileLabel;
-@property (weak, nonatomic) IBOutlet UILabel *genderValueLabel;
-@property (weak, nonatomic) IBOutlet UILabel *mariedValueLabel;
-@property (weak, nonatomic) IBOutlet UILabel *dobValueLabel;
-@property (weak, nonatomic) IBOutlet UILabel *ageValueLabel;
-@property (weak, nonatomic) IBOutlet UILabel *mobileValueLabel;
-@property (weak, nonatomic) IBOutlet UILabel *emailLabel;
-@property (weak, nonatomic) IBOutlet UILabel *addressLabel;
-@property (weak, nonatomic) IBOutlet UILabel *emailValueLabel;
-@property (weak, nonatomic) IBOutlet UILabel *treatmentLabel;
-@property (weak, nonatomic) IBOutlet UIButton *addTreatmentButton;
-@property (weak, nonatomic) IBOutlet UILabel *patientNameTF;
-@property (weak, nonatomic) IBOutlet UIView *TreatmentView;
-@property (weak, nonatomic) IBOutlet UITableView *tableview;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewHeight;
-@property (weak, nonatomic) IBOutlet UIImageView *patientImageView;
-@property (weak, nonatomic) IBOutlet UILabel *surgeriesLabel;
+@property (strong, nonatomic) IBOutlet UILabel *transfusinTF;
+
+@property (strong, nonatomic) IBOutlet UIButton *edit;
+@property (strong, nonatomic) IBOutlet UILabel *genderLabel;
+@property (strong, nonatomic) IBOutlet UILabel *martiralStatus;
+@property (strong, nonatomic) IBOutlet UILabel *dobLabel;
+@property (strong, nonatomic) IBOutlet UILabel *ageLabel;
+@property (strong, nonatomic) IBOutlet UILabel *mobileLabel;
+@property (strong, nonatomic) IBOutlet UILabel *genderValueLabel;
+@property (strong, nonatomic) IBOutlet UILabel *mariedValueLabel;
+@property (strong, nonatomic) IBOutlet UILabel *dobValueLabel;
+@property (strong, nonatomic) IBOutlet UILabel *ageValueLabel;
+@property (strong, nonatomic) IBOutlet UILabel *mobileValueLabel;
+@property (strong, nonatomic) IBOutlet UILabel *emailLabel;
+@property (strong, nonatomic) IBOutlet UILabel *addressLabel;
+@property (strong, nonatomic) IBOutlet UILabel *emailValueLabel;
+@property (strong, nonatomic) IBOutlet UILabel *treatmentLabel;
+@property (strong, nonatomic) IBOutlet UIButton *addTreatmentButton;
+@property (strong, nonatomic) IBOutlet UILabel *patientNameTF;
+@property (strong, nonatomic) IBOutlet UIView *TreatmentView;
+@property (strong, nonatomic) IBOutlet UITableView *tableview;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *tableViewHeight;
+@property (strong, nonatomic) IBOutlet UIImageView *patientImageView;
+@property (strong, nonatomic) IBOutlet UILabel *surgeriesLabel;
 @end
+
 @implementation PatientViewController
 {
     Constant *constant;
     ContainerViewController *containerVC;
     Postman *postman;
     NSMutableArray *treatmentListArray;
-    ProfileImageView *profileView;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     constant=[[Constant alloc]init];
     self.navigationController.navigationBarHidden=YES;
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-01.jpg"]]];
     [self setFont];
     UINavigationController *nav=(UINavigationController*)self.parentViewController;
     containerVC=(ContainerViewController*)nav.parentViewController;
@@ -58,9 +57,7 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-1.jpg"]]];
     [containerVC setTitle:@"Patients"];
-    [_tableview reloadData];
 }
 //set the DefaultValues For Label
 -(void)setDefaultValues{
@@ -72,8 +69,7 @@
     _transfusinTF.text=_model.tranfusion;
     _genderValueLabel.text=_model.gender;
     _emailValueLabel.text=_model.emailId;
-    NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,_model.profileImageCode];
-    [_patientImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
+    _patientImageView.image=_model.profileImage;
     _patientImageView.layer.cornerRadius=_patientImageView.frame.size.width/2;
     _patientImageView.clipsToBounds=YES;
     if (_model.surgeries!=nil) {
@@ -109,21 +105,19 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
     UILabel *label=(UILabel*)[cell viewWithTag:10];
-    PatientTitleModel *model=treatmentListArray[indexPath.row];
+    PatientDetailModel *model=treatmentListArray[indexPath.row];
     label.text=model.title;
     label.font=[UIFont fontWithName:@"OpenSans" size:13];
     tableView.tableFooterView=[UIView new];
-    if ([model.IsTreatmentCompleted intValue]==0) {
-        cell.backgroundColor=[UIColor colorWithRed:0.4471 green:0.8157 blue:0.9725 alpha:1];
-    }else cell.backgroundColor=[UIColor colorWithRed:0.627 green:0.89 blue:1 alpha:1];
     return cell;
 }
 //table didselect
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    PatientTitleModel *model=treatmentListArray[indexPath.row];
+    PatientDetailModel *model=treatmentListArray[indexPath.row];
     containerVC.model=_model;
+    containerVC.delegate=self;
     [containerVC pushTreatmentViewController:model];
-   }
+}
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"edit"]) {
         EditPatientViewController *edit=segue.destinationViewController;
@@ -134,7 +128,7 @@
 //add treatment
 - (IBAction)addTreatment:(id)sender {
     containerVC.model=_model;
-    PatientTitleModel *model=[[PatientTitleModel alloc]init];
+    PatientDetailModel *model=[[PatientDetailModel alloc]init];
     [containerVC pushTreatmentViewController:model];
 }
 //add tap gesture
@@ -143,16 +137,9 @@
     [containerVC callEndEditing];
 }
 //successfully edited
--(void)successfullyEdited:(NSString*)code{
-    [containerVC successfullyEdit:code];
+-(void)successfullyEdited{
+    [containerVC successfullyEdit];
 }
-- (IBAction)showFullProfileImage:(id)sender {
-    if (profileView==nil)
-        profileView=[[ProfileImageView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x+70, self.view.frame.origin.y+100,self.view.frame.size.width-40,self.view.frame.size.height-100)];
-    profileView.imageCode=_model.profileImageCode;
-    [profileView alphaViewInitialize];
-}
-//call api to get detail of treatment
 -(void)callApiTogetAllDetailOfTheTreatment{
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getTitleOfTreatment];
     [containerVC showMBprogressTillLoadThedata];
@@ -170,17 +157,15 @@
     NSDictionary *dict=responseObject;
     if ([dict[@"Success"] intValue]==1) {
         for (NSDictionary *dict1 in dict[@"ViewModels"]) {
-            if ((dict1[@"DoctorId"]!=[NSNull null]) & (dict1[@"PatientId"]!=[NSNull null])) {
-            if (([dict1[@"DoctorId"]intValue]==[docID intValue]) & ([dict1[@"PatientId"]intValue]==[_model.Id intValue])) {
-                if ([dict1[@"Status"]intValue]==1) {
-                    PatientTitleModel *model=[[PatientTitleModel alloc]init];
-                    model.idValue=dict1[@"ID"];
-                    model.code=dict1[@"Code"];
-                    model.title=dict1[@"Title"];
-                    model.IsTreatmentCompleted=dict1[@"IsTreatmentCompleted"];
-                    [treatmentListArray addObject:model];
-                }
-            }
+                    if (([dict1[@"DoctorId"]intValue]==[docID intValue]) & ([dict1[@"PatientId"]intValue]==[_model.Id intValue])) {
+                            if (([dict1[@"Status"]intValue]==1) & ([dict1[@"IsTreatmentCompleted"]intValue]==0)) {
+                                PatientDetailModel *model=[[PatientDetailModel alloc]init];
+                                model.idValue=dict1[@"ID"];
+                                model.code=dict1[@"Code"];
+                                model.title=dict1[@"Title"];
+                                model.updateCount=dict1[@"UpdateCount"];
+                                [treatmentListArray addObject:model];
+               }
             }
         }
         [_tableview reloadData];

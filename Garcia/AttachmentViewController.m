@@ -1,7 +1,7 @@
 #import "AttachmentViewController.h"
 
 @interface AttachmentViewController ()<UIImagePickerControllerDelegate,UITextViewDelegate>
-
+@property (strong, nonatomic) IBOutlet UILabel *addNoteLabel;
 
 @end
 
@@ -10,7 +10,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.hidesBackButton=YES;
-     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-2.jpg"]]];
+     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-02.jpg"]]];
     [self navigationItemMethod];
 }
 
@@ -22,18 +22,6 @@
     _textView.userInteractionEnabled=_textViewEnabled;
     _imageView.image=_selectedImage;
     _textView.text=_captionText;
-    if (_captionText!=nil) {
-        _addNoteLabel.hidden=YES;
-    }else _addNoteLabel.hidden=NO;
-    if (_textViewEnabled==NO) {
-        _textView.backgroundColor=[UIColor lightGrayColor];
-        _okButton.hidden=YES;
-        _CancelButton.hidden=YES;
-    }else{
-        _okButton.hidden=NO;
-        _CancelButton.hidden=NO;
-        _textView.backgroundColor=[UIColor whiteColor];
-    }
 }
 - (IBAction)okButton:(id)sender {
     [self.delegate selectedImage:_imageView.image withCaption:_textView.text];
@@ -64,22 +52,16 @@
 }
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-        if (textView.text.length + (text.length - range.length) > 150) {
-        [self.view endEditing:YES];
-        UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:@"Text should be less than 150" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *cancel=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
-           [alertView dismissViewControllerAnimated:YES completion:nil];
-        }];
-        [alertView addAction:cancel];
-        [self presentViewController:alertView animated:YES completion:nil];
-    }
-    return textView.text.length + (text.length - range.length) <= 150;
-}
--(void)textViewDidChange:(UITextView *)textView{
     if ([textView.text isEqualToString:@""]) {
         _addNoteLabel.hidden=NO;
     }
     else _addNoteLabel.hidden=YES;
+    if (textView.text.length + (text.length - range.length) > 150) {
+        [self.view endEditing:YES];
+        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"" message:@"Text should be less than 150" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+               [alertView show];
+    }
+    return textView.text.length + (text.length - range.length) <= 150;
 }
 - (IBAction)gesture:(id)sender {
     [self.view endEditing:YES];

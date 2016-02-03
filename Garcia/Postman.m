@@ -13,16 +13,13 @@
 {
     NSUserDefaults *defaultvalue=[NSUserDefaults standardUserDefaults];
     NSString *token= [defaultvalue valueForKey:@"X-access-Token"];
-    int userIdInteger=[[defaultvalue valueForKey:@"Id"]intValue];
-    NSString *userID=[@(userIdInteger) description];
+    
     
     self.manager=[AFHTTPRequestOperationManager manager];
     AFJSONRequestSerializer *requestSerializer=[AFJSONRequestSerializer serializer];
     [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [requestSerializer setValue:token forHTTPHeaderField:@"x-access-token"];
-    [requestSerializer setValue:userID forHTTPHeaderField:@"x-uid"];
-   
     self.manager.requestSerializer=requestSerializer;
 }
 //post method
@@ -55,6 +52,7 @@
          
      }failure:^(AFHTTPRequestOperation *operation,NSError *error){
          failure(operation,error);
-    }];
+         NSLog(@"%@",error);
+     }];
 }
 @end

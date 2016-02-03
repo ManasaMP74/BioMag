@@ -31,7 +31,7 @@
         [self addConstraints:constrains];
         sittingArray=[[NSMutableArray alloc]init];
         scanPointArray=[[NSMutableArray alloc]init];
-        sittingArray=[@[@"Head",@"Price",@"Notes",@"Completed"]mutableCopy];
+        sittingArray=[@[@"Head",@"Interval",@"Notes",@"Completed"]mutableCopy];
         scanPointArray=[@[@"Inter Ciliary",@"Eye",@"Thyroid"]mutableCopy];
         selectedHeaderIndexPath=nil;
         selectedScanPointIndexPath=[[NSMutableArray alloc]init];
@@ -102,7 +102,6 @@
                 }
             }
         }
-        cell.intervalLabel.text=_price;
         return cell;
     }
     else{

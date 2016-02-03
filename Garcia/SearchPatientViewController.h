@@ -4,7 +4,7 @@
 #import "UIImageView+AFNetworking.h"
 @interface SearchPatientViewController : UIViewController
 -(void)hideKeyBoard;
--(void)againCallApiAfterAddPatient:(NSString *)code;
--(void)againCallApiAfterEditPatient:(NSString *)code;
+-(void)againCallApiAfterAddPatient;
+-(void)againCallApiAfterEditPatient;
 -(void)reloadTableviewAfterAddNewTreatment;
 @end

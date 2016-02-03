@@ -5,6 +5,7 @@
 #import "SearchPatientViewController.h"
 #import "MBProgressHUD.h"
 #import "AppDelegate.h"
+
 @interface ContainerViewController ()<addedPatient,loadTreatmentDelegate>
 
 @end
@@ -44,6 +45,9 @@
         UINavigationController * nav=[self.childViewControllers lastObject];
         PatientViewController *patientVc=nav.viewControllers[0];
         [nav popToViewController:patientVc animated:YES];
+       
+        AppDelegate *app=[UIApplication sharedApplication].delegate;
+        app.model=model;
         patientVc.model =model;
         [patientVc setDefaultValues];
     }
@@ -56,10 +60,10 @@
     [nav initWithRootViewController:addPatientVc];
 }
 //push treatmentViewController
--(void)pushTreatmentViewController:(PatientTitleModel *)model{
+-(void)pushTreatmentViewController:(PatientDetailModel *)model{
     PatientSheetViewController *patientSheet=[self.storyboard instantiateViewControllerWithIdentifier:@"PatientSheetViewController"];
+    patientSheet.patientDetailModel=model;
     patientSheet.model=_model;
-    patientSheet.patientTitleModel=model;
     patientSheet.delegate=self;
     [self.navigationController pushViewController:patientSheet animated:YES];
 }
@@ -69,16 +73,16 @@
     [searchVC hideKeyBoard];
 }
 //Method Successfully Added
--(void)successfullyAdded:(NSString *)code{
+-(void)successfullyAdded{
  SearchPatientViewController *searchVC=[self.childViewControllers firstObject];
-    [searchVC againCallApiAfterAddPatient:code];
+    [searchVC againCallApiAfterAddPatient];
 }
 //Method Successfully Edit
--(void)successfullyEdit:(NSString *)code{
+-(void)successfullyEdit{
     SearchPatientViewController *searchVC=[self.childViewControllers firstObject];
-    [searchVC againCallApiAfterEditPatient:code];
+    [searchVC againCallApiAfterEditPatient];
 }
-//Show (NSString *)code
+//Show Mbprogress
 -(void)showMBprogressTillLoadThedata{
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }

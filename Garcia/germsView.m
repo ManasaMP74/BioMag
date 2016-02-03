@@ -5,7 +5,6 @@
 #import "PostmanConstant.h"
 #import "MBProgressHUD.h"
 #import "germsModel.h"
-#import "SeedSyncer.h"
 @implementation germsView
 {
     UIView *view;
@@ -33,10 +32,9 @@
     view.layer.cornerRadius = 10;
     view.layer.masksToBounds  = YES;
     [constant SetBorderForTextField:_codeSymbolTF];
-    [constant SetBorderForTextField:_codeFullNameTF];
+     [constant SetBorderForTextField:_codeFullNameTF];
     [constant spaceAtTheBeginigOfTextField:_codeFullNameTF];
-    [constant spaceAtTheBeginigOfTextField:_codeSymbolTF];
-    postman=[[Postman alloc]init];
+     [constant spaceAtTheBeginigOfTextField:_codeSymbolTF];
 }
 -(void)alphaViewInitialize{
     if (alphaView == nil)
@@ -60,25 +58,8 @@
     [selectedIndex removeAllObjects];
     [selectedGerms removeAllObjects];
     [germsArray removeAllObjects];
-    [self callSeed];
-    view.center = alphaView.center;
-}
--(void)callSeed{
-        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-        if ([userDefault boolForKey:@"germs_FLAG"]) {
-            [self callApiToGetGerms];
-        }
-        else{
-            NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,germsUrl];
-            [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
-                if (success) {
-                    [self processGerms:response];
-                }
-                else{
-                    [self callApiToGetGerms];
-                }
-            }];
-        }
+    [self callApiToGetGerms];
+    
 }
 -(void)hide{
     [alphaView removeFromSuperview];
@@ -92,11 +73,6 @@
     [self.delegateForGerms germsData:selectedGerms];
 }
 - (IBAction)addNewGerm:(id)sender {
-//    if (![_codeFullNameTF.text isEqualToString:@""] & ) {
-//        <#statements#>
-//    }
-    _codeFullNameTF.text=@"";
-    _codeSymbolTF.text=@"";
     [self changeTheNewGermAppearence:NO withHeight:43];
     [self heightOfView:166];
 }
@@ -117,21 +93,18 @@
     if ([selectedIndex containsObject:indexPath]) {
         cell.cellImageView.image=[UIImage imageNamed:@"Box1-Check.png"];
     }else cell.cellImageView.image=[UIImage imageNamed:@"Box1-Uncheck.png"];
-        return cell;
+    return cell;
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     cell.backgroundColor=[UIColor clearColor];
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     germsModel *model=germsArray[indexPath.row];
+    [selectedGerms addObject:model];
     if ([selectedIndex containsObject:indexPath]) {
         [selectedIndex removeObject:indexPath];
-        [selectedGerms removeObject:model];
     }
-    else{
-        [selectedIndex addObject:indexPath];
-         [selectedGerms addObject:model];
-    }
+    else [selectedIndex addObject:indexPath];
     [_tableView reloadData];
 
 }
@@ -140,15 +113,9 @@
 }
 -(void)callApiToGetGerms{
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,germsUrl];
-    [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processGerms:responseObject];
-        [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
-        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-        [userDefault setBool:NO forKey:@"germs_FLAG"];
-        [MBProgressHUD hideHUDForView:alphaView animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          [MBProgressHUD hideHUDForView:alphaView animated:YES];
     }];
 }
 -(void)processGerms:(id)responseObject{
@@ -163,16 +130,7 @@
         }
     }
     [_tableView reloadData];
-    NSArray *ar=[_fromParentViewGermsString componentsSeparatedByString:@","];
-    for (NSString *str in ar) {
-        for (int i=0; i<germsArray.count; i++) {
-            germsModel *model=germsArray[i];
-            if ([str isEqualToString:model.germsName]) {
-                [self tableView:_tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-            }
-        }
-        }
-        [self heightOfView:106];
+    [self heightOfView:106];
 }
 -(void)heightOfView:(CGFloat)height{
     CGRect frame=view.frame;
@@ -193,19 +151,4 @@
     _germNewAddView.hidden=status;
     _heightOfNewGermView.constant=height;
 }
-//-(void)ApiToAddGerm{
-//    NSString *url=[NSString stringWithFormat:@""];
-//    NSString *parameter=[NSString stringWithFormat:@""];
-//    [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
-//    [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        [MBProgressHUD hideHUDForView:alphaView animated:YES];
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        [MBProgressHUD hideHUDForView:alphaView animated:YES];
-//    }];
-//}
-//-(void)processToAddGerms:(id)responseObject{
-//    NSDictionary *dict=responseObject;
-//
-//
-//}
 @end
