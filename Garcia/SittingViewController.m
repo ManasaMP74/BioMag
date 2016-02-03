@@ -87,7 +87,7 @@
         _saveBtn.hidden=YES;
         _exit.hidden=NO;
     }
-[self setTheValuesInTableView];
+    [self setTheValuesInTableView];
 }
 //Set The Data at the Begining
 -(void)setTheValuesInTableView{
@@ -122,20 +122,29 @@
     }
 }
 -(void)callSeed{
-    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    if ([userDefault boolForKey:@"anatomicalbiomagneticmatrix_FLAG"]) {
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For vzone API
         [self callApi];
-    }
-    else{
-        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,biomagneticMatrix];
-        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
-            if (success) {
-                [self processResponseObject:response];
-            }
-            else{
-                [self callApi];
-            }
-        }];
+    }else{
+        //For Material API
+        
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        if ([userDefault boolForKey:@"anatomicalbiomagneticmatrix_FLAG"]) {
+            [self callApi];
+        }
+        else{
+            NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,biomagneticMatrix];
+            [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+                if (success) {
+                    [self processResponseObject:response];
+                }
+                else{
+                    [self callApi];
+                }
+            }];
+        }
+        
     }
 }
 - (void)didReceiveMemoryWarning {
@@ -271,12 +280,14 @@
         cell.previousSittingBadgeLabel.hidden=YES;
         cell.previousSittingBadgeImageView.hidden=YES;
     }else{
-//        cell.previousSittingBadgeLabel.hidden=NO;
-//        NSArray *ar=[model.otherSittingNumberHaveIssue componentsSeparatedByString:@" "];
-//        cell.previousSittingBadgeLabel.text=ar[ar.count-2];
-//        cell.previousSittingBadgeImageView.hidden=NO;
+        cell.previousSittingBadgeLabel.hidden=YES;
+        cell.previousSittingBadgeImageView.hidden=YES;
+        //        cell.previousSittingBadgeLabel.hidden=NO;
+        //        NSArray *ar=[model.otherSittingNumberHaveIssue componentsSeparatedByString:@" "];
+        //        cell.previousSittingBadgeLabel.text=ar[ar.count-2];
+        //        cell.previousSittingBadgeImageView.hidden=NO;
     }
-        return cell;
+    return cell;
 }
 //display cell
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -297,7 +308,7 @@
     if (collectionView==_collectionView) {
         return appdelegate.symptomTagArray.count;
     }else{
-    return selectedPreviousArray.count;
+        return selectedPreviousArray.count;
     }
 }
 //collection view cell
@@ -308,17 +319,19 @@
         cell.label.text=m.tagName;
         cell.delegate=self;
         if ([_isTreatmntCompleted intValue]==0) {
-            cell.deleteSymptom.hidden=NO;
+            if ([_bioSittingDict[@"IsCompleted"]intValue]==0 ) {
+                cell.deleteSymptom.hidden=NO;
+            }else cell.deleteSymptom.hidden=YES;
         }else  cell.deleteSymptom.hidden=YES;
         return cell;
     }
     else{
         PreviousSittingCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
         PreviousSittingModelClass *m=selectedPreviousArray[indexPath.row];
-           cell.sittingNumber.text=m.sittingNumber;
-            cell.infoLabel.text=m.germsString;
-            cell.dateLabel.text=m.dateVisited;
-            return cell;
+        cell.sittingNumber.text=m.sittingNumber;
+        cell.infoLabel.text=m.germsString;
+        cell.dateLabel.text=m.dateVisited;
+        return cell;
     }
     
 }
@@ -404,20 +417,20 @@
                     }
                     int i=[dict[@"SittingNumber"]intValue];
                     if (i<[model.sittingNumber intValue]) {
-                    PreviousSittingModelClass *model1=[[PreviousSittingModelClass alloc]init];
-                    model1.dateVisited=dict[@"Visit"];
-                    model1.sittingNumber=[NSString stringWithFormat:@"S%d",[dict[@"SittingNumber"]intValue]];
-                    if ([anotomicalDict[@"Issue"] integerValue]==1) {
-                        model1.issue= YES;
-                    }else{
-                        model1.issue= NO;
+                        PreviousSittingModelClass *model1=[[PreviousSittingModelClass alloc]init];
+                        model1.dateVisited=dict[@"Visit"];
+                        model1.sittingNumber=[NSString stringWithFormat:@"S%d",[dict[@"SittingNumber"]intValue]];
+                        if ([anotomicalDict[@"Issue"] integerValue]==1) {
+                            model1.issue= YES;
+                        }else{
+                            model1.issue= NO;
+                        }
+                        model1.germsString=anotomicalDict[@"GermsName"];
+                        [allPreviousSittingDetail addObject:model1];
                     }
-                    model1.germsString=anotomicalDict[@"GermsName"];
-                    [allPreviousSittingDetail addObject:model1];
                 }
+                model.allPreviousSittingDetail=[allPreviousSittingDetail copy];
             }
-            model.allPreviousSittingDetail=[allPreviousSittingDetail copy];
-        }
         }
     }
 }
@@ -632,7 +645,18 @@
 //Call api to get the biomagnetic matrix
 -(void)callApi{
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,biomagneticMatrix];
-    NSString *parameter=[NSString stringWithFormat:@"{\"SectionCode\": \"\",\"ScanPointCode\": \"\",\"CorrespondingPairCode\":\"\",\"GermsCode\": \"\"}"];
+    
+    NSString *parameter;
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        parameter=[NSString stringWithFormat:@"{\"request\":{\"SectionCode\": \"\",\"ScanPointCode\": \"\",\"CorrespondingPairCode\":\"\",\"GermsCode\": \"\"}}"];
+    }else{
+        
+        //For material API
+        
+        parameter =[NSString stringWithFormat:@"{\"SectionCode\": \"\",\"ScanPointCode\": \"\",\"CorrespondingPairCode\":\"\",\"GermsCode\": \"\"}"];
+    }
+    
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObject:responseObject];
@@ -644,10 +668,21 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
 }
+//Response of biomagnetic matrix
 -(void)processResponseObject:(id)responseObject{
     [allSortedDetailArray removeAllObjects];
     [allSectionNameArray removeAllObjects];
-    NSDictionary *dict=responseObject;
+    NSDictionary *dict;
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        NSDictionary *responseDict1 = responseObject;
+        dict= responseDict1[@"aaData"];
+    }else{
+        //For Material API
+        dict=responseObject;
+    }
+    
     if ([dict[@"Success"] intValue]==1) {
         NSDateFormatter  *formater=[[NSDateFormatter alloc]init];
         for (NSDictionary *dict1 in dict[@"AnatomicalBiomagneticMatrix"]) {
@@ -717,8 +752,10 @@
                 [allDoctorDetailArray addObject:model];
             }
         }
-}
-    [self getTheSortDetailOfCompleteDitailArray:allSectionNameArray[0]];
+    }
+    if (allSectionNameArray.count>0) {
+         [self getTheSortDetailOfCompleteDitailArray:allSectionNameArray[0]];
+    }
     selectedCellToFilter=0;
     if (selectedCellToFilter==allSectionNameArray.count-1) {
         _previousBtn.hidden=YES;
@@ -920,12 +957,34 @@
     dict[@"JSON"]=jsonString;
     [sittingResultArray addObject:dict];
     finalDict[@"SittingResultsRequest"]=sittingResultArray;
-    NSData *parameterData = [NSJSONSerialization dataWithJSONObject:finalDict options:kNilOptions error:nil];
-    NSString *parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
+    
+    NSString *parameter;
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Material API
+           NSData *parameterData = [NSJSONSerialization dataWithJSONObject:finalDict options:kNilOptions error:nil];
+          parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
+    }else{
+        //For Vzone API
+        NSMutableDictionary *vzoneFinalDict=[[NSMutableDictionary alloc]init];
+        vzoneFinalDict[@""]=finalDict;
+        NSData *parameterData = [NSJSONSerialization dataWithJSONObject:vzoneFinalDict options:kNilOptions error:nil];
+        parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
+    }
+
     return parameter;
 }
 -(void)processResponseObjectOfSaveTreatment:(id)responseObject{
-    NSDictionary *dict=responseObject;
+    NSDictionary *dict;
+    
+if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+    //For Material API
+    dict=responseObject;
+}else{
+    //For Vzone API
+    NSDictionary *responseDict1 = responseObject;
+  dict  = responseDict1[@"aaData"];
+}
+    
     if ([dict[@"Success"] intValue]==1) {
         NSDictionary *dict1=responseObject[@"TreatmentRequest"];
         int i=[dict1[@"ID"] intValue];
@@ -966,7 +1025,7 @@
     _toxicView.selectedToxicCode=_toxicDeficiencyString;
     _toxicView.selectedToxicDeficiency=selectedToxicString;
     if ([_isTreatmntCompleted intValue]==0) {
-     _toxicView.isTreatmntCompleted=_bioSittingDict[@"IsCompleted"];
+        _toxicView.isTreatmntCompleted=_bioSittingDict[@"IsCompleted"];
     }else  _toxicView.isTreatmntCompleted=@"1";
     NSArray *ar=[_toxicDeficiencyString componentsSeparatedByString:@"$"];
     if (_toxicView.toxicArray.count==0) {
@@ -989,7 +1048,7 @@
         if ([_bioSittingDict[@"IsCompleted"]intValue]==0 ) {
             _exit.hidden=YES;
         }else{
-        _exit.hidden=NO;
+            _exit.hidden=NO;
         }
         
     }else {
@@ -998,27 +1057,37 @@
 }
 //call toxicDeficiency
 -(void)callSeedForToxicDeficiency{
-    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    if ([userDefault boolForKey:@"toxicdeficiencytype_FLAG"]) {
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
         [self callApiForToxicDeficiency];
+    }else{
+        //For Material API
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        if ([userDefault boolForKey:@"toxicdeficiencytype_FLAG"]) {
+            [self callApiForToxicDeficiency];
+        }
+        else{
+            NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,toxicDeficiencyType];
+            [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+                if (success) {
+                    [self processResponse:response];
+                }
+                else{
+                    [self callApiForToxicDeficiency];
+                }
+            }];
+        }
     }
-    else{
-        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,toxicDeficiencyType];
-        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
-            if (success) {
-                [self processResponse:response];
-            }
-            else{
-                [self callApiForToxicDeficiency];
-            }
-        }];
-    }
+    
 }
 //Api for Toxic
 -(void)callApiForToxicDeficiency{
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,toxicDeficiencyType];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+          NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
+    [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponse:responseObject];
         [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
@@ -1027,20 +1096,40 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
+     }else{
+         [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             [self processResponse:responseObject];
+             [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+             [userDefault setBool:NO forKey:@"toxicdeficiencytype_FLAG"];
+             [MBProgressHUD hideHUDForView:self.view animated:YES];
+         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+             [MBProgressHUD hideHUDForView:self.view animated:YES];
+         }];
+     }
 }
 //process Response
 -(void)processResponse:(id)responseObject{
     [toxicDeficiencyArray removeAllObjects];
-    NSDictionary *dict=responseObject;
+    
+    NSDictionary *dict;
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        NSDictionary *responseDict1 = responseObject;
+        dict  = responseDict1[@"aaData"];
+    }else{
+        //For Material API
+        dict=responseObject;
+    }
+
     for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
         if ([dict1[@"Status"]intValue]==1) {
-            if ((![dict1[@"Name"] isEqualToString:@"acid"])|(![dict1[@"Name"] isEqualToString:@"vitamin d"])|(![dict1[@"Name"] isEqualToString:@"sugar level"])) {
-                ToxicDeficiency *model=[[ToxicDeficiency alloc]init];
-                model.idValue=dict1[@"Id"];
-                model.name=dict1[@"Name"];
-                model.code=dict1[@"Code"];
-                [toxicDeficiencyArray addObject:model];
-            }
+            ToxicDeficiency *model=[[ToxicDeficiency alloc]init];
+            model.idValue=dict1[@"Id"];
+            model.name=dict1[@"Name"];
+            model.code=dict1[@"Code"];
+            [toxicDeficiencyArray addObject:model];
         }
     }
     [self.revealViewController rightRevealToggleAnimated:YES];

@@ -23,6 +23,7 @@
     Postman *postman;
     NSDateFormatter *dateFormatter;
     int initialSelectedRow,MBProgressCountToHide;
+    ContainerViewController *containerVc;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -40,6 +41,7 @@
     selectedIndexPath=nil;
     patentnameArray=[[NSMutableArray alloc]init];
     patentFilteredArray=[[NSMutableArray alloc]init];
+    containerVc =(ContainerViewController*)self.parentViewController;
     if (patentnameArray.count==0) {
         MBProgressCountToHide=0;
         [self callSeed];
@@ -57,21 +59,27 @@
     _patientListTableView.tableFooterView=[UIView new];
 }
 -(void)callSeed{
-        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //Api For Vzone
+        [self callApi];
+    }else{
+      //  API for material
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         if ([userDefault boolForKey:@"user_FLAG"]) {
-              [self callApi];
+            [self callApi];
         }
         else{
-           NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPatientList];
+            NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPatientList];
             [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
                 if (success) {
                     [self processResponseObject:response];
                 }
                 else{
-                     [self callApi];
+                    [self callApi];
                 }
             }];
         }
+    }
 }
 //TableView Number of section
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -99,7 +107,7 @@
     }
     NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,model.profileImageCode];
     [cell.patientImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
-        cell.patientNameLabel.text = model.name;
+    cell.patientNameLabel.text = model.name;
     if ([selectedIndexPath isEqual:indexPath]) {
         cell.patientNameLabel.textColor=[UIColor colorWithRed:0.7098 green:0.99 blue:0.98 alpha:1];
         cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow-3"]];
@@ -135,7 +143,7 @@
         selectedIndexPath=indexPath;
         searchPatientModel *model;
         if ([_searchTextField.text isEqualToString:@""]) {
-         model =patentnameArray[indexPath.row];
+            model =patentnameArray[indexPath.row];
             selectedPatientCode=model.code;
         }
         else{
@@ -173,19 +181,19 @@
         }
         [_patientListTableView reloadData];
         if ([selectedPatientCode isEqualToString:@""]) {
-        if (patentFilteredArray.count>0) {
+            if (patentFilteredArray.count>0) {
+                NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
+                [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
+            }
+        }else{
+            [_patientListTableView reloadData];
             NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
-            [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
+            if (patentFilteredArray.count>0) {
+                [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
+            }
         }
     }else{
         [_patientListTableView reloadData];
-        NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
-         if (patentFilteredArray.count>0) {
-        [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
-         }
-    }
-    }else{
-     [_patientListTableView reloadData];
     }
 }
 
@@ -211,31 +219,49 @@
 -(void)hideKeyBoard{
     [self.view endEditing:YES];
 }
+
+//CallAPI for Material API
+
 -(void)callApi
 {
-    ContainerViewController *containerVc=(ContainerViewController*)self.parentViewController;
-    [containerVc showMBprogressTillLoadThedata];
+    
+    NSString *parameter;
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPatientList];
-    NSString *parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
+
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+    [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:NO];
+   parameter=[NSString stringWithFormat:@"{\"request\":{\"UserTypeCode\":\"PAT123\"}}"];
+    }else{
+     parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
+        [containerVc showMBprogressTillLoadThedata];
+    }
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-     [self processResponseObject:responseObject];
+        [self processResponseObject:responseObject];
         [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         [userDefault setBool:NO forKey:@"user_FLAG"];
-         [containerVc hideMBprogressTillLoadThedata];
+        [containerVc hideMBprogressTillLoadThedata];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [containerVc hideMBprogressTillLoadThedata];
     }];
 }
+
+//Response for material API
 -(void)processResponseObject:(id)responseObject{
-    NSDictionary *dict1=responseObject;
+    NSDictionary *dict1;
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSDictionary *responseDict1 = responseObject;
+        dict1=responseDict1[@"aaData"];
+    }
+    else dict1=responseObject;
+    
     if ([dict1[@"Success"] intValue]==1) {
         for (NSDictionary *dict in dict1[@"ViewModels"]) {
             searchPatientModel *model=[[searchPatientModel alloc]init];
             if (![dict[@"Lastname"] isEqualToString:@""]) {
                 model.name=[NSString stringWithFormat:@"%@ %@",dict[@"Firstname"],dict[@"Lastname"]];
             }else
-            model.name=[NSString stringWithFormat:@"%@",dict[@"Firstname"]];
+                model.name=[NSString stringWithFormat:@"%@",dict[@"Firstname"]];
             model.Id=dict[@"Id"];
             model.userID=dict[@"Id"];
             model.memo=dict[@"Memo"];
@@ -319,14 +345,15 @@
                     selectedPatientCode=model.code;
                     NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
                     [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
-
+                    
                 }
             }
         }
         
-            [self reloadData];
+        [self reloadData];
     }
 }
+
 - (void)reloadData
 {
     if (![_searchTextField.text isEqualToString:@""]) {
@@ -335,10 +362,10 @@
     } else{
         [_patientListTableView reloadData];
         if (initialSelectedRow!=0){
-         [self selectedCell:patentnameArray];
+            [self selectedCell:patentnameArray];
         }
     }
-        MBProgressCountToHide++;
+    MBProgressCountToHide++;
 }
 -(void)selectedCell:(NSArray*)ar{
     for (int i=0; i<ar.count; i++) {
@@ -355,7 +382,7 @@
     selectedPatientCode=code;
     _searchTextField.text=@"";
     initialSelectedRow=-1;
-    [self callApi];
+         [self callApi];
 }
 -(void)againCallApiAfterEditPatient:(NSString *)code{
     MBProgressCountToHide=0;
@@ -363,7 +390,7 @@
     selectedPatientCode=code;
     [patentnameArray removeAllObjects];
     initialSelectedRow=1;
-    [self callApi];
+     [self callApi];
 }
 -(void)reloadTableviewAfterAddNewTreatment{
     [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedIndexPath];
