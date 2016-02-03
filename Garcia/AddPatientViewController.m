@@ -44,8 +44,8 @@
      [self registerForKeyboardNotifications];
      _addressTextView.placeholder=@"Address";
     self.addressTextView.delegate=self;
-   // UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(getImage)];
-    //[_patientImageView addGestureRecognizer:tap];
+    UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(getImage)];
+    [_patientImageView addGestureRecognizer:tap];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -70,7 +70,7 @@
     _gendertableview.hidden=YES;
     _maritialTableView.hidden=YES;
     if(datePicker==nil)
-      datePicker= [[DatePicker alloc]initWithFrame:CGRectMake(self.view.frame.origin.x+100, self.view.frame.origin.y+230,self.view.frame.size.width-200,230)];
+        datePicker= [[DatePicker alloc]initWithFrame:CGRectMake(self.view.frame.origin.x+50.5, self.view.frame.origin.y+230,self.view.frame.size.width-100,220)];
     [datePicker alphaViewInitialize];
     datePicker.delegate=self;
 }
@@ -158,8 +158,8 @@
 }
 //set layesr for TextField and placeHolder
 -(void)textFieldLayer{
-   // _patientImageView.layer.cornerRadius=_patientImageView.frame.size.width/2;
-  //  _patientImageView.clipsToBounds=YES;
+    _patientImageView.layer.cornerRadius=_patientImageView.frame.size.width/2;
+    _patientImageView.clipsToBounds=YES;
     _nameTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Name"];
     _emailTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Email"];
     _genderTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Gender"];

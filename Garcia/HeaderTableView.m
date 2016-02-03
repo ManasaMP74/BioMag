@@ -63,7 +63,6 @@
         if (cell == nil) {
             [[NSBundle mainBundle] loadNibNamed:@"CollectionViewTableViewCell" owner:self options:nil];
             cell = _cell;
-            tableView.separatorStyle=1;
             _cell = nil;
         }
         cell.headLabel.text=sittingArray[indexPath.section];
@@ -113,7 +112,6 @@
             [[NSBundle mainBundle] loadNibNamed:@"ScanPointTableViewCell" owner:self options:nil];
             cell = _scanPointCell;
             _scanPointCell = nil;
-            tableView.separatorStyle=0;
         }
         cell.scanpointLabel.text=scanPointArray[indexPath.row-1];
         cell.delegate=self;
@@ -126,7 +124,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (selectedScanPointIndexPath.count>0) {
         if ([selectedScanPointIndexPath containsObject:indexPath]) {
-            return correspondingViewHeight+38;
+            return correspondingViewHeight+32;
         }
         else if (selectedNote != nil){
             if (selectedNote.section == indexPath.section) {

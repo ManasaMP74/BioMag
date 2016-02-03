@@ -16,7 +16,7 @@
       self.navigationController.navigationBarHidden=NO;
     self.navigationItem.hidesBackButton = YES;
     
-    UIImage* image3 = [UIImage imageNamed:@"Power-icon.png"];
+    UIImage* image3 = [UIImage imageNamed:@"Icon-Signout.png"];
     CGRect frameimg = CGRectMake(0, 0, image3.size.width, image3.size.height);
     UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
     [someButton setBackgroundImage:image3 forState:UIControlStateNormal];

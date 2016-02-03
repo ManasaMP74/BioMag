@@ -73,7 +73,7 @@
         cell.sectionLabel.text = section.title;
         
     }
-    tableView.tableFooterView=[UIView new];
+    
     [constant setFontForLabel:cell.sectionLabel];
     
     return cell;

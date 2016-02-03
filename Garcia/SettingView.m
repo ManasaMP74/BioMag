@@ -155,7 +155,7 @@
 }
 - (IBAction)datePicker:(id)sender {
     if(datePicker==nil)
-        datePicker= [[DatePicker alloc]initWithFrame:CGRectMake(view.frame.origin.x+50,view.frame.origin.y,view.frame.size.width-100,230)];
+        datePicker= [[DatePicker alloc]initWithFrame:CGRectMake(view.frame.origin.x,view.frame.origin.y,view.frame.size.width,220)];
     [datePicker alphaViewInitialize];
     datePicker.delegate=self;
 }

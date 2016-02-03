@@ -25,7 +25,6 @@
 @property (strong, nonatomic) IBOutlet UIView *TreatmentView;
 @property (strong, nonatomic) IBOutlet UITableView *tableview;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *tableViewHeight;
-@property (strong, nonatomic) IBOutlet UILabel *surgery;
 @end
 
 @implementation PatientViewController
@@ -59,6 +58,7 @@
 }
 //setfont for label
 -(void)setFont{
+    _TreatmentView.backgroundColor=[UIColor colorWithRed:0.73 green:0.76 blue:0.91 alpha:1];
     [constant setColorForLabel:_genderLabel];
     [constant setColorForLabel:_emailLabel];
     [constant setColorForLabel:_mobileLabel];
@@ -73,7 +73,6 @@
     [constant setFontForLabel:_ageValueLabel];
     [constant setFontForLabel:_dobValueLabel];
     [constant setFontForLabel:_mariedValueLabel];
-     [constant setFontForLabel:_surgery];
     [constant setFontForHeaders:_patientNameTF];
 }
 //TableView Delegate Method

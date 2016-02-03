@@ -81,8 +81,8 @@
                 <variation key="default">
                     <mask key="constraints">
                         <exclude reference="BAx-BL-NuJ"/>
-                        <exclude reference="gd2-Rq-bel"/>
                         <exclude reference="W3I-Iu-zK0"/>
+                        <exclude reference="gd2-Rq-bel"/>
                         <exclude reference="99c-ic-xQP"/>
                         <exclude reference="yXr-OK-9Vk"/>
                     </mask>
