@@ -12,6 +12,7 @@
     NSMutableArray *symptomTagArray,*allTagListArray,*filterdTagListArray;
     Constant *constant;
     Postman *postman;
+    AppDelegate *appDel;
 }
 -(id)initWithFrame:(CGRect)frame
 {
@@ -46,7 +47,7 @@
     _collectionViewHeight.constant=0;
     _collectionView.hidden=YES;
     _symptomTf.text=@"";
-    AppDelegate *appDel = [UIApplication sharedApplication].delegate;
+    appDel = [UIApplication sharedApplication].delegate;
     [self heightOfView:132];
     _allTaglistTableView.hidden=YES;
     _allTagListTableViewHeight.constant=0;
@@ -58,7 +59,15 @@
     [constant spaceAtTheBeginigOfTextField:_symptomTf];
     [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
     [appDel.window addSubview:alphaView];
-    
+    if (appDel.symptomTagArray.count>0) {
+        [symptomTagArray addObjectsFromArray:appDel.symptomTagArray];
+        if (symptomTagArray.count>0) {
+            [self heightOfView:182];
+        }else  [self heightOfView:132];
+        _collectionViewHeight.constant=37;
+        _collectionView.hidden=NO;
+        [_collectionView reloadData];
+    }
 }
 -(void)hide{
     [alphaView removeFromSuperview];
@@ -68,12 +77,14 @@
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     SymptomTagCustomCollectionViewCell *cell =(SymptomTagCustomCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-    cell.label.text=symptomTagArray[indexPath.row];
+    SymptomTagModel *m=symptomTagArray[indexPath.row];
+    cell.label.text=m.tagName;
         cell.delegate=self;
         return cell;
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-        CGFloat width =  [symptomTagArray[indexPath.row] boundingRectWithSize:(CGSizeMake(NSIntegerMax, 40)) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:12]} context:nil].size.width;
+    SymptomTagModel *m=symptomTagArray[indexPath.row];
+        CGFloat width =  [m.tagName boundingRectWithSize:(CGSizeMake(NSIntegerMax, 40)) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:12]} context:nil].size.width;
         return CGSizeMake(width+30,40);
 }
 -(void)deleteCell:(UICollectionViewCell *)cell{
@@ -90,11 +101,8 @@
     if (![_symptomTf.text isEqual:@""]) {
         _collectionViewHeight.constant=37;
          _collectionView.hidden=NO;
-        [symptomTagArray addObject:[NSString stringWithFormat:@" %@",_symptomTf.text]];
-        [self heightOfView:182];
-        [self.delegate addsymptom:symptomTagArray];
-         _symptomTf.text=@"";
-        [_collectionView reloadData];
+        _allTaglistTableView.hidden=YES;
+        [self callAPIforAddSymptomTag];
     }
 }
 //tag textfield change
@@ -188,7 +196,58 @@
     frame.size.height=height;
     self.frame=frame;
     view.frame=self.bounds;
-    AppDelegate *appDel = [UIApplication sharedApplication].delegate;
     view.center = appDel.window.center;
+}
+-(void)callAPIforAddSymptomTag{
+    NSString *str=@"";
+    for (SymptomTagModel *model in allTagListArray) {
+        if ([model.tagName isEqualToString:_symptomTf.text]) {
+            [symptomTagArray addObject:model];
+            str=@"done";
+            [_collectionView reloadData];
+             [self heightOfView:182];
+            _symptomTf.text=@"";
+             [self.delegate addsymptom:symptomTagArray];
+        }
+    }
+    if ([str isEqualToString:@""]) {
+        NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,addSymptomTag,appDel.model.Id];
+        NSString *parameter=[NSString stringWithFormat:@"{\"Name\":\"%@\",\"Status\": true,\"UserID\": %@,\"MethodType\": \"POST\"}",_symptomTf.text,appDel.model.Id];
+        [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
+        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processResponseObjectOfAddTag:responseObject];
+            [MBProgressHUD hideAllHUDsForView:alphaView animated:YES];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [MBProgressHUD hideAllHUDsForView:alphaView animated:YES];
+        }];
+    }
+}
+//process object
+-(void)processResponseObjectOfAddTag:(id)responseObject{
+    NSDictionary *dict=responseObject;
+    if ([dict[@"Success"] intValue]==1) {
+        NSDictionary *dict1=dict[@"ViewModel"];
+        if ([dict1[@"Status"] intValue]==1) {
+            SymptomTagModel *model=[[SymptomTagModel alloc]init];
+            model.tagCode=dict1[@"Code"];
+            model.tagId=dict1[@"Id"];
+            model.tagName=dict1[@"Name"];
+            [symptomTagArray addObject:model];
+        }
+        [self.delegate addsymptom:symptomTagArray];
+        [_collectionView reloadData];
+       [self heightOfView:182];
+        _symptomTf.text=@"";
+    }
+    else{
+        MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:alphaView animated:YES];
+        hubHUD.mode=MBProgressHUDModeText;
+        hubHUD.labelText=dict[@"Message"];
+        hubHUD.labelFont=[UIFont systemFontOfSize:15];
+        hubHUD.margin=20.f;
+        hubHUD.yOffset=150.f;
+        hubHUD.removeFromSuperViewOnHide = YES;
+        [hubHUD hide:YES afterDelay:1];
+    }
 }
 @end

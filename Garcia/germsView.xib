@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="OpenSans-Regular.ttf">
@@ -29,7 +30,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="OZc-JH-5NM">
-                    <rect key="frame" x="15" y="72" width="280" height="133"/>
+                    <rect key="frame" x="25" y="72" width="259" height="133"/>
                     <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="133" id="FjN-10-yH8"/>
@@ -87,7 +88,7 @@
                     </connections>
                 </button>
                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z5L-Gy-maX">
-                    <rect key="frame" x="240" y="225" width="55" height="42"/>
+                    <rect key="frame" x="229" y="225" width="55" height="42"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="42" id="2K4-D6-DaR"/>
                         <constraint firstAttribute="width" constant="55" id="jsk-lD-3CT"/>
@@ -101,20 +102,20 @@
                     </connections>
                 </button>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hRn-0K-pqM">
-                    <rect key="frame" x="15" y="225" width="220" height="43"/>
+                    <rect key="frame" x="25" y="225" width="199" height="43"/>
                     <subviews>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="c" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kKO-hD-c89">
-                            <rect key="frame" x="0.0" y="0.0" width="86" height="43"/>
+                            <rect key="frame" x="0.0" y="0.0" width="76" height="43"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="c" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Lz-Vg-rt7">
-                            <rect key="frame" x="116" y="0.0" width="104" height="43"/>
+                            <rect key="frame" x="106" y="0.0" width="93" height="43"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P6g-zz-gYE">
-                            <rect key="frame" x="91" y="21" width="20" height="1"/>
+                            <rect key="frame" x="81" y="21" width="20" height="1"/>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="j9t-Dh-Lob"/>
@@ -150,12 +151,12 @@
                 <constraint firstItem="OZc-JH-5NM" firstAttribute="top" secondItem="Ngk-wY-3CB" secondAttribute="bottom" constant="22" id="LTY-cR-5Q9"/>
                 <constraint firstItem="z5L-Gy-maX" firstAttribute="trailing" secondItem="OZc-JH-5NM" secondAttribute="trailing" id="OBQ-4e-I2O"/>
                 <constraint firstItem="z5L-Gy-maX" firstAttribute="top" secondItem="hRn-0K-pqM" secondAttribute="top" id="bI2-JF-opE"/>
-                <constraint firstItem="OZc-JH-5NM" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="ctU-Km-MER"/>
+                <constraint firstItem="OZc-JH-5NM" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="25" id="ctU-Km-MER"/>
                 <constraint firstItem="Ngk-wY-3CB" firstAttribute="centerY" secondItem="lB1-UL-q2K" secondAttribute="centerY" constant="0.5" id="fIB-8H-nl9"/>
                 <constraint firstItem="OZc-JH-5NM" firstAttribute="leading" secondItem="hRn-0K-pqM" secondAttribute="leading" id="fac-ho-hZf"/>
                 <constraint firstAttribute="centerX" secondItem="Fdl-ph-Edh" secondAttribute="centerX" constant="0.5" id="huI-VJ-ctg"/>
                 <constraint firstAttribute="bottom" secondItem="Fdl-ph-Edh" secondAttribute="bottom" constant="20" id="p95-tG-QZ2"/>
-                <constraint firstAttribute="trailing" secondItem="OZc-JH-5NM" secondAttribute="trailing" constant="14" id="vx1-LV-f7t"/>
+                <constraint firstAttribute="trailing" secondItem="OZc-JH-5NM" secondAttribute="trailing" constant="25" id="vx1-LV-f7t"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-102.5" y="75"/>

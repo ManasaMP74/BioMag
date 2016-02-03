@@ -10,7 +10,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.hidesBackButton=YES;
-     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-02.jpg"]]];
+     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-2.jpg"]]];
     [self navigationItemMethod];
 }
 
@@ -58,8 +58,12 @@
     else _addNoteLabel.hidden=YES;
     if (textView.text.length + (text.length - range.length) > 150) {
         [self.view endEditing:YES];
-        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"" message:@"Text should be less than 150" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-               [alertView show];
+        UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"" message:@"Text should be less than 150" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancel=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+           [alertView dismissViewControllerAnimated:YES completion:nil];
+        }];
+        [alertView addAction:cancel];
+        [self presentViewController:alertView animated:YES completion:nil];
     }
     return textView.text.length + (text.length - range.length) <= 150;
 }

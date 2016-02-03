@@ -19,4 +19,6 @@ FOUNDATION_EXPORT NSString *const closeTreatmentDetail;
 FOUNDATION_EXPORT NSString *const biomagneticMatrix;
 FOUNDATION_EXPORT NSString *const germsUrl;
 FOUNDATION_EXPORT NSString *const getTitleOfTreatment;
+FOUNDATION_EXPORT NSString *const expandProfileImage;
+FOUNDATION_EXPORT NSString *const postmanCompanyCode;
 @end

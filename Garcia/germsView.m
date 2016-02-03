@@ -59,6 +59,7 @@
     [selectedGerms removeAllObjects];
     [germsArray removeAllObjects];
     [self callApiToGetGerms];
+    view.center = alphaView.center;
     
 }
 -(void)hide{
@@ -70,9 +71,11 @@
 }
 - (IBAction)saveCode:(id)sender {
     [alphaView removeFromSuperview];
-    [self.delegateForGerms germsData:selectedGerms];
+         [self.delegateForGerms germsData:selectedGerms];
 }
 - (IBAction)addNewGerm:(id)sender {
+    _codeFullNameTF.text=@"";
+    _codeSymbolTF.text=@"";
     [self changeTheNewGermAppearence:NO withHeight:43];
     [self heightOfView:166];
 }
@@ -93,18 +96,21 @@
     if ([selectedIndex containsObject:indexPath]) {
         cell.cellImageView.image=[UIImage imageNamed:@"Box1-Check.png"];
     }else cell.cellImageView.image=[UIImage imageNamed:@"Box1-Uncheck.png"];
-    return cell;
+        return cell;
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     cell.backgroundColor=[UIColor clearColor];
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     germsModel *model=germsArray[indexPath.row];
-    [selectedGerms addObject:model];
     if ([selectedIndex containsObject:indexPath]) {
         [selectedIndex removeObject:indexPath];
+        [selectedGerms removeObject:model];
     }
-    else [selectedIndex addObject:indexPath];
+    else{
+        [selectedIndex addObject:indexPath];
+         [selectedGerms addObject:model];
+    }
     [_tableView reloadData];
 
 }
@@ -130,7 +136,16 @@
         }
     }
     [_tableView reloadData];
-    [self heightOfView:106];
+    NSArray *ar=[_fromParentViewGermsString componentsSeparatedByString:@","];
+    for (NSString *str in ar) {
+        for (int i=0; i<germsArray.count; i++) {
+            germsModel *model=germsArray[i];
+            if ([str isEqualToString:model.germsName]) {
+                [self tableView:_tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+            }
+        }
+        }
+        [self heightOfView:106];
 }
 -(void)heightOfView:(CGFloat)height{
     CGRect frame=view.frame;

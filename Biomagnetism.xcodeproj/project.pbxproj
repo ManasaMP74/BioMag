@@ -71,6 +71,7 @@
 		DAEC027F1BD5219A0095C6AE /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC02731BD514180095C6AE /* OpenSans-Bold.ttf */; };
 		DAED98001C06D26E005D170C /* ScanPointModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAED97FF1C06D26E005D170C /* ScanPointModel.m */; };
 		DAED98031C06D2A9005D170C /* CorrespondingModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DAED98021C06D2A9005D170C /* CorrespondingModelClass.m */; };
+		DAEEA20F1C3261DF00718EC6 /* BiomagneticSittingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEEA20E1C3261DF00718EC6 /* BiomagneticSittingModel.m */; };
 		DAEF6AEE1BD5FA37006868C8 /* OpenSans-Regular.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC027A1BD514340095C6AE /* OpenSans-Regular.ttf */; };
 		DAEF6AEF1BD5FA52006868C8 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC027A1BD514340095C6AE /* OpenSans-Regular.ttf */; };
 		DAEF6AF31BD65C61006868C8 /* DatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEF6AF21BD65C61006868C8 /* DatePicker.m */; };
@@ -102,6 +103,8 @@
 		DAF7EF3B1C1AF3FD009ADE9B /* GermsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF7EF3A1C1AF3FD009ADE9B /* GermsTableViewCell.m */; };
 		DAF82CE01BD4BA74006AF1E1 /* ContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF82CDF1BD4BA74006AF1E1 /* ContainerViewController.m */; };
 		DAFBE3D01C08277600C1C796 /* TreatmentDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFBE3CF1C08277600C1C796 /* TreatmentDetailModel.m */; };
+		DAFC4AC31C2567A500FE6234 /* ProfileImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFC4AC21C2567A500FE6234 /* ProfileImageView.m */; };
+		DAFC4AC51C2567C800FE6234 /* ProfileImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAFC4AC41C2567C800FE6234 /* ProfileImageView.xib */; };
 		DAFD52A71BEC62C80006AF02 /* UploadModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFD52A61BEC62C80006AF02 /* UploadModelClass.m */; };
 /* End PBXBuildFile section */
 
@@ -229,6 +232,8 @@
 		DAED97FF1C06D26E005D170C /* ScanPointModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanPointModel.m; sourceTree = "<group>"; };
 		DAED98011C06D2A9005D170C /* CorrespondingModelClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CorrespondingModelClass.h; sourceTree = "<group>"; };
 		DAED98021C06D2A9005D170C /* CorrespondingModelClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CorrespondingModelClass.m; sourceTree = "<group>"; };
+		DAEEA20D1C3261DF00718EC6 /* BiomagneticSittingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiomagneticSittingModel.h; sourceTree = "<group>"; };
+		DAEEA20E1C3261DF00718EC6 /* BiomagneticSittingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BiomagneticSittingModel.m; sourceTree = "<group>"; };
 		DAEF6AF11BD65C61006868C8 /* DatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePicker.h; sourceTree = "<group>"; };
 		DAEF6AF21BD65C61006868C8 /* DatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePicker.m; sourceTree = "<group>"; };
 		DAEF6AF41BD65C9B006868C8 /* DatePickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DatePickerView.xib; sourceTree = "<group>"; };
@@ -282,6 +287,9 @@
 		DAF82CDF1BD4BA74006AF1E1 /* ContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContainerViewController.m; sourceTree = "<group>"; };
 		DAFBE3CE1C08277600C1C796 /* TreatmentDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreatmentDetailModel.h; sourceTree = "<group>"; };
 		DAFBE3CF1C08277600C1C796 /* TreatmentDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreatmentDetailModel.m; sourceTree = "<group>"; };
+		DAFC4AC11C2567A500FE6234 /* ProfileImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileImageView.h; sourceTree = "<group>"; };
+		DAFC4AC21C2567A500FE6234 /* ProfileImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileImageView.m; sourceTree = "<group>"; };
+		DAFC4AC41C2567C800FE6234 /* ProfileImageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileImageView.xib; sourceTree = "<group>"; };
 		DAFD52A51BEC62C80006AF02 /* UploadModelClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadModelClass.h; sourceTree = "<group>"; };
 		DAFD52A61BEC62C80006AF02 /* UploadModelClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadModelClass.m; sourceTree = "<group>"; };
 		FA1A2B4682F2428F6C5810DD /* libPods-Biomagnetism.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Biomagnetism.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -680,6 +688,9 @@
 				DAEFA1BE1BD0B4EB00900379 /* PatientViewController.m */,
 				DAE605FE1C1FC83600A344F2 /* PatientDetailModel.h */,
 				DAE605FF1C1FC83600A344F2 /* PatientDetailModel.m */,
+				DAFC4AC41C2567C800FE6234 /* ProfileImageView.xib */,
+				DAFC4AC11C2567A500FE6234 /* ProfileImageView.h */,
+				DAFC4AC21C2567A500FE6234 /* ProfileImageView.m */,
 			);
 			name = Patient;
 			sourceTree = "<group>";
@@ -720,6 +731,8 @@
 				DAED98021C06D2A9005D170C /* CorrespondingModelClass.m */,
 				DAACC89D1C154AE90026132A /* germsModel.h */,
 				DAACC89E1C154AE90026132A /* germsModel.m */,
+				DAEEA20D1C3261DF00718EC6 /* BiomagneticSittingModel.h */,
+				DAEEA20E1C3261DF00718EC6 /* BiomagneticSittingModel.m */,
 			);
 			name = modelClass;
 			sourceTree = "<group>";
@@ -861,6 +874,7 @@
 				DAE637851BE32D2F000C6FAB /* CorrespondingPointView.xib in Resources */,
 				DA130F411BEA1E1900B5B9FF /* SettingView.xib in Resources */,
 				DA130F391BEA1E1900B5B9FF /* Child.xib in Resources */,
+				DAFC4AC51C2567C800FE6234 /* ProfileImageView.xib in Resources */,
 				DA67CFD11C11981100D88BBC /* AddSymptom.xib in Resources */,
 				DAEF6AF51BD65C9B006868C8 /* DatePickerView.xib in Resources */,
 				DAEFA1A21BD0B11500900379 /* LaunchScreen.xib in Resources */,
@@ -931,6 +945,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA4461E71BD7720300F80F5A /* OpenSans-Semibold.ttf in Sources */,
+				DAEEA20F1C3261DF00718EC6 /* BiomagneticSittingModel.m in Sources */,
+				DAFC4AC31C2567A500FE6234 /* ProfileImageView.m in Sources */,
 				DAEF6AEE1BD5FA37006868C8 /* OpenSans-Regular.ttf in Sources */,
 				DA6D1A631BDA356F00D91ED3 /* PlaceholderTextView.m in Sources */,
 				DAFD52A71BEC62C80006AF02 /* UploadModelClass.m in Sources */,
@@ -1127,8 +1143,9 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Garcia/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.urbanAirshipTestApp;
 				PRODUCT_NAME = Biomagnetism;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -1142,8 +1159,9 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Garcia/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.urbanAirshipTestApp;
 				PRODUCT_NAME = Biomagnetism;
 				TARGETED_DEVICE_FAMILY = 2;
 			};

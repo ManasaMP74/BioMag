@@ -8,7 +8,7 @@
 
 @implementation SlideOutTableViewController
 {
-    NSIndexPath *selectedIndexpath;
+    NSIndexPath *selectedIndexpath,*selectedCell;
     CGFloat cellHeight;
     NSString *selectedSection;
 }
@@ -80,14 +80,14 @@
     cell.sectionNameXib.hidden=NO;
     selectedIndexpath=[NSIndexPath indexPathForRow:0 inSection:0];
 }
--(void)getSectionName:(NSString *)str{
+-(void)getSectionName:(NSString *)str withIndex:(NSIndexPath *)index{
      selectedSection=str;
+    selectedCell=index;
     [self performSegueWithIdentifier:@"sittingVc" sender:self];
 }
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     SittingViewController *sitting=segue.destinationViewController;
-    NSArray *ar=[selectedSection componentsSeparatedByString:@"$"];
-    sitting.sectionName=ar[1];
-    sitting.SortType=ar[0];
+    sitting.selectedIndexPathOfSectionInSlideOut=selectedCell;
+    sitting.SortType=selectedSection;
 }
 @end

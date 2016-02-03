@@ -33,7 +33,6 @@
     DatePicker *datePicker;
     UIControl *activeField;
     Postman *postman;
-    UIAlertView *successEditalert,*failureEditAlert;
     NSString *genderCode,*martialCode;
     ImageUploadAPI *imageManager;
 }
@@ -45,25 +44,22 @@
     genderArray=[[NSMutableArray alloc]init];
     MaritialStatusArray=[[NSMutableArray alloc]init];
     [self registerForKeyboardNotifications];
-     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-01.jpg"]]];
     [self defaultValues];
     self.gendertableview.dataSource=self;
     self.gendertableview.delegate=self;
     self.nameTF.delegate=self;
     self.mobileNoTF.delegate=self;
-    UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(getImage)];
-    [_patientImageView addGestureRecognizer:tap];
     [self callApiForGender];
     MaritialStatusArray=[@[@"YES",@"NO"]mutableCopy];
 }
 -(void)viewWillAppear:(BOOL)animated{
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-1.jpg"]]];
     UINavigationController *nav=(UINavigationController*)self.parentViewController;
     containerVC=(ContainerViewController*)nav.parentViewController;
     [containerVC setTitle:@"Edit"];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-   
 }
 //default values
 -(void)defaultValues{
@@ -89,10 +85,12 @@
 }
 //Save the data
 - (IBAction)save:(id)sender {
+    [self.view endEditing:YES];
     [self validateEmail:_emailTF.text];
 }
 //maritialStatus field
 - (IBAction)maritalStatus:(id)sender {
+    [self.view endEditing:YES];
     _gendertableview.hidden=YES;
     _maritialTableView.hidden=NO;
     [self.view endEditing:YES];
@@ -102,6 +100,7 @@
 }
 //DateOfBirth Field
 - (IBAction)dateOfBirth:(id)sender {
+    [self.view endEditing:YES];
     _gendertableview.hidden=YES;
     _maritialTableView.hidden=YES;
     if(datePicker==nil)
@@ -115,6 +114,7 @@
 }
 //gender Field
 - (IBAction)gender:(id)sender {
+    [self.view endEditing:YES];
     [self.view endEditing:YES];
      _maritialTableView.hidden=YES;
     _gendertableview.hidden=NO;
@@ -300,12 +300,12 @@
     _scrollView.scrollIndicatorInsets = contentInsets;
 }
 //get image
--(void)getImage{
+- (IBAction)addImage:(id)sender {
     UIImagePickerController *picker=[[UIImagePickerController alloc]init];
     picker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
     picker.delegate=self;
     [self.navigationController presentViewController:picker animated:YES completion:nil];
-   }
+}
 //image picker delegate
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
  UIImage *profileImage =info[UIImagePickerControllerOriginalImage];
@@ -375,7 +375,6 @@
 }
 //Patient Update
 -(void)callApiForUpdate{
-     [self saveImage:_patientImageView.image];
     postman =[[Postman alloc]init];
    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     if (_model.addressLine1!=nil) {
@@ -437,7 +436,7 @@
     parameterDict[@"Id"]=_model.Id;
     parameterDict[@"Code"]=_model.code;
     parameterDict[@"UserTypeCode"]=_model.userTypeCode;
-    parameterDict[@"CompanyCode"]=_model.companyCode;
+    parameterDict[@"CompanyCode"]=postmanCompanyCode;
     parameterDict[@"Username"]=_emailTF.text;
     parameterDict[@"MethodType"]=@"PUT";
     parameterDict[@"UserID"]=_model.userID;
@@ -451,7 +450,6 @@
     [containerVC showMBprogressTillLoadThedata];
     [postman put:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectForEdit:responseObject];
-        [containerVC hideAllMBprogressTillLoadThedata];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [containerVC hideAllMBprogressTillLoadThedata];
     }];
@@ -460,20 +458,17 @@
 -(void)processResponseObjectForEdit:(id)responseObject{
     NSDictionary *dict=responseObject;
     if ([dict[@"Success"] intValue]==1) {
-     successEditalert =[[UIAlertView alloc]initWithTitle:@"" message:dict[@"Message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-        [successEditalert show];
-    }
-    else {
-        failureEditAlert =[[UIAlertView alloc]initWithTitle:@"" message:dict[@"Message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-        [failureEditAlert show];
-    }
-    
+        if (![_patientImageView.image isEqual:[UIImage imageNamed:@"patient.jpg"]]) {
+            [self saveImage:_patientImageView.image];
+        }
+        else{
+            [self alertmessage:dict[@"Message"]];
+            [containerVC hideAllMBprogressTillLoadThedata];
+        }
+
 }
-//UIAlertView
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if ([alertView isEqual:successEditalert]) {
-        [self.delegate successfullyEdited];
-        [self.navigationController popViewControllerAnimated:YES];
+    else{
+        [self alertmessage:dict[@"Message"]];
     }
 }
 //validate Email
@@ -541,8 +536,12 @@
     return alrtArray;
 }
 -(void)alertView:(NSString*)message{
-    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    [alert show];
+        UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+            [alertView dismissViewControllerAnimated:YES completion:nil];
+        }];
+        [alertView addAction:success];
+        [self presentViewController:alertView animated:YES completion:nil];
 }
 //validate phone number
 -(int)validPhonenumber:(NSString *)string
@@ -565,15 +564,27 @@
         NSString* path = [documentsDirectory stringByAppendingPathComponent:@"EdittedProfile.jpeg" ];
         NSData* data = UIImageJPEGRepresentation(image,.5);
         [data writeToFile:path atomically:YES];
-        [imageManager uploadUserImagePath:path forRequestCode:_model.code withDocumentType:@"ABC123" onCompletion:^(BOOL success) {
+       [imageManager uploadUserImagePath:path forRequestCode:_model.code withDocumentType:@"ABC123" onCompletion:^(BOOL success) {
             if (success)
             {
-                
+                [self alertmessage:@"Updated successfully"];
+                  [containerVC hideAllMBprogressTillLoadThedata];
             }else
             {
-                
+                 [self alertmessage:@"Updated Failed"];
+                  [containerVC hideAllMBprogressTillLoadThedata];
             }
         }];
     }
+}
+-(void)alertmessage :(NSString*)msg{
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [self.delegate successfullyEdited];
+        [self.navigationController popViewControllerAnimated:YES];
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertView addAction:success];
+    [self presentViewController:alertView animated:YES completion:nil];
 }
 @end

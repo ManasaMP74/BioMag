@@ -2,7 +2,7 @@
 #import "SectionXibTableViewCell.h"
 #import "sittingModel.h"
 @protocol getSectionNameProtocol<NSObject>
--(void)getSectionName:(sittingModel*)model;
+-(void)getSectionName:(NSString*)str withIndex:(NSIndexPath*)index;
 @end
 @interface SectionXibView : UIView<UITableViewDataSource,UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;

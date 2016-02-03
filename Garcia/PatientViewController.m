@@ -6,6 +6,8 @@
 #import "PostmanConstant.h"
 #import "Postman.h"
 #import "PatientDetailModel.h"
+#import "ProfileImageView.h"
+#import "AppDelegate.h"
 @interface PatientViewController ()<UITableViewDataSource,UITableViewDelegate,editPatient>
 @property (strong, nonatomic) IBOutlet UILabel *transfusinTF;
 
@@ -32,19 +34,18 @@
 @property (strong, nonatomic) IBOutlet UIImageView *patientImageView;
 @property (strong, nonatomic) IBOutlet UILabel *surgeriesLabel;
 @end
-
 @implementation PatientViewController
 {
     Constant *constant;
     ContainerViewController *containerVC;
     Postman *postman;
     NSMutableArray *treatmentListArray;
+    ProfileImageView *profileView;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     constant=[[Constant alloc]init];
     self.navigationController.navigationBarHidden=YES;
-    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-01.jpg"]]];
     [self setFont];
     UINavigationController *nav=(UINavigationController*)self.parentViewController;
     containerVC=(ContainerViewController*)nav.parentViewController;
@@ -57,6 +58,7 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-1.jpg"]]];
     [containerVC setTitle:@"Patients"];
 }
 //set the DefaultValues For Label
@@ -115,7 +117,8 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     PatientDetailModel *model=treatmentListArray[indexPath.row];
     containerVC.model=_model;
-    containerVC.delegate=self;
+    AppDelegate *app=[UIApplication sharedApplication].delegate;
+    app.patientDetailModel=model;
     [containerVC pushTreatmentViewController:model];
 }
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -158,7 +161,7 @@
     if ([dict[@"Success"] intValue]==1) {
         for (NSDictionary *dict1 in dict[@"ViewModels"]) {
                     if (([dict1[@"DoctorId"]intValue]==[docID intValue]) & ([dict1[@"PatientId"]intValue]==[_model.Id intValue])) {
-                            if (([dict1[@"Status"]intValue]==1) & ([dict1[@"IsTreatmentCompleted"]intValue]==0)) {
+                        if (([dict1[@"Status"]intValue]==1) & ([dict1[@"IsTreatmentCompleted"]intValue]==0)) {
                                 PatientDetailModel *model=[[PatientDetailModel alloc]init];
                                 model.idValue=dict1[@"ID"];
                                 model.code=dict1[@"Code"];
@@ -171,5 +174,11 @@
         [_tableview reloadData];
         _tableViewHeight.constant=self.tableview.contentSize.height;
     }
+}
+- (IBAction)showFullProfileImage:(id)sender {
+    if (profileView==nil)
+        profileView=[[ProfileImageView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x+70, self.view.frame.origin.y+100,self.view.frame.size.width-40,self.view.frame.size.height-100)];
+    profileView.imageCode=_model.documentCode;
+    [profileView alphaViewInitialize];
 }
 @end

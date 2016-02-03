@@ -8,7 +8,7 @@
 #import "MBProgressHUD.h"
 #import "editModel.h"
 #import "ImageUploadAPI.h"
-@interface AddPatientViewController ()<datePickerProtocol,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIAlertViewDelegate>
+@interface AddPatientViewController ()<datePickerProtocol,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *nameTF;
 @property (strong, nonatomic) IBOutlet UITextField *genderTF;
 @property (strong, nonatomic) IBOutlet UITextField *maritialStatus;
@@ -33,9 +33,9 @@
     DatePicker *datePicker;
     UIControl *activeField;
     Postman *postman;
-    NSString *genderCode,*martialCode;
-    UIAlertView *successEditalert,*failureEditAlert;
+    NSString *genderCode,*martialCode,*addedPatientCode;
     ImageUploadAPI *imageManager;
+    ContainerViewController *containerVC;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -49,21 +49,18 @@
          self.title=@"Add Patient";
     }
     else{
-      ContainerViewController *containerVC=(ContainerViewController*)nav.parentViewController;
+        containerVC=(ContainerViewController*)nav.parentViewController;
         [containerVC setTitle:@"Add Patient"];
     }
-     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-01.jpg"]]];
+     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-1.jpg"]]];
      [self registerForKeyboardNotifications];
      _addressTextView.placeholder=@"Surgeries";
     self.addressTextView.delegate=self;
-    UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(getImage)];
-    [_patientImageView addGestureRecognizer:tap];
-    [self callApiForGender];
+       [self callApiForGender];
     MaritialStatusArray=[@[@"YES",@"NO"]mutableCopy];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    
 }
 //cancel
 - (IBAction)cancel:(id)sender {
@@ -71,16 +68,19 @@
 }
 //Save the data
 - (IBAction)save:(id)sender {
+    [self.view endEditing:YES];
     [self validateEmail:_emailTF.text];
 }
 //maritialStatus field
 - (IBAction)maritalStatus:(id)sender {
+     [self.view endEditing:YES];
     _gendertableview.hidden=YES;
     _maritialTableView.hidden=NO;
     [_maritialTableView reloadData];
 }
 //DateOfBirth Field
 - (IBAction)dateOfBirth:(id)sender {
+    [self.view endEditing:YES];
     _gendertableview.hidden=YES;
     _maritialTableView.hidden=YES;
     if(datePicker==nil)
@@ -96,6 +96,7 @@
 
 //gender Field
 - (IBAction)gender:(id)sender {
+    [self.view endEditing:YES];
     _gendertableview.hidden=NO;
     _maritialTableView.hidden=YES;
     [_gendertableview reloadData];
@@ -254,7 +255,7 @@
     _gendertableview.hidden=YES;
 }
 //get image
--(void)getImage{
+- (IBAction)addImage:(id)sender {
     UIImagePickerController *picker=[[UIImagePickerController alloc]init];
     picker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
     picker.delegate=self;
@@ -283,8 +284,6 @@
     dict1[@"State"]=@"";
     dict1[@"City"]=@"";
     dict1[@"Postal"]=@"";
-    
-    
     NSMutableDictionary *address=[[NSMutableDictionary alloc]init];
     address[@"PermanentAddress"]=dict;
     address[@"TemporaryAddress"]=dict1;
@@ -315,22 +314,19 @@
     parameterDict[@"Memo"]=@"";
     parameterDict[@"UserTypeCode"]=@"PAT123";
      parameterDict[@"RoleCode"]=[NSNull null];
-     parameterDict[@"CompanyCode"]=@"A0I7LV";
+     parameterDict[@"CompanyCode"]=postmanCompanyCode;
      parameterDict[@"Username"]=_emailTF.text;
       parameterDict[@"MethodType"]=@"POST";
      parameterDict[@"UserID"]=@"1";
     parameterDict[@"Password"]=@"Power@1234";
      parameterDict[@"MiddleName"]=@"";
     parameterDict[@"LastName"]=@"";
-    UINavigationController *nav=(UINavigationController*)self.parentViewController;
-     ContainerViewController *containerVC=(ContainerViewController*)nav.parentViewController;
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,addPatient];
     NSData *parameterData = [NSJSONSerialization dataWithJSONObject:parameterDict options:NSJSONWritingPrettyPrinted error:nil];
     NSString *parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
     [containerVC showMBprogressTillLoadThedata];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectForAdd:responseObject];
-        [containerVC hideAllMBprogressTillLoadThedata];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [containerVC hideAllMBprogressTillLoadThedata];
     }];
@@ -339,20 +335,19 @@
 -(void)processResponseObjectForAdd:(id)responseObject{
     NSDictionary *dict=responseObject;
     if ([dict[@"Success"] intValue]==1) {
-        successEditalert =[[UIAlertView alloc]initWithTitle:@"" message:dict[@"Message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-        [successEditalert show];
+        NSArray *userDetail=dict[@"UserDetails"];
+        NSDictionary *dict1=userDetail[0];
+        addedPatientCode=dict1[@"Code"];
+        if (![_patientImageView.image isEqual:[UIImage imageNamed:@"patient.jpg"]]) {
+            [self saveImage:_patientImageView.image];
+        }
+        else{
+        [self alertmessage:dict[@"Message"]];
+        [containerVC hideAllMBprogressTillLoadThedata];
+        }
     }
     else {
-        failureEditAlert =[[UIAlertView alloc]initWithTitle:@"" message:dict[@"Message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-        [failureEditAlert show];
-    }
-    
-}
-//alertview
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if ([alertView isEqual:successEditalert]) {
-        [self.delegate successfullyAdded];
-        [self.navigationController popViewControllerAnimated:YES];
+         [self alertmessage:dict[@"Message"]];
     }
 }
 //Gender API
@@ -465,14 +460,15 @@
     if(_dateOfBirthTF.text.length==0){
         [alrtArray addObject:@"required dateOfBirth field\n"];
     }
-    if(_addressTextView.text.length==0){
-        [alrtArray addObject:@"required surgeries field\n"];
-    }
     return alrtArray;
 }
 -(void)alertView:(NSString*)message{
-    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    [alert show];
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertView addAction:success];
+    [self presentViewController:alertView animated:YES completion:nil];
 }
 //validate phone number
 -(int)validPhonenumber:(NSString *)string
@@ -485,4 +481,38 @@
     }
     else return 1;
 }
+//save profile
+- (void)saveImage: (UIImage*)image
+{
+    if (image != nil)
+    {
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString* path = [documentsDirectory stringByAppendingPathComponent:@"EdittedProfile.jpeg" ];
+        NSData* data = UIImageJPEGRepresentation(image,.5);
+        [data writeToFile:path atomically:YES];
+        [imageManager uploadUserImagePath:path forRequestCode:addedPatientCode withDocumentType:@"ABC123" onCompletion:^(BOOL success) {
+            if (success)
+            {
+                [self alertmessage:@"Saved successfully"];
+                 [containerVC hideAllMBprogressTillLoadThedata];
+            }else
+            {
+              [self alertmessage:@"Saved Failed"];
+                 [containerVC hideAllMBprogressTillLoadThedata];
+            }
+        }];
+    }
+}
+-(void)alertmessage :(NSString*)msg{
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [self.delegate successfullyAdded];
+        [self.navigationController popViewControllerAnimated:YES];
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertView addAction:success];
+    [self presentViewController:alertView animated:YES completion:nil];
+}
+
 @end

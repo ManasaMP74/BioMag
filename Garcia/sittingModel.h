@@ -16,4 +16,10 @@
 @property(strong,nonatomic)NSString *interpretation;
 @property(strong,nonatomic)NSString *sortNumber;
 @property(strong,nonatomic)NSString *dateCreated;
+@property(strong,nonatomic)NSString *changedBool;
+@property(strong,nonatomic)NSString *germsString;
+@property(strong,nonatomic)NSString *genderCode;
+@property(strong,nonatomic)NSIndexPath *selectedCellIndex;
+@property(strong,nonatomic)NSArray *newlyAddedGermsArray;
+@property(assign,nonatomic)BOOL issue;
 @end

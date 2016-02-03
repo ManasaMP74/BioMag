@@ -21,13 +21,7 @@
     [self.delegate getGermsView:self];
 }
 - (IBAction)checkNoIssues:(id)sender {
-    if ([_checkBox.currentBackgroundImage isEqual:[UIImage imageNamed:@"issue-Button"]]) {
-        [_checkBox setBackgroundImage:[UIImage imageNamed:@"no-issue-Button"] forState:normal];
-        [_checkBox setTitle:@"No issues" forState:normal];
-    }else {
-     [_checkBox setBackgroundImage:[UIImage imageNamed:@"issue-Button"] forState:normal];
-         [_checkBox setTitle:@"Issues" forState:normal];
-    }
+    [self.delegate issueAndNoIssue:self];
 }
 
 @end

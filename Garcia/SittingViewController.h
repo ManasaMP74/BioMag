@@ -3,7 +3,7 @@
 #define MAX(A,B)((A) > (B) ? (A) : (B))
 #endif
 @protocol increaseSittingCell<NSObject>
--(void)increaseSitting;
+-(void)loadTreatMentFromSittingPart;
 @end
 @interface SittingViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UIImageView *dateImageView;
@@ -18,13 +18,13 @@
 @property (strong, nonatomic) IBOutlet UIView *patientDetailView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *emailValueHeight;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *surgeriesValueHeight;
+@property (strong, nonatomic) IBOutlet UIButton *previousBtn;
+@property (strong, nonatomic) IBOutlet UIButton *saveBtn;
+@property (strong, nonatomic) IBOutlet UIButton *nextBtn;
 
 //Data from parentView;
 @property(strong,nonatomic)NSString *SortType;
 @property(strong,nonatomic)NSString *sectionName;
-@property(strong,nonatomic)NSString *scanPointName;
-@property(strong,nonatomic)NSString *correspondingPairName;
-@property(strong,nonatomic)NSString *germsName;
-@property(strong,nonatomic)NSString *rank;
+@property(strong,nonatomic)NSIndexPath *selectedIndexPathOfSectionInSlideOut;
 @property(weak,nonatomic)id<increaseSittingCell>delegateForIncreasingSitting;
 @end

@@ -48,7 +48,7 @@
     cell.backgroundColor=[UIColor clearColor];
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [self.delegateForGetName getSectionName:allSectionNameArray[indexPath.row]];
+      [self.delegateForGetName getSectionName:allSectionNameArray[indexPath.row] withIndex:indexPath];
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 35;

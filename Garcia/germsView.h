@@ -16,4 +16,5 @@
 @property (strong, nonatomic) IBOutlet UIButton *germNewAddButton;
 @property (strong, nonatomic) IBOutlet UIView *germNewAddView;
 @property(weak,nonatomic)id<sendGermsData>delegateForGerms;
+@property(strong,nonatomic)NSString *fromParentViewGermsString;
 @end

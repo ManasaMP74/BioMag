@@ -102,7 +102,7 @@
                 }
             }
         }
-        cell.intervalLabel.text=@"150";
+        cell.intervalLabel.text=_price;
         return cell;
     }
     else{

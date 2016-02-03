@@ -1,14 +1,17 @@
 #import <UIKit/UIKit.h>
 @protocol ExpandCellProtocol<NSObject>
+@optional
 -(void)expandCell:(UITableViewCell*)cell;
 -(void)expandCellTOGetPreviousSitting:(UITableViewCell*)cell;
 -(void)datePicker:(UITableViewCell*)cell withDate:(NSString*)date;
 -(void)getGermsView:(UITableViewCell*)cell;
+-(void)issueAndNoIssue:(UITableViewCell*)cell;
 @end
 @interface SittingTableViewCell : UITableViewCell<UITextViewDelegate>
 @property (strong, nonatomic) IBOutlet UILabel *serialNumber;
 @property (strong, nonatomic) IBOutlet UILabel *scanpointLabel;
 @property (strong, nonatomic) IBOutlet UILabel *correspondinPairLabel;
+@property (strong, nonatomic) IBOutlet UILabel *germLabel;
 
 @property (strong, nonatomic) IBOutlet UIView *codeView;
 @property (strong, nonatomic) IBOutlet UILabel *interpretation;
