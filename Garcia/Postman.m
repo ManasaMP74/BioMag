@@ -1,4 +1,5 @@
 #import "Postman.h"
+#import "PostmanConstant.h"
 @implementation Postman
 -(id)init
 {
@@ -13,13 +14,20 @@
 {
     NSUserDefaults *defaultvalue=[NSUserDefaults standardUserDefaults];
     NSString *token= [defaultvalue valueForKey:@"X-access-Token"];
-    
+    int userIdInteger=[[defaultvalue valueForKey:@"Id"]intValue];
+    NSString *userID=[@(userIdInteger) description];
     
     self.manager=[AFHTTPRequestOperationManager manager];
     AFJSONRequestSerializer *requestSerializer=[AFJSONRequestSerializer serializer];
+     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
     [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [requestSerializer setValue:token forHTTPHeaderField:@"x-access-token"];
+    }else{
+         [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+         [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+         [requestSerializer setValue:token forHTTPHeaderField:@"x-access-token"];
+        [requestSerializer setValue:userID forHTTPHeaderField:@"x-uid"];
+     }
     self.manager.requestSerializer=requestSerializer;
 }
 //post method
@@ -51,9 +59,14 @@
          success(operation,responseObject);
          
      }failure:^(AFHTTPRequestOperation *operation,NSError *error){
-         
          failure(operation,error);
-         NSLog(@"%@",error);
-     }];
+    }];
+}
+-(void)updateXAcessToken{
+    NSUserDefaults *defaultvalue=[NSUserDefaults standardUserDefaults];
+    NSString *token= [defaultvalue valueForKey:@"X-access-Token"];
+    AFJSONRequestSerializer *requestSerializer=[AFJSONRequestSerializer serializer];
+    [requestSerializer setValue:token forHTTPHeaderField:@"x-access-token"];
+    self.manager.requestSerializer=requestSerializer;
 }
 @end

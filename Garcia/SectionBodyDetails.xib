@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -130,7 +129,7 @@
                 <constraint firstItem="qyr-R7-UK6" firstAttribute="centerY" secondItem="JfW-k4-9F9" secondAttribute="centerY" constant="-0.5" id="yOH-p0-Ydm"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="463" y="102.5"/>
+            <point key="canvasLocation" x="212" y="133.5"/>
         </view>
     </objects>
     <resources>

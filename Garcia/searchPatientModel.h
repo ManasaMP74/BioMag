@@ -26,7 +26,6 @@
                     onError:(void (^)(NSError *error))errorBlock;
 @property(strong,nonatomic)NSString *genderCode;
 @property(strong,nonatomic)NSString *martialCode;
-
 @property(strong,nonatomic)NSDictionary *jsonDict;
 @property(strong,nonatomic)NSString *memo;
 @property(strong,nonatomic)NSString *companyCode;
@@ -37,6 +36,8 @@
 @property(strong,nonatomic)NSString *documentCode;
 @property(strong,nonatomic)NSString *documentTypeCode;
 @property(strong,nonatomic)NSString *profileImageCode;
+@property(strong,nonatomic)NSString *tranfusion;
+@property(strong,nonatomic)NSString *surgeries;
 @property(strong,nonatomic)UIImage *profileImage;
-
+@property(strong,nonatomic)UIImage *storageID;
 @end

@@ -16,4 +16,7 @@
 -(float)increaseHeaderinHeaderTV :(SittingModelClass*)model;
 -(float)decreaseHeaderinHeaderTV :(SittingModelClass*)model;
 @property(strong,nonatomic)NSArray *selectedScanPointArrayFromPatientSheet;
+
+//Data from Parent View
+@property(strong,nonatomic)NSString *price;
 @end

@@ -13,7 +13,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *sectionHeaderLabel;
 @property (strong, nonatomic) IBOutlet UITableView *tableview;
 @property (strong, nonatomic) IBOutlet AddSectionCell *addsectionCell;
-@property (strong, nonatomic) NSArray *allSections;
+@property (strong, nonatomic) NSArray *allSections,*allScanPointsArray;
 -(void)alphaViewInitialize;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *tableViewHeight;
 @property (weak, nonatomic)id<hidePreviousViewofSection>delegate;

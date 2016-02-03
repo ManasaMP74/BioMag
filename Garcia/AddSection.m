@@ -4,7 +4,7 @@
 #import "HexColors.h"
 #import "SectionBodyDetails.h"
 #import "SectionModel.h"
-#import "ScanPointModel.h"
+
 
 @implementation AddSection
 {
@@ -18,8 +18,8 @@
 }
 -(id)initWithFrame:(CGRect)frame
 {
+    sectonBodyObject.bodyPartHeaderlabel.hidden=YES;
     self=[super initWithFrame:frame];
-     sectonBodyObject.bodyPartHeaderlabel.hidden=YES;
     view=[[[NSBundle mainBundle]loadNibNamed:@"AddSection" owner:self options:nil]lastObject];
     [self initializeView];
     [self addSubview:view];
@@ -39,12 +39,12 @@
     AppDelegate *appDel = [UIApplication sharedApplication].delegate;
     [alphaView addTarget:self action:@selector(previous:) forControlEvents:UIControlEventTouchUpInside];
     [appDel.window addSubview:alphaView];
-    if (_tableview.contentSize.height<146) {
+    if (_tableview.contentSize.height<100) {
             _tableViewHeight.constant=_tableview.contentSize.height;
     }
-    else _tableViewHeight.constant=146;
+    else _tableViewHeight.constant=100;
     CGRect frame=view.frame;
-    frame.size.height=_tableViewHeight.constant+146;
+    frame.size.height=_tableview.contentSize.height+146;
     view.frame=frame;
 
 }
@@ -74,18 +74,22 @@
         SectionModel *section = self.allSections[indexPath.row];
         cell = self.addsectionCell;
         cell.sectionLabel.text = section.title;
+        
     }
+    
     [constantobj setFontForLabel:cell.sectionLabel];
+    
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     sectonBodyObject.bodyPartHeaderlabel.hidden=YES;
+    
     if (sectonBodyObject==nil)
         sectonBodyObject=[[SectionBodyDetails alloc]initWithFrame:CGRectMake(134,439,view.frame.size.width, 416)];
-    ScanPointModel *model=_allSections[indexPath.row];
-   // sectonBodyObject.selectedSection =model;
+    sectonBodyObject.selectedSection = _allSections[indexPath.row];
        [sectonBodyObject alphaViewInitialize];
        sectonBodyObject.delegate=self;
     view.hidden=YES;

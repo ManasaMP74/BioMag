@@ -19,8 +19,13 @@
 @property (strong, nonatomic) IBOutlet UIButton *SaveBtnClicked;
 @property (strong, nonatomic) IBOutlet UILabel *saveLabel;
 -(void)alphaViewInitialize;
+-(NSArray *)dummyPartModels;
 @property (strong, nonatomic) IBOutlet UIView *noteView;
 @property (strong, nonatomic) IBOutlet UIButton *visitButton;
 @property(weak,nonatomic)id<addSetting>delegate;
 @property (strong, nonatomic) IBOutlet UISwitch *completedSwitch;
+
+@property(strong,nonatomic)NSArray*dummyData;
+
+@property(strong,nonatomic)NSArray *passDefaultData;
 @end

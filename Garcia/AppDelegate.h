@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "searchPatientModel.h"
+#import "PatientDetailModel.h"
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
-
+//pass Data to reveal Vc
+@property(strong,nonatomic)NSMutableArray *symptomTagArray;
 @end
-

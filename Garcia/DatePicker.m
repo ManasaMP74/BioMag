@@ -17,7 +17,7 @@
     view.frame=self.bounds;
     _datePicker.datePickerMode=1;
    // _datePicker.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-02.jpg"]];
-    [view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-02.jpg"]]];
+    [view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-2.jpg"]]];
     return self;
 }
 -(void)initializeView

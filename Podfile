@@ -3,11 +3,13 @@
 # Uncomment this line if you're using Swift
 # use_frameworks!
 
-target 'Garcia' do
-pod 'AFNetworking', '2.2.1'
+target 'Biomagnetism' do
+pod "AFNetworking", "~> 2.0"
+pod 'WYPopoverController', '~> 0.2.2'
+pod 'MCLocalization', '~> 1.1'
 end
 
-target 'GarciaTests' do
+target 'BiomagnetismTests' do
 
 end
 

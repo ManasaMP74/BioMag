@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="OpenSans-Semibold.ttf">
+            <string>OpenSans-Semibold</string>
+            <string>OpenSans-Semibold</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddSymptom">
+            <connections>
+                <outlet property="addButton" destination="S6v-z3-iwG" id="UzA-d6-Ep3"/>
+                <outlet property="allTagListTableViewHeight" destination="ekf-nm-x5U" id="tML-Pc-48x"/>
+                <outlet property="allTaglistTableView" destination="ZWk-vp-K8g" id="9Hh-PH-sej"/>
+                <outlet property="collectionView" destination="Wl9-oG-atM" id="7KS-cG-cJD"/>
+                <outlet property="symptomTf" destination="fhe-Px-Acj" id="B1Z-uA-fHY"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="AddSymptom">
+            <rect key="frame" x="0.0" y="0.0" width="317" height="333"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Title-Button1" translatesAutoresizingMaskIntoConstraints="NO" id="75h-df-fOw">
+                    <rect key="frame" x="0.0" y="8" width="200" height="38"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="38" id="Wet-8G-JKT"/>
+                        <constraint firstAttribute="width" constant="200" id="mvm-ZL-bfM"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Symptoms" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WH6-iG-TWg">
+                    <rect key="frame" x="8" y="16" width="171" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="UXx-vd-t4c"/>
+                        <constraint firstAttribute="width" constant="171" id="wdh-4q-dEk"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="14"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fhe-Px-Acj">
+                    <rect key="frame" x="8" y="66" width="217" height="35"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="35" id="Qz8-Ne-zTo"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S6v-z3-iwG">
+                    <rect key="frame" x="233" y="71" width="80" height="25"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="25" id="2bX-nE-knX"/>
+                        <constraint firstAttribute="width" constant="80" id="FBN-1a-hWi"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="14"/>
+                    <state key="normal" title="Add" backgroundImage="Save-Button">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="localAdd:" destination="-1" eventType="touchUpInside" id="bcj-VS-tRN"/>
+                    </connections>
+                </button>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ZWk-vp-K8g">
+                    <rect key="frame" x="8" y="109" width="217" height="112"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="112" id="ekf-nm-x5U"/>
+                    </constraints>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="yt1-77-vUK"/>
+                        <outlet property="delegate" destination="-1" id="rzG-G2-hYK"/>
+                    </connections>
+                </tableView>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Wl9-oG-atM">
+                    <rect key="frame" x="8" y="272" width="301" height="53"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="53" id="yad-eI-2sP"/>
+                    </constraints>
+                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="0.0" id="Ise-n5-p5Q">
+                        <size key="itemSize" width="50" height="50"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="dU6-0T-mDh"/>
+                        <outlet property="delegate" destination="-1" id="W42-db-7Jd"/>
+                    </connections>
+                </collectionView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="ZWk-vp-K8g" firstAttribute="trailing" secondItem="fhe-Px-Acj" secondAttribute="trailing" id="3ys-z5-RbW"/>
+                <constraint firstItem="75h-df-fOw" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="5MD-S0-dwU"/>
+                <constraint firstAttribute="bottom" secondItem="Wl9-oG-atM" secondAttribute="bottom" constant="8" id="DtB-tJ-T2v"/>
+                <constraint firstItem="fhe-Px-Acj" firstAttribute="top" secondItem="75h-df-fOw" secondAttribute="bottom" constant="20" id="NJv-SL-pIc"/>
+                <constraint firstItem="75h-df-fOw" firstAttribute="leading" secondItem="WH6-iG-TWg" secondAttribute="trailing" constant="-179" id="T4v-kM-kDU"/>
+                <constraint firstItem="ZWk-vp-K8g" firstAttribute="width" secondItem="fhe-Px-Acj" secondAttribute="width" id="Tlc-T1-9B1"/>
+                <constraint firstItem="75h-df-fOw" firstAttribute="top" secondItem="WH6-iG-TWg" secondAttribute="bottom" constant="-29" id="YZ1-ZW-Jaw"/>
+                <constraint firstAttribute="trailing" secondItem="Wl9-oG-atM" secondAttribute="trailing" constant="8" id="dht-qN-8KB"/>
+                <constraint firstItem="ZWk-vp-K8g" firstAttribute="top" secondItem="fhe-Px-Acj" secondAttribute="bottom" constant="8" id="gJI-e0-EmP"/>
+                <constraint firstAttribute="trailing" secondItem="S6v-z3-iwG" secondAttribute="trailing" constant="4" id="lmn-0S-RAq"/>
+                <constraint firstItem="Wl9-oG-atM" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="nWQ-fo-6XF"/>
+                <constraint firstItem="S6v-z3-iwG" firstAttribute="leading" secondItem="fhe-Px-Acj" secondAttribute="trailing" constant="8" id="nqW-1e-hMT"/>
+                <constraint firstItem="75h-df-fOw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="tNF-9u-ttm"/>
+                <constraint firstItem="fhe-Px-Acj" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="tP1-ei-V97"/>
+                <constraint firstItem="fhe-Px-Acj" firstAttribute="centerY" secondItem="S6v-z3-iwG" secondAttribute="centerY" id="vsK-dw-kw9"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="216.5" y="257.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Save-Button" width="80" height="25"/>
+        <image name="Title-Button1" width="200" height="38"/>
+    </resources>
+</document>
