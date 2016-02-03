@@ -8,22 +8,22 @@
 
 @implementation SectionBodyDetails
 
-    {
-        UIView *view;
-        UIControl  *alphaView;
-        Constant *constant;
-        NSArray *sectionArray,*sectionDetail;
-        AddSection *addSectionObj;
-         SectionBodyDetails *sectonBodyObject;
-        NSInteger selectedIndex;
-        NSIndexPath *selectedIndexPath;
-        NSString *str;
-        BOOL isClick;
-        NSMutableArray *selectedIndexPathArray;
-        NSInteger selRow,nextFlag,childSelRow;
-        NSMutableArray *theSelIndex,*cellSelected,*theRetainedArray;
-        
-    }
+{
+    UIView *view;
+    UIControl  *alphaView;
+    Constant *constant;
+    NSArray *sectionArray,*sectionDetail;
+    AddSection *addSectionObj;
+    SectionBodyDetails *sectonBodyObject;
+    NSInteger selectedIndex;
+    NSIndexPath *selectedIndexPath;
+    NSString *str;
+    BOOL isClick;
+    NSMutableArray *selectedIndexPathArray;
+    NSInteger selRow,nextFlag,childSelRow;
+    NSMutableArray *theSelIndex,*cellSelected,*theRetainedArray;
+    
+}
 
 -(id)initWithFrame:(CGRect)frame
 {
@@ -46,11 +46,11 @@
     self->cellSelected = [NSMutableArray array];
     self->theRetainedArray =[NSMutableArray array];
     theSelIndex=[[NSMutableArray alloc] init];
-    _saveLabel.text=@"Save";
+    [_saveButton setTitle:@"Save" forState:normal];
     if (self.tableview) {
         [self.tableview reloadData];
     }
-
+    
     if (alphaView == nil)
     {
         alphaView = [[UIControl alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -59,20 +59,20 @@
     selectedIndexPathArray=[[NSMutableArray alloc]init];
     str=@"Head";
     if ([str isEqual:@"Head"])
-    
+        
     {
-    view.center = alphaView.center;
-    AppDelegate *appDel = [UIApplication sharedApplication].delegate;
-    [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
-    self.sectionHeaderLabel.text =_selectedSection.title;
+        view.center = alphaView.center;
+        AppDelegate *appDel = [UIApplication sharedApplication].delegate;
+        [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
+        self.sectionHeaderLabel.text =_selectedSection.title;
         [_tableview reloadData];
-    [appDel.window addSubview:alphaView];
-}
+        [appDel.window addSubview:alphaView];
+    }
     else{
         
         view.center = alphaView.center;
         AppDelegate *appDel = [UIApplication sharedApplication].delegate;
-    [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
+        [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
         self.sectionHeaderLabel.text =_partModelObj.title;
         [appDel.window addSubview:alphaView];
     }
@@ -102,7 +102,7 @@
 {
     _showBodyPartLabel = showBodyPartLabel;
     self.bodyPartHeaderlabel.hidden=!showBodyPartLabel;
-
+    
 }
 -(void)hide{
     
@@ -136,8 +136,8 @@
 }
 - (IBAction)previous:(id)sender {
     
-   self.mNxtbtn.hidden=FALSE;
-   nextFlag-=1;
+    self.mNxtbtn.hidden=FALSE;
+    nextFlag-=1;
     if (nextFlag<=0) {
         if (nextFlag<=0) {
             if ([str isEqual:@"Correspond"]) {
@@ -171,7 +171,7 @@
         self.ChildTableView=nil;
     }
     
-   
+    
 }
 - (BOOL)validateConditions
 {
@@ -192,7 +192,7 @@
     }
     if(theSelIndex.count==nextFlag){
         self.mNxtbtn.hidden=TRUE;
-        _saveLabel.text=@"Done";
+        [_saveButton setTitle:@"Done" forState:normal];
         
     }
     if ([str isEqual:@"Head"]) {
@@ -202,9 +202,9 @@
             self.mNxtbtn.hidden=FALSE;
             if(theSelIndex.count==nextFlag){
                 self.mNxtbtn.hidden=TRUE;
-                _saveLabel.text=@"Done";
+                [_saveButton setTitle:@"Done" forState:normal];
             }
-
+            
             [self setTitle:_sectionHeaderLabel.text];
             _sectionHeaderLabel.text=_title;
             self.sectionHeaderLabel.text =_partModelObj.title;
@@ -241,7 +241,7 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if ([tableView isEqual:self.tableview]) {
-         return self.selectedSection.allParts.count;
+        return self.selectedSection.allParts.count;
     }
     
     PartModel *part=nil;
@@ -254,7 +254,7 @@
     }
     
     
-return part.allScanPoints.count;
+    return part.allScanPoints.count;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -275,23 +275,23 @@ return part.allScanPoints.count;
             cell.DetailSectionImageView.image=[UIImage imageNamed:@"Box1-Uncheck"];
         }
         
-       PartModel *part = self.selectedSection.allParts[indexPath.row];
+        PartModel *part = self.selectedSection.allParts[indexPath.row];
         cell.sectionLabel.text = part.title;
         tableView.separatorStyle=0;
         return cell;
-     }
-   
+    }
+    
     else{
         
         PartModel *part=nil;
         if (selRow>theSelIndex.count) {
-             part = self.selectedSection.allParts[selRow];
+            part = self.selectedSection.allParts[selRow];
         }
         else
         {
-             part = theSelIndex[selRow];
+            part = theSelIndex[selRow];
         }
-       
+        
         
         cell.sectionLabel.text = [part.allScanPoints objectAtIndex:indexPath.row];
         
@@ -314,55 +314,55 @@ return part.allScanPoints.count;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-   
+    
     
     if ([self.tableview isEqual:tableView])
     {
         
-            selRow=indexPath.row;
-            
-            PartModel *part = self.selectedSection.allParts[selRow];
-            selectedIndexPath = indexPath;
-            if ([self->cellSelected containsObject:indexPath]){
-                [self->cellSelected removeObject:indexPath];
-                if ([theSelIndex containsObject:part]) {
+        selRow=indexPath.row;
+        
+        PartModel *part = self.selectedSection.allParts[selRow];
+        selectedIndexPath = indexPath;
+        if ([self->cellSelected containsObject:indexPath]){
+            [self->cellSelected removeObject:indexPath];
+            if ([theSelIndex containsObject:part]) {
                 
                 [theSelIndex removeObject:part];
-                }
             }
-            else{
-                [self->cellSelected addObject:indexPath];
-                if (![theSelIndex containsObject:part]) {
-                   [theSelIndex addObject:part];
-                   
-                }
+        }
+        else{
+            [self->cellSelected addObject:indexPath];
+            if (![theSelIndex containsObject:part]) {
+                [theSelIndex addObject:part];
+                
             }
-            NSLog(@"the Sel array is %@",theSelIndex);
+        }
+        NSLog(@"the Sel array is %@",theSelIndex);
+    }
+    
+    else
+    {
+        childSelRow=indexPath.row;
+        PartModel *part=nil;
+        if (selRow>theSelIndex.count) {
+            part = self.selectedSection.allParts[selRow];
+        }
+        else
+        {
+            part = theSelIndex[selRow];
         }
         
-    else
-        {
-            childSelRow=indexPath.row;
-            PartModel *part=nil;
-            if (selRow>theSelIndex.count) {
-                part = self.selectedSection.allParts[selRow];
-            }
-            else
-            {
-                part = theSelIndex[selRow];
-            }
-            
-            if ([theRetainedArray containsObject:[part.allScanPoints objectAtIndex:childSelRow]]) {
-                [theRetainedArray removeObject:[part.allScanPoints objectAtIndex:childSelRow]];
-            }
-            else
-            {
-                [theRetainedArray addObject:[part.allScanPoints objectAtIndex:childSelRow]];
-            }
-             NSLog(@"the childSel array is %@",theRetainedArray);
-            
+        if ([theRetainedArray containsObject:[part.allScanPoints objectAtIndex:childSelRow]]) {
+            [theRetainedArray removeObject:[part.allScanPoints objectAtIndex:childSelRow]];
         }
-            [tableView reloadData];
+        else
+        {
+            [theRetainedArray addObject:[part.allScanPoints objectAtIndex:childSelRow]];
+        }
+        NSLog(@"the childSel array is %@",theRetainedArray);
+        
+    }
+    [tableView reloadData];
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -372,7 +372,7 @@ return part.allScanPoints.count;
     return 33;
 }
 - (IBAction)saveAndDone:(id)sender {
-    if ([_saveLabel.text isEqualToString:@"Done"]) {
+    if ([_saveButton.titleLabel.text isEqualToString:@"Done"]) {
         [alphaView removeFromSuperview];
         [self.delegate hideAllView];
     }

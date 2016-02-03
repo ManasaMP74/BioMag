@@ -30,11 +30,11 @@
                         <color key="textColor" red="0.023529411764705882" green="0.23137254901960785" blue="0.30980392156862746" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Arrow-01" translatesAutoresizingMaskIntoConstraints="NO" id="jDD-1o-FLl">
-                        <rect key="frame" x="292" y="9" width="19" height="19"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Arrow-Right" translatesAutoresizingMaskIntoConstraints="NO" id="jDD-1o-FLl">
+                        <rect key="frame" x="288" y="7" width="23" height="23"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="19" id="0qW-pS-vLj"/>
-                            <constraint firstAttribute="height" constant="19" id="vQl-Ic-PCF"/>
+                            <constraint firstAttribute="width" constant="23" id="0qW-pS-vLj"/>
+                            <constraint firstAttribute="height" constant="23" id="vQl-Ic-PCF"/>
                         </constraints>
                     </imageView>
                 </subviews>
@@ -56,6 +56,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="Arrow-01" width="19" height="19"/>
+        <image name="Arrow-Right" width="23" height="23"/>
     </resources>
 </document>

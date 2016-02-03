@@ -22,23 +22,6 @@
             <rect key="frame" x="0.0" y="0.0" width="233" height="220"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ksb-dT-cne">
-                    <rect key="frame" x="-10" y="168" width="130" height="40"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="40" id="duv-YQ-DCG"/>
-                        <constraint firstAttribute="width" constant="130" id="vl3-Gn-POm"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="19"/>
-                    <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    <state key="normal" title="Cancel" backgroundImage="Cancel button (1)">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="cancelButtonAction:" destination="-1" eventType="touchUpInside" id="Gdb-Nd-qNM"/>
-                    </connections>
-                </button>
                 <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Sua-sO-PHy">
                     <rect key="frame" x="0.0" y="-12" width="233" height="162"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -53,20 +36,37 @@
                     </connections>
                 </datePicker>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vWc-gC-DKO">
-                    <rect key="frame" x="125" y="168" width="100" height="40"/>
+                    <rect key="frame" x="148" y="168" width="77" height="30"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="100" id="TvD-0X-eBc"/>
-                        <constraint firstAttribute="height" constant="40" id="w5H-GC-2t4"/>
+                        <constraint firstAttribute="width" constant="77" id="TvD-0X-eBc"/>
+                        <constraint firstAttribute="height" constant="30" id="w5H-GC-2t4"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="19"/>
-                    <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    <state key="normal" title="Done" backgroundImage="Save button (1)">
+                    <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="16"/>
+                    <inset key="contentEdgeInsets" minX="26" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    <state key="normal" title="Done" backgroundImage="Save">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
                         <action selector="doneButtonAction:" destination="-1" eventType="touchUpInside" id="6NY-fM-hxY"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ksb-dT-cne">
+                    <rect key="frame" x="46" y="168" width="92" height="30"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="duv-YQ-DCG"/>
+                        <constraint firstAttribute="width" constant="92" id="vl3-Gn-POm"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="16"/>
+                    <inset key="contentEdgeInsets" minX="24" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    <state key="normal" title="Cancel" backgroundImage="Cancel">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="cancelButtonAction:" destination="-1" eventType="touchUpInside" id="Gdb-Nd-qNM"/>
                     </connections>
                 </button>
             </subviews>
@@ -77,7 +77,7 @@
                 <constraint firstItem="Sua-sO-PHy" firstAttribute="leading" secondItem="spa-Yr-0XN" secondAttribute="leading" id="EXK-iE-Gf5"/>
                 <constraint firstItem="Sua-sO-PHy" firstAttribute="top" secondItem="spa-Yr-0XN" secondAttribute="top" constant="-12" id="I26-2t-45i"/>
                 <constraint firstItem="Ksb-dT-cne" firstAttribute="top" secondItem="vWc-gC-DKO" secondAttribute="top" id="MUy-uv-G52"/>
-                <constraint firstItem="vWc-gC-DKO" firstAttribute="leading" secondItem="Ksb-dT-cne" secondAttribute="trailing" constant="5" id="Vet-A7-Rui"/>
+                <constraint firstItem="vWc-gC-DKO" firstAttribute="leading" secondItem="Ksb-dT-cne" secondAttribute="trailing" constant="10" id="Vet-A7-Rui"/>
                 <constraint firstItem="vWc-gC-DKO" firstAttribute="top" secondItem="Sua-sO-PHy" secondAttribute="bottom" constant="18" id="cbk-Qq-AkA"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -85,7 +85,7 @@
         </view>
     </objects>
     <resources>
-        <image name="Cancel button (1)" width="130" height="40"/>
-        <image name="Save button (1)" width="100" height="40"/>
+        <image name="Cancel" width="92" height="30"/>
+        <image name="Save" width="77" height="30"/>
     </resources>
 </document>

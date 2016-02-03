@@ -46,7 +46,7 @@
                         <constraint firstAttribute="height" constant="35" id="1AP-Fg-ybv"/>
                         <constraint firstAttribute="width" constant="59" id="aQA-0o-xhe"/>
                     </constraints>
-                    <state key="normal" image="Arrow-02">
+                    <state key="normal" image="Arrow-Left">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -59,7 +59,7 @@
                         <constraint firstAttribute="height" constant="35" id="Oml-xo-OZ8"/>
                         <constraint firstAttribute="width" constant="59" id="S44-vS-tUB"/>
                     </constraints>
-                    <state key="normal" image="Arrow-03">
+                    <state key="normal" image="Arrow-Right">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -96,8 +96,8 @@
         </view>
     </objects>
     <resources>
-        <image name="Arrow-02" width="28" height="28"/>
-        <image name="Arrow-03" width="28" height="28"/>
+        <image name="Arrow-Left" width="23" height="23"/>
+        <image name="Arrow-Right" width="23" height="23"/>
         <image name="Heading-BG" width="200" height="38"/>
     </resources>
 </document>
