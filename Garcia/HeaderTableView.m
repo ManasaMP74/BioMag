@@ -31,7 +31,7 @@
         [self addConstraints:constrains];
         sittingArray=[[NSMutableArray alloc]init];
         scanPointArray=[[NSMutableArray alloc]init];
-        sittingArray=[@[@"Head",@"Interval",@"Notes",@"Completed"]mutableCopy];
+        sittingArray=[@[@"Head",@"Price",@"Notes",@"Completed"]mutableCopy];
         scanPointArray=[@[@"Inter Ciliary",@"Eye",@"Thyroid"]mutableCopy];
         selectedHeaderIndexPath=nil;
         selectedScanPointIndexPath=[[NSMutableArray alloc]init];
@@ -86,8 +86,8 @@
                     textview=[[UITextView alloc]initWithFrame:CGRectMake(cell.frame.origin.x+20, 42,cell.frame.size.width,85)];
                 textview.layer.cornerRadius=5;
                 textview.layer.borderColor=[UIColor colorWithRed:0.682 green:0.718 blue:0.729 alpha:0.6].CGColor;
-                textview.layer.borderWidth=1;
-                textview.backgroundColor=[UIColor colorWithRed:0.933 green:0.933 blue:0.94 alpha:1];
+                 textview.layer.borderWidth=1;
+                 textview.backgroundColor=[UIColor colorWithRed:0.933 green:0.933 blue:0.94 alpha:1];
                 textview.text=@"Doctor will add note";
                 textview.textContainerInset = UIEdgeInsetsMake(10, 10,10, 10);
                 textview.textColor=[UIColor lightGrayColor];
@@ -98,10 +98,11 @@
                 }
                 else{
                     textview.userInteractionEnabled=NO;
-                    textview.hidden=YES;
+                  textview.hidden=YES;
                 }
             }
         }
+        cell.intervalLabel.text=_price;
         return cell;
     }
     else{
@@ -147,83 +148,83 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row==0) {
-        CollectionViewTableViewCell *cell = (CollectionViewTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-        if ([cell.headIncreaseButton.currentBackgroundImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
-            [self ChangeIncreaseDecreaseButtonImage:cell];
-            if (indexPath.section==sittingArray.count-2) {
-                selectedNote=indexPath;
-                [tableView reloadData];
-                CGRect frame=_headerTableview.frame;
-                frame.size.height=_headerTableview.contentSize.height;
-                _headerTableview.frame=frame;
-                [self.delegate increaseHeadCellHeight:_headerTableview.contentSize.height withSelectedScanPoint:nil withHeader:selectedHeaderIndexPath withNoteHeader:indexPath];
-            }
-            else if (indexPath.section<sittingArray.count-3) {
-                selectedHeaderIndexPath=indexPath;
-                [tableView reloadData];
-                CGRect frame=_headerTableview.frame;
-                frame.size.height=_headerTableview.contentSize.height;
-                _headerTableview.frame=frame;
-                [self.delegate increaseHeadCellHeight:_headerTableview.contentSize.height withSelectedScanPoint:nil withHeader:indexPath withNoteHeader:selectedNote];
-            }
+       CollectionViewTableViewCell *cell = (CollectionViewTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    if ([cell.headIncreaseButton.currentBackgroundImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
+        [self ChangeIncreaseDecreaseButtonImage:cell];
+        if (indexPath.section==sittingArray.count-2) {
+            selectedNote=indexPath;
+            [tableView reloadData];
+            CGRect frame=_headerTableview.frame;
+            frame.size.height=_headerTableview.contentSize.height;
+            _headerTableview.frame=frame;
+            [self.delegate increaseHeadCellHeight:_headerTableview.contentSize.height withSelectedScanPoint:nil withHeader:selectedHeaderIndexPath withNoteHeader:indexPath];
         }
-        else{
-            [self ChangeIncreaseDecreaseButtonImage:cell];
-            if (indexPath.section==sittingArray.count-2) {
-                selectedNote=nil;
-                [tableView reloadData];
-                CGRect frame=_headerTableview.frame;
-                frame.size.height=_headerTableview.contentSize.height;
-                _headerTableview.frame=frame;
-                [self.delegate decreaseHeadCellHeight:_headerTableview.contentSize.height withSelectedScanPoint:nil withHeader:selectedHeaderIndexPath withNoteHeader:nil];
-            }
-            else if (indexPath.section<sittingArray.count-3) {
-                selectedHeaderIndexPath=nil;
-                [selectedScanPointIndexPath removeAllObjects];
-                [tableView reloadData];
-                CGRect frame=_headerTableview.frame;
-                frame.size.height=_headerTableview.contentSize.height;
-                _headerTableview.frame=frame;
-                [self.delegate decreaseHeadCellHeight:_headerTableview.contentSize.height withSelectedScanPoint:nil withHeader:nil withNoteHeader:selectedNote];
-            }
+       else if (indexPath.section<sittingArray.count-3) {
+            selectedHeaderIndexPath=indexPath;
+            [tableView reloadData];
+            CGRect frame=_headerTableview.frame;
+            frame.size.height=_headerTableview.contentSize.height;
+            _headerTableview.frame=frame;
+            [self.delegate increaseHeadCellHeight:_headerTableview.contentSize.height withSelectedScanPoint:nil withHeader:indexPath withNoteHeader:selectedNote];
         }
     }
+    else{
+        [self ChangeIncreaseDecreaseButtonImage:cell];
+        if (indexPath.section==sittingArray.count-2) {
+            selectedNote=nil;
+            [tableView reloadData];
+            CGRect frame=_headerTableview.frame;
+            frame.size.height=_headerTableview.contentSize.height;
+            _headerTableview.frame=frame;
+            [self.delegate decreaseHeadCellHeight:_headerTableview.contentSize.height withSelectedScanPoint:nil withHeader:selectedHeaderIndexPath withNoteHeader:nil];
+        }
+       else if (indexPath.section<sittingArray.count-3) {
+            selectedHeaderIndexPath=nil;
+            [selectedScanPointIndexPath removeAllObjects];
+            [tableView reloadData];
+            CGRect frame=_headerTableview.frame;
+            frame.size.height=_headerTableview.contentSize.height;
+            _headerTableview.frame=frame;
+            [self.delegate decreaseHeadCellHeight:_headerTableview.contentSize.height withSelectedScanPoint:nil withHeader:nil withNoteHeader:selectedNote];
+        }
+    }
+ }
 }
 //ScanPoint Delegate Method
 -(void)selectedScanPoint:(UITableViewCell *)cell{
-    ScanPoinTableViewCell *scanCell=(ScanPoinTableViewCell*)cell;
-    NSIndexPath *indexPath=[_headerTableview indexPathForCell:scanCell];
-    if ([scanCell.sacnPointImageView.currentBackgroundImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
-        [self ChangeIncreaseDecreaseButtonImage1:scanCell];
-        [selectedScanPointIndexPath addObject:indexPath];
-        if (indexPath.row==1) {
-            scanCell.correspondingView.correspondingPointArray=@[@"Medulla Oblongata", @"Kidney",@"Sacrum"];
+        ScanPoinTableViewCell *scanCell=(ScanPoinTableViewCell*)cell;
+      NSIndexPath *indexPath=[_headerTableview indexPathForCell:scanCell];
+        if ([scanCell.sacnPointImageView.currentBackgroundImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
+            [self ChangeIncreaseDecreaseButtonImage1:scanCell];
+            [selectedScanPointIndexPath addObject:indexPath];
+                        if (indexPath.row==1) {
+                scanCell.correspondingView.correspondingPointArray=@[@"Medulla Oblongata", @"Kidney",@"Sacrum"];
+            }
+            else if (indexPath.row==2){
+             scanCell.correspondingView.correspondingPointArray=@[@"Eye Optic Nerve", @"Opposite Eye",@"Cerebellum"];
+            }
+            else scanCell.correspondingView.correspondingPointArray=@[@"Cheekbone", @"Liver",@"Adrenal Glands"];
+            [scanCell.correspondingView.correspondingTableView reloadData];
+            correspondingViewHeight = [scanCell.correspondingView corespondingCellHeight];
+            scanCell.correspondingView.hidden = NO;
+            scanCell.correspondingViewHeight.constant=correspondingViewHeight;
+            [_headerTableview reloadData];
+            CGRect frame=_headerTableview.frame;
+            frame.size.height=_headerTableview.contentSize.height;
+            _headerTableview.frame=frame;
+            [self.delegate increaseHeadCellHeight:_headerTableview.contentSize.height withSelectedScanPoint:selectedScanPointIndexPath withHeader:[NSIndexPath indexPathForRow:0 inSection:0] withNoteHeader:nil];
         }
-        else if (indexPath.row==2){
-            scanCell.correspondingView.correspondingPointArray=@[@"Eye Optic Nerve", @"Opposite Eye",@"Cerebellum"];
-        }
-        else scanCell.correspondingView.correspondingPointArray=@[@"Cheekbone", @"Liver",@"Adrenal Glands"];
-        [scanCell.correspondingView.correspondingTableView reloadData];
-        correspondingViewHeight = [scanCell.correspondingView corespondingCellHeight];
-        scanCell.correspondingView.hidden = NO;
-        scanCell.correspondingViewHeight.constant=correspondingViewHeight;
-        [_headerTableview reloadData];
-        CGRect frame=_headerTableview.frame;
-        frame.size.height=_headerTableview.contentSize.height;
-        _headerTableview.frame=frame;
-        [self.delegate increaseHeadCellHeight:_headerTableview.contentSize.height withSelectedScanPoint:selectedScanPointIndexPath withHeader:[NSIndexPath indexPathForRow:0 inSection:0] withNoteHeader:nil];
-    }
-    else{
-        [self ChangeIncreaseDecreaseButtonImage1:scanCell];
-        [selectedScanPointIndexPath removeObject: indexPath];
-        scanCell.correspondingView.hidden=YES;
-        scanCell.correspondingViewHeight.constant=0;
-        [_headerTableview reloadData];
-        CGRect frame=_headerTableview.frame;
-        frame.size.height=_headerTableview.contentSize.height;
-        _headerTableview.frame=frame;
-        [self.delegate decreaseHeadCellHeight:_headerTableview.contentSize.height withSelectedScanPoint:selectedScanPointIndexPath withHeader:[NSIndexPath indexPathForRow:0 inSection:0] withNoteHeader:nil];
-    }
+        else{
+            [self ChangeIncreaseDecreaseButtonImage1:scanCell];
+           [selectedScanPointIndexPath removeObject: indexPath];
+            scanCell.correspondingView.hidden=YES;
+            scanCell.correspondingViewHeight.constant=0;
+            [_headerTableview reloadData];
+            CGRect frame=_headerTableview.frame;
+            frame.size.height=_headerTableview.contentSize.height;
+            _headerTableview.frame=frame;
+            [self.delegate decreaseHeadCellHeight:_headerTableview.contentSize.height withSelectedScanPoint:selectedScanPointIndexPath withHeader:[NSIndexPath indexPathForRow:0 inSection:0] withNoteHeader:nil];
+            }
 }
 //Change the Header image
 -(void)ChangeIncreaseDecreaseButtonImage:(CollectionViewTableViewCell*)cell{
@@ -252,7 +253,7 @@
         selectedScanPoint=(NSMutableArray*)model.selectedScanPointIndexpath;
     }
     else{
-        selectedHeaderIndexPath=nil;
+       selectedHeaderIndexPath=nil;
         selectedScanPoint=nil;
     }
     if (model.noteIndex !=nil) {
@@ -283,6 +284,6 @@
     CGRect frame=_headerTableview.frame;
     frame.size.height=_headerTableview.contentSize.height;
     _headerTableview.frame=frame;
-    return _headerTableview.contentSize.height;
+     return _headerTableview.contentSize.height;
 }
 @end

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -33,7 +34,7 @@
                         <outlet property="delegate" destination="-1" id="CPg-Kt-2JX"/>
                     </connections>
                 </tableView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Heading-BG" translatesAutoresizingMaskIntoConstraints="NO" id="9Ow-kg-ivO">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Title-Button1" translatesAutoresizingMaskIntoConstraints="NO" id="9Ow-kg-ivO">
                     <rect key="frame" x="0.0" y="14" width="200" height="38"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="38" id="Qfu-9l-Qb4"/>
@@ -46,24 +47,11 @@
                         <constraint firstAttribute="height" constant="35" id="1AP-Fg-ybv"/>
                         <constraint firstAttribute="width" constant="59" id="aQA-0o-xhe"/>
                     </constraints>
-                    <state key="normal" image="Arrow-02">
+                    <state key="normal" image="Left-icon">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
                         <action selector="previous:" destination="-1" eventType="touchUpInside" id="0AA-us-843"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MNN-zd-iFl">
-                    <rect key="frame" x="252" y="181" width="59" height="35"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="35" id="Oml-xo-OZ8"/>
-                        <constraint firstAttribute="width" constant="59" id="S44-vS-tUB"/>
-                    </constraints>
-                    <state key="normal" image="Arrow-03">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="next:" destination="-1" eventType="touchUpInside" id="UQz-kC-UrU"/>
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Section" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k6K-hd-Igq">
@@ -81,14 +69,12 @@
             <constraints>
                 <constraint firstItem="Uec-TF-vE8" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="0ew-1h-qM0"/>
                 <constraint firstItem="ROY-za-Cxb" firstAttribute="top" secondItem="9Ow-kg-ivO" secondAttribute="bottom" constant="25" id="4vs-e9-eKe"/>
-                <constraint firstAttribute="trailing" secondItem="MNN-zd-iFl" secondAttribute="trailing" id="9ka-1x-9EB"/>
                 <constraint firstAttribute="trailing" secondItem="ROY-za-Cxb" secondAttribute="trailing" constant="36" id="Aqx-a8-GGC"/>
                 <constraint firstItem="9Ow-kg-ivO" firstAttribute="centerY" secondItem="k6K-hd-Igq" secondAttribute="centerY" constant="0.5" id="MYh-IO-YgF"/>
                 <constraint firstItem="9Ow-kg-ivO" firstAttribute="leading" secondItem="k6K-hd-Igq" secondAttribute="trailing" constant="-122" id="TWE-oj-Eou"/>
                 <constraint firstItem="9Ow-kg-ivO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="WfY-A5-MqH"/>
                 <constraint firstItem="ROY-za-Cxb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="36" id="gZs-Bs-QyD"/>
                 <constraint firstAttribute="bottom" secondItem="Uec-TF-vE8" secondAttribute="bottom" constant="14" id="mrl-eA-01Q"/>
-                <constraint firstItem="MNN-zd-iFl" firstAttribute="top" secondItem="Uec-TF-vE8" secondAttribute="top" id="nI6-Oh-Tcl"/>
                 <constraint firstItem="9Ow-kg-ivO" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="14" id="qIc-1i-Zfn"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -96,8 +82,7 @@
         </view>
     </objects>
     <resources>
-        <image name="Arrow-02" width="28" height="28"/>
-        <image name="Arrow-03" width="28" height="28"/>
-        <image name="Heading-BG" width="200" height="38"/>
+        <image name="Left-icon" width="15" height="15"/>
+        <image name="Title-Button1" width="200" height="38"/>
     </resources>
 </document>

@@ -241,12 +241,12 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if ([tableView isEqual:self.tableview]) {
-         return self.selectedSection.allParts.count;
+         return self.selectedSection.scanpointArray.count;
     }
     
     PartModel *part=nil;
     if (selRow>theSelIndex.count) {
-        part = self.selectedSection.allParts[selRow];
+        part = self.selectedSection.scanpointArray[selRow];
     }
     else
     {
@@ -275,7 +275,7 @@ return part.allScanPoints.count;
             cell.DetailSectionImageView.image=[UIImage imageNamed:@"Box1-Uncheck"];
         }
         
-       PartModel *part = self.selectedSection.allParts[indexPath.row];
+       PartModel *part = self.selectedSection.scanpointArray[indexPath.row];
         cell.sectionLabel.text = part.title;
         tableView.separatorStyle=0;
         return cell;
@@ -285,7 +285,7 @@ return part.allScanPoints.count;
         
         PartModel *part=nil;
         if (selRow>theSelIndex.count) {
-             part = self.selectedSection.allParts[selRow];
+             part = self.selectedSection.scanpointArray[selRow];
         }
         else
         {
@@ -321,7 +321,7 @@ return part.allScanPoints.count;
         
             selRow=indexPath.row;
             
-            PartModel *part = self.selectedSection.allParts[selRow];
+            PartModel *part = self.selectedSection.scanpointArray[selRow];
             selectedIndexPath = indexPath;
             if ([self->cellSelected containsObject:indexPath]){
                 [self->cellSelected removeObject:indexPath];
@@ -345,7 +345,7 @@ return part.allScanPoints.count;
             childSelRow=indexPath.row;
             PartModel *part=nil;
             if (selRow>theSelIndex.count) {
-                part = self.selectedSection.allParts[selRow];
+                part = self.selectedSection.scanpointArray[selRow];
             }
             else
             {

@@ -3,7 +3,9 @@
 #import "AddPatientViewController.h"
 #import "PatientSheetViewController.h"
 #import "SearchPatientViewController.h"
-@interface ContainerViewController ()
+#import "MBProgressHUD.h"
+#import "AppDelegate.h"
+@interface ContainerViewController ()<addedPatient,loadTreatmentDelegate>
 
 @end
 
@@ -28,19 +30,21 @@
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-   
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
 }
 //pop back
 -(void)popToViewController{
     [self.navigationController popViewControllerAnimated:YES];
 }
 //pass data from one viewController to another
--(void)passDataFromsearchPatientTableViewToPatient:(NSString *)str{
+-(void)passDataFromsearchPatientTableViewToPatient:(searchPatientModel*)model{
     if ([_viewControllerDiffer isEqualToString:@""]) {
         UINavigationController * nav=[self.childViewControllers lastObject];
         PatientViewController *patientVc=nav.viewControllers[0];
         [nav popToViewController:patientVc animated:YES];
-        patientVc.patientName = str;
+        patientVc.model =model;
         [patientVc setDefaultValues];
     }
 }
@@ -48,17 +52,47 @@
 -(void)ChangeTheContainerViewViewController{
     UINavigationController * nav=[self.childViewControllers lastObject];
     AddPatientViewController *addPatientVc=[self.storyboard instantiateViewControllerWithIdentifier:@"AddPatientViewController"];
+    addPatientVc.delegate=self;
     [nav initWithRootViewController:addPatientVc];
 }
 //push treatmentViewController
--(void)pushTreatmentViewController:(NSString *)str{
+-(void)pushTreatmentViewController:(PatientTitleModel *)model{
     PatientSheetViewController *patientSheet=[self.storyboard instantiateViewControllerWithIdentifier:@"PatientSheetViewController"];
-    patientSheet.TitleName=str;
+    patientSheet.model=_model;
+    patientSheet.patientTitleModel=model;
+    patientSheet.delegate=self;
     [self.navigationController pushViewController:patientSheet animated:YES];
 }
 //callEndEditing
 -(void)callEndEditing{
     SearchPatientViewController *searchVC=self.childViewControllers[0];
     [searchVC hideKeyBoard];
+}
+//Method Successfully Added
+-(void)successfullyAdded:(NSString *)code{
+ SearchPatientViewController *searchVC=[self.childViewControllers firstObject];
+    [searchVC againCallApiAfterAddPatient:code];
+}
+//Method Successfully Edit
+-(void)successfullyEdit:(NSString *)code{
+    SearchPatientViewController *searchVC=[self.childViewControllers firstObject];
+    [searchVC againCallApiAfterEditPatient:code];
+}
+//Show (NSString *)code
+-(void)showMBprogressTillLoadThedata{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+}
+//hide mbprogress
+-(void)hideMBprogressTillLoadThedata{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+}
+//hide mbprogress
+-(void)hideAllMBprogressTillLoadThedata{
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+}
+//Load TreatmentList in PatientVC
+-(void)loadTreatment{
+    SearchPatientViewController *searchVC=[self.childViewControllers firstObject];
+    [searchVC reloadTableviewAfterAddNewTreatment];
 }
 @end

@@ -13,5 +13,7 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *headerViewHeight;
 @property (strong, nonatomic) IBOutlet HeaderTableView *headerView;
 @property(weak,nonatomic)id<cellHeight>delegate;
+@property (strong, nonatomic) IBOutlet UIButton *closeSitting;
+@property (weak, nonatomic) IBOutlet UIButton *editButton;
 @end
 

@@ -2,7 +2,7 @@
 
 @interface AttachmentViewController ()<UIImagePickerControllerDelegate,UITextViewDelegate>
 
-@property (strong, nonatomic) IBOutlet UILabel *addnoteLabel;
+
 @end
 
 @implementation AttachmentViewController
@@ -10,6 +10,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.hidesBackButton=YES;
+     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-2.jpg"]]];
     [self navigationItemMethod];
 }
 
@@ -20,26 +21,24 @@
     [super viewWillAppear:animated];
     _textView.userInteractionEnabled=_textViewEnabled;
     _imageView.image=_selectedImage;
-    if (!_textViewEnabled) {
-        if ([_captionText isEqualToString:@""]) {
-            _textView.hidden=YES;
-            _addnoteLabel.hidden=YES;
-        }
-        else{
-            _textView.hidden=NO;
-            _textView.text=_captionText;
-            _addnoteLabel.hidden=YES;
-        }
+    _textView.text=_captionText;
+    if (_captionText!=nil) {
+        _addNoteLabel.hidden=YES;
+    }else _addNoteLabel.hidden=NO;
+    if (_textViewEnabled==NO) {
+        _textView.backgroundColor=[UIColor lightGrayColor];
+        _okButton.hidden=YES;
+        _CancelButton.hidden=YES;
     }else{
-        _textView.text=@"";
-        _textView.hidden=NO;
-        _addnoteLabel.hidden=NO;
+        _okButton.hidden=NO;
+        _CancelButton.hidden=NO;
+        _textView.backgroundColor=[UIColor whiteColor];
     }
 }
 - (IBAction)okButton:(id)sender {
     [self.delegate selectedImage:_imageView.image withCaption:_textView.text];
     _textView.text=nil;
-    [self.navigationController popViewControllerAnimated:YES];
+ [self.navigationController popViewControllerAnimated:YES];
 }
 - (IBAction)cancelButton:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
@@ -65,16 +64,22 @@
 }
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    if ([textView.text isEqualToString:@""]) {
-        _addnoteLabel.hidden=NO;
-    }
-    else _addnoteLabel.hidden=YES;
-    if (textView.text.length + (text.length - range.length) > 150) {
+        if (textView.text.length + (text.length - range.length) > 150) {
         [self.view endEditing:YES];
-        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"" message:@"Text should be less than 150" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alertView show];
+        UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:@"Text should be less than 150" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancel=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+           [alertView dismissViewControllerAnimated:YES completion:nil];
+        }];
+        [alertView addAction:cancel];
+        [self presentViewController:alertView animated:YES completion:nil];
     }
     return textView.text.length + (text.length - range.length) <= 150;
+}
+-(void)textViewDidChange:(UITextView *)textView{
+    if ([textView.text isEqualToString:@""]) {
+        _addNoteLabel.hidden=NO;
+    }
+    else _addNoteLabel.hidden=YES;
 }
 - (IBAction)gesture:(id)sender {
     [self.view endEditing:YES];

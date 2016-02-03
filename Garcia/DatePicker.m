@@ -16,7 +16,8 @@
     [self addSubview:view];
     view.frame=self.bounds;
     _datePicker.datePickerMode=1;
-    _datePicker.maximumDate=[NSDate date];
+   // _datePicker.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-02.jpg"]];
+    [view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-2.jpg"]]];
     return self;
 }
 -(void)initializeView
@@ -28,7 +29,10 @@
     formater=[[NSDateFormatter alloc]init];
     [formater setTimeZone:[NSTimeZone localTimeZone]];
     [formater setDateFormat:@"dd-MMM-yyyy"];
+    _cancelButton.backgroundColor=[UIColor colorWithRed:1 green:0.62 blue:0.57 alpha:1];
+    _doneButton.backgroundColor=[UIColor colorWithRed:0.56 green:0.59 blue:0.78 alpha:1];
     date=[formater stringFromDate:self.datePicker.date];
+     [_datePicker setValue:[UIColor whiteColor] forKey:@"textColor"];
 }
 - (IBAction)datePickerAction:(id)sender {
     date=[formater stringFromDate:self.datePicker.date];

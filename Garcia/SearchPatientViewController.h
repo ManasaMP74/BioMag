@@ -1,9 +1,10 @@
 #import <UIKit/UIKit.h>
-
-@protocol sendPatientDetailtoContainerVC<NSObject>
--(void)sendData:(NSString*)str;
-@end
+#import "PostmanConstant.h"
+#import "Postman.h"
+#import "UIImageView+AFNetworking.h"
 @interface SearchPatientViewController : UIViewController
-@property(weak,nonatomic)id<sendPatientDetailtoContainerVC>delegate;
 -(void)hideKeyBoard;
+-(void)againCallApiAfterAddPatient:(NSString *)code;
+-(void)againCallApiAfterEditPatient:(NSString *)code;
+-(void)reloadTableviewAfterAddNewTreatment;
 @end
