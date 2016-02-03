@@ -13,9 +13,7 @@
 
 }
 - (IBAction)getPreviousSittingDetail:(id)sender {
-    if (![_sittingNumber.text isEqualToString:@"S1"]) {
         [self.delegate expandCellTOGetPreviousSitting:self];
-    }
 }
 - (IBAction)getGermsView:(id)sender {
     [self.delegate getGermsView:self];

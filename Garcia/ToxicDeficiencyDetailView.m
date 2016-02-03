@@ -101,13 +101,16 @@
     return 35;
 }
 -(void)callApiToToxicDeficiency{
+    [MBProgressHUD showHUDAddedTo:self animated:YES];
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,toxicDeficiencyDetail];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processToxicDeficiency:responseObject];
         [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         [userDefault setBool:NO forKey:@"toxicdeficiency_FLAG"];
+        [MBProgressHUD hideHUDForView:self animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         [MBProgressHUD hideHUDForView:self animated:YES];
     }];
 }
 -(void)processToxicDeficiency:(id)responseObject{

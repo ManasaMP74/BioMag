@@ -348,7 +348,7 @@
     parameterDict[@"Id"]=@"1";
     parameterDict[@"Memo"]=@"";
     parameterDict[@"UserTypeCode"]=@"PAT123";
-     parameterDict[@"RoleCode"]=[NSNull null];
+     parameterDict[@"RoleCode"]=@"B2ETN9";
      parameterDict[@"CompanyCode"]=postmanCompanyCode;
      parameterDict[@"Username"]=_emailTF.text;
       parameterDict[@"MethodType"]=@"POST";
@@ -513,7 +513,7 @@
         [alrtArray addObject:@"Transfusion is required\n"];
     }
     if(_dateOfBirthTF.text.length==0){
-        [alrtArray addObject:@"DateOfBirth is required\n"];
+        [alrtArray addObject:@"Date Of Birth is required\n"];
     }
     return alrtArray;
 }

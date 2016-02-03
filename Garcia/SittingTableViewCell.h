@@ -28,6 +28,10 @@
 @property (strong, nonatomic) IBOutlet UICollectionView *previousDetailCollectionView;
 @property (strong, nonatomic) IBOutlet UIButton *checkBox;
 @property (weak, nonatomic) IBOutlet UIView *headerView;
+@property (weak, nonatomic) IBOutlet UILabel *sittingNumberLabel;
+@property (weak, nonatomic) IBOutlet UILabel *previousSittingBadgeLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *previousSittingBadgeImageView;
+
 
 
 @end

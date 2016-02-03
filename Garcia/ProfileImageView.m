@@ -1,6 +1,7 @@
 #import "ProfileImageView.h"
 #import "AppDelegate.h"
 #import "PostmanConstant.h"
+#import "UIImageView+clearCachImage.h"
 @implementation ProfileImageView
 {
     UIView *view;
@@ -34,6 +35,7 @@
         _profileImageView.image=[UIImage imageNamed:@"Patient-img.jpg"];
     }else{
         NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,expandProfileImage,_imageCode];
+       [_profileImageView clearImageCacheForURL:[NSURL URLWithString:str]];
         [_profileImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"] ];
     }
     AppDelegate *appDel = [UIApplication sharedApplication].delegate;

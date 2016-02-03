@@ -154,13 +154,15 @@
 }
 //call api to get detail of treatment
 -(void)callApiTogetAllDetailOfTheTreatment{
-    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getTitleOfTreatment];
     [containerVC showMBprogressTillLoadThedata];
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getTitleOfTreatment];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectToGetTreatmentDetail:responseObject];
         [containerVC hideAllMBprogressTillLoadThedata];
+       [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [containerVC hideAllMBprogressTillLoadThedata];
+       [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
     }];
 }
 -(void)processResponseObjectToGetTreatmentDetail:(id)responseObject{

@@ -39,15 +39,15 @@
 }
 //signin button action
 - (IBAction)signIn:(id)sender {
-    if (_userNameTf.text.length==0 & _passwordTF.text.length==0) {
-        [self showAlerView:@"Username and Password is required"];
-    }
-    else if (_userNameTf.text.length==0) [self showAlerView:@"Username is required"];
-    else if (_passwordTF.text.length==0) [self showAlerView:@"Password is required"];
-    else{
-   NSString *parameter = [NSString stringWithFormat:@"{\"Username\":\"%@\",\"Password\":\"%@\"}",_userNameTf.text,_passwordTF.text];
- NSString *urlString = [NSString stringWithFormat:@"%@%@",baseUrl, logIn];
-// NSString *parameter = [NSString stringWithFormat:@"{\"Username\":\"drluisgarcia@mydomain.com\", \"Password\":\"Power@1234\"}"];
+//    if (_userNameTf.text.length==0 & _passwordTF.text.length==0) {
+//        [self showAlerView:@"Username and Password is required"];
+//    }
+//    else if (_userNameTf.text.length==0) [self showAlerView:@"Username is required"];
+//    else if (_passwordTF.text.length==0) [self showAlerView:@"Password is required"];
+//    else{
+//   NSString *parameter = [NSString stringWithFormat:@"{\"Username\":\"%@\",\"Password\":\"%@\"}",_userNameTf.text,_passwordTF.text];
+ NSString *urlString = [NSString stringWithFormat:@"%@%@",baseUrl,logIn];
+ NSString *parameter = [NSString stringWithFormat:@"{\"Username\":\"drluisgarcia@mydomain.com\", \"Password\":\"Power@1234\"}"];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman post:urlString withParameters:parameter
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -58,7 +58,7 @@
           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
               [MBProgressHUD hideHUDForView:self.view animated:YES];
           }];
-  }
+ // }
 }
 //parse login response
 - (void)parseLoginResponse:(id)response

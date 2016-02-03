@@ -23,4 +23,7 @@
 @property(strong,nonatomic)NSArray *newlyAddedGermsArray;
 @property(assign,nonatomic)BOOL issue;
 @property(strong,nonatomic)NSString *edited;
+@property(strong,nonatomic)NSString *sittingNumber;
+@property(strong,nonatomic)NSArray *allPreviousSittingDetail;
+@property(strong,nonatomic)NSString *otherSittingNumberHaveIssue;
 @end

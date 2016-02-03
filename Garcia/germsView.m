@@ -126,13 +126,13 @@
     if ([selectedIndex containsObject:indexPath]) {
         [selectedIndex removeObject:indexPath];
         [selectedGerms removeObject:model];
+        [_tableView reloadData];
     }
     else{
         [selectedIndex addObject:indexPath];
          [selectedGerms addObject:model];
+        [_tableView reloadData];
     }
-    [_tableView reloadData];
-
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 35;
@@ -168,6 +168,7 @@
             germsModel *model=germsArray[i];
             if ([str isEqualToString:model.germsName]) {
                 [self tableView:_tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+                break;
             }
         }
         }

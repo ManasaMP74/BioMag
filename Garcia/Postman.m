@@ -57,4 +57,11 @@
          failure(operation,error);
     }];
 }
+-(void)updateXAcessToken{
+    NSUserDefaults *defaultvalue=[NSUserDefaults standardUserDefaults];
+    NSString *token= [defaultvalue valueForKey:@"X-access-Token"];
+    AFJSONRequestSerializer *requestSerializer=[AFJSONRequestSerializer serializer];
+    [requestSerializer setValue:token forHTTPHeaderField:@"x-access-token"];
+    self.manager.requestSerializer=requestSerializer;
+}
 @end

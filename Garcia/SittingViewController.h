@@ -45,6 +45,7 @@
 @property(strong,nonatomic)NSDictionary *bioSittingDict;
 @property(strong,nonatomic)NSArray *biomagneticAnotomicalPointArray;
 @property(strong,nonatomic)NSString *sittingNumber;
+@property(strong,nonatomic)NSArray *allAddedBiomagArray;
 //get Data From SlideOut
 -(void)sittingFromSlideOut;
 @end

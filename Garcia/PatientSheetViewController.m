@@ -77,7 +77,7 @@
 @implementation PatientSheetViewController
 {
     Constant *constant;
-    NSMutableArray *diagnosisTableListArray,*medicalTableListArray;
+    NSMutableArray *diagnosisTableListArray,*medicalTableListArray,*previousSittingDetailArray;
     float sittingCollectionViewHeight,uploadCellHeight,diagnosisCellHeight,medicalHistoryCellHeight;
     AttachmentViewController *attachView;
     UIView *activeField;
@@ -91,12 +91,14 @@
     ImageUploadAPI *imageManager;
     NSDictionary *sittingAddOrEditDiffer;
     NSString *sittingNumberToPassSittingVC;
+    NSIndexPath *selectedSittingIndex;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     imageManager =[[ImageUploadAPI alloc]init];
     allTagListArray=[[NSMutableArray alloc]init];
     filterdTagListArray=[[NSMutableArray alloc]init];
+    previousSittingDetailArray=[[NSMutableArray alloc]init];
     sittingCollectionViewHeight=0.0,uploadCellHeight=0.0,diagnosisCellHeight=25.0,medicalHistoryCellHeight=25.0;
     constant=[[Constant alloc]init];
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-2.jpg"]]];
@@ -205,7 +207,6 @@
     negativeSpace.width=-25;
     self.navigationItem.leftBarButtonItems=@[barItem];
     [button addTarget:self action:@selector(popView) forControlEvents:UIControlEventTouchUpInside];
-    
 }
 //pop view
 -(void)popView{
@@ -309,7 +310,7 @@
 //save treatment enclosure
 - (IBAction)saveTreatmentEncloser:(id)sender {
     if (_treatmentNameTF.text.length==0) {
-        [self ShowAlert:@"Treatment name is required"];
+        [self ShowAlert:@"Treatment Title is required"];
     }else{
     [self callApiToPostTreatment];
     }
@@ -1219,9 +1220,6 @@
                 sittingCollectionViewHeight=MAX(sittingCollectionViewHeight, m.height);
             }
             [_sittingCollectionView reloadData];
-            [self.view layoutIfNeeded];
-            NSIndexPath *index=[NSIndexPath indexPathForRow:sittingCollectionArray.count-1 inSection:0];
-            [_sittingCollectionView scrollToItemAtIndexPath:index atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
             sittingNum+=1;
            sittingNumberToPassSittingVC=[@(sittingNum)description];
             if (![_increasesettingViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
@@ -1231,25 +1229,44 @@
                 }else _settingViewHeight.constant=70;
             }
         }
+        if (selectedSittingIndex!=nil) {
+            [self.view layoutIfNeeded];
+            [_sittingCollectionView scrollToItemAtIndexPath:selectedSittingIndex atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+        }else{
+            [self.view layoutIfNeeded];
+            NSIndexPath *index=[NSIndexPath indexPathForRow:sittingCollectionArray.count-1 inSection:0];
+            [_sittingCollectionView scrollToItemAtIndexPath:index atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+        }
     }else  sittingNumberToPassSittingVC=[@(sittingNum)description];
 }
 -(void)editSittingCell:(UICollectionViewCell *)cell{
+    [previousSittingDetailArray removeAllObjects];
     SittingCollectionViewCell *cell1=(SittingCollectionViewCell*)cell;
     NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell1];
+    selectedSittingIndex=index;
     SittingModelClass *model=sittingCollectionArray[index.row];
     for (NSDictionary *dict in biomagneticArray) {
         int i=[dict[@"Id"]intValue];
         if ([model.sittingID intValue]==i) {
             sittingAddOrEditDiffer=dict;
-            [self performSegueWithIdentifier:@"sitting" sender:nil];
-            break;
+        }else{
+                 [previousSittingDetailArray addObject:dict];
         }
+    }
+    if (sittingAddOrEditDiffer!=nil) {
+         [self performSegueWithIdentifier:@"sitting" sender:nil];
     }
 }
 - (IBAction)addSitting:(id)sender {
+    if (_treatmentNameTF.text.length==0) {
+        [self ShowAlert:@"Treatment title is required"];
+    }else{
+    selectedSittingIndex=nil;
+    [previousSittingDetailArray removeAllObjects];
     sittingAddOrEditDiffer=nil;
     [app.symptomTagArray removeAllObjects];
     [self performSegueWithIdentifier:@"sitting" sender:nil];
+    }
 }
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"sitting"]) {
@@ -1269,6 +1286,7 @@
             sittingVC.bioSittingDict=sittingAddOrEditDiffer;
             sittingVC.biomagneticAnotomicalPointArray=biomagneticArray;
         }
+        sittingVC.allAddedBiomagArray=previousSittingDetailArray;
         [revealVC setFrontViewController:sittingVC];
         sittingVC.sectionName=@"";
         sittingVC.SortType=@"";
@@ -1335,7 +1353,9 @@
                     _patientDetailModel.title=dict1[@"Title"];
                     _patientDetailModel.symptomTagCodes=[dict1[@"SymptomTagCodes"] componentsSeparatedByString:@"|$|"];
                     NSDictionary *bioDict=dict1[@"BiomagneticSittingResults"];
-                    _patientDetailModel.biomagneticSittingResults=bioDict[@"ViewModels"];
+                    NSSortDescriptor *descriptor=[[NSSortDescriptor alloc]initWithKey:@"SittingNumber" ascending:YES];
+                    NSArray *ar=[bioDict[@"ViewModels"] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
+                    _patientDetailModel.biomagneticSittingResults=ar;
                     _patientDetailModel.documentDetails=dict1[@"DocumentDetails"];
                     _patientDetailModel.treatmentRequestDate=dict1[@"TreatmentRequestDate"];
                     _patientDetailModel.treatmentDetail=dict1[@"JSON"];

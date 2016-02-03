@@ -18,6 +18,7 @@ NSString *const getGender=@"gender";
 NSString *const getMartialStatus=@"maritalstatus";
 NSString *const getPatientList=@"userdetails";
 NSString *const logIn=@"account/Authenticate";
+NSString *const forgotPassword=@"account/forgotpassword";
 NSString *const addPatient=@"/patient/0";
 NSString *const editPatient=@"/patient/";
 NSString *const addSymptomTag=@"symptomtag/";

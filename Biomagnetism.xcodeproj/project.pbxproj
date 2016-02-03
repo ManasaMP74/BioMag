@@ -34,6 +34,7 @@
 		DA4461E61BD771F600F80F5A /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC027B1BD514340095C6AE /* OpenSans-Semibold.ttf */; };
 		DA4461E71BD7720300F80F5A /* OpenSans-Semibold.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC027B1BD514340095C6AE /* OpenSans-Semibold.ttf */; };
 		DA45B5201C50988300087DA3 /* PatientSheetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE955591BD24A7500EDFD8F /* PatientSheetViewController.m */; };
+		DA487E681C59E7260015A3D0 /* ForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA487E671C59E7260015A3D0 /* ForgotPasswordViewController.m */; };
 		DA4884DA1C4E33AE0064774F /* ToxicDeficiencyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA4884D91C4E33AE0064774F /* ToxicDeficiencyView.xib */; };
 		DA67CFCF1C1197B200D88BBC /* AddSymptom.m in Sources */ = {isa = PBXBuildFile; fileRef = DA67CFCE1C1197B200D88BBC /* AddSymptom.m */; };
 		DA67CFD11C11981100D88BBC /* AddSymptom.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA67CFD01C11981100D88BBC /* AddSymptom.xib */; };
@@ -55,6 +56,8 @@
 		DA7674171C0FF948007541F0 /* sittingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7674161C0FF948007541F0 /* sittingModel.m */; };
 		DA76741A1C101319007541F0 /* SittingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7674191C101319007541F0 /* SittingTableViewCell.m */; };
 		DA8C3DF91C24327F0076EBD2 /* PreviousSittingCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8C3DF81C24327F0076EBD2 /* PreviousSittingCollectionViewCell.m */; };
+		DA8C68201C5A1E8C00F78E86 /* UIImageView+clearCachImage.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8C681F1C5A1E8C00F78E86 /* UIImageView+clearCachImage.m */; };
+		DA8C68231C5A49D700F78E86 /* PreviousSittingModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8C68221C5A49D700F78E86 /* PreviousSittingModelClass.m */; };
 		DAA92F811C2146680057AF19 /* germsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAA92F801C2146680057AF19 /* germsView.xib */; };
 		DAACC89F1C154AE90026132A /* germsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAACC89E1C154AE90026132A /* germsModel.m */; };
 		DAD52B5A1C2169370052579D /* SectionXib.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAD52B591C2169370052579D /* SectionXib.xib */; };
@@ -169,6 +172,8 @@
 		DA2D3E531C0F21E0008D0AC2 /* SittingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SittingViewController.m; sourceTree = "<group>"; };
 		DA2F9F751C2172300077AEAB /* SlideOutTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideOutTableViewCell.h; sourceTree = "<group>"; };
 		DA2F9F761C2172300077AEAB /* SlideOutTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideOutTableViewCell.m; sourceTree = "<group>"; };
+		DA487E661C59E7260015A3D0 /* ForgotPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgotPasswordViewController.h; sourceTree = "<group>"; };
+		DA487E671C59E7260015A3D0 /* ForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgotPasswordViewController.m; sourceTree = "<group>"; };
 		DA4884D91C4E33AE0064774F /* ToxicDeficiencyView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToxicDeficiencyView.xib; sourceTree = "<group>"; };
 		DA67CFCD1C1197B200D88BBC /* AddSymptom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddSymptom.h; sourceTree = "<group>"; };
 		DA67CFCE1C1197B200D88BBC /* AddSymptom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddSymptom.m; sourceTree = "<group>"; };
@@ -206,6 +211,10 @@
 		DA7674191C101319007541F0 /* SittingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SittingTableViewCell.m; sourceTree = "<group>"; };
 		DA8C3DF71C24327F0076EBD2 /* PreviousSittingCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviousSittingCollectionViewCell.h; sourceTree = "<group>"; };
 		DA8C3DF81C24327F0076EBD2 /* PreviousSittingCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviousSittingCollectionViewCell.m; sourceTree = "<group>"; };
+		DA8C681E1C5A1E8C00F78E86 /* UIImageView+clearCachImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+clearCachImage.h"; sourceTree = "<group>"; };
+		DA8C681F1C5A1E8C00F78E86 /* UIImageView+clearCachImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+clearCachImage.m"; sourceTree = "<group>"; };
+		DA8C68211C5A49D700F78E86 /* PreviousSittingModelClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviousSittingModelClass.h; sourceTree = "<group>"; };
+		DA8C68221C5A49D700F78E86 /* PreviousSittingModelClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviousSittingModelClass.m; sourceTree = "<group>"; };
 		DAA92F801C2146680057AF19 /* germsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = germsView.xib; sourceTree = "<group>"; };
 		DAACC89D1C154AE90026132A /* germsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = germsModel.h; sourceTree = "<group>"; };
 		DAACC89E1C154AE90026132A /* germsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = germsModel.m; sourceTree = "<group>"; };
@@ -672,6 +681,8 @@
 			children = (
 				DAEFA1B71BD0B49A00900379 /* LoginViewController.h */,
 				DAEFA1B81BD0B49A00900379 /* LoginViewController.m */,
+				DA487E661C59E7260015A3D0 /* ForgotPasswordViewController.h */,
+				DA487E671C59E7260015A3D0 /* ForgotPasswordViewController.m */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -702,6 +713,8 @@
 				DAE576341C3E6C570076C3EE /* DBManager.m */,
 				DA70EECC1C44CE3300D20570 /* SeedSyncer.h */,
 				DA70EECD1C44CE3300D20570 /* SeedSyncer.m */,
+				DA8C681E1C5A1E8C00F78E86 /* UIImageView+clearCachImage.h */,
+				DA8C681F1C5A1E8C00F78E86 /* UIImageView+clearCachImage.m */,
 			);
 			name = Postman;
 			sourceTree = "<group>";
@@ -784,6 +797,8 @@
 		DAF6733A1C17EAAE0072ED8E /* modelClass */ = {
 			isa = PBXGroup;
 			children = (
+				DA8C68211C5A49D700F78E86 /* PreviousSittingModelClass.h */,
+				DA8C68221C5A49D700F78E86 /* PreviousSittingModelClass.m */,
 				DA261DC71C4660CD00B18035 /* ToxicDeficiency.h */,
 				DA261DC81C4660CD00B18035 /* ToxicDeficiency.m */,
 				DA7674151C0FF948007541F0 /* sittingModel.h */,
@@ -877,6 +892,11 @@
 					DAEFA18D1BD0B11500900379 = {
 						CreatedOnToolsVersion = 6.4;
 						DevelopmentTeam = QGMN7468R5;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+						};
 					};
 					DAEFA1A61BD0B11500900379 = {
 						CreatedOnToolsVersion = 6.4;
@@ -1015,6 +1035,7 @@
 				DAE6FBB41BE483BA00952812 /* AttachmentViewController.m in Sources */,
 				DAEFA1971BD0B11500900379 /* AppDelegate.m in Sources */,
 				DA7521CC1C4CD15000FF6B03 /* ToxicDeficiencyCell.m in Sources */,
+				DA8C68231C5A49D700F78E86 /* PreviousSittingModelClass.m in Sources */,
 				DA7674171C0FF948007541F0 /* sittingModel.m in Sources */,
 				DAE637881BE32D55000C6FAB /* CorrespondingPointView.m in Sources */,
 				DAEC02711BD513500095C6AE /* customFont.m in Sources */,
@@ -1038,6 +1059,7 @@
 				DAD52B5D1C21694B0052579D /* SectionXibView.m in Sources */,
 				DA130F3D1BEA1E1900B5B9FF /* SectionBodyDetails.m in Sources */,
 				DAEFA1CB1BD0B6D600900379 /* Postman.m in Sources */,
+				DA8C68201C5A1E8C00F78E86 /* UIImageView+clearCachImage.m in Sources */,
 				DAE7B7AD1BEE080A006C5C70 /* searchPatientModel.m in Sources */,
 				DA67CFCF1C1197B200D88BBC /* AddSymptom.m in Sources */,
 				DAEFA1941BD0B11500900379 /* main.m in Sources */,
@@ -1068,6 +1090,7 @@
 				DAEFA1C81BD0B6C900900379 /* Constant.m in Sources */,
 				DAE48C711BF07B8F008AD2D3 /* editModel.m in Sources */,
 				DAF7EF311C1A9FF5009ADE9B /* SymptomTagCustomCollectionViewCell.m in Sources */,
+				DA487E681C59E7260015A3D0 /* ForgotPasswordViewController.m in Sources */,
 				DAE576351C3E6C570076C3EE /* DBManager.m in Sources */,
 				DA7359911C12B664005192D7 /* SWRevealViewController.m in Sources */,
 				DAF82CE01BD4BA74006AF1E1 /* ContainerViewController.m in Sources */,
@@ -1206,11 +1229,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Garcia/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.BiomagPractitionerBeta;
 				PRODUCT_NAME = Biomagnetism;
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -1222,11 +1247,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Garcia/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.BiomagPractitionerBeta;
 				PRODUCT_NAME = Biomagnetism;
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;

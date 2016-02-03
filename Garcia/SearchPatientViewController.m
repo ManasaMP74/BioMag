@@ -218,11 +218,11 @@
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPatientList];
     NSString *parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-    [self processResponseObject:responseObject];
+     [self processResponseObject:responseObject];
         [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         [userDefault setBool:NO forKey:@"user_FLAG"];
-        [containerVc hideMBprogressTillLoadThedata];
+         [containerVc hideMBprogressTillLoadThedata];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [containerVc hideMBprogressTillLoadThedata];
     }];

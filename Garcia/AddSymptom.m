@@ -58,6 +58,7 @@
     [constant spaceAtTheBeginigOfTextField:_symptomTf];
     [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
     [appDel.window addSubview:alphaView];
+    [symptomTagArray removeAllObjects];
     if (appDel.symptomTagArray.count>0) {
         [symptomTagArray addObjectsFromArray:appDel.symptomTagArray];
         if (symptomTagArray.count>0) {
@@ -211,6 +212,9 @@
                 [self heightOfView:182];
                 _symptomTf.text=@"";
                 [self.delegate addsymptom:symptomTagArray];
+            }else{
+                UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Alert!" message:@"Symptom tag already exist" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                [alert show];
             }
         }
     }

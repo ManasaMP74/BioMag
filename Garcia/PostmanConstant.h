@@ -25,4 +25,5 @@ FOUNDATION_EXPORT NSString *const languageCode;
 FOUNDATION_EXPORT NSString *const toxicDeficiencyType;
 FOUNDATION_EXPORT NSString *const toxicDeficiencyDetail;
 FOUNDATION_EXPORT NSString *const kGET_SEED_URL;
+FOUNDATION_EXPORT NSString *const forgotPassword;
 @end

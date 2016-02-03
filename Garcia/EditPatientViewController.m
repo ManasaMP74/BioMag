@@ -9,6 +9,7 @@
 #import "editModel.h"
 #import "ImageUploadAPI.h"
 #import "SeedSyncer.h"
+#import "UIImageView+clearCachImage.h"
 @interface EditPatientViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,datePickerProtocol,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *nameTF;
 @property (strong, nonatomic) IBOutlet UITextField *genderTF;
@@ -560,7 +561,7 @@
         [alrtArray addObject:@"required transfusion field\n"];
     }
     if(_dateOfBirthTF.text.length==0){
-        [alrtArray addObject:@"required dateOfBirth field\n"];
+        [alrtArray addObject:@"required date Of Birth field\n"];
     }
     return alrtArray;
 }
@@ -596,6 +597,11 @@
         [imageManager uploadUserImagePath:path forRequestCode:_model.code withDocumentType:@"ABC123" onCompletion:^(BOOL success) {
             if (success)
             {
+                if (_model.profileImageCode)
+                {
+                    NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,_model.profileImageCode];
+                    [self.patientImageView clearImageCacheForURL:[NSURL URLWithString:str]];
+                }
                 [self alertmessage:@"Updated successfully"];
                 [containerVC hideAllMBprogressTillLoadThedata];
             }else
