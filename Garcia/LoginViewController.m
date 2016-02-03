@@ -39,47 +39,29 @@
 }
 //signin button action
 - (IBAction)signIn:(id)sender {
-    
-    NSString *urlString;
-    NSString *parameter;
-
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-//Vzone API
-       urlString = [NSString stringWithFormat:@"%@%@",baseUrl,logIn];
-      parameter = [NSString stringWithFormat:@"{\"request\":{\"Username\":\"drluisgarcia@mydomain.com\", \"Password\":\"Power@1234\"}}"];
-        // NSString *parameter = [NSString stringWithFormat:@"{\"request\":{\"Username\":\"%@\", \"Password\":\"%@\"}}",_userNameTf.text,_passwordTF.text];
-    }else{
-//Material Api
-         urlString = [NSString stringWithFormat:@"%@%@",baseUrl,logIn];
-        parameter = [NSString stringWithFormat:@"{\"Username\":\"%@\",\"Password\":\"%@\"}",_userNameTf.text,_passwordTF.text];
-        //NSString *parameter = [NSString stringWithFormat:@"{\"Username\":\"drluisgarcia@mydomain.com\", \"Password\":\"Power@1234\"}"];
-    
+    if (_userNameTf.text.length==0 & _passwordTF.text.length==0) {
+        [self showAlerView:@"Username and Password is required"];
     }
-    
-    
-//    if (_userNameTf.text.length==0 & _passwordTF.text.length==0) {
-//        [self showAlerView:@"Username and Password is required"];
-//    }
-//    else if (_userNameTf.text.length==0) [self showAlerView:@"Username is required"];
-//    else if (_passwordTF.text.length==0) [self showAlerView:@"Password is required"];
-//    else{
+    else if (_userNameTf.text.length==0) [self showAlerView:@"Username is required"];
+    else if (_passwordTF.text.length==0) [self showAlerView:@"Password is required"];
+    else{
+   NSString *parameter = [NSString stringWithFormat:@"{\"Username\":\"%@\",\"Password\":\"%@\"}",_userNameTf.text,_passwordTF.text];
+ NSString *urlString = [NSString stringWithFormat:@"%@%@",baseUrl,logIn];
+// NSString *parameter = [NSString stringWithFormat:@"{\"Username\":\"drluisgarcia@mydomain.com\", \"Password\":\"Power@1234\"}"];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman post:urlString withParameters:parameter
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               NSLog(@"Operations = %@", responseObject);
-               if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-                   [self parseLoginResponseVzone:responseObject];
-               }else [self parseLoginResponseMatirial:responseObject];
+              [self parseLoginResponse:responseObject];
               [MBProgressHUD hideHUDForView:self.view animated:YES];
           }
           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
               [MBProgressHUD hideHUDForView:self.view animated:YES];
           }];
-// }
+ }
 }
-
-//parse login response of Matirial API
-- (void)parseLoginResponseMatirial:(id)response
+//parse login response
+- (void)parseLoginResponse:(id)response
 {
     NSDictionary *responseDict = response;
     if ([responseDict[@"Success"] intValue]==1)
@@ -109,40 +91,6 @@
         [self showAlerView:responseDict[@"Message"]];
 }
 }
-
-//parse login response of Vzone API
-- (void)parseLoginResponseVzone:(id)response
-{
-    NSDictionary *responseDict1 = response;
-    NSDictionary *responseDict = responseDict1[@"aaData"];
-    if ([responseDict[@"Success"] intValue]==1)
-    {
-        NSDictionary *userDict = responseDict[@"UserDetailsViewModel"];
-        if ([userDict[@"UserTypeCode"] isEqual:@"DOC123"]) {
-            NSUserDefaults *defaultvalue=[NSUserDefaults standardUserDefaults];
-            [defaultvalue setValue:responseDict[@"token"] forKey:@"X-access-Token"];
-            NSArray *ar=responseDict[@"UserDetails"];
-            NSDictionary *dict=ar[0];
-            [defaultvalue setValue:dict[@"Id"] forKey:@"Id"];
-            [defaultvalue setValue:dict[@"CompanyCode"] forKey:@"CompanyCode"];
-            //            [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
-            //                if (success) {
-            [self performSegueWithIdentifier:@"loginSuccess" sender:nil];
-            //                }
-            //                else{
-            //                   [self showAlerView:@"Unkown error occured. Please try again."];
-            //                }
-            //            }];
-        }
-        else{
-            [self showAlerView:@"Authentication failed"];
-        }
-    }
-    else{
-        [self showAlerView:responseDict[@"Message"]];
-    }
-}
-
 //Alert Message
 -(void)showAlerView:(NSString*)msg{
     UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];

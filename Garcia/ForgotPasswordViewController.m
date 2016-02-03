@@ -56,14 +56,7 @@
          [self showAlerView:@"Email Id is invalid"];
         }
         else{
-
-//For Material Api
-       // NSString *parameter = [NSString stringWithFormat:@"{\"email\":\"%@\"}",_userNameTf.text];
-            
-            
-//For Vzone Api
-              NSString *parameter = [NSString stringWithFormat:@"{\"request\":{\"email\":\"%@\"}}",_userNameTf.text];
-            
+        NSString *parameter = [NSString stringWithFormat:@"{\"email\":\"%@\"}",_userNameTf.text];
         NSString *urlString = [NSString stringWithFormat:@"%@%@",baseUrl,forgotPassword];
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [postman post:urlString withParameters:parameter
@@ -79,15 +72,7 @@
 }
 }
 -(void)parseLoginResponse:(id)responseObject{
-    
-//For Material Api
-    
-  //  NSDictionary *responseDict = responseObject;
-    
-//For Material Api
-     NSDictionary *responseDict1 = responseObject;
-     NSDictionary *responseDict = responseDict1[@"aaData"];
-    
+    NSDictionary *responseDict = responseObject;
     if ([responseDict[@"Success"] intValue]==1)
     {
         [self showAlerViewSuccess:responseDict[@"Message"]];

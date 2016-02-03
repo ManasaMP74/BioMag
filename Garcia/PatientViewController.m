@@ -153,7 +153,6 @@
     [profileView alphaViewInitialize];
 }
 //call api to get detail of treatment
-
 -(void)callApiTogetAllDetailOfTheTreatment{
     [containerVC showMBprogressTillLoadThedata];
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getTitleOfTreatment];
@@ -166,22 +165,12 @@
        [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
     }];
 }
-
-//process Response of Api
-
 -(void)processResponseObjectToGetTreatmentDetail:(id)responseObject{
     [treatmentListArray removeAllObjects];
     NSUserDefaults *defaultValues=[NSUserDefaults standardUserDefaults];
     NSString *docID=[defaultValues valueForKey:@"Id"];
-    
-    NSDictionary *dict;
-    
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        NSDictionary *responseDict1 = responseObject;
-       dict=responseDict1[@"aaData"];
-    }else  dict=responseObject;
-    
-       if ([dict[@"Success"] intValue]==1) {
+    NSDictionary *dict=responseObject;
+    if ([dict[@"Success"] intValue]==1) {
         for (NSDictionary *dict1 in dict[@"ViewModels"]) {
             if ((dict1[@"DoctorId"]!=[NSNull null]) & (dict1[@"PatientId"]!=[NSNull null])) {
             if (([dict1[@"DoctorId"]intValue]==[docID intValue]) & ([dict1[@"PatientId"]intValue]==[_model.Id intValue])) {
@@ -200,5 +189,4 @@
         _tableViewHeight.constant=self.tableview.contentSize.height;
     }
 }
-
 @end

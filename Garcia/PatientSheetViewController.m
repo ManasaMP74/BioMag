@@ -134,13 +134,6 @@
     }else [self DisableAllButton:YES];
 }
 -(void)callSeedApi{
-    
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        //For Vzone API
-        [self callApiTogetSymptomTag];
-    }else{
-        //For Material Api
-        
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         if ([userDefault boolForKey:@"symptomtag_FLAG"]) {
             [self callApiTogetSymptomTag];
@@ -156,8 +149,6 @@
                 }
             }];
         }
-    }
-    
 }
 //Hide button if treatment is closed
 -(void)DisableAllButton:(BOOL)status{
@@ -183,8 +174,8 @@
         _diagnosisTextView.userInteractionEnabled=YES;
         _treatmentEncloserTextView.userInteractionEnabled=YES;
     }else{
-        _treatmentButton.userInteractionEnabled=NO;
-        _treatmentNameTF.userInteractionEnabled=NO;
+         _treatmentButton.userInteractionEnabled=NO;
+         _treatmentNameTF.userInteractionEnabled=NO;
         _exit.hidden=NO;
         _medicalTableHeight.constant=195;
         _diagnosisTableHeight.constant=175;
@@ -321,7 +312,7 @@
     if (_treatmentNameTF.text.length==0) {
         [self ShowAlert:@"Treatment Title is required"];
     }else{
-        [self callApiToPostTreatment];
+    [self callApiToPostTreatment];
     }
 }
 //cancel treatment enclosure
@@ -958,15 +949,9 @@
     }];
     
 }
-
 //process post response object
 -(void)processResponseObject:(id)responseObject{
-    NSDictionary *dict;
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        NSDictionary *responseDict1 = responseObject;
-        dict  = responseDict1[@"aaData"];
-    }else  dict=responseObject;
-    
+    NSDictionary *dict=responseObject;
     if ([dict[@"Success"] intValue]==1) {
         if ([treatmentID isEqualToString:@"0"]) {
             NSDictionary *dict1=dict[@"TreatmentRequest"];
@@ -988,9 +973,7 @@
         [self MBProgressMessage:dict[@"Message"]];
     }
 }
-
 //show detail of treatment
-
 -(void)showTreatmentDetail{
     [medicalTableListArray removeAllObjects];
     [diagnosisTableListArray removeAllObjects];
@@ -1090,16 +1073,9 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
 }
-
 //Process Close treatment
-
 -(void)processCloseTreatment:(id)responseObject withMessage:(NSString*)msg{
-    
-    NSDictionary *dict;
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        NSDictionary *responseDict1 = responseObject;
-        dict  = responseDict1[@"aaData"];
-    }else  dict=responseObject;
+    NSDictionary *dict=responseObject;
     if ([dict[@"Success"]intValue]==1) {
         UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
@@ -1112,8 +1088,6 @@
     }else  [self MBProgressMessage:dict[@"Message"]];
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
-
-
 //set parameter for treatment api.
 -(NSString*)getParameterForSaveORCloseOrUpdateTreatment:(NSString*)status withTreatmentCompleted:(NSString*)treatmentComplete withMethodType:(NSString*)type{
     NSUserDefaults *defaultValues=[NSUserDefaults standardUserDefaults];
@@ -1160,16 +1134,7 @@
     }
     NSData *parameterData = [NSJSONSerialization dataWithJSONObject:treatmentRequestDict options:kNilOptions error:nil];
     NSString *treatmentRequestStr = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
-    
-    NSString *parameter;
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        //For Vzone API
-        parameter =[NSString stringWithFormat:@"{\"request\":{\"MethodType\": \"%@\", \"Id\": \"%@\",\"TreatmentRequest\":%@}}",type,treatmentID,treatmentRequestStr];
-    }else{
-        //For Material API
-        parameter=[NSString stringWithFormat:@"{\"MethodType\": \"%@\", \"Id\": \"%@\",\"TreatmentRequest\":%@}",type,treatmentID,treatmentRequestStr];
-    }
-    
+    NSString *parameter=[NSString stringWithFormat:@"{\"MethodType\": \"%@\", \"Id\": \"%@\",\"TreatmentRequest\":%@}",type,treatmentID,treatmentRequestStr];
     return parameter;
 }
 //MBProgress message
@@ -1197,45 +1162,23 @@
     _medicalHistoryTextView.text=@"";
     _medicalNoteLabel.hidden=NO;
 }
-
-//get symptom API
+//get symptom tag
 -(void)callApiTogetSymptomTag{
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getSymptomTag];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-         NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
-        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            [self processResponseObjectOfGetAllTag:responseObject];
-            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
-            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-            [userDefault setBool:NO forKey:@"symptomtag_FLAG"];
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-        }];
-    }else{
-        [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            [self processResponseObjectOfGetAllTag:responseObject];
-            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
-            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-            [userDefault setBool:NO forKey:@"symptomtag_FLAG"];
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-        }];
-    }
-    
+    [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self processResponseObjectOfGetAllTag:responseObject];
+        [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        [userDefault setBool:NO forKey:@"symptomtag_FLAG"];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
 }
-
 //process get tag
 -(void)processResponseObjectOfGetAllTag:(id)responseObject{
     allTagListArray=[[NSMutableArray alloc]init];
-    NSDictionary *dict;
-    
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        NSDictionary *responseDict1 = responseObject;
-        dict=responseDict1[@"aaData"];
-    }else dict=responseObject;
-    
+    NSDictionary *dict=responseObject;
     for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
         if ([dict1[@"Status"]intValue]==1) {
             SymptomTagModel *model=[[SymptomTagModel alloc]init];
@@ -1247,7 +1190,6 @@
     }
     [self callApiTogetAllDetailOfTheTreatment];
 }
-
 -(void)SittingPartToViewCompleteDetail:(NSArray*)bioSittingArray{
     int sittingNum=0;
     [sittingCollectionArray removeAllObjects];
@@ -1279,7 +1221,7 @@
             }
             [_sittingCollectionView reloadData];
             sittingNum+=1;
-            sittingNumberToPassSittingVC=[@(sittingNum)description];
+           sittingNumberToPassSittingVC=[@(sittingNum)description];
             if (![_increasesettingViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
                 if (sittingCollectionArray.count>0) {
                     _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
@@ -1308,22 +1250,22 @@
         if ([model.sittingID intValue]==i) {
             sittingAddOrEditDiffer=dict;
         }else{
-            [previousSittingDetailArray addObject:dict];
+                 [previousSittingDetailArray addObject:dict];
         }
     }
     if (sittingAddOrEditDiffer!=nil) {
-        [self performSegueWithIdentifier:@"sitting" sender:nil];
+         [self performSegueWithIdentifier:@"sitting" sender:nil];
     }
 }
 - (IBAction)addSitting:(id)sender {
     if (_treatmentNameTF.text.length==0) {
         [self ShowAlert:@"Treatment title is required"];
     }else{
-        selectedSittingIndex=nil;
-        [previousSittingDetailArray removeAllObjects];
-        sittingAddOrEditDiffer=nil;
-        [app.symptomTagArray removeAllObjects];
-        [self performSegueWithIdentifier:@"sitting" sender:nil];
+    selectedSittingIndex=nil;
+    [previousSittingDetailArray removeAllObjects];
+    sittingAddOrEditDiffer=nil;
+    [app.symptomTagArray removeAllObjects];
+    [self performSegueWithIdentifier:@"sitting" sender:nil];
     }
 }
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -1388,16 +1330,7 @@
     NSUserDefaults *defaultvalue=[NSUserDefaults standardUserDefaults];
     int userIdInteger=[[defaultvalue valueForKey:@"Id"]intValue];
     NSString *userID=[@(userIdInteger) description];
-    
-    NSString *parameter;
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        //For Vzone API
-        parameter=[NSString stringWithFormat:@"{\"request\":{\"DoctorId\":\"%@\",\"PatientId\":\"%@\",\"TreatmentCode\":\"%@\"}}",userID,_model.Id,_patientTitleModel.code];
-    }else {
-        //For Material API
-        parameter=[NSString stringWithFormat:@"{\"DoctorId\":\"%@\",\"PatientId\":\"%@\",\"TreatmentCode\":\"%@\"}",userID,_model.Id,_patientTitleModel.code];
-    }
-    
+    NSString *parameter=[NSString stringWithFormat:@"{\"DoctorId\":\"%@\",\"PatientId\":\"%@\",\"TreatmentCode\":\"%@\"}",userID,_model.Id,_patientTitleModel.code];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectToGetTreatmentDetail:responseObject];
@@ -1406,17 +1339,9 @@
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }];
 }
-
 //process object to get detail of treatment
 -(void)processResponseObjectToGetTreatmentDetail:(id)responseObject{
-    NSDictionary *dict;
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        //For Vzone API
-        NSDictionary *responseDict1 = responseObject;
-        dict = responseDict1[@"aaData"];
-    }else{
-        dict=responseObject;
-    }
+    NSDictionary *dict=responseObject;
     if ([dict[@"Success"] intValue]==1) {
         for (NSDictionary *dict1 in dict[@"TreatmentRequests"]) {
             if ([dict1[@"Status"]intValue]==1) {
@@ -1441,7 +1366,6 @@
         [self showTreatmentDetail];
     }
 }
-
 -(void)uploadImageAfterSaveInSitting:(NSString*)code{
     [self saveImage:code];
 }

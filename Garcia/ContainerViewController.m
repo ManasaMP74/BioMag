@@ -5,9 +5,8 @@
 #import "SearchPatientViewController.h"
 #import "MBProgressHUD.h"
 #import "AppDelegate.h"
-#import "PopOverViewController.h"
 @interface ContainerViewController ()<addedPatient,loadTreatmentDelegate>
-@property(nonatomic,retain)UIPopoverController *popController;
+
 @end
 
 @implementation ContainerViewController
@@ -25,24 +24,9 @@
     [someButton setBackgroundImage:image3 forState:UIControlStateNormal];
     [someButton addTarget:self action:@selector(popToViewController) forControlEvents:UIControlEventTouchUpInside];
     [someButton setShowsTouchWhenHighlighted:YES];
+    
     UIBarButtonItem *mailbutton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
-    
-    
-    CGRect lagFrameimg = CGRectMake(30, 0,95,25);
-    UIButton *lagSomeButton = [[UIButton alloc] initWithFrame:lagFrameimg];
-    lagSomeButton.backgroundColor=[UIColor whiteColor];
-    lagSomeButton.layer.cornerRadius=13;
-    [lagSomeButton setTitle:@"" forState:normal];
-    UIImage* image = [UIImage imageNamed:@"Language-Icon.jpg"];
-    CGRect frameimg1 = CGRectMake(85-image.size.width,5,15, 15);
-    UIImageView *imview=[[UIImageView alloc]initWithFrame:frameimg1];
-    imview.image=image;
-    [lagSomeButton addSubview:imview];
-    [lagSomeButton addTarget:self action:@selector(languageChange:) forControlEvents:UIControlEventTouchUpInside];
-    [lagSomeButton setShowsTouchWhenHighlighted:YES];
-    UIBarButtonItem *lagButton =[[UIBarButtonItem alloc] initWithCustomView:lagSomeButton];
-    
-    self.navigationItem.rightBarButtonItems=@[mailbutton,lagButton];
+    self.navigationItem.rightBarButtonItem=mailbutton;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -54,12 +38,6 @@
 -(void)popToViewController{
     [self.navigationController popViewControllerAnimated:YES];
 }
-//LanguageChange
--(void)languageChange:(id)sender{
-    
-
-}
-
 //pass data from one viewController to another
 -(void)passDataFromsearchPatientTableViewToPatient:(searchPatientModel*)model{
     if ([_viewControllerDiffer isEqualToString:@""]) {

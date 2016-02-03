@@ -53,28 +53,20 @@
     self.nameTF.delegate=self;
     self.mobileNoTF.delegate=self;
     MaritialStatusArray=[@[@"YES",@"NO"]mutableCopy];
-    
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        //For Vzone API
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"gender_FLAG"]) {
         [self callApiForGender];
-    }else{
-        //For Material Api
-        
-        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-        if ([userDefault boolForKey:@"gender_FLAG"]) {
-            [self callApiForGender];
-        }
-        else{
-            NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getGender];
-            [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
-                if (success) {
-                    [self prcessGenderObject:response];
-                }
-                else{
-                    [self callApiForGender];
-                }
-            }];
-        }
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getGender];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+                [self prcessGenderObject:response];
+            }
+            else{
+                [self callApiForGender];
+            }
+        }];
     }
 }
 -(void)viewWillAppear:(BOOL)animated{
@@ -266,17 +258,17 @@
 }
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     if ([textField isEqual:_mobileNoTF]) {
-        NSCharacterSet * numberCharSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
-        for (int i = 0; i < [string length]; ++i)
+    NSCharacterSet * numberCharSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+    for (int i = 0; i < [string length]; ++i)
+    {
+        unichar c = [string characterAtIndex:i];
+        if (![numberCharSet characterIsMember:c])
         {
-            unichar c = [string characterAtIndex:i];
-            if (![numberCharSet characterIsMember:c])
-            {
-                return NO;
-            }
+            return NO;
         }
-        
-        return YES;
+    }
+    
+    return YES;
     }
     else return YES;
 }
@@ -358,44 +350,22 @@
 - (IBAction)gesture:(id)sender {
     [self.view endEditing:YES];
 }
-
 //Gender API
 -(void)callApiForGender{
     postman=[[Postman alloc]init];
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getGender];
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-     NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
-        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            [self prcessGenderObject:responseObject];
-            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
-            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-            [userDefault setBool:NO forKey:@"gender_FLAG"];
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        }];
-        
-    }else{
-        [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            [self prcessGenderObject:responseObject];
-            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
-            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-            [userDefault setBool:NO forKey:@"gender_FLAG"];
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        }];
-        
-    }
+    [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self prcessGenderObject:responseObject];
+        [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        [userDefault setBool:NO forKey:@"gender_FLAG"];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    }];
 }
-
-//response object of gender for Material Api
+//response object for gender
 -(void)prcessGenderObject:(id)responseObject{
     [genderArray removeAllObjects];
-    
-    NSDictionary *dict;
-    
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        NSDictionary *responseDict1 = responseObject;
-        dict=responseDict1[@"aaData"];
-    }else dict=responseObject;
-    
+    NSDictionary *dict=responseObject;
     for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
         if ([dict1[@"Status"]intValue]==1) {
             editModel *editModelValue=[[editModel alloc]init];
@@ -405,10 +375,7 @@
         }
     }
 }
-
-
 //Martial API
-
 -(void)callApiForMaritial{
     postman =[[Postman alloc]init];
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getMartialStatus];
@@ -420,18 +387,9 @@
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }];
 }
-
 //for martial api
 -(void)prcessMartialObject:(id)responseObject{
-    
-    NSDictionary *dict;
-    
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        NSDictionary *responseDict1 = responseObject;
-        dict=responseDict1[@"aaData"];
-    }else dict=responseObject;
-    
-    
+    NSDictionary *dict=responseObject;
     for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
         if ([dict1[@"Status"]intValue]==1) {
             editModel *editModelValue=[[editModel alloc]init];
@@ -441,7 +399,6 @@
         }
     }
 }
-
 //Patient Update
 -(void)callApiForUpdate{
     postman =[[Postman alloc]init];
@@ -515,20 +472,8 @@
     parameterDict[@"LastName"]=@"";
     parameterDict[@"RoleCode"]=@"B2ETN9";
     NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,editPatient,_model.Id];
-    NSString *parameter;
-    
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        //Parameter for Vzone Api
-        NSMutableDictionary *finalVzoneParameteDict=[[NSMutableDictionary alloc]init];
-        finalVzoneParameteDict[@"request"]=parameterDict;
-        NSData *parameterData = [NSJSONSerialization dataWithJSONObject:finalVzoneParameteDict options:NSJSONWritingPrettyPrinted error:nil];
-        parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
-    }else{
-        //Parameter For Material Api
-        NSData *parameterData = [NSJSONSerialization dataWithJSONObject:parameterDict options:NSJSONWritingPrettyPrinted error:nil];
-        parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
-    }
-
+    NSData *parameterData = [NSJSONSerialization dataWithJSONObject:parameterDict options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
     [containerVC showMBprogressTillLoadThedata];
     [postman put:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectForEdit:responseObject];
@@ -538,13 +483,7 @@
 }
 //process response object for edit
 -(void)processResponseObjectForEdit:(id)responseObject{
-    NSDictionary *dict;
-    
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        NSDictionary *responseDict1 = responseObject;
-        dict=responseDict1[@"aaData"];
-    }else  dict=responseObject;
-
+    NSDictionary *dict=responseObject;
     if ([dict[@"Success"] intValue]==1) {
         NSDictionary *dict1=dict[@"UserObj"];
         editedPatientCode=dict1[@"Code"];
@@ -562,7 +501,6 @@
         [containerVC hideAllMBprogressTillLoadThedata];
     }
 }
-
 //validate Email
 -(void)validateEmail:(NSString*)email{
     NSString *emailRegEx=@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";

@@ -26,6 +26,4 @@ FOUNDATION_EXPORT NSString *const toxicDeficiencyType;
 FOUNDATION_EXPORT NSString *const toxicDeficiencyDetail;
 FOUNDATION_EXPORT NSString *const kGET_SEED_URL;
 FOUNDATION_EXPORT NSString *const forgotPassword;
-
-FOUNDATION_EXPORT NSString *const DifferMetirialOrVzoneApi;
 @end

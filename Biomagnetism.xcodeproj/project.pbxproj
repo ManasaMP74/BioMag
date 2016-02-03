@@ -60,7 +60,6 @@
 		DA8C68231C5A49D700F78E86 /* PreviousSittingModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8C68221C5A49D700F78E86 /* PreviousSittingModelClass.m */; };
 		DAA92F811C2146680057AF19 /* germsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAA92F801C2146680057AF19 /* germsView.xib */; };
 		DAACC89F1C154AE90026132A /* germsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAACC89E1C154AE90026132A /* germsModel.m */; };
-		DAB0C4A91C5F85F6002F0189 /* PopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB0C4A81C5F85F6002F0189 /* PopOverViewController.m */; };
 		DAD52B5A1C2169370052579D /* SectionXib.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAD52B591C2169370052579D /* SectionXib.xib */; };
 		DAD52B5D1C21694B0052579D /* SectionXibView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD52B5C1C21694B0052579D /* SectionXibView.m */; };
 		DAD52B5F1C216AF70052579D /* SctionXibCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAD52B5E1C216AF70052579D /* SctionXibCell.xib */; };
@@ -219,8 +218,6 @@
 		DAA92F801C2146680057AF19 /* germsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = germsView.xib; sourceTree = "<group>"; };
 		DAACC89D1C154AE90026132A /* germsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = germsModel.h; sourceTree = "<group>"; };
 		DAACC89E1C154AE90026132A /* germsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = germsModel.m; sourceTree = "<group>"; };
-		DAB0C4A71C5F85F6002F0189 /* PopOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopOverViewController.h; sourceTree = "<group>"; };
-		DAB0C4A81C5F85F6002F0189 /* PopOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopOverViewController.m; sourceTree = "<group>"; };
 		DAD52B591C2169370052579D /* SectionXib.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SectionXib.xib; sourceTree = "<group>"; };
 		DAD52B5B1C21694B0052579D /* SectionXibView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionXibView.h; sourceTree = "<group>"; };
 		DAD52B5C1C21694B0052579D /* SectionXibView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionXibView.m; sourceTree = "<group>"; };
@@ -797,15 +794,6 @@
 			name = AttachFile;
 			sourceTree = "<group>";
 		};
-		DAF497F01C5F6C8600CD9E7D /* Language */ = {
-			isa = PBXGroup;
-			children = (
-				DAB0C4A71C5F85F6002F0189 /* PopOverViewController.h */,
-				DAB0C4A81C5F85F6002F0189 /* PopOverViewController.m */,
-			);
-			name = Language;
-			sourceTree = "<group>";
-		};
 		DAF6733A1C17EAAE0072ED8E /* modelClass */ = {
 			isa = PBXGroup;
 			children = (
@@ -847,7 +835,6 @@
 			children = (
 				DAF82CDE1BD4BA74006AF1E1 /* ContainerViewController.h */,
 				DAF82CDF1BD4BA74006AF1E1 /* ContainerViewController.m */,
-				DAF497F01C5F6C8600CD9E7D /* Language */,
 			);
 			name = ContainerVC;
 			sourceTree = "<group>";
@@ -1109,7 +1096,6 @@
 				DAF82CE01BD4BA74006AF1E1 /* ContainerViewController.m in Sources */,
 				DA130F381BEA1E1900B5B9FF /* Child.m in Sources */,
 				DAE606001C1FC83600A344F2 /* PatientDetailModel.m in Sources */,
-				DAB0C4A91C5F85F6002F0189 /* PopOverViewController.m in Sources */,
 				DA261DC91C4660CD00B18035 /* ToxicDeficiency.m in Sources */,
 				DAF7EF341C1AF375009ADE9B /* germsView.m in Sources */,
 			);
