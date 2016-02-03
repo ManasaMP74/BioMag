@@ -9,8 +9,9 @@
 
 @implementation ToxicDeficiencyDetailView
 {
-    NSMutableArray *toxicArray,*selectedIndex,*selectedGerms;
+    NSMutableArray *sortedToxicArray;
     Postman *postman;
+    AppDelegate *appdelegate;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -32,19 +33,14 @@
                                                              metrics:nil
                                                                views:views];
         [self addConstraints:constrains];
-        AppDelegate *appdelegate=[UIApplication sharedApplication].delegate;
+       appdelegate=  [UIApplication sharedApplication].delegate;
         postman=[[Postman alloc]init];
-        toxicArray=[[NSMutableArray alloc]init];
-        selectedIndex=[[NSMutableArray alloc]init];
-        selectedGerms=[[NSMutableArray alloc]init];
-         [self callSeed];
-        if ([appdelegate.isTreatmntCompleted intValue]==0) _tableView.userInteractionEnabled=YES;
-        else _tableView.userInteractionEnabled=NO;
+        _toxicArray=[[NSMutableArray alloc]init];
+        sortedToxicArray=[[NSMutableArray alloc]init];
     }
         return  self;
 }
 -(void)callSeed{
-    [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         if ([userDefault boolForKey:@"toxicdeficiency_FLAG"]) {
             [self callApiToToxicDeficiency];
@@ -60,10 +56,9 @@
                 }
             }];
         }
-    }];
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return toxicArray.count;
+    return sortedToxicArray.count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ToxicDeficiencyCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
@@ -72,13 +67,13 @@
         cell=_customCell;
         _customCell=nil;
     }
-    if (toxicArray.count>0) {
-        ToxicDeficiencyDetailModel *model=toxicArray[indexPath.row];
+    if (sortedToxicArray.count>0) {
+        ToxicDeficiencyDetailModel *model=sortedToxicArray[indexPath.row];
         cell.label.text=model.toxicName;
-    }
-    if ([selectedIndex containsObject:indexPath]) {
+    if (model.selected==YES) {
         cell.cellImageView.image=[UIImage imageNamed:@"Box1-Check.png"];
     }else cell.cellImageView.image=[UIImage imageNamed:@"Box1-Uncheck.png"];
+    }
     tableView.tableFooterView=[UIView new];
     return cell;
 }
@@ -86,14 +81,18 @@
      cell.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    ToxicDeficiencyDetailModel *model=toxicArray[indexPath.row];
-    if ([selectedIndex containsObject:indexPath]) {
-        [selectedIndex removeObject:indexPath];
-        [selectedGerms removeObject:model];
-    }
-    else{
-        [selectedIndex addObject:indexPath];
-        [selectedGerms addObject:model];
+    ToxicDeficiencyDetailModel *model=sortedToxicArray[indexPath.row];
+    for (ToxicDeficiencyDetailModel *m in _toxicArray) {
+        if ([model.toxicCode isEqualToString:m.toxicCode]) {
+            if (m.selected==YES) {
+                model.selected=NO;
+                m.selected=NO;
+            }
+            else{
+                model.selected=YES;
+                m.selected=YES;
+            }
+        }
     }
     [_tableView reloadData];
     
@@ -112,19 +111,59 @@
     }];
 }
 -(void)processToxicDeficiency:(id)responseObject{
+    [_toxicArray removeAllObjects];
     NSDictionary *dict=responseObject;
-    NSArray *ar=[_selectedToxicCode componentsSeparatedByString:@"$"];
     for (NSDictionary *dict1 in dict[@"ViewModels"]) {
         if ([dict1[@"Status"] intValue]==1) {
-            if ([ar[0] isEqualToString:dict1[@"ToxicDeficiencyTypeCode"]]) {
-            ToxicDeficiencyDetailModel *model=[[ToxicDeficiencyDetailModel alloc]init];
+        ToxicDeficiencyDetailModel *model=[[ToxicDeficiencyDetailModel alloc]init];
             model.toxicCode=dict1[@"Code"];
             model.toxicName=dict1[@"Name"];
             model.toxicId=dict1[@"Id"];
-            [toxicArray addObject:model];
+            model.selected=NO;
+            model.toxicTypeCode=dict1[@"ToxicDeficiencyTypeCode"];
+            [_toxicArray addObject:model];
+            }
+        }
+    [self sortData];
+}
+-(void)sortData{
+    NSArray *selectedToxicArray=[_selectedToxicDeficiency componentsSeparatedByString:@","];
+    for (NSString *str in selectedToxicArray) {
+        if(![str isEqualToString:@""]){
+            NSArray *ar1=[str componentsSeparatedByString:@":"];
+            for (ToxicDeficiencyDetailModel *m in _toxicArray) {
+                if ([m.toxicCode isEqualToString:ar1[1]] & [m.toxicTypeCode isEqualToString:ar1[0]]) {
+                    m.selected=YES;
+                }
             }
         }
     }
-        [_tableView reloadData];
+    [sortedToxicArray removeAllObjects];
+    NSArray *ar=[_selectedToxicCode componentsSeparatedByString:@"$"];
+    for (ToxicDeficiencyDetailModel *model in _toxicArray) {
+        if ([ar[0] isEqualToString:model.toxicTypeCode]) {
+            ToxicDeficiencyDetailModel *m=[[ToxicDeficiencyDetailModel alloc]init];
+            m.toxicCode=model.toxicCode;
+            m.toxicName=model.toxicName;
+            m.toxicId=model.toxicId;
+            m.selected=model.selected;
+            m.toxicTypeCode=model.toxicTypeCode;
+            [sortedToxicArray addObject:m];
+        }
+    }
+    if ([_isTreatmntCompleted intValue]==0) _tableView.userInteractionEnabled=YES;
+    else _tableView.userInteractionEnabled=NO;
+       [_tableView reloadData];
+}
+-(NSString*)getAllTheSelectedToxic{
+    NSString *str=@"";
+    for (ToxicDeficiencyDetailModel *model in _toxicArray) {
+        if (model.selected==YES) {
+            NSString *str1=[NSString stringWithFormat:@"%@:%@",model.toxicTypeCode,model.toxicCode];
+            str1=[str1 stringByAppendingString:@","];
+            str=[str stringByAppendingString:str1];
+        }
+    }
+      return str;
 }
 @end

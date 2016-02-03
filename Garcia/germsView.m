@@ -59,12 +59,10 @@
     [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
     [selectedIndex removeAllObjects];
     [selectedGerms removeAllObjects];
-    [germsArray removeAllObjects];
-    [self callSeed];
+     [self callSeed];
     view.center = alphaView.center;
 }
 -(void)callSeed{
-    [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         if ([userDefault boolForKey:@"germs_FLAG"]) {
             [self callApiToGetGerms];
@@ -80,7 +78,6 @@
                 }
             }];
         }
-    }];
 }
 -(void)hide{
     [alphaView removeFromSuperview];
@@ -142,12 +139,15 @@
 }
 -(void)callApiToGetGerms{
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,germsUrl];
+    [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processGerms:responseObject];
         [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         [userDefault setBool:NO forKey:@"germs_FLAG"];
+        [MBProgressHUD hideHUDForView:alphaView animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          [MBProgressHUD hideHUDForView:alphaView animated:YES];
     }];
 }
 -(void)processGerms:(id)responseObject{
@@ -193,7 +193,7 @@
     _heightOfNewGermView.constant=height;
 }
 //-(void)ApiToAddGerm{
-//    NSString *url=[NSString stringWithFormat:@""];
+//    NSString *url=[NSString stringWithFormat:@""];enter
 //    NSString *parameter=[NSString stringWithFormat:@""];
 //    [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
 //    [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {

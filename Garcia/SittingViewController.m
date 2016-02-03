@@ -21,6 +21,7 @@
 #import "AppDelegate.h"
 #import "SymptomTagModel.h"
 #import "SeedSyncer.h"
+#import "ToxicDeficiency.h"
 @interface SittingViewController ()<UITableViewDelegate,UITableViewDataSource,addsymptom,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,UICollectionViewDataSource,ExpandCellProtocol,SWRevealViewControllerDelegate,deleteCellValue,SWRevealViewControllerDelegate,datePickerProtocol,sendGermsData>
 @property (strong, nonatomic) IBOutlet UILabel *ageValue;
 @property (strong, nonatomic) IBOutlet UILabel *filterLabel;
@@ -37,7 +38,7 @@
 
 @implementation SittingViewController
 {
-    NSMutableArray  *selectedIndexArray,*allSortedDetailArray,*selectedPreviousSittingDetailArray,*allSectionNameArray;
+    NSMutableArray  *selectedIndexArray,*allSortedDetailArray,*selectedPreviousSittingDetailArray,*allSectionNameArray,*toxicDeficiencyArray,*allDoctorDetailArray;
     AddSymptom *symptomView;
     Postman *postman;
     Constant *constant;
@@ -46,11 +47,14 @@
     NSIndexPath *selectedCellIndex;
     int selectedCellToFilter;
     AppDelegate *appdelegate;
+    NSString *selectedToxicString;
 }
 - (void)viewDidLoad {
     appdelegate=[UIApplication sharedApplication].delegate;
     constant=[[Constant alloc]init];
+    toxicDeficiencyArray=[[NSMutableArray alloc]init];
     allSortedDetailArray=[[NSMutableArray alloc]init];
+    allDoctorDetailArray=[[NSMutableArray alloc]init];
     selectedIndexArray=[[NSMutableArray alloc]init];
     selectedPreviousSittingDetailArray=[[NSMutableArray alloc]init];
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
@@ -58,18 +62,43 @@
     [self.revealViewController setRightViewRevealWidth:180];
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-2.jpg"]]];
     postman=[[Postman alloc]init];
+    [self navigationItemMethod];
+    [self defaultValues];
+    [_priceTf addTarget:self action:@selector(DidChangePriceTF) forControlEvents:UIControlEventEditingChanged];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    _tableview.tableFooterView=[UIView new];
+    self.revealViewController.delegate=self;
+    [self.revealViewController setRightViewRevealWidth:180];
+    if ([_isTreatmntCompleted intValue]==0) {
+        if ([_bioSittingDict[@"IsCompleted"]intValue]==0 ) {
+            _saveBtn.hidden=NO;
+            _exit.hidden=YES;
+        }else{
+            _saveBtn.hidden=YES;
+            _exit.hidden=NO;
+        }
+    }else{
+        _saveBtn.hidden=YES;
+        _exit.hidden=NO;
+    }
+[self setTheValuesInTableView];
+}
+//Set The Data at the Begining
+-(void)setTheValuesInTableView{
+    [selectedIndexArray removeAllObjects];
+    [selectedPreviousSittingDetailArray removeAllObjects];
     if ([_sectionName isEqualToString:@""]) {
-         allSectionNameArray=[[NSMutableArray alloc]init];
-        if (appdelegate.completeDetailToDrArray.count==0) {
+        if (allDoctorDetailArray.count==0) {
+            allSectionNameArray =[[NSMutableArray alloc]init];
             [self callSeed];
         }else{
-            [self callSeed];
-            for (sittingModel *model in appdelegate.completeDetailToDrArray) {
+            for (sittingModel *model in allDoctorDetailArray) {
                 model.germsString=@"";
                 model.issue=NO;
                 model.edited=@"N";
             }
-            allSectionNameArray=appdelegate.allsectionNameArray;
             if (allSectionNameArray.count>0) {
                 _filterLabel.text=allSectionNameArray[0];
                 [self compareNextBtnToBeHidden];
@@ -77,11 +106,8 @@
         }
     }else{
         selectedCellToFilter=_selectedIndexPathOfSectionInSlideOut.row;
-        allSectionNameArray=appdelegate.allsectionNameArray;
         [self compareNextBtnToBeHidden];
     }
-    [_priceTf addTarget:self action:@selector(DidChangePriceTF) forControlEvents:UIControlEventEditingChanged];
-    [self defaultValues];
     if (appdelegate.symptomTagArray.count>0) {
         _collectionViewWidth.constant=50;
         [_collectionView reloadData];
@@ -90,37 +116,23 @@
             _collectionViewWidth.constant=_collectionView.contentSize.width;
         }else _collectionViewWidth.constant=self.view.frame.size.width-100;
     }
-    if (![_toxicDeficiencyString isEqualToString:@""]) {
-        [self showToxicDeficiencyView];
-    }
+    
 }
 -(void)callSeed{
-        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-        if ([userDefault boolForKey:@"anatomicalbiomagneticmatrix_FLAG"]) {
-            [self callApi];
-        }
-        else{
-            NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,biomagneticMatrix];
-            [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
-                if (success) {
-                    [self processResponseObject:response];
-                }
-                else{
-                    [self callApi];
-                }
-            }];
-        }
-}
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:YES];
-    [self navigationItemMethod];
-    _tableview.tableFooterView=[UIView new];
-    if ([appdelegate.isTreatmntCompleted intValue]==0) {
-        _saveBtn.hidden=NO;
-        _exit.hidden=YES;
-    }else{
-        _saveBtn.hidden=YES;
-        _exit.hidden=NO;
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"anatomicalbiomagneticmatrix_FLAG"]) {
+        [self callApi];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,biomagneticMatrix];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+                [self processResponseObject:response];
+            }
+            else{
+                [self callApi];
+            }
+        }];
     }
 }
 - (void)didReceiveMemoryWarning {
@@ -130,18 +142,18 @@
     [constant SetBorderForTextField:_priceTf];
     [constant spaceAtTheBeginigOfTextField:_priceTf];
     _priceTf.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Charge"];
-    _patientName.text= appdelegate.model.name;
-    _ageValue.text=appdelegate.model.age;
-    _mobileValue.text=appdelegate.model.mobileNo;
-    _emailValue.text=appdelegate.model.emailId;
-    _surgeriesValueLabel.text=appdelegate.model.surgeries;
-    _transfusionValue.text=appdelegate.model.tranfusion;
+    _patientName.text= _searchModel.name;
+    _ageValue.text=_searchModel.age;
+    _mobileValue.text=_searchModel.mobileNo;
+    _emailValue.text=_searchModel.emailId;
+    _surgeriesValueLabel.text=_searchModel.surgeries;
+    _transfusionValue.text=_searchModel.tranfusion;
     _patienViewHeight.constant=44;
     _patientDetailView.hidden=YES;
-    if (appdelegate.model.profileImageCode==nil) {
-        _patientimage.image=appdelegate.model.profileImage;
+    if (_searchModel.profileImageCode==nil) {
+        _patientimage.image=_searchModel.profileImage;
     }else{
-        NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,appdelegate.model.profileImageCode];
+        NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,_searchModel.profileImageCode];
         [_patientimage setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
     }
     
@@ -243,12 +255,17 @@
     }else{
         [self colorChange:model.issue withCell:cell];
     }
+    [self showDataSavedInDBInTable:model withCell:cell];
+        return cell;
+}
+//show the Data added to sitting in db
+-(void)showDataSavedInDBInTable:(sittingModel*)model withCell:(SittingTableViewCell*)cell{
     if ([model.germsString isEqualToString:@""]) {
         cell.sittingTextView.text=@"";
         cell.sittingTvPlaceholder.hidden=NO;
-        if (appdelegate.bioSittingDict!=nil) {
+        if (_bioSittingDict!=nil) {
             if ([model.edited isEqualToString:@"N"]) {
-                NSDictionary *dict=appdelegate.bioSittingDict;
+                NSDictionary *dict=_bioSittingDict;
                 NSString *str=dict[@"JSON"];
                 NSError *jsonError;
                 NSData *objectData = [str dataUsingEncoding:NSUTF8StringEncoding];
@@ -271,6 +288,9 @@
                                 [self colorChange:model.issue withCell:cell];
                             }
                         }else{
+                            if (anotomicalDict[@"ToxicDeficiency"]!=nil) {
+                                 selectedToxicString=anotomicalDict[@"ToxicDeficiency"];
+                            }
                             cell.sittingNumber.text=@"S1";
                             cell.sittingTextView.text=@"";
                             cell.sittingTvPlaceholder.hidden=NO;
@@ -286,10 +306,11 @@
         cell.sittingTextView.text=model.germsString;
         cell.sittingTvPlaceholder.hidden=YES;
     }
-    if ([appdelegate.isTreatmntCompleted intValue]==0) {
-        [self disableTheButton:cell withStatus:YES];
+    if ([_isTreatmntCompleted intValue]==0) {
+        if ([_bioSittingDict[@"IsCompleted"]intValue]==0 ){
+            [self disableTheButton:cell withStatus:YES];
+        }else [self disableTheButton:cell withStatus:NO];
     }else  [self disableTheButton:cell withStatus:NO];
-    return cell;
 }
 //Change the color of cell
 -(void)colorChange:(BOOL)issue withCell:(SittingTableViewCell*)cell{
@@ -338,7 +359,7 @@
         SymptomTagModel *m= appdelegate.symptomTagArray[indexPath.row];
         cell.label.text=m.tagName;
         cell.delegate=self;
-        if ([appdelegate.isTreatmntCompleted intValue]==0) {
+        if ([_isTreatmntCompleted intValue]==0) {
             cell.deleteSymptom.hidden=NO;
         }else  cell.deleteSymptom.hidden=YES;
         return cell;
@@ -378,7 +399,7 @@
     if (symptomView==nil)
         symptomView=[[AddSymptom alloc]initWithFrame:CGRectMake(150, 140,400,117)];
     symptomView.delegate=self;
-    symptomView.searchModel=appdelegate.model;
+    symptomView.searchModel=_searchModel;
     [symptomView alphaViewInitialize];
     symptomView.heightOfView=self.view.frame.size.height;
 }
@@ -402,7 +423,19 @@
 }
 //save
 - (IBAction)save:(id)sender {
-    [self callApiToSaveTreatmentRequest];
+    
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:@"Do you want to close Sitting?" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [self callApiToSaveTreatmentRequest:@"true"];
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertView addAction:success];
+    UIAlertAction *failure=[UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [self callApiToSaveTreatmentRequest:@"false"];
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertView addAction:failure];
+    [self presentViewController:alertView animated:YES completion:nil];
 }
 //next
 - (IBAction)next:(id)sender {
@@ -413,23 +446,33 @@
 }
 //Compare Next and Previous
 -(void)compareNextBtnToBeHidden{
-    [self getTheSortDetailOfCompleteDitailArray:appdelegate.allsectionNameArray[selectedCellToFilter]];
-    if (selectedCellToFilter==0) _previousBtn.hidden=YES;
-    else if (selectedCellToFilter==appdelegate.allsectionNameArray.count-1) {
-        _nextBtn.hidden=YES;
-    }
-    else{
-        _previousBtn.hidden=NO;
-        _nextBtn.hidden=NO;
+    if ([_toxicDeficiencyString isEqualToString:@""]) {
+        [self getTheSortDetailOfCompleteDitailArray:allSectionNameArray[selectedCellToFilter]];
+        if (selectedCellToFilter==0) _previousBtn.hidden=YES;
+        else if (selectedCellToFilter==allSectionNameArray.count-1) {
+            _nextBtn.hidden=YES;
+        }
+        else{
+            _previousBtn.hidden=NO;
+            _nextBtn.hidden=NO;
+        }
+    }else{
+        ToxicDeficiency *model=toxicDeficiencyArray[selectedCellToFilter];
+        _toxicDeficiencyString=[NSString stringWithFormat:@"%@$%@",model.code,model.name];
+        [self showToxicDeficiencyView];
+        if (selectedCellToFilter==0) _previousBtn.hidden=YES;
+        else if (selectedCellToFilter==toxicDeficiencyArray.count-1) {
+            _nextBtn.hidden=YES;
+        }
+        else{
+            _previousBtn.hidden=NO;
+            _nextBtn.hidden=NO;
+        }
     }
 }
 //slide out
 - (IBAction)slideout:(id)sender {
-    [self.revealViewController rightRevealToggleAnimated:YES];
-    [self.revealViewController setRearViewRevealWidth:200];
-    UINavigationController *nav=(UINavigationController*)self.revealViewController.rightViewController;
-    SlideOutTableViewController *slideout=nav.viewControllers[0];
-    slideout.allSectionNameArray=allSectionNameArray;
+    [self callSeedForToxicDeficiency];
 }
 //delete tag
 -(void)deleteCell:(UICollectionViewCell *)cell{
@@ -623,14 +666,10 @@
                 }
                 model.issue=NO;
                 model.germsString=@"";
-                [allSortedDetailArray addObject:model];
+                [allDoctorDetailArray addObject:model];
             }
         }
-        appdelegate.completeDetailToDrArray=[[NSMutableArray alloc]init];
-        appdelegate.allsectionNameArray=[[NSMutableArray alloc]init];
-        [appdelegate.allsectionNameArray addObjectsFromArray:allSectionNameArray];
-        [appdelegate.completeDetailToDrArray addObjectsFromArray:allSortedDetailArray];
-    }
+}
     [self getTheSortDetailOfCompleteDitailArray:allSectionNameArray[0]];
     selectedCellToFilter=0;
     if (selectedCellToFilter==allSectionNameArray.count-1) {
@@ -740,16 +779,16 @@
         [self.view endEditing:YES];
     }
 }
--(void)callApiToSaveTreatmentRequest{
-    NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,closeTreatmentDetail,appdelegate.treatmentId];
+-(void)callApiToSaveTreatmentRequest:(NSString*)str{
+    NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,closeTreatmentDetail,_treatmentId];
     NSString *parameter;
-    if (appdelegate.bioSittingDict!=nil) {
-        parameter =[self getParameteToSaveSittingDetail:[appdelegate.bioSittingDict[@"Id"] integerValue] withSittingNum:[appdelegate.bioSittingDict[@"SittingNumber"] integerValue]];
+    if (_bioSittingDict!=nil) {
+        parameter =[self getParameteToSaveSittingDetail:[_bioSittingDict[@"Id"] integerValue] withSittingNum:[_bioSittingDict[@"SittingNumber"] integerValue] withCompletedData:str];
     }else{
-        parameter =[self getParameteToSaveSittingDetail:0 withSittingNum:0];
+        parameter =[self getParameteToSaveSittingDetail:0 withSittingNum:0 withCompletedData:str];
     }
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    if ([appdelegate.treatmentId integerValue]==0) {
+    if ([_treatmentId integerValue]==0) {
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self processResponseObjectOfSaveTreatment:responseObject];
@@ -765,14 +804,14 @@
         }];
     }
 }
--(NSString*)getParameteToSaveSittingDetail:(NSInteger)biomagneticId withSittingNum:(NSInteger)sittingNum{
-    NSString *str=appdelegate.sittingString;
+-(NSString*)getParameteToSaveSittingDetail:(NSInteger)biomagneticId withSittingNum:(NSInteger)sittingNum withCompletedData:(NSString*)completed{
+    NSString *str=_sittingStringParameterFromParent;
     NSError *jsonError;
     NSData *objectData = [str dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData options:NSJSONReadingMutableContainers
                                                            error:&jsonError];
     NSMutableDictionary *finalDict=[json mutableCopy];
-    if ([appdelegate.treatmentId integerValue]==0) {
+    if ([_treatmentId integerValue]==0) {
         finalDict[@"MethodType"]=@"POST";
     }
     else finalDict[@"MethodType"]=@"PUT";
@@ -794,13 +833,13 @@
     NSString *visitDate=[formatter stringFromDate:[NSDate date]];
     dict[@"Visit"]=visitDate;
     if (sittingNum==0) {
-        dict[@"SittingNumber"] = @([appdelegate.sittingNumber intValue]+1);
-    }else dict[@"SittingNumber"] = @(sittingNum);
+        dict[@"SittingNumber"] =@([_sittingNumber intValue]+1);
+    }else  dict[@"SittingNumber"] = @(sittingNum);
     dict[@"Interval"] = @(15);
-    dict[@"IsCompleted"]=@"false";
+    dict[@"IsCompleted"]=completed;
     NSMutableDictionary *sittingDict=[[NSMutableDictionary alloc]init];
     NSMutableArray *jsonSittingArray=[[NSMutableArray alloc]init];
-    for (sittingModel *model in appdelegate.completeDetailToDrArray) {
+    for (sittingModel *model in allDoctorDetailArray) {
         if (![model.germsString isEqualToString:@""]) {
             NSMutableDictionary *sectionDict=[[NSMutableDictionary alloc]init];
             sectionDict[@"SectionCode"]=model.sectionCode;
@@ -824,6 +863,9 @@
             [jsonSittingArray addObject:sectionDict];
         }
     }
+    NSString *toxicStr=[_toxicView getAllTheSelectedToxic];
+    NSDictionary *toxicDict=[NSDictionary dictionaryWithObjectsAndKeys:toxicStr,@"ToxicDeficiency", nil];
+    [jsonSittingArray addObject:toxicDict];
     sittingDict[@"Notes"]=@"";
     sittingDict[@"AnatomicalPoints"]=jsonSittingArray;
     NSData *sittingData = [NSJSONSerialization dataWithJSONObject:sittingDict options:kNilOptions error:nil];
@@ -840,8 +882,8 @@
     if ([dict[@"Success"] intValue]==1) {
         NSDictionary *dict1=responseObject[@"TreatmentRequest"];
         int i=[dict1[@"ID"] intValue];
-        [self.delegateForIncreasingSitting uploadImageAfterSaveInSitting: dict1[@"Code"]];
-        [self.delegateForIncreasingSitting loadTreatMentFromSittingPart:[@(i) description]];
+        [self.delegateForIncreasingSitting uploadImageAfterSaveInSitting:dict1[@"Code"]];
+        [self.delegateForIncreasingSitting loadTreatMentFromSittingPart:[@(i) description] withTreatmentCode:dict1[@"Code"]];
         [self.navigationController popViewControllerAnimated:YES];
     }
     else{
@@ -854,50 +896,115 @@
     }
 }
 -(void)getTheSortDetailOfCompleteDitailArray:(NSString*)str{
-    [allSortedDetailArray removeAllObjects];
-    NSArray *ar=[str componentsSeparatedByString:@"$"];
-    _sectionName=ar[1];
-    _filterLabel.text=ar[0];
-    for (sittingModel *model in appdelegate.completeDetailToDrArray) {
-        if ([model.sectionCode isEqualToString:_sectionName]) {
-            [allSortedDetailArray addObject:model];
+    if ([_toxicDeficiencyString isEqualToString:@""]) {
+        _toxicView.hidden=YES;
+        _tableview.hidden=NO;
+        _scanPointHeaderView.hidden=NO;
+        [allSortedDetailArray removeAllObjects];
+        NSArray *ar=[str componentsSeparatedByString:@"$"];
+        _sectionName=ar[1];
+        _filterLabel.text=ar[0];
+        for (sittingModel *model in allDoctorDetailArray) {
+            if ([model.sectionCode isEqualToString:_sectionName]) {
+                [allSortedDetailArray addObject:model];
+            }
         }
+        [_tableview reloadData];
     }
-    [_tableview reloadData];
 }
 - (IBAction)exit:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)showToxicDeficiencyView{
     _toxicView.selectedToxicCode=_toxicDeficiencyString;
+    _toxicView.selectedToxicDeficiency=selectedToxicString;
+    if ([_isTreatmntCompleted intValue]==0) {
+     _toxicView.isTreatmntCompleted=_bioSittingDict[@"IsCompleted"];
+    }else  _toxicView.isTreatmntCompleted=@"1";
     NSArray *ar=[_toxicDeficiencyString componentsSeparatedByString:@"$"];
+    if (_toxicView.toxicArray.count==0) {
+        [_toxicView callSeed];
+    }else [_toxicView sortData];
     _filterLabel.text=ar[1];
     [self hideAllViewAfterClickOnSlideOut:YES];
 }
 //hide The button
 -(void)hideAllViewAfterClickOnSlideOut:(BOOL)status{
-    _previousBtn.hidden=status;
-    _nextBtn.hidden=status;
-    _saveBtn.hidden=status;
     _tableview.hidden=status;
     _scanPointHeaderView.hidden=status;
     if (status==NO) {
         _toxicView.hidden=YES;
-        _saveToxicDeficiency.hidden=YES;
     }else{
         _toxicView.hidden=NO;
-        _saveToxicDeficiency.hidden=NO;
     }
-    if ([appdelegate.isTreatmntCompleted intValue]==0)
+    if ([_isTreatmntCompleted intValue]==0)
     {
-        _saveToxicDeficiency.hidden=NO;
-        _exit.hidden=YES;
+        if ([_bioSittingDict[@"IsCompleted"]intValue]==0 ) {
+            _exit.hidden=YES;
+        }else{
+        _exit.hidden=NO;
+        }
+        
     }else {
-        _saveToxicDeficiency.hidden=YES;
         _exit.hidden=NO;
     }
 }
-- (IBAction)saveToxicDeficiency:(id)sender {
-    
+//call toxicDeficiency
+-(void)callSeedForToxicDeficiency{
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"toxicdeficiencytype_FLAG"]) {
+        [self callApiForToxicDeficiency];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,toxicDeficiencyType];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+                [self processResponse:response];
+            }
+            else{
+                [self callApiForToxicDeficiency];
+            }
+        }];
+    }
+}
+//Api for Toxic
+-(void)callApiForToxicDeficiency{
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,toxicDeficiencyType];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self processResponse:responseObject];
+        [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        [userDefault setBool:NO forKey:@"toxicdeficiencytype_FLAG"];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
+}
+//process Response
+-(void)processResponse:(id)responseObject{
+    [toxicDeficiencyArray removeAllObjects];
+    NSDictionary *dict=responseObject;
+    for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
+        if ([dict1[@"Status"]intValue]==1) {
+            if ((![dict1[@"Name"] isEqualToString:@"acid"])|(![dict1[@"Name"] isEqualToString:@"vitamin d"])|(![dict1[@"Name"] isEqualToString:@"sugar level"])) {
+                ToxicDeficiency *model=[[ToxicDeficiency alloc]init];
+                model.idValue=dict1[@"Id"];
+                model.name=dict1[@"Name"];
+                model.code=dict1[@"Code"];
+                [toxicDeficiencyArray addObject:model];
+            }
+        }
+    }
+    [self.revealViewController rightRevealToggleAnimated:YES];
+    [self.revealViewController setRearViewRevealWidth:200];
+    UINavigationController *nav=(UINavigationController*)self.revealViewController.rightViewController;
+    SlideOutTableViewController *slideout=nav.viewControllers[0];
+    slideout.allSectionNameArray=allSectionNameArray;
+    slideout.allToxicDeficiencyArray=toxicDeficiencyArray;
+}
+-(void)sittingFromSlideOut{
+    [self.revealViewController setFrontViewPosition:FrontViewPositionLeft];
+    [self setTheValuesInTableView];
 }
 @end

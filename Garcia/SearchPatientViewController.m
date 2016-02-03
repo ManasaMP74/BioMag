@@ -57,7 +57,6 @@
     _patientListTableView.tableFooterView=[UIView new];
 }
 -(void)callSeed{
-    [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         if ([userDefault boolForKey:@"user_FLAG"]) {
               [self callApi];
@@ -73,7 +72,6 @@
                 }
             }];
         }
-    }];
 }
 //TableView Number of section
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -186,7 +184,9 @@
         [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
          }
     }
-}
+    }else{
+     [_patientListTableView reloadData];
+    }
 }
 
 //TextField Delegat
@@ -222,6 +222,7 @@
         [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         [userDefault setBool:NO forKey:@"user_FLAG"];
+        [containerVc hideMBprogressTillLoadThedata];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [containerVc hideMBprogressTillLoadThedata];
     }];
@@ -312,22 +313,30 @@
                 model.age=[NSString stringWithFormat:@"%ld",(long)[agecomponent year]];
             }
             [patentnameArray addObject:model];
+            if (patentnameArray.count==1) {
+                if (initialSelectedRow==0) {
+                    searchPatientModel *model=patentnameArray[0];
+                    selectedPatientCode=model.code;
+                    NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
+                    [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
+
+                }
+            }
         }
+        
             [self reloadData];
     }
 }
 - (void)reloadData
 {
-    if (initialSelectedRow==0) {
-        searchPatientModel *model=patentnameArray[0];
-        selectedPatientCode=model.code;
-    }
     if (![_searchTextField.text isEqualToString:@""]) {
         [self searchDoctorOnProfession];
         [self selectedCell:patentFilteredArray];
     } else{
         [_patientListTableView reloadData];
+        if (initialSelectedRow!=0){
          [self selectedCell:patentnameArray];
+        }
     }
         MBProgressCountToHide++;
 }
@@ -346,7 +355,7 @@
     selectedPatientCode=code;
     _searchTextField.text=@"";
     initialSelectedRow=-1;
-    [self callSeed];
+    [self callApi];
 }
 -(void)againCallApiAfterEditPatient:(NSString *)code{
     MBProgressCountToHide=0;
@@ -354,7 +363,7 @@
     selectedPatientCode=code;
     [patentnameArray removeAllObjects];
     initialSelectedRow=1;
-    [self callSeed];
+    [self callApi];
 }
 -(void)reloadTableviewAfterAddNewTreatment{
     [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedIndexPath];

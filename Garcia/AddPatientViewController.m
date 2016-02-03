@@ -58,10 +58,6 @@
      _addressTextView.placeholder=@"Surgeries";
     self.addressTextView.delegate=self;
     MaritialStatusArray=[@[@"YES",@"NO"]mutableCopy];
-}
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:YES];
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     if ([userDefault boolForKey:@"gender_FLAG"]) {
         [self callApiForGender];
@@ -77,6 +73,10 @@
             }
         }];
     }
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

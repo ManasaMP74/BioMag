@@ -30,8 +30,12 @@
         [alphaView addSubview:view];
     }
      view.center = alphaView.center;
-    NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,expandProfileImage,_imageCode];
-    [_profileImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"patient-icon-2.png"] ];
+    if (_imageCode==nil) {
+        _profileImageView.image=[UIImage imageNamed:@"Patient-img.jpg"];
+    }else{
+        NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,expandProfileImage,_imageCode];
+        [_profileImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"] ];
+    }
     AppDelegate *appDel = [UIApplication sharedApplication].delegate;
     [appDel.window addSubview:alphaView];
     [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];

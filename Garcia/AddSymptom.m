@@ -26,6 +26,7 @@
     postman=[[Postman alloc]init];
     filterdTagListArray=[[NSMutableArray alloc]init];
      symptomTagArray=[[NSMutableArray alloc]init];
+    [self callSeed];
     return self;
 }
 -(void)initializeView
@@ -43,8 +44,6 @@
         alphaView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
         [alphaView addSubview:view];
     }
-    [symptomTagArray removeAllObjects];
-    [filterdTagListArray removeAllObjects];
     _collectionViewHeight.constant=0;
     _collectionView.hidden=YES;
     _symptomTf.text=@"";
@@ -54,7 +53,6 @@
     _allTagListTableViewHeight.constant=0;
     [self.collectionView registerNib:[UINib nibWithNibName:@"SymptomTagCustomeCell" bundle:nil] forCellWithReuseIdentifier:@"cell"];
     [constant SetBorderForTextField:_symptomTf];
-    [self callSeed];
     [_symptomTf addTarget:self action:@selector(tagTextFieldChange) forControlEvents:UIControlEventEditingChanged];
     _symptomTf.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Enter Symptom Tag"];
     [constant spaceAtTheBeginigOfTextField:_symptomTf];
@@ -217,12 +215,12 @@
         }
     }
     if ([str isEqualToString:@""]) {
-        NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,addSymptomTag,appDel.model.Id];
-        NSString *parameter=[NSString stringWithFormat:@"{\"Name\":\"%@\",\"Status\": true,\"UserID\": %@,\"MethodType\": \"POST\"}",_symptomTf.text,appDel.model.Id];
+        NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,addSymptomTag,_searchModel.Id];
+        NSString *parameter=[NSString stringWithFormat:@"{\"Name\":\"%@\",\"Status\": true,\"UserID\": %@,\"MethodType\": \"POST\"}",_symptomTf.text,_searchModel.Id];
         [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
             [self processResponseObjectOfAddTag:responseObject];
-            [self callSeed];
+            [self callApiTogetSymptomTag];
             [MBProgressHUD hideAllHUDsForView:alphaView animated:YES];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             [MBProgressHUD hideAllHUDsForView:alphaView animated:YES];
@@ -230,7 +228,6 @@
     }
 }
 -(void)callSeed{
-    [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         if ([userDefault boolForKey:@"symptomtag_FLAG"]) {
             [self callApiTogetSymptomTag];
@@ -246,7 +243,6 @@
                 }
             }];
         }
-    }];
 }
 //process object
 -(void)processResponseObjectOfAddTag:(id)responseObject{

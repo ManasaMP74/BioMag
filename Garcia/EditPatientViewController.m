@@ -52,12 +52,6 @@
     self.nameTF.delegate=self;
     self.mobileNoTF.delegate=self;
     MaritialStatusArray=[@[@"YES",@"NO"]mutableCopy];
-}
--(void)viewWillAppear:(BOOL)animated{
-    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-1.jpg"]]];
-    UINavigationController *nav=(UINavigationController*)self.parentViewController;
-    containerVC=(ContainerViewController*)nav.parentViewController;
-    [containerVC setTitle:@"Edit"];
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     if ([userDefault boolForKey:@"gender_FLAG"]) {
         [self callApiForGender];
@@ -73,6 +67,12 @@
             }
         }];
     }
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-1.jpg"]]];
+    UINavigationController *nav=(UINavigationController*)self.parentViewController;
+    containerVC=(ContainerViewController*)nav.parentViewController;
+    [containerVC setTitle:@"Edit"];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

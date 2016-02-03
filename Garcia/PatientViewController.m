@@ -72,12 +72,8 @@
     _transfusinTF.text=_model.tranfusion;
     _genderValueLabel.text=_model.gender;
     _emailValueLabel.text=_model.emailId;
-        if (_model.profileImageCode==nil) {
-        _patientImageView.image=_model.profileImage;
-        }else{
-            NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,_model.profileImageCode];
-             [_patientImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
-        }
+    NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,_model.profileImageCode];
+    [_patientImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
     _patientImageView.layer.cornerRadius=_patientImageView.frame.size.width/2;
     _patientImageView.clipsToBounds=YES;
     if (_model.surgeries!=nil) {
@@ -126,8 +122,6 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     PatientTitleModel *model=treatmentListArray[indexPath.row];
     containerVC.model=_model;
-    AppDelegate *app=[UIApplication sharedApplication].delegate;
-    app.isTreatmntCompleted=model.IsTreatmentCompleted;
     [containerVC pushTreatmentViewController:model];
    }
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -141,8 +135,6 @@
 - (IBAction)addTreatment:(id)sender {
     containerVC.model=_model;
     PatientTitleModel *model=[[PatientTitleModel alloc]init];
-    AppDelegate *app=[UIApplication sharedApplication].delegate;
-    app.isTreatmntCompleted=@"0";
     [containerVC pushTreatmentViewController:model];
 }
 //add tap gesture
@@ -157,7 +149,7 @@
 - (IBAction)showFullProfileImage:(id)sender {
     if (profileView==nil)
         profileView=[[ProfileImageView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x+70, self.view.frame.origin.y+100,self.view.frame.size.width-40,self.view.frame.size.height-100)];
-    profileView.imageCode=_model.documentCode;
+    profileView.imageCode=_model.profileImageCode;
     [profileView alphaViewInitialize];
 }
 //call api to get detail of treatment

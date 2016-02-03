@@ -1,12 +1,13 @@
 #import <UIKit/UIKit.h>
 #import "UIImageView+AFNetworking.h"
 #import "ToxicDeficiencyDetailView.h"
+#import "searchPatientModel.h"
 #if !defined(MAX)
 #define MAX(A,B)((A) > (B) ? (A) : (B))
 #endif
 @protocol increaseSittingCell<NSObject>
 -(void)uploadImageAfterSaveInSitting:(NSString*)code;
--(void)loadTreatMentFromSittingPart:(NSString*)idvalue;
+-(void)loadTreatMentFromSittingPart:(NSString*)idvalue withTreatmentCode:(NSString*)treatmentCode;
 @end
 @interface SittingViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UIButton *addSymptom;
@@ -27,7 +28,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *nextBtn;
 @property (strong, nonatomic) IBOutlet UIButton *visitDateButton;
 @property (strong, nonatomic) IBOutlet UIButton *exit;
-@property (weak, nonatomic) IBOutlet UIButton *saveToxicDeficiency;
 @property (weak, nonatomic) IBOutlet ToxicDeficiencyDetailView *toxicView;
 @property (weak, nonatomic) IBOutlet UIView *scanPointHeaderView;
 
@@ -38,4 +38,13 @@
 @property(weak,nonatomic)id<increaseSittingCell>delegateForIncreasingSitting;
 @property(strong,nonatomic)NSString *toxicDeficiencyString;
 @property(strong,nonatomic)NSString *editOrAddSitting;
+@property(strong,nonatomic)NSString *treatmentId;
+@property(strong,nonatomic)searchPatientModel *searchModel;
+@property(strong,nonatomic)NSString *isTreatmntCompleted;
+@property(strong,nonatomic)NSString *sittingStringParameterFromParent;
+@property(strong,nonatomic)NSDictionary *bioSittingDict;
+@property(strong,nonatomic)NSArray *biomagneticAnotomicalPointArray;
+@property(strong,nonatomic)NSString *sittingNumber;
+//get Data From SlideOut
+-(void)sittingFromSlideOut;
 @end

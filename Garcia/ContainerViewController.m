@@ -44,8 +44,6 @@
         UINavigationController * nav=[self.childViewControllers lastObject];
         PatientViewController *patientVc=nav.viewControllers[0];
         [nav popToViewController:patientVc animated:YES];
-        AppDelegate *app=[UIApplication sharedApplication].delegate;
-        app.model=model;
         patientVc.model =model;
         [patientVc setDefaultValues];
     }

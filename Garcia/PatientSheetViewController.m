@@ -89,6 +89,8 @@
     NSArray *biomagneticArray;
     AppDelegate *app;
     ImageUploadAPI *imageManager;
+    NSDictionary *sittingAddOrEditDiffer;
+    NSString *sittingNumberToPassSittingVC;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -116,7 +118,7 @@
         [self callSeedApi];
     }else{
         _patientDetailModel=[[PatientDetailModel alloc]init];
-        app.treatmentId=@"0";
+        _patientDetailModel.IsTreatmentCompleted=@"0";
         treatmentID=@"0";
     }
 }
@@ -130,7 +132,6 @@
     }else [self DisableAllButton:YES];
 }
 -(void)callSeedApi{
-    [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         if ([userDefault boolForKey:@"symptomtag_FLAG"]) {
             [self callApiTogetSymptomTag];
@@ -146,7 +147,6 @@
                 }
             }];
         }
-    }];
 }
 //Hide button if treatment is closed
 -(void)DisableAllButton:(BOOL)status{
@@ -163,6 +163,8 @@
     _medicalHistoryTextView.hidden=status;
     _diagnosisTextView.hidden=status;
     if (status==NO) {
+        _treatmentButton.userInteractionEnabled=YES;
+        _treatmentNameTF.userInteractionEnabled=YES;
         _exit.hidden=YES;
         _medicalTableHeight.constant=87;
         _diagnosisTableHeight.constant=92;
@@ -170,6 +172,8 @@
         _diagnosisTextView.userInteractionEnabled=YES;
         _treatmentEncloserTextView.userInteractionEnabled=YES;
     }else{
+         _treatmentButton.userInteractionEnabled=NO;
+         _treatmentNameTF.userInteractionEnabled=NO;
         _exit.hidden=NO;
         _medicalTableHeight.constant=195;
         _diagnosisTableHeight.constant=175;
@@ -314,9 +318,9 @@
 - (IBAction)closeTreatmentEncloser:(id)sender {
     if (![_treatmentEncloserTextView.text isEqualToString:@""]) {
         if (_treatmentNameTF.text.length==0) {
-            [self ShowAlert:@"Treatment name is required"];
+            [self ShowAlert:@"Treatment Title is required"];
         }else{
-            UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:@"Do you want to close Treatment?" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:@"Do you want to close the Treatment?" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *success=[UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
                 [self callAPIToCloseTreatmentOrUpdate:@"close"];
                 [alertView dismissViewControllerAnimated:YES completion:nil];
@@ -330,7 +334,7 @@
         }
     }
     else{
-        [self ShowAlert:@"Please Enter Treatment Closure Notes"];
+        [self ShowAlert:@"Please enter Treatment Closure Notes"];
     }
 }
 //show alert
@@ -480,8 +484,9 @@
         CollectionViewTableViewCell *c=(CollectionViewTableViewCell*)[cell.headerView.headerTableview cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:3]];
         cell.layer.cornerRadius=8;
         SittingModelClass *model=sittingCollectionArray[indexPath.row];
-        if ([model.completed isEqualToString:@"0"])
+        if ([model.completed isEqualToString:@"0"]){
             c.switchImageView.image=[UIImage imageNamed:@"Button-off"];
+        }
         else  c.switchImageView.image=[UIImage imageNamed:@"Button-on"];
         cell.visitDateLabel.text=model.visit;
         cell.headerView.price=model.price;
@@ -494,13 +499,19 @@
         }
         cell.headerViewHeight.constant=cell.headerView.headerTableview.contentSize.height;       _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
         if ([_patientDetailModel.IsTreatmentCompleted intValue]==0) {
-            cell.closeSitting.hidden=NO;
-            [cell.editButton setImage:[UIImage imageNamed:@"Edit-1.jpg"] forState:normal];
+            if ([model.completed isEqualToString:@"0"]) {
+                cell.closeSitting.hidden=NO;
+                [cell.editButton setImage:[UIImage imageNamed:@"Edit-1.jpg"] forState:normal];
+            }
+            else{
+                cell.closeSitting.hidden=YES;
+                [cell.editButton setImage:[UIImage imageNamed:@"View-button.png"] forState:normal];
+            }
         }else{
             cell.closeSitting.hidden=YES;
             [cell.editButton setImage:[UIImage imageNamed:@"View-button.png"] forState:normal];
+            c.switchImageView.image=[UIImage imageNamed:@"Button-on"];
         }
-        
         return cell;
     }
     else if (collectionView==_uploadCollectionView){
@@ -707,8 +718,7 @@
 }
 //change treatment textfield
 -(void)changeTreatmentTF{
-    if (_patientDetailModel.title!=nil) {
-        _treatmentNameTF.text=_patientDetailModel.title;
+    if (![_treatmentNameTF.text isEqualToString:@""]) {
         _treatmentNameTF.layer.borderWidth=0;
         [_treatmentButton setImage:[UIImage imageNamed:@"Edit-icon.png"] forState:normal];
         [constant setFontbold:_treatmentNameTF];
@@ -1020,9 +1030,6 @@
     }
     biomagneticArray=_patientDetailModel.biomagneticSittingResults;
     [self SittingPartToViewCompleteDetail:biomagneticArray];
-    NSString *str=[self getParameterForSaveORCloseOrUpdateTreatment:@"" withTreatmentCompleted:@"" withMethodType:@""];
-    app.sittingString=str;
-    app.treatmentId=treatmentID;
 }
 -(void)ShowuploadImageFromSitting{
     if ([_increaseUploadViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
@@ -1143,25 +1150,12 @@
 -(void)CallLoadTreatMentDelegate{
     [self.delegate loadTreatment];
 }
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([segue.identifier isEqualToString:@"sitting"]) {
-        SWRevealViewController *revealVC=segue.destinationViewController;
-        SittingViewController *sittingVC=[self.storyboard instantiateViewControllerWithIdentifier:@"SittingViewController"];
-        NSString *str=[self getParameterForSaveORCloseOrUpdateTreatment:@"" withTreatmentCompleted:@"" withMethodType:@""];
-        app.sittingString=str;
-        sittingVC.delegateForIncreasingSitting=self;
-        sittingVC.editOrAddSitting=@"y";
-        [revealVC setFrontViewController:sittingVC];
-        sittingVC.sectionName=@"";
-        sittingVC.SortType=@"";
-        sittingVC.toxicDeficiencyString=@"";
-    }
-}
--(void)loadTreatMentFromSittingPart:(NSString*)idvalue{
+-(void)loadTreatMentFromSittingPart:(NSString*)idvalue withTreatmentCode:(NSString *)treatmentCode{
     _patientTitleModel=[[PatientTitleModel alloc]init];
     _patientTitleModel.idValue=idvalue;
+    _patientTitleModel.code=treatmentCode;
     [self CallLoadTreatMentDelegate];
-    [self callSeedApi];
+    [self callApiTogetSymptomTag];
 }
 - (IBAction)cancelMedicalHistory:(id)sender {
     _medicalHistoryTextView.text=@"";
@@ -1229,7 +1223,7 @@
             NSIndexPath *index=[NSIndexPath indexPathForRow:sittingCollectionArray.count-1 inSection:0];
             [_sittingCollectionView scrollToItemAtIndexPath:index atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
             sittingNum+=1;
-            app.sittingNumber=[@(sittingNum)description];
+           sittingNumberToPassSittingVC=[@(sittingNum)description];
             if (![_increasesettingViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
                 if (sittingCollectionArray.count>0) {
                     _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
@@ -1237,7 +1231,7 @@
                 }else _settingViewHeight.constant=70;
             }
         }
-    }else  app.sittingNumber=[@(sittingNum)description];
+    }else  sittingNumberToPassSittingVC=[@(sittingNum)description];
 }
 -(void)editSittingCell:(UICollectionViewCell *)cell{
     SittingCollectionViewCell *cell1=(SittingCollectionViewCell*)cell;
@@ -1246,19 +1240,43 @@
     for (NSDictionary *dict in biomagneticArray) {
         int i=[dict[@"Id"]intValue];
         if ([model.sittingID intValue]==i) {
-            app.bioSittingDict=dict;
-            app.biomagneticAnotomicalPointArray=biomagneticArray;
+            sittingAddOrEditDiffer=dict;
             [self performSegueWithIdentifier:@"sitting" sender:nil];
             break;
         }
     }
 }
 - (IBAction)addSitting:(id)sender {
-    app.bioSittingDict=nil;
-    app.biomagneticAnotomicalPointArray=nil;
+    sittingAddOrEditDiffer=nil;
     [app.symptomTagArray removeAllObjects];
     [self performSegueWithIdentifier:@"sitting" sender:nil];
 }
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"sitting"]) {
+        SWRevealViewController *revealVC=segue.destinationViewController;
+        SittingViewController *sittingVC=[self.storyboard instantiateViewControllerWithIdentifier:@"SittingViewController"];
+        sittingVC.delegateForIncreasingSitting=self;
+        NSString *str=[self getParameterForSaveORCloseOrUpdateTreatment:@"" withTreatmentCompleted:@"" withMethodType:@""];
+        sittingVC.sittingStringParameterFromParent=str;
+        sittingVC.editOrAddSitting=@"y";
+        sittingVC.treatmentId=treatmentID;
+        sittingVC.searchModel=_model;
+        sittingVC.isTreatmntCompleted=_patientDetailModel.IsTreatmentCompleted;
+        if(sittingAddOrEditDiffer==nil){
+            sittingVC.bioSittingDict=nil;
+            sittingVC.biomagneticAnotomicalPointArray=nil;
+        }else{
+            sittingVC.bioSittingDict=sittingAddOrEditDiffer;
+            sittingVC.biomagneticAnotomicalPointArray=biomagneticArray;
+        }
+        [revealVC setFrontViewController:sittingVC];
+        sittingVC.sectionName=@"";
+        sittingVC.SortType=@"";
+        sittingVC.toxicDeficiencyString=@"";
+        sittingVC.sittingNumber=sittingNumberToPassSittingVC;
+    }
+}
+
 //save profile
 - (void)saveImage:(NSString*)code
 {
@@ -1294,7 +1312,7 @@
     NSUserDefaults *defaultvalue=[NSUserDefaults standardUserDefaults];
     int userIdInteger=[[defaultvalue valueForKey:@"Id"]intValue];
     NSString *userID=[@(userIdInteger) description];
-    NSString *parameter=[NSString stringWithFormat:@"{\"DoctorId\":\"%@\",\"PatientId\":\"%@\"}",userID,_model.Id];
+    NSString *parameter=[NSString stringWithFormat:@"{\"DoctorId\":\"%@\",\"PatientId\":\"%@\",\"TreatmentCode\":\"%@\"}",userID,_model.Id,_patientTitleModel.code];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectToGetTreatmentDetail:responseObject];

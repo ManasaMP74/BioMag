@@ -33,6 +33,7 @@
 		DA2F9F771C2172300077AEAB /* SlideOutTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2F9F761C2172300077AEAB /* SlideOutTableViewCell.m */; };
 		DA4461E61BD771F600F80F5A /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC027B1BD514340095C6AE /* OpenSans-Semibold.ttf */; };
 		DA4461E71BD7720300F80F5A /* OpenSans-Semibold.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC027B1BD514340095C6AE /* OpenSans-Semibold.ttf */; };
+		DA45B5201C50988300087DA3 /* PatientSheetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE955591BD24A7500EDFD8F /* PatientSheetViewController.m */; };
 		DA4884DA1C4E33AE0064774F /* ToxicDeficiencyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA4884D91C4E33AE0064774F /* ToxicDeficiencyView.xib */; };
 		DA67CFCF1C1197B200D88BBC /* AddSymptom.m in Sources */ = {isa = PBXBuildFile; fileRef = DA67CFCE1C1197B200D88BBC /* AddSymptom.m */; };
 		DA67CFD11C11981100D88BBC /* AddSymptom.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA67CFD01C11981100D88BBC /* AddSymptom.xib */; };
@@ -543,6 +544,8 @@
 				DAF277241BFAEC5A00D236B2 /* SymptomTagModel.m */,
 				DAFBE3CE1C08277600C1C796 /* TreatmentDetailModel.h */,
 				DAFBE3CF1C08277600C1C796 /* TreatmentDetailModel.m */,
+				DAE605FE1C1FC83600A344F2 /* PatientDetailModel.h */,
+				DAE605FF1C1FC83600A344F2 /* PatientDetailModel.m */,
 				DAE6FBB81BE4DBDB00952812 /* CustomCell */,
 				DA6C7B971BE0D12C00D1130A /* HeaderTableView */,
 				DA6C7B9A1BE0DFB600D1130A /* CorrespondPoint */,
@@ -745,8 +748,6 @@
 				DAEFA1BE1BD0B4EB00900379 /* PatientViewController.m */,
 				DA1BB06D1C3F9224003D221C /* PatientTitleModel.h */,
 				DA1BB06E1C3F9224003D221C /* PatientTitleModel.m */,
-				DAE605FE1C1FC83600A344F2 /* PatientDetailModel.h */,
-				DAE605FF1C1FC83600A344F2 /* PatientDetailModel.m */,
 				DAFC4AC41C2567C800FE6234 /* ProfileImageView.xib */,
 				DAFC4AC11C2567A500FE6234 /* ProfileImageView.h */,
 				DAFC4AC21C2567A500FE6234 /* ProfileImageView.m */,
@@ -1081,6 +1082,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA45B5201C50988300087DA3 /* PatientSheetViewController.m in Sources */,
 				DAEFA1AE1BD0B11500900379 /* GarciaTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

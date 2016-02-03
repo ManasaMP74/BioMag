@@ -31,12 +31,12 @@
     return self;
 }
 - (void)callSeedAPI:(void (^)(BOOL success))completionHandler{
-    [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:NO];
+   [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:NO];
     [postman get:urlString withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if ([self parseResponse:responseObject]) {
             completionHandler(true);
         }else completionHandler(false);
-        [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
+       [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         completionHandler(false);
         [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
