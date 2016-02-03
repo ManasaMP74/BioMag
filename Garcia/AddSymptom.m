@@ -9,7 +9,7 @@
 @implementation AddSymptom
 {
     UIView *view;
-  UIControl  *alphaView;
+    UIControl  *alphaView;
     NSMutableArray *symptomTagArray,*allTagListArray,*filterdTagListArray;
     Constant *constant;
     Postman *postman;
@@ -25,7 +25,7 @@
     constant=[[Constant alloc]init];
     postman=[[Postman alloc]init];
     filterdTagListArray=[[NSMutableArray alloc]init];
-     symptomTagArray=[[NSMutableArray alloc]init];
+    symptomTagArray=[[NSMutableArray alloc]init];
     [self callSeed];
     return self;
 }
@@ -73,19 +73,19 @@
     [alphaView removeFromSuperview];
 }
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-        return symptomTagArray.count;
+    return symptomTagArray.count;
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     SymptomTagCustomCollectionViewCell *cell =(SymptomTagCustomCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     SymptomTagModel *m=symptomTagArray[indexPath.row];
     cell.label.text=m.tagName;
-        cell.delegate=self;
-        return cell;
+    cell.delegate=self;
+    return cell;
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     SymptomTagModel *m=symptomTagArray[indexPath.row];
-        CGFloat width =  [m.tagName boundingRectWithSize:(CGSizeMake(NSIntegerMax, 40)) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:12]} context:nil].size.width;
-        return CGSizeMake(width+30,40);
+    CGFloat width =  [m.tagName boundingRectWithSize:(CGSizeMake(NSIntegerMax, 40)) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:12]} context:nil].size.width;
+    return CGSizeMake(width+30,40);
 }
 -(void)deleteCell:(UICollectionViewCell *)cell{
     SymptomTagCustomCollectionViewCell *cell1=(SymptomTagCustomCollectionViewCell*)cell;
@@ -100,7 +100,7 @@
 - (IBAction)localAdd:(id)sender {
     if (![_symptomTf.text isEqual:@""]) {
         _collectionViewHeight.constant=37;
-         _collectionView.hidden=NO;
+        _collectionView.hidden=NO;
         _allTaglistTableView.hidden=YES;
         [self callAPIforAddSymptomTag];
     }
@@ -111,7 +111,7 @@
     [filterdTagListArray removeAllObjects];
     
     if (allTagListArray.count>0) {
-       
+        
         NSMutableArray *ar=[[NSMutableArray alloc]init];
         NSPredicate *predicate=[NSPredicate predicateWithFormat:@"self CONTAINS[cd]%@",_symptomTf.text];
         for (SymptomTagModel *model in allTagListArray) {
@@ -131,12 +131,12 @@
             _allTaglistTableView.layer.borderWidth=1;
             _allTaglistTableView.layer.borderColor=[UIColor lightGrayColor].CGColor;
             _allTagListTableViewHeight.constant=10;
-             [_allTaglistTableView reloadData];
+            [_allTaglistTableView reloadData];
             if (_allTaglistTableView.contentSize.height>self.heightOfView-270) {
                 _allTagListTableViewHeight.constant=self.heightOfView-270;
             }else _allTagListTableViewHeight.constant=_allTaglistTableView.contentSize.height;
             if (symptomTagArray.count>0) {
-                 [self heightOfView:182+_allTagListTableViewHeight.constant];
+                [self heightOfView:182+_allTagListTableViewHeight.constant];
             }else  [self heightOfView:132+_allTagListTableViewHeight.constant];
         }
         else{
@@ -152,20 +152,43 @@
 -(void)callApiTogetSymptomTag{
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getSymptomTag];
     [MBProgressHUD showHUDAddedTo:self animated:YES];
-    [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [self processResponseObjectOfGetAllTag:responseObject];
-        [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
-        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-        [userDefault setBool:NO forKey:@"symptomtag_FLAG"];
-        [MBProgressHUD hideHUDForView:self animated:YES];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [MBProgressHUD hideHUDForView:self animated:YES];
-    }];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+         NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
+        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processResponseObjectOfGetAllTag:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"symptomtag_FLAG"];
+            [MBProgressHUD hideHUDForView:self animated:YES];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [MBProgressHUD hideHUDForView:self animated:YES];
+        }];
+    }else{
+        [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processResponseObjectOfGetAllTag:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"symptomtag_FLAG"];
+            [MBProgressHUD hideHUDForView:self animated:YES];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [MBProgressHUD hideHUDForView:self animated:YES];
+        }];
+    }
 }
 //process get tag
 -(void)processResponseObjectOfGetAllTag:(id)responseObject{
     allTagListArray=[[NSMutableArray alloc]init];
-    NSDictionary *dict=responseObject;
+    NSDictionary *dict;
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        NSDictionary *responseDict1 = responseObject;
+        dict  = responseDict1[@"aaData"];
+    }else{
+        //For Material API
+        dict=responseObject;
+    }
+    
     for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
         if ([dict1[@"Status"]intValue]==1) {
             SymptomTagModel *model=[[SymptomTagModel alloc]init];
@@ -186,7 +209,7 @@
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-   SymptomTagModel *model=filterdTagListArray[indexPath.row];
+    SymptomTagModel *model=filterdTagListArray[indexPath.row];
     _symptomTf.text=model.tagName;
     _allTaglistTableView.hidden=YES;
     _allTagListTableViewHeight.constant=0;
@@ -205,7 +228,7 @@
     NSString *str=@"";
     for (SymptomTagModel *model in allTagListArray) {
         if ([model.tagName isEqualToString:_symptomTf.text]) {
-             str=@"done";
+            str=@"done";
             if (![symptomTagArray containsObject:model]) {
                 [symptomTagArray addObject:model];
                 [_collectionView reloadData];
@@ -220,7 +243,18 @@
     }
     if ([str isEqualToString:@""]) {
         NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,addSymptomTag,_searchModel.Id];
-        NSString *parameter=[NSString stringWithFormat:@"{\"Name\":\"%@\",\"Status\": true,\"UserID\": %@,\"MethodType\": \"POST\"}",_symptomTf.text,_searchModel.Id];
+        
+        NSString *parameter;
+        
+        if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+            //For Vzone API
+           parameter=[NSString stringWithFormat:@"{\"request\":{\"Name\":\"%@\",\"Status\": true,\"UserID\": %@,\"MethodType\": \"POST\"}}",_symptomTf.text,_searchModel.Id];
+        }else{
+            //For Material API
+          parameter  =[NSString stringWithFormat:@"{\"Name\":\"%@\",\"Status\": true,\"UserID\": %@,\"MethodType\": \"POST\"}",_symptomTf.text,_searchModel.Id];
+            
+        }
+        
         [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
             [self processResponseObjectOfAddTag:responseObject];
@@ -232,6 +266,8 @@
     }
 }
 -(void)callSeed{
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //for Material API
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         if ([userDefault boolForKey:@"symptomtag_FLAG"]) {
             [self callApiTogetSymptomTag];
@@ -247,10 +283,25 @@
                 }
             }];
         }
+    }else{
+        //For Vzone Api
+        [self callApiTogetSymptomTag];
+    }
 }
 //process object
 -(void)processResponseObjectOfAddTag:(id)responseObject{
-    NSDictionary *dict=responseObject;
+    
+    NSDictionary *dict;
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        NSDictionary *responseDict1 = responseObject;
+        dict  = responseDict1[@"aaData"];
+    }else{
+        //For Material API
+        dict=responseObject;
+    }
+    
     if ([dict[@"Success"] intValue]==1) {
         NSDictionary *dict1=dict[@"ViewModel"];
         if ([dict1[@"Status"] intValue]==1) {
@@ -262,7 +313,7 @@
         }
         [self.delegate addsymptom:symptomTagArray];
         [_collectionView reloadData];
-       [self heightOfView:182];
+        [self heightOfView:182];
         _symptomTf.text=@"";
     }
     else{

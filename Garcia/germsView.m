@@ -22,10 +22,10 @@
     view.frame=self.bounds;
     constant=[[Constant alloc]init];
     postman=[[Postman alloc]init];
-     germsArray=[[NSMutableArray alloc]init];
+    germsArray=[[NSMutableArray alloc]init];
     selectedIndex=[[NSMutableArray alloc]init];
-     selectedGerms=[[NSMutableArray alloc]init];
-     [self addSubview:view];
+    selectedGerms=[[NSMutableArray alloc]init];
+    [self addSubview:view];
     return self;
 }
 -(void)initializeView
@@ -55,14 +55,19 @@
     _codeSymbolTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Symbol"];
     _codeFullNameTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Name"];
     [constant spaceAtTheBeginigOfTextField:_codeSymbolTF];
-     [constant spaceAtTheBeginigOfTextField:_codeFullNameTF];
+    [constant spaceAtTheBeginigOfTextField:_codeFullNameTF];
     [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
     [selectedIndex removeAllObjects];
     [selectedGerms removeAllObjects];
-     [self callSeed];
+    [self callSeed];
     view.center = alphaView.center;
 }
 -(void)callSeed{
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        [self callApiToGetGerms];
+    }else {
+        //For Material API
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         if ([userDefault boolForKey:@"germs_FLAG"]) {
             [self callApiToGetGerms];
@@ -77,7 +82,8 @@
                     [self callApiToGetGerms];
                 }
             }];
-        }
+        } 
+    }
 }
 -(void)hide{
     [alphaView removeFromSuperview];
@@ -91,9 +97,9 @@
     [self.delegateForGerms germsData:selectedGerms];
 }
 - (IBAction)addNewGerm:(id)sender {
-//    if (![_codeFullNameTF.text isEqualToString:@""] & ) {
-//        <#statements#>
-//    }
+    //    if (![_codeFullNameTF.text isEqualToString:@""] & ) {
+    //        <#statements#>
+    //    }
     _codeFullNameTF.text=@"";
     _codeSymbolTF.text=@"";
     [self changeTheNewGermAppearence:NO withHeight:43];
@@ -116,7 +122,7 @@
     if ([selectedIndex containsObject:indexPath]) {
         cell.cellImageView.image=[UIImage imageNamed:@"Box1-Check.png"];
     }else cell.cellImageView.image=[UIImage imageNamed:@"Box1-Uncheck.png"];
-        return cell;
+    return cell;
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     cell.backgroundColor=[UIColor clearColor];
@@ -130,7 +136,7 @@
     }
     else{
         [selectedIndex addObject:indexPath];
-         [selectedGerms addObject:model];
+        [selectedGerms addObject:model];
         [_tableView reloadData];
     }
 }
@@ -140,18 +146,42 @@
 -(void)callApiToGetGerms{
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,germsUrl];
     [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
-    [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [self processGerms:responseObject];
-        [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
-        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-        [userDefault setBool:NO forKey:@"germs_FLAG"];
-        [MBProgressHUD hideHUDForView:alphaView animated:YES];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          [MBProgressHUD hideHUDForView:alphaView animated:YES];
-    }];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+         NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
+        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processGerms:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"germs_FLAG"];
+            [MBProgressHUD hideHUDForView:alphaView animated:YES];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [MBProgressHUD hideHUDForView:alphaView animated:YES];
+        }];
+    }else {
+        [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processGerms:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"germs_FLAG"];
+            [MBProgressHUD hideHUDForView:alphaView animated:YES];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [MBProgressHUD hideHUDForView:alphaView animated:YES];
+        }];
+    }
 }
 -(void)processGerms:(id)responseObject{
-    NSDictionary *dict=responseObject;
+    
+    NSDictionary *dict;
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        NSDictionary *responseDict1 = responseObject;
+        dict  = responseDict1[@"aaData"];
+    }else{
+        //For Material API
+        dict=responseObject;
+    }
+    
     for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
         if ([dict1[@"Status"] intValue]==1) {
             germsModel *model=[[germsModel alloc]init];
@@ -171,13 +201,13 @@
                 break;
             }
         }
-        }
-        [self heightOfView:106];
+    }
+    [self heightOfView:106];
 }
 -(void)heightOfView:(CGFloat)height{
     CGRect frame=view.frame;
     if (_tableView.contentSize.height+height<_heightOfSuperView-450) {
-         _tableviewHeight.constant=_tableView.contentSize.height;
+        _tableviewHeight.constant=_tableView.contentSize.height;
         frame.size.height=_tableView.contentSize.height+height;
     }else{
         _tableviewHeight.constant=_heightOfSuperView-height-480;

@@ -58,21 +58,30 @@
      _addressTextView.placeholder=@"Surgeries";
     self.addressTextView.delegate=self;
     MaritialStatusArray=[@[@"YES",@"NO"]mutableCopy];
-    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    if ([userDefault boolForKey:@"gender_FLAG"]) {
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
         [self callApiForGender];
+    }else{
+        //For Material Api
+        
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        if ([userDefault boolForKey:@"gender_FLAG"]) {
+            [self callApiForGender];
+        }
+        else{
+            NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getGender];
+            [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+                if (success) {
+                    [self prcessGenderObject:response];
+                }
+                else{
+                    [self callApiForGender];
+                }
+            }];
+        }
     }
-    else{
-        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getGender];
-        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
-            if (success) {
-                [self prcessGenderObject:response];
-            }
-            else{
-                [self callApiForGender];
-            }
-        }];
-    }
+
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -359,8 +368,21 @@
      parameterDict[@"MiddleName"]=@"";
     parameterDict[@"LastName"]=@"";
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,addPatient];
+    NSString *parameter;
+ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+     //For Vzone Api
+     
+     NSMutableDictionary *finalVzoneParameteDict=[[NSMutableDictionary alloc]init];
+     finalVzoneParameteDict[@"request"]=parameterDict;
+     NSData *parameterData = [NSJSONSerialization dataWithJSONObject:finalVzoneParameteDict options:NSJSONWritingPrettyPrinted error:nil];
+     parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
+ }else{
+    //For Material Api
+    
     NSData *parameterData = [NSJSONSerialization dataWithJSONObject:parameterDict options:NSJSONWritingPrettyPrinted error:nil];
-    NSString *parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
+   parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
+ }
+    
     [containerVC showMBprogressTillLoadThedata];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectForAdd:responseObject];
@@ -368,9 +390,16 @@
         [containerVC hideAllMBprogressTillLoadThedata];
     }];
 }
+
 //response object of add patient
 -(void)processResponseObjectForAdd:(id)responseObject{
-    NSDictionary *dict=responseObject;
+    NSDictionary *dict;
+    
+     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+    NSDictionary *responseDict1 = responseObject;
+   dict=responseDict1[@"aaData"];
+     }else  dict=responseObject;
+    
     if ([dict[@"Success"] intValue]==1) {
         NSArray *userDetail=dict[@"UserDetails"];
         NSDictionary *dict1=userDetail[0];
@@ -388,25 +417,44 @@
         [containerVC hideAllMBprogressTillLoadThedata];
     }
 }
+
 //Gender API
 -(void)callApiForGender{
     postman=[[Postman alloc]init];
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getGender];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [self prcessGenderObject:responseObject];
-        [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
-        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-        [userDefault setBool:NO forKey:@"gender_FLAG"];
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-    }];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+          NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
+        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self prcessGenderObject:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"gender_FLAG"];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        }];
+        
+    }else{
+        [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self prcessGenderObject:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"gender_FLAG"];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        }];
+        
+    }
 }
-//response object of gender
+
+//response object of gender for Material Api
 -(void)prcessGenderObject:(id)responseObject{
     [genderArray removeAllObjects];
-    NSDictionary *dict=responseObject;
+    
+    NSDictionary *dict;
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSDictionary *responseDict1 = responseObject;
+        dict=responseDict1[@"aaData"];
+    }else dict=responseObject;
+    
     for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
         if ([dict1[@"Status"]intValue]==1) {
             editModel *editModelValue=[[editModel alloc]init];
@@ -416,30 +464,44 @@
         }
     }
 }
-////Martial API
-//-(void)callApiForMaritial{
-//    postman =[[Postman alloc]init];
-//    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getMartialStatus];
-//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//    [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        [self prcessMartialObject:responseObject];
-//        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-//    }];
-//}
-////response object of martial status
-//-(void)prcessMartialObject:(id)responseObject{
-//    NSDictionary *dict=responseObject;
-//    for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
-//        if ([dict1[@"Status"]intValue]==1) {
-//            editModel *editModelValue=[[editModel alloc]init];
-//            editModelValue.martialStatusName= dict1[@"Name"];
-//            editModelValue.martialCode=dict1[@"Code"];
-//            [MaritialStatusArray addObject:editModelValue];
-//        }
-//    }
-//}
+
+
+//Martial API
+
+-(void)callApiForMaritial{
+    postman =[[Postman alloc]init];
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getMartialStatus];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self prcessMartialObject:responseObject];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    }];
+}
+
+//for martial api
+-(void)prcessMartialObject:(id)responseObject{
+    
+    NSDictionary *dict;
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSDictionary *responseDict1 = responseObject;
+        dict=responseDict1[@"aaData"];
+    }else dict=responseObject;
+    
+    
+    for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
+        if ([dict1[@"Status"]intValue]==1) {
+            editModel *editModelValue=[[editModel alloc]init];
+            editModelValue.martialStatusName= dict1[@"Name"];
+            editModelValue.martialCode=dict1[@"Code"];
+            [MaritialStatusArray addObject:editModelValue];
+        }
+    }
+}
+
+
 //validate email
 -(void)validateEmail:(NSString*)email{
     NSString *emailRegEx=@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";

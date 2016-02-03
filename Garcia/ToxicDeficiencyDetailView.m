@@ -41,21 +41,28 @@
         return  self;
 }
 -(void)callSeed{
-        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-        if ([userDefault boolForKey:@"toxicdeficiency_FLAG"]) {
-            [self callApiToToxicDeficiency];
-        }
-        else{
-           NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,toxicDeficiencyDetail];
-            [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
-                if (success) {
-                    [self processToxicDeficiency:response];
-                }
-                else{
-                    [self callApiToToxicDeficiency];
-                }
-            }];
-        }
+  if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+      //For Vzone API
+      [self callApiToToxicDeficiency];
+  }else{
+      //For Material API
+      NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+      if ([userDefault boolForKey:@"toxicdeficiency_FLAG"]) {
+          [self callApiToToxicDeficiency];
+      }
+      else{
+          NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,toxicDeficiencyDetail];
+          [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+              if (success) {
+                  [self processToxicDeficiency:response];
+              }
+              else{
+                  [self callApiToToxicDeficiency];
+              }
+          }];
+          
+      }
+}
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return sortedToxicArray.count;
@@ -101,32 +108,68 @@
     return 35;
 }
 -(void)callApiToToxicDeficiency{
+
     [MBProgressHUD showHUDAddedTo:self animated:YES];
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,toxicDeficiencyDetail];
-    [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [self processToxicDeficiency:responseObject];
-        [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
-        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-        [userDefault setBool:NO forKey:@"toxicdeficiency_FLAG"];
-        [MBProgressHUD hideHUDForView:self animated:YES];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-         [MBProgressHUD hideHUDForView:self animated:YES];
-    }];
+        if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+             NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
+            [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                [self processToxicDeficiency:responseObject];
+                [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+                NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+                [userDefault setBool:NO forKey:@"toxicdeficiency_FLAG"];
+                [MBProgressHUD hideHUDForView:self animated:YES];
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                [MBProgressHUD hideHUDForView:self animated:YES];
+            }];
+
+        }else{
+            [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                [self processToxicDeficiency:responseObject];
+                [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+                NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+                [userDefault setBool:NO forKey:@"toxicdeficiency_FLAG"];
+                [MBProgressHUD hideHUDForView:self animated:YES];
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                [MBProgressHUD hideHUDForView:self animated:YES];
+            }];
+        }
 }
 -(void)processToxicDeficiency:(id)responseObject{
     [_toxicArray removeAllObjects];
-    NSDictionary *dict=responseObject;
-    for (NSDictionary *dict1 in dict[@"ViewModels"]) {
-        if ([dict1[@"Status"] intValue]==1) {
-        ToxicDeficiencyDetailModel *model=[[ToxicDeficiencyDetailModel alloc]init];
-            model.toxicCode=dict1[@"Code"];
-            model.toxicName=dict1[@"Name"];
-            model.toxicId=dict1[@"Id"];
-            model.selected=NO;
-            model.toxicTypeCode=dict1[@"ToxicDeficiencyTypeCode"];
-            [_toxicArray addObject:model];
+    
+    NSDictionary *dict;
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        NSDictionary *responseDict1 = responseObject;
+        dict  = responseDict1[@"aaData"];
+        for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
+            if ([dict1[@"Status"] intValue]==1) {
+                ToxicDeficiencyDetailModel *model=[[ToxicDeficiencyDetailModel alloc]init];
+                model.toxicCode=dict1[@"Code"];
+                model.toxicName=dict1[@"Name"];
+                model.toxicId=dict1[@"Id"];
+                model.selected=NO;
+                model.toxicTypeCode=dict1[@"ToxicDeficiencyTypeCode"];
+                [_toxicArray addObject:model];
             }
         }
+    }else{
+        //For Material API
+        dict=responseObject;
+        for (NSDictionary *dict1 in dict[@"ViewModels"]) {
+            if ([dict1[@"Status"] intValue]==1) {
+                ToxicDeficiencyDetailModel *model=[[ToxicDeficiencyDetailModel alloc]init];
+                model.toxicCode=dict1[@"Code"];
+                model.toxicName=dict1[@"Name"];
+                model.toxicId=dict1[@"Id"];
+                model.selected=NO;
+                model.toxicTypeCode=dict1[@"ToxicDeficiencyTypeCode"];
+                [_toxicArray addObject:model];
+            }
+        }
+    }
     [self sortData];
 }
 -(void)sortData{
