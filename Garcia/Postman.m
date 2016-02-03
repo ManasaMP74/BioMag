@@ -21,7 +21,6 @@
     [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [requestSerializer setValue:token forHTTPHeaderField:@"x-access-token"];
-    [requestSerializer setValue:token forHTTPHeaderField:@"x-access-token"];
     [requestSerializer setValue:userID forHTTPHeaderField:@"x-uid"];
    
     self.manager.requestSerializer=requestSerializer;

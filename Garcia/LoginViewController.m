@@ -4,6 +4,7 @@
 #import "PostmanConstant.h"
 #import "Postman.h"
 #import "AppDelegate.h"
+#import "SeedSyncer.h"
 @interface LoginViewController ()<UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *userNameTf;
 @property (strong, nonatomic) IBOutlet UITextField *passwordTF;
@@ -38,7 +39,7 @@
 }
 //signin button action
 - (IBAction)signIn:(id)sender {
-//    if (_userNameTf.text.length==0 & _passwordTF.text.length==0) {
+   // if (_userNameTf.text.length==0 & _passwordTF.text.length==0) {
 //        [self showAlerView:@"Username and Password is required"];
 //    }
 //    else if (_userNameTf.text.length==0) [self showAlerView:@"Username is required"];
@@ -57,7 +58,7 @@
           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
               [MBProgressHUD hideHUDForView:self.view animated:YES];
           }];
-  //}
+ // }
 }
 //parse login response
 - (void)parseLoginResponse:(id)response
@@ -85,7 +86,7 @@
 }
 //Alert Message
 -(void)showAlerView:(NSString*)msg{
-    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
         [alertView dismissViewControllerAnimated:YES completion:nil];
     }];

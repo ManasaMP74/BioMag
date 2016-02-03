@@ -3,7 +3,7 @@
 #import "searchPatientModel.h"
 #import "PatientDetailModel.h"
 #import "UIImageView+AFNetworking.h"
-#import "PatientTitleModel.h";
+#import "PatientTitleModel.h"
 #if !defined(MAX)
 #define MAX(A,B)((A) > (B) ? (A) : (B))
 #endif

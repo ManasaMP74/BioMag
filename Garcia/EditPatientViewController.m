@@ -36,6 +36,7 @@
     Postman *postman;
     NSString *genderCode,*martialCode;
     ImageUploadAPI *imageManager;
+    NSString *editedPatientCode;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -50,23 +51,6 @@
     self.gendertableview.delegate=self;
     self.nameTF.delegate=self;
     self.mobileNoTF.delegate=self;
-        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-        [[SeedSyncer sharedSyncer]callSeedAPI:^(BOOL success) {
-            if ([userDefault boolForKey:@"gender_FLAG"]) {
-                [self callApiForGender];
-            }
-            else{
-              NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getGender];
-            [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
-                if (success) {
-                    [self prcessGenderObject:response];
-                }
-                else{
-                    [self callApiForGender];
-                }
-            }];
-            }
-        }];
     MaritialStatusArray=[@[@"YES",@"NO"]mutableCopy];
 }
 -(void)viewWillAppear:(BOOL)animated{
@@ -74,22 +58,21 @@
     UINavigationController *nav=(UINavigationController*)self.parentViewController;
     containerVC=(ContainerViewController*)nav.parentViewController;
     [containerVC setTitle:@"Edit"];
-        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    NSLog(@"%hhd",[userDefault boolForKey:@"gender_FLAG"]);
-                if ([userDefault boolForKey:@"gender_FLAG"]) {
-                    [self callApiForGender];
-                }
-                else{
-                NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getGender];
-                [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
-                    if (success) {
-                        [self prcessGenderObject:response];
-                    }
-                    else{
-                        [self callApiForGender];
-                    }
-                }];
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"gender_FLAG"]) {
+        [self callApiForGender];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getGender];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+                [self prcessGenderObject:response];
             }
+            else{
+                [self callApiForGender];
+            }
+        }];
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -97,11 +80,11 @@
 //default values
 -(void)defaultValues{
     _nameTF.text=_model.name;
-     _genderTF.text=_model.gender;
-     _maritialStatus.text=@"YES";
-     _dateOfBirthTF.text=_model.dob;
+    _genderTF.text=_model.gender;
+    _maritialStatus.text=@"YES";
+    _dateOfBirthTF.text=_model.dob;
     _mobileNoTF.text=_model.mobileNo;
-     _emailTF.text=_model.emailId;
+    _emailTF.text=_model.emailId;
     martialCode=_model.martialCode;
     genderCode=_model.genderCode;
     if (_model.profileImageCode==nil) {
@@ -116,10 +99,10 @@
     if (_model.tranfusion!=nil) {
         _maritialStatus.text=_model.tranfusion;
     }else _maritialStatus.text=@"";
-
+    
 }
 - (IBAction)cancel:(id)sender {
-[self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 //Save the data
 - (IBAction)save:(id)sender {
@@ -143,7 +126,7 @@
     _maritialTableView.hidden=YES;
     if(datePicker==nil)
         datePicker= [[DatePicker alloc]initWithFrame:CGRectMake(self.view.frame.origin.x+100, self.view.frame.origin.y+230,self.view.frame.size.width-200,230)];
-   datePicker.datePicker.maximumDate=[NSDate date];
+    datePicker.datePicker.maximumDate=[NSDate date];
     [datePicker alphaViewInitialize];
     datePicker.delegate=self;
 }
@@ -154,7 +137,7 @@
 - (IBAction)gender:(id)sender {
     [self.view endEditing:YES];
     [self.view endEditing:YES];
-     _maritialTableView.hidden=YES;
+    _maritialTableView.hidden=YES;
     _gendertableview.hidden=NO;
     [_gendertableview reloadData];
     [_scrollView layoutIfNeeded];
@@ -173,7 +156,7 @@
         
     }
     else if ([tableView isEqual:self.maritialTableView])
-    return MaritialStatusArray.count;
+        return MaritialStatusArray.count;
     else
         return 10;
     
@@ -201,7 +184,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if ([self.gendertableview isEqual:tableView ])
-   {
+    {
         editModel *model=genderArray[indexPath.row];
         _genderTF.text=model.genderName;
         genderCode=model.genderCode;
@@ -215,7 +198,7 @@
 }
 //cell Color
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
- [cell setBackgroundColor:[UIColor colorWithRed:0.73 green:0.76 blue:0.91 alpha:1]];
+    [cell setBackgroundColor:[UIColor colorWithRed:0.73 green:0.76 blue:0.91 alpha:1]];
 }
 //Hide KeyBoard
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
@@ -260,19 +243,6 @@
     activeField = textField;
     _maritialTableView.hidden=YES;
     _gendertableview.hidden=YES;
-    if (activeField==self.mobileNoTF)
-    {
-        if (self.mobileNoTF.text.length==0)
-        {
-        //            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Error" message:@"Please enter the phone number" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            //            [alert show];
-        }
-        else if (self.mobileNoTF.text.length==10 && [self myMobileNumberValidate:self.mobileNoTF.text])
-        {
-            
-            
-        }
-    }
 }
 //textField EndEditing
 - (void)textFieldDidEndEditing:(UITextField *)textFieldcs
@@ -284,6 +254,22 @@
     _maritialTableView.hidden=YES;
     _gendertableview.hidden=YES;
     //activeField = textView;
+}
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    if ([textField isEqual:_mobileNoTF]) {
+    NSCharacterSet * numberCharSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+    for (int i = 0; i < [string length]; ++i)
+    {
+        unichar c = [string characterAtIndex:i];
+        if (![numberCharSet characterIsMember:c])
+        {
+            return NO;
+        }
+    }
+    
+    return YES;
+    }
+    else return YES;
 }
 //textField EndEditing
 - (void)textViewDidEndEditing:(UITextView *)textView{
@@ -346,10 +332,10 @@
 }
 //image picker delegate
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
- UIImage *profileImage =info[UIImagePickerControllerOriginalImage];
-       _patientImageView.image=profileImage;
+    UIImage *profileImage =info[UIImagePickerControllerOriginalImage];
+    _patientImageView.image=profileImage;
     containerVC.viewControllerDiffer=@"Edit";
-      [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 // hide keyboard
 - (IBAction)hideKeyboard:(UIControl *)sender
@@ -365,18 +351,19 @@
 }
 //Gender API
 -(void)callApiForGender{
-   postman=[[Postman alloc]init];
+    postman=[[Postman alloc]init];
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getGender];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self prcessGenderObject:responseObject];
-     [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
-    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    [userDefault setBool:NO forKey:@"category_FLAG"];
+        [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        [userDefault setBool:NO forKey:@"gender_FLAG"];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
     }];
 }
 //response object for gender
 -(void)prcessGenderObject:(id)responseObject{
+    [genderArray removeAllObjects];
     NSDictionary *dict=responseObject;
     for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
         if ([dict1[@"Status"]intValue]==1) {
@@ -389,14 +376,14 @@
 }
 //Martial API
 -(void)callApiForMaritial{
-  postman =[[Postman alloc]init];
+    postman =[[Postman alloc]init];
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getMartialStatus];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-       [self prcessMartialObject:responseObject];
+        [self prcessMartialObject:responseObject];
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }];
 }
 //for martial api
@@ -404,7 +391,7 @@
     NSDictionary *dict=responseObject;
     for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
         if ([dict1[@"Status"]intValue]==1) {
-             editModel *editModelValue=[[editModel alloc]init];
+            editModel *editModelValue=[[editModel alloc]init];
             editModelValue.martialStatusName= dict1[@"Name"];
             editModelValue.martialCode=dict1[@"Code"];
             [MaritialStatusArray addObject:editModelValue];
@@ -414,21 +401,21 @@
 //Patient Update
 -(void)callApiForUpdate{
     postman =[[Postman alloc]init];
-   NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     if (_model.addressLine1!=nil) {
-         dict[@"AddressLine1"]=_model.addressLine1;
+        dict[@"AddressLine1"]=_model.addressLine1;
     }else  dict[@"AddressLine1"]=@"";
     if (_model.addressline2!=nil) {
         dict[@"AddressLine2"]=_model.addressline2;
     }else  dict[@"AddressLine2"]=@"";
     if (_model.country!=nil) {
-       dict[@"Country"]=_model.country;
+        dict[@"Country"]=_model.country;
     }else   dict[@"Country"]=@"";
     if (_model.state!=nil) {
-         dict[@"State"]=_model.state;
+        dict[@"State"]=_model.state;
     }else dict[@"State"]=@"";
     if (_model.city!=nil) {
-         dict[@"City"]=_model.city;
+        dict[@"City"]=_model.city;
     }else  dict[@"City"]=@"";
     if (_model.pinCode!=nil) {
         dict[@"Postal"]=_model.pinCode;
@@ -482,11 +469,10 @@
     parameterDict[@"UserID"]=_model.userID;
     parameterDict[@"MiddleName"]=@"";
     parameterDict[@"LastName"]=@"";
-     parameterDict[@"RoleCode"]=[NSNull null];
-
-     NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,editPatient,_model.Id];
+    parameterDict[@"RoleCode"]=[NSNull null];
+    NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,editPatient,_model.Id];
     NSData *parameterData = [NSJSONSerialization dataWithJSONObject:parameterDict options:NSJSONWritingPrettyPrinted error:nil];
-     NSString *parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
+    NSString *parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
     [containerVC showMBprogressTillLoadThedata];
     [postman put:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectForEdit:responseObject];
@@ -498,6 +484,8 @@
 -(void)processResponseObjectForEdit:(id)responseObject{
     NSDictionary *dict=responseObject;
     if ([dict[@"Success"] intValue]==1) {
+        NSDictionary *dict1=dict[@"UserObj"];
+        editedPatientCode=dict1[@"Code"];
         if (![_patientImageView.image isEqual:[UIImage imageNamed:@"Patient-img.jpg"]]) {
             [self saveImage:_patientImageView.image];
         }
@@ -505,11 +493,11 @@
             [self alertmessage:dict[@"Message"]];
             [containerVC hideAllMBprogressTillLoadThedata];
         }
-
-}
-else{
+        
+    }
+    else{
         [self showFailureAlerMessage:dict[@"Message"]];
-      [containerVC hideAllMBprogressTillLoadThedata];
+        [containerVC hideAllMBprogressTillLoadThedata];
     }
 }
 //validate Email
@@ -577,12 +565,12 @@ else{
     return alrtArray;
 }
 -(void)alertView:(NSString*)message{
-        UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
-            [alertView dismissViewControllerAnimated:YES completion:nil];
-        }];
-        [alertView addAction:success];
-        [self presentViewController:alertView animated:YES completion:nil];
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertView addAction:success];
+    [self presentViewController:alertView animated:YES completion:nil];
 }
 //validate phone number
 -(int)validPhonenumber:(NSString *)string
@@ -605,23 +593,23 @@ else{
         NSString* path = [documentsDirectory stringByAppendingPathComponent:@"EdittedProfile.jpeg" ];
         NSData* data = UIImageJPEGRepresentation(image,.5);
         [data writeToFile:path atomically:YES];
-       [imageManager uploadUserImagePath:path forRequestCode:_model.code withDocumentType:@"ABC123" onCompletion:^(BOOL success) {
+        [imageManager uploadUserImagePath:path forRequestCode:_model.code withDocumentType:@"ABC123" onCompletion:^(BOOL success) {
             if (success)
             {
                 [self alertmessage:@"Updated successfully"];
                 [containerVC hideAllMBprogressTillLoadThedata];
             }else
             {
-                 [self showFailureAlerMessage:@"Updated Failed"];
-                  [containerVC hideAllMBprogressTillLoadThedata];
+                [self showFailureAlerMessage:@"Updated Failed"];
+                [containerVC hideAllMBprogressTillLoadThedata];
             }
         }];
     }
 }
 -(void)alertmessage :(NSString*)msg{
-    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
-        [self.delegate successfullyEdited];
+        [self.delegate successfullyEdited:editedPatientCode];
         [self.navigationController popViewControllerAnimated:YES];
         [alertView dismissViewControllerAnimated:YES completion:nil];
     }];
@@ -629,12 +617,12 @@ else{
     [self presentViewController:alertView animated:YES completion:nil];
 }
 -(void)showFailureAlerMessage:(NSString*)msg{
-    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
         [alertView dismissViewControllerAnimated:YES completion:nil];
     }];
     [alertView addAction:success];
     [self presentViewController:alertView animated:YES completion:nil];
-
+    
 }
 @end

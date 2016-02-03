@@ -87,20 +87,6 @@
                         <action selector="addNewGerm:" destination="-1" eventType="touchUpInside" id="anj-ZY-fiB"/>
                     </connections>
                 </button>
-                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z5L-Gy-maX">
-                    <rect key="frame" x="229" y="225" width="55" height="42"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="42" id="2K4-D6-DaR"/>
-                        <constraint firstAttribute="width" constant="55" id="jsk-lD-3CT"/>
-                    </constraints>
-                    <state key="normal" image="Tick">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="add:" destination="-1" eventType="touchUpInside" id="uOZ-x7-Ayr"/>
-                    </connections>
-                </button>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hRn-0K-pqM">
                     <rect key="frame" x="25" y="225" width="199" height="43"/>
                     <subviews>
@@ -138,6 +124,20 @@
                         <constraint firstAttribute="bottom" secondItem="5Lz-Vg-rt7" secondAttribute="bottom" id="zPg-GB-8UB"/>
                     </constraints>
                 </view>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z5L-Gy-maX">
+                    <rect key="frame" x="229" y="225" width="55" height="42"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="42" id="2K4-D6-DaR"/>
+                        <constraint firstAttribute="width" constant="55" id="jsk-lD-3CT"/>
+                    </constraints>
+                    <state key="normal" image="Tick">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="add:" destination="-1" eventType="touchUpInside" id="uOZ-x7-Ayr"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>

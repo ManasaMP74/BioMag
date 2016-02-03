@@ -2,7 +2,7 @@
 #import "searchPatientModel.h"
 #import "UIImageView+AFNetworking.h"
 @protocol editPatient<NSObject>
--(void)successfullyEdited;
+-(void)successfullyEdited:(NSString *)code;
 @end
 @interface EditPatientViewController : UIViewController<UITextViewDelegate>
 @property(strong,nonatomic)searchPatientModel *model;

@@ -1,10 +1,12 @@
 #import <UIKit/UIKit.h>
 #import "UIImageView+AFNetworking.h"
+#import "ToxicDeficiencyDetailView.h"
 #if !defined(MAX)
 #define MAX(A,B)((A) > (B) ? (A) : (B))
 #endif
 @protocol increaseSittingCell<NSObject>
--(void)loadTreatMentFromSittingPart;
+-(void)uploadImageAfterSaveInSitting:(NSString*)code;
+-(void)loadTreatMentFromSittingPart:(NSString*)idvalue;
 @end
 @interface SittingViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UIButton *addSymptom;
@@ -25,10 +27,15 @@
 @property (strong, nonatomic) IBOutlet UIButton *nextBtn;
 @property (strong, nonatomic) IBOutlet UIButton *visitDateButton;
 @property (strong, nonatomic) IBOutlet UIButton *exit;
+@property (weak, nonatomic) IBOutlet UIButton *saveToxicDeficiency;
+@property (weak, nonatomic) IBOutlet ToxicDeficiencyDetailView *toxicView;
+@property (weak, nonatomic) IBOutlet UIView *scanPointHeaderView;
 
 //Data from parentView;
 @property(strong,nonatomic)NSString *SortType;
 @property(strong,nonatomic)NSString *sectionName;
 @property(strong,nonatomic)NSIndexPath *selectedIndexPathOfSectionInSlideOut;
 @property(weak,nonatomic)id<increaseSittingCell>delegateForIncreasingSitting;
+@property(strong,nonatomic)NSString *toxicDeficiencyString;
+@property(strong,nonatomic)NSString *editOrAddSitting;
 @end

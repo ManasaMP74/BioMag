@@ -5,6 +5,7 @@
 #import "MBProgressHUD.h"
 #import "Postman.h"
 #import "PostmanConstant.h"
+#import "SeedSyncer.h"
 @implementation AddSymptom
 {
     UIView *view;
@@ -53,8 +54,8 @@
     _allTagListTableViewHeight.constant=0;
     [self.collectionView registerNib:[UINib nibWithNibName:@"SymptomTagCustomeCell" bundle:nil] forCellWithReuseIdentifier:@"cell"];
     [constant SetBorderForTextField:_symptomTf];
-     [self callApiTogetSymptomTag];
-   [_symptomTf addTarget:self action:@selector(tagTextFieldChange) forControlEvents:UIControlEventEditingChanged];
+    [self callSeed];
+    [_symptomTf addTarget:self action:@selector(tagTextFieldChange) forControlEvents:UIControlEventEditingChanged];
     _symptomTf.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Enter Symptom Tag"];
     [constant spaceAtTheBeginigOfTextField:_symptomTf];
     [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
@@ -154,6 +155,9 @@
     [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectOfGetAllTag:responseObject];
+        [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        [userDefault setBool:NO forKey:@"germs_FLAG"];
         [MBProgressHUD hideHUDForView:alphaView animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [MBProgressHUD hideHUDForView:alphaView animated:YES];
@@ -202,12 +206,14 @@
     NSString *str=@"";
     for (SymptomTagModel *model in allTagListArray) {
         if ([model.tagName isEqualToString:_symptomTf.text]) {
-            [symptomTagArray addObject:model];
-            str=@"done";
-            [_collectionView reloadData];
-             [self heightOfView:182];
-            _symptomTf.text=@"";
-             [self.delegate addsymptom:symptomTagArray];
+             str=@"done";
+            if (![symptomTagArray containsObject:model]) {
+                [symptomTagArray addObject:model];
+                [_collectionView reloadData];
+                [self heightOfView:182];
+                _symptomTf.text=@"";
+                [self.delegate addsymptom:symptomTagArray];
+            }
         }
     }
     if ([str isEqualToString:@""]) {
@@ -216,11 +222,31 @@
         [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
             [self processResponseObjectOfAddTag:responseObject];
+            [self callSeed];
             [MBProgressHUD hideAllHUDsForView:alphaView animated:YES];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             [MBProgressHUD hideAllHUDsForView:alphaView animated:YES];
         }];
     }
+}
+-(void)callSeed{
+    [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        if ([userDefault boolForKey:@"symptomtag_FLAG"]) {
+            [self callApiTogetSymptomTag];
+        }
+        else{
+            NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getSymptomTag];
+            [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+                if (success) {
+                    [self processResponseObjectOfGetAllTag:response];
+                }
+                else{
+                    [self callApiTogetSymptomTag];
+                }
+            }];
+        }
+    }];
 }
 //process object
 -(void)processResponseObjectOfAddTag:(id)responseObject{

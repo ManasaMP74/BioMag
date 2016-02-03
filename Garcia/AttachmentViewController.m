@@ -66,7 +66,7 @@
 {
         if (textView.text.length + (text.length - range.length) > 150) {
         [self.view endEditing:YES];
-        UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"" message:@"Text should be less than 150" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:@"Text should be less than 150" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *cancel=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
            [alertView dismissViewControllerAnimated:YES completion:nil];
         }];

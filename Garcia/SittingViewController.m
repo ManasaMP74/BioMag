@@ -20,9 +20,8 @@
 #import "PreviousSittingCollectionViewCell.h"
 #import "AppDelegate.h"
 #import "SymptomTagModel.h"
-#import "DBManager.h"
 #import "SeedSyncer.h"
-@interface SittingViewController ()<UITableViewDelegate,UITableViewDataSource,addsymptom,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,UICollectionViewDataSource,ExpandCellProtocol,SWRevealViewControllerDelegate,deleteCellValue,SWRevealViewControllerDelegate,datePickerProtocol,sendGermsData,DBManagerDelegate>
+@interface SittingViewController ()<UITableViewDelegate,UITableViewDataSource,addsymptom,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,UICollectionViewDataSource,ExpandCellProtocol,SWRevealViewControllerDelegate,deleteCellValue,SWRevealViewControllerDelegate,datePickerProtocol,sendGermsData>
 @property (strong, nonatomic) IBOutlet UILabel *ageValue;
 @property (strong, nonatomic) IBOutlet UILabel *filterLabel;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -47,51 +46,40 @@
     NSIndexPath *selectedCellIndex;
     int selectedCellToFilter;
     AppDelegate *appdelegate;
-    DBManager *dbManager;
 }
 - (void)viewDidLoad {
-     appdelegate=[UIApplication sharedApplication].delegate;
+    appdelegate=[UIApplication sharedApplication].delegate;
     constant=[[Constant alloc]init];
-    allSortedDetailArray   =[[NSMutableArray alloc]init];
+    allSortedDetailArray=[[NSMutableArray alloc]init];
     selectedIndexArray=[[NSMutableArray alloc]init];
     selectedPreviousSittingDetailArray=[[NSMutableArray alloc]init];
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
-   self.revealViewController.delegate=self;
-   [self.revealViewController setRightViewRevealWidth:180];
-   [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-2.jpg"]]];
+    self.revealViewController.delegate=self;
+    [self.revealViewController setRightViewRevealWidth:180];
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-2.jpg"]]];
     postman=[[Postman alloc]init];
     if ([_sectionName isEqualToString:@""]) {
+         allSectionNameArray=[[NSMutableArray alloc]init];
         if (appdelegate.completeDetailToDrArray.count==0) {
-            allSectionNameArray=[[NSMutableArray alloc]init];
-            [self callApi];
+            [self callSeed];
         }else{
-            [allSortedDetailArray addObjectsFromArray:appdelegate.completeDetailToDrArray];
+            [self callSeed];
+            for (sittingModel *model in appdelegate.completeDetailToDrArray) {
+                model.germsString=@"";
+                model.issue=NO;
+                model.edited=@"N";
+            }
             allSectionNameArray=appdelegate.allsectionNameArray;
-            _filterLabel.text=allSectionNameArray[0];
-              [self compareNextBtnToBeHidden];
+            if (allSectionNameArray.count>0) {
+                _filterLabel.text=allSectionNameArray[0];
+                [self compareNextBtnToBeHidden];
+            }
         }
     }else{
         selectedCellToFilter=_selectedIndexPathOfSectionInSlideOut.row;
-       [self compareNextBtnToBeHidden];
+        allSectionNameArray=appdelegate.allsectionNameArray;
+        [self compareNextBtnToBeHidden];
     }
-    
-//     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-//    [[SeedSyncer sharedSyncer]callSeedAPI:^(BOOL success) {
-//        if ([userDefault boolForKey:@"category_FLAG"]) {
-//            [self callApi];
-//        }
-//        else{
-//            NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,biomagneticMatrix];
-//        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
-//            if (success) {
-//                [self processResponseObject:response];
-//            }
-//            else{
-//                [self callApi];
-//            }
-//        }];
-//        }
-//    }];
     [_priceTf addTarget:self action:@selector(DidChangePriceTF) forControlEvents:UIControlEventEditingChanged];
     [self defaultValues];
     if (appdelegate.symptomTagArray.count>0) {
@@ -102,34 +90,38 @@
             _collectionViewWidth.constant=_collectionView.contentSize.width;
         }else _collectionViewWidth.constant=self.view.frame.size.width-100;
     }
+    if (![_toxicDeficiencyString isEqualToString:@""]) {
+        [self showToxicDeficiencyView];
+    }
+}
+-(void)callSeed{
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        if ([userDefault boolForKey:@"anatomicalbiomagneticmatrix_FLAG"]) {
+            [self callApi];
+        }
+        else{
+            NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,biomagneticMatrix];
+            [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+                if (success) {
+                    [self processResponseObject:response];
+                }
+                else{
+                    [self callApi];
+                }
+            }];
+        }
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
-     [self navigationItemMethod];
-       _tableview.tableFooterView=[UIView new];
+    [self navigationItemMethod];
+    _tableview.tableFooterView=[UIView new];
     if ([appdelegate.isTreatmntCompleted intValue]==0) {
-            _saveBtn.hidden=NO;
-            _exit.hidden=YES;
-        }else{
-            _saveBtn.hidden=YES;
-            _exit.hidden=NO;
-        }
-//    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-//            if ([userDefault boolForKey:@"category_FLAG"]) {
-//                [self callApi];
-//            }
-//            else{
-//                NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,biomagneticMatrix];
-//            [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
-//                if (success) {
-//                    [self processResponseObject:response];
-//                }
-//                else{
-//                    [self callApi];
-//                }
-//            }];
-//        }
-    
+        _saveBtn.hidden=NO;
+        _exit.hidden=YES;
+    }else{
+        _saveBtn.hidden=YES;
+        _exit.hidden=NO;
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -152,9 +144,9 @@
         NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,appdelegate.model.profileImageCode];
         [_patientimage setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
     }
-
+    
 }
-    //save price
+//save price
 - (IBAction)savePrice:(id)sender {
     if (![_priceTf.text isEqualToString:@""]) {
         [self.view endEditing:YES];
@@ -164,7 +156,7 @@
 //navigation bar
 -(void)navigationItemMethod{
     self.revealViewController.navigationItem.hidesBackButton=YES;
-   self.revealViewController.title=@"Sitting";
+    self.revealViewController.title=@"Sitting";
     UIImage* image3 = [UIImage imageNamed:@"Icon-Signout.png"];
     CGRect frameimg = CGRectMake(0, 0, image3.size.width, image3.size.height);
     UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
@@ -203,12 +195,12 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     SittingTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
     cell.sittingTextView.layer.cornerRadius=10;
-   cell.sittingTextView.layer.borderColor=[UIColor colorWithRed:0.004 green:0.216 blue:0.294 alpha:0.5].CGColor;
+    cell.sittingTextView.layer.borderColor=[UIColor colorWithRed:0.004 green:0.216 blue:0.294 alpha:0.5].CGColor;
     cell.sittingTextView.layer.borderWidth=1;
     cell.sittingTextView.font=[UIFont fontWithName:@"OpenSansSemibold" size:14];
     cell.sittingTextView.textColor=[UIColor colorWithRed:0.04 green:0.216 blue:0.294 alpha:1];
     cell.delegate=self;
-     sittingModel *model= allSortedDetailArray[indexPath.section];
+    sittingModel *model= allSortedDetailArray[indexPath.section];
     cell.scanpointLabel.text=model.scanPointName;
     cell.correspondinPairLabel.text=model.correspondingPairName;
     cell.interpretation.text=model.interpretation;
@@ -220,11 +212,11 @@
     }
     if ([selectedIndexArray containsObject:indexPath]) {
         [self hideTheViewInTableViewCell:NO withCell:cell];
-         cell.interpretation.numberOfLines=0;
+        cell.interpretation.numberOfLines=0;
         cell.scanpointLabel.numberOfLines=0;
         cell.correspondinPairLabel.numberOfLines=0;
         if (![cell.expandButton.image isEqual:[UIImage imageNamed:@"Dropdown-icon-up"]]) {
-              [self changeIncreaseDecreaseImageView:cell.expandButton];
+            [self changeIncreaseDecreaseImageView:cell.expandButton];
         }
         if ([selectedPreviousSittingDetailArray containsObject:indexPath]) {
             [self hideTheViewOfPreviousDetailOFSittingTableViewCell:NO withCell:cell];
@@ -233,57 +225,60 @@
             }
         }
         else{
-        [self hideTheViewOfPreviousDetailOFSittingTableViewCell:YES withCell:cell];
+            [self hideTheViewOfPreviousDetailOFSittingTableViewCell:YES withCell:cell];
             [cell.morePreviousButton setImage:[UIImage imageNamed:@"icon-down"] forState:normal];
         }
     }
     else {
-     [self hideTheViewInTableViewCell:YES withCell:cell];
+        [self hideTheViewInTableViewCell:YES withCell:cell];
         cell.interpretation.numberOfLines=1;
         cell.scanpointLabel.numberOfLines=1;
         cell.correspondinPairLabel.numberOfLines=1;
-    [self hideTheViewOfPreviousDetailOFSittingTableViewCell:YES withCell:cell];
-    cell.expandButton.image=[UIImage imageNamed:@"Dropdown-icon"];
-    [cell.morePreviousButton setImage:[UIImage imageNamed:@"Dropdown-icon"] forState:normal];
+        [self hideTheViewOfPreviousDetailOFSittingTableViewCell:YES withCell:cell];
+        cell.expandButton.image=[UIImage imageNamed:@"Dropdown-icon"];
+        [cell.morePreviousButton setImage:[UIImage imageNamed:@"Dropdown-icon"] forState:normal];
     }
     if (model.issue) {
-       [self colorChange:model.issue withCell:cell];
+        [self colorChange:model.issue withCell:cell];
     }else{
-       [self colorChange:model.issue withCell:cell];
+        [self colorChange:model.issue withCell:cell];
     }
     if ([model.germsString isEqualToString:@""]) {
         cell.sittingTextView.text=@"";
         cell.sittingTvPlaceholder.hidden=NO;
         if (appdelegate.bioSittingDict!=nil) {
-            NSDictionary *dict=appdelegate.bioSittingDict;
-            NSString *str=dict[@"JSON"];
-            NSError *jsonError;
-            NSData *objectData = [str dataUsingEncoding:NSUTF8StringEncoding];
-            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData options:NSJSONReadingMutableContainers
-                                error:&jsonError];
-            [_datePicButton setTitle:dict[@"Visit"] forState:normal];
-            NSArray *anotomicalPointArray=json[@"AnatomicalPoints"];
-            if (anotomicalPointArray.count>0) {
-                NSDictionary *anotomicalDict=anotomicalPointArray[0];
-                if (([anotomicalDict[@"SectionCode"] isEqualToString:model.sectionCode])&([anotomicalDict[@"CorrespondingPairCode"] isEqualToString:model.correspondingPairCode])&([anotomicalDict[@"ScanPointCode"] isEqualToString:model.scanPointCode]) ) {
-                    cell.sittingNumber.text=[NSString stringWithFormat:@"S%d",[dict[@"SittingNumber"]intValue]];
-                    cell.sittingTextView.text=anotomicalDict[@"GermsName"];
-                    model.germsString= cell.sittingTextView.text;
-                    cell.sittingTvPlaceholder.hidden=YES;
-                    if ([anotomicalDict[@"Issue"] integerValue]==1) {
-                          model.issue= YES;
-                        [self colorChange:model.issue withCell:cell];
-                    }else{
-                        model.issue= NO;
-                       [self colorChange:model.issue withCell:cell];
+            if ([model.edited isEqualToString:@"N"]) {
+                NSDictionary *dict=appdelegate.bioSittingDict;
+                NSString *str=dict[@"JSON"];
+                NSError *jsonError;
+                NSData *objectData = [str dataUsingEncoding:NSUTF8StringEncoding];
+                NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData options:NSJSONReadingMutableContainers
+                                                                       error:&jsonError];
+                [_datePicButton setTitle:dict[@"Visit"] forState:normal];
+                NSArray *anotomicalPointArray=json[@"AnatomicalPoints"];
+                if (anotomicalPointArray.count>0) {
+                    for (NSDictionary *anotomicalDict in anotomicalPointArray) {
+                        if (([anotomicalDict[@"SectionCode"] isEqualToString:model.sectionCode])&([anotomicalDict[@"CorrespondingPairCode"] isEqualToString:model.correspondingPairCode])&([anotomicalDict[@"ScanPointCode"] isEqualToString:model.scanPointCode]) ) {
+                            cell.sittingNumber.text=[NSString stringWithFormat:@"S%d",[dict[@"SittingNumber"]intValue]];
+                            cell.sittingTextView.text=anotomicalDict[@"GermsName"];
+                            model.germsString= cell.sittingTextView.text;
+                            cell.sittingTvPlaceholder.hidden=YES;
+                            if ([anotomicalDict[@"Issue"] integerValue]==1) {
+                                model.issue= YES;
+                                [self colorChange:model.issue withCell:cell];
+                            }else{
+                                model.issue= NO;
+                                [self colorChange:model.issue withCell:cell];
+                            }
+                        }else{
+                            cell.sittingNumber.text=@"S1";
+                            cell.sittingTextView.text=@"";
+                            cell.sittingTvPlaceholder.hidden=NO;
+                        }
+                        if (![anotomicalDict[@"Price"] isEqualToString:@""]) {
+                            _priceTf.text=anotomicalDict[@"Price"];
+                        }
                     }
-                }else{
-                    cell.sittingNumber.text=@"S1";
-                    cell.sittingTextView.text=@"";
-                    cell.sittingTvPlaceholder.hidden=NO;
-                }
-                if (![anotomicalDict[@"Price"] isEqualToString:@""]) {
-                    _priceTf.text=anotomicalDict[@"Price"];
                 }
             }
         }
@@ -292,9 +287,9 @@
         cell.sittingTvPlaceholder.hidden=YES;
     }
     if ([appdelegate.isTreatmntCompleted intValue]==0) {
-                [self disableTheButton:cell withStatus:YES];
+        [self disableTheButton:cell withStatus:YES];
     }else  [self disableTheButton:cell withStatus:NO];
-       return cell;
+    return cell;
 }
 //Change the color of cell
 -(void)colorChange:(BOOL)issue withCell:(SittingTableViewCell*)cell{
@@ -325,7 +320,7 @@
         if ([selectedPreviousSittingDetailArray containsObject:indexPath]) {
             return 267;
         }
-       else return 187;
+        else return 187;
     }
     else return 40;
 }
@@ -339,14 +334,14 @@
 //collection view cell
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     if (collectionView==_collectionView) {
-  SymptomTagCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-    SymptomTagModel *m= appdelegate.symptomTagArray[indexPath.row];
-   cell.label.text=m.tagName;
-    cell.delegate=self;
+        SymptomTagCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+        SymptomTagModel *m= appdelegate.symptomTagArray[indexPath.row];
+        cell.label.text=m.tagName;
+        cell.delegate=self;
         if ([appdelegate.isTreatmntCompleted intValue]==0) {
             cell.deleteSymptom.hidden=NO;
         }else  cell.deleteSymptom.hidden=YES;
-       return cell;
+        return cell;
     }
     else{
         PreviousSittingCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
@@ -355,7 +350,7 @@
             cell.infoLabel.text=@"B, B, V, H";
             cell.dateLabel.text=@"11-Jan-2015";
         }
-       else if (indexPath.row==1) {
+        else if (indexPath.row==1) {
             cell.sittingNumber.text=@"S2";
             cell.infoLabel.text=@"B, V, H";
             cell.dateLabel.text=@"11-Jan-2015";
@@ -365,23 +360,23 @@
             cell.infoLabel.text=@"B, V";
             cell.dateLabel.text=@"11-Jan-2015";
         }
-               return cell;
+        return cell;
     }
-
+    
 }
 //collection view cell height
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     if (collectionView==_collectionView) {
         SymptomTagModel *m= appdelegate.symptomTagArray[indexPath.row];
-    CGFloat width =  [m.tagName boundingRectWithSize:(CGSizeMake(NSIntegerMax,40)) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:12]} context:nil].size.width;
-    return CGSizeMake(width+30,40);
+        CGFloat width =  [m.tagName boundingRectWithSize:(CGSizeMake(NSIntegerMax,40)) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:12]} context:nil].size.width;
+        return CGSizeMake(width+30,40);
     }
     else return CGSizeMake(177,74);
 }
 //symptom view
 - (IBAction)addSymptom:(id)sender {
     if (symptomView==nil)
-    symptomView=[[AddSymptom alloc]initWithFrame:CGRectMake(150, 140,400,117)];
+        symptomView=[[AddSymptom alloc]initWithFrame:CGRectMake(150, 140,400,117)];
     symptomView.delegate=self;
     symptomView.searchModel=appdelegate.model;
     [symptomView alphaViewInitialize];
@@ -403,30 +398,30 @@
     selectedCellToFilter-=1;
     [selectedIndexArray removeAllObjects];
     [selectedPreviousSittingDetailArray removeAllObjects];
-   [self compareNextBtnToBeHidden];
+    [self compareNextBtnToBeHidden];
 }
 //save
 - (IBAction)save:(id)sender {
-         [self callApiToSaveTreatmentRequest];
+    [self callApiToSaveTreatmentRequest];
 }
 //next
 - (IBAction)next:(id)sender {
- selectedCellToFilter+=1;
-[selectedIndexArray removeAllObjects];
-[selectedPreviousSittingDetailArray removeAllObjects];
-[self compareNextBtnToBeHidden];
+    selectedCellToFilter+=1;
+    [selectedIndexArray removeAllObjects];
+    [selectedPreviousSittingDetailArray removeAllObjects];
+    [self compareNextBtnToBeHidden];
 }
 //Compare Next and Previous
 -(void)compareNextBtnToBeHidden{
     [self getTheSortDetailOfCompleteDitailArray:appdelegate.allsectionNameArray[selectedCellToFilter]];
     if (selectedCellToFilter==0) _previousBtn.hidden=YES;
     else if (selectedCellToFilter==appdelegate.allsectionNameArray.count-1) {
-            _nextBtn.hidden=YES;
-        }
+        _nextBtn.hidden=YES;
+    }
     else{
         _previousBtn.hidden=NO;
         _nextBtn.hidden=NO;
-        }
+    }
 }
 //slide out
 - (IBAction)slideout:(id)sender {
@@ -438,8 +433,8 @@
 }
 //delete tag
 -(void)deleteCell:(UICollectionViewCell *)cell{
-SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
- NSIndexPath *indexPath=[_collectionView indexPathForCell:cell1];
+    SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
+    NSIndexPath *indexPath=[_collectionView indexPathForCell:cell1];
     [appdelegate.symptomTagArray removeObjectAtIndex:indexPath.row];
     [_collectionView reloadData];
     [_scrollView layoutIfNeeded];
@@ -453,7 +448,7 @@ SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
 //expand cell
 -(void)expandCell:(UITableViewCell *)cell{
     SittingTableViewCell *cell1=(SittingTableViewCell*)cell;
-     NSIndexPath *indexPath=[_tableview indexPathForCell:cell1];
+    NSIndexPath *indexPath=[_tableview indexPathForCell:cell1];
     if ([cell1.expandButton.image isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
         [selectedIndexArray addObject:indexPath];
         [_tableview reloadData];
@@ -462,7 +457,7 @@ SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
     else{
         [selectedIndexArray removeObject:indexPath];
         [selectedPreviousSittingDetailArray removeObject:indexPath];
-          [_tableview reloadData];
+        [_tableview reloadData];
     }
 }
 //enpand previous sitting detail
@@ -478,7 +473,7 @@ SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
         [selectedPreviousSittingDetailArray removeObject:indexPath];
         [self ChangeIncreaseDecreaseButtonImage:cell1.morePreviousButton];
         [_tableview reloadData];
-   }
+    }
 }
 //datePicker
 -(void)datePicker:(UITableViewCell*)cell withDate:(NSString *)date{
@@ -509,10 +504,10 @@ SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
 //hide the views
 -(void)hideTheViewInTableViewCell:(BOOL)status withCell:(SittingTableViewCell*)cell{
     cell.doctorImage.hidden=status;
-     cell.doctorName.hidden=status;
-     cell.sittingTextView.hidden=status;
-     cell.morePreviousButton.hidden=status;
-     cell.sittingNumber.hidden=status;
+    cell.doctorName.hidden=status;
+    cell.sittingTextView.hidden=status;
+    cell.morePreviousButton.hidden=status;
+    cell.sittingNumber.hidden=status;
     cell.sittingTvPlaceholder.hidden=status;
 }
 //Hide PreviousDetail of cell
@@ -526,7 +521,7 @@ SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
 }
 //Tap on DashBoard to close SlideOutViewController
 - (void)revealController:(SWRevealViewController *)revealController didMoveToPosition:(FrontViewPosition)position{
-    if (position == FrontViewPositionRight){
+    if (position == FrontViewPositionLeftSide){
         UIView *topview = [[UIView alloc]initWithFrame:self.view.frame];
         [topview setTag:111];
         [self.view addSubview:topview];
@@ -540,6 +535,7 @@ SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
         UIView *lower = [self.view viewWithTag:111];
         [lower removeFromSuperview];
         [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+        [self.view addGestureRecognizer:self.revealViewController.tapGestureRecognizer];
     }
 }
 //Call api to get the biomagnetic matrix
@@ -549,9 +545,9 @@ SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObject:responseObject];
-//        [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
-//        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-//        [userDefault setBool:NO forKey:@"category_FLAG"];
+        [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        [userDefault setBool:NO forKey:@"anatomicalbiomagneticmatrix_FLAG"];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -559,97 +555,98 @@ SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
 }
 -(void)processResponseObject:(id)responseObject{
     [allSortedDetailArray removeAllObjects];
+    [allSectionNameArray removeAllObjects];
     NSDictionary *dict=responseObject;
     if ([dict[@"Success"] intValue]==1) {
-    NSDateFormatter  *formater=[[NSDateFormatter alloc]init];
-    for (NSDictionary *dict1 in dict[@"AnatomicalBiomagneticMatrix"]) {
-        if ([dict1[@"Status"]intValue]==1) {
-            sittingModel *model=[[sittingModel alloc]init];
-            model.sittingId=dict1[@"Id"];
-            model.code=dict1[@"Code"];
-            model.germsName=[[NSMutableArray alloc]init];
-            model.germsCode=[[NSMutableArray alloc]init];
-            if (dict1[@"Author"]!=[NSNull null]) {
-                model.author=dict1[@"Author"];
-            }
-            if (dict1[@"ScanPointCode"]!=[NSNull null]) {
-                model.scanPointCode=dict1[@"ScanPointCode"];
-            }
-            if (dict1[@"Description"]!=[NSNull null]) {
-                model.interpretation=dict1[@"Description"];
-            }
-            if (dict1[@"CorrespondingPairCode"]!=[NSNull null]){
-            model.correspondingPairCode=dict1[@"CorrespondingPairCode"];
-            }
-            if (dict1[@"GermsCode"]!=[NSNull null]){
-                [model.germsCode addObject:dict1[@"GermsCode"]];
-            }
-            if (dict1[@"Psychoemotional"]!=[NSNull null]){
-                model.psychoemotional=dict1[@"Psychoemotional"];
-            }
-            if (dict1[@"Author"]!=[NSNull null]){
-                model.author=dict1[@"Author"];
-            }
-            if (dict1[@"SectionCode"]!=[NSNull null]){
-                model.sectionCode=dict1[@"SectionCode"];
-            }
-            if (dict1[@"SortingRank"]!=[NSNull null]){
-                model.sortNumber=[NSString stringWithFormat:@"%@",dict1[@"SortingRank"]];
-            }
-            if (dict1[@"Section"]!=[NSNull null]){
-                model.sectionName=dict1[@"Section"];
-                NSString *str=[NSString stringWithFormat:@"%@$%@",model.sectionName,model.sectionCode];
-                if (![allSectionNameArray containsObject:str]) {
-                    [allSectionNameArray addObject:str];
+        NSDateFormatter  *formater=[[NSDateFormatter alloc]init];
+        for (NSDictionary *dict1 in dict[@"AnatomicalBiomagneticMatrix"]) {
+            if ([dict1[@"Status"]intValue]==1) {
+                sittingModel *model=[[sittingModel alloc]init];
+                model.edited=@"N";
+                model.sittingId=dict1[@"Id"];
+                model.code=dict1[@"Code"];
+                model.germsName=[[NSMutableArray alloc]init];
+                model.germsCode=[[NSMutableArray alloc]init];
+                if (dict1[@"Author"]!=[NSNull null]) {
+                    model.author=dict1[@"Author"];
                 }
+                if (dict1[@"ScanPointCode"]!=[NSNull null]) {
+                    model.scanPointCode=dict1[@"ScanPointCode"];
+                }
+                if (dict1[@"Description"]!=[NSNull null]) {
+                    model.interpretation=dict1[@"Description"];
+                }
+                if (dict1[@"CorrespondingPairCode"]!=[NSNull null]){
+                    model.correspondingPairCode=dict1[@"CorrespondingPairCode"];
+                }
+                if (dict1[@"GermsCode"]!=[NSNull null]){
+                    [model.germsCode addObject:dict1[@"GermsCode"]];
+                }
+                if (dict1[@"Psychoemotional"]!=[NSNull null]){
+                    model.psychoemotional=dict1[@"Psychoemotional"];
+                }
+                if (dict1[@"Author"]!=[NSNull null]){
+                    model.author=dict1[@"Author"];
+                }
+                if (dict1[@"SectionCode"]!=[NSNull null]){
+                    model.sectionCode=dict1[@"SectionCode"];
+                }
+                if (dict1[@"SortingRank"]!=[NSNull null]){
+                    model.sortNumber=[NSString stringWithFormat:@"%@",dict1[@"SortingRank"]];
+                }
+                if (dict1[@"Section"]!=[NSNull null]){
+                    model.sectionName=dict1[@"Section"];
+                    NSString *str=[NSString stringWithFormat:@"%@$%@",model.sectionName,model.sectionCode];
+                    if (![allSectionNameArray containsObject:str]) {
+                        [allSectionNameArray addObject:str];
+                    }
+                }
+                if (dict1[@"ScanPoint"]!=[NSNull null]){
+                    model.scanPointName=dict1[@"ScanPoint"];
+                }
+                if (dict1[@"CorrespondingPair"]!=[NSNull null]){
+                    model.correspondingPairName=dict1[@"CorrespondingPair"];
+                }
+                if (dict1[@"Germs"]!=[NSNull null]){
+                    [model.germsName addObject:dict1[@"Germs"]];
+                }
+                if (dict1[@"DateCreated"]!=[NSNull null]){
+                    NSArray *dateArray=[dict1[@"DateCreated"] componentsSeparatedByString:@"T"];
+                    [formater setTimeZone:[NSTimeZone localTimeZone]];
+                    [formater setDateFormat:@"yyyy-MM-dd"];
+                    NSDate *date=[formater dateFromString:dateArray[0]];
+                    [formater setDateFormat:@"dd-MMM-yyyy"];
+                    model.dateCreated=[formater stringFromDate:date];
+                }
+                if (dict1[@"GenderCode"]!=[NSNull null]){
+                    model.genderCode=dict1[@"GenderCode"];
+                }
+                model.issue=NO;
+                model.germsString=@"";
+                [allSortedDetailArray addObject:model];
             }
-            if (dict1[@"ScanPoint"]!=[NSNull null]){
-                model.scanPointName=dict1[@"ScanPoint"];
-            }
-            if (dict1[@"CorrespondingPair"]!=[NSNull null]){
-                model.correspondingPairName=dict1[@"CorrespondingPair"];
-            }
-            if (dict1[@"Germs"]!=[NSNull null]){
-                [model.germsName addObject:dict1[@"Germs"]];
-            }
-            if (dict1[@"DateCreated"]!=[NSNull null]){
-                NSArray *dateArray=[dict1[@"DateCreated"] componentsSeparatedByString:@"T"];
-                [formater setTimeZone:[NSTimeZone localTimeZone]];
-                [formater setDateFormat:@"yyyy-MM-dd"];
-                NSDate *date=[formater dateFromString:dateArray[0]];
-                [formater setDateFormat:@"dd-MMM-yyyy"];
-                model.dateCreated=[formater stringFromDate:date];
-            }
-            if (dict1[@"GenderCode"]!=[NSNull null]){
-                model.genderCode=dict1[@"GenderCode"];
-            }
-            model.issue=NO;
-            model.germsString=@"";
-             [allSortedDetailArray addObject:model];
-    }
-}
-        
+        }
         appdelegate.completeDetailToDrArray=[[NSMutableArray alloc]init];
         appdelegate.allsectionNameArray=[[NSMutableArray alloc]init];
         [appdelegate.allsectionNameArray addObjectsFromArray:allSectionNameArray];
         [appdelegate.completeDetailToDrArray addObjectsFromArray:allSortedDetailArray];
-}
+    }
     [self getTheSortDetailOfCompleteDitailArray:allSectionNameArray[0]];
     selectedCellToFilter=0;
     if (selectedCellToFilter==allSectionNameArray.count-1) {
-       _previousBtn.hidden=YES;
+        _previousBtn.hidden=YES;
         _nextBtn.hidden=YES;
     }else{
         _previousBtn.hidden=YES;
         _nextBtn.hidden=NO;
     }
-   
+    
 }
 //Issue And No Issue
 -(void)issueAndNoIssue:(UITableViewCell *)cell{
     SittingTableViewCell *cell1=(SittingTableViewCell*)cell;
-     NSIndexPath *index=[_tableview indexPathForCell:cell1];
-     sittingModel *model1=allSortedDetailArray[index.section];
+    NSIndexPath *index=[_tableview indexPathForCell:cell1];
+    sittingModel *model1=allSortedDetailArray[index.section];
     if ([cell1.checkBox.currentBackgroundImage isEqual:[UIImage imageNamed:@"issue-Button"]]) {
         model1.issue=NO;
     }else {
@@ -660,27 +657,27 @@ SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
 //germs view
 -(void)getGermsView:(UITableViewCell *)cell{
     SittingTableViewCell *cell1=(SittingTableViewCell*)cell;
-     selectedCellIndex=[_tableview indexPathForCell:cell1];
-       if (germsViewXib==nil)
+    selectedCellIndex=[_tableview indexPathForCell:cell1];
+    if (germsViewXib==nil)
         germsViewXib=[[germsView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x+70,self.view.frame.origin.y+100,self.view.frame.size.width-300,186)];
     germsViewXib.delegateForGerms=self;
     germsViewXib.heightOfSuperView=self.view.frame.size.height;
     if (![cell1.sittingTextView.text isEqualToString:@""]) {
         germsViewXib.fromParentViewGermsString=cell1.sittingTextView.text;
-    }
+    }else germsViewXib.fromParentViewGermsString=@"";
     [germsViewXib alphaViewInitialize];
 }
 //delegate of germs
 -(void)germsData:(NSArray *)germasData{
     sittingModel *model1=allSortedDetailArray[selectedCellIndex.section];
     if (germasData.count>0) {
-    NSString *selectedGerms=@"";
-    for (germsModel *model in germasData) {
-   selectedGerms= [selectedGerms stringByAppendingString:[NSString stringWithFormat:@"%@",model.germsName]];
-        if (![[germasData lastObject] isEqual:model]) {
-          selectedGerms= [selectedGerms stringByAppendingString:@","];   
+        NSString *selectedGerms=@"";
+        for (germsModel *model in germasData) {
+            selectedGerms= [selectedGerms stringByAppendingString:[NSString stringWithFormat:@"%@",model.germsName]];
+            if (![[germasData lastObject] isEqual:model]) {
+                selectedGerms= [selectedGerms stringByAppendingString:@","];
+            }
         }
-    }
         model1.selectedCellIndex=selectedCellIndex;
         model1.germsString=selectedGerms;
         model1.newlyAddedGermsArray=germasData;
@@ -689,6 +686,7 @@ SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
         model1.selectedCellIndex=nil;
         model1.germsString=@"";
         model1.issue=NO;
+        model1.edited=@"Y";
     }
     [_tableview reloadData];
 }
@@ -705,7 +703,7 @@ SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
         CGFloat surgeriesHeight=[_surgeriesValueLabel.text boundingRectWithSize:(CGSize){height,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
         CGFloat finalheight=MAX(surgeriesHeight, emailHeight);
         if (finalheight>33) {
-           _patienViewHeight.constant=finalheight+98;
+            _patienViewHeight.constant=finalheight+98;
             _emailValueHeight.constant=emailHeight;
             _surgeriesValueHeight.constant=surgeriesHeight;
         }else{
@@ -714,12 +712,12 @@ SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
             _surgeriesValueHeight.constant=33+finalheight;
         }
         _patientDetailView.hidden=NO;
- 
+        
     }else{
-      _expandPatientViewImageView.image=[UIImage imageNamed:@"Dropdown-icon"];
+        _expandPatientViewImageView.image=[UIImage imageNamed:@"Dropdown-icon"];
         _patienViewHeight.constant=44;
         _patientDetailView.hidden=YES;
-   }
+    }
 }
 //Visited Date
 - (IBAction)visitedDate:(id)sender {
@@ -739,7 +737,7 @@ SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
     NSPredicate *priceTest=[NSPredicate predicateWithFormat:@"self matches %@",priceRex];
     BOOL validate=[priceTest evaluateWithObject:_priceTf.text];
     if (!validate) {
-          [self.view endEditing:YES];
+        [self.view endEditing:YES];
     }
 }
 -(void)callApiToSaveTreatmentRequest{
@@ -748,9 +746,9 @@ SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
     if (appdelegate.bioSittingDict!=nil) {
         parameter =[self getParameteToSaveSittingDetail:[appdelegate.bioSittingDict[@"Id"] integerValue] withSittingNum:[appdelegate.bioSittingDict[@"SittingNumber"] integerValue]];
     }else{
-   parameter =[self getParameteToSaveSittingDetail:0 withSittingNum:0];
+        parameter =[self getParameteToSaveSittingDetail:0 withSittingNum:0];
     }
-       [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     if ([appdelegate.treatmentId integerValue]==0) {
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
             [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -759,12 +757,12 @@ SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
             [MBProgressHUD hideHUDForView:self.view animated:YES];
         }];
     }else{
-    [postman put:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [self processResponseObjectOfSaveTreatment:responseObject];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-       [MBProgressHUD hideHUDForView:self.view animated:YES];
-    }];
+        [postman put:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self processResponseObjectOfSaveTreatment:responseObject];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        }];
     }
 }
 -(NSString*)getParameteToSaveSittingDetail:(NSInteger)biomagneticId withSittingNum:(NSInteger)sittingNum{
@@ -838,33 +836,68 @@ SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
     return parameter;
 }
 -(void)processResponseObjectOfSaveTreatment:(id)responseObject{
-        NSDictionary *dict=responseObject;
-        if ([dict[@"Success"] intValue]==1) {
-            [self.delegateForIncreasingSitting loadTreatMentFromSittingPart];
-            [self.navigationController popViewControllerAnimated:YES];
-}
-        else{
-            UIAlertController *alert=[UIAlertController alertControllerWithTitle:@"" message:dict[@"Message"] preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *failure=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-                [self dismissViewControllerAnimated:YES completion:nil];
-            }];
-            [alert addAction:failure];
-            [self presentViewController:alert animated:YES completion:nil];
-        }
+    NSDictionary *dict=responseObject;
+    if ([dict[@"Success"] intValue]==1) {
+        NSDictionary *dict1=responseObject[@"TreatmentRequest"];
+        int i=[dict1[@"ID"] intValue];
+        [self.delegateForIncreasingSitting uploadImageAfterSaveInSitting: dict1[@"Code"]];
+        [self.delegateForIncreasingSitting loadTreatMentFromSittingPart:[@(i) description]];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else{
+        UIAlertController *alert=[UIAlertController alertControllerWithTitle:@"Alert!" message:dict[@"Message"] preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *failure=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }];
+        [alert addAction:failure];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
 }
 -(void)getTheSortDetailOfCompleteDitailArray:(NSString*)str{
-        [allSortedDetailArray removeAllObjects];
-        NSArray *ar=[str componentsSeparatedByString:@"$"];
-        _sectionName=ar[1];
-        _filterLabel.text=ar[0];
-        for (sittingModel *model in appdelegate.completeDetailToDrArray) {
-            if ([model.sectionCode isEqualToString:_sectionName]) {
-                [allSortedDetailArray addObject:model];
-            }
+    [allSortedDetailArray removeAllObjects];
+    NSArray *ar=[str componentsSeparatedByString:@"$"];
+    _sectionName=ar[1];
+    _filterLabel.text=ar[0];
+    for (sittingModel *model in appdelegate.completeDetailToDrArray) {
+        if ([model.sectionCode isEqualToString:_sectionName]) {
+            [allSortedDetailArray addObject:model];
         }
-        [_tableview reloadData];
+    }
+    [_tableview reloadData];
 }
 - (IBAction)exit:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
+}
+-(void)showToxicDeficiencyView{
+    _toxicView.selectedToxicCode=_toxicDeficiencyString;
+    NSArray *ar=[_toxicDeficiencyString componentsSeparatedByString:@"$"];
+    _filterLabel.text=ar[1];
+    [self hideAllViewAfterClickOnSlideOut:YES];
+}
+//hide The button
+-(void)hideAllViewAfterClickOnSlideOut:(BOOL)status{
+    _previousBtn.hidden=status;
+    _nextBtn.hidden=status;
+    _saveBtn.hidden=status;
+    _tableview.hidden=status;
+    _scanPointHeaderView.hidden=status;
+    if (status==NO) {
+        _toxicView.hidden=YES;
+        _saveToxicDeficiency.hidden=YES;
+    }else{
+        _toxicView.hidden=NO;
+        _saveToxicDeficiency.hidden=NO;
+    }
+    if ([appdelegate.isTreatmntCompleted intValue]==0)
+    {
+        _saveToxicDeficiency.hidden=NO;
+        _exit.hidden=YES;
+    }else {
+        _saveToxicDeficiency.hidden=YES;
+        _exit.hidden=NO;
+    }
+}
+- (IBAction)saveToxicDeficiency:(id)sender {
+    
 }
 @end

@@ -33,5 +33,7 @@ NSString *const biomagneticMatrix=@"anatomicalbiomagneticmatrixorderbyrank";
 NSString *const germsUrl=@"germs";
 NSString *const getTitleOfTreatment=@"partialtreatmentrequest";
 NSString *const expandProfileImage=@"LoadFile/";
+NSString *const toxicDeficiencyType=@"toxicDeficiencyType";
+NSString *const toxicDeficiencyDetail=@"ToxicDeficiency";
 NSString *const kGET_SEED_URL=@"seed";
 @end

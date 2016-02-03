@@ -57,7 +57,7 @@
 }
 -(void)compareAndSave:(NSDictionary*)dict{
     NSInteger localValue=[userDefault integerForKey:[NSString stringWithFormat:@"%@_Value",dict[@"TableName"]]];
-    NSInteger newValue = [dict[@"Value"] integerValue];
+    NSInteger newValue = [dict[@"UpdateCount"] integerValue];
     if (localValue<newValue) {
         [userDefault setInteger:newValue forKey:[NSString stringWithFormat:@"%@_Value",dict[@"TableName"]]];
         NSString *stausKey=[NSString stringWithFormat:@"%@_FLAG", dict[@"TableName"]];
@@ -65,19 +65,19 @@
     }
 }
 - (void)saveResponse:(NSString *)responseString forIdentity:(NSString *)identity{
-NSString *createQuer=@"create table if not exist API_TABLE(API text  PRIMARY KEY,data text)";
+NSString *createQuer=@"create table if not exists API_TABLE(API text  PRIMARY KEY,data text)";
     [dbmanager createTableForQuery:createQuer];
     NSMutableString *mutResponseString=[responseString mutableCopy];
     NSRange rageOfString;
     rageOfString.location=0;
     rageOfString.length=mutResponseString.length;
     [mutResponseString replaceOccurrencesOfString:@"'"  withString:@"''" options:(NSCaseInsensitiveSearch) range:rageOfString];
-    NSString *inserSql=[NSString stringWithFormat:@"INSERT OR REPLACE INTO API_TABLE(API,data) values(%@,%@)",identity,mutResponseString];
+    NSString *inserSql=[NSString stringWithFormat:@"INSERT OR REPLACE INTO  API_TABLE (API,data) values ('%@', '%@')",identity,mutResponseString];
     [dbmanager saveDataToDBForQuery:inserSql];
     
 }
 - (void)getResponseFor:(NSString *)identity completionHandler:(void (^)(BOOL success, id response))completionHandler{
-    NSString *getDataQuery=[NSString stringWithFormat:@"select * from API_TABLE where API=%@",identity];
+    NSString *getDataQuery=[NSString stringWithFormat:@"select * from API_TABLE where API='%@'",identity];
     [dbmanager getDataForQuery:getDataQuery withCompletionHandler:^(BOOL success, sqlite3_stmt *statment){
         if (success){
             if (sqlite3_step(statment)==SQLITE_ROW) {
@@ -94,5 +94,8 @@ NSString *createQuer=@"create table if not exist API_TABLE(API text  PRIMARY KEY
     
     
     }];
+}
+- (void)DBManager:(DBManager *)manager gotSqliteStatment:(sqlite3_stmt *)statment{
+
 }
 @end

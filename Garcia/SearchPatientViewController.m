@@ -4,6 +4,7 @@
 #import "ContainerViewController.h"
 #import "MBProgressHUD.h"
 #import "searchPatientModel.h"
+#import "SeedSyncer.h"
 @interface SearchPatientViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *searchTextField;
 
@@ -15,6 +16,7 @@
 {
     NSMutableArray *patentFilteredArray;
     Constant *constant;
+    NSString *selectedPatientCode;
     NSMutableArray *patentnameArray;
     NSIndexPath *selectedIndexPath;
     PostmanConstant *postmanConstant;
@@ -25,6 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     initialSelectedRow=0;
+    selectedPatientCode=@"";
     postman=[[Postman alloc]init];
     postmanConstant=[[PostmanConstant alloc]init];
     constant=[[Constant alloc]init];
@@ -37,6 +40,10 @@
     selectedIndexPath=nil;
     patentnameArray=[[NSMutableArray alloc]init];
     patentFilteredArray=[[NSMutableArray alloc]init];
+    if (patentnameArray.count==0) {
+        MBProgressCountToHide=0;
+        [self callSeed];
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -48,10 +55,25 @@
     [constant setFontFortextField:_searchTextField];
     dateFormatter=[[NSDateFormatter alloc]init];
     _patientListTableView.tableFooterView=[UIView new];
-    if (patentnameArray.count==0) {
-        MBProgressCountToHide=0;
-         [self callApi];
-    }
+}
+-(void)callSeed{
+    [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        if ([userDefault boolForKey:@"user_FLAG"]) {
+              [self callApi];
+        }
+        else{
+           NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPatientList];
+            [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+                if (success) {
+                    [self processResponseObject:response];
+                }
+                else{
+                     [self callApi];
+                }
+            }];
+        }
+    }];
 }
 //TableView Number of section
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -115,9 +137,15 @@
         selectedIndexPath=indexPath;
         searchPatientModel *model;
         if ([_searchTextField.text isEqualToString:@""]) {
-        model =patentnameArray[indexPath.row];
+         model =patentnameArray[indexPath.row];
+            selectedPatientCode=model.code;
         }
-        else model=patentFilteredArray[indexPath.row];
+        else{
+            if (patentFilteredArray.count>0) {
+                model=patentFilteredArray[indexPath.row];
+                selectedPatientCode=model.code;
+            }
+        }
         model.profileImage=cell.patientImageView.image;
         cell.patientNameLabel.textColor=[UIColor colorWithRed:0.7098 green:0.99 blue:0.98 alpha:1];
         cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow-3"]];
@@ -146,17 +174,19 @@
             }
         }
         [_patientListTableView reloadData];
+        if ([selectedPatientCode isEqualToString:@""]) {
         if (patentFilteredArray.count>0) {
             NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
             [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
-        }else{
-        
         }
     }else{
         [_patientListTableView reloadData];
         NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
+         if (patentFilteredArray.count>0) {
         [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
+         }
     }
+}
 }
 
 //TextField Delegat
@@ -189,6 +219,9 @@
     NSString *parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
     [self processResponseObject:responseObject];
+        [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        [userDefault setBool:NO forKey:@"user_FLAG"];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [containerVc hideMBprogressTillLoadThedata];
     }];
@@ -198,7 +231,10 @@
     if ([dict1[@"Success"] intValue]==1) {
         for (NSDictionary *dict in dict1[@"ViewModels"]) {
             searchPatientModel *model=[[searchPatientModel alloc]init];
-            model.name=[NSString stringWithFormat:@"%@ %@",dict[@"Firstname"],dict[@"Lastname"]];
+            if (![dict[@"Lastname"] isEqualToString:@""]) {
+                model.name=[NSString stringWithFormat:@"%@ %@",dict[@"Firstname"],dict[@"Lastname"]];
+            }else
+            model.name=[NSString stringWithFormat:@"%@",dict[@"Firstname"]];
             model.Id=dict[@"Id"];
             model.userID=dict[@"Id"];
             model.memo=dict[@"Memo"];
@@ -282,31 +318,43 @@
 }
 - (void)reloadData
 {
-    [_patientListTableView reloadData];
     if (initialSelectedRow==0) {
-        NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
-        [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
+        searchPatientModel *model=patentnameArray[0];
+        selectedPatientCode=model.code;
     }
-    else if (initialSelectedRow==1){
-        NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:patentnameArray.count-1 inSection:0];
-        [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
+    if (![_searchTextField.text isEqualToString:@""]) {
+        [self searchDoctorOnProfession];
+        [self selectedCell:patentFilteredArray];
+    } else{
+        [_patientListTableView reloadData];
+         [self selectedCell:patentnameArray];
     }
-    else{
-      [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedIndexPath];
-    }
-    MBProgressCountToHide++;
+        MBProgressCountToHide++;
 }
--(void)againCallApiAfterAddPatient{
+-(void)selectedCell:(NSArray*)ar{
+    for (int i=0; i<ar.count; i++) {
+        searchPatientModel *m=ar[i];
+        if ([selectedPatientCode isEqualToString:m.code]) {
+            NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:i inSection:0];
+            [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
+        }
+    }
+}
+-(void)againCallApiAfterAddPatient:(NSString *)code{
     MBProgressCountToHide=0;
+    [patentnameArray removeAllObjects];
+    selectedPatientCode=code;
+    _searchTextField.text=@"";
+    initialSelectedRow=-1;
+    [self callSeed];
+}
+-(void)againCallApiAfterEditPatient:(NSString *)code{
+    MBProgressCountToHide=0;
+    _searchTextField.text=@"";
+    selectedPatientCode=code;
     [patentnameArray removeAllObjects];
     initialSelectedRow=1;
-    [self callApi];
-}
--(void)againCallApiAfterEditPatient{
-    MBProgressCountToHide=0;
-    [patentnameArray removeAllObjects];
-    initialSelectedRow=-1;
-    [self callApi];
+    [self callSeed];
 }
 -(void)reloadTableviewAfterAddNewTreatment{
     [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedIndexPath];

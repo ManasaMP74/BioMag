@@ -44,7 +44,6 @@
         UINavigationController * nav=[self.childViewControllers lastObject];
         PatientViewController *patientVc=nav.viewControllers[0];
         [nav popToViewController:patientVc animated:YES];
-       
         AppDelegate *app=[UIApplication sharedApplication].delegate;
         app.model=model;
         patientVc.model =model;
@@ -72,16 +71,16 @@
     [searchVC hideKeyBoard];
 }
 //Method Successfully Added
--(void)successfullyAdded{
+-(void)successfullyAdded:(NSString *)code{
  SearchPatientViewController *searchVC=[self.childViewControllers firstObject];
-    [searchVC againCallApiAfterAddPatient];
+    [searchVC againCallApiAfterAddPatient:code];
 }
 //Method Successfully Edit
--(void)successfullyEdit{
+-(void)successfullyEdit:(NSString *)code{
     SearchPatientViewController *searchVC=[self.childViewControllers firstObject];
-    [searchVC againCallApiAfterEditPatient];
+    [searchVC againCallApiAfterEditPatient:code];
 }
-//Show Mbprogress
+//Show (NSString *)code
 -(void)showMBprogressTillLoadThedata{
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }

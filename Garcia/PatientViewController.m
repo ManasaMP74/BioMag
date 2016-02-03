@@ -151,8 +151,8 @@
     [containerVC callEndEditing];
 }
 //successfully edited
--(void)successfullyEdited{
-    [containerVC successfullyEdit];
+-(void)successfullyEdited:(NSString*)code{
+    [containerVC successfullyEdit:code];
 }
 - (IBAction)showFullProfileImage:(id)sender {
     if (profileView==nil)
@@ -178,6 +178,7 @@
     NSDictionary *dict=responseObject;
     if ([dict[@"Success"] intValue]==1) {
         for (NSDictionary *dict1 in dict[@"ViewModels"]) {
+            if ((dict1[@"DoctorId"]!=[NSNull null]) & (dict1[@"PatientId"]!=[NSNull null])) {
             if (([dict1[@"DoctorId"]intValue]==[docID intValue]) & ([dict1[@"PatientId"]intValue]==[_model.Id intValue])) {
                 if ([dict1[@"Status"]intValue]==1) {
                     PatientTitleModel *model=[[PatientTitleModel alloc]init];
@@ -187,6 +188,7 @@
                     model.IsTreatmentCompleted=dict1[@"IsTreatmentCompleted"];
                     [treatmentListArray addObject:model];
                 }
+            }
             }
         }
         [_tableview reloadData];

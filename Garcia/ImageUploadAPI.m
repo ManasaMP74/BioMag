@@ -26,7 +26,6 @@
     {
         return;
     }
-   
     [self setHeader];
     NSString  *URLString =  [NSString stringWithFormat:@"%@%@", baseUrl,uploadFile];
     NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];

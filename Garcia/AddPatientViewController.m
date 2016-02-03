@@ -8,6 +8,7 @@
 #import "MBProgressHUD.h"
 #import "editModel.h"
 #import "ImageUploadAPI.h"
+#import "SeedSyncer.h"
 @interface AddPatientViewController ()<datePickerProtocol,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *nameTF;
 @property (strong, nonatomic) IBOutlet UITextField *genderTF;
@@ -56,8 +57,26 @@
      [self registerForKeyboardNotifications];
      _addressTextView.placeholder=@"Surgeries";
     self.addressTextView.delegate=self;
-       [self callApiForGender];
     MaritialStatusArray=[@[@"YES",@"NO"]mutableCopy];
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"gender_FLAG"]) {
+        [self callApiForGender];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getGender];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+                [self prcessGenderObject:response];
+            }
+            else{
+                [self callApiForGender];
+            }
+        }];
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -176,6 +195,22 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     activeField = nil;
+}
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    if ([textField isEqual:_mobileNoTF]) {
+        NSCharacterSet * numberCharSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+        for (int i = 0; i < [string length]; ++i)
+        {
+            unichar c = [string characterAtIndex:i];
+            if (![numberCharSet characterIsMember:c])
+            {
+                return NO;
+            }
+        }
+        
+        return YES;
+    }
+    else return YES;
 }
 //set layesr for TextField and placeHolder
 -(void)textFieldLayer{
@@ -358,6 +393,9 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self prcessGenderObject:responseObject];
+        [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        [userDefault setBool:NO forKey:@"gender_FLAG"];
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -365,6 +403,7 @@
 }
 //response object of gender
 -(void)prcessGenderObject:(id)responseObject{
+    [genderArray removeAllObjects];
     NSDictionary *dict=responseObject;
     for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
         if ([dict1[@"Status"]intValue]==1) {
@@ -406,10 +445,20 @@
     BOOL validate= [emailTest evaluateWithObject:email];
     if (!validate) {
         NSMutableArray *alertArray=[self validateAllFields];
-        [alertArray addObject:@"Invalid email id\n"];
+        if (_emailTF.text.length==0) {
+            [alertArray addObject:@"Email Id. is Required\n"];
+        }
+        else{
+        [alertArray addObject:@"Email Id is invalid\n"];
+        }
         int a= [self validPhonenumber:_mobileNoTF.text];
         if (a==0) {
-            [alertArray addObject:@"Invalid mobile no.\n"];
+            if (_mobileNoTF.text.length==0) {
+                [alertArray addObject:@"Mobile no. is Required\n"];
+            }
+            else{
+            [alertArray addObject:@"Mobile no. is invalid\n"];
+            }
              NSString *str1=@"";
             for (NSString *str in alertArray) {
                 str1 =[str1 stringByAppendingString:str];
@@ -428,7 +477,12 @@
         NSMutableArray *alertArray=[self validateAllFields];
         int a= [self validPhonenumber:_mobileNoTF.text];
         if (a==0) {
+            if (_mobileNoTF.text.length==0) {
+                [alertArray addObject:@"Mobile no. is Required\n"];
+            }
+            else{
             [alertArray addObject:@"Invalid mobile no.\n"];
+            }
             NSString *str1=@"";
             for (NSString *str in alertArray) {
                 str1 =[str1 stringByAppendingString:str];
@@ -450,21 +504,21 @@
 -(NSMutableArray*)validateAllFields{
     NSMutableArray *alrtArray=[[NSMutableArray alloc]init];
     if(_genderTF.text.length==0){
-        [alrtArray addObject:@"required gender field\n"];
+        [alrtArray addObject:@"Gender is required\n"];
     }
     if(_nameTF.text.length==0){
-        [alrtArray addObject:@"required name field\n"];
+        [alrtArray addObject:@"Name is required\n"];
     }
     if(_maritialStatus.text.length==0){
-        [alrtArray addObject:@"required transfusion field\n"];
+        [alrtArray addObject:@"Transfusion is required\n"];
     }
     if(_dateOfBirthTF.text.length==0){
-        [alrtArray addObject:@"required dateOfBirth field\n"];
+        [alrtArray addObject:@"DateOfBirth is required\n"];
     }
     return alrtArray;
 }
 -(void)alertView:(NSString*)message{
-    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:message preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
         [alertView dismissViewControllerAnimated:YES completion:nil];
     }];
@@ -506,9 +560,9 @@
     }
 }
 -(void)alertmessage :(NSString*)msg{
-    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
-        [self.delegate successfullyAdded];
+        [self.delegate successfullyAdded:addedPatientCode];
         [self.navigationController popViewControllerAnimated:YES];
         [alertView dismissViewControllerAnimated:YES completion:nil];
     }];
@@ -516,7 +570,7 @@
     [self presentViewController:alertView animated:YES completion:nil];
 }
 -(void)alertmessageForFailure:(NSString*)msg{
-    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
         [alertView dismissViewControllerAnimated:YES completion:nil];
     }];

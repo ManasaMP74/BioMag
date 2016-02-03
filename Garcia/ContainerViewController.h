@@ -14,9 +14,9 @@
 -(void)pushTreatmentViewController:(PatientTitleModel *)model;
 @property(strong,nonatomic)NSString *viewControllerDiffer;
 -(void)callEndEditing;
--(void)successfullyAdded;
+-(void)successfullyAdded:(NSString *)code;
 @property(strong,nonatomic)searchPatientModel *model;
--(void)successfullyEdit;
+-(void)successfullyEdit:(NSString *)code;
 -(void)showMBprogressTillLoadThedata;
 -(void)hideMBprogressTillLoadThedata;
 -(void)hideAllMBprogressTillLoadThedata;

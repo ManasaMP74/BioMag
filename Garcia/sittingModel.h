@@ -22,4 +22,5 @@
 @property(strong,nonatomic)NSIndexPath *selectedCellIndex;
 @property(strong,nonatomic)NSArray *newlyAddedGermsArray;
 @property(assign,nonatomic)BOOL issue;
+@property(strong,nonatomic)NSString *edited;
 @end
