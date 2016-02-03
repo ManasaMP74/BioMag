@@ -104,7 +104,7 @@
     [_sittingCollectionView reloadData];
 }
 -(void)navigationItemMethod{
-    UIImage* image3 = [UIImage imageNamed:@"Sign-Out.png"];
+    UIImage* image3 = [UIImage imageNamed:@"Icon-Signout.png"];
     CGRect frameimg = CGRectMake(0, 0, image3.size.width, image3.size.height);
     UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
     [someButton setBackgroundImage:image3 forState:UIControlStateNormal];
@@ -140,7 +140,7 @@
 }
 //increase the View Height of patient view
 - (IBAction)increaseViewHeightOfPatientView:(id)sender {
-    if ([_increasePatientViewButton.currentImage isEqual:[UIImage imageNamed:@"Arrow-Collapse"]]) {
+    if ([_increasePatientViewButton.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
         _increasePatientView.hidden=NO;
         _increasePatientViewHeight.constant=_addressLabel.frame.size.height+100;
         [self ChangeIncreaseDecreaseButtonImage:_increasePatientViewButton];
@@ -153,7 +153,7 @@
 }
 //increase the View Height of upload view
 - (IBAction)upload:(id)sender {
-    if ([_increaseUploadViewButton.currentImage isEqual:[UIImage imageNamed:@"Arrow-Collapse"]]) {
+    if ([_increaseUploadViewButton.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
         _uploadView.hidden=NO;
         if (uploadedImageArray.count>0) {
             _uploadViewHeigh.constant=210;
@@ -178,7 +178,7 @@
 }
 //increase the View Height of Daignosis view
 - (IBAction)increaseDiagnosisView:(id)sender {
-    if ([_increaseDiagnosisViewButton.currentImage isEqual:[UIImage imageNamed:@"Arrow-Collapse"]]) {
+    if ([_increaseDiagnosisViewButton.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
         _diagnosisView.hidden=NO;
         _diagnosisViewHeight.constant=218;
         [self ChangeIncreaseDecreaseButtonImage:_increaseDiagnosisViewButton];
@@ -193,7 +193,7 @@
 }
 //increase the View Height of medical History view
 - (IBAction)increaseViewHeightOfMedicalHistort:(id)sender {
-    if ([_increaseMedicalViewButton.currentImage isEqual:[UIImage imageNamed:@"Arrow-Collapse"]]) {
+    if ([_increaseMedicalViewButton.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
         _medicalHistoryView.hidden=NO;
         _medicalHistoryViewHeight.constant=250;
         [self ChangeIncreaseDecreaseButtonImage:_increaseMedicalViewButton];
@@ -213,7 +213,7 @@
 }
 //increase the View Height of setting view
 - (IBAction)increaseSettingView:(id)sender {
-    if ([_increasesettingViewButton.currentImage isEqual:[UIImage imageNamed:@"Arrow-Collapse"]]) {
+    if ([_increasesettingViewButton.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
         _settingView.hidden=NO;
         _sittingcollectionViewHeight.constant=_sittingCollectionView.contentSize.height;
         _settingViewHeight.constant=_sittingCollectionView.contentSize.height+30;
@@ -233,7 +233,7 @@
 }
 //increase the View Height of patient view
 - (IBAction)increaseuploadView:(id)sender {
-    if ([_increaseUploadViewButton.currentImage isEqual:[UIImage imageNamed:@"Arrow-Collapse"]]) {
+    if ([_increaseUploadViewButton.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
         _uploadView.hidden=NO;
         _uploadViewHeigh.constant=250;
         [self ChangeIncreaseDecreaseButtonImage:_increaseUploadViewButton];
@@ -246,11 +246,11 @@
 }
 //set button color
 -(void)ChangeIncreaseDecreaseButtonImage:(UIButton*)btn{
-    if ([btn.currentImage isEqual:[UIImage imageNamed:@"Arrow-Collapse"]]) {
-        [btn setImage:[UIImage imageNamed:@"Arrow-Expand"] forState:normal];
+    if ([btn.currentImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
+        [btn setImage:[UIImage imageNamed:@"Button-Expand"] forState:normal];
     }
-    else  if ([btn.currentImage isEqual:[UIImage imageNamed:@"Arrow-Expand"]]) {
-        [btn setImage:[UIImage imageNamed:@"Arrow-Collapse"] forState:normal];
+    else  if ([btn.currentImage isEqual:[UIImage imageNamed:@"Button-Expand"]]) {
+        [btn setImage:[UIImage imageNamed:@"Button-Collapse"] forState:normal];
     }
 }
 //tableview Datasource method
@@ -289,43 +289,7 @@
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (tableView==_diagnosisTableView) {
-        if (diagnosisTableListArray.count>0) {
-            if (indexPath.section==0) {
-                return 25;
-            }
-            else{
-                NSDictionary *dict= diagnosisTableListArray[indexPath.section-1];
-                CGFloat i=_diagnosisView.frame.size.width-225;
-                CGFloat labelHeight=[dict[@"message"] boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }
-                                                                   options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
-                if (labelHeight<25) {
-                    return 25;
-                }
-                else  return labelHeight;
-            }
-        }
-        else return 25;
-    }
-    else {
-        if (medicalTableListArray.count>0) {
-            if (indexPath.section==0) {
-                return 25;
-            }
-            else{
-                NSDictionary *dict= medicalTableListArray[indexPath.section-1];
-                CGFloat i=_medicalHistoryView.frame.size.width-225;
-                CGFloat labelHeight=[dict[@"message"] boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }
-                                                                   options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
-                if (labelHeight<25) {
-                    return 25;
-                }
-                else  return labelHeight;
-            }
-        }
-        else return 25;
-    }
-    
+    return 25;
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     cell.backgroundColor=[UIColor clearColor];
@@ -336,7 +300,7 @@
         return sittingCollectionArray.count;
     }
     else if (collectionView ==_uploadCollectionView) {
-        NSLog(@"%lu",(unsigned long)uploadedImageArray.count);
+        NSLog(@"%d",uploadedImageArray.count);
         return uploadedImageArray.count;
     }
     else
@@ -443,12 +407,7 @@
         NSString *text = tagListArray[indexPath.row];
         //               CGFloat width =[text sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:12],NSFontAttributeName, nil]].width;
         CGFloat width =  [text boundingRectWithSize:(CGSizeMake(NSIntegerMax, 40)) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:12]} context:nil].size.width;
-        if (width>150) {
-            CGFloat labelHeight=[text boundingRectWithSize:(CGSize){136,CGFLOAT_MAX }
-                                                   options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
-            return CGSizeMake(150,labelHeight+10);
-        }
-        else return CGSizeMake(width+10,40);
+        return CGSizeMake(width+10,40);
     }
 }
 
@@ -521,10 +480,10 @@
     _settingViewHeight.constant=0;
     _increasePatientViewHeight.constant=_addressLabel.frame.size.height+100;
     _increasePatientView.hidden=NO;
-    [_increaseDiagnosisViewButton setImage:[UIImage imageNamed:@"Arrow-Collapse"] forState:normal];
-    [_increaseMedicalViewButton setImage:[UIImage imageNamed:@"Arrow-Collapse"] forState:normal];
-    [_increasePatientViewButton setImage:[UIImage imageNamed:@"Arrow-Expand"] forState:normal];
-    [_increasesettingViewButton setImage:[UIImage imageNamed:@"Arrow-Collapse"] forState:normal];
+    [_increaseDiagnosisViewButton setImage:[UIImage imageNamed:@"Button-Collapse"] forState:normal];
+    [_increaseMedicalViewButton setImage:[UIImage imageNamed:@"Button-Collapse"] forState:normal];
+    [_increasePatientViewButton setImage:[UIImage imageNamed:@"Button-Expand"] forState:normal];
+    [_increasesettingViewButton setImage:[UIImage imageNamed:@"Button-Collapse"] forState:normal];
     _treatmentNameTF.attributedPlaceholder=[constant textFieldPatient:@"Title of the Treatment"];
     [constant spaceAtTheBeginigOfTextField:_treatmentNameTF];
     _treatmentEncloserTextView.layer.borderColor=[UIColor colorWithRed:0.682 green:0.718 blue:0.729 alpha:0.6].CGColor;
@@ -554,8 +513,7 @@
     [constant setFontForLabel:_mariedValueLabel];
     _uploadView.hidden=YES;
     _uploadViewHeigh.constant=0;
-    [_increaseUploadViewButton setImage:[UIImage imageNamed:@"Arrow-Collapse"] forState:normal];
-    _symptomtagTF.attributedPlaceholder=[constant PatientSheetPlaceHolderText:@"Select SymptomType"];
+    [_increaseUploadViewButton setImage:[UIImage imageNamed:@"Button-Collapse"] forState:normal];
 }
 -(void)changeTreatmentTF{
     if (![_TitleName isEqual:@""]) {
@@ -770,7 +728,7 @@
         }
         else _diagnosisNoteLabel.hidden=YES;
     }
-    
+
 }
 -(void)deleteSittingCell:(UICollectionViewCell *)cell{
     sittingCollectionViewHeight=0;
@@ -787,10 +745,9 @@
 }
 -(void)editSittingCell:(UICollectionViewCell *)cell{
     NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
-    [sittingCollectionArray removeObjectAtIndex:index.row];
     sectionView=[[SettingView alloc]initWithFrame:CGRectMake(150, 140,500,330)];
     sectionView.delegate=self;
-    sectionView.dummyData=@[[NSString stringWithFormat:@"%@%d",@"Sitting #",index.row+1],@"Head",@"7-Nov-2015"];
+    sectionView.dummyData=@[[NSString stringWithFormat:@"%@%ld",@"Sitting #",index.row+1],@"Head",@"7-Nov-2015"];
     [sectionView alphaViewInitialize];
 }
 @end

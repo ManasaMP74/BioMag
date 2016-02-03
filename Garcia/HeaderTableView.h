@@ -3,7 +3,6 @@
 #import "ScanPoinTableViewCell.h"
 #import "CorrespondingPointView.h"
 #import "SittingModelClass.h"
-#import "HeaderModel.h"
 @protocol headerCellHeight<NSObject>
 -(void)increaseHeadCellHeight:(float)height withSelectedScanPoint:(NSArray*)scanPointindexPath withHeader:(NSIndexPath*)headerIndex withNoteHeader:(NSIndexPath*)NoteIndex;
 -(void)decreaseHeadCellHeight:(float)height withSelectedScanPoint:(NSArray*)scanPointindexPath withHeader:(NSIndexPath*)headerIndex withNoteHeader:(NSIndexPath*)NoteIndex;

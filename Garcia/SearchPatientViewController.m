@@ -101,7 +101,7 @@ if (selectedIndexPath!=indexPath){
         cell=(SearchPatientTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
     selectedIndexPath=indexPath;
     cell.patientNameLabel.textColor=[UIColor colorWithRed:0.7098 green:0.99 blue:0.98 alpha:1];
-     cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Arrow-4"]];
+     cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow-3"]];
    containerVc.viewControllerDiffer=@"";
     [containerVc passDataFromsearchPatientTableViewToPatient:cell.patientNameLabel.text];
     
