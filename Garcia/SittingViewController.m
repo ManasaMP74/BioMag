@@ -21,6 +21,7 @@
 #import "AppDelegate.h"
 #import "SymptomTagModel.h"
 #import "DBManager.h"
+#import "SeedSyncer.h"
 @interface SittingViewController ()<UITableViewDelegate,UITableViewDataSource,addsymptom,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,UICollectionViewDataSource,ExpandCellProtocol,SWRevealViewControllerDelegate,deleteCellValue,SWRevealViewControllerDelegate,datePickerProtocol,sendGermsData,DBManagerDelegate>
 @property (strong, nonatomic) IBOutlet UILabel *ageValue;
 @property (strong, nonatomic) IBOutlet UILabel *filterLabel;
@@ -49,9 +50,6 @@
     DBManager *dbManager;
 }
 - (void)viewDidLoad {
-//    SWRevealViewController *reveal=(SWRevealViewController*)self.parentViewController;
-//    UINavigationController *nav=(ui)
-    NSLog(@"%@",self.revealViewController.parentViewController);
      appdelegate=[UIApplication sharedApplication].delegate;
     constant=[[Constant alloc]init];
     allSortedDetailArray   =[[NSMutableArray alloc]init];
@@ -68,11 +66,32 @@
             [self callApi];
         }else{
             [allSortedDetailArray addObjectsFromArray:appdelegate.completeDetailToDrArray];
+            allSectionNameArray=appdelegate.allsectionNameArray;
+            _filterLabel.text=allSectionNameArray[0];
+              [self compareNextBtnToBeHidden];
         }
     }else{
         selectedCellToFilter=_selectedIndexPathOfSectionInSlideOut.row;
        [self compareNextBtnToBeHidden];
     }
+    
+//     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+//    [[SeedSyncer sharedSyncer]callSeedAPI:^(BOOL success) {
+//        if ([userDefault boolForKey:@"category_FLAG"]) {
+//            [self callApi];
+//        }
+//        else{
+//            NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,biomagneticMatrix];
+//        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+//            if (success) {
+//                [self processResponseObject:response];
+//            }
+//            else{
+//                [self callApi];
+//            }
+//        }];
+//        }
+//    }];
     [_priceTf addTarget:self action:@selector(DidChangePriceTF) forControlEvents:UIControlEventEditingChanged];
     [self defaultValues];
     if (appdelegate.symptomTagArray.count>0) {
@@ -95,6 +114,22 @@
             _saveBtn.hidden=YES;
             _exit.hidden=NO;
         }
+//    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+//            if ([userDefault boolForKey:@"category_FLAG"]) {
+//                [self callApi];
+//            }
+//            else{
+//                NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,biomagneticMatrix];
+//            [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+//                if (success) {
+//                    [self processResponseObject:response];
+//                }
+//                else{
+//                    [self callApi];
+//                }
+//            }];
+//        }
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -115,7 +150,7 @@
         _patientimage.image=appdelegate.model.profileImage;
     }else{
         NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,appdelegate.model.profileImageCode];
-        [_patientimage setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"patient-1.jpg"]];
+        [_patientimage setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
     }
 
 }
@@ -514,70 +549,14 @@ SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObject:responseObject];
+//        [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+//        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+//        [userDefault setBool:NO forKey:@"category_FLAG"];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
 }
-//process api
-
-//- (void)saveTipsCategory:(NSData *)response forURL:(NSString *)APILink
-//{
-//
-//if (dbManager == nil)
-//{
-//    dbManager = [[DBManager alloc] initWithFileName:@"APIBackup.db"];
-//    dbManager.delegate=self;
-//}
-//
-//NSString *createQuery = @"create table if not exists tipCategory (API text PRIMARY KEY, data text)";
-//[dbManager createTableForQuery:createQuery];
-//
-//NSMutableString *stringFromData = [[NSMutableString alloc] initWithData:response encoding:NSUTF8StringEncoding];
-//NSRange rangeofString;
-//rangeofString.location = 0;
-//rangeofString.length = stringFromData.length;
-//[stringFromData replaceOccurrencesOfString:@"'" withString:@"''" options:(NSCaseInsensitiveSearch) range:rangeofString];
-//
-//NSString *insertSQL = [NSString stringWithFormat:@"INSERT OR REPLACE INTO  tipCategory (API,data) values ('%@', '%@')", APILink,stringFromData];
-//
-//[dbManager saveDataToDBForQuery:insertSQL];
-//
-//}
-//
-//- (void)getData
-//{
-//      NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,biomagneticMatrix];
-//    if (dbManager == nil)
-//    {
-//        dbManager = [[DBManager alloc] initWithFileName:@"APIBackup.db"];
-//        dbManager.delegate=self;
-//    }
-//  NSString *queryString = [NSString stringWithFormat:@"SELECT * FROM tipCategory WHERE API = '%@'",url];
-//    if (![dbManager getDataForQuery:queryString])
-//    {
-//        if (![AFNetworkReachabilityManager sharedManager].reachable)
-//        {
-//        
-//        }
-//        
-//           }
-//}
-//
-
-
-//- (void)DBManager:(DBManager *)manager gotSqliteStatment:(sqlite3_stmt *)statment
-//{
-//    if (sqlite3_step(statment) == SQLITE_ROW)
-//    {
-//        NSString *string = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statment, 1)];
-//        
-//        NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
-//        
-//        [self parseResponseData:data andGetImages:NO];
-//    }
-//}
-
 -(void)processResponseObject:(id)responseObject{
     [allSortedDetailArray removeAllObjects];
     NSDictionary *dict=responseObject;
@@ -803,7 +782,7 @@ SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
     NSString *symptomStr=@"";
     for (SymptomTagModel *m in appdelegate.symptomTagArray) {
         symptomStr=[symptomStr stringByAppendingString:m.tagCode];
-        symptomStr=[symptomStr stringByAppendingString:@"|$|"];
+        symptomStr=[symptomStr stringByAppendingString:@","];
     }
     treatmentDict[@"SymptomTagCodes"]=symptomStr;
     treatmentDict[@"IsTreatmentCompleted"]=@"false";

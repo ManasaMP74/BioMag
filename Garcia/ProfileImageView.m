@@ -31,7 +31,7 @@
     }
      view.center = alphaView.center;
     NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,expandProfileImage,_imageCode];
-    [_profileImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"patient-1.jpg"] ];
+    [_profileImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"patient-icon-2.png"] ];
     AppDelegate *appDel = [UIApplication sharedApplication].delegate;
     [appDel.window addSubview:alphaView];
     [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];

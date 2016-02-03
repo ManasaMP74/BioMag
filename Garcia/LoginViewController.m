@@ -72,6 +72,7 @@
             NSArray *ar=responseDict[@"UserDetails"];
             NSDictionary *dict=ar[0];
             [defaultvalue setValue:dict[@"Id"] forKey:@"Id"];
+            [defaultvalue setValue:dict[@"CompanyCode"] forKey:@"CompanyCode"];
              [self performSegueWithIdentifier:@"loginSuccess" sender:nil];
         }
         else{

@@ -8,9 +8,9 @@
 #import "PatientDetailModel.h"
 #import "ProfileImageView.h"
 #import "AppDelegate.h"
+#import "PatientTitleModel.h"
 @interface PatientViewController ()<UITableViewDataSource,UITableViewDelegate,editPatient>
 @property (weak, nonatomic) IBOutlet UILabel *transfusinTF;
-
 @property (weak, nonatomic) IBOutlet UIButton *edit;
 @property (weak, nonatomic) IBOutlet UILabel *genderLabel;
 @property (weak, nonatomic) IBOutlet UILabel *martiralStatus;
@@ -76,7 +76,7 @@
         _patientImageView.image=_model.profileImage;
         }else{
             NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,_model.profileImageCode];
-            [_patientImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"patient-1.jpg"]];
+             [_patientImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
         }
     _patientImageView.layer.cornerRadius=_patientImageView.frame.size.width/2;
     _patientImageView.clipsToBounds=YES;
@@ -113,7 +113,7 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
     UILabel *label=(UILabel*)[cell viewWithTag:10];
-    PatientDetailModel *model=treatmentListArray[indexPath.row];
+    PatientTitleModel *model=treatmentListArray[indexPath.row];
     label.text=model.title;
     label.font=[UIFont fontWithName:@"OpenSans" size:13];
     tableView.tableFooterView=[UIView new];
@@ -124,7 +124,7 @@
 }
 //table didselect
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    PatientDetailModel *model=treatmentListArray[indexPath.row];
+    PatientTitleModel *model=treatmentListArray[indexPath.row];
     containerVC.model=_model;
     AppDelegate *app=[UIApplication sharedApplication].delegate;
     app.isTreatmntCompleted=model.IsTreatmentCompleted;
@@ -140,7 +140,7 @@
 //add treatment
 - (IBAction)addTreatment:(id)sender {
     containerVC.model=_model;
-    PatientDetailModel *model=[[PatientDetailModel alloc]init];
+    PatientTitleModel *model=[[PatientTitleModel alloc]init];
     AppDelegate *app=[UIApplication sharedApplication].delegate;
     app.isTreatmntCompleted=@"0";
     [containerVC pushTreatmentViewController:model];
@@ -154,38 +154,6 @@
 -(void)successfullyEdited{
     [containerVC successfullyEdit];
 }
-//-(void)callApiTogetAllDetailOfTheTreatment{
-//    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getTitleOfTreatment];
-//    [containerVC showMBprogressTillLoadThedata];
-//    [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        [self processResponseObjectToGetTreatmentDetail:responseObject];
-//        [containerVC hideAllMBprogressTillLoadThedata];
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        [containerVC hideAllMBprogressTillLoadThedata];
-//    }];
-//}
-//-(void)processResponseObjectToGetTreatmentDetail:(id)responseObject{
-//    [treatmentListArray removeAllObjects];
-//    NSUserDefaults *defaultValues=[NSUserDefaults standardUserDefaults];
-//    NSString *docID=[defaultValues valueForKey:@"Id"];
-//    NSDictionary *dict=responseObject;
-//    if ([dict[@"Success"] intValue]==1) {
-//        for (NSDictionary *dict1 in dict[@"ViewModels"]) {
-//                    if (([dict1[@"DoctorId"]intValue]==[docID intValue]) & ([dict1[@"PatientId"]intValue]==[_model.Id intValue])) {
-//                        if (([dict1[@"Status"]intValue]==1) & ([dict1[@"IsTreatmentCompleted"]intValue]==0)) {
-//                                PatientDetailModel *model=[[PatientDetailModel alloc]init];
-//                                model.idValue=dict1[@"ID"];
-//                                model.code=dict1[@"Code"];
-//                                model.title=dict1[@"Title"];
-//                                model.updateCount=dict1[@"UpdateCount"];
-//                                [treatmentListArray addObject:model];
-//               }
-//            }
-//        }
-//        [_tableview reloadData];
-//        _tableViewHeight.constant=self.tableview.contentSize.height;
-//    }
-//}
 - (IBAction)showFullProfileImage:(id)sender {
     if (profileView==nil)
         profileView=[[ProfileImageView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x+70, self.view.frame.origin.y+100,self.view.frame.size.width-40,self.view.frame.size.height-100)];
@@ -194,43 +162,35 @@
 }
 //call api to get detail of treatment
 -(void)callApiTogetAllDetailOfTheTreatment{
-    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getTreatmentDetail];
-    NSUserDefaults *defaultvalue=[NSUserDefaults standardUserDefaults];
-    int userIdInteger=[[defaultvalue valueForKey:@"Id"]intValue];
-    NSString *userID=[@(userIdInteger) description];
-    NSString *parameter=[NSString stringWithFormat:@"{\"DoctorId\":\"%@\",\"PatientId\":\"%@\",}",userID,_model.Id];
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getTitleOfTreatment];
     [containerVC showMBprogressTillLoadThedata];
-    [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectToGetTreatmentDetail:responseObject];
         [containerVC hideAllMBprogressTillLoadThedata];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-       [containerVC hideAllMBprogressTillLoadThedata];
+        [containerVC hideAllMBprogressTillLoadThedata];
     }];
 }
-//process object to get detail of treatment
 -(void)processResponseObjectToGetTreatmentDetail:(id)responseObject{
-     [treatmentListArray removeAllObjects];
+    [treatmentListArray removeAllObjects];
+    NSUserDefaults *defaultValues=[NSUserDefaults standardUserDefaults];
+    NSString *docID=[defaultValues valueForKey:@"Id"];
     NSDictionary *dict=responseObject;
     if ([dict[@"Success"] intValue]==1) {
-        for (NSDictionary *dict1 in dict[@"TreatmentRequests"]) {
-        if ([dict1[@"Status"]intValue]==1) {
-        PatientDetailModel *model=[[PatientDetailModel alloc]init];
-        model.IsTreatmentCompleted=dict1[@"IsTreatmentCompleted"];
-        model.idValue=dict1[@"TreatmentId"];
-        model.code=dict1[@"TreatmentCode"];
-        model.title=dict1[@"Title"];
-        model.symptomTagCodes=[dict1[@"SymptomTagCodes"] componentsSeparatedByString:@"|$|"];
-        NSDictionary *bioDict=dict1[@"BiomagneticSittingResults"];
-        model.biomagneticSittingResults=bioDict[@"ViewModels"];
-        model.documentDetails=dict1[@"DocumentDetails"];
-        model.treatmentRequestDate=dict1[@"TreatmentRequestDate"];
-        model.treatmentDetail=dict1[@"JSON"];
-       // model.updateCount=dict1[@"UpdateCount"];
-        [treatmentListArray addObject:model];
+        for (NSDictionary *dict1 in dict[@"ViewModels"]) {
+            if (([dict1[@"DoctorId"]intValue]==[docID intValue]) & ([dict1[@"PatientId"]intValue]==[_model.Id intValue])) {
+                if ([dict1[@"Status"]intValue]==1) {
+                    PatientTitleModel *model=[[PatientTitleModel alloc]init];
+                    model.idValue=dict1[@"ID"];
+                    model.code=dict1[@"Code"];
+                    model.title=dict1[@"Title"];
+                    model.IsTreatmentCompleted=dict1[@"IsTreatmentCompleted"];
+                    [treatmentListArray addObject:model];
+                }
+            }
         }
+        [_tableview reloadData];
+        _tableViewHeight.constant=self.tableview.contentSize.height;
     }
-    }
-    [_tableview reloadData];
-    _tableViewHeight.constant=self.tableview.contentSize.height;
 }
 @end

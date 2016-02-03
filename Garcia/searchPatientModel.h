@@ -26,7 +26,6 @@
                     onError:(void (^)(NSError *error))errorBlock;
 @property(strong,nonatomic)NSString *genderCode;
 @property(strong,nonatomic)NSString *martialCode;
-
 @property(strong,nonatomic)NSDictionary *jsonDict;
 @property(strong,nonatomic)NSString *memo;
 @property(strong,nonatomic)NSString *companyCode;

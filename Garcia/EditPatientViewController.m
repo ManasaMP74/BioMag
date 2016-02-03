@@ -8,6 +8,7 @@
 #import "MBProgressHUD.h"
 #import "editModel.h"
 #import "ImageUploadAPI.h"
+#import "SeedSyncer.h"
 @interface EditPatientViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,datePickerProtocol,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *nameTF;
 @property (strong, nonatomic) IBOutlet UITextField *genderTF;
@@ -49,7 +50,23 @@
     self.gendertableview.delegate=self;
     self.nameTF.delegate=self;
     self.mobileNoTF.delegate=self;
-    [self callApiForGender];
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        [[SeedSyncer sharedSyncer]callSeedAPI:^(BOOL success) {
+            if ([userDefault boolForKey:@"gender_FLAG"]) {
+                [self callApiForGender];
+            }
+            else{
+              NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getGender];
+            [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+                if (success) {
+                    [self prcessGenderObject:response];
+                }
+                else{
+                    [self callApiForGender];
+                }
+            }];
+            }
+        }];
     MaritialStatusArray=[@[@"YES",@"NO"]mutableCopy];
 }
 -(void)viewWillAppear:(BOOL)animated{
@@ -57,6 +74,22 @@
     UINavigationController *nav=(UINavigationController*)self.parentViewController;
     containerVC=(ContainerViewController*)nav.parentViewController;
     [containerVC setTitle:@"Edit"];
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSLog(@"%hhd",[userDefault boolForKey:@"gender_FLAG"]);
+                if ([userDefault boolForKey:@"gender_FLAG"]) {
+                    [self callApiForGender];
+                }
+                else{
+                NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getGender];
+                [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+                    if (success) {
+                        [self prcessGenderObject:response];
+                    }
+                    else{
+                        [self callApiForGender];
+                    }
+                }];
+            }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -75,7 +108,7 @@
         _patientImageView.image=_model.profileImage;
     }else{
         NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,_model.profileImageCode];
-        [_patientImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"patient-1.jpg"]];
+        [_patientImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
     }
     if (_model.surgeries!=nil) {
         _addressTextView.text=_model.surgeries;
@@ -334,12 +367,12 @@
 -(void)callApiForGender{
    postman=[[Postman alloc]init];
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getGender];
-      [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self prcessGenderObject:responseObject];
-      [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+     [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setBool:NO forKey:@"category_FLAG"];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }];
 }
 //response object for gender
@@ -465,7 +498,7 @@
 -(void)processResponseObjectForEdit:(id)responseObject{
     NSDictionary *dict=responseObject;
     if ([dict[@"Success"] intValue]==1) {
-        if (![_patientImageView.image isEqual:[UIImage imageNamed:@"patient.jpg"]]) {
+        if (![_patientImageView.image isEqual:[UIImage imageNamed:@"Patient-img.jpg"]]) {
             [self saveImage:_patientImageView.image];
         }
         else{
@@ -475,7 +508,8 @@
 
 }
 else{
-        [self alertmessage:dict[@"Message"]];
+        [self showFailureAlerMessage:dict[@"Message"]];
+      [containerVC hideAllMBprogressTillLoadThedata];
     }
 }
 //validate Email
@@ -578,7 +612,7 @@ else{
                 [containerVC hideAllMBprogressTillLoadThedata];
             }else
             {
-                 [self alertmessage:@"Updated Failed"];
+                 [self showFailureAlerMessage:@"Updated Failed"];
                   [containerVC hideAllMBprogressTillLoadThedata];
             }
         }];
@@ -593,5 +627,14 @@ else{
     }];
     [alertView addAction:success];
     [self presentViewController:alertView animated:YES completion:nil];
+}
+-(void)showFailureAlerMessage:(NSString*)msg{
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertView addAction:success];
+    [self presentViewController:alertView animated:YES completion:nil];
+
 }
 @end

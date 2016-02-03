@@ -5,7 +5,6 @@
 #import "SearchPatientViewController.h"
 #import "MBProgressHUD.h"
 #import "AppDelegate.h"
-
 @interface ContainerViewController ()<addedPatient,loadTreatmentDelegate>
 
 @end
@@ -60,10 +59,10 @@
     [nav initWithRootViewController:addPatientVc];
 }
 //push treatmentViewController
--(void)pushTreatmentViewController:(PatientDetailModel *)model{
+-(void)pushTreatmentViewController:(PatientTitleModel *)model{
     PatientSheetViewController *patientSheet=[self.storyboard instantiateViewControllerWithIdentifier:@"PatientSheetViewController"];
-    patientSheet.patientDetailModel=model;
     patientSheet.model=_model;
+    patientSheet.patientTitleModel=model;
     patientSheet.delegate=self;
     [self.navigationController pushViewController:patientSheet animated:YES];
 }

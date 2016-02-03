@@ -3,6 +3,7 @@
 #import "searchPatientModel.h"
 #import "PatientDetailModel.h"
 #import "UIImageView+AFNetworking.h"
+#import "PatientTitleModel.h";
 #if !defined(MAX)
 #define MAX(A,B)((A) > (B) ? (A) : (B))
 #endif
@@ -29,6 +30,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *takePic;
 @property (strong, nonatomic) IBOutlet UIButton *album;
 @property(strong,nonatomic)PatientDetailModel *patientDetailModel;
+@property(strong,nonatomic)PatientTitleModel *patientTitleModel;
 @property (strong, nonatomic) IBOutlet UICollectionView *uploadCollectionView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *uploadCollectionViewHeight;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *uploadCollectionViewWidth;

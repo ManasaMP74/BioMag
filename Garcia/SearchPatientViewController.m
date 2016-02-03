@@ -78,7 +78,7 @@
         model = patentFilteredArray[indexPath.row];
     }
     NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,model.profileImageCode];
-    [cell.patientImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"patient-1.jpg"]];
+    [cell.patientImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
         cell.patientNameLabel.text = model.name;
     if ([selectedIndexPath isEqual:indexPath]) {
         cell.patientNameLabel.textColor=[UIColor colorWithRed:0.7098 green:0.99 blue:0.98 alpha:1];

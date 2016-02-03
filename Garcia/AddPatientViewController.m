@@ -338,7 +338,7 @@
         NSArray *userDetail=dict[@"UserDetails"];
         NSDictionary *dict1=userDetail[0];
         addedPatientCode=dict1[@"Code"];
-        if (![_patientImageView.image isEqual:[UIImage imageNamed:@"patient.jpg"]]) {
+        if (![_patientImageView.image isEqual:[UIImage imageNamed:@"Patient-img.jpg"]]) {
             [self saveImage:_patientImageView.image];
         }
         else{
@@ -348,6 +348,7 @@
     }
     else {
          [self alertmessageForFailure:dict[@"Message"]];
+        [containerVC hideAllMBprogressTillLoadThedata];
     }
 }
 //Gender API

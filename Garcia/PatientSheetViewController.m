@@ -110,8 +110,9 @@
     diagnosisTableListArray=[[NSMutableArray alloc]init];
     app=[UIApplication sharedApplication].delegate;
     app.symptomTagArray=[[NSMutableArray alloc]init];
-    if (_patientDetailModel.title!=nil) {
-          [self callApiTogetSymptomTag];
+    if (_patientTitleModel.title!=nil) {
+        _treatmentNameTF.text=_patientTitleModel.title;
+         [self callApiTogetSymptomTag];
     }else{
         app.treatmentId=@"0";
         treatmentID=@"0";
@@ -122,7 +123,7 @@
     [self changeTreatmentTF];
     self.navigationItem.hidesBackButton=YES;
     formatter=[[NSDateFormatter alloc]init];
-    if ([_patientDetailModel.IsTreatmentCompleted intValue]==0) {
+    if ([_patientTitleModel.IsTreatmentCompleted intValue]==0) {
         [self DisableAllButton:NO];
     }else [self DisableAllButton:YES];
 }
@@ -498,7 +499,7 @@
             }
             else{
             NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,expandProfileImage,model.code];
-            [cell.uploadImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@""] ];
+            [cell.uploadImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"loading (1).gif"]];
                 model.imageName=cell.uploadImageView.image;
             }
             cell.labelHeight.constant =[model.captionText boundingRectWithSize:(CGSize){136,CGFLOAT_MAX } options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:12]} context:nil].size.height+10;
@@ -1064,6 +1065,7 @@
     treatmentRequestDict[@"IsTreatmentCompleted"]=treatmentComplete;
     treatmentRequestDict[@"PatientId"]=_model.Id;
     treatmentRequestDict[@"DoctorId"]=[defaultValues valueForKey:@"Id"];
+    treatmentRequestDict[@"languagecode"]=languageCode;
     NSString *symptomtag=@"";
     treatmentRequestDict[@"SymptomTagCodes"]=symptomtag;
     treatmentRequestDict[@"Title"]=_treatmentNameTF.text;
@@ -1105,7 +1107,7 @@
     }
 }
 -(void)loadTreatMentFromSittingPart{
-    [self CallLoadTreatMentDelegate];
+    [self callApiTogetAllDetailOfTheTreatment];
 }
 - (IBAction)cancelMedicalHistory:(id)sender {
 _medicalHistoryTextView.text=@"";
@@ -1117,7 +1119,6 @@ _medicalNoteLabel.hidden=NO;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectOfGetAllTag:responseObject];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
@@ -1135,7 +1136,7 @@ _medicalNoteLabel.hidden=NO;
             [allTagListArray addObject:model];
         }
     }
-      [self showTreatmentDetail];
+    [self callApiTogetAllDetailOfTheTreatment];
 }
 -(void)SittingPartToViewCompleteDetail:(NSArray*)bioSittingArray{
     int sittingNum=0;
@@ -1182,8 +1183,9 @@ _medicalNoteLabel.hidden=NO;
     }else  app.sittingNumber=[@(sittingNum)description];
 }
 -(void)editSittingCell:(UICollectionViewCell *)cell{
-    NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
-    SittingModelClass *model=sittingCollectionArray[index.section];
+    SittingCollectionViewCell *cell1=(SittingCollectionViewCell*)cell;
+    NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell1];
+    SittingModelClass *model=sittingCollectionArray[index.row];
     for (NSDictionary *dict in biomagneticArray) {
         int i=[dict[@"Id"]intValue];
         if ([model.sittingID intValue]==i) {
@@ -1196,7 +1198,7 @@ _medicalNoteLabel.hidden=NO;
 }
 - (IBAction)addSitting:(id)sender {
    app.bioSittingDict=nil;
-   app.biomagneticAnotomicalPointArray=biomagneticArray;
+   app.biomagneticAnotomicalPointArray=nil;
    [app.symptomTagArray removeAllObjects];
    [self performSegueWithIdentifier:@"sitting" sender:nil];
 }
@@ -1228,5 +1230,44 @@ _medicalNoteLabel.hidden=NO;
 }
 - (IBAction)exit:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
+}
+//getThe Detail of Treatment
+-(void)callApiTogetAllDetailOfTheTreatment{
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getTreatmentDetail];
+    NSUserDefaults *defaultvalue=[NSUserDefaults standardUserDefaults];
+    int userIdInteger=[[defaultvalue valueForKey:@"Id"]intValue];
+    NSString *userID=[@(userIdInteger) description];
+    NSString *parameter=[NSString stringWithFormat:@"{\"DoctorId\":\"%@\",\"PatientId\":\"%@\"}",userID,_model.Id];
+    [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self processResponseObjectToGetTreatmentDetail:responseObject];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+       [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
+}
+//process object to get detail of treatment
+-(void)processResponseObjectToGetTreatmentDetail:(id)responseObject{
+    NSDictionary *dict=responseObject;
+    if ([dict[@"Success"] intValue]==1) {
+        for (NSDictionary *dict1 in dict[@"TreatmentRequests"]) {
+            if ([dict1[@"Status"]intValue]==1) {
+                if ([dict1[@"TreatmentId"]intValue]==[_patientTitleModel.idValue intValue]) {
+                _patientDetailModel=[[PatientDetailModel alloc]init];
+                _patientDetailModel.IsTreatmentCompleted=dict1[@"IsTreatmentCompleted"];
+                _patientDetailModel.idValue=dict1[@"TreatmentId"];
+                _patientDetailModel.code=dict1[@"TreatmentCode"];
+                _patientDetailModel.title=dict1[@"Title"];
+                _patientDetailModel.symptomTagCodes=[dict1[@"SymptomTagCodes"] componentsSeparatedByString:@"|$|"];
+                NSDictionary *bioDict=dict1[@"BiomagneticSittingResults"];
+                _patientDetailModel.biomagneticSittingResults=bioDict[@"ViewModels"];
+                _patientDetailModel.documentDetails=dict1[@"DocumentDetails"];
+                _patientDetailModel.treatmentRequestDate=dict1[@"TreatmentRequestDate"];
+                _patientDetailModel.treatmentDetail=dict1[@"JSON"];
+                // model.updateCount=dict1[@"UpdateCount"];
+                }
+            }
+        }
+          [self showTreatmentDetail];
+    }
 }
 @end

@@ -18,8 +18,8 @@
 
 - (void)saveDataToDBForQuery:(NSString *)query;
 
-- (void)getDataForQuery:(NSString *)query;
+- (BOOL)getDataForQuery:(NSString *)query;
 
 - (void)deleteRowForQuery:(NSString *)query;
-
+- (void)getDataForQuery:(NSString *)query withCompletionHandler:(void (^)(BOOL success, sqlite3_stmt *statment))completionHandler;
 @end

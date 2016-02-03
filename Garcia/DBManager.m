@@ -176,6 +176,35 @@
     }
     
 }
+//get data
+- (void)getDataForQuery:(NSString *)query withCompletionHandler:(void (^)(BOOL success, sqlite3_stmt *statment))completionHandler
+{
+    const char *dbPath = [databasePath UTF8String];
+    
+    if (sqlite3_open(dbPath, &database) == SQLITE_OK)
+    {
+        const char *insert_stmt = [query UTF8String];
+        
+        sqlite3_stmt *statement;
+        
+        if (sqlite3_prepare_v2(database, insert_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            completionHandler(YES, statement);
+            sqlite3_finalize(statement);
+        }else
+        {
+            completionHandler(NO, nil);
+        }
+        
+        sqlite3_close(database);
+    }else
+    {
+        completionHandler(NO, nil);
+    }
+}
+
+
+
 //Get Data from tableView
 - (BOOL)getDataForQuery:(NSString *)query
 {
