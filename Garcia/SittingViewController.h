@@ -1,4 +1,5 @@
 #import <UIKit/UIKit.h>
+#import "UIImageView+AFNetworking.h"
 #if !defined(MAX)
 #define MAX(A,B)((A) > (B) ? (A) : (B))
 #endif
@@ -6,6 +7,7 @@
 -(void)loadTreatMentFromSittingPart;
 @end
 @interface SittingViewController : UIViewController
+@property (strong, nonatomic) IBOutlet UIButton *addSymptom;
 @property (strong, nonatomic) IBOutlet UIImageView *dateImageView;
 @property (strong, nonatomic) IBOutlet UIButton *datePicButton;
 @property (strong, nonatomic) IBOutlet UILabel *mobileValue;
@@ -21,6 +23,8 @@
 @property (strong, nonatomic) IBOutlet UIButton *previousBtn;
 @property (strong, nonatomic) IBOutlet UIButton *saveBtn;
 @property (strong, nonatomic) IBOutlet UIButton *nextBtn;
+@property (strong, nonatomic) IBOutlet UIButton *visitDateButton;
+@property (strong, nonatomic) IBOutlet UIButton *exit;
 
 //Data from parentView;
 @property(strong,nonatomic)NSString *SortType;

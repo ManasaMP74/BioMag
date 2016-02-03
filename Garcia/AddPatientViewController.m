@@ -347,7 +347,7 @@
         }
     }
     else {
-         [self alertmessage:dict[@"Message"]];
+         [self alertmessageForFailure:dict[@"Message"]];
     }
 }
 //Gender API
@@ -498,7 +498,7 @@
                  [containerVC hideAllMBprogressTillLoadThedata];
             }else
             {
-              [self alertmessage:@"Saved Failed"];
+              [self alertmessageForFailure:@"Saved Failed"];
                  [containerVC hideAllMBprogressTillLoadThedata];
             }
         }];
@@ -514,5 +514,12 @@
     [alertView addAction:success];
     [self presentViewController:alertView animated:YES completion:nil];
 }
-
+-(void)alertmessageForFailure:(NSString*)msg{
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertView addAction:success];
+    [self presentViewController:alertView animated:YES completion:nil];
+}
 @end

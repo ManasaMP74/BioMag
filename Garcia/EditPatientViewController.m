@@ -71,7 +71,12 @@
      _emailTF.text=_model.emailId;
     martialCode=_model.martialCode;
     genderCode=_model.genderCode;
-    _patientImageView.image=_model.profileImage;
+    if (_model.profileImageCode==nil) {
+        _patientImageView.image=_model.profileImage;
+    }else{
+        NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,_model.profileImageCode];
+        [_patientImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"patient-1.jpg"]];
+    }
     if (_model.surgeries!=nil) {
         _addressTextView.text=_model.surgeries;
     }else _addressTextView.text=@"";
@@ -411,8 +416,10 @@
     address[@"TemporaryAddress"]=dict1;
     NSData *jsonData1 = [NSJSONSerialization dataWithJSONObject:address options:kNilOptions error:nil];
     NSString *temporaryAddress = [[NSString alloc] initWithData:jsonData1 encoding:NSUTF8StringEncoding];
-    
-    NSMutableDictionary *jsonWithGender=[self.model.jsonDict mutableCopy];
+    NSMutableDictionary *jsonWithGender;
+    if (self.model.jsonDict==nil) {
+        jsonWithGender=[[NSMutableDictionary alloc]init];
+    }else jsonWithGender=[self.model.jsonDict mutableCopy];
     jsonWithGender[@"Gender"]=genderCode;
     jsonWithGender[@"MaritalStatus"]=@"";
     jsonWithGender[@"ContactNo"]=_mobileNoTF.text;
@@ -467,7 +474,7 @@
         }
 
 }
-    else{
+else{
         [self alertmessage:dict[@"Message"]];
     }
 }
@@ -568,7 +575,7 @@
             if (success)
             {
                 [self alertmessage:@"Updated successfully"];
-                  [containerVC hideAllMBprogressTillLoadThedata];
+                [containerVC hideAllMBprogressTillLoadThedata];
             }else
             {
                  [self alertmessage:@"Updated Failed"];

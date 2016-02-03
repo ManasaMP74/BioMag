@@ -20,7 +20,8 @@
 #import "PreviousSittingCollectionViewCell.h"
 #import "AppDelegate.h"
 #import "SymptomTagModel.h"
-@interface SittingViewController ()<UITableViewDelegate,UITableViewDataSource,addsymptom,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,UICollectionViewDataSource,ExpandCellProtocol,SWRevealViewControllerDelegate,deleteCellValue,SWRevealViewControllerDelegate,datePickerProtocol,sendGermsData>
+#import "DBManager.h"
+@interface SittingViewController ()<UITableViewDelegate,UITableViewDataSource,addsymptom,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,UICollectionViewDataSource,ExpandCellProtocol,SWRevealViewControllerDelegate,deleteCellValue,SWRevealViewControllerDelegate,datePickerProtocol,sendGermsData,DBManagerDelegate>
 @property (strong, nonatomic) IBOutlet UILabel *ageValue;
 @property (strong, nonatomic) IBOutlet UILabel *filterLabel;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -45,8 +46,12 @@
     NSIndexPath *selectedCellIndex;
     int selectedCellToFilter;
     AppDelegate *appdelegate;
+    DBManager *dbManager;
 }
 - (void)viewDidLoad {
+//    SWRevealViewController *reveal=(SWRevealViewController*)self.parentViewController;
+//    UINavigationController *nav=(ui)
+    NSLog(@"%@",self.revealViewController.parentViewController);
      appdelegate=[UIApplication sharedApplication].delegate;
     constant=[[Constant alloc]init];
     allSortedDetailArray   =[[NSMutableArray alloc]init];
@@ -58,8 +63,12 @@
    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-2.jpg"]]];
     postman=[[Postman alloc]init];
     if ([_sectionName isEqualToString:@""]) {
-        allSectionNameArray=[[NSMutableArray alloc]init];
-         [self callApi];
+        if (appdelegate.completeDetailToDrArray.count==0) {
+            allSectionNameArray=[[NSMutableArray alloc]init];
+            [self callApi];
+        }else{
+            [allSortedDetailArray addObjectsFromArray:appdelegate.completeDetailToDrArray];
+        }
     }else{
         selectedCellToFilter=_selectedIndexPathOfSectionInSlideOut.row;
        [self compareNextBtnToBeHidden];
@@ -79,6 +88,13 @@
     [super viewWillAppear:YES];
      [self navigationItemMethod];
        _tableview.tableFooterView=[UIView new];
+    if ([appdelegate.isTreatmntCompleted intValue]==0) {
+            _saveBtn.hidden=NO;
+            _exit.hidden=YES;
+        }else{
+            _saveBtn.hidden=YES;
+            _exit.hidden=NO;
+        }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -95,6 +111,13 @@
     _transfusionValue.text=appdelegate.model.tranfusion;
     _patienViewHeight.constant=44;
     _patientDetailView.hidden=YES;
+    if (appdelegate.model.profileImageCode==nil) {
+        _patientimage.image=appdelegate.model.profileImage;
+    }else{
+        NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,appdelegate.model.profileImageCode];
+        [_patientimage setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"patient-1.jpg"]];
+    }
+
 }
     //save price
 - (IBAction)savePrice:(id)sender {
@@ -157,9 +180,6 @@
     cell.psychoemotional.text=model.psychoemotional;
     cell.serialNumber.text=model.sortNumber;
     cell.doctorName.text=model.author;
-    if (indexPath.section==0) {
-      cell.sittingNumber.text=@"S4";
-    }
     for (NSString *str in model.germsCode) {
         cell.germLabel.text=str;
     }
@@ -192,11 +212,9 @@
     [cell.morePreviousButton setImage:[UIImage imageNamed:@"Dropdown-icon"] forState:normal];
     }
     if (model.issue) {
-        [cell.checkBox setBackgroundImage:[UIImage imageNamed:@"issue-Button"] forState:normal];
-        [cell.checkBox setTitle:@"Issues" forState:normal];
+       [self colorChange:model.issue withCell:cell];
     }else{
-        [cell.checkBox setBackgroundImage:[UIImage imageNamed:@"no-issue-Button"] forState:normal];
-        [cell.checkBox setTitle:@"No issues" forState:normal];
+       [self colorChange:model.issue withCell:cell];
     }
     if ([model.germsString isEqualToString:@""]) {
         cell.sittingTextView.text=@"";
@@ -208,23 +226,24 @@
             NSData *objectData = [str dataUsingEncoding:NSUTF8StringEncoding];
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData options:NSJSONReadingMutableContainers
                                 error:&jsonError];
+            [_datePicButton setTitle:dict[@"Visit"] forState:normal];
             NSArray *anotomicalPointArray=json[@"AnatomicalPoints"];
             if (anotomicalPointArray.count>0) {
                 NSDictionary *anotomicalDict=anotomicalPointArray[0];
                 if (([anotomicalDict[@"SectionCode"] isEqualToString:model.sectionCode])&([anotomicalDict[@"CorrespondingPairCode"] isEqualToString:model.correspondingPairCode])&([anotomicalDict[@"ScanPointCode"] isEqualToString:model.scanPointCode]) ) {
+                    cell.sittingNumber.text=[NSString stringWithFormat:@"S%d",[dict[@"SittingNumber"]intValue]];
                     cell.sittingTextView.text=anotomicalDict[@"GermsName"];
                     model.germsString= cell.sittingTextView.text;
                     cell.sittingTvPlaceholder.hidden=YES;
                     if ([anotomicalDict[@"Issue"] integerValue]==1) {
                           model.issue= YES;
-                        [cell.checkBox setBackgroundImage:[UIImage imageNamed:@"issue-Button"] forState:normal];
-                        [cell.checkBox setTitle:@"Issues" forState:normal];
+                        [self colorChange:model.issue withCell:cell];
                     }else{
                         model.issue= NO;
-                        [cell.checkBox setBackgroundImage:[UIImage imageNamed:@"no-issue-Button"] forState:normal];
-                        [cell.checkBox setTitle:@"No issues" forState:normal];
+                       [self colorChange:model.issue withCell:cell];
                     }
                 }else{
+                    cell.sittingNumber.text=@"S1";
                     cell.sittingTextView.text=@"";
                     cell.sittingTvPlaceholder.hidden=NO;
                 }
@@ -237,7 +256,29 @@
         cell.sittingTextView.text=model.germsString;
         cell.sittingTvPlaceholder.hidden=YES;
     }
+    if ([appdelegate.isTreatmntCompleted intValue]==0) {
+                [self disableTheButton:cell withStatus:YES];
+    }else  [self disableTheButton:cell withStatus:NO];
        return cell;
+}
+//Change the color of cell
+-(void)colorChange:(BOOL)issue withCell:(SittingTableViewCell*)cell{
+    if (issue) {
+        [cell.checkBox setBackgroundImage:[UIImage imageNamed:@"issue-Button"] forState:normal];
+        [cell.checkBox setTitle:@"Issues" forState:normal];
+        cell.headerView.backgroundColor=[UIColor colorWithRed:0.686 green:0.741 blue:1 alpha:1];
+    }else{
+        [cell.checkBox setBackgroundImage:[UIImage imageNamed:@"no-issue-Button"] forState:normal];
+        [cell.checkBox setTitle:@"No issues" forState:normal];
+        cell.headerView.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
+    }
+}
+//Hide button if treatment is completed
+-(void)disableTheButton:(SittingTableViewCell*)cell withStatus:(BOOL)status{
+    cell.showGermsButton.userInteractionEnabled=status;
+    cell.checkBox.userInteractionEnabled=status;
+    _priceTf.enabled=status;
+    _addSymptom.enabled=status;
 }
 //display cell
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -267,6 +308,9 @@
     SymptomTagModel *m= appdelegate.symptomTagArray[indexPath.row];
    cell.label.text=m.tagName;
     cell.delegate=self;
+        if ([appdelegate.isTreatmntCompleted intValue]==0) {
+            cell.deleteSymptom.hidden=NO;
+        }else  cell.deleteSymptom.hidden=YES;
        return cell;
     }
     else{
@@ -286,7 +330,7 @@
             cell.infoLabel.text=@"B, V";
             cell.dateLabel.text=@"11-Jan-2015";
         }
-        return cell;
+               return cell;
     }
 
 }
@@ -476,6 +520,64 @@ SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
     }];
 }
 //process api
+
+//- (void)saveTipsCategory:(NSData *)response forURL:(NSString *)APILink
+//{
+//
+//if (dbManager == nil)
+//{
+//    dbManager = [[DBManager alloc] initWithFileName:@"APIBackup.db"];
+//    dbManager.delegate=self;
+//}
+//
+//NSString *createQuery = @"create table if not exists tipCategory (API text PRIMARY KEY, data text)";
+//[dbManager createTableForQuery:createQuery];
+//
+//NSMutableString *stringFromData = [[NSMutableString alloc] initWithData:response encoding:NSUTF8StringEncoding];
+//NSRange rangeofString;
+//rangeofString.location = 0;
+//rangeofString.length = stringFromData.length;
+//[stringFromData replaceOccurrencesOfString:@"'" withString:@"''" options:(NSCaseInsensitiveSearch) range:rangeofString];
+//
+//NSString *insertSQL = [NSString stringWithFormat:@"INSERT OR REPLACE INTO  tipCategory (API,data) values ('%@', '%@')", APILink,stringFromData];
+//
+//[dbManager saveDataToDBForQuery:insertSQL];
+//
+//}
+//
+//- (void)getData
+//{
+//      NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,biomagneticMatrix];
+//    if (dbManager == nil)
+//    {
+//        dbManager = [[DBManager alloc] initWithFileName:@"APIBackup.db"];
+//        dbManager.delegate=self;
+//    }
+//  NSString *queryString = [NSString stringWithFormat:@"SELECT * FROM tipCategory WHERE API = '%@'",url];
+//    if (![dbManager getDataForQuery:queryString])
+//    {
+//        if (![AFNetworkReachabilityManager sharedManager].reachable)
+//        {
+//        
+//        }
+//        
+//           }
+//}
+//
+
+
+//- (void)DBManager:(DBManager *)manager gotSqliteStatment:(sqlite3_stmt *)statment
+//{
+//    if (sqlite3_step(statment) == SQLITE_ROW)
+//    {
+//        NSString *string = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statment, 1)];
+//        
+//        NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
+//        
+//        [self parseResponseData:data andGetImages:NO];
+//    }
+//}
+
 -(void)processResponseObject:(id)responseObject{
     [allSortedDetailArray removeAllObjects];
     NSDictionary *dict=responseObject;
@@ -547,6 +649,7 @@ SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
              [allSortedDetailArray addObject:model];
     }
 }
+        
         appdelegate.completeDetailToDrArray=[[NSMutableArray alloc]init];
         appdelegate.allsectionNameArray=[[NSMutableArray alloc]init];
         [appdelegate.allsectionNameArray addObjectsFromArray:allSectionNameArray];
@@ -700,7 +803,7 @@ SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
     NSString *symptomStr=@"";
     for (SymptomTagModel *m in appdelegate.symptomTagArray) {
         symptomStr=[symptomStr stringByAppendingString:m.tagCode];
-        symptomStr=[symptomStr stringByAppendingString:@","];
+        symptomStr=[symptomStr stringByAppendingString:@"|$|"];
     }
     treatmentDict[@"SymptomTagCodes"]=symptomStr;
     treatmentDict[@"IsTreatmentCompleted"]=@"false";
@@ -761,6 +864,14 @@ SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
             [self.delegateForIncreasingSitting loadTreatMentFromSittingPart];
             [self.navigationController popViewControllerAnimated:YES];
 }
+        else{
+            UIAlertController *alert=[UIAlertController alertControllerWithTitle:@"" message:dict[@"Message"] preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *failure=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }];
+            [alert addAction:failure];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
 }
 -(void)getTheSortDetailOfCompleteDitailArray:(NSString*)str{
         [allSortedDetailArray removeAllObjects];
@@ -773,5 +884,8 @@ SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
             }
         }
         [_tableview reloadData];
+}
+- (IBAction)exit:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 @end

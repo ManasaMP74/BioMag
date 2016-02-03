@@ -53,6 +53,8 @@
 		DAD52B5F1C216AF70052579D /* SctionXibCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAD52B5E1C216AF70052579D /* SctionXibCell.xib */; };
 		DAD52B651C216C3A0052579D /* SectionXibTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD52B641C216C3A0052579D /* SectionXibTableViewCell.m */; };
 		DAE48C711BF07B8F008AD2D3 /* editModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE48C701BF07B8F008AD2D3 /* editModel.m */; };
+		DAE576351C3E6C570076C3EE /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE576341C3E6C570076C3EE /* DBManager.m */; };
+		DAE576381C3E6D080076C3EE /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE576361C3E6CF30076C3EE /* libsqlite3.0.tbd */; };
 		DAE606001C1FC83600A344F2 /* PatientDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE605FF1C1FC83600A344F2 /* PatientDetailModel.m */; };
 		DAE637851BE32D2F000C6FAB /* CorrespondingPointView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAE637841BE32D2F000C6FAB /* CorrespondingPointView.xib */; };
 		DAE637881BE32D55000C6FAB /* CorrespondingPointView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE637871BE32D55000C6FAB /* CorrespondingPointView.m */; };
@@ -192,6 +194,9 @@
 		DAD52B641C216C3A0052579D /* SectionXibTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionXibTableViewCell.m; sourceTree = "<group>"; };
 		DAE48C6F1BF07B8F008AD2D3 /* editModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = editModel.h; sourceTree = "<group>"; };
 		DAE48C701BF07B8F008AD2D3 /* editModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = editModel.m; sourceTree = "<group>"; };
+		DAE576331C3E6C570076C3EE /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
+		DAE576341C3E6C570076C3EE /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
+		DAE576361C3E6CF30076C3EE /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		DAE605FE1C1FC83600A344F2 /* PatientDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatientDetailModel.h; sourceTree = "<group>"; };
 		DAE605FF1C1FC83600A344F2 /* PatientDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PatientDetailModel.m; sourceTree = "<group>"; };
 		DAE637841BE32D2F000C6FAB /* CorrespondingPointView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CorrespondingPointView.xib; sourceTree = "<group>"; };
@@ -300,6 +305,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAE576381C3E6D080076C3EE /* libsqlite3.0.tbd in Frameworks */,
 				204E7FFAA63C4833C779612F /* libPods-Biomagnetism.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -321,6 +327,7 @@
 		31FB36A024EC5DFE48002A0A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DAE576361C3E6CF30076C3EE /* libsqlite3.0.tbd */,
 				DA2D3DA51C0EB3F3008D0AC2 /* CoreGraphics.framework */,
 				DA2D3DA31C0EB3E6008D0AC2 /* Foundation.framework */,
 				DA2D3DA11C0EB3E0008D0AC2 /* UIKit.framework */,
@@ -642,6 +649,8 @@
 				DAE7B7A51BEDE93B006C5C70 /* PostmanConstant.m */,
 				DAF616801C0428E500B54F5D /* ImageUploadAPI.h */,
 				DAF616811C0428E500B54F5D /* ImageUploadAPI.m */,
+				DAE576331C3E6C570076C3EE /* DBManager.h */,
+				DAE576341C3E6C570076C3EE /* DBManager.m */,
 			);
 			name = Postman;
 			sourceTree = "<group>";
@@ -1007,6 +1016,7 @@
 				DAEFA1C81BD0B6C900900379 /* Constant.m in Sources */,
 				DAE48C711BF07B8F008AD2D3 /* editModel.m in Sources */,
 				DAF7EF311C1A9FF5009ADE9B /* SymptomTagCustomCollectionViewCell.m in Sources */,
+				DAE576351C3E6C570076C3EE /* DBManager.m in Sources */,
 				DA7359911C12B664005192D7 /* SWRevealViewController.m in Sources */,
 				DAF82CE01BD4BA74006AF1E1 /* ContainerViewController.m in Sources */,
 				DA130F381BEA1E1900B5B9FF /* Child.m in Sources */,
@@ -1145,7 +1155,7 @@
 				INFOPLIST_FILE = Garcia/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.urbanAirshipTestApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.BiomagPractitionerBeta;
 				PRODUCT_NAME = Biomagnetism;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -1161,7 +1171,7 @@
 				INFOPLIST_FILE = Garcia/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.urbanAirshipTestApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.BiomagPractitionerBeta;
 				PRODUCT_NAME = Biomagnetism;
 				TARGETED_DEVICE_FAMILY = 2;
 			};

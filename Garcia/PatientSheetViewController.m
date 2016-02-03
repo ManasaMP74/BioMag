@@ -36,8 +36,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *patientDetailLabel;
 @property (strong, nonatomic) IBOutlet UILabel *medicalHistoryLabel;
 @property (strong, nonatomic) IBOutlet UITextView *medicalHistoryTextView;
-@property (strong, nonatomic) IBOutlet UIButton *uploadButton;
-@property (strong, nonatomic) IBOutlet UIButton *saveButton;
 @property (strong, nonatomic) IBOutlet UITableView *MedicaltableView;
 @property (strong, nonatomic) IBOutlet UITableView *diagnosisTableView;
 @property (strong, nonatomic) IBOutlet UILabel *diagnosisLabel;
@@ -112,18 +110,50 @@
     diagnosisTableListArray=[[NSMutableArray alloc]init];
     app=[UIApplication sharedApplication].delegate;
     app.symptomTagArray=[[NSMutableArray alloc]init];
-    [self callApiTogetSymptomTag];
+    if (_patientDetailModel.title!=nil) {
+          [self callApiTogetSymptomTag];
+    }else{
+        app.treatmentId=@"0";
+        treatmentID=@"0";
+    }
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self changeTreatmentTF];
     self.navigationItem.hidesBackButton=YES;
     formatter=[[NSDateFormatter alloc]init];
-    if (_patientDetailModel.title!=nil) {
-        [self callApiTogetAllDetailOfTheTreatment];
+    if ([_patientDetailModel.IsTreatmentCompleted intValue]==0) {
+        [self DisableAllButton:NO];
+    }else [self DisableAllButton:YES];
+}
+//Hide button if treatment is closed
+-(void)DisableAllButton:(BOOL)status{
+    _addDiagnosis.hidden=status;
+    _addMedical.hidden=status;
+    _saveTreatmentClosure.hidden=status;
+    _closeTreatmentClosure.hidden=status;
+    _album.hidden=status;
+    _takePic.hidden=status;
+    _addSittingButton.hidden=status;
+    _cancelMedical.hidden=status;
+    _medicalNoteLabel.hidden=status;
+    _diagnosisNoteLabel.hidden=status;
+    _medicalHistoryTextView.hidden=status;
+    _diagnosisTextView.hidden=status;
+    if (status==NO) {
+        _exit.hidden=YES;
+        _medicalTableHeight.constant=87;
+        _diagnosisTableHeight.constant=92;
+        _medicalHistoryTextView.userInteractionEnabled=YES;
+        _diagnosisTextView.userInteractionEnabled=YES;
+        _treatmentEncloserTextView.userInteractionEnabled=YES;
     }else{
-        app.treatmentId=@"0";
-        treatmentID=@"0";
+        _exit.hidden=NO;
+        _medicalTableHeight.constant=195;
+        _diagnosisTableHeight.constant=175;
+        _medicalHistoryTextView.userInteractionEnabled=NO;
+        _diagnosisTextView.userInteractionEnabled=NO;
+        _treatmentEncloserTextView.userInteractionEnabled=NO;
     }
 }
 -(void)viewDidAppear:(BOOL)animated{
@@ -187,8 +217,15 @@
     if ([_increaseUploadViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
         _uploadView.hidden=NO;
         if (uploadedImageArray.count>0) {
-            _uploadViewHeigh.constant=uploadCellHeight+185;
+            for (UploadModelClass *m in uploadedImageArray) {
+                CGFloat labelHeight=[m.captionText boundingRectWithSize:(CGSize){136,CGFLOAT_MAX }
+                                                                options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:12]} context:nil].size.height;
+                uploadCellHeight=MAX(uploadCellHeight, labelHeight);
+            }
             _uploadCollectionView.hidden=NO;
+            _uploadViewHeigh.constant=uploadCellHeight+185;
+            [_uploadCollectionView reloadData];
+            [self.view layoutIfNeeded];
         }
         else  _uploadViewHeigh.constant=55;
         [self ChangeIncreaseDecreaseButtonImage:_increaseUploadViewButton];
@@ -441,6 +478,10 @@
             cell.headerViewHeight.constant=[cell.headerView decreaseHeaderinHeaderTV:model];
         }
         cell.headerViewHeight.constant=cell.headerView.headerTableview.contentSize.height;       _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
+        if ([_patientDetailModel.IsTreatmentCompleted intValue]==0) {
+            cell.closeSitting.hidden=NO;
+        }else cell.closeSitting.hidden=YES;
+        
         return cell;
     }
     else if (collectionView==_uploadCollectionView){
@@ -452,12 +493,21 @@
             else _uploadCollectionViewWidth.constant=_uploadCollectionView.contentSize.width;
             _uploadCollectionViewHeight.constant=uploadCellHeight+120;
             UploadModelClass *model=uploadedImageArray[indexPath.row];
-            UIImage *img=model.imageName;
-            cell.uploadImageView.image=img;
+            if (model.imageName!=nil) {
+              cell.uploadImageView.image=model.imageName;
+            }
+            else{
+            NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,expandProfileImage,model.code];
+            [cell.uploadImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@""] ];
+                model.imageName=cell.uploadImageView.image;
+            }
             cell.labelHeight.constant =[model.captionText boundingRectWithSize:(CGSize){136,CGFLOAT_MAX } options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:12]} context:nil].size.height+10;
             cell.captionLabel.text=model.captionText;
             cell.delegate=self;
         }
+        if ([_patientDetailModel.IsTreatmentCompleted intValue]==0) {
+            cell.cancelButton.hidden=NO;
+        }else cell.cancelButton.hidden=YES;
         return cell;
     }
     else {
@@ -495,15 +545,15 @@
 //select collection view cell
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     if (collectionView==_uploadCollectionView) {
+        UploadCollectionViewCell *cell=(UploadCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
         [self.navigationController pushViewController:attachView animated:YES];
         UploadModelClass *model=uploadedImageArray[indexPath.row];
+        model.imageName=cell.uploadImageView.image;
         attachView.selectedImage=model.imageName;
         attachView.captionText=model.captionText;
         attachView.imageViewHeight.constant=self.view.frame.size.height-300;
-        attachView.okButton.hidden=YES;
-        attachView.CancelButton.hidden=YES;
         attachView.textViewEnabled=NO;
-    }
+  }
 }
 //increase cell height of sitting
 -(void)increaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath withHeader:(NSIndexPath*)headerIndex withNoteHeader:(NSIndexPath*)NoteIndex{
@@ -719,8 +769,6 @@
         attachView.selectedImage=image;
         attachView.captionText=nil;
         attachView.textViewEnabled=YES;
-        attachView.okButton.hidden=NO;
-        attachView.CancelButton.hidden=NO;
         attachView.imageViewHeight.constant=350;
         attachView.delegate=self;
         [self dismissViewControllerAnimated:YES completion:nil];
@@ -741,16 +789,6 @@
     _uploadCollectionView.hidden=NO;
     _uploadViewHeigh.constant=uploadCellHeight+185;
 }
-//-(void)image{
-//    for (NSString *imageCode in _model.otherDocumentImage) {
-//       NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,imageCode];
-//        UploadModelClass *uploadModel=[[UploadModelClass alloc]init];
-//        UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectZero];
-//        [imageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"patient.jpg"] ];
-//        uploadModel.imageName=image;
-//        uploadModel.captionText=captionText;
-//    }
-//}
 -(void)deleteCell:(id)cell{
     uploadCellHeight=0.0;
     NSIndexPath *index=[_uploadCollectionView indexPathForCell:cell];
@@ -833,18 +871,6 @@
 -(void)textViewDidEndEditing:(UITextView *)textView{
     activeField=nil;
 }
-//call api to delete tag
--(void)callApiForDeleteTag:(SymptomTagModel*)model
-{
-    NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,updateSymptomTag,model.tagCode];
-    NSString *parameter=[NSString stringWithFormat:@"{\"Name\": \"%@\",\"Status\": false, \"UserID\": %@,\"Id\": %@,\"MethodType\":\"PUT\"}",model.tagName,_model.Id,model.tagId];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [postman put:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-    }];
-}
 //textView Change
 -(void)textViewDidChange:(UITextView *)textView{
     if (textView==_treatmentEncloserTextView) {
@@ -915,39 +941,21 @@
         [self MBProgressMessage:dict[@"Message"]];
     }
 }
-//call api to get detail of treatment
--(void)callApiTogetAllDetailOfTheTreatment{
-    NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,getTreatmentDetail,_patientDetailModel.code];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [self processResponseObjectToGetTreatmentDetail:responseObject];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-    }];
-}
-//process object to get detail of treatment
--(void)processResponseObjectToGetTreatmentDetail:(id)responseObject{
+//show detail of treatment
+-(void)showTreatmentDetail{
     [medicalTableListArray removeAllObjects];
     [diagnosisTableListArray removeAllObjects];
-    NSDictionary *dict=responseObject;
-    if ([dict[@"Success"] intValue]==1) {
-        NSDictionary *dict1=dict[@"ViewModels"];
-            treatmentID=dict1[@"ID"];
-            NSArray *tagArray=[dict1[@"SymptomTagCodes"] componentsSeparatedByString:@","];
-            NSLog(@"%@",tagArray);
-            if (![dict1[@"JSON"] isKindOfClass:[NSNull class]]) {
-                NSData *jsonData = [dict1[@"JSON"] dataUsingEncoding:NSUTF8StringEncoding];
-                NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:nil];
+    treatmentID=_patientDetailModel.idValue;
+    if (_patientDetailModel.treatmentDetail!=nil) {
+    NSData *jsonData = [_patientDetailModel.treatmentDetail dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:nil];
                 NSArray *medicalArray=jsonDict[@"MedicalHistory"];
                 NSArray *diagnosisArray=jsonDict[@"Diagnosis"];
                 _treatmentEncloserTextView.text=jsonDict[@"TreatmentClosure"];
                 if ([_treatmentEncloserTextView.text isEqualToString:@""]) {
                     _addClosureNoteLabel.hidden=NO;
                 }else _addClosureNoteLabel.hidden=YES;
-                if (![dict1[@"DateModified"] isEqualToString:@""]) {
-                    treatmentModifiedDate=dict1[@"DateModified"];
-                }
+                treatmentModifiedDate=_patientDetailModel.treatmentRequestDate;
                 for (NSString *str in medicalArray) {
                     if (![str isEqualToString:@""]) {
                         [medicalTableListArray addObject:str];
@@ -962,9 +970,8 @@
                 [_diagnosisTableView reloadData];
             }
         [app.symptomTagArray removeAllObjects];
-        NSArray *symptomArray=[dict1[@"SymptomTagCodes"] componentsSeparatedByString:@","];
-        if (symptomArray.count>0) {
-        for (NSString *str in symptomArray) {
+        if (_patientDetailModel.symptomTagCodes.count>0) {
+        for (NSString *str in _patientDetailModel.symptomTagCodes) {
             for (int i=0; i<allTagListArray.count; i++) {
                 SymptomTagModel *m=allTagListArray[i];
                 if ([m.tagCode isEqualToString:str]) {
@@ -973,13 +980,21 @@
             }
         }
     }
-        NSDictionary *bioDict=dict1[@"BiomagneticSittingResults"];
-        biomagneticArray=bioDict[@"ViewModels"];
-        [self SittingPartToViewCompleteDetail:biomagneticArray];
-        
+    [uploadedImageArray removeAllObjects];
+    if (_patientDetailModel.documentDetails.count>0) {
+        for (NSDictionary *dict in _patientDetailModel.documentDetails) {
+            UploadModelClass *uploadModel=[[UploadModelClass alloc]init];
+            uploadModel.storgeId=dict[@"StorageID"];
+             uploadModel.code=dict[@"Code"];
+            uploadModel.captionText=dict[@"RenamedFilename"];
+            uploadModel.imageName=nil;
+            [uploadedImageArray addObject:uploadModel];
+        }
     }
+    biomagneticArray=_patientDetailModel.biomagneticSittingResults;
+   [self SittingPartToViewCompleteDetail:biomagneticArray];
    NSString *str=[self getParameterForSaveORCloseOrUpdateTreatment:@"" withTreatmentCompleted:@"" withMethodType:@""];
-    app.sittingString=str;
+   app.sittingString=str;
     app.treatmentId=treatmentID;
 }
 //Close api to close
@@ -1072,7 +1087,7 @@
     hubHUD.margin=20.f;
     hubHUD.yOffset=150.f;
     hubHUD.removeFromSuperViewOnHide = YES;
-    [hubHUD hide:YES afterDelay:8];
+    [hubHUD hide:YES afterDelay:14];
 }
 -(void)CallLoadTreatMentDelegate{
     [self.delegate loadTreatment];
@@ -1099,9 +1114,12 @@ _medicalNoteLabel.hidden=NO;
 //get symptom tag
 -(void)callApiTogetSymptomTag{
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getSymptomTag];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectOfGetAllTag:responseObject];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
 }
 //process get tag
@@ -1117,6 +1135,7 @@ _medicalNoteLabel.hidden=NO;
             [allTagListArray addObject:model];
         }
     }
+      [self showTreatmentDetail];
 }
 -(void)SittingPartToViewCompleteDetail:(NSArray*)bioSittingArray{
     int sittingNum=0;
@@ -1169,6 +1188,7 @@ _medicalNoteLabel.hidden=NO;
         int i=[dict[@"Id"]intValue];
         if ([model.sittingID intValue]==i) {
             app.bioSittingDict=dict;
+            app.biomagneticAnotomicalPointArray=biomagneticArray;
             [self performSegueWithIdentifier:@"sitting" sender:nil];
             break;
         }
@@ -1176,8 +1196,9 @@ _medicalNoteLabel.hidden=NO;
 }
 - (IBAction)addSitting:(id)sender {
    app.bioSittingDict=nil;
-    [app.symptomTagArray removeAllObjects];
- [self performSegueWithIdentifier:@"sitting" sender:nil];
+   app.biomagneticAnotomicalPointArray=biomagneticArray;
+   [app.symptomTagArray removeAllObjects];
+   [self performSegueWithIdentifier:@"sitting" sender:nil];
 }
 //save profile
 - (void)saveImage
@@ -1190,17 +1211,22 @@ _medicalNoteLabel.hidden=NO;
             NSData* data = UIImageJPEGRepresentation(model.imageName,.5);
             [data writeToFile:path atomically:YES];
             NSArray *type=@[@"NLB0H7"];
-            NSArray *caption=@[@"model.captionText"];
-        [imageManager uploadDocumentPath:path forRequestCode:_model.code withDocumentType:type withText:caption onCompletion:^(BOOL success) {
-            if (success)
-            {
-                
-            }else
-            {
-                
+            NSArray *caption=@[model.captionText];
+            if (model.storgeId==nil) {
+                [imageManager uploadDocumentPath:path forRequestCode:_patientDetailModel.code withDocumentType:type withText:caption withRequestType:@"Treatment" onCompletion:^(BOOL success) {
+                    if (success)
+                    {
+                        
+                    }else
+                    {
+                        
+                    }
+                }];
             }
-        }];
     }
 }
+}
+- (IBAction)exit:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 @end

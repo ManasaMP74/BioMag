@@ -2,12 +2,16 @@
 @implementation PostmanConstant
 
 // testing
-//NSString *const baseUrl=@"http://prithiviraj.vmokshagroup.com:8033/api/";
+//NSString *const baseUrl=@"http://prithiviraj.vmokshagroup.com:9008/api/";
 //NSString *const postmanCompanyCode=@"A0I7LV";
 
-// Staging
-NSString *const baseUrl=@"http://prithiviraj.vmokshagroup.com:8035/api/";
+// production
+NSString *const baseUrl=@"http://garciaapi-dev.elasticbeanstalk.com/api/";
 NSString *const postmanCompanyCode=@"VM001";
+
+// Staging
+//NSString *const baseUrl=@"http://prithiviraj.vmokshagroup.com:8035/api/";
+//NSString *const postmanCompanyCode=@"VM001";
 
 
 NSString *const getGender=@"gender";
@@ -23,7 +27,7 @@ NSString *const getProfile=@"LoadThumbnailImage/";
 NSString *const uploadFile=@"upload";
 NSString *const allScanpointsApi=@"AnatomicalDetails";
 NSString *const addTreatmentUrl=@"treatmentrequest/0";
-NSString *const getTreatmentDetail=@"treatmentrequest/";
+NSString *const getTreatmentDetail=@"search/treatmentrequest";
 NSString *const closeTreatmentDetail=@"treatmentrequest/";
 NSString *const biomagneticMatrix=@"anatomicalbiomagneticmatrixorderbyrank";
 NSString *const germsUrl=@"germs";

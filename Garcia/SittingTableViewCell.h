@@ -12,6 +12,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *scanpointLabel;
 @property (strong, nonatomic) IBOutlet UILabel *correspondinPairLabel;
 @property (strong, nonatomic) IBOutlet UILabel *germLabel;
+@property (strong, nonatomic) IBOutlet UIButton *showGermsButton;
 
 @property (strong, nonatomic) IBOutlet UIView *codeView;
 @property (strong, nonatomic) IBOutlet UILabel *interpretation;
@@ -26,4 +27,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *sittingTvPlaceholder;
 @property (strong, nonatomic) IBOutlet UICollectionView *previousDetailCollectionView;
 @property (strong, nonatomic) IBOutlet UIButton *checkBox;
+@property (weak, nonatomic) IBOutlet UIView *headerView;
+
+
 @end

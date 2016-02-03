@@ -5,9 +5,9 @@
 #import "MBProgressHUD.h"
 #import "searchPatientModel.h"
 @interface SearchPatientViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
-@property (strong, nonatomic) IBOutlet UITextField *searchTextField;
+@property (weak, nonatomic) IBOutlet UITextField *searchTextField;
 
-@property (strong, nonatomic) IBOutlet UITableView *patientListTableView;
+@property (weak, nonatomic) IBOutlet UITableView *patientListTableView;
 
 - (IBAction)hideKeyboard:(UIControl *)sender;
 @end
@@ -37,7 +37,6 @@
     selectedIndexPath=nil;
     patentnameArray=[[NSMutableArray alloc]init];
     patentFilteredArray=[[NSMutableArray alloc]init];
-    [self callApi];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -51,7 +50,8 @@
     _patientListTableView.tableFooterView=[UIView new];
     if (patentnameArray.count==0) {
         MBProgressCountToHide=0;
-        }
+         [self callApi];
+    }
 }
 //TableView Number of section
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -77,13 +77,9 @@
     {
         model = patentFilteredArray[indexPath.row];
     }
-    if (patentnameArray.count-1==indexPath.row) {
-        
-    }
     NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,model.profileImageCode];
-    [cell.patientImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"patient.jpg"] ];
-    cell.patientNameLabel.text = model.name;
-
+    [cell.patientImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"patient-1.jpg"]];
+        cell.patientNameLabel.text = model.name;
     if ([selectedIndexPath isEqual:indexPath]) {
         cell.patientNameLabel.textColor=[UIColor colorWithRed:0.7098 green:0.99 blue:0.98 alpha:1];
         cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow-3"]];
@@ -117,7 +113,11 @@
     if (selectedIndexPath!=indexPath){
         cell=(SearchPatientTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
         selectedIndexPath=indexPath;
-        searchPatientModel *model=patentnameArray[indexPath.row];
+        searchPatientModel *model;
+        if ([_searchTextField.text isEqualToString:@""]) {
+        model =patentnameArray[indexPath.row];
+        }
+        else model=patentFilteredArray[indexPath.row];
         model.profileImage=cell.patientImageView.image;
         cell.patientNameLabel.textColor=[UIColor colorWithRed:0.7098 green:0.99 blue:0.98 alpha:1];
         cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow-3"]];
@@ -149,6 +149,8 @@
         if (patentFilteredArray.count>0) {
             NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
             [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
+        }else{
+        
         }
     }else{
         [_patientListTableView reloadData];
@@ -179,13 +181,14 @@
 -(void)hideKeyBoard{
     [self.view endEditing:YES];
 }
--(void)callApi{
+-(void)callApi
+{
     ContainerViewController *containerVc=(ContainerViewController*)self.parentViewController;
     [containerVc showMBprogressTillLoadThedata];
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPatientList];
     NSString *parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [self processResponseObject:responseObject];
+    [self processResponseObject:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [containerVc hideMBprogressTillLoadThedata];
     }];
@@ -277,7 +280,8 @@
             [self reloadData];
     }
 }
--(void)reloadData{
+- (void)reloadData
+{
     [_patientListTableView reloadData];
     if (initialSelectedRow==0) {
         NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
@@ -287,7 +291,9 @@
         NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:patentnameArray.count-1 inSection:0];
         [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
     }
-    [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedIndexPath];
+    else{
+      [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedIndexPath];
+    }
     MBProgressCountToHide++;
 }
 -(void)againCallApiAfterAddPatient{
