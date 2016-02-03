@@ -2,6 +2,9 @@
 #if !defined(MAX)
 #define MAX(A,B)((A) > (B) ? (A) : (B))
 #endif
+@protocol increaseSittingCell<NSObject>
+-(void)increaseSitting;
+@end
 @interface SittingViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UIImageView *dateImageView;
 @property (strong, nonatomic) IBOutlet UIButton *datePicButton;
@@ -23,4 +26,5 @@
 @property(strong,nonatomic)NSString *correspondingPairName;
 @property(strong,nonatomic)NSString *germsName;
 @property(strong,nonatomic)NSString *rank;
+@property(weak,nonatomic)id<increaseSittingCell>delegateForIncreasingSitting;
 @end

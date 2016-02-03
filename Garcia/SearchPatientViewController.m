@@ -73,22 +73,9 @@
     if ([_searchTextField.text isEqualToString:@""]) {
         searchPatientModel *model=patentnameArray[indexPath.row];
         NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,model.profileImageCode];
-        [cell.patientImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"patient.jpg"]];
-        cell.patientNameLabel.text=model.name;
-        NSArray *path=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES) ;
-        NSString *pathForImage = [path[0] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg",model.profileImageCode]];
-        BOOL fileExist=[[NSFileManager defaultManager]fileExistsAtPath:pathForImage];
-        model.profileImage=cell.patientImageView.image;
-        if (fileExist) {
-            UIImage *image=[UIImage imageWithContentsOfFile:pathForImage];
-            cell.patientImageView.image=image;
-        }
-        else{
-            NSData *imgData =[ NSData dataWithContentsOfURL:[NSURL URLWithString:str]];
-            [imgData writeToFile:pathForImage atomically:YES];
-              UIImage *image=[UIImage imageWithData:imgData];
-              cell.patientImageView.image=image;
-        }
+        [cell.patientImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"patient.jpg"] ];
+        
+        cell.patientNameLabel.text = model.name;
         model.profileImage=cell.patientImageView.image;
     }
     else

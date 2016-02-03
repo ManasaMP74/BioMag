@@ -61,6 +61,7 @@
     allSectionsDetail =[[NSMutableArray alloc]init];
     allGerms =[[NSMutableArray alloc]init];
     allSectionNameArray=[[NSMutableArray alloc]init];
+    [_priceTf addTarget:self action:@selector(DidChangePriceTF) forControlEvents:UIControlEventEditingChanged];
     [self defaultValues];
      [self callApi];
 }
@@ -244,11 +245,11 @@
             cell.infoLabel.text=@"B, B, V, H";
         }
        else if (indexPath.row==1) {
-            cell.sittingNumber.text=@"S3";
+            cell.sittingNumber.text=@"S2";
             cell.infoLabel.text=@"B, V, H";
         }
         else{
-            cell.sittingNumber.text=@"S3";
+            cell.sittingNumber.text=@"S1";
             cell.infoLabel.text=@"B, V";
         }
         return cell;
@@ -287,6 +288,8 @@
 }
 //save
 - (IBAction)save:(id)sender {
+    [self.delegateForIncreasingSitting increaseSitting];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 //next
 - (IBAction)next:(id)sender {
@@ -562,7 +565,7 @@ SymptomTagCollectionViewCell *cell1=(SymptomTagCollectionViewCell*)cell;
 }
 //Price check
 -(void)DidChangePriceTF{
-    NSString *priceRex=@"^[+-]?(?:[0-9]{0,9}\\.[0-9]{0,1}|[0-9]{1,9})$";
+    NSString *priceRex=@"^[+-]?(?:[0-9]{0,9}\\.[0-9]{0,1}|[0-9]{1,91})$";
     NSPredicate *priceTest=[NSPredicate predicateWithFormat:@"self matches %@",priceRex];
     BOOL validate=[priceTest evaluateWithObject:_priceTf.text];
     if (!validate) {

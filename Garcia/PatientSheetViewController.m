@@ -15,7 +15,7 @@
 #import "SymptomTagModel.h"
 #import "SWRevealViewController.h"
 #import "SittingViewController.h"
-@interface PatientSheetViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextFieldDelegate,UITextViewDelegate,deleteCell,deleteTagCell,selectedImage>
+@interface PatientSheetViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextFieldDelegate,UITextViewDelegate,deleteCell,deleteTagCell,selectedImage,increaseSittingCell,cellHeight>
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UILabel *nameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *nameValueLabel;
@@ -199,7 +199,6 @@
         [_MedicaltableView reloadData];
         _medicalHistoryTextView.text=@"";
     }
-    
 }
 //increase the View Height of Daignosis view
 - (IBAction)increaseDiagnosisView:(id)sender {
@@ -242,8 +241,10 @@
 - (IBAction)increaseSettingView:(id)sender {
     if ([_increasesettingViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
         _settingView.hidden=NO;
-        _sittingcollectionViewHeight.constant=sittingCollectionViewHeight;
-        _settingViewHeight.constant=sittingCollectionViewHeight+80;
+        if (sittingCollectionArray.count>0) {
+            _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
+            _settingViewHeight.constant=_sittingCollectionView.contentSize.height+30;
+        }else _settingViewHeight.constant=70;
         [self ChangeIncreaseDecreaseButtonImage:_increasesettingViewButton];
     }
     else{
@@ -410,7 +411,7 @@
 
 //CollectionView datasource Methods
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    if (collectionView== _sittingCollectionView) {
+    if ([collectionView isEqual:_sittingCollectionView]) {
         return sittingCollectionArray.count;
     }
     else if (collectionView ==_uploadCollectionView) {
@@ -424,10 +425,12 @@
     
     if (collectionView==_sittingCollectionView) {
         SittingCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"collectionViewCell" forIndexPath:indexPath];
+        cell.delegate=self;
         if (_sittingCollectionView.contentSize.width>_settingView .frame.size.width-100) {
             _sittingCollectionViewWidth.constant=_settingView.frame.size.width-100;
         }
         else _sittingCollectionViewWidth.constant=_sittingCollectionView.contentSize.width;
+        cell.sittingLabel.text=[NSString stringWithFormat:@"%@%d",@"Sitting #",indexPath.row+1];
         CollectionViewTableViewCell *c=(CollectionViewTableViewCell*)[cell.headerView.headerTableview cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:3]];
         cell.layer.cornerRadius=8;
         SittingModelClass *model=sittingCollectionArray[indexPath.row];
@@ -549,6 +552,21 @@
     [self.view layoutIfNeeded];
     _settingViewHeight.constant=sittingCollectionViewHeight+140;
 }
+//delete sitting cell
+-(void)deleteSittingCell:(UICollectionViewCell *)cell{
+    sittingCollectionViewHeight=0;
+    NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
+    [sittingCollectionArray removeObjectAtIndex:index.row];
+    if (sittingCollectionArray.count>0) {
+        for (SittingModelClass *m in sittingCollectionArray) {
+            sittingCollectionViewHeight=MAX(sittingCollectionViewHeight, m.height);
+        }
+        [_sittingCollectionView reloadData];
+    }
+    else    _sittingCollectionViewWidth.constant=0;
+    _settingViewHeight.constant=sittingCollectionViewHeight+130;
+}
+
 //default values
 -(void)defaultValue{
     _treatmentClosureLabelView.layer.cornerRadius=1;
@@ -1126,9 +1144,32 @@
     if ([segue.identifier isEqualToString:@"sitting"]) {
         SWRevealViewController *revealVC=segue.destinationViewController;
         SittingViewController *sittingVC=[self.storyboard instantiateViewControllerWithIdentifier:@"SittingViewController"];
+        sittingVC.delegateForIncreasingSitting=self;
         [revealVC setFrontViewController:sittingVC];
         sittingVC.sectionName=@"";
         sittingVC.SortType=@"";
     }
+}
+-(void)increaseSitting{
+    if (sittingCollectionArray.count==0) {
+    SittingModelClass *model=[[SittingModelClass alloc]init];
+        _sittingCollectionViewWidth.constant=100;
+    model.height=128;
+    model.selectedScanPointIndexpath=nil;
+    model.completed=@"";
+    [sittingCollectionArray addObject:model];
+    for (SittingModelClass *m in sittingCollectionArray) {
+        sittingCollectionViewHeight=MAX(sittingCollectionViewHeight, m.height);
+    }
+        _sittingcollectionViewHeight.constant=sittingCollectionViewHeight;
+    _sittingCollectionViewWidth.constant=100;
+    [_sittingCollectionView reloadData];
+    [self.view layoutIfNeeded];
+    NSIndexPath *index=[NSIndexPath indexPathForRow:sittingCollectionArray.count-1 inSection:0];
+    [_sittingCollectionView scrollToItemAtIndexPath:index atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+    _settingViewHeight.constant=sittingCollectionViewHeight+130;
+    }
+    
+    NSLog(@"%@", NSStringFromCGRect(self.sittingCollectionView.frame));
 }
 @end
