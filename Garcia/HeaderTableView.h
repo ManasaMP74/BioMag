@@ -1,22 +1,17 @@
 #import <UIKit/UIKit.h>
-#import "CollectionViewTableViewCell.h"
-#import "ScanPoinTableViewCell.h"
-#import "CorrespondingPointView.h"
+#import "ScanPointTableViewCell.h"
+#import "HeaderTableViewCell.h"
 #import "SittingModelClass.h"
-@protocol headerCellHeight<NSObject>
--(void)increaseHeadCellHeight:(float)height withSelectedScanPoint:(NSArray*)scanPointindexPath withHeader:(NSIndexPath*)headerIndex withNoteHeader:(NSIndexPath*)NoteIndex;
--(void)decreaseHeadCellHeight:(float)height withSelectedScanPoint:(NSArray*)scanPointindexPath withHeader:(NSIndexPath*)headerIndex withNoteHeader:(NSIndexPath*)NoteIndex;
+@protocol selectedCellProtocol<NSObject>
+-(void)selectedCell:(NSString*)selectedHeader;
+-(void)deselectedCell:(NSString*)deselectedHeader;
 @end
-@interface HeaderTableView : UIView<UITableViewDataSource,UITableViewDelegate,selectedScanPoint>
-@property (strong, nonatomic) IBOutlet CollectionViewTableViewCell *cell;
-@property (strong, nonatomic) IBOutlet UITableView *headerTableview;
-@property (strong, nonatomic) IBOutlet ScanPoinTableViewCell *scanPointCell;
-@property(weak,nonatomic)id<headerCellHeight>delegate;
-
--(float)increaseHeaderinHeaderTV :(SittingModelClass*)model;
--(float)decreaseHeaderinHeaderTV :(SittingModelClass*)model;
-@property(strong,nonatomic)NSArray *selectedScanPointArrayFromPatientSheet;
-
-//Data from Parent View
-@property(strong,nonatomic)NSString *price;
+@interface HeaderTableVIew : UIView<UITableViewDataSource,UITableViewDelegate,selectedcell,selectedScanpoint>
+@property (strong, nonatomic) IBOutlet ScanPointTableViewCell *scapointCell;
+@property (strong, nonatomic) IBOutlet HeaderTableViewCell *headerCell;
+@property (strong, nonatomic) IBOutlet UITableView *tableview;
+@property(strong,nonatomic)SittingModelClass *model;
+-(void)gettheSection;
+-(float)getTHeHeightOfTableVIew;
+@property(weak,nonatomic)id<selectedCellProtocol>delegate;
 @end

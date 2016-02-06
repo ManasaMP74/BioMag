@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-
+#import <MCLocalization/MCLocalization.h>
 @interface AppDelegate ()
 
 @end
@@ -19,6 +19,18 @@
     // Override point for customization after application launch.
     [[UINavigationBar appearance]setBarTintColor:[UIColor colorWithRed:0 green:0.71 blue:0.93 alpha:1]];
     [[UINavigationBar appearance]setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithRed:1 green:1 blue:1 alpha:1],NSForegroundColorAttributeName,[UIFont fontWithName:@"OpenSans" size:20],NSFontAttributeName, nil]];
+ 
+    
+// Localization
+    
+
+    NSDictionary * languageURLPairs = @{@"en":[[NSBundle mainBundle] URLForResource:@"eng.json" withExtension:nil]};
+        [MCLocalization loadFromLanguageURLPairs:languageURLPairs defaultLanguage:@"en"];
+    
+        [MCLocalization sharedInstance].noKeyPlaceholder = @"[No '{key}' in '{language}']";
+        
+    
+    
     return YES;
 }
 

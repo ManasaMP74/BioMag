@@ -7,19 +7,30 @@
 #import "AppDelegate.h"
 #import "PopOverViewController.h"
 #import <WYPopoverController/WYPopoverController.h>
+#import "Postman.h"
+#import "MBProgressHUD.h"
+#import "PostmanConstant.h"
+#import "lagModel.h"
 @interface ContainerViewController ()<addedPatient,loadTreatmentDelegate,selectedObjectInPop,WYPopoverControllerDelegate>
 
 @end
 
 @implementation ContainerViewController
 {
+    NSMutableArray *languageArray;
+    Postman *postman;
     NSString *patientName;
     WYPopoverController *wypopOverController;
+    UIButton *lagSomeButton;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
       self.navigationController.navigationBarHidden=NO;
     self.navigationItem.hidesBackButton = YES;
+    languageArray =[[NSMutableArray alloc]init];
+    postman=[[Postman alloc]init];
+    [self callApiForLanguage];
+    
     
     UIImage* image3 = [UIImage imageNamed:@"Icon-Signout.png"];
     CGRect frameimg = CGRectMake(0, 0, image3.size.width, image3.size.height);
@@ -31,10 +42,12 @@
     
     
     CGRect lagFrameimg = CGRectMake(30, 0,95,25);
-    UIButton *lagSomeButton = [[UIButton alloc] initWithFrame:lagFrameimg];
+    lagSomeButton= [[UIButton alloc] initWithFrame:lagFrameimg];
     lagSomeButton.backgroundColor=[UIColor whiteColor];
     lagSomeButton.layer.cornerRadius=13;
-    [lagSomeButton setTitle:@"" forState:normal];
+    [lagSomeButton setTitle:@"English" forState:normal];
+    [lagSomeButton setTitleColor:[UIColor blackColor] forState:normal];
+    lagSomeButton.titleLabel.font=[UIFont fontWithName:@"OpenSansSemibold" size:10];
     UIImage* image = [UIImage imageNamed:@"Language-Icon.jpg"];
     CGRect frameimg1 = CGRectMake(85-image.size.width,5,15, 15);
     UIImageView *imview=[[UIImageView alloc]initWithFrame:frameimg1];
@@ -62,6 +75,7 @@
     if (wypopOverController==nil){
     PopOverViewController *pop=[self.storyboard instantiateViewControllerWithIdentifier:@"PopOverViewController"];
         pop.delegate=self;
+        pop.lagArray=languageArray;
         wypopOverController=[[WYPopoverController alloc]initWithContentViewController:pop];
         wypopOverController.delegate=self;
         wypopOverController.passthroughViews = @[btn];
@@ -89,7 +103,10 @@
         
     }
 }
--(void)selectedObject{
+-(void)selectedObject:(lagModel *)model{
+    NSUserDefaults *standardDefault=[NSUserDefaults standardUserDefaults];
+    [standardDefault setValue:model.code forKey:@"languageCode"];
+    [lagSomeButton setTitle:model.name forState:normal];
   [wypopOverController dismissPopoverAnimated:NO];
 
 }
@@ -161,5 +178,25 @@
 -(void)loadTreatment{
     SearchPatientViewController *searchVC=[self.childViewControllers firstObject];
     [searchVC reloadTableviewAfterAddNewTreatment];
+}
+-(void)callApiForLanguage{
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,language];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self processResponse:responseObject];
+        [MBProgressHUD hideHUDForView:self.view animated:YES ];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
+    
+}
+-(void)processResponse:(id)response{
+    NSDictionary *dict=response;
+    for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
+        lagModel *model=[[lagModel alloc]init];
+        model.name=dict1[@"Name"];
+        model.code=dict1[@"Code"];
+        [languageArray addObject:model];
+    }
 }
 @end

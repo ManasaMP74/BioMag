@@ -40,20 +40,26 @@
 		DA67CFCF1C1197B200D88BBC /* AddSymptom.m in Sources */ = {isa = PBXBuildFile; fileRef = DA67CFCE1C1197B200D88BBC /* AddSymptom.m */; };
 		DA67CFD11C11981100D88BBC /* AddSymptom.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA67CFD01C11981100D88BBC /* AddSymptom.xib */; };
 		DA6C7B8E1BE09F9500D1130A /* SittingCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA6C7B8D1BE09F9500D1130A /* SittingCollectionViewCell.m */; };
-		DA6C7B911BE0A11800D1130A /* CollectionViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA6C7B901BE0A11800D1130A /* CollectionViewTableViewCell.m */; };
-		DA6C7B941BE0D0B600D1130A /* HeaderTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA6C7B931BE0D0B600D1130A /* HeaderTableView.m */; };
-		DA6C7B961BE0D0D600D1130A /* HeaderTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA6C7B951BE0D0D600D1130A /* HeaderTableView.xib */; };
-		DA6C7B991BE0D26000D1130A /* CollectionViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA6C7B981BE0D26000D1130A /* CollectionViewTableViewCell.xib */; };
 		DA6D1A631BDA356F00D91ED3 /* PlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA6D1A621BDA356F00D91ED3 /* PlaceholderTextView.m */; };
 		DA70EECE1C44CE3300D20570 /* SeedSyncer.m in Sources */ = {isa = PBXBuildFile; fileRef = DA70EECD1C44CE3300D20570 /* SeedSyncer.m */; };
 		DA7359911C12B664005192D7 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7359901C12B664005192D7 /* SWRevealViewController.m */; };
 		DA7359941C12C188005192D7 /* SymptomTagCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7359931C12C188005192D7 /* SymptomTagCollectionViewCell.m */; };
-		DA7502BB1BE867A100C9C3F6 /* HeaderTableViewModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7502BA1BE867A100C9C3F6 /* HeaderTableViewModelClass.m */; };
 		DA7502BE1BE8955C00C9C3F6 /* SittingModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7502BD1BE8955C00C9C3F6 /* SittingModelClass.m */; };
 		DA7521C51C4CCF4D00FF6B03 /* ToxicDeficiencyDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7521C41C4CCF4C00FF6B03 /* ToxicDeficiencyDetailView.m */; };
 		DA7521C91C4CD13800FF6B03 /* ToxicDeficiencyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA7521C81C4CD13800FF6B03 /* ToxicDeficiencyCell.xib */; };
 		DA7521CC1C4CD15000FF6B03 /* ToxicDeficiencyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7521CB1C4CD15000FF6B03 /* ToxicDeficiencyCell.m */; };
 		DA7521CF1C4CEA9600FF6B03 /* ToxicDeficiencyDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7521CE1C4CEA9600FF6B03 /* ToxicDeficiencyDetailModel.m */; };
+		DA753C7B1C6480F400D1ABE1 /* HeaderTableVIew.m in Sources */ = {isa = PBXBuildFile; fileRef = DA753C7A1C6480F400D1ABE1 /* HeaderTableVIew.m */; };
+		DA753C7D1C64810900D1ABE1 /* HeaderTableVIew.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA753C7C1C64810900D1ABE1 /* HeaderTableVIew.xib */; };
+		DA753C801C64814C00D1ABE1 /* ScanPointTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA753C7F1C64814C00D1ABE1 /* ScanPointTableViewCell.xib */; };
+		DA753C831C64816400D1ABE1 /* ScanPointTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA753C821C64816400D1ABE1 /* ScanPointTableViewCell.m */; };
+		DA753C871C6481C500D1ABE1 /* CorrespondingPairTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA753C861C6481C500D1ABE1 /* CorrespondingPairTableViewCell.m */; };
+		DA753C891C6481DF00D1ABE1 /* CorrespondingPairTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA753C881C6481DF00D1ABE1 /* CorrespondingPairTableViewCell.xib */; };
+		DA753C8B1C6481EB00D1ABE1 /* CorrespondingPairTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA753C8A1C6481EB00D1ABE1 /* CorrespondingPairTableView.xib */; };
+		DA753C8E1C64820B00D1ABE1 /* CorrespondingPairTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA753C8D1C64820B00D1ABE1 /* CorrespondingPairTableView.m */; };
+		DA753C911C6483A000D1ABE1 /* HeaderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA753C901C6483A000D1ABE1 /* HeaderTableViewCell.m */; };
+		DA753C931C6483B600D1ABE1 /* HeaderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA753C921C6483B600D1ABE1 /* HeaderTableViewCell.xib */; };
+		DA753C961C648D5C00D1ABE1 /* HeaderModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DA753C951C648D5C00D1ABE1 /* HeaderModelClass.m */; };
 		DA7674171C0FF948007541F0 /* sittingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7674161C0FF948007541F0 /* sittingModel.m */; };
 		DA76741A1C101319007541F0 /* SittingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7674191C101319007541F0 /* SittingTableViewCell.m */; };
 		DA8C3DF91C24327F0076EBD2 /* PreviousSittingCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8C3DF81C24327F0076EBD2 /* PreviousSittingCollectionViewCell.m */; };
@@ -62,6 +68,7 @@
 		DAA92F811C2146680057AF19 /* germsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAA92F801C2146680057AF19 /* germsView.xib */; };
 		DAACC89F1C154AE90026132A /* germsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAACC89E1C154AE90026132A /* germsModel.m */; };
 		DAB0C4A91C5F85F6002F0189 /* PopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB0C4A81C5F85F6002F0189 /* PopOverViewController.m */; };
+		DAB1351A1C633A3900B639DD /* lagModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB135191C633A3900B639DD /* lagModel.m */; };
 		DAD52B5A1C2169370052579D /* SectionXib.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAD52B591C2169370052579D /* SectionXib.xib */; };
 		DAD52B5D1C21694B0052579D /* SectionXibView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD52B5C1C21694B0052579D /* SectionXibView.m */; };
 		DAD52B5F1C216AF70052579D /* SctionXibCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAD52B5E1C216AF70052579D /* SctionXibCell.xib */; };
@@ -70,10 +77,6 @@
 		DAE576351C3E6C570076C3EE /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE576341C3E6C570076C3EE /* DBManager.m */; };
 		DAE576381C3E6D080076C3EE /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE576361C3E6CF30076C3EE /* libsqlite3.0.tbd */; };
 		DAE606001C1FC83600A344F2 /* PatientDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE605FF1C1FC83600A344F2 /* PatientDetailModel.m */; };
-		DAE637851BE32D2F000C6FAB /* CorrespondingPointView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAE637841BE32D2F000C6FAB /* CorrespondingPointView.xib */; };
-		DAE637881BE32D55000C6FAB /* CorrespondingPointView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE637871BE32D55000C6FAB /* CorrespondingPointView.m */; };
-		DAE6378A1BE32D8F000C6FAB /* CorrespondingPointCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAE637891BE32D8F000C6FAB /* CorrespondingPointCell.xib */; };
-		DAE6378D1BE32E46000C6FAB /* CorrespondingPointCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE6378C1BE32E46000C6FAB /* CorrespondingPointCell.m */; };
 		DAE6FBB41BE483BA00952812 /* AttachmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE6FBB31BE483BA00952812 /* AttachmentViewController.m */; };
 		DAE6FBB71BE4AB8300952812 /* UploadCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE6FBB61BE4AB8300952812 /* UploadCollectionViewCell.m */; };
 		DAE6FBBB1BE4DC3500952812 /* TagCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE6FBBA1BE4DC3500952812 /* TagCollectionViewCell.m */; };
@@ -106,8 +109,6 @@
 		DAEFA1C81BD0B6C900900379 /* Constant.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1C71BD0B6C900900379 /* Constant.m */; };
 		DAEFA1CB1BD0B6D600900379 /* Postman.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1CA1BD0B6D600900379 /* Postman.m */; };
 		DAEFA1D91BD0D8ED00900379 /* SearchPatientTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1D81BD0D8ED00900379 /* SearchPatientTableViewCell.m */; };
-		DAEFD0FA1BE732020054106B /* ScanPoinTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFD0F91BE732020054106B /* ScanPoinTableViewCell.m */; };
-		DAEFD0FC1BE732280054106B /* ScanPointTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAEFD0FB1BE732280054106B /* ScanPointTableViewCell.xib */; };
 		DAF277251BFAEC5A00D236B2 /* SymptomTagModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF277241BFAEC5A00D236B2 /* SymptomTagModel.m */; };
 		DAF277281BFB135300D236B2 /* ProfileImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF277271BFB135300D236B2 /* ProfileImageModel.m */; };
 		DAF616821C0428E500B54F5D /* ImageUploadAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF616811C0428E500B54F5D /* ImageUploadAPI.m */; };
@@ -183,12 +184,6 @@
 		DA67CFD01C11981100D88BBC /* AddSymptom.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddSymptom.xib; sourceTree = "<group>"; };
 		DA6C7B8C1BE09F9500D1130A /* SittingCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SittingCollectionViewCell.h; sourceTree = "<group>"; };
 		DA6C7B8D1BE09F9500D1130A /* SittingCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SittingCollectionViewCell.m; sourceTree = "<group>"; };
-		DA6C7B8F1BE0A11800D1130A /* CollectionViewTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewTableViewCell.h; sourceTree = "<group>"; };
-		DA6C7B901BE0A11800D1130A /* CollectionViewTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewTableViewCell.m; sourceTree = "<group>"; };
-		DA6C7B921BE0D0B600D1130A /* HeaderTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderTableView.h; sourceTree = "<group>"; };
-		DA6C7B931BE0D0B600D1130A /* HeaderTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderTableView.m; sourceTree = "<group>"; };
-		DA6C7B951BE0D0D600D1130A /* HeaderTableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderTableView.xib; sourceTree = "<group>"; };
-		DA6C7B981BE0D26000D1130A /* CollectionViewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewTableViewCell.xib; sourceTree = "<group>"; };
 		DA6D1A611BDA356F00D91ED3 /* PlaceholderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceholderTextView.h; sourceTree = "<group>"; };
 		DA6D1A621BDA356F00D91ED3 /* PlaceholderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceholderTextView.m; sourceTree = "<group>"; };
 		DA70EECC1C44CE3300D20570 /* SeedSyncer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeedSyncer.h; sourceTree = "<group>"; };
@@ -197,8 +192,6 @@
 		DA7359901C12B664005192D7 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = SOURCE_ROOT; };
 		DA7359921C12C188005192D7 /* SymptomTagCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymptomTagCollectionViewCell.h; sourceTree = "<group>"; };
 		DA7359931C12C188005192D7 /* SymptomTagCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymptomTagCollectionViewCell.m; sourceTree = "<group>"; };
-		DA7502B91BE867A100C9C3F6 /* HeaderTableViewModelClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderTableViewModelClass.h; sourceTree = "<group>"; };
-		DA7502BA1BE867A100C9C3F6 /* HeaderTableViewModelClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderTableViewModelClass.m; sourceTree = "<group>"; };
 		DA7502BC1BE8955C00C9C3F6 /* SittingModelClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SittingModelClass.h; sourceTree = "<group>"; };
 		DA7502BD1BE8955C00C9C3F6 /* SittingModelClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SittingModelClass.m; sourceTree = "<group>"; };
 		DA7521C31C4CCF4C00FF6B03 /* ToxicDeficiencyDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToxicDeficiencyDetailView.h; sourceTree = "<group>"; };
@@ -208,6 +201,23 @@
 		DA7521CB1C4CD15000FF6B03 /* ToxicDeficiencyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToxicDeficiencyCell.m; sourceTree = "<group>"; };
 		DA7521CD1C4CEA9600FF6B03 /* ToxicDeficiencyDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToxicDeficiencyDetailModel.h; sourceTree = "<group>"; };
 		DA7521CE1C4CEA9600FF6B03 /* ToxicDeficiencyDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToxicDeficiencyDetailModel.m; sourceTree = "<group>"; };
+		DA753C791C6480F400D1ABE1 /* HeaderTableVIew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderTableVIew.h; sourceTree = "<group>"; };
+		DA753C7A1C6480F400D1ABE1 /* HeaderTableVIew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderTableVIew.m; sourceTree = "<group>"; };
+		DA753C7C1C64810900D1ABE1 /* HeaderTableVIew.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderTableVIew.xib; sourceTree = "<group>"; };
+		DA753C7F1C64814C00D1ABE1 /* ScanPointTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScanPointTableViewCell.xib; sourceTree = "<group>"; };
+		DA753C811C64816400D1ABE1 /* ScanPointTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanPointTableViewCell.h; sourceTree = "<group>"; };
+		DA753C821C64816400D1ABE1 /* ScanPointTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanPointTableViewCell.m; sourceTree = "<group>"; };
+		DA753C851C6481C500D1ABE1 /* CorrespondingPairTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CorrespondingPairTableViewCell.h; sourceTree = "<group>"; };
+		DA753C861C6481C500D1ABE1 /* CorrespondingPairTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CorrespondingPairTableViewCell.m; sourceTree = "<group>"; };
+		DA753C881C6481DF00D1ABE1 /* CorrespondingPairTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CorrespondingPairTableViewCell.xib; sourceTree = "<group>"; };
+		DA753C8A1C6481EB00D1ABE1 /* CorrespondingPairTableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CorrespondingPairTableView.xib; sourceTree = "<group>"; };
+		DA753C8C1C64820B00D1ABE1 /* CorrespondingPairTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CorrespondingPairTableView.h; sourceTree = "<group>"; };
+		DA753C8D1C64820B00D1ABE1 /* CorrespondingPairTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CorrespondingPairTableView.m; sourceTree = "<group>"; };
+		DA753C8F1C6483A000D1ABE1 /* HeaderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderTableViewCell.h; sourceTree = "<group>"; };
+		DA753C901C6483A000D1ABE1 /* HeaderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderTableViewCell.m; sourceTree = "<group>"; };
+		DA753C921C6483B600D1ABE1 /* HeaderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderTableViewCell.xib; sourceTree = "<group>"; };
+		DA753C941C648D5C00D1ABE1 /* HeaderModelClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderModelClass.h; sourceTree = "<group>"; };
+		DA753C951C648D5C00D1ABE1 /* HeaderModelClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderModelClass.m; sourceTree = "<group>"; };
 		DA7674151C0FF948007541F0 /* sittingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sittingModel.h; sourceTree = "<group>"; };
 		DA7674161C0FF948007541F0 /* sittingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = sittingModel.m; sourceTree = "<group>"; };
 		DA7674181C101319007541F0 /* SittingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SittingTableViewCell.h; sourceTree = "<group>"; };
@@ -223,6 +233,8 @@
 		DAACC89E1C154AE90026132A /* germsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = germsModel.m; sourceTree = "<group>"; };
 		DAB0C4A71C5F85F6002F0189 /* PopOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopOverViewController.h; sourceTree = "<group>"; };
 		DAB0C4A81C5F85F6002F0189 /* PopOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopOverViewController.m; sourceTree = "<group>"; };
+		DAB135181C633A3900B639DD /* lagModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lagModel.h; sourceTree = "<group>"; };
+		DAB135191C633A3900B639DD /* lagModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = lagModel.m; sourceTree = "<group>"; };
 		DAD52B591C2169370052579D /* SectionXib.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SectionXib.xib; sourceTree = "<group>"; };
 		DAD52B5B1C21694B0052579D /* SectionXibView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionXibView.h; sourceTree = "<group>"; };
 		DAD52B5C1C21694B0052579D /* SectionXibView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionXibView.m; sourceTree = "<group>"; };
@@ -236,12 +248,6 @@
 		DAE576361C3E6CF30076C3EE /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		DAE605FE1C1FC83600A344F2 /* PatientDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatientDetailModel.h; sourceTree = "<group>"; };
 		DAE605FF1C1FC83600A344F2 /* PatientDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PatientDetailModel.m; sourceTree = "<group>"; };
-		DAE637841BE32D2F000C6FAB /* CorrespondingPointView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CorrespondingPointView.xib; sourceTree = "<group>"; };
-		DAE637861BE32D55000C6FAB /* CorrespondingPointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CorrespondingPointView.h; sourceTree = "<group>"; };
-		DAE637871BE32D55000C6FAB /* CorrespondingPointView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CorrespondingPointView.m; sourceTree = "<group>"; };
-		DAE637891BE32D8F000C6FAB /* CorrespondingPointCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CorrespondingPointCell.xib; sourceTree = "<group>"; };
-		DAE6378B1BE32E46000C6FAB /* CorrespondingPointCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CorrespondingPointCell.h; sourceTree = "<group>"; };
-		DAE6378C1BE32E46000C6FAB /* CorrespondingPointCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CorrespondingPointCell.m; sourceTree = "<group>"; };
 		DAE6FBB21BE483BA00952812 /* AttachmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentViewController.h; sourceTree = "<group>"; };
 		DAE6FBB31BE483BA00952812 /* AttachmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentViewController.m; sourceTree = "<group>"; };
 		DAE6FBB51BE4AB8300952812 /* UploadCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadCollectionViewCell.h; sourceTree = "<group>"; };
@@ -306,9 +312,6 @@
 		DAEFA1CA1BD0B6D600900379 /* Postman.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Postman.m; sourceTree = "<group>"; };
 		DAEFA1D71BD0D8ED00900379 /* SearchPatientTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchPatientTableViewCell.h; sourceTree = "<group>"; };
 		DAEFA1D81BD0D8ED00900379 /* SearchPatientTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchPatientTableViewCell.m; sourceTree = "<group>"; };
-		DAEFD0F81BE732020054106B /* ScanPoinTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanPoinTableViewCell.h; sourceTree = "<group>"; };
-		DAEFD0F91BE732020054106B /* ScanPoinTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanPoinTableViewCell.m; sourceTree = "<group>"; };
-		DAEFD0FB1BE732280054106B /* ScanPointTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScanPointTableViewCell.xib; sourceTree = "<group>"; };
 		DAF277231BFAEC5A00D236B2 /* SymptomTagModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymptomTagModel.h; sourceTree = "<group>"; };
 		DAF277241BFAEC5A00D236B2 /* SymptomTagModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymptomTagModel.m; sourceTree = "<group>"; };
 		DAF277261BFB135300D236B2 /* ProfileImageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileImageModel.h; sourceTree = "<group>"; };
@@ -387,6 +390,7 @@
 		DA130F1F1BEA1DBD00B5B9FF /* SettingView */ = {
 			isa = PBXGroup;
 			children = (
+				DA753C771C647FF200D1ABE1 /* otheModel */,
 				DA130F341BEA1E1900B5B9FF /* SettingView.xib */,
 				DA130F321BEA1E1900B5B9FF /* SettingView.h */,
 				DA130F331BEA1E1900B5B9FF /* SettingView.m */,
@@ -486,37 +490,6 @@
 			name = sectionNme;
 			sourceTree = "<group>";
 		};
-		DA6C7B971BE0D12C00D1130A /* HeaderTableView */ = {
-			isa = PBXGroup;
-			children = (
-				DA6C7B921BE0D0B600D1130A /* HeaderTableView.h */,
-				DA6C7B931BE0D0B600D1130A /* HeaderTableView.m */,
-				DA6C7B951BE0D0D600D1130A /* HeaderTableView.xib */,
-				DA7502B91BE867A100C9C3F6 /* HeaderTableViewModelClass.h */,
-				DA7502BA1BE867A100C9C3F6 /* HeaderTableViewModelClass.m */,
-				DA6C7B981BE0D26000D1130A /* CollectionViewTableViewCell.xib */,
-				DA6C7B8F1BE0A11800D1130A /* CollectionViewTableViewCell.h */,
-				DA6C7B901BE0A11800D1130A /* CollectionViewTableViewCell.m */,
-				DAEFD0FB1BE732280054106B /* ScanPointTableViewCell.xib */,
-				DAEFD0F81BE732020054106B /* ScanPoinTableViewCell.h */,
-				DAEFD0F91BE732020054106B /* ScanPoinTableViewCell.m */,
-			);
-			name = HeaderTableView;
-			sourceTree = "<group>";
-		};
-		DA6C7B9A1BE0DFB600D1130A /* CorrespondPoint */ = {
-			isa = PBXGroup;
-			children = (
-				DAE637841BE32D2F000C6FAB /* CorrespondingPointView.xib */,
-				DAE637861BE32D55000C6FAB /* CorrespondingPointView.h */,
-				DAE637871BE32D55000C6FAB /* CorrespondingPointView.m */,
-				DAE637891BE32D8F000C6FAB /* CorrespondingPointCell.xib */,
-				DAE6378B1BE32E46000C6FAB /* CorrespondingPointCell.h */,
-				DAE6378C1BE32E46000C6FAB /* CorrespondingPointCell.m */,
-			);
-			name = CorrespondPoint;
-			sourceTree = "<group>";
-		};
 		DA7521C21C4CCEF200FF6B03 /* ToxicDeficiency */ = {
 			isa = PBXGroup;
 			children = (
@@ -528,6 +501,61 @@
 				DA7521CB1C4CD15000FF6B03 /* ToxicDeficiencyCell.m */,
 			);
 			name = ToxicDeficiency;
+			sourceTree = "<group>";
+		};
+		DA753C771C647FF200D1ABE1 /* otheModel */ = {
+			isa = PBXGroup;
+			children = (
+				DAEEA20D1C3261DF00718EC6 /* BiomagneticSittingModel.h */,
+				DAEEA20E1C3261DF00718EC6 /* BiomagneticSittingModel.m */,
+				DA130F301BEA1E1900B5B9FF /* SectionModel.h */,
+				DA130F311BEA1E1900B5B9FF /* SectionModel.m */,
+				DAED97FE1C06D26E005D170C /* ScanPointModel.h */,
+				DAED97FF1C06D26E005D170C /* ScanPointModel.m */,
+				DAED98011C06D2A9005D170C /* CorrespondingModelClass.h */,
+				DAED98021C06D2A9005D170C /* CorrespondingModelClass.m */,
+				DAACC89D1C154AE90026132A /* germsModel.h */,
+				DAACC89E1C154AE90026132A /* germsModel.m */,
+			);
+			name = otheModel;
+			sourceTree = "<group>";
+		};
+		DA753C781C6480C800D1ABE1 /* HeaderTableView */ = {
+			isa = PBXGroup;
+			children = (
+				DA753C7C1C64810900D1ABE1 /* HeaderTableVIew.xib */,
+				DA753C791C6480F400D1ABE1 /* HeaderTableVIew.h */,
+				DA753C7A1C6480F400D1ABE1 /* HeaderTableVIew.m */,
+				DA753C921C6483B600D1ABE1 /* HeaderTableViewCell.xib */,
+				DA753C8F1C6483A000D1ABE1 /* HeaderTableViewCell.h */,
+				DA753C901C6483A000D1ABE1 /* HeaderTableViewCell.m */,
+				DA753C941C648D5C00D1ABE1 /* HeaderModelClass.h */,
+				DA753C951C648D5C00D1ABE1 /* HeaderModelClass.m */,
+			);
+			name = HeaderTableView;
+			sourceTree = "<group>";
+		};
+		DA753C7E1C64812700D1ABE1 /* ScanPointTableView */ = {
+			isa = PBXGroup;
+			children = (
+				DA753C7F1C64814C00D1ABE1 /* ScanPointTableViewCell.xib */,
+				DA753C811C64816400D1ABE1 /* ScanPointTableViewCell.h */,
+				DA753C821C64816400D1ABE1 /* ScanPointTableViewCell.m */,
+			);
+			name = ScanPointTableView;
+			sourceTree = "<group>";
+		};
+		DA753C841C64817600D1ABE1 /* CorrespondingPair */ = {
+			isa = PBXGroup;
+			children = (
+				DA753C8A1C6481EB00D1ABE1 /* CorrespondingPairTableView.xib */,
+				DA753C8C1C64820B00D1ABE1 /* CorrespondingPairTableView.h */,
+				DA753C8D1C64820B00D1ABE1 /* CorrespondingPairTableView.m */,
+				DA753C881C6481DF00D1ABE1 /* CorrespondingPairTableViewCell.xib */,
+				DA753C851C6481C500D1ABE1 /* CorrespondingPairTableViewCell.h */,
+				DA753C861C6481C500D1ABE1 /* CorrespondingPairTableViewCell.m */,
+			);
+			name = CorrespondingPair;
 			sourceTree = "<group>";
 		};
 		DAE6FBB81BE4DBDB00952812 /* CustomCell */ = {
@@ -560,9 +588,10 @@
 				DAFBE3CF1C08277600C1C796 /* TreatmentDetailModel.m */,
 				DAE605FE1C1FC83600A344F2 /* PatientDetailModel.h */,
 				DAE605FF1C1FC83600A344F2 /* PatientDetailModel.m */,
+				DA753C781C6480C800D1ABE1 /* HeaderTableView */,
+				DA753C7E1C64812700D1ABE1 /* ScanPointTableView */,
+				DA753C841C64817600D1ABE1 /* CorrespondingPair */,
 				DAE6FBB81BE4DBDB00952812 /* CustomCell */,
-				DA6C7B971BE0D12C00D1130A /* HeaderTableView */,
-				DA6C7B9A1BE0DFB600D1130A /* CorrespondPoint */,
 				DAF2E1331BE235D300C20332 /* AttachFile */,
 			);
 			name = PtientSheet;
@@ -641,8 +670,8 @@
 				DAEFA1D01BD0B6F400900379 /* Constant */,
 				DAEC026E1BD5131F0095C6AE /* CustomFont */,
 				DAEFA1D11BD0B70000900379 /* Postman */,
-				DA130F1F1BEA1DBD00B5B9FF /* SettingView */,
 				DAEF6AF01BD65C2C006868C8 /* DatePicker */,
+				DA130F1F1BEA1DBD00B5B9FF /* SettingView */,
 				DAEFA19B1BD0B11500900379 /* Main.storyboard */,
 				DAEFA19E1BD0B11500900379 /* Images.xcassets */,
 				DAEFA1A01BD0B11500900379 /* LaunchScreen.xib */,
@@ -805,6 +834,8 @@
 			children = (
 				DAB0C4A71C5F85F6002F0189 /* PopOverViewController.h */,
 				DAB0C4A81C5F85F6002F0189 /* PopOverViewController.m */,
+				DAB135181C633A3900B639DD /* lagModel.h */,
+				DAB135191C633A3900B639DD /* lagModel.m */,
 			);
 			name = Language;
 			sourceTree = "<group>";
@@ -818,16 +849,6 @@
 				DA261DC81C4660CD00B18035 /* ToxicDeficiency.m */,
 				DA7674151C0FF948007541F0 /* sittingModel.h */,
 				DA7674161C0FF948007541F0 /* sittingModel.m */,
-				DA130F301BEA1E1900B5B9FF /* SectionModel.h */,
-				DA130F311BEA1E1900B5B9FF /* SectionModel.m */,
-				DAED97FE1C06D26E005D170C /* ScanPointModel.h */,
-				DAED97FF1C06D26E005D170C /* ScanPointModel.m */,
-				DAED98011C06D2A9005D170C /* CorrespondingModelClass.h */,
-				DAED98021C06D2A9005D170C /* CorrespondingModelClass.m */,
-				DAACC89D1C154AE90026132A /* germsModel.h */,
-				DAACC89E1C154AE90026132A /* germsModel.m */,
-				DAEEA20D1C3261DF00718EC6 /* BiomagneticSittingModel.h */,
-				DAEEA20E1C3261DF00718EC6 /* BiomagneticSittingModel.m */,
 				DA7521CD1C4CEA9600FF6B03 /* ToxicDeficiencyDetailModel.h */,
 				DA7521CE1C4CEA9600FF6B03 /* ToxicDeficiencyDetailModel.m */,
 			);
@@ -945,27 +966,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA130F3E1BEA1E1900B5B9FF /* SectionBodyDetails.xib in Resources */,
-				DAE6378A1BE32D8F000C6FAB /* CorrespondingPointCell.xib in Resources */,
 				DA130F361BEA1E1900B5B9FF /* AddSection.xib in Resources */,
 				DA4461E61BD771F600F80F5A /* OpenSans-Semibold.ttf in Resources */,
 				DA130F3B1BEA1E1900B5B9FF /* DetailsSection.xib in Resources */,
 				DA130F431BEA20CC00B5B9FF /* AddSectionCell.xib in Resources */,
-				DA6C7B991BE0D26000D1130A /* CollectionViewTableViewCell.xib in Resources */,
 				DAD52B5A1C2169370052579D /* SectionXib.xib in Resources */,
 				DAF7EF2E1C1A9F77009ADE9B /* SymptomTagCustomeCell.xib in Resources */,
 				DA4884DA1C4E33AE0064774F /* ToxicDeficiencyView.xib in Resources */,
+				DA753C931C6483B600D1ABE1 /* HeaderTableViewCell.xib in Resources */,
+				DA753C7D1C64810900D1ABE1 /* HeaderTableVIew.xib in Resources */,
 				DA567A0D1C60AF610046A340 /* eng.json in Resources */,
 				DAF7EF381C1AF3EA009ADE9B /* GermsCell.xib in Resources */,
 				DAEF6AEF1BD5FA52006868C8 /* OpenSans-Regular.ttf in Resources */,
 				DAEC027F1BD5219A0095C6AE /* OpenSans-Bold.ttf in Resources */,
 				DAA92F811C2146680057AF19 /* germsView.xib in Resources */,
 				DAD52B5F1C216AF70052579D /* SctionXibCell.xib in Resources */,
+				DA753C891C6481DF00D1ABE1 /* CorrespondingPairTableViewCell.xib in Resources */,
+				DA753C801C64814C00D1ABE1 /* ScanPointTableViewCell.xib in Resources */,
 				DAEFA19D1BD0B11500900379 /* Main.storyboard in Resources */,
-				DA6C7B961BE0D0D600D1130A /* HeaderTableView.xib in Resources */,
-				DAEFD0FC1BE732280054106B /* ScanPointTableViewCell.xib in Resources */,
-				DAE637851BE32D2F000C6FAB /* CorrespondingPointView.xib in Resources */,
 				DA130F411BEA1E1900B5B9FF /* SettingView.xib in Resources */,
 				DA130F391BEA1E1900B5B9FF /* Child.xib in Resources */,
+				DA753C8B1C6481EB00D1ABE1 /* CorrespondingPairTableView.xib in Resources */,
 				DAFC4AC51C2567C800FE6234 /* ProfileImageView.xib in Resources */,
 				DA67CFD11C11981100D88BBC /* AddSymptom.xib in Resources */,
 				DA7521C91C4CD13800FF6B03 /* ToxicDeficiencyCell.xib in Resources */,
@@ -1045,16 +1066,16 @@
 				DAFD52A71BEC62C80006AF02 /* UploadModelClass.m in Sources */,
 				DA2F9F771C2172300077AEAB /* SlideOutTableViewCell.m in Sources */,
 				DAEC027E1BD51D0C0095C6AE /* OpenSans-Bold.ttf in Sources */,
-				DAE6378D1BE32E46000C6FAB /* CorrespondingPointCell.m in Sources */,
 				DAF7EF3B1C1AF3FD009ADE9B /* GermsTableViewCell.m in Sources */,
 				DA7521C51C4CCF4D00FF6B03 /* ToxicDeficiencyDetailView.m in Sources */,
 				DA8C3DF91C24327F0076EBD2 /* PreviousSittingCollectionViewCell.m in Sources */,
 				DAE6FBB41BE483BA00952812 /* AttachmentViewController.m in Sources */,
+				DA753C7B1C6480F400D1ABE1 /* HeaderTableVIew.m in Sources */,
+				DA753C961C648D5C00D1ABE1 /* HeaderModelClass.m in Sources */,
 				DAEFA1971BD0B11500900379 /* AppDelegate.m in Sources */,
 				DA7521CC1C4CD15000FF6B03 /* ToxicDeficiencyCell.m in Sources */,
 				DA8C68231C5A49D700F78E86 /* PreviousSittingModelClass.m in Sources */,
 				DA7674171C0FF948007541F0 /* sittingModel.m in Sources */,
-				DAE637881BE32D55000C6FAB /* CorrespondingPointView.m in Sources */,
 				DAEC02711BD513500095C6AE /* customFont.m in Sources */,
 				DA76741A1C101319007541F0 /* SittingTableViewCell.m in Sources */,
 				DA130F401BEA1E1900B5B9FF /* SettingView.m in Sources */,
@@ -1070,7 +1091,6 @@
 				DAF277281BFB135300D236B2 /* ProfileImageModel.m in Sources */,
 				DAEFA1C51BD0B50800900379 /* EditPatientViewController.m in Sources */,
 				DA1BB06F1C3F9224003D221C /* PatientTitleModel.m in Sources */,
-				DAEFD0FA1BE732020054106B /* ScanPoinTableViewCell.m in Sources */,
 				8678F1AC1BE1DC54006046CF /* HexColors.m in Sources */,
 				DAE7B7A61BEDE93B006C5C70 /* PostmanConstant.m in Sources */,
 				DAD52B5D1C21694B0052579D /* SectionXibView.m in Sources */,
@@ -1079,6 +1099,9 @@
 				DA8C68201C5A1E8C00F78E86 /* UIImageView+clearCachImage.m in Sources */,
 				DAE7B7AD1BEE080A006C5C70 /* searchPatientModel.m in Sources */,
 				DA67CFCF1C1197B200D88BBC /* AddSymptom.m in Sources */,
+				DA753C911C6483A000D1ABE1 /* HeaderTableViewCell.m in Sources */,
+				DAB1351A1C633A3900B639DD /* lagModel.m in Sources */,
+				DA753C831C64816400D1ABE1 /* ScanPointTableViewCell.m in Sources */,
 				DAEFA1941BD0B11500900379 /* main.m in Sources */,
 				DAFBE3D01C08277600C1C796 /* TreatmentDetailModel.m in Sources */,
 				DAF6733E1C17EB290072ED8E /* SlideOutTableViewController.m in Sources */,
@@ -1090,21 +1113,19 @@
 				DAEFA1B91BD0B49A00900379 /* LoginViewController.m in Sources */,
 				DAEFA1C21BD0B4FA00900379 /* AddPatientViewController.m in Sources */,
 				DAEFA1D91BD0D8ED00900379 /* SearchPatientTableViewCell.m in Sources */,
-				DA6C7B941BE0D0B600D1130A /* HeaderTableView.m in Sources */,
 				DAE7B7AA1BEDFB8A006C5C70 /* MBProgressHUD.m in Sources */,
 				DA7502BE1BE8955C00C9C3F6 /* SittingModelClass.m in Sources */,
 				DAE9555D1BD24D1800EDFD8F /* PatientSheetTableViewCell.m in Sources */,
 				DA7521CF1C4CEA9600FF6B03 /* ToxicDeficiencyDetailModel.m in Sources */,
 				DAD52B651C216C3A0052579D /* SectionXibTableViewCell.m in Sources */,
 				DA130F3F1BEA1E1900B5B9FF /* SectionModel.m in Sources */,
-				DA6C7B911BE0A11800D1130A /* CollectionViewTableViewCell.m in Sources */,
 				DA7359941C12C188005192D7 /* SymptomTagCollectionViewCell.m in Sources */,
 				DAF277251BFAEC5A00D236B2 /* SymptomTagModel.m in Sources */,
 				DAE9555A1BD24A7500EDFD8F /* PatientSheetViewController.m in Sources */,
 				DA6C7B8E1BE09F9500D1130A /* SittingCollectionViewCell.m in Sources */,
 				DAEFA1BC1BD0B4BA00900379 /* SearchPatientViewController.m in Sources */,
-				DA7502BB1BE867A100C9C3F6 /* HeaderTableViewModelClass.m in Sources */,
 				DAEFA1C81BD0B6C900900379 /* Constant.m in Sources */,
+				DA753C871C6481C500D1ABE1 /* CorrespondingPairTableViewCell.m in Sources */,
 				DAE48C711BF07B8F008AD2D3 /* editModel.m in Sources */,
 				DAF7EF311C1A9FF5009ADE9B /* SymptomTagCustomCollectionViewCell.m in Sources */,
 				DA487E681C59E7260015A3D0 /* ForgotPasswordViewController.m in Sources */,
@@ -1112,6 +1133,7 @@
 				DA7359911C12B664005192D7 /* SWRevealViewController.m in Sources */,
 				DAF82CE01BD4BA74006AF1E1 /* ContainerViewController.m in Sources */,
 				DA130F381BEA1E1900B5B9FF /* Child.m in Sources */,
+				DA753C8E1C64820B00D1ABE1 /* CorrespondingPairTableView.m in Sources */,
 				DAE606001C1FC83600A344F2 /* PatientDetailModel.m in Sources */,
 				DAB0C4A91C5F85F6002F0189 /* PopOverViewController.m in Sources */,
 				DA261DC91C4660CD00B18035 /* ToxicDeficiency.m in Sources */,

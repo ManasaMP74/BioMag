@@ -97,9 +97,9 @@
     [self.delegateForGerms germsData:selectedGerms];
 }
 - (IBAction)addNewGerm:(id)sender {
-    //    if (![_codeFullNameTF.text isEqualToString:@""] & ) {
-    //        <#statements#>
-    //    }
+        if (![_codeFullNameTF.text isEqualToString:@""] & ![_codeSymbolTF.text isEqualToString:@""]) {
+          //  [self callApiToAddGerm];
+        }
     _codeFullNameTF.text=@"";
     _codeSymbolTF.text=@"";
     [self changeTheNewGermAppearence:NO withHeight:43];
@@ -117,7 +117,7 @@
     }
     if (germsArray.count>0) {
         germsModel *model=germsArray[indexPath.row];
-        cell.label.text=model.germsName;
+        cell.label.text=model.germsUserFriendlycode;
     }
     if ([selectedIndex containsObject:indexPath]) {
         cell.cellImageView.image=[UIImage imageNamed:@"Box1-Check.png"];
@@ -188,6 +188,9 @@
             model.germsCode=dict1[@"Code"];
             model.germsName=dict1[@"Name"];
             model.germsId=dict1[@"Id"];
+            if (dict1[@"UserfriendlyCode"]!=[NSNull null]) {
+                model.germsUserFriendlycode=dict1[@"UserfriendlyCode"];
+            }else model.germsUserFriendlycode=model.germsName;
             [germsArray addObject:model];
         }
     }
@@ -223,19 +226,19 @@
     _germNewAddView.hidden=status;
     _heightOfNewGermView.constant=height;
 }
-//-(void)ApiToAddGerm{
-//    NSString *url=[NSString stringWithFormat:@""];enter
-//    NSString *parameter=[NSString stringWithFormat:@""];
-//    [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
-//    [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        [MBProgressHUD hideHUDForView:alphaView animated:YES];
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        [MBProgressHUD hideHUDForView:alphaView animated:YES];
-//    }];
-//}
-//-(void)processToAddGerms:(id)responseObject{
-//    NSDictionary *dict=responseObject;
-//
-//
-//}
+-(void)callApiToAddGerm{
+    NSString *url=[NSString stringWithFormat:@""];
+    NSString *parameter=[NSString stringWithFormat:@""];
+    [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
+    [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [MBProgressHUD hideHUDForView:alphaView animated:YES];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [MBProgressHUD hideHUDForView:alphaView animated:YES];
+    }];
+}
+-(void)processToAddGerms:(id)responseObject{
+    NSDictionary *dict=responseObject;
+
+
+}
 @end

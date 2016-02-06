@@ -487,27 +487,15 @@
     if (collectionView==_sittingCollectionView) {
         SittingCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"collectionViewCell" forIndexPath:indexPath];
         cell.delegate=self;
+        
+        //For Sitting CollectionViewPart
+        
+        SittingModelClass *model=sittingCollectionArray[indexPath.row];
         if (_sittingCollectionView.contentSize.width>_settingView .frame.size.width-100) {
             _sittingCollectionViewWidth.constant=_settingView.frame.size.width-100;
         }
         else _sittingCollectionViewWidth.constant=_sittingCollectionView.contentSize.width;
-        CollectionViewTableViewCell *c=(CollectionViewTableViewCell*)[cell.headerView.headerTableview cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:3]];
-        cell.layer.cornerRadius=8;
-        SittingModelClass *model=sittingCollectionArray[indexPath.row];
-        if ([model.completed isEqualToString:@"0"]){
-            c.switchImageView.image=[UIImage imageNamed:@"Button-off"];
-        }
-        else  c.switchImageView.image=[UIImage imageNamed:@"Button-on"];
-        cell.visitDateLabel.text=model.visit;
-        cell.headerView.price=model.price;
         cell.sittingLabel.text=[NSString stringWithFormat:@"Sitting #%@",model.sittingNumber];
-        if (model.selectedHeader) {
-            cell.headerViewHeight.constant=[cell.headerView increaseHeaderinHeaderTV:model];
-        }
-        else {
-            cell.headerViewHeight.constant=[cell.headerView decreaseHeaderinHeaderTV:model];
-        }
-        cell.headerViewHeight.constant=cell.headerView.headerTableview.contentSize.height;       _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
         if ([_patientDetailModel.IsTreatmentCompleted intValue]==0) {
             if ([model.completed isEqualToString:@"0"]) {
                 cell.closeSitting.hidden=NO;
@@ -517,10 +505,18 @@
                 cell.closeSitting.hidden=YES;
                 [cell.editButton setImage:[UIImage imageNamed:@"View-button.png"] forState:normal];
             }
-        }else{
-            cell.closeSitting.hidden=YES;
-            [cell.editButton setImage:[UIImage imageNamed:@"View-button.png"] forState:normal];
-            c.switchImageView.image=[UIImage imageNamed:@"Button-on"];
+            
+            //For Header TableView Part
+            cell.headerTableView.model=model;
+            cell.delegate=self;
+            [cell.headerTableView gettheSection];
+            CGFloat height= [cell.headerTableView getTHeHeightOfTableVIew];
+            sittingCollectionViewHeight=MAX(sittingCollectionViewHeight,height);
+            _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
+            
+            
+            
+            
         }
         return cell;
     }
@@ -595,55 +591,35 @@
         attachView.textViewEnabled=NO;
     }
 }
-//increase cell height of sitting
--(void)increaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath withHeader:(NSIndexPath*)headerIndex withNoteHeader:(NSIndexPath*)NoteIndex{
-    NSIndexPath *indexpath1=[_sittingCollectionView indexPathForCell:cell];
-    SittingModelClass *model=sittingCollectionArray[indexpath1.row];
-    model.selectedHeader=YES;
-    model.height=height;
-    model.headerIndex=headerIndex;
-    model.selectedScanPointIndexpath=selectedScanPointindexpath;
-    model.noteIndex=NoteIndex;
-    for (SittingModelClass *m in sittingCollectionArray) {
-        sittingCollectionViewHeight=MAX(m.height,sittingCollectionViewHeight);
-    }
-    [_sittingCollectionView reloadData];
-    [self.view layoutIfNeeded];
-    _settingViewHeight.constant=sittingCollectionViewHeight+140;
-}
-//decrease sitting
--(void)decreaseCellHeight:(float)height withCell:(UICollectionViewCell*)cell withSelectedScanPoint:(NSArray*)selectedScanPointindexpath withHeader:(NSIndexPath*)headerIndex withNoteHeader:(NSIndexPath*)NoteIndex{
-    sittingCollectionViewHeight=0.0;
-    NSIndexPath *indexpath1=[_sittingCollectionView indexPathForCell:cell];
-    SittingModelClass *model=sittingCollectionArray[indexpath1.row];
-    model.height=height;
-    model.headerIndex=headerIndex;
-    model.noteIndex=NoteIndex;
-    if (headerIndex!=nil) {
-        model.selectedHeader=YES;
-    }
-    else model.selectedHeader=NO;
-    model.selectedScanPointIndexpath=selectedScanPointindexpath;
-    for (SittingModelClass *m in sittingCollectionArray) {
-        sittingCollectionViewHeight=MAX(m.height,sittingCollectionViewHeight);
-    }
-    [_sittingCollectionView reloadData];
-    [self.view layoutIfNeeded];
-    _settingViewHeight.constant=sittingCollectionViewHeight+140;
-}
 //delete sitting cell
--(void)deleteSittingCell:(UICollectionViewCell *)cell{
-    sittingCollectionViewHeight=0;
-    NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
-    [sittingCollectionArray removeObjectAtIndex:index.row];
-    if (sittingCollectionArray.count>0) {
-        for (SittingModelClass *m in sittingCollectionArray) {
-            sittingCollectionViewHeight=MAX(sittingCollectionViewHeight, m.height);
-        }
-        [_sittingCollectionView reloadData];
-    }
-    else    _sittingCollectionViewWidth.constant=0;
-    _settingViewHeight.constant=sittingCollectionViewHeight+130;
+-(void)deleteSittingCell:(SittingCollectionViewCell *)cell{
+NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
+    NSLog(@"%@",sittingCollectionArray);
+    
+    SittingModelClass *sitMode = sittingCollectionArray[0];
+    NSLog(@"%@",sitMode.visit);
+    
+    
+    
+    
+    [self callApiToDeleteSitting];
+}
+-(void)selectedHeaderCell:(NSString*)selectedHeader withcell:(UICollectionViewCell*)cell{
+    SittingCollectionViewCell *cell1=(SittingCollectionViewCell*)cell;
+    NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell1];
+     SittingModelClass *m=sittingCollectionArray[index.row];
+     [m.selectedHeaderIndexpath addObject:selectedHeader];
+    [_sittingCollectionView reloadData];
+}
+-(void)deselectedHeaderCell:(NSString*)deselectedHeader withcell:(UICollectionViewCell*)cell{
+    SittingCollectionViewCell *cell1=(SittingCollectionViewCell*)cell;
+    NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell1];
+    SittingModelClass *m=sittingCollectionArray[index.row];
+    NSArray *ar=[deselectedHeader componentsSeparatedByString:@"-"];
+    if ([ar[0] intValue]==0) {
+        [m.selectedHeaderIndexpath removeAllObjects];
+    }else [m.selectedHeaderIndexpath removeObject:deselectedHeader];
+     [_sittingCollectionView reloadData];
 }
 
 //default values
@@ -847,24 +823,6 @@
 - (IBAction)gestureRecognize:(id)sender {
     [self.view endEditing:YES];
 }
--(void)incrementSittingCell:(NSString *)completed{
-    SittingModelClass *model=[[SittingModelClass alloc]init];
-    model.height=128;
-    model.selectedScanPointIndexpath=nil;
-    model.completed=completed;
-    model.noteIndex=nil;
-    model.headerIndex=nil;
-    [sittingCollectionArray addObject:model];
-    for (SittingModelClass *m in sittingCollectionArray) {
-        sittingCollectionViewHeight=MAX(sittingCollectionViewHeight, m.height);
-    }
-    _sittingcollectionViewHeight.constant=sittingCollectionViewHeight;
-    [_sittingCollectionView reloadData];
-    [self.view layoutIfNeeded];
-    NSIndexPath *index=[NSIndexPath indexPathForRow:sittingCollectionArray.count-1 inSection:0];
-    [_sittingCollectionView scrollToItemAtIndexPath:index atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
-    _settingViewHeight.constant=sittingCollectionViewHeight+130;
-}
 - (void)registerForKeyboardNotifications
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardWillShowNotification object:nil];
@@ -1050,6 +1008,7 @@
     biomagneticArray=_patientDetailModel.biomagneticSittingResults;
     [self SittingPartToViewCompleteDetail:biomagneticArray];
 }
+//Show Upload Image from sitting
 -(void)ShowuploadImageFromSitting{
     if ([_increaseUploadViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
         _uploadView.hidden=NO;
@@ -1184,9 +1143,11 @@
     hubHUD.removeFromSuperViewOnHide = YES;
     [hubHUD hide:YES afterDelay:14];
 }
+//call api to load treatment api
 -(void)CallLoadTreatMentDelegate{
     [self.delegate loadTreatment];
 }
+//Load Treatment from sitting part
 -(void)loadTreatMentFromSittingPart:(NSString*)idvalue withTreatmentCode:(NSString *)treatmentCode{
     _patientTitleModel=[[PatientTitleModel alloc]init];
     _patientTitleModel.idValue=idvalue;
@@ -1194,6 +1155,7 @@
     [self CallLoadTreatMentDelegate];
     [self callApiTogetSymptomTag];
 }
+//Cancel Medical History
 - (IBAction)cancelMedicalHistory:(id)sender {
     _medicalHistoryTextView.text=@"";
     _medicalNoteLabel.hidden=NO;
@@ -1205,7 +1167,7 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-         NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
+        NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
             [self processResponseObjectOfGetAllTag:responseObject];
             [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
@@ -1225,7 +1187,6 @@
             [MBProgressHUD hideHUDForView:self.view animated:YES];
         }];
     }
-    
 }
 
 //process get tag
@@ -1249,55 +1210,58 @@
     }
     [self callApiTogetAllDetailOfTheTreatment];
 }
-
+//Show Sitting Part
 -(void)SittingPartToViewCompleteDetail:(NSArray*)bioSittingArray{
     int sittingNum=0;
     [sittingCollectionArray removeAllObjects];
     if (bioSittingArray.count>0) {
         for (NSDictionary *dict in bioSittingArray) {
-            SittingModelClass *model=[[SittingModelClass alloc]init];
-            _sittingCollectionViewWidth.constant=100;
-            model.height=128;
-            model.selectedScanPointIndexpath=nil;
-            NSInteger i=[dict[@"IsCompleted"] integerValue];
-            model.completed=[@(i)description];
-            model.visit=dict[@"Visit"];
-            int sittingI=[dict[@"SittingNumber"] integerValue];
-            model.sittingNumber=[@(sittingI)description];
-            model.sittingID=dict[@"Id"];
             NSString *str=dict[@"JSON"];
             NSError *jsonError;
             NSData *objectData = [str dataUsingEncoding:NSUTF8StringEncoding];
-            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData options:NSJSONReadingMutableContainers
-                                                                   error:&jsonError];
+            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData options:NSJSONReadingMutableContainers error:&jsonError];
             NSArray *anotomicalPointArray=json[@"AnatomicalPoints"];
-            if (anotomicalPointArray.count>0) {
-                NSDictionary *anotomicalDict=anotomicalPointArray[0];
-                model.price=anotomicalDict[@"Price"];
-            }
-            [sittingCollectionArray addObject:model];
-            for (SittingModelClass *m in sittingCollectionArray) {
-                sittingCollectionViewHeight=MAX(sittingCollectionViewHeight, m.height);
-            }
-            [_sittingCollectionView reloadData];
-            sittingNum+=1;
-            sittingNumberToPassSittingVC=[@(sittingNum)description];
-            if (![_increasesettingViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
-                if (sittingCollectionArray.count>0) {
-                    _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
-                    _settingViewHeight.constant=_sittingCollectionView.contentSize.height+30;
-                }else _settingViewHeight.constant=70;
-            }
+               if ([json[@"Status"] integerValue]==1) {
+                   SittingModelClass *m=[[SittingModelClass alloc]init];
+                    _sittingCollectionViewWidth.constant=100;
+                   m.selectedHeaderIndexpath=[[NSMutableArray alloc]init];
+                   m.selectedScanPointIndexpath=[[NSMutableArray alloc]init];
+                   m.price=json[@"Price"];
+                    m.height=100;
+                    m.selectedScanPointIndexpath=nil;
+                    NSInteger i=[dict[@"IsCompleted"] integerValue];
+                    m.completed=[@(i)description];
+                    m.visit=dict[@"Visit"];
+                    int sittingI=[dict[@"SittingNumber"] integerValue];
+                    m.sittingNumber=[@(sittingI)description];
+                    m.sittingID=dict[@"Id"];
+                    m.anotomicalPointArray=anotomicalPointArray;
+                    [sittingCollectionArray addObject:m];
+                    for (SittingModelClass *m in sittingCollectionArray) {
+                        sittingCollectionViewHeight=MAX(sittingCollectionViewHeight, m.height);
+                    }
+                    sittingNum+=1;
+                    sittingNumberToPassSittingVC=[@(sittingNum)description];
+               }
         }
-        if (selectedSittingIndex!=nil) {
-            [self.view layoutIfNeeded];
-            [_sittingCollectionView scrollToItemAtIndexPath:selectedSittingIndex atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
-        }else{
-            [self.view layoutIfNeeded];
+        [_sittingCollectionView reloadData];
+        if (![_increasesettingViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
+            if (sittingCollectionArray.count>0) {
+                _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+80;
+                _settingViewHeight.constant=_sittingCollectionView.contentSize.height+30;
+            }else _settingViewHeight.constant=50;
+        }
+    if (selectedSittingIndex!=nil) {
+        [self.view layoutIfNeeded];
+        [_sittingCollectionView scrollToItemAtIndexPath:selectedSittingIndex atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+    }else{
+        [self.view layoutIfNeeded];
+        if (sittingCollectionArray.count>0) {
             NSIndexPath *index=[NSIndexPath indexPathForRow:sittingCollectionArray.count-1 inSection:0];
             [_sittingCollectionView scrollToItemAtIndexPath:index atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
         }
-    }else  sittingNumberToPassSittingVC=[@(sittingNum)description];
+    }
+}else  sittingNumberToPassSittingVC=[@(sittingNum)description];
 }
 -(void)editSittingCell:(UICollectionViewCell *)cell{
     [previousSittingDetailArray removeAllObjects];
@@ -1405,7 +1369,7 @@
         [self processResponseObjectToGetTreatmentDetail:responseObject];
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-         [self ShowAlert:[NSString stringWithFormat:@"%@",error]];
+        [self ShowAlert:[NSString stringWithFormat:@"%@",error]];
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }];
 }
@@ -1444,7 +1408,94 @@
         [self showTreatmentDetail];
     }
 }
+//upload image after save sitting
 -(void)uploadImageAfterSaveInSitting:(NSString*)code{
     [self saveImage:code];
 }
+
+
+//Delete SittingPart
+-(void)callApiToDeleteSitting{
+    NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,closeTreatmentDetail,treatmentID];
+    NSString *parameter;
+        parameter =[self getParameteToDeleteSittingDetail];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [postman put:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [self processResponseObjectOfCloseTreatment:responseObject];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self ShowAlert:[NSString stringWithFormat:@"%@",error]];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
+}
+//parameter to Delete SittingPart
+-(NSString*)getParameteToDeleteSittingDetail{
+    NSString *parameter= [self getParameterForSaveORCloseOrUpdateTreatment:@"true" withTreatmentCompleted:@"false" withMethodType:@"PUT"];
+    NSDictionary *parameterDict = [NSJSONSerialization JSONObjectWithData:[parameter dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
+    NSMutableDictionary *finalDict=[parameterDict mutableCopy];
+    NSMutableDictionary *sectionDict=[[NSMutableDictionary alloc]init];
+    NSMutableArray *jsonSittingArray=[[NSMutableArray alloc]init];
+    sectionDict[@"SectionCode"]=@"";
+    sectionDict[@"ScanPointCode"]=@"";
+    sectionDict[@"CorrespondingPairCode"]=@"";
+    sectionDict[@"SectionName"]=@"";
+    sectionDict[@"ScanPointName"]=@"";
+    sectionDict[@"CorrespondingPairName"]=@"";
+    sectionDict[@"GermsCode"]=@"";
+    sectionDict[@"GenderCode"]=@"";
+    sectionDict[@"Description"]=@"";
+    sectionDict[@"Psychoemotional"]=@"";
+    sectionDict[@"Author"]=@"";
+    sectionDict[@"LocationScanPoint"]=@"";
+    sectionDict[@"LocationCorrespondingPair"]=@"";
+    sectionDict[@"Price"]=@"";
+    sectionDict[@"GermsName"]=@"";
+    sectionDict[@"Issue"]=@"";
+    [jsonSittingArray addObject:sectionDict];
+    
+     NSMutableDictionary *sittingDict=[[NSMutableDictionary alloc]init];
+     NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
+    NSDictionary *toxicDict=[NSDictionary dictionaryWithObjectsAndKeys:@"",@"ToxicDeficiency", nil];
+    [jsonSittingArray addObject:toxicDict];
+    sittingDict[@"Notes"]=@"";
+    sittingDict[@"AnatomicalPoints"]=jsonSittingArray;
+    sittingDict[@"Status"]=@"0";
+    NSData *sittingData = [NSJSONSerialization dataWithJSONObject:parameterDict options:kNilOptions error:nil];
+    NSString *jsonString = [[NSString alloc] initWithData:sittingData encoding:NSUTF8StringEncoding];
+    dict[@"JSON"]=jsonString;
+    NSArray *sittingResultArray=@[dict];
+    finalDict[@"SittingResultsRequest"]=sittingResultArray;
+    
+    NSString *parameter1;
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        NSMutableDictionary *vzoneFinalDict=[[NSMutableDictionary alloc]init];
+        vzoneFinalDict[@""]=finalDict;
+        NSData *parameterData = [NSJSONSerialization dataWithJSONObject:vzoneFinalDict options:kNilOptions error:nil];
+        parameter1 = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
+    }else{
+        //For Material API
+        NSData *parameterData = [NSJSONSerialization dataWithJSONObject:finalDict options:kNilOptions error:nil];
+        parameter1 = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
+    }
+    
+    return parameter1;
+}
+//process Delete SittingPart
+-(void)processResponseObjectOfCloseTreatment:(id)responseObject{
+    NSDictionary *dict;
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        NSDictionary *responseDict1 = responseObject;
+        dict  = responseDict1[@"aaData"];
+    }else{
+        //For Material API
+        dict=responseObject;
+    }
+    if ([dict[@"Success"] intValue]==1) {
+        [self callApiTogetAllDetailOfTheTreatment];
+    }else [self ShowAlert:dict[@"Message"]];
+}
+
 @end

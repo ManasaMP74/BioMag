@@ -1,289 +1,174 @@
-#import "HeaderTableView.h"
-@implementation HeaderTableView
+#import "HeaderTableVIew.h"
+#import "HeaderModelClass.h"
+@implementation HeaderTableVIew
 {
-    NSMutableArray *sittingArray,*scanPointArray;
-    NSIndexPath *selectedHeaderIndexPath,*selectedNote;
-    NSMutableArray *selectedScanPointIndexPath;
-    CGFloat correspondingViewHeight;
-    NSMutableArray *selectedScanPoint;
-    UITextView *textview;
+    UIView *view;
+    NSMutableArray *selectedSectionNameArray,*allBiamagneticArray,*completeDetailOfSectionArray;
 }
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    if ((self = [super initWithCoder:aDecoder])){
-        UIView *subView = [[[NSBundle mainBundle] loadNibNamed:@"HeaderTableView"
-                                                         owner:self
-                                                       options:nil] objectAtIndex:0];
-        [self addSubview: subView];
-        subView.translatesAutoresizingMaskIntoConstraints = NO;
-        NSDictionary *views = NSDictionaryOfVariableBindings(subView);
-        
-        NSArray *constrains = [NSLayoutConstraint constraintsWithVisualFormat:@"|-(0)-[subView]-(0)-|"
-                                                                      options:kNilOptions
-                                                                      metrics:nil
-                                                                        views:views];
-        [self addConstraints:constrains];
-        
-        constrains = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(0)-[subView]-(0)-|"
-                                                             options:kNilOptions
-                                                             metrics:nil
-                                                               views:views];
-        [self addConstraints:constrains];
-        sittingArray=[[NSMutableArray alloc]init];
-        scanPointArray=[[NSMutableArray alloc]init];
-        sittingArray=[@[@"Head",@"Price",@"Notes",@"Completed"]mutableCopy];
-        scanPointArray=[@[@"Inter Ciliary",@"Eye",@"Thyroid"]mutableCopy];
-        selectedHeaderIndexPath=nil;
-        selectedScanPointIndexPath=[[NSMutableArray alloc]init];
-        [_headerTableview reloadData];
+-(id)initWithCoder:(NSCoder *)aDecoder{
+    if (self=[super initWithCoder:aDecoder]) {
+        view=[[[NSBundle mainBundle]loadNibNamed:@"HeaderTableVIew" owner:self options:nil]objectAtIndex:0];
+        [self addSubview:view];
+        view.translatesAutoresizingMaskIntoConstraints=NO;
+        NSDictionary *subview=NSDictionaryOfVariableBindings(view);
+        NSArray *constraints=[NSLayoutConstraint constraintsWithVisualFormat:@"|-(0)-[view]-(0)-|" options:kNilOptions metrics:nil views:subview];
+        [self addConstraints:constraints];
+        constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(0)-[view]-(0)-|"
+                                                              options:kNilOptions
+                                                              metrics:nil
+                                                                views:subview];
+        [self addConstraints:constraints];
+        selectedSectionNameArray= [[NSMutableArray alloc]init];
+        completeDetailOfSectionArray=[[NSMutableArray alloc]init];
+        allBiamagneticArray= [[NSMutableArray alloc]init];
     }
     return self;
 }
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    if (selectedHeaderIndexPath != nil) {
-        if (selectedHeaderIndexPath.section == section) {
-            return scanPointArray.count+1;
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (_model.selectedHeaderIndexpath.count>0) {
+        if (section<selectedSectionNameArray.count-2) {
+            NSString *str=_model.selectedHeaderIndexpath[section];
+            NSArray *ar=[str componentsSeparatedByString:@"-"];
+            if (section==[ar[1] integerValue]) {
+                return [self getNumberOfRows:section];
+            }else return 1;
         }
-        else
-            return 1;
+        else return 1;
     }
-    else
-        return 1;
+    else return 1;
 }
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return sittingArray.count;
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return selectedSectionNameArray.count;
 }
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row==0) {
-        CollectionViewTableViewCell *cell = (CollectionViewTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"cell"];
-        if (cell == nil) {
-            [[NSBundle mainBundle] loadNibNamed:@"CollectionViewTableViewCell" owner:self options:nil];
-            cell = _cell;
-            _cell = nil;
+        HeaderTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
+        if (cell==nil) {
+            _headerCell=[[[NSBundle mainBundle]loadNibNamed:@"HeaderTableViewCell" owner:self options:nil]lastObject];
+            cell=_headerCell;
+            _headerCell=nil;
         }
-        cell.headLabel.text=sittingArray[indexPath.section];
-        if (indexPath.section==sittingArray.count-1) {
-            cell.userInteractionEnabled=NO;
-            cell.headIncreaseButton.hidden=YES;
-            cell.switchImageView.hidden=NO;
-            cell.intervalLabel.hidden=YES;
-        }
-        else if (indexPath.section==sittingArray.count-3) {
-            cell.userInteractionEnabled=NO;
-            cell.headIncreaseButton.hidden=YES;
-            cell.switchImageView.hidden=YES;
-            cell.intervalLabel.hidden=NO;
-        }
-        else {
-            cell.userInteractionEnabled=YES;
-            cell.headIncreaseButton.hidden=NO;
-            cell.switchImageView.hidden=YES;
-            cell.intervalLabel.hidden=YES;
-            if (indexPath.section==sittingArray.count-2) {
-                if (textview==nil)
-                    textview=[[UITextView alloc]initWithFrame:CGRectMake(cell.frame.origin.x+20, 42,cell.frame.size.width,85)];
-                textview.layer.cornerRadius=5;
-                textview.layer.borderColor=[UIColor colorWithRed:0.682 green:0.718 blue:0.729 alpha:0.6].CGColor;
-                 textview.layer.borderWidth=1;
-                 textview.backgroundColor=[UIColor colorWithRed:0.933 green:0.933 blue:0.94 alpha:1];
-                textview.text=@"Doctor will add note";
-                textview.textContainerInset = UIEdgeInsetsMake(10, 10,10, 10);
-                textview.textColor=[UIColor lightGrayColor];
-                textview.font=[UIFont fontWithName:@"OpenSansRegular" size:12];
-                [cell addSubview:textview];
-                if (selectedNote!=nil) {
-                    textview.hidden=NO;
-                }
-                else{
-                    textview.userInteractionEnabled=NO;
-                  textview.hidden=YES;
-                }
-            }
-        }
-        cell.intervalLabel.text=_price;
-        return cell;
-    }
-    else{
-        ScanPoinTableViewCell *cell = (ScanPoinTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"cell1"];
-        if (cell == nil) {
-            [[NSBundle mainBundle] loadNibNamed:@"ScanPointTableViewCell" owner:self options:nil];
-            cell = _scanPointCell;
-            _scanPointCell = nil;
-        }
-        cell.scanpointLabel.text=scanPointArray[indexPath.row-1];
         cell.delegate=self;
+        if (indexPath.section<selectedSectionNameArray.count-2) {
+            cell.headerLabel.text=[self nameForCell:indexPath];
+        }else  cell.headerLabel.text=selectedSectionNameArray[indexPath.section];
+       
+        if (indexPath.section==selectedSectionNameArray.count-1) {
+            cell.headerImageView.hidden=NO;
+            cell.priceLabel.hidden=YES;
+            cell.headerImageViewWidth.constant=35;
+            cell.HeaderImageViewHeight.constant=15;
+            if ([_model.completed intValue]==0) {
+                cell.headerImageView.image=[UIImage imageNamed:@"Button-off"];
+            }else  cell.headerImageView.image=[UIImage imageNamed:@"Button-on"];
+        }else if (indexPath.section==selectedSectionNameArray.count-2) {
+            cell.headerImageView.hidden=YES;
+            cell.priceLabel.hidden=NO;
+            cell.priceLabel.text=_model.price;
+            
+        }else{
+            cell.headerImageView.hidden=NO;
+            cell.priceLabel.hidden=YES;
+            cell.HeaderImageViewHeight.constant=18;
+            cell.headerImageViewWidth.constant=18;
+            if (_model.selectedHeaderIndexpath.count>0) {
+                for (NSString *i in _model.selectedHeaderIndexpath) {
+                    if ([i isEqual:[NSString stringWithFormat:@"%d-%d",indexPath.row,indexPath.section]]) {
+                        cell.headerImageView.image=[UIImage imageNamed:@"Button-Collapse"];
+                    }else  cell.headerImageView.image=[UIImage imageNamed:@"Button-Expand"];
+                }
+            }else  cell.headerImageView.image=[UIImage imageNamed:@"Button-Expand"];
+        }
         return cell;
-    }
-}
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    cell.backgroundColor=[UIColor colorWithRed:0.839 green:0.847 blue:0.94 alpha:1];
-}
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (selectedScanPointIndexPath.count>0) {
-        if ([selectedScanPointIndexPath containsObject:indexPath]) {
-            return correspondingViewHeight+32;
+    }else{
+        ScanPointTableViewCell *cell1=[tableView dequeueReusableCellWithIdentifier:@"cell1"];
+        if (cell1==nil) {
+            _scapointCell=[[[NSBundle mainBundle]loadNibNamed:@"ScanPointTableViewCell" owner:self options:nil]objectAtIndex:0];
+            cell1=_scapointCell;
+            _scapointCell=nil;
         }
-        else if (selectedNote != nil){
-            if (selectedNote.section == indexPath.section) {
-                return 150;
+        cell1.delegate=self;
+        cell1.scanpointLabel.text=[self nameForCell:indexPath];
+        if (_model.selectedHeaderIndexpath.count>0) {
+            for (NSIndexPath *i in _model.selectedHeaderIndexpath) {
+                if ([i isEqual:indexPath]) {
+                    cell1.scanpointImageView.image=[UIImage imageNamed:@"Button-Expand"];
+                }else  cell1.scanpointImageView.image=[UIImage imageNamed:@"Button-Collapse"];
             }
-            else return 32;
-        }
-        else
-            return 32;
+        }else  cell1.scanpointImageView.image=[UIImage imageNamed:@"Button-Expand"];
+        return cell1;
     }
-    else if (selectedNote != nil) {
-        if (selectedNote.section == indexPath.section) {
-            return 150;
-        }
-        else
-            return 32;
-    }
-    
-    else
-        return 32;
 }
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 30;
+}
+-(NSString*)nameForCell:(NSIndexPath*)indexPath{
+    NSString *str=selectedSectionNameArray[indexPath.section];
+    NSDictionary *dict=completeDetailOfSectionArray[indexPath.section];
+    NSArray *ar=dict[str];
+    NSDictionary *dict1=ar[indexPath.row];
     if (indexPath.row==0) {
-       CollectionViewTableViewCell *cell = (CollectionViewTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    if ([cell.headIncreaseButton.currentBackgroundImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
-        [self ChangeIncreaseDecreaseButtonImage:cell];
-        if (indexPath.section==sittingArray.count-2) {
-            selectedNote=indexPath;
-            [tableView reloadData];
-            CGRect frame=_headerTableview.frame;
-            frame.size.height=_headerTableview.contentSize.height;
-            _headerTableview.frame=frame;
-            [self.delegate increaseHeadCellHeight:_headerTableview.contentSize.height withSelectedScanPoint:nil withHeader:selectedHeaderIndexPath withNoteHeader:indexPath];
-        }
-       else if (indexPath.section<sittingArray.count-3) {
-            selectedHeaderIndexPath=indexPath;
-            [tableView reloadData];
-            CGRect frame=_headerTableview.frame;
-            frame.size.height=_headerTableview.contentSize.height;
-            _headerTableview.frame=frame;
-            [self.delegate increaseHeadCellHeight:_headerTableview.contentSize.height withSelectedScanPoint:nil withHeader:indexPath withNoteHeader:selectedNote];
-        }
-    }
-    else{
-        [self ChangeIncreaseDecreaseButtonImage:cell];
-        if (indexPath.section==sittingArray.count-2) {
-            selectedNote=nil;
-            [tableView reloadData];
-            CGRect frame=_headerTableview.frame;
-            frame.size.height=_headerTableview.contentSize.height;
-            _headerTableview.frame=frame;
-            [self.delegate decreaseHeadCellHeight:_headerTableview.contentSize.height withSelectedScanPoint:nil withHeader:selectedHeaderIndexPath withNoteHeader:nil];
-        }
-       else if (indexPath.section<sittingArray.count-3) {
-            selectedHeaderIndexPath=nil;
-            [selectedScanPointIndexPath removeAllObjects];
-            [tableView reloadData];
-            CGRect frame=_headerTableview.frame;
-            frame.size.height=_headerTableview.contentSize.height;
-            _headerTableview.frame=frame;
-            [self.delegate decreaseHeadCellHeight:_headerTableview.contentSize.height withSelectedScanPoint:nil withHeader:nil withNoteHeader:selectedNote];
-        }
-    }
- }
+        return dict1[@"SectionName"];
+    }else return dict1[@"ScanPointName"];
+
 }
-//ScanPoint Delegate Method
+-(int)getNumberOfRows:(NSInteger)indexPath{
+    NSString *str=selectedSectionNameArray[indexPath];
+    NSDictionary *dict=completeDetailOfSectionArray[indexPath];
+    NSArray *ar=dict[str];
+    return ar.count;
+}
+-(void)selectedHeaderCell:(UITableViewCell *)cell{
+    HeaderTableViewCell *cell1=(HeaderTableViewCell*)cell;
+    NSIndexPath *indexPath=[self.tableview indexPathForCell:cell1];
+    NSString *str=[NSString stringWithFormat:@"%d-%d",indexPath.row,indexPath.section];
+    if (![_model.selectedHeaderIndexpath containsObject:str]) {
+        [self.delegate selectedCell:str];
+    }else[self.delegate deselectedCell:str];
+}
 -(void)selectedScanPoint:(UITableViewCell *)cell{
-        ScanPoinTableViewCell *scanCell=(ScanPoinTableViewCell*)cell;
-      NSIndexPath *indexPath=[_headerTableview indexPathForCell:scanCell];
-        if ([scanCell.sacnPointImageView.currentBackgroundImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
-            [self ChangeIncreaseDecreaseButtonImage1:scanCell];
-            [selectedScanPointIndexPath addObject:indexPath];
-                        if (indexPath.row==1) {
-                scanCell.correspondingView.correspondingPointArray=@[@"Medulla Oblongata", @"Kidney",@"Sacrum"];
+    ScanPointTableViewCell *cell1=(ScanPointTableViewCell*)cell;
+    NSIndexPath *indexPath=[self.tableview indexPathForCell:cell1];
+    NSString *str=[NSString stringWithFormat:@"%d-%d",indexPath.row,indexPath.section];
+    if (![_model.selectedHeaderIndexpath containsObject:str]) {
+        [self.delegate selectedCell:str];
+    }else[self.delegate deselectedCell:str];
+}
+-(void)gettheSection{
+    [selectedSectionNameArray removeAllObjects];
+     [completeDetailOfSectionArray removeAllObjects];
+    for (NSDictionary *dict in _model.anotomicalPointArray) {
+        if (![selectedSectionNameArray containsObject:dict[@"SectionCode"]]) {
+            if (dict[@"SectionCode"]!=nil) {
+                [selectedSectionNameArray addObject:dict[@"SectionCode"]];
             }
-            else if (indexPath.row==2){
-             scanCell.correspondingView.correspondingPointArray=@[@"Eye Optic Nerve", @"Opposite Eye",@"Cerebellum"];
-            }
-            else scanCell.correspondingView.correspondingPointArray=@[@"Cheekbone", @"Liver",@"Adrenal Glands"];
-            [scanCell.correspondingView.correspondingTableView reloadData];
-            correspondingViewHeight = [scanCell.correspondingView corespondingCellHeight];
-            scanCell.correspondingView.hidden = NO;
-            scanCell.correspondingViewHeight.constant=correspondingViewHeight;
-            [_headerTableview reloadData];
-            CGRect frame=_headerTableview.frame;
-            frame.size.height=_headerTableview.contentSize.height;
-            _headerTableview.frame=frame;
-            [self.delegate increaseHeadCellHeight:_headerTableview.contentSize.height withSelectedScanPoint:selectedScanPointIndexPath withHeader:[NSIndexPath indexPathForRow:0 inSection:0] withNoteHeader:nil];
         }
-        else{
-            [self ChangeIncreaseDecreaseButtonImage1:scanCell];
-           [selectedScanPointIndexPath removeObject: indexPath];
-            scanCell.correspondingView.hidden=YES;
-            scanCell.correspondingViewHeight.constant=0;
-            [_headerTableview reloadData];
-            CGRect frame=_headerTableview.frame;
-            frame.size.height=_headerTableview.contentSize.height;
-            _headerTableview.frame=frame;
-            [self.delegate decreaseHeadCellHeight:_headerTableview.contentSize.height withSelectedScanPoint:selectedScanPointIndexPath withHeader:[NSIndexPath indexPathForRow:0 inSection:0] withNoteHeader:nil];
+    }
+    int i=0;
+    NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
+    while (i==selectedSectionNameArray.count-1) {
+    NSMutableArray *ar=[[NSMutableArray alloc]init];
+    for(NSDictionary *dict in _model.anotomicalPointArray){
+        for (NSString *str in selectedSectionNameArray) {
+            if ([dict[@"SectionCode"] isEqual:str]) {
+                [ar addObject:dict];
             }
-}
-//Change the Header image
--(void)ChangeIncreaseDecreaseButtonImage:(CollectionViewTableViewCell*)cell{
-    if ([cell.headIncreaseButton.currentBackgroundImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
-        [cell.headIncreaseButton setBackgroundImage:[UIImage imageNamed:@"Button-Expand"] forState:UIControlStateNormal];
-        
+        }
     }
-    else  if ([cell.headIncreaseButton.currentBackgroundImage isEqual:[UIImage imageNamed:@"Button-Expand"]]) {
-        [cell.headIncreaseButton setBackgroundImage:[UIImage imageNamed:@"Button-Collapse"] forState:UIControlStateNormal];
+        NSString *str=selectedSectionNameArray[i];
+        dict[str]=ar;
+        [completeDetailOfSectionArray addObject:dict];
+        i++;
     }
-}
-//Change the ScanPoint image
--(void)ChangeIncreaseDecreaseButtonImage1:(ScanPoinTableViewCell*)cell{
-    if ([cell.sacnPointImageView.currentBackgroundImage isEqual:[UIImage imageNamed:@"Button-Collapse"]]) {
-        [cell.sacnPointImageView setBackgroundImage:[UIImage imageNamed:@"Button-Expand"] forState:UIControlStateNormal];
-        
-    }
-    else  if ([cell.sacnPointImageView.currentBackgroundImage isEqual:[UIImage imageNamed:@"Button-Expand"]]) {
-        [cell.sacnPointImageView setBackgroundImage:[UIImage imageNamed:@"Button-Collapse"] forState:UIControlStateNormal];
-    }
-}
--(float)increaseHeaderinHeaderTV :(SittingModelClass*)model
-{
-    if (model.selectedHeader) {
-        selectedHeaderIndexPath=model.headerIndex;
-        selectedScanPoint=(NSMutableArray*)model.selectedScanPointIndexpath;
-    }
-    else{
-       selectedHeaderIndexPath=nil;
-        selectedScanPoint=nil;
-    }
-    if (model.noteIndex !=nil) {
-        selectedNote=model.noteIndex;
-    }
-    else selectedNote=nil;
-    [_headerTableview reloadData];
-    CGRect frame=_headerTableview.frame;
-    frame.size.height=_headerTableview.contentSize.height;
-    _headerTableview.frame=frame;
-    return _headerTableview.contentSize.height;
-}
--(float)decreaseHeaderinHeaderTV :(SittingModelClass*)model
-{
-    if (model.selectedHeader) {
-        selectedHeaderIndexPath=model.headerIndex;
-        selectedScanPoint=(NSMutableArray*)model.selectedScanPointIndexpath;
-    }
-    else{
-        selectedHeaderIndexPath=nil;
-        selectedScanPoint=nil;
-    }
-    if (model.noteIndex !=nil) {
-        selectedNote=model.noteIndex;
-    }
-    else selectedNote=nil;
-    [_headerTableview reloadData];
-    CGRect frame=_headerTableview.frame;
-    frame.size.height=_headerTableview.contentSize.height;
-    _headerTableview.frame=frame;
-     return _headerTableview.contentSize.height;
+    [selectedSectionNameArray addObject:@"Price"];
+    [selectedSectionNameArray addObject:@"Completed"];
+   }
+-(float)getTHeHeightOfTableVIew{
+    [_tableview reloadData];
+    CGRect frame=_tableview.frame;
+    frame.size.height=_tableview.contentSize.height;
+    _tableview.frame=frame;
+    return _tableview.contentSize.height;
+
 }
 @end

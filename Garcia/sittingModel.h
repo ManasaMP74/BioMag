@@ -20,7 +20,7 @@
 @property(strong,nonatomic)NSString *germsString;
 @property(strong,nonatomic)NSString *genderCode;
 @property(strong,nonatomic)NSIndexPath *selectedCellIndex;
-@property(strong,nonatomic)NSArray *newlyAddedGermsArray;
+@property(strong,nonatomic)NSString *germsCodeString;
 @property(assign,nonatomic)BOOL issue;
 @property(strong,nonatomic)NSString *edited;
 @property(strong,nonatomic)NSString *sittingNumber;

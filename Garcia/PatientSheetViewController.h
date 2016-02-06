@@ -11,7 +11,7 @@
 -(void)loadTreatment;
 @end
 
-@interface PatientSheetViewController : UIViewController<UITextViewDelegate,addSetting,UIAlertViewDelegate>
+@interface PatientSheetViewController : UIViewController<UITextViewDelegate,UIAlertViewDelegate>
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *emailIdHeight;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *surGeriesHeight;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollview;

@@ -359,6 +359,12 @@
                 NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData options:NSJSONReadingMutableContainers error:&jsonError];
                 [_datePicButton setTitle:dict[@"Visit"] forState:normal];
                 NSArray *anotomicalPointArray=json[@"AnatomicalPoints"];
+                if (json[@"ToxicDeficiency"]!=nil) {
+                    selectedToxicString=json[@"ToxicDeficiency"];
+                }
+                if (![json[@"Price"] isEqualToString:@""]) {
+                    _priceTf.text=json[@"Price"];
+                }
                 if (anotomicalPointArray.count>0) {
                     for (NSDictionary *anotomicalDict in anotomicalPointArray) {
                         if (([anotomicalDict[@"SectionCode"] isEqualToString:model.sectionCode])&([anotomicalDict[@"CorrespondingPairCode"] isEqualToString:model.correspondingPairCode])&([anotomicalDict[@"ScanPointCode"] isEqualToString:model.scanPointCode]) ) {
@@ -374,13 +380,7 @@
                                 model.issue= NO;
                                 [self colorChange:model.issue withCell:cell];
                             }
-                            if (![anotomicalDict[@"Price"] isEqualToString:@""]) {
-                                _priceTf.text=anotomicalDict[@"Price"];
-                            }
-                        }else{
-                            if (anotomicalDict[@"ToxicDeficiency"]!=nil) {
-                                selectedToxicString=anotomicalDict[@"ToxicDeficiency"];
-                            }
+                           
                         }
                     }
                 }
@@ -796,15 +796,18 @@
     sittingModel *model1=allSortedDetailArray[selectedCellIndex.section];
     if (germasData.count>0) {
         NSString *selectedGerms=@"";
+        NSString *selectedGermsCode=@"";
         for (germsModel *model in germasData) {
             selectedGerms= [selectedGerms stringByAppendingString:[NSString stringWithFormat:@"%@",model.germsName]];
+             selectedGermsCode= [selectedGerms stringByAppendingString:[NSString stringWithFormat:@"%@",model.germsCode]];
             if (![[germasData lastObject] isEqual:model]) {
                 selectedGerms= [selectedGerms stringByAppendingString:@","];
+                selectedGerms= [selectedGermsCode stringByAppendingString:@","];
             }
         }
         model1.selectedCellIndex=selectedCellIndex;
         model1.germsString=selectedGerms;
-        model1.newlyAddedGermsArray=germasData;
+        model1.germsCodeString=selectedGermsCode;
         model1.issue=YES;
     }else {
         model1.selectedCellIndex=nil;
@@ -931,29 +934,27 @@
             sectionDict[@"SectionCode"]=model.sectionCode;
             sectionDict[@"ScanPointCode"]=model.scanPointCode;
             sectionDict[@"CorrespondingPairCode"]=model.correspondingPairCode;
-            NSString *str=@"";
-            for (germsModel *m1 in model.newlyAddedGermsArray) {
-                str=[str stringByAppendingString:m1.germsCode];
-                str=[str stringByAppendingString:@","];
-            }
-            sectionDict[@"GermsCode"]=model.correspondingPairCode;
+            sectionDict[@"SectionName"]=model.sectionName;
+            sectionDict[@"ScanPointName"]=model.scanPointName;
+            sectionDict[@"CorrespondingPairName"]=model.correspondingPairName;
+            sectionDict[@"GermsCode"]=model.germsCodeString;
             sectionDict[@"GenderCode"]=model.genderCode;
             sectionDict[@"Description"]=model.interpretation;
             sectionDict[@"Psychoemotional"]=model.psychoemotional;
             sectionDict[@"Author"]=model.author;
             sectionDict[@"LocationScanPoint"]=@"";
             sectionDict[@"LocationCorrespondingPair"]=@"";
-            sectionDict[@"Price"]=_priceTf.text;
             sectionDict[@"GermsName"]=model.germsString;
             sectionDict[@"Issue"]=[@(model.issue) description];
             [jsonSittingArray addObject:sectionDict];
         }
     }
     NSString *toxicStr=[_toxicView getAllTheSelectedToxic];
-    NSDictionary *toxicDict=[NSDictionary dictionaryWithObjectsAndKeys:toxicStr,@"ToxicDeficiency", nil];
-    [jsonSittingArray addObject:toxicDict];
+    sittingDict[@"ToxicDeficiency"]=toxicStr;
     sittingDict[@"Notes"]=@"";
+    sittingDict[@"Status"]=@"1";
     sittingDict[@"AnatomicalPoints"]=jsonSittingArray;
+    sittingDict[@"Price"]=_priceTf.text;
     NSData *sittingData = [NSJSONSerialization dataWithJSONObject:sittingDict options:kNilOptions error:nil];
     NSString *jsonString = [[NSString alloc] initWithData:sittingData encoding:NSUTF8StringEncoding];
     dict[@"JSON"]=jsonString;
@@ -962,14 +963,14 @@
     
     NSString *parameter;
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        //For Material API
-           NSData *parameterData = [NSJSONSerialization dataWithJSONObject:finalDict options:kNilOptions error:nil];
-          parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
-    }else{
         //For Vzone API
         NSMutableDictionary *vzoneFinalDict=[[NSMutableDictionary alloc]init];
         vzoneFinalDict[@""]=finalDict;
         NSData *parameterData = [NSJSONSerialization dataWithJSONObject:vzoneFinalDict options:kNilOptions error:nil];
+        parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
+    }else{
+        //For Material API
+        NSData *parameterData = [NSJSONSerialization dataWithJSONObject:finalDict options:kNilOptions error:nil];
         parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
     }
 
@@ -979,14 +980,13 @@
     NSDictionary *dict;
     
 if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-    //For Material API
-    dict=responseObject;
-}else{
     //For Vzone API
     NSDictionary *responseDict1 = responseObject;
-  dict  = responseDict1[@"aaData"];
+    dict  = responseDict1[@"aaData"];
+}else{
+    //For Material API
+    dict=responseObject;
 }
-    
     if ([dict[@"Success"] intValue]==1) {
         NSDictionary *dict1=responseObject[@"TreatmentRequest"];
         int i=[dict1[@"ID"] intValue];
