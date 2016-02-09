@@ -89,17 +89,15 @@
     [alphaView removeFromSuperview];
 }
 - (IBAction)add:(id)sender {
-    [self changeTheNewGermAppearence:YES withHeight:0];
-    [self heightOfView:106];
+    if (![_codeFullNameTF.text isEqualToString:@""] & ![_codeSymbolTF.text isEqualToString:@""]) {
+        [self callApiToAddGerm];
+    }
 }
 - (IBAction)saveCode:(id)sender {
     [alphaView removeFromSuperview];
     [self.delegateForGerms germsData:selectedGerms];
 }
 - (IBAction)addNewGerm:(id)sender {
-        if (![_codeFullNameTF.text isEqualToString:@""] & ![_codeSymbolTF.text isEqualToString:@""]) {
-          //  [self callApiToAddGerm];
-        }
     _codeFullNameTF.text=@"";
     _codeSymbolTF.text=@"";
     [self changeTheNewGermAppearence:NO withHeight:43];
@@ -227,18 +225,40 @@
     _heightOfNewGermView.constant=height;
 }
 -(void)callApiToAddGerm{
-    NSString *url=[NSString stringWithFormat:@""];
-    NSString *parameter=[NSString stringWithFormat:@""];
+    NSString *url=[NSString stringWithFormat:@"%@%@/0",baseUrl,germsUrl];
+    NSString *parameter;
+    NSUserDefaults *defaultvalue=[NSUserDefaults standardUserDefaults];
+    int userIdInteger=[[defaultvalue valueForKey:@"Id"]intValue];
+     BOOL status=true;
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //Parameter for Vzone Api
+       
+        parameter =[NSString stringWithFormat:@"{\"request\":{\"Name\":\"%@\",\"UserfriendlyCode\":\"%@\",\"UserID\":%d,\"Status\":%hhd,\"MethodType\":\"POST\"}}",_codeFullNameTF.text,_codeSymbolTF.text,userIdInteger,status];
+    }else{
+        //Parameter For Material Api
+        parameter =[NSString stringWithFormat:@" {\"Name\":\"%@\",\"UserfriendlyCode\":\"%@\",\"UserID\":%d,\"Status\":%hhd,\"MethodType\":\"POST\"}",_codeFullNameTF.text,_codeSymbolTF.text,userIdInteger,status];
+    }
+
     [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self processToAddGerms:responseObject];
         [MBProgressHUD hideHUDForView:alphaView animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [MBProgressHUD hideHUDForView:alphaView animated:YES];
     }];
 }
 -(void)processToAddGerms:(id)responseObject{
-    NSDictionary *dict=responseObject;
+    NSDictionary *dict;
+    NSDictionary *dict1=responseObject;
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+      dict =dict1[@"aaData"];
+    }else dict=responseObject;
+    if ([dict[@"Success"]intValue]==1) {
+        [self callApiToGetGerms];
+        [self changeTheNewGermAppearence:YES withHeight:0];
+        [self heightOfView:106];
 
-
+    }
 }
 @end

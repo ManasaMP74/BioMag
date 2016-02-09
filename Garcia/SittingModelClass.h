@@ -2,7 +2,7 @@
 
 @interface SittingModelClass : NSObject
 
-@property(assign,nonatomic) BOOL selectedHeader;
+
 @property(assign,nonatomic) float height;
 @property(strong,nonatomic) NSMutableArray *selectedScanPointIndexpath;
 @property(strong,nonatomic) NSMutableArray *selectedHeaderIndexpath;
@@ -12,4 +12,5 @@
 @property(strong,nonatomic)NSString *sittingID;
 @property(strong,nonatomic)NSArray *anotomicalPointArray;
 @property(strong,nonatomic)NSString *price;
+@property(assign,nonatomic)float correspondingPairHeight;
 @end

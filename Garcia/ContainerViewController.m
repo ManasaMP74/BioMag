@@ -11,6 +11,7 @@
 #import "MBProgressHUD.h"
 #import "PostmanConstant.h"
 #import "lagModel.h"
+#import "SeedSyncer.h"
 @interface ContainerViewController ()<addedPatient,loadTreatmentDelegate,selectedObjectInPop,WYPopoverControllerDelegate>
 
 @end
@@ -29,7 +30,7 @@
     self.navigationItem.hidesBackButton = YES;
     languageArray =[[NSMutableArray alloc]init];
     postman=[[Postman alloc]init];
-    [self callApiForLanguage];
+    [self callSeed];
     
     
     UIImage* image3 = [UIImage imageNamed:@"Icon-Signout.png"];
@@ -179,11 +180,38 @@
     SearchPatientViewController *searchVC=[self.childViewControllers firstObject];
     [searchVC reloadTableviewAfterAddNewTreatment];
 }
+-(void)callSeed{
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //Api For Vzone
+        [self callApiForLanguage];
+    }else{
+        //  API for material
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        if ([userDefault boolForKey:@"language_FLAG"]) {
+            [self callApiForLanguage];
+        }
+        else{
+            NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPatientList];
+            [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+                if (success) {
+                    [self processResponse:response];
+                }
+                else{
+                    [self callApiForLanguage];
+                }
+            }];
+        }
+    }
+}
+
 -(void)callApiForLanguage{
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,language];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponse:responseObject];
+        [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        [userDefault setBool:NO forKey:@"language_FLAG"];
         [MBProgressHUD hideHUDForView:self.view animated:YES ];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];

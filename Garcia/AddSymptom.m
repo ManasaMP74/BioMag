@@ -226,35 +226,42 @@
 }
 -(void)callAPIforAddSymptomTag{
     NSString *str=@"";
-    for (SymptomTagModel *model in allTagListArray) {
-        if ([model.tagName isEqualToString:_symptomTf.text]) {
+    SymptomTagModel *model;
+    for (SymptomTagModel *model1 in allTagListArray) {
+        if ([model1.tagName isEqualToString:_symptomTf.text]) {
             str=@"done";
-            if (![symptomTagArray containsObject:model]) {
+            model=model1;
+        }
+    }
+    if ([str isEqualToString:@"done"]) {
+        if (symptomTagArray.count>0) {
+            NSMutableArray *ar=[[NSMutableArray alloc]init];
+            for (SymptomTagModel *m in symptomTagArray) {
+                [ar addObject:m.tagCode];
+            }
+            if (![ar containsObject:model.tagCode]) {
                 [symptomTagArray addObject:model];
                 [_collectionView reloadData];
                 [self heightOfView:182];
                 _symptomTf.text=@"";
                 [self.delegate addsymptom:symptomTagArray];
             }else{
-                UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Alert!" message:@"Symptom tag already exist" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                str=@"alert";
+                UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Alert!" message:@"Symptom already exist" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                 [alert show];
             }
         }
-    }
-    if ([str isEqualToString:@""]) {
-        NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,addSymptomTag,_searchModel.Id];
-        
-        NSString *parameter;
-        
-        if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-            //For Vzone API
-           parameter=[NSString stringWithFormat:@"{\"request\":{\"Name\":\"%@\",\"Status\": true,\"UserID\": %@,\"MethodType\": \"POST\"}}",_symptomTf.text,_searchModel.Id];
-        }else{
-            //For Material API
-          parameter  =[NSString stringWithFormat:@"{\"Name\":\"%@\",\"Status\": true,\"UserID\": %@,\"MethodType\": \"POST\"}",_symptomTf.text,_searchModel.Id];
-            
+        else {
+            [symptomTagArray addObject:model];
+            [_collectionView reloadData];
+            [self heightOfView:182];
+            _symptomTf.text=@"";
+            [self.delegate addsymptom:symptomTagArray];
         }
-        
+    }
+    else  if ([str isEqualToString:@""]) {
+        NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,addSymptomTag,_searchModel.Id];
+        NSString *parameter=[NSString stringWithFormat:@"{\"Name\":\"%@\",\"Status\": true,\"UserID\": %@,\"MethodType\": \"POST\"}",_symptomTf.text,_searchModel.Id];
         [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
             [self processResponseObjectOfAddTag:responseObject];

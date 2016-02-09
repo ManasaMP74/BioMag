@@ -306,8 +306,8 @@
         _settingView.hidden=NO;
         if (sittingCollectionArray.count>0) {
             _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
-            _settingViewHeight.constant=_sittingCollectionView.contentSize.height+30;
-        }else _settingViewHeight.constant=70;
+            _settingViewHeight.constant=sittingCollectionViewHeight+120;
+        }else _settingViewHeight.constant=50;
         [self ChangeIncreaseDecreaseButtonImage:_increasesettingViewButton];
     }
     else{
@@ -511,11 +511,7 @@
             cell.delegate=self;
             [cell.headerTableView gettheSection];
             CGFloat height= [cell.headerTableView getTHeHeightOfTableVIew];
-            sittingCollectionViewHeight=MAX(sittingCollectionViewHeight,height);
-            _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
-            
-            
-            
+            model.height=height;
             
         }
         return cell;
@@ -604,22 +600,42 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
     
     [self callApiToDeleteSitting];
 }
--(void)selectedHeaderCell:(NSString*)selectedHeader withcell:(UICollectionViewCell*)cell{
+-(void)selectedHeaderCell:(NSString*)selectedHeader withcell:(UICollectionViewCell*)cell withCorrespondingHeight:(CGFloat)height{
     SittingCollectionViewCell *cell1=(SittingCollectionViewCell*)cell;
     NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell1];
      SittingModelClass *m=sittingCollectionArray[index.row];
      [m.selectedHeaderIndexpath addObject:selectedHeader];
+     m.correspondingPairHeight=height;
+       [self.view layoutIfNeeded];
     [_sittingCollectionView reloadData];
+    [self.view layoutIfNeeded];
+    [_sittingCollectionView reloadData];
+    sittingCollectionViewHeight=0;
+    for (SittingModelClass *m in sittingCollectionArray) {
+        sittingCollectionViewHeight=MAX(sittingCollectionViewHeight, m.height);
+    }
+    _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
+    _settingViewHeight.constant=sittingCollectionViewHeight+120;
 }
--(void)deselectedHeaderCell:(NSString*)deselectedHeader withcell:(UICollectionViewCell*)cell{
+-(void)deselectedHeaderCell:(NSString*)deselectedHeader withcell:(UICollectionViewCell*)cell withCorrespondingHeight:(CGFloat)height{
     SittingCollectionViewCell *cell1=(SittingCollectionViewCell*)cell;
     NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell1];
     SittingModelClass *m=sittingCollectionArray[index.row];
     NSArray *ar=[deselectedHeader componentsSeparatedByString:@"-"];
+     m.correspondingPairHeight=height;
     if ([ar[0] intValue]==0) {
-        [m.selectedHeaderIndexpath removeAllObjects];
+    [m.selectedHeaderIndexpath removeAllObjects];
     }else [m.selectedHeaderIndexpath removeObject:deselectedHeader];
+       [self.view layoutIfNeeded];
      [_sittingCollectionView reloadData];
+      [self.view layoutIfNeeded];
+    [_sittingCollectionView reloadData];
+    sittingCollectionViewHeight=0;
+    for (SittingModelClass *m in sittingCollectionArray) {
+        sittingCollectionViewHeight=MAX(sittingCollectionViewHeight, m.height);
+    }
+    _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
+    _settingViewHeight.constant=sittingCollectionViewHeight+120;
 }
 
 //default values
@@ -728,7 +744,8 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
 }
 //treatment button
 - (IBAction)TreatmentButton:(id)sender {
-    if (![_treatmentButton.currentImage isEqual:[UIImage imageNamed:@"Edit-icon.png"]]) {
+    if (![_treatmentNameTF.text isEqualToString:@""]) {
+      if (![_treatmentButton.currentImage isEqual:[UIImage imageNamed:@"Edit-icon.png"]]) {
         _treatmentNameTF.layer.borderWidth=0;
         [_treatmentButton setImage:[UIImage imageNamed:@"Edit-icon.png"] forState:normal];
         [constant setFontbold:_treatmentNameTF];
@@ -743,7 +760,7 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
         [_treatmentNameTF becomeFirstResponder];
         [constant setFontSemibold:_treatmentNameTF];
     }
-    
+}
 }
 //Getting Current Date Time Values
 -(void)getCurrentTimeAndDate:(NSString*)str{
@@ -1227,7 +1244,8 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
                    m.selectedHeaderIndexpath=[[NSMutableArray alloc]init];
                    m.selectedScanPointIndexpath=[[NSMutableArray alloc]init];
                    m.price=json[@"Price"];
-                    m.height=100;
+                   m.height=100;
+                   m.correspondingPairHeight=0;
                     m.selectedScanPointIndexpath=nil;
                     NSInteger i=[dict[@"IsCompleted"] integerValue];
                     m.completed=[@(i)description];
@@ -1237,25 +1255,27 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
                     m.sittingID=dict[@"Id"];
                     m.anotomicalPointArray=anotomicalPointArray;
                     [sittingCollectionArray addObject:m];
-                    for (SittingModelClass *m in sittingCollectionArray) {
-                        sittingCollectionViewHeight=MAX(sittingCollectionViewHeight, m.height);
-                    }
-                    sittingNum+=1;
+                                      sittingNum+=1;
                     sittingNumberToPassSittingVC=[@(sittingNum)description];
                }
         }
+          [self.view layoutIfNeeded];
         [_sittingCollectionView reloadData];
+          [self.view layoutIfNeeded];
+         [_sittingCollectionView reloadData];
+        sittingCollectionViewHeight=0;
+        for (SittingModelClass *m in sittingCollectionArray) {
+            sittingCollectionViewHeight=MAX(sittingCollectionViewHeight, m.height);
+        }
         if (![_increasesettingViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
             if (sittingCollectionArray.count>0) {
-                _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+80;
-                _settingViewHeight.constant=_sittingCollectionView.contentSize.height+30;
+                _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
+                _settingViewHeight.constant=sittingCollectionViewHeight+120;
             }else _settingViewHeight.constant=50;
         }
     if (selectedSittingIndex!=nil) {
-        [self.view layoutIfNeeded];
         [_sittingCollectionView scrollToItemAtIndexPath:selectedSittingIndex atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
     }else{
-        [self.view layoutIfNeeded];
         if (sittingCollectionArray.count>0) {
             NSIndexPath *index=[NSIndexPath indexPathForRow:sittingCollectionArray.count-1 inSection:0];
             [_sittingCollectionView scrollToItemAtIndexPath:index atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];

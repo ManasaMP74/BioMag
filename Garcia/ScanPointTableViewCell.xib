@@ -16,11 +16,11 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell1" rowHeight="30" id="e0v-Ic-FWL" customClass="ScanPointTableViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="313" height="30"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell1" rowHeight="95" id="e0v-Ic-FWL" customClass="ScanPointTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="313" height="95"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="e0v-Ic-FWL" id="61w-HU-f9p">
-                <rect key="frame" x="0.0" y="0.0" width="313" height="29"/>
+                <rect key="frame" x="0.0" y="0.0" width="313" height="94"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KEp-Jc-KHp">
@@ -41,6 +41,7 @@
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h5I-eF-Nsw">
                         <rect key="frame" x="0.0" y="0.0" width="313" height="30"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="uGh-Io-K2A"/>
                         </constraints>
@@ -48,26 +49,38 @@
                             <action selector="selectedScanPoint:" destination="e0v-Ic-FWL" eventType="touchUpInside" id="jHG-h8-ebL"/>
                         </connections>
                     </button>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o3A-SB-DQr" customClass="CorrespondingPairTableView">
+                        <rect key="frame" x="0.0" y="30" width="313" height="64"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="64" id="R62-z0-eTI"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
+                    <constraint firstAttribute="trailing" secondItem="o3A-SB-DQr" secondAttribute="trailing" id="0sy-dH-z3q"/>
                     <constraint firstItem="KEp-Jc-KHp" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="nga-0l-Mh4" secondAttribute="trailing" constant="8" id="3gp-gk-ljl"/>
                     <constraint firstItem="KEp-Jc-KHp" firstAttribute="top" secondItem="61w-HU-f9p" secondAttribute="top" constant="6" id="8Xf-Nd-Pgd"/>
                     <constraint firstAttribute="trailing" secondItem="h5I-eF-Nsw" secondAttribute="trailing" id="HxL-oJ-m0X"/>
+                    <constraint firstItem="o3A-SB-DQr" firstAttribute="leading" secondItem="61w-HU-f9p" secondAttribute="leading" id="NE7-vy-uMM"/>
                     <constraint firstItem="nga-0l-Mh4" firstAttribute="top" secondItem="61w-HU-f9p" secondAttribute="top" constant="4" id="PH4-Ep-1xs"/>
                     <constraint firstAttribute="trailing" secondItem="KEp-Jc-KHp" secondAttribute="trailing" constant="8" id="amW-6u-go1"/>
                     <constraint firstItem="h5I-eF-Nsw" firstAttribute="leading" secondItem="61w-HU-f9p" secondAttribute="leading" id="bg7-jw-qOl"/>
                     <constraint firstItem="h5I-eF-Nsw" firstAttribute="top" secondItem="61w-HU-f9p" secondAttribute="top" id="h62-rP-OA8"/>
                     <constraint firstItem="nga-0l-Mh4" firstAttribute="leading" secondItem="61w-HU-f9p" secondAttribute="leading" constant="8" id="pxp-mF-V3r"/>
+                    <constraint firstItem="o3A-SB-DQr" firstAttribute="top" secondItem="h5I-eF-Nsw" secondAttribute="bottom" id="v1l-Me-8IN"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <connections>
+                <outlet property="correspondingPairTableView" destination="o3A-SB-DQr" id="p6z-kE-gN2"/>
+                <outlet property="correspondingViewHeight" destination="R62-z0-eTI" id="o1q-xe-q0w"/>
                 <outlet property="scanpointCell" destination="h5I-eF-Nsw" id="VPR-ao-FRv"/>
                 <outlet property="scanpointImageView" destination="KEp-Jc-KHp" id="2m2-Ct-ia1"/>
                 <outlet property="scanpointLabel" destination="nga-0l-Mh4" id="lZt-fY-Ljw"/>
             </connections>
-            <point key="canvasLocation" x="32.5" y="37"/>
+            <point key="canvasLocation" x="115.5" y="65.5"/>
         </tableViewCell>
     </objects>
 </document>

@@ -3,8 +3,8 @@
 #import "HeaderTableViewCell.h"
 #import "SittingModelClass.h"
 @protocol selectedCellProtocol<NSObject>
--(void)selectedCell:(NSString*)selectedHeader;
--(void)deselectedCell:(NSString*)deselectedHeader;
+-(void)selectedCell:(NSString*)selectedHeader withCorrespondingHeight:(CGFloat)height;
+-(void)deselectedCell:(NSString*)deselectedHeader withCorrespondingHeight:(CGFloat)height;
 @end
 @interface HeaderTableVIew : UIView<UITableViewDataSource,UITableViewDelegate,selectedcell,selectedScanpoint>
 @property (strong, nonatomic) IBOutlet ScanPointTableViewCell *scapointCell;

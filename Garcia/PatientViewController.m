@@ -163,17 +163,14 @@
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getTitleOfTreatment];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectToGetTreatmentDetail:responseObject];
-        [containerVC hideAllMBprogressTillLoadThedata];
-       [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
+        [containerVC hideMBprogressTillLoadThedata];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self showAlerView:[NSString stringWithFormat:@"%@",error]];
-        [containerVC hideAllMBprogressTillLoadThedata];
-       [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
+        [containerVC hideMBprogressTillLoadThedata];
     }];
 }
 
 //process Response of Api
-
 -(void)processResponseObjectToGetTreatmentDetail:(id)responseObject{
     [treatmentListArray removeAllObjects];
     NSUserDefaults *defaultValues=[NSUserDefaults standardUserDefaults];
@@ -186,21 +183,30 @@
        dict=responseDict1[@"aaData"];
     }else  dict=responseObject;
     
+    NSMutableArray *treatmentArray=[[NSMutableArray alloc]init];
        if ([dict[@"Success"] intValue]==1) {
         for (NSDictionary *dict1 in dict[@"ViewModels"]) {
             if ((dict1[@"DoctorId"]!=[NSNull null]) & (dict1[@"PatientId"]!=[NSNull null])) {
             if (([dict1[@"DoctorId"]intValue]==[docID intValue]) & ([dict1[@"PatientId"]intValue]==[_model.Id intValue])) {
                 if ([dict1[@"Status"]intValue]==1) {
-                    PatientTitleModel *model=[[PatientTitleModel alloc]init];
-                    model.idValue=dict1[@"ID"];
-                    model.code=dict1[@"Code"];
-                    model.title=dict1[@"Title"];
-                    model.IsTreatmentCompleted=dict1[@"IsTreatmentCompleted"];
-                    [treatmentListArray addObject:model];
+                    [treatmentArray addObject:dict1];
                 }
             }
-            }
+          }
         }
+           if (treatmentArray.count>0) {
+           NSSortDescriptor *descriptor=[[NSSortDescriptor alloc]initWithKey:@"IsTreatmentCompleted" ascending:YES];
+           NSArray *ar=[treatmentArray sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
+           for (NSDictionary *dict1 in ar) {
+               PatientTitleModel *model=[[PatientTitleModel alloc]init];
+               model.idValue=dict1[@"ID"];
+               model.code=dict1[@"Code"];
+               model.title=dict1[@"Title"];
+               model.IsTreatmentCompleted=dict1[@"IsTreatmentCompleted"];
+               [treatmentListArray addObject:model];
+           }
+           }
+           
         [_tableview reloadData];
         _tableViewHeight.constant=self.tableview.contentSize.height;
     }

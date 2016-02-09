@@ -3,8 +3,8 @@
 @protocol cellHeight<NSObject>
 -(void)deleteSittingCell:(UICollectionViewCell*)cell;
 -(void)editSittingCell:(UICollectionViewCell*)cell;
--(void)selectedHeaderCell:(NSString*)selectedHeader withcell:(UICollectionViewCell*)cell;
--(void)deselectedHeaderCell:(NSString*)deselectedHeader withcell:(UICollectionViewCell*)cell;
+-(void)selectedHeaderCell:(NSString*)selectedHeader withcell:(UICollectionViewCell*)cell withCorrespondingHeight:(CGFloat)height;
+-(void)deselectedHeaderCell:(NSString*)deselectedHeader withcell:(UICollectionViewCell*)cell withCorrespondingHeight:(CGFloat)height;
 @end
 @interface SittingCollectionViewCell : UICollectionViewCell<selectedCellProtocol>
 @property (strong, nonatomic) IBOutlet UILabel *visitLabel;

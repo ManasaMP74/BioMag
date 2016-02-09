@@ -213,6 +213,8 @@
 }
 //AddPatient
 - (IBAction)addPatient:(id)sender {
+    selectedIndexPath=nil;
+    [_patientListTableView reloadData];
     ContainerViewController *containerVc=(ContainerViewController*)self.parentViewController;
     [containerVc ChangeTheContainerViewViewController];
 }
@@ -220,8 +222,7 @@
     [self.view endEditing:YES];
 }
 
-//CallAPI for Material API
-
+//CallAPI
 -(void)callApi
 {
     
@@ -229,25 +230,27 @@
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPatientList];
 
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-    [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:NO];
    parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
     }else{
      parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
         [containerVc showMBprogressTillLoadThedata];
     }
+     [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:NO];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObject:responseObject];
         [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         [userDefault setBool:NO forKey:@"user_FLAG"];
-        [containerVc hideMBprogressTillLoadThedata];
+        [containerVc hideAllMBprogressTillLoadThedata];
+         [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
          [self showAlerView:[NSString stringWithFormat:@"%@",error]];
-        [containerVc hideMBprogressTillLoadThedata];
+        [containerVc hideAllMBprogressTillLoadThedata];
+        [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
     }];
 }
 
-//Response for material API
+//Response for API
 -(void)processResponseObject:(id)responseObject{
     NSDictionary *dict1;
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
@@ -378,12 +381,17 @@
     }
 }
 -(void)againCallApiAfterAddPatient:(NSString *)code{
-    MBProgressCountToHide=0;
-    [patentnameArray removeAllObjects];
-    selectedPatientCode=code;
-    _searchTextField.text=@"";
-    initialSelectedRow=-1;
-         [self callApi];
+    if (![code isEqualToString:@""]) {
+        MBProgressCountToHide=0;
+        [patentnameArray removeAllObjects];
+        selectedPatientCode=code;
+        _searchTextField.text=@"";
+        initialSelectedRow=-1;
+        [self callApi];
+    }else{
+        if (patentnameArray.count>0)
+        [self tableView:_patientListTableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    }
 }
 -(void)againCallApiAfterEditPatient:(NSString *)code{
     MBProgressCountToHide=0;

@@ -570,31 +570,14 @@
     NSString *emailRegEx=@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
     NSPredicate *emailTest=[NSPredicate predicateWithFormat:@"self matches %@",emailRegEx];
     BOOL validate= [emailTest evaluateWithObject:email];
-    if (!validate) {
-        NSMutableArray *alertArray=[self validateAllFields];
-        [alertArray addObject:@"Invalid email id\n"];
+    NSMutableArray *alertArray=[self validateAllFields];
+    if (validate) {
         int a= [self validPhonenumber:_mobileNoTF.text];
         if (a==0) {
-            [alertArray addObject:@"Invalid mobile no.\n"];
-            NSString *str1=@"";
-            for (NSString *str in alertArray) {
-                str1 =[str1 stringByAppendingString:str];
+            if (_mobileNoTF.text.length==0) {
+                [alertArray addObject:@"Mobile no. is required\n"];
             }
-            [self alertView:str1];
-        }
-        else{
-            NSString *str1=@"";
-            for (NSString *str in alertArray) {
-                str1 =[str1 stringByAppendingString:str];
-            }
-            [self alertView:str1];
-        }
-    }
-    else{
-        NSMutableArray *alertArray=[self validateAllFields];
-        int a= [self validPhonenumber:_mobileNoTF.text];
-        if (a==0) {
-            [alertArray addObject:@"Invalid mobile no.\n"];
+            else  [alertArray addObject:@"Mobile no. is invalid\n"];
             NSString *str1=@"";
             for (NSString *str in alertArray) {
                 str1 =[str1 stringByAppendingString:str];
@@ -612,20 +595,49 @@
             else [self callApiForUpdate];
         }
     }
+    else{
+        int a= [self validPhonenumber:_mobileNoTF.text];
+        if (a==0) {
+            if (_mobileNoTF.text.length==0) {
+                [alertArray addObject:@"Mobile no. is required\n"];
+            }
+            else  [alertArray addObject:@"Mobile no. is invalid\n"];
+            if (_emailTF.text.length==0) {
+                [alertArray addObject:@"Email id is required\n"];
+            }
+            else [alertArray addObject:@"Email id is invalid\n"];
+            NSString *str1=@"";
+            for (NSString *str in alertArray) {
+                str1 =[str1 stringByAppendingString:str];
+            }
+            [self alertView:str1];
+        }
+        else{
+            if (_emailTF.text.length==0) {
+                [alertArray addObject:@"Email id is required\n"];
+            }
+            else [alertArray addObject:@"Email id is invalid\n"];
+            NSString *str1=@"";
+            for (NSString *str in alertArray) {
+                str1 =[str1 stringByAppendingString:str];
+            }
+            [self alertView:str1];
+        }
+    }
 }
 -(NSMutableArray*)validateAllFields{
     NSMutableArray *alrtArray=[[NSMutableArray alloc]init];
-    if(_genderTF.text.length==0){
-        [alrtArray addObject:requiredGenderFieldStr];
-    }
     if(_nameTF.text.length==0){
-        [alrtArray addObject:requiredNameField];
+        [alrtArray addObject:@"Name is required\n"];
+    }
+    if(_genderTF.text.length==0){
+        [alrtArray addObject:@"Gender is required\n"];
     }
     if(_maritialStatus.text.length==0){
-        [alrtArray addObject:@"required transfusion field\n"];
+        [alrtArray addObject:@"Transfusion is required\n"];
     }
     if(_dateOfBirthTF.text.length==0){
-        [alrtArray addObject:@"required date Of Birth field\n"];
+        [alrtArray addObject:@"Date Of Birth is required\n"];
     }
     return alrtArray;
 }

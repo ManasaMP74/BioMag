@@ -12,10 +12,10 @@
 - (IBAction)editSitting:(id)sender {
     [self.delegate editSittingCell:self];
 }
--(void)selectedCell:(NSString*)selectedHeader{
-    [self.delegate selectedHeaderCell:selectedHeader withcell:self];
+-(void)selectedCell:(NSString*)selectedHeader withCorrespondingHeight:(CGFloat)height{
+    [self.delegate selectedHeaderCell:selectedHeader withcell:self withCorrespondingHeight:height];
 }
--(void)deselectedCell:(NSString*)deselectedHeader{
-    [self.delegate deselectedHeaderCell:deselectedHeader withcell:self];
+-(void)deselectedCell:(NSString*)deselectedHeader withCorrespondingHeight:(CGFloat)height{
+    [self.delegate deselectedHeaderCell:deselectedHeader withcell:self withCorrespondingHeight:height];
 }
 @end
