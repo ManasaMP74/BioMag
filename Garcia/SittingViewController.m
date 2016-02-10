@@ -233,6 +233,9 @@
     cell.serialNumber.text=model.sortNumber;
     cell.doctorName.text=model.author;
     cell.sittingTextView.text=model.germsString;
+    
+    [self showDataSavedInDBInTable:model withCell:cell];
+    
     if ([selectedIndexArray containsObject:indexPath]) {
         [self hideTheViewInTableViewCell:NO withCell:cell];
         cell.interpretation.numberOfLines=0;
@@ -254,11 +257,12 @@
         }
         if (model.issue) {
             [self colorChange:model.issue withCell:cell];
-            cell.headerView.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
-
+            cell.headerView.backgroundColor=[UIColor colorWithRed:0.686 green:0.741 blue:1 alpha:1];
+            cell.germView.backgroundColor=[UIColor colorWithRed:0.686 green:0.741 blue:1 alpha:1];
         }else{
             [self colorChange:model.issue withCell:cell];
-             cell.headerView.backgroundColor=[UIColor colorWithRed:0.863 green:0.953 blue:0.988 alpha:1];
+            cell.headerView.backgroundColor=[UIColor colorWithRed:0.863 green:0.953 blue:0.988 alpha:1];
+            cell.germView.backgroundColor=[UIColor colorWithRed:0.863 green:0.953 blue:0.988 alpha:1];
         }
         
     }
@@ -272,11 +276,13 @@
         [cell.morePreviousButton setImage:[UIImage imageNamed:@"Dropdown-icon"] forState:normal];
         if (model.issue) {
             [self colorChange:model.issue withCell:cell];
+             cell.headerView.backgroundColor=[UIColor colorWithRed:0.686 green:0.741 blue:1 alpha:1];
         }else{
             [self colorChange:model.issue withCell:cell];
+            cell.headerView.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
         }
     }
-    [self showDataSavedInDBInTable:model withCell:cell];
+    
     NSString *str1=@"";
     for (NSString *str in model.germsCode) {
         str1=[str1 stringByAppendingString:str];
@@ -386,7 +392,7 @@
                             if ([anotomicalDict[@"Issue"] integerValue]==1) {
                                 model.issue= YES;
                                 [self colorChange:model.issue withCell:cell];
-                                 cell.headerView.backgroundColor=[UIColor colorWithRed:0.686 green:0.741 blue:1 alpha:1];
+                                  cell.headerView.backgroundColor=[UIColor colorWithRed:0.686 green:0.741 blue:1 alpha:1];
                             }else{
                                 model.issue= NO;
                                 [self colorChange:model.issue withCell:cell];
