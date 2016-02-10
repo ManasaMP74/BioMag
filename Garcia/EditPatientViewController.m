@@ -688,6 +688,7 @@
         }];
     }
 }
+//alert message
 -(void)alertmessage :(NSString*)msg{
     UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alertStr message:msg preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *success=[UIAlertAction actionWithTitle:alertOkStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
@@ -698,6 +699,7 @@
     [alertView addAction:success];
     [self presentViewController:alertView animated:YES completion:nil];
 }
+//failure message
 -(void)showFailureAlerMessage:(NSString*)msg{
     UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alertStr message:msg preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *success=[UIAlertAction actionWithTitle:alertOkStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
@@ -707,6 +709,8 @@
     [self presentViewController:alertView animated:YES completion:nil];
     
 }
+
+
 -(void)localize
 {
     alertStr=[MCLocalization stringForKey:@"Alert!"];

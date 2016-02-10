@@ -31,6 +31,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *sittingNumberLabel;
 @property (weak, nonatomic) IBOutlet UILabel *previousSittingBadgeLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *previousSittingBadgeImageView;
+@property (weak, nonatomic) IBOutlet UILabel *otherGermsLabel;
+@property (weak, nonatomic) IBOutlet UIView *germView;
 
 
 

@@ -252,6 +252,15 @@
             [self hideTheViewOfPreviousDetailOFSittingTableViewCell:YES withCell:cell];
             [cell.morePreviousButton setImage:[UIImage imageNamed:@"icon-down"] forState:normal];
         }
+        if (model.issue) {
+            [self colorChange:model.issue withCell:cell];
+            cell.headerView.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
+
+        }else{
+            [self colorChange:model.issue withCell:cell];
+             cell.headerView.backgroundColor=[UIColor colorWithRed:0.863 green:0.953 blue:0.988 alpha:1];
+        }
+        
     }
     else {
         [self hideTheViewInTableViewCell:YES withCell:cell];
@@ -261,11 +270,11 @@
         [self hideTheViewOfPreviousDetailOFSittingTableViewCell:YES withCell:cell];
         cell.expandButton.image=[UIImage imageNamed:@"Dropdown-icon"];
         [cell.morePreviousButton setImage:[UIImage imageNamed:@"Dropdown-icon"] forState:normal];
-    }
-    if (model.issue) {
-        [self colorChange:model.issue withCell:cell];
-    }else{
-        [self colorChange:model.issue withCell:cell];
+        if (model.issue) {
+            [self colorChange:model.issue withCell:cell];
+        }else{
+            [self colorChange:model.issue withCell:cell];
+        }
     }
     [self showDataSavedInDBInTable:model withCell:cell];
     NSString *str1=@"";
@@ -273,9 +282,10 @@
         str1=[str1 stringByAppendingString:str];
         str1=[str1 stringByAppendingString:@" "];
     }
-    NSString *str=[ cell.sittingTextView.text stringByReplacingOccurrencesOfString:@"," withString:@" "];
-    str1 =[str1 stringByAppendingString:str];
     cell.germLabel.text=str1;
+    NSString *str=[ cell.sittingTextView.text stringByReplacingOccurrencesOfString:@"," withString:@" "];
+    cell.otherGermsLabel.text=str;
+   
     if ([model.otherSittingNumberHaveIssue isEqualToString:@""]) {
         cell.previousSittingBadgeLabel.hidden=YES;
         cell.previousSittingBadgeImageView.hidden=YES;
@@ -376,9 +386,11 @@
                             if ([anotomicalDict[@"Issue"] integerValue]==1) {
                                 model.issue= YES;
                                 [self colorChange:model.issue withCell:cell];
+                                 cell.headerView.backgroundColor=[UIColor colorWithRed:0.686 green:0.741 blue:1 alpha:1];
                             }else{
                                 model.issue= NO;
                                 [self colorChange:model.issue withCell:cell];
+                                 cell.headerView.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
                             }
                            
                         }
@@ -389,6 +401,7 @@
     }else {
         cell.sittingTextView.text=model.germsString;
         cell.sittingTvPlaceholder.hidden=YES;
+         _sittingNumberLabel.text=@"S1";
     }
     if ([_isTreatmntCompleted intValue]==0) {
         if ([_bioSittingDict[@"IsCompleted"]intValue]==0 ){
@@ -439,11 +452,9 @@
     if (issue) {
         [cell.checkBox setBackgroundImage:[UIImage imageNamed:@"issue-Button"] forState:normal];
         [cell.checkBox setTitle:@"Issues" forState:normal];
-        cell.headerView.backgroundColor=[UIColor colorWithRed:0.686 green:0.741 blue:1 alpha:1];
     }else{
         [cell.checkBox setBackgroundImage:[UIImage imageNamed:@"no-issue-Button"] forState:normal];
         [cell.checkBox setTitle:@"No issues" forState:normal];
-        cell.headerView.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
     }
 }
 //Hide button if treatment is completed

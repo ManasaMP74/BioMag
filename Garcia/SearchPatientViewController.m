@@ -130,7 +130,6 @@
 }
 //cell select
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    ContainerViewController *containerVc=(ContainerViewController*)self.parentViewController;
     SearchPatientTableViewCell *cell;
     if (selectedIndexPath) {
         cell=(SearchPatientTableViewCell*)[tableView cellForRowAtIndexPath:selectedIndexPath];
@@ -215,7 +214,6 @@
 - (IBAction)addPatient:(id)sender {
     selectedIndexPath=nil;
     [_patientListTableView reloadData];
-    ContainerViewController *containerVc=(ContainerViewController*)self.parentViewController;
     [containerVc ChangeTheContainerViewViewController];
 }
 -(void)hideKeyBoard{

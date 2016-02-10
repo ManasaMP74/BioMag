@@ -259,6 +259,9 @@
         [self changeTheNewGermAppearence:YES withHeight:0];
         [self heightOfView:106];
 
+    }else{
+        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Alert!" message:dict[@"Message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil,nil];
+        [alert show];
     }
 }
 @end

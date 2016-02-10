@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Garcia/germsView.m"
-            timestampString = "476710756.264654"
+            filePath = "Garcia/HeaderTableVIew.m"
+            timestampString = "476772710.023712"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "257"
-            endingLineNumber = "257"
-            landmarkName = "-processToAddGerms:"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
+            landmarkName = "-nameForCell:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
