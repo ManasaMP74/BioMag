@@ -223,7 +223,7 @@
 }
 //pop to root view
 -(void)popToViewController{
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    
 }
 //enable disable treatmentName
 -(void)enableAndDisableTreatmentName{

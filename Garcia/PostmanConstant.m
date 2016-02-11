@@ -80,14 +80,10 @@ NSString *const kGET_SEED_URL=@"seed";
 NSString *const allScanpointsApi=@"AnatomicalDetails";
 NSString *const DifferMetirialOrVzoneApi=@"vzone";
 NSString *const language=@"search/language";
+NSString *const languageUILabel=@"search/UILabel/";
 
 
 
-
-
-
-
-//NSString *const alertOK=[MCLocalization stringForKey:@"AlertButtonOK"];
 
 
 

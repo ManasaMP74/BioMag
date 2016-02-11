@@ -29,8 +29,6 @@
     formater=[[NSDateFormatter alloc]init];
     [formater setTimeZone:[NSTimeZone localTimeZone]];
     [formater setDateFormat:@"dd-MMM-yyyy"];
-    _cancelButton.backgroundColor=[UIColor colorWithRed:1 green:0.62 blue:0.57 alpha:1];
-    _doneButton.backgroundColor=[UIColor colorWithRed:0.56 green:0.59 blue:0.78 alpha:1];
     date=[formater stringFromDate:self.datePicker.date];
      [_datePicker setValue:[UIColor whiteColor] forKey:@"textColor"];
 }

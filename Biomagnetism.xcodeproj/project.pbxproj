@@ -36,6 +36,7 @@
 		DA45B5201C50988300087DA3 /* PatientSheetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE955591BD24A7500EDFD8F /* PatientSheetViewController.m */; };
 		DA487E681C59E7260015A3D0 /* ForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA487E671C59E7260015A3D0 /* ForgotPasswordViewController.m */; };
 		DA4884DA1C4E33AE0064774F /* ToxicDeficiencyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA4884D91C4E33AE0064774F /* ToxicDeficiencyView.xib */; };
+		DA4896151C6C6A2100FE12C3 /* LanguageChanger.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4896141C6C6A2100FE12C3 /* LanguageChanger.m */; };
 		DA567A0D1C60AF610046A340 /* eng.json in Resources */ = {isa = PBXBuildFile; fileRef = DA567A0C1C60AF600046A340 /* eng.json */; };
 		DA67CFCF1C1197B200D88BBC /* AddSymptom.m in Sources */ = {isa = PBXBuildFile; fileRef = DA67CFCE1C1197B200D88BBC /* AddSymptom.m */; };
 		DA67CFD11C11981100D88BBC /* AddSymptom.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA67CFD01C11981100D88BBC /* AddSymptom.xib */; };
@@ -178,6 +179,8 @@
 		DA487E661C59E7260015A3D0 /* ForgotPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgotPasswordViewController.h; sourceTree = "<group>"; };
 		DA487E671C59E7260015A3D0 /* ForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgotPasswordViewController.m; sourceTree = "<group>"; };
 		DA4884D91C4E33AE0064774F /* ToxicDeficiencyView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToxicDeficiencyView.xib; sourceTree = "<group>"; };
+		DA4896131C6C6A2100FE12C3 /* LanguageChanger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LanguageChanger.h; sourceTree = "<group>"; };
+		DA4896141C6C6A2100FE12C3 /* LanguageChanger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LanguageChanger.m; sourceTree = "<group>"; };
 		DA567A0C1C60AF600046A340 /* eng.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = eng.json; sourceTree = "<group>"; };
 		DA67CFCD1C1197B200D88BBC /* AddSymptom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddSymptom.h; sourceTree = "<group>"; };
 		DA67CFCE1C1197B200D88BBC /* AddSymptom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddSymptom.m; sourceTree = "<group>"; };
@@ -836,6 +839,8 @@
 				DAB0C4A81C5F85F6002F0189 /* PopOverViewController.m */,
 				DAB135181C633A3900B639DD /* lagModel.h */,
 				DAB135191C633A3900B639DD /* lagModel.m */,
+				DA4896131C6C6A2100FE12C3 /* LanguageChanger.h */,
+				DA4896141C6C6A2100FE12C3 /* LanguageChanger.m */,
 			);
 			name = Language;
 			sourceTree = "<group>";
@@ -1138,6 +1143,7 @@
 				DAB0C4A91C5F85F6002F0189 /* PopOverViewController.m in Sources */,
 				DA261DC91C4660CD00B18035 /* ToxicDeficiency.m in Sources */,
 				DAF7EF341C1AF375009ADE9B /* germsView.m in Sources */,
+				DA4896151C6C6A2100FE12C3 /* LanguageChanger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

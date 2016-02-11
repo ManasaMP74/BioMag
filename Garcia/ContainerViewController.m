@@ -23,6 +23,8 @@
     NSString *patientName;
     WYPopoverController *wypopOverController;
     UIButton *lagSomeButton;
+    NSArray *slideoutArray;
+    NSArray *slideoutImageArray;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -31,13 +33,16 @@
     languageArray =[[NSMutableArray alloc]init];
     postman=[[Postman alloc]init];
     [self callSeed];
+    slideoutArray=@[@"About Us",@"FAQ",@"Terms and Conditions",@"Privacy and Policy",@"Logout"];
+    slideoutImageArray=@[@"07-User.png",@"01-Icon-About-Us.png",@"02-Icon-FAQ.png",@"04-Icon-Terms.png",@"03-Icon-Privacy.png",@"05-Icon-Logout.png"];
     
     
-    UIImage* image3 = [UIImage imageNamed:@"Icon-Signout.png"];
+    
+    UIImage* image3 = [UIImage imageNamed:@"06-Icon-Navigation.png"];
     CGRect frameimg = CGRectMake(0, 0, image3.size.width, image3.size.height);
     UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
     [someButton setBackgroundImage:image3 forState:UIControlStateNormal];
-    [someButton addTarget:self action:@selector(popToViewController) forControlEvents:UIControlEventTouchUpInside];
+    [someButton addTarget:self action:@selector(slideout:) forControlEvents:UIControlEventTouchUpInside];
     [someButton setShowsTouchWhenHighlighted:YES];
     UIBarButtonItem *mailbutton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
     
@@ -46,14 +51,11 @@
     lagSomeButton= [[UIButton alloc] initWithFrame:lagFrameimg];
     lagSomeButton.backgroundColor=[UIColor whiteColor];
     lagSomeButton.layer.cornerRadius=13;
-    [lagSomeButton setTitle:@"English" forState:normal];
+    NSUserDefaults *standardDefault=[NSUserDefaults standardUserDefaults];
+    [standardDefault setValue:@"English" forKey:@"languageName"];
+    [lagSomeButton setTitle:[standardDefault valueForKey:@"languageName"] forState:normal];
     [lagSomeButton setTitleColor:[UIColor blackColor] forState:normal];
     lagSomeButton.titleLabel.font=[UIFont fontWithName:@"OpenSansSemibold" size:10];
-    UIImage* image = [UIImage imageNamed:@"Language-Icon.jpg"];
-    CGRect frameimg1 = CGRectMake(85-image.size.width,5,15, 15);
-    UIImageView *imview=[[UIImageView alloc]initWithFrame:frameimg1];
-    imview.image=image;
-    [lagSomeButton addSubview:imview];
     [lagSomeButton addTarget:self action:@selector(languageChange:) forControlEvents:UIControlEventTouchUpInside];
     [lagSomeButton setShowsTouchWhenHighlighted:YES];
     UIBarButtonItem *lagButton =[[UIBarButtonItem alloc] initWithCustomView:lagSomeButton];
@@ -68,7 +70,7 @@
 }
 //pop back
 -(void)popToViewController{
-    [self showFailureAlerMessage:@"Do you realy want to signout?"];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 //LanguageChange
 -(IBAction)languageChange:(id)sender{
@@ -76,26 +78,38 @@
     if (wypopOverController==nil){
     PopOverViewController *pop=[self.storyboard instantiateViewControllerWithIdentifier:@"PopOverViewController"];
         pop.delegate=self;
+        pop.buttonName=@"language";
         pop.lagArray=languageArray;
-        wypopOverController=[[WYPopoverController alloc]initWithContentViewController:pop];
-        wypopOverController.delegate=self;
-        wypopOverController.passthroughViews = @[btn];
-        wypopOverController.theme=[WYPopoverTheme themeForIOS6];
-        wypopOverController.theme.outerCornerRadius=2;
-        wypopOverController.theme.outerStrokeColor=[UIColor lightGrayColor];
-        wypopOverController.theme.arrowHeight = 8;
-        
-        wypopOverController.theme.arrowBase= 15;
-        
-        wypopOverController.theme.fillTopColor = [UIColor grayColor];
+        [self wypopOver:btn withPopOver:pop];
         CGFloat height=[pop getHeightOfTableView];
         CGSize contentSize = CGSizeMake(200,height);
         pop.preferredContentSize=contentSize;
-        wypopOverController.theme.overlayColor= [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
         CGRect biggerBounds = CGRectInset(btn.bounds, -6, -6);
         [wypopOverController presentPopoverFromRect:biggerBounds inView:sender permittedArrowDirections:(WYPopoverArrowDirectionUp) animated:YES options:(WYPopoverAnimationOptionFadeWithScale)];
     }else
-        
+    {
+        [wypopOverController dismissPopoverAnimated:YES completion:^{
+            wypopOverController.delegate = nil;
+            wypopOverController = nil;
+        }];
+    }
+}
+//slide out
+-(IBAction)slideout:(id)sender{
+    UIView *btn = (UIView *)sender;
+    if (wypopOverController==nil){
+        PopOverViewController *pop=[self.storyboard instantiateViewControllerWithIdentifier:@"PopOverViewController"];
+        pop.delegate=self;
+        pop.buttonName=@"slideout";
+        pop.slideoutImageArray=slideoutImageArray;
+        pop.slideoutNameArray=slideoutArray;
+        [self wypopOver:btn withPopOver:pop];
+        CGFloat height=[pop getHeightOfTableView];
+        CGSize contentSize = CGSizeMake(300,height);
+        pop.preferredContentSize=contentSize;
+        CGRect biggerBounds = CGRectInset(btn.bounds, -6, -6);
+        [wypopOverController presentPopoverFromRect:biggerBounds inView:sender permittedArrowDirections:(WYPopoverArrowDirectionUp) animated:YES options:(WYPopoverAnimationOptionFadeWithScale)];
+    }else
     {
         [wypopOverController dismissPopoverAnimated:YES completion:^{
             wypopOverController.delegate = nil;
@@ -104,13 +118,37 @@
         
     }
 }
+//wypopover method
+-(void)wypopOver:(UIView*)btn withPopOver:(PopOverViewController*)pop{
+    wypopOverController=[[WYPopoverController alloc]initWithContentViewController:pop];
+    wypopOverController.delegate=self;
+    wypopOverController.passthroughViews = @[btn];
+    wypopOverController.theme=[WYPopoverTheme themeForIOS6];
+    wypopOverController.theme.outerCornerRadius=2;
+    wypopOverController.theme.outerStrokeColor=[UIColor lightGrayColor];
+    wypopOverController.theme.arrowHeight = 8;
+    wypopOverController.theme.arrowBase= 15;
+    wypopOverController.theme.fillTopColor = [UIColor grayColor];
+    wypopOverController.theme.overlayColor= [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
+}
+//delegate of language selection
 -(void)selectedObject:(lagModel *)model{
     NSUserDefaults *standardDefault=[NSUserDefaults standardUserDefaults];
     [standardDefault setValue:model.code forKey:@"languageCode"];
-    [lagSomeButton setTitle:model.name forState:normal];
+     [standardDefault setValue:model.name forKey:@"languageName"];
+    [lagSomeButton setTitle:[standardDefault valueForKey:@"languageName"] forState:normal];
   [wypopOverController dismissPopoverAnimated:NO];
-
 }
+//delegate of slideout
+-(void)selectedSlideOutObject:(NSString *)name{
+    if ([name isEqualToString:slideoutArray[slideoutArray.count-1]]) {
+     [self showFailureAlerMessage:@"Do you realy want to signout?"];
+    }else  if ([name isEqualToString:slideoutArray[slideoutArray.count-2]]) {
+      
+    }
+     [wypopOverController dismissPopoverAnimated:NO];
+}
+//delegate of wypopover
 -(BOOL)popoverControllerShouldDismissPopover:(WYPopoverController *)popoverController
 
 {
@@ -123,6 +161,26 @@
     wypopOverController.delegate=nil;
     wypopOverController=nil;
 }
+//failure message
+-(void)showFailureAlerMessage:(NSString*)msg{
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [self.navigationController popViewControllerAnimated:YES];
+        NSUserDefaults *userdefault=[NSUserDefaults standardUserDefaults];
+        [userdefault setValue:@"" forKey:@"userName"];
+        [userdefault setValue:@"" forKey:@"password"];
+        [userdefault setBool:NO forKey:@"rememberMe"];
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertView addAction:success];
+    UIAlertAction *fail=[UIAlertAction actionWithTitle:@"NO" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertView addAction:fail];
+    
+    [self presentViewController:alertView animated:YES completion:nil];
+}
+
 //pass data from one viewController to another
 -(void)passDataFromsearchPatientTableViewToPatient:(searchPatientModel*)model{
     if ([_viewControllerDiffer isEqualToString:@""]) {
@@ -245,22 +303,6 @@
         model.code=dict1[@"Code"];
         [languageArray addObject:model];
     }
-}
-//failure message
--(void)showFailureAlerMessage:(NSString*)msg{
-    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *success=[UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
-        [self.navigationController popViewControllerAnimated:YES];
-        [alertView dismissViewControllerAnimated:YES completion:nil];
-    }];
-    [alertView addAction:success];
-    UIAlertAction *fail=[UIAlertAction actionWithTitle:@"NO" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
-        [alertView dismissViewControllerAnimated:YES completion:nil];
-    }];
-    [alertView addAction:fail];
-
-    [self presentViewController:alertView animated:YES completion:nil];
-    
 }
 
 @end

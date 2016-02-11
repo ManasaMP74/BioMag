@@ -21,69 +21,95 @@
     Postman *postman;
     AppDelegate *app;
     NSString *userNameRequiredStr,*PasswordRequiredStr,*alertOkStr,*alertStr,*authenticationFailedStr,*seedError,*loginFailed;
-
+    NSUserDefaults *userdefault;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     constant=[[Constant alloc]init];
     postman=[[Postman alloc]init];
-       [self placeHolderText];
+    [self placeHolderText];
     _loginView.layer.cornerRadius=10;
     _loginView.backgroundColor=[UIColor colorWithRed:0.741 green:0.906 blue:0.965 alpha:0.9];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(localize) name:MCLocalizationLanguageDidChangeNotification object:nil];
-    
+    userdefault =[NSUserDefaults standardUserDefaults];
     [self localize];
-
+    
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Sign-in-bg-image.jpg"]]];
     self.userNameTf.text=nil;
     self.passwordTF.text=nil;
+    [_rememberMe setImage:[UIImage imageNamed:@"Box-Unchecked.png"] forState:normal];
     self.navigationController.navigationBarHidden=YES;
+    
+    BOOL remember=[userdefault boolForKey:@"rememberMe"];
+    if (remember) {
+        _userNameTf.text=[userdefault valueForKey:@"userName"];
+        _passwordTF.text=[userdefault valueForKey:@"password"];
+        [_rememberMe setImage:[UIImage imageNamed:@"Box-Checked.png"] forState:normal];
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+// Remember me
+- (IBAction)rememberMe:(id)sender {
+    if (_userNameTf.text.length>0 & _passwordTF.text.length>0) {
+        BOOL remember=[userdefault boolForKey:@"rememberMe"];
+        if (!remember) {
+            [userdefault setBool:YES forKey:@"rememberMe"];
+            [userdefault setValue:_userNameTf.text forKey:@"userName"];
+            [userdefault setValue:_passwordTF.text forKey:@"password"];
+            [_rememberMe setImage:[UIImage imageNamed:@"Box-Checked.png"] forState:normal];
+        }
+        else {
+            [userdefault setValue:@"" forKey:@"userName"];
+            [userdefault setValue:@"" forKey:@"password"];
+            [userdefault setBool:NO forKey:@"rememberMe"];
+            [_rememberMe setImage:[UIImage imageNamed:@"Box-Unchecked.png"] forState:normal];
+        }
+    }
 }
 //signin button action
 - (IBAction)signIn:(id)sender {
     
     NSString *urlString;
     NSString *parameter;
-
+    
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-//Vzone API
-       urlString = [NSString stringWithFormat:@"%@%@",baseUrl,logIn];
-      parameter = [NSString stringWithFormat:@"{\"request\":{\"Username\":\"drluisgarcia@mydomain.com\", \"Password\":\"Power@1234\"}}"];
+        //Vzone API
+        urlString = [NSString stringWithFormat:@"%@%@",baseUrl,logIn];
+        parameter = [NSString stringWithFormat:@"{\"request\":{\"Username\":\"drluisgarcia@mydomain.com\", \"Password\":\"Power@1234\"}}"];
         // NSString *parameter = [NSString stringWithFormat:@"{\"request\":{\"Username\":\"%@\", \"Password\":\"%@\"}}",_userNameTf.text,_passwordTF.text];
     }else{
-//Material Api
-         urlString = [NSString stringWithFormat:@"%@%@",baseUrl,logIn];
-       // parameter = [NSString stringWithFormat:@"{\"Username\":\"%@\",\"Password\":\"%@\"}",_userNameTf.text,_passwordTF.text];
-       parameter = [NSString stringWithFormat:@"{\"Username\":\"drluisgarcia@mydomain.com\", \"Password\":\"Power@1234\"}"];
-    
+        //Material Api
+        urlString = [NSString stringWithFormat:@"%@%@",baseUrl,logIn];
+        // parameter = [NSString stringWithFormat:@"{\"Username\":\"%@\",\"Password\":\"%@\"}",_userNameTf.text,_passwordTF.text];
+        parameter = [NSString stringWithFormat:@"{\"Username\":\"drluisgarcia@mydomain.com\", \"Password\":\"Power@1234\"}"];
+        
     }
     
-//    if (_userNameTf.text.length==0 & _passwordTF.text.length==0) {
-//        [self showAlerView:@"Username and Password is required"];
-//    }
-//    else if (_userNameTf.text.length==0) [self showAlerView:@"Username is required"];
-//    else if (_passwordTF.text.length==0) [self showAlerView:@"Password is required"];
-//    else{
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [postman post:urlString withParameters:parameter
-          success:^(AFHTTPRequestOperation *operation, id responseObject) {
-              NSLog(@"Operations = %@", responseObject);
-               if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-                   [self parseLoginResponseVzone:responseObject];
-               }else [self parseLoginResponseMatirial:responseObject];
-              [MBProgressHUD hideHUDForView:self.view animated:YES];
-          }
-          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-              [self showAlerView:[NSString stringWithFormat:@"%@",error]];
-              [MBProgressHUD hideHUDForView:self.view animated:YES];
-          }];
-// }
+    if (_userNameTf.text.length==0 & _passwordTF.text.length==0) {
+        [self showAlerView:@"Username and Password is required"];
+    }
+    else if (_userNameTf.text.length==0) [self showAlerView:@"Username is required"];
+    else if (_passwordTF.text.length==0) [self showAlerView:@"Password is required"];
+    else{
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [postman post:urlString withParameters:parameter
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  NSLog(@"Operations = %@", responseObject);
+                  if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+                      [self parseLoginResponseVzone:responseObject];
+                  }else [self parseLoginResponseMatirial:responseObject];
+                  [MBProgressHUD hideHUDForView:self.view animated:YES];
+              }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  [self showAlerView:[NSString stringWithFormat:@"%@",error]];
+                  [MBProgressHUD hideHUDForView:self.view animated:YES];
+              }];
+    }
 }
 
 //parse login response of Matirial API
@@ -94,18 +120,17 @@
     {
         NSDictionary *userDict = responseDict[@"UserDetailsViewModel"];
         if ([userDict[@"UserTypeCode"] isEqual:@"DOC123"]) {
-            NSUserDefaults *defaultvalue=[NSUserDefaults standardUserDefaults];
-            [defaultvalue setValue:responseDict[@"token"] forKey:@"X-access-Token"];
+            [userdefault setValue:responseDict[@"token"] forKey:@"X-access-Token"];
             NSArray *ar=responseDict[@"UserDetails"];
             NSDictionary *dict=ar[0];
-            [defaultvalue setValue:dict[@"Id"] forKey:@"Id"];
-            [defaultvalue setValue:dict[@"CompanyCode"] forKey:@"CompanyCode"];
+            [userdefault setValue:dict[@"Id"] forKey:@"Id"];
+            [userdefault setValue:dict[@"CompanyCode"] forKey:@"CompanyCode"];
             [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
                 if (success) {
                     [self performSegueWithIdentifier:@"loginSuccess" sender:nil];
                 }
                 else{
-                   [self showAlerView:seedError];
+                    [self showAlerView:seedError];
                 }
             }];
         }
@@ -115,7 +140,7 @@
     }
     else{
         [self showAlerView:responseDict[@"Message"]];
-}
+    }
 }
 
 //parse login response of Vzone API
@@ -127,12 +152,11 @@
     {
         NSDictionary *userDict = responseDict[@"UserDetailsViewModel"];
         if ([userDict[@"UserTypeCode"] isEqual:@"DOC123"]) {
-            NSUserDefaults *defaultvalue=[NSUserDefaults standardUserDefaults];
-            [defaultvalue setValue:responseDict[@"token"] forKey:@"X-access-Token"];
+            [userdefault setValue:responseDict[@"token"] forKey:@"X-access-Token"];
             NSArray *ar=responseDict[@"UserDetails"];
             NSDictionary *dict=ar[0];
-            [defaultvalue setValue:dict[@"Id"] forKey:@"Id"];
-            [defaultvalue setValue:dict[@"CompanyCode"] forKey:@"CompanyCode"];
+            [userdefault setValue:dict[@"Id"] forKey:@"Id"];
+            [userdefault setValue:dict[@"CompanyCode"] forKey:@"CompanyCode"];
             //            [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
             //                if (success) {
             [self performSegueWithIdentifier:@"loginSuccess" sender:nil];
@@ -199,14 +223,14 @@
 }
 //Hide Keyboard after tap on view
 - (IBAction)tapGesture:(id)sender {
-     [self.view endEditing:YES];
+    [self.view endEditing:YES];
 }
 
 //languageChange
 -(void)localize
 {
-_userNameTf.attributedPlaceholder=[constant textFieldPlaceLogin:[MCLocalization stringForKey:@"Username"]];
-_passwordTF.attributedPlaceholder=[constant textFieldPlaceLogin:[MCLocalization stringForKey:@"Password"]];
+    _userNameTf.attributedPlaceholder=[constant textFieldPlaceLogin:[MCLocalization stringForKey:@"Username"]];
+    _passwordTF.attributedPlaceholder=[constant textFieldPlaceLogin:[MCLocalization stringForKey:@"Password"]];
     authenticationFailedStr=[MCLocalization stringForKey:@"Authentication.failed"];
     alertStr=[MCLocalization stringForKey:@"Alert!"];
     alertOkStr=[MCLocalization stringForKey:@"AlertButtonOK"];
