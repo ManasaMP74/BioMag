@@ -23,7 +23,6 @@
     Postman *postman;
     NSDateFormatter *dateFormatter;
     int initialSelectedRow,MBProgressCountToHide;
-    ContainerViewController *containerVc;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -41,7 +40,7 @@
     selectedIndexPath=nil;
     patentnameArray=[[NSMutableArray alloc]init];
     patentFilteredArray=[[NSMutableArray alloc]init];
-    containerVc =(ContainerViewController*)self.parentViewController;
+  ContainerViewController *containerVc =(ContainerViewController*)self.parentViewController;
     if (patentnameArray.count==0) {
         MBProgressCountToHide=0;
         [self callSeed];
@@ -130,6 +129,7 @@
 }
 //cell select
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+      ContainerViewController *containerVc =(ContainerViewController*)self.parentViewController;
     SearchPatientTableViewCell *cell;
     if (selectedIndexPath) {
         cell=(SearchPatientTableViewCell*)[tableView cellForRowAtIndexPath:selectedIndexPath];
@@ -214,6 +214,7 @@
 - (IBAction)addPatient:(id)sender {
     selectedIndexPath=nil;
     [_patientListTableView reloadData];
+    ContainerViewController *containerVc =(ContainerViewController*)self.parentViewController;
     [containerVc ChangeTheContainerViewViewController];
 }
 -(void)hideKeyBoard{
@@ -223,7 +224,7 @@
 //CallAPI
 -(void)callApi
 {
-    
+      ContainerViewController *containerVc =(ContainerViewController*)self.parentViewController;
     NSString *parameter;
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPatientList];
 
@@ -231,6 +232,7 @@
    parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
     }else{
      parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
+        ContainerViewController *containerVc =(ContainerViewController*)self.parentViewController;
         [containerVc showMBprogressTillLoadThedata];
     }
      [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:NO];

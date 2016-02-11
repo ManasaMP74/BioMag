@@ -163,10 +163,10 @@
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getTitleOfTreatment];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectToGetTreatmentDetail:responseObject];
-        [containerVC hideMBprogressTillLoadThedata];
+        [containerVC hideAllMBprogressTillLoadThedata];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self showAlerView:[NSString stringWithFormat:@"%@",error]];
-        [containerVC hideMBprogressTillLoadThedata];
+        [containerVC hideAllMBprogressTillLoadThedata];
     }];
 }
 

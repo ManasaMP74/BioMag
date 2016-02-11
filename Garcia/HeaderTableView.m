@@ -28,17 +28,18 @@
     return self;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    int row=1;
     if (_model.selectedHeaderIndexpath.count>0) {
         if (section<selectedSectionNameArray.count-2) {
-            NSString *str=_model.selectedHeaderIndexpath[section];
-            NSArray *ar=[str componentsSeparatedByString:@"-"];
-            if (section==[ar[1] integerValue]) {
-                return selectedScanpointNameArray.count+1;
-            }else return 1;
+            for (NSString *str in _model.selectedHeaderIndexpath) {
+                NSArray *ar=[str componentsSeparatedByString:@"-"];
+                if (section==[ar[1] integerValue]) {
+                    row=selectedScanpointNameArray.count+1;
+                }
+            }
         }
-        else return 1;
     }
-    else return 1;
+    return row;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return selectedSectionNameArray.count;
@@ -55,7 +56,7 @@
         if (indexPath.section<selectedSectionNameArray.count-2) {
             cell.headerLabel.text=[self nameForCell:indexPath];
         }else  cell.headerLabel.text=selectedSectionNameArray[indexPath.section];
-       
+        
         if (indexPath.section==selectedSectionNameArray.count-1) {
             cell.headerImageView.hidden=NO;
             cell.priceLabel.hidden=YES;
@@ -68,11 +69,11 @@
         }else if (indexPath.section==selectedSectionNameArray.count-2) {
             cell.headerImageView.hidden=YES;
             cell.priceLabel.hidden=NO;
-             cell.headerButton.userInteractionEnabled=NO;
+            cell.headerButton.userInteractionEnabled=NO;
             cell.priceLabel.text=_model.price;
             
         }else{
-             cell.headerButton.userInteractionEnabled=YES;
+            cell.headerButton.userInteractionEnabled=YES;
             cell.headerImageView.hidden=NO;
             cell.priceLabel.hidden=YES;
             cell.HeaderImageViewHeight.constant=18;
@@ -95,10 +96,10 @@
             _scapointCell=nil;
         }
         cell1.delegate=self;
+        cell1.scanpointLabel.text=[self nameForCell:indexPath];
         cell1.correspondingPairTableView.correspondingPairNameArray=completeCorrespondingArray;
         cell1.correspondingPairTableView.selectedScanpoint=selectedScanpointNameArray[indexPath.row-1];
         [cell1.correspondingPairTableView.tableview reloadData];
-        cell1.scanpointLabel.text=[self nameForCell:indexPath];
         if (_model.selectedHeaderIndexpath.count>0) {
             cell1.scanpointImageView.image=[UIImage imageNamed:@"Button-Expand"];
             for (NSString *i in _model.selectedHeaderIndexpath) {
@@ -111,29 +112,39 @@
         {
             cell1.correspondingViewHeight.constant=0;
             cell1.scanpointImageView.image=[UIImage imageNamed:@"Button-Expand"];
-            cell1.correspondingViewHeight.constant=_model.correspondingPairHeight;
+            cell1.correspondingViewHeight.constant=0;
         }
         return cell1;
     }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    CGFloat height=30;
     if (indexPath.row==0) {
         return 30;
     }else {
-        return _model.correspondingPairHeight+30;
+        for (NSString *i in _model.selectedHeaderIndexpath) {
+            if ([i isEqual:[NSString stringWithFormat:@"%d-%d",indexPath.row,indexPath.section]]) {
+                height=[_model.correspondingPairHeight[indexPath.row] floatValue];
+            }
+        }
+        return height;
     }
 }
 -(NSString*)nameForCell:(NSIndexPath*)indexPath{
+    NSString *str1;
     NSString *str=selectedSectionNameArray[indexPath.section];
-    NSDictionary *dict=completeDetailOfSectionArray[indexPath.section];
-    NSArray *ar=dict[str];
-    if (indexPath.row==0) {
-        NSDictionary *dict1=ar[indexPath.row];
-        return dict1[@"SectionName"];
-    }else{
-        NSDictionary *dict1=ar[indexPath.row-1];
-        return dict1[@"ScanPointName"];
+    if (completeDetailOfSectionArray.count>0) {
+        NSDictionary *dict=completeDetailOfSectionArray[indexPath.section];
+        NSArray *ar=dict[str];
+        if (indexPath.row==0) {
+            NSDictionary *dict1=ar[indexPath.row];
+            str1= dict1[@"SectionName"];
+        }else{
+            NSDictionary *dict1=ar[indexPath.row-1];
+            str1= dict1[@"ScanPointName"];
+        }
     }
+    return str1;
 }
 -(void)selectedHeaderCell:(UITableViewCell *)cell{
     HeaderTableViewCell *cell1=(HeaderTableViewCell*)cell;
@@ -148,7 +159,7 @@
     NSIndexPath *indexPath=[self.tableview indexPathForCell:cell1];
     NSString *selectedIndex=[NSString stringWithFormat:@"%d-%d",indexPath.row,indexPath.section];
     if (![_model.selectedHeaderIndexpath containsObject:selectedIndex]) {
-    [self.delegate selectedCell:selectedIndex withCorrespondingHeight:cell1.correspondingPairTableView.tableview.contentSize.height];
+        [self.delegate selectedCell:selectedIndex withCorrespondingHeight:cell1.correspondingPairTableView.tableview.contentSize.height];
     }else{
         [self.delegate deselectedCell:selectedIndex withCorrespondingHeight:0];
     }
@@ -156,38 +167,38 @@
 -(void)gettheSection{
     [selectedSectionNameArray removeAllObjects];
     [selectedScanpointNameArray removeAllObjects];
-     [completeDetailOfSectionArray removeAllObjects];
-      [completeCorrespondingArray removeAllObjects];
+    [completeDetailOfSectionArray removeAllObjects];
+    [completeCorrespondingArray removeAllObjects];
     for (NSDictionary *dict in _model.anotomicalPointArray) {
         if (![selectedSectionNameArray containsObject:dict[@"SectionCode"]]) {
             if (dict[@"SectionCode"]!=nil) {
                 [selectedSectionNameArray addObject:dict[@"SectionCode"]];
-                 if (![selectedScanpointNameArray containsObject:dict[@"ScanPointCode"]]) {
-                 if (dict[@"ScanPointCode"]!=nil) {
+            }
+        }
+        if (![selectedScanpointNameArray containsObject:dict[@"ScanPointCode"]]) {
+            if (dict[@"ScanPointCode"]!=nil) {
                 [selectedScanpointNameArray addObject:dict[@"ScanPointCode"]];
-                 }
-              }
             }
         }
     }
     int i=0;
-     NSString *str=selectedSectionNameArray[i];
     NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
-    while (i==selectedSectionNameArray.count-1) {
-    NSMutableArray *ar=[[NSMutableArray alloc]init];
-    for(NSDictionary *dict1 in _model.anotomicalPointArray){
+    while (i!=selectedSectionNameArray.count) {
+        NSString *str=selectedSectionNameArray[i];
+        NSMutableArray *ar=[[NSMutableArray alloc]init];
+        for(NSDictionary *dict1 in _model.anotomicalPointArray){
             if ([dict1[@"SectionCode"] isEqual:str]) {
                 [ar addObject:dict1];
             }
-    }
-               dict[str]=ar;
+        }
+        dict[str]=ar;
         [completeDetailOfSectionArray addObject:dict];
         i++;
     }
     i=0;
-  NSString *str1=selectedScanpointNameArray[i];
     NSMutableDictionary *scandict=[[NSMutableDictionary alloc]init];
-    while (i==selectedScanpointNameArray.count-1) {
+    while (i!=selectedScanpointNameArray.count) {
+        NSString *str1=selectedScanpointNameArray[i];
         NSMutableArray *ar=[[NSMutableArray alloc]init];
         for(NSDictionary *dict1 in _model.anotomicalPointArray){
             if ([dict1[@"ScanPointCode"] isEqual:str1]) {
@@ -201,7 +212,7 @@
     
     [selectedSectionNameArray addObject:@"Price"];
     [selectedSectionNameArray addObject:@"Completed"];
-   }
+}
 -(float)getTHeHeightOfTableVIew{
     [_tableview reloadData];
     CGRect frame=_tableview.frame;

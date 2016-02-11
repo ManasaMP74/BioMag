@@ -605,7 +605,7 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
     NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell1];
      SittingModelClass *m=sittingCollectionArray[index.row];
      [m.selectedHeaderIndexpath addObject:selectedHeader];
-     m.correspondingPairHeight=height;
+     [m.correspondingPairHeight addObject:[NSString stringWithFormat:@"%f",height]];
        [self.view layoutIfNeeded];
     [_sittingCollectionView reloadData];
     [self.view layoutIfNeeded];
@@ -622,10 +622,12 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
     NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell1];
     SittingModelClass *m=sittingCollectionArray[index.row];
     NSArray *ar=[deselectedHeader componentsSeparatedByString:@"-"];
-     m.correspondingPairHeight=height;
+    [m.correspondingPairHeight addObject:[NSString stringWithFormat:@"%f",height]];
     if ([ar[0] intValue]==0) {
     [m.selectedHeaderIndexpath removeAllObjects];
+    [m.correspondingPairHeight removeAllObjects];
     }else [m.selectedHeaderIndexpath removeObject:deselectedHeader];
+     [m.correspondingPairHeight removeObject:deselectedHeader];
        [self.view layoutIfNeeded];
      [_sittingCollectionView reloadData];
       [self.view layoutIfNeeded];
@@ -676,7 +678,7 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
     [_increaseMedicalViewButton setImage:[UIImage imageNamed:@"Dropdown-icon"] forState:normal];
     [_increasePatientViewButton setImage:[UIImage imageNamed:@"Dropdown-icon-up"] forState:normal];
     [_increasesettingViewButton setImage:[UIImage imageNamed:@"Dropdown-icon"] forState:normal];
-    _treatmentNameTF.attributedPlaceholder=[constant textFieldPatient:@"Title of the Treatment"];
+    _treatmentNameTF.attributedPlaceholder=[constant textFieldPatient:@"Treatment Title"];
     [constant spaceAtTheBeginigOfTextField:_treatmentNameTF];
     _treatmentEncloserTextView.layer.borderColor=[UIColor colorWithRed:0.682 green:0.718 blue:0.729 alpha:0.6].CGColor;
     _treatmentEncloserTextView.layer.borderWidth=1;
@@ -916,14 +918,13 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
         }
         else {
             [self saveImage:_patientDetailModel.code];
-            [self callAPIToCloseTreatmentOrUpdate:@"update"];
         }
     }
 }
 //call post method
 -(void)callPostTreatment{
     NSString *parameter =[self getParameterForSaveORCloseOrUpdateTreatment:@"true" withTreatmentCompleted:@"false" withMethodType:@"POST"];
-    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,addTreatmentUrl];
+    NSString *url=[NSString stringWithFormat:@"%@%@/0",baseUrl,addTreatmentUrl];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObject:responseObject];
@@ -1137,11 +1138,17 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
     }
     NSData *parameterData = [NSJSONSerialization dataWithJSONObject:treatmentRequestDict options:kNilOptions error:nil];
     NSString *treatmentRequestStr = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
-    
     NSString *parameter;
+    
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         //For Vzone API
-        parameter =[NSString stringWithFormat:@"{\"request\":{\"MethodType\": \"%@\", \"Id\": \"%@\",\"TreatmentRequest\":%@}}",type,treatmentID,treatmentRequestStr];
+        NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
+        dict[@"MethodType"]=type;
+         dict[@"Id"]=treatmentID;
+         dict[@"TreatmentRequest"]=treatmentRequestStr;
+        NSData *parameterData1 = [NSJSONSerialization dataWithJSONObject:dict options:kNilOptions error:nil];
+        NSString *treatmentRequestStr1 = [[NSString alloc] initWithData:parameterData1 encoding:NSUTF8StringEncoding];
+        parameter =[NSString stringWithFormat:@"{\"request\":%@}",treatmentRequestStr1];
     }else{
         //For Material API
         parameter=[NSString stringWithFormat:@"{\"MethodType\": \"%@\", \"Id\": \"%@\",\"TreatmentRequest\":%@}",type,treatmentID,treatmentRequestStr];
@@ -1245,7 +1252,7 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
                    m.selectedScanPointIndexpath=[[NSMutableArray alloc]init];
                    m.price=json[@"Price"];
                    m.height=100;
-                   m.correspondingPairHeight=0;
+                   m.correspondingPairHeight =[[NSMutableArray alloc]init];
                     m.selectedScanPointIndexpath=nil;
                     NSInteger i=[dict[@"IsCompleted"] integerValue];
                     m.completed=[@(i)description];
@@ -1355,14 +1362,16 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
                 [imageManager uploadDocumentPath:path forRequestCode:code withDocumentType:type withText:caption withRequestType:@"Treatment" onCompletion:^(BOOL success) {
                     if (success)
                     {
-                        
+                        [self callAPIToCloseTreatmentOrUpdate:@"update"];
                     }else
                     {
-                        
+                       [self MBProgressMessage:@"failed"];
                     }
                 }];
             }
         }
+    }else{
+        [self callAPIToCloseTreatmentOrUpdate:@"update"];
     }
 }
 - (IBAction)exit:(id)sender {
@@ -1405,12 +1414,13 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
         dict=responseObject;
     }
     if ([dict[@"Success"] intValue]==1) {
-        for (NSDictionary *dict1 in dict[@"TreatmentRequests"]) {
+        for (NSDictionary *dict1 in dict[@"TreatmentRequest"]) {
             if ([dict1[@"Status"]intValue]==1) {
-                if ([dict1[@"TreatmentId"]intValue]==[_patientTitleModel.idValue intValue]) {
+                if ([dict1[@"Id"]intValue]==[_patientTitleModel.idValue intValue]) {
                     _patientDetailModel=[[PatientDetailModel alloc]init];
                     _patientDetailModel.IsTreatmentCompleted=dict1[@"IsTreatmentCompleted"];
-                    _patientDetailModel.idValue=dict1[@"TreatmentId"];
+                   // _patientDetailModel.idValue=dict1[@"TreatmentId"];
+                     _patientDetailModel.idValue=dict1[@"Id"];
                     _patientDetailModel.code=dict1[@"TreatmentCode"];
                     _patientDetailModel.title=dict1[@"Title"];
                     _patientDetailModel.symptomTagCodes=[dict1[@"SymptomTagCodes"] componentsSeparatedByString:@"|$|"];
@@ -1432,7 +1442,6 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
 -(void)uploadImageAfterSaveInSitting:(NSString*)code{
     [self saveImage:code];
 }
-
 
 //Delete SittingPart
 -(void)callApiToDeleteSitting{

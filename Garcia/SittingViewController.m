@@ -234,8 +234,6 @@
     cell.doctorName.text=model.author;
     cell.sittingTextView.text=model.germsString;
     
-    [self showDataSavedInDBInTable:model withCell:cell];
-    
     if ([selectedIndexArray containsObject:indexPath]) {
         [self hideTheViewInTableViewCell:NO withCell:cell];
         cell.interpretation.numberOfLines=0;
@@ -282,6 +280,8 @@
             cell.headerView.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
         }
     }
+    
+     [self showDataSavedInDBInTable:model withCell:cell];
     
     NSString *str1=@"";
     for (NSString *str in model.germsCode) {

@@ -12,5 +12,5 @@
 @property(strong,nonatomic)NSString *sittingID;
 @property(strong,nonatomic)NSArray *anotomicalPointArray;
 @property(strong,nonatomic)NSString *price;
-@property(assign,nonatomic)float correspondingPairHeight;
+@property(strong,nonatomic)NSMutableArray *correspondingPairHeight;
 @end

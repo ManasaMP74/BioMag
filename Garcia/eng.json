@@ -1,11 +1,6 @@
 {
-    "Alert!":"Alert!",
-    "AlertButtonOK":"OK",
-    
-    
-    
-    
-    
+"Alert!":"Alert!",
+"AlertButtonOK":"OK",
 "Login.failed":"Login failed" ,
 "User.Name.is.required":"'User Name' is required",
 "Password.is.required":"'Password' is required",
@@ -15,8 +10,6 @@
 "Password":"Password",
 "Authentication.failed":"Authentication failed",
 "Some.error.occured.Please.try.again":"Some error occured...Please try again",
-    
-    
 "Updated.Failed":"Updated Failed",
 "Updated.successfully":"Updated successfully",
 "required.gender.field":"required gender field\n",

@@ -95,6 +95,7 @@
 }
 - (IBAction)saveCode:(id)sender {
     [alphaView removeFromSuperview];
+    [alphaView endEditing:YES];
     [self.delegateForGerms germsData:selectedGerms];
 }
 - (IBAction)addNewGerm:(id)sender {
@@ -115,7 +116,7 @@
     }
     if (germsArray.count>0) {
         germsModel *model=germsArray[indexPath.row];
-        cell.label.text=model.germsUserFriendlycode;
+        cell.label.text=[NSString stringWithFormat:@"%@ - %@",model.germsUserFriendlycode,model.germsName];
     }
     if ([selectedIndex containsObject:indexPath]) {
         cell.cellImageView.image=[UIImage imageNamed:@"Box1-Check.png"];

@@ -42,7 +42,7 @@
     UIBarButtonItem *mailbutton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
     
     
-    CGRect lagFrameimg = CGRectMake(30, 0,95,25);
+    CGRect lagFrameimg = CGRectMake(30,0,95,25);
     lagSomeButton= [[UIButton alloc] initWithFrame:lagFrameimg];
     lagSomeButton.backgroundColor=[UIColor whiteColor];
     lagSomeButton.layer.cornerRadius=13;
@@ -68,7 +68,7 @@
 }
 //pop back
 -(void)popToViewController{
-    [self.navigationController popViewControllerAnimated:YES];
+    [self showFailureAlerMessage:@"Do you realy want to signout?"];
 }
 //LanguageChange
 -(IBAction)languageChange:(id)sender{
@@ -207,6 +207,17 @@
 -(void)callApiForLanguage{
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,language];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
+        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processResponse:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"gender_FLAG"];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+       
+        }];
+    }else{
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponse:responseObject];
         [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
@@ -216,10 +227,18 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
+    }
     
 }
 -(void)processResponse:(id)response{
-    NSDictionary *dict=response;
+    NSDictionary *dict;
+     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+    NSDictionary *dic1=response;
+         dict=dic1[@"aaData"];
+         
+     }else{
+         dict=response;
+     }
     for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
         lagModel *model=[[lagModel alloc]init];
         model.name=dict1[@"Name"];
@@ -227,4 +246,21 @@
         [languageArray addObject:model];
     }
 }
+//failure message
+-(void)showFailureAlerMessage:(NSString*)msg{
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [self.navigationController popViewControllerAnimated:YES];
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertView addAction:success];
+    UIAlertAction *fail=[UIAlertAction actionWithTitle:@"NO" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertView addAction:fail];
+
+    [self presentViewController:alertView animated:YES completion:nil];
+    
+}
+
 @end
