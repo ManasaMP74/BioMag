@@ -659,5 +659,19 @@
     noStr=[MCLocalization stringForKey:@"No"];
     [_cancelBtn setTitle:[MCLocalization stringForKey:@"Cancel"] forState:normal];
      [_saveBtn setTitle:[MCLocalization stringForKey:@"Save"] forState:normal];
+
+    [self.nameLabel setAttributedText:[constant setColoredLabelandStar:[MCLocalization stringForKey:@"Name"]]];
+    
+    [self.genderLabel setAttributedText:[constant setColoredLabelandStar:[MCLocalization stringForKey:@"GenderLabel"]]];
+    
+    [self.transfusionLabel setAttributedText:[constant setColoredLabelandStar:[MCLocalization stringForKey:@"TransfusionLabel"]]];
+    
+    [self.dobLabel setAttributedText:[constant setColoredLabelandStar:[MCLocalization stringForKey:@"DateOfBirthLabel"]]];
+    [self.mobNumbLabel setAttributedText:[constant setColoredLabelandStar:[MCLocalization stringForKey:@"MobileLabel"]]];
+    [self.emailLabel setAttributedText:[constant setColoredLabelandStar:[MCLocalization stringForKey:@"EmailLabel"]]];
+    
+
+
+
 }
 @end

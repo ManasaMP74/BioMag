@@ -18,4 +18,6 @@
 -(void)setFontSemibold:(UITextField*)text;
 -(NSAttributedString*)textFieldPatient:(NSString *)text;
 -(NSAttributedString*)PatientSheetPlaceHolderText:(NSString *)text;
+- (NSMutableAttributedString *)setColoredLabelandStar:(NSString *)strplaceHolder;
+
 @end

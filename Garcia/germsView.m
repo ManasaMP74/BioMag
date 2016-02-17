@@ -118,7 +118,10 @@
     }
     if (germsArray.count>0) {
         germsModel *model=germsArray[indexPath.row];
-        cell.label.text=[NSString stringWithFormat:@"%@ - %@",model.germsUserFriendlycode,model.germsName];
+        cell.label.text=[NSString stringWithFormat:@"%@",model.germsUserFriendlycode];
+        cell.labelTwo.text=[NSString stringWithFormat:@" - %@",model.germsName];
+        
+
     }
     if ([selectedIndex containsObject:indexPath]) {
         cell.cellImageView.image=[UIImage imageNamed:@"Box1-Check.png"];
