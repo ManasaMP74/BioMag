@@ -27,8 +27,6 @@
     NSString *patientName;
     WYPopoverController *wypopOverController;
     UIButton *lagSomeButton;
-    NSArray *slideoutArray;
-    NSArray *slideoutImageArray;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -37,11 +35,8 @@
     languageArray =[[NSMutableArray alloc]init];
     postman=[[Postman alloc]init];
     [self callSeed];
-    slideoutArray=@[@"About Us",@"FAQ",@"Terms and Conditions",@"Privacy and Policy",@"Logout"];
-    slideoutImageArray=@[@"07-User.png",@"Icon-About.png",@"Icon-Faq.png",@"Icon-Terms.png",@"Icon-Privacy.png",@"Icon-Logout.png"];
     
-    
-    
+
     UIImage* image3 = [UIImage imageNamed:@"06-Icon-Navigation.png"];
     CGRect frameimg = CGRectMake(0, 0, image3.size.width, image3.size.height);
     UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
@@ -57,6 +52,7 @@
     lagSomeButton.layer.cornerRadius=13;
     NSUserDefaults *standardDefault=[NSUserDefaults standardUserDefaults];
     [standardDefault setValue:@"English" forKey:@"languageName"];
+   // lagSomeButton.font=[UIFont systemFontOfSize:15];
     [lagSomeButton setTitle:[standardDefault valueForKey:@"languageName"] forState:normal];
     [lagSomeButton setTitleColor:[UIColor blackColor] forState:normal];
     lagSomeButton.titleLabel.font=[UIFont fontWithName:@"OpenSansSemibold" size:10];
@@ -78,106 +74,93 @@
 }
 //LanguageChange
 -(IBAction)languageChange:(id)sender{
-    UIView *btn = (UIView *)sender;
-    if (wypopOverController==nil){
-    PopOverViewController *pop=[self.storyboard instantiateViewControllerWithIdentifier:@"PopOverViewController"];
-        pop.delegate=self;
-        pop.buttonName=@"language";
-        pop.lagArray=languageArray;
-        CGFloat finalWidth =0.0;
-        for (lagModel *str in languageArray) {
-            CGFloat width =  [str.name boundingRectWithSize:(CGSizeMake(NSIntegerMax,40)) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:15]} context:nil].size.width;
-            finalWidth=MAX(finalWidth, width);
-        }
-        [self wypopOver:btn withPopOver:pop];
-        CGFloat height=[pop getHeightOfTableView];
-        CGSize contentSize = CGSizeMake(finalWidth+50,height);
-        pop.preferredContentSize=contentSize;
-        CGRect biggerBounds = CGRectInset(btn.bounds, -6, -6);
-        [wypopOverController presentPopoverFromRect:biggerBounds inView:sender permittedArrowDirections:(WYPopoverArrowDirectionUp) animated:YES options:(WYPopoverAnimationOptionFadeWithScale)];
-    }else
-    {
-        [wypopOverController dismissPopoverAnimated:YES completion:^{
-            wypopOverController.delegate = nil;
-            wypopOverController = nil;
-        }];
-    }
+    [self.delegate getThePopOverForLanguage:languageArray];
 }
 //slide out
 -(IBAction)slideout:(id)sender{
-    UIView *btn = (UIView *)sender;
-    if (wypopOverController==nil){
-        PopOverViewController *pop=[self.storyboard instantiateViewControllerWithIdentifier:@"PopOverViewController"];
-        pop.delegate=self;
-        pop.buttonName=@"slideout";
-        pop.slideoutImageArray=slideoutImageArray;
-        
-       CGFloat finalWidth =0.0;
-        for (NSString *str in slideoutArray) {
-            CGFloat width =  [str boundingRectWithSize:(CGSizeMake(NSIntegerMax,40)) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:15]} context:nil].size.width;
-            finalWidth=MAX(finalWidth+50, width);
-        }
-        pop.slideoutNameArray=slideoutArray;
-        [self wypopOver:btn withPopOver:pop];
-        CGFloat height=[pop getHeightOfTableView];
-        CGSize contentSize = CGSizeMake(finalWidth,height);
-        pop.preferredContentSize=contentSize;
-        CGRect biggerBounds = CGRectInset(btn.bounds, -6, -6);
-        [wypopOverController presentPopoverFromRect:biggerBounds inView:sender permittedArrowDirections:(WYPopoverArrowDirectionUp) animated:YES options:(WYPopoverAnimationOptionFadeWithScale)];
-    }else
-    {
-        [wypopOverController dismissPopoverAnimated:YES completion:^{
-            wypopOverController.delegate = nil;
-            wypopOverController = nil;
-        }];
-        
-    }
+     [self.delegate getThePopOverForslideout];
+    
 }
+
+
+//    UIView *btn = (UIView *)sender;
+//    if (wypopOverController==nil){
+//        PopOverViewController *pop=[self.storyboard instantiateViewControllerWithIdentifier:@"PopOverViewController"];
+//        pop.delegate=self;
+//        pop.buttonName=@"slideout";
+//        pop.slideoutImageArray=slideoutImageArray;
+//        
+//       CGFloat finalWidth =0.0;
+//        for (NSString *str in slideoutArray) {
+//            CGFloat width =  [str boundingRectWithSize:(CGSizeMake(NSIntegerMax,self.view.frame.size.width)) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:15]} context:nil].size.width;
+//            finalWidth=MAX(finalWidth, width);
+//        }
+//
+//        pop.slideoutNameArray=slideoutArray;
+//        [self wypopOver:btn withPopOver:pop];
+//        CGFloat height=[pop getHeightOfTableView];
+//        CGSize contentSize = CGSizeMake(finalWidth+70,height);
+//        pop.preferredContentSize=contentSize;
+//        CGRect biggerBounds = CGRectInset(btn.bounds, -6, -6);
+//        [wypopOverController presentPopoverFromRect:biggerBounds inView:sender permittedArrowDirections:(WYPopoverArrowDirectionUp) animated:YES options:(WYPopoverAnimationOptionFadeWithScale)];
+//    }else
+//    {
+//        [wypopOverController dismissPopoverAnimated:YES completion:^{
+//            wypopOverController.delegate = nil;
+//            wypopOverController = nil;
+//        }];
+//        
+//    }
+//}
 //wypopover method
--(void)wypopOver:(UIView*)btn withPopOver:(PopOverViewController*)pop{
-    wypopOverController=[[WYPopoverController alloc]initWithContentViewController:pop];
-    wypopOverController.delegate=self;
-    wypopOverController.passthroughViews = @[btn];
-    wypopOverController.theme=[WYPopoverTheme themeForIOS6];
-    wypopOverController.theme.outerCornerRadius=2;
-    wypopOverController.theme.outerStrokeColor=[UIColor lightGrayColor];
-    wypopOverController.theme.arrowHeight =0;
-    wypopOverController.theme.arrowBase= 15;
-    wypopOverController.theme.fillTopColor = [UIColor grayColor];
-    wypopOverController.theme.overlayColor= [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
-}
+//-(void)wypopOver:(UIView*)btn withPopOver:(PopOverViewController*)pop{
+//    wypopOverController=[[WYPopoverController alloc]initWithContentViewController:pop];
+//    wypopOverController.delegate=self;
+//    wypopOverController.passthroughViews = @[btn];
+//    wypopOverController.theme=[WYPopoverTheme themeForIOS6];
+//    wypopOverController.theme.outerCornerRadius=0;
+//    wypopOverController.theme.outerStrokeColor=[UIColor clearColor];
+//    wypopOverController.theme.outerShadowColor=[UIColor clearColor];
+//    wypopOverController.theme.arrowHeight =0;
+//    wypopOverController.theme.arrowBase= 0;
+//    wypopOverController.theme.fillTopColor = [UIColor clearColor];
+//    wypopOverController.theme.overlayColor= [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
+//    wypopOverController.theme.borderWidth=0;
+//    wypopOverController.theme.outerShadowColor=[UIColor clearColor];
+//    wypopOverController.theme.outerShadowBlurRadius=0;
+//}
 //delegate of language selection
--(void)selectedObject:(lagModel *)model{
-    NSUserDefaults *standardDefault=[NSUserDefaults standardUserDefaults];
-    [standardDefault setValue:model.code forKey:@"languageCode"];
-     [standardDefault setValue:model.name forKey:@"languageName"];
-    [lagSomeButton setTitle:[standardDefault valueForKey:@"languageName"] forState:normal];
-  [wypopOverController dismissPopoverAnimated:NO];
-    LanguageChanger *languageChanger=[[LanguageChanger alloc]init];
-    [languageChanger callApiForLanguage];
-}
+//-(void)selectedObject:(lagModel *)model{
+//    NSUserDefaults *standardDefault=[NSUserDefaults standardUserDefaults];
+//    [standardDefault setValue:model.code forKey:@"languageCode"];
+//     [standardDefault setValue:model.name forKey:@"languageName"];
+//    [lagSomeButton setTitle:[standardDefault valueForKey:@"languageName"] forState:normal];
+//  [wypopOverController dismissPopoverAnimated:NO];
+//    LanguageChanger *languageChanger=[[LanguageChanger alloc]init];
+//    [languageChanger callApiForLanguage];
+//}
 //delegate of slideout
--(void)selectedSlideOutObject:(NSString *)name{
-    if ([name isEqualToString:slideoutArray[slideoutArray.count-1]]) {
-     [self showFailureAlerMessage:@"Do you realy want to signout?"];
-    }else  if ([name isEqualToString:slideoutArray[slideoutArray.count-2]]) {
-      
-    }
-     [wypopOverController dismissPopoverAnimated:NO];
-}
+//-(void)selectedSlideOutObject:(NSString *)name{
+//    if ([name isEqualToString:slideoutArray[slideoutArray.count-1]]) {
+//     [self showFailureAlerMessage:@"Do you realy want to signout?"];
+//    }else  if ([name isEqualToString:slideoutArray[slideoutArray.count-2]]) {
+//      
+//    }
+//     [wypopOverController dismissPopoverAnimated:NO];
+//}
 //delegate of wypopover
--(BOOL)popoverControllerShouldDismissPopover:(WYPopoverController *)popoverController
-
-{
-    return YES;
-}
-
--(void)popoverControllerDidDismissPopover:(WYPopoverController *)popoverController
-
-{
-    wypopOverController.delegate=nil;
-    wypopOverController=nil;
-}
+//-(BOOL)popoverControllerShouldDismissPopover:(WYPopoverController *)popoverController
+//
+//{
+//    return YES;
+//}
+//
+//-(void)popoverControllerDidDismissPopover:(WYPopoverController *)popoverController
+//
+//{
+//    wypopOverController.delegate=nil;
+//    wypopOverController=nil;
+//}
 //failure message
 -(void)showFailureAlerMessage:(NSString*)msg{
     UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];

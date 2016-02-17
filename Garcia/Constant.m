@@ -12,8 +12,8 @@
     
 //    NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.333 green:0.329 blue:0.39 alpha:1], NSFontAttributeName :[self customFont:15 ofName:OpenSansRegular]}];
   
-     NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.333 green:0.329 blue:0.39 alpha:1], NSFontAttributeName :[self customFont:15 ofName:OpenSansRegular]}];
-    
+     NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.7], NSFontAttributeName :[self customFont:15 ofName:OpenSansRegular]}];
+    //[UIColor colorWithRed:0.333 green:0.329 blue:0.39 alpha:1]
     
     
     return str;

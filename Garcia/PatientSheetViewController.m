@@ -278,7 +278,7 @@
 - (IBAction)increaseViewHeightOfPatientView:(id)sender {
     if ([_increasePatientViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
         _increasePatientView.hidden=NO;
-        _increasePatientViewHeight.constant=_surgeryValueLabel.frame.size.height+120+_emailValueLabel.frame.size.height;
+        _increasePatientViewHeight.constant=_surgeryValueLabel.frame.size.height+130+_emailValueLabel.frame.size.height;
         [self ChangeIncreaseDecreaseButtonImage:_increasePatientViewButton];
     }
     else{
@@ -717,13 +717,13 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
     _diagnosisViewHeight.constant=0;
     _settingView.hidden=YES;
     _settingViewHeight.constant=0;
-    _increasePatientViewHeight.constant=_surgeryValueLabel.frame.size.height+100;
+    _increasePatientViewHeight.constant=_surgeryValueLabel.frame.size.height+130;
     _increasePatientView.hidden=NO;
     [_increaseDiagnosisViewButton setImage:[UIImage imageNamed:@"Dropdown-icon"] forState:normal];
     [_increaseMedicalViewButton setImage:[UIImage imageNamed:@"Dropdown-icon"] forState:normal];
     [_increasePatientViewButton setImage:[UIImage imageNamed:@"Dropdown-icon-up"] forState:normal];
     [_increasesettingViewButton setImage:[UIImage imageNamed:@"Dropdown-icon"] forState:normal];
-    _treatmentNameTF.attributedPlaceholder=[constant textFieldPatient:titleOfTreatment];
+    _treatmentNameTF.attributedPlaceholder=[constant PatientSheetPlaceHolderText:titleOfTreatment];
     [constant spaceAtTheBeginigOfTextField:_treatmentNameTF];
     _treatmentEncloserTextView.layer.borderColor=[UIColor colorWithRed:0.682 green:0.718 blue:0.729 alpha:0.6].CGColor;
     _treatmentEncloserTextView.layer.borderWidth=1;

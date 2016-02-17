@@ -7,6 +7,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.layer.borderColor=[UIColor clearColor].CGColor;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -30,9 +31,7 @@
     }else{
         UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell1"];
         UILabel *label=(UILabel*)[cell viewWithTag:10];
-        if (indexPath.row!=0) {
-             label.text=_slideoutNameArray[indexPath.row-1];
-        }
+             label.text=_slideoutNameArray[indexPath.row];
         UIImageView *im=(UIImageView*)[cell viewWithTag:20];
         im.image=[UIImage imageNamed:_slideoutImageArray[indexPath.row]];
         return cell;
@@ -50,7 +49,13 @@
      }
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if ([_buttonName isEqualToString:@"language"]) {
     cell.backgroundColor=[UIColor clearColor];
+    }else{
+        if (indexPath.row==0) {
+            cell.backgroundColor=[UIColor colorWithRed:0.808 green:0.886 blue:0.918 alpha:1];
+        }else  cell.backgroundColor=[UIColor clearColor];
+    }
 }
 -(float)getHeightOfTableView{
     [self.tableView reloadData];

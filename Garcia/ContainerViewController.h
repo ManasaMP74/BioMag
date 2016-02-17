@@ -5,6 +5,8 @@
 @protocol loadTreatmentDelegateInContainer <NSObject>
 @optional
 -(void)loadTreatment;
+-(void)getThePopOverForLanguage:(NSArray*)popOverArray;
+-(void)getThePopOverForslideout;
 @end
 
 

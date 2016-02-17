@@ -17,7 +17,7 @@
     view.frame=self.bounds;
     _datePicker.datePickerMode=1;
    // _datePicker.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-02.jpg"]];
-    [view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-2.jpg"]]];
+   // [view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-2.jpg"]]];
     return self;
 }
 -(void)initializeView
@@ -32,7 +32,7 @@
     [formater setTimeZone:[NSTimeZone localTimeZone]];
     [formater setDateFormat:@"dd-MMM-yyyy"];
     date=[formater stringFromDate:self.datePicker.date];
-     [_datePicker setValue:[UIColor whiteColor] forKey:@"textColor"];
+     [_datePicker setValue:[UIColor lightGrayColor] forKey:@"textColor"];
 }
 - (IBAction)datePickerAction:(id)sender {
     date=[formater stringFromDate:self.datePicker.date];
@@ -41,7 +41,7 @@
     if (alphaView == nil)
     {
         alphaView = [[UIControl alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        alphaView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
+        alphaView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.5];
         [alphaView addSubview:view];
     }
     view.center = alphaView.center;

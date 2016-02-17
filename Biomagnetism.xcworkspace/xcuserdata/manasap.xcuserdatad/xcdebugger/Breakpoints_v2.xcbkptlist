@@ -73,22 +73,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Garcia/PatientSheetViewController.m"
-            timestampString = "477373474.52627"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1121"
-            endingLineNumber = "1121"
-            landmarkName = "-callAPIToCloseTreatmentOrUpdate:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Garcia/SittingViewController.m"
             timestampString = "477373971.303027"
             startingColumnNumber = "9223372036854775807"
@@ -112,6 +96,22 @@
             startingLineNumber = "998"
             endingLineNumber = "998"
             landmarkName = "-getParameteToSaveSittingDetail:withSittingNum:withCompletedData:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Garcia/LoginViewController.m"
+            timestampString = "477404144.535729"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
+            landmarkName = "-parseLoginResponseMatirial:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

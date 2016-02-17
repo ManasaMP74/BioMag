@@ -10,7 +10,8 @@
 #import "AppDelegate.h"
 #import "PatientTitleModel.h"
 #import <MCLocalization/MCLocalization.h>
-@interface PatientViewController ()<UITableViewDataSource,UITableViewDelegate,editPatient>
+#import "lagModel.h"
+@interface PatientViewController ()<UITableViewDataSource,UITableViewDelegate,editPatient,loadTreatmentDelegateInContainer>
 @property (weak, nonatomic) IBOutlet UILabel *transfusinTF;
 @property (weak, nonatomic) IBOutlet UIButton *edit;
 @property (weak, nonatomic) IBOutlet UILabel *genderLabel;
@@ -42,7 +43,9 @@
     Postman *postman;
     NSMutableArray *treatmentListArray;
     ProfileImageView *profileView;
-    NSString *alertTitle,*alertOK,*navTitle;
+    NSString *alertTitle,*alertOK,*navTitle,*differForSlideoutAndLang;
+    NSArray *langArray,*slideoutImageArray,*slideoutNameArray;
+    
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -54,6 +57,7 @@
     postman=[[Postman alloc]init];
     _tableViewHeight.constant=self.tableview.contentSize.height;
     treatmentListArray=[[NSMutableArray alloc]init];
+    _patientDetailView.layer.cornerRadius=5;
     [self localize];
 }
 - (void)didReceiveMemoryWarning {
@@ -63,6 +67,9 @@
     [super viewWillAppear:animated];
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-1.jpg"]]];
     [containerVC setTitle:navTitle];
+    containerVC.delegate=self;
+    _alphaViewToShowLanguage.hidden=YES;
+    _popTableView.hidden=YES;
     [_tableview reloadData];
 }
 //set the DefaultValues For Label
@@ -97,6 +104,8 @@
     if (_model.tranfusion!=nil) {
         _transfusinTF.text=_model.tranfusion;
     }else _surgeriesLabel.text=@"";
+    slideoutImageArray=@[@"07-User.png",@"Icon-About.png",@"Icon-Faq.png",@"Icon-Terms.png",@"Icon-Privacy.png",@"Icon-Logout.png"];
+    slideoutNameArray=@[_model.name,@"About Us",@"FAQ",@"Terms and Conditions",@"Privacy and Policy",@"Logout"];
     [self callApiTogetAllDetailOfTheTreatment];
 }
 //setfont for label
@@ -119,19 +128,48 @@
 }
 //TableView Delegate Method
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return treatmentListArray.count;
+    int count;
+    if (tableView==_popTableView) {
+        if ([differForSlideoutAndLang isEqualToString:@"lang"]) {
+            count=langArray.count;
+        }
+        else count=slideoutNameArray.count;
+    }
+   else count= treatmentListArray.count;
+    return count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
+    UITableViewCell *cell;
+    if (tableView==_popTableView) {
+        if ([differForSlideoutAndLang isEqualToString:@"lang"]) {
+            UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
+            UILabel *label=(UILabel*)[cell viewWithTag:10];
+            lagModel *model=langArray[indexPath.row];
+            label.text=model.name;
+        }else{
+            UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell1"];
+            UILabel *label=(UILabel*)[cell viewWithTag:10];
+            label.text=slideoutNameArray[indexPath.row];
+            UIImageView *im=(UIImageView*)[cell viewWithTag:20];
+            im.image=[UIImage imageNamed:slideoutImageArray[indexPath.row]];
+
+        }
+     }else{
+    cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
     UILabel *label=(UILabel*)[cell viewWithTag:10];
     PatientTitleModel *model=treatmentListArray[indexPath.row];
     label.text=model.title;
     label.font=[UIFont fontWithName:@"OpenSans" size:13];
     tableView.tableFooterView=[UIView new];
     if ([model.IsTreatmentCompleted intValue]==0) {
-        cell.backgroundColor=[UIColor colorWithRed:0.4471 green:0.8157 blue:0.9725 alpha:1];
-    }else cell.backgroundColor=[UIColor colorWithRed:0.627 green:0.89 blue:1 alpha:1];
-    return cell;
+       // cell.backgroundColor=[UIColor colorWithRed:0.4471 green:0.8157 blue:0.9725 alpha:1];
+        cell.backgroundColor=[UIColor whiteColor];
+    }else{
+       //cell.backgroundColor=[UIColor colorWithRed:0.627 green:0.89 blue:1 alpha:1];
+       cell.backgroundColor=[UIColor colorWithRed:0.933 green:0.933 blue:0.941 alpha:1];
+    }
+    }
+     return cell;
 }
 //table didselect
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -248,5 +286,22 @@
     [_addTreatmentButton setTitle:[MCLocalization stringForKey:@"AddTreatmentHeading"] forState:normal];
     navTitle=[MCLocalization stringForKey:@"Patients"];
     [_edit setTitle:[MCLocalization stringForKey:@"Edit"] forState:normal];
+}
+- (IBAction)ShowAlphaView:(id)sender {
+    _popTableView.hidden=YES;
+    _alphaViewToShowLanguage.hidden=YES;
+}
+-(void)getThePopOverForLanguage:(NSArray *)popOverArray{
+    langArray=popOverArray;
+    _alphaViewToShowLanguage.hidden=NO;
+    _popTableView.hidden=NO;
+    differForSlideoutAndLang=@"lang";
+    [_popTableView reloadData];
+}
+-(void)getThePopOverForslideout{
+    differForSlideoutAndLang=@"slideout";
+    _alphaViewToShowLanguage.hidden=NO;
+    _popTableView.hidden=NO;
+ [_popTableView reloadData];
 }
 @end
