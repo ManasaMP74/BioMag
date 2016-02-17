@@ -90,5 +90,26 @@
 -(void)setFontSemibold:(UITextField*)text{
     text.font=[self customFont:18 ofName:OpenSansSemibold];
 }
+// Star Redcolour Method
+- (NSMutableAttributedString *)setColoredLabelandStar:(NSString *)strplaceHolder
+{
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"* %@",strplaceHolder]];
+    
+    [string addAttribute:NSForegroundColorAttributeName
+                   value:[UIColor redColor]
+                   range:NSMakeRange(0, 1)];
+    
+    
+    return string;
+    
+}
+
+
+
+
+
+
+
+
 
 @end
