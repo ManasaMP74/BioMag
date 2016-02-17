@@ -1454,7 +1454,7 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
             }
         }
     }else{
-        //[self callAPIToCloseTreatmentOrUpdate:@"update"];
+        [self callAPIToCloseTreatmentOrUpdate:@"update"];
     }
 }
 - (IBAction)exit:(id)sender {
