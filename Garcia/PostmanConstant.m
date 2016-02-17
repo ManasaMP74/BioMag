@@ -10,6 +10,11 @@ NSString *const uploadFile=@"aws/upload";
 NSString *const expandProfileImage=@"LoadFile/";
 
 
+//Vzone Production API
+//NSString *const baseUrl=@"biomagnetictherapy-vzn-prod.elasticbeanstalk.com";
+//NSString *const postmanCompanyCode=@"VM001";
+
+
 // Material API For Testing
 //NSString *const baseUrl=@"http://prithiviraj.vmokshagroup.com:8033/api/";
 //NSString *const postmanCompanyCode=@"VM001";
@@ -81,7 +86,8 @@ NSString *const allScanpointsApi=@"AnatomicalDetails";
 NSString *const DifferMetirialOrVzoneApi=@"vzone";
 NSString *const language=@"search/language";
 NSString *const languageUILabel=@"search/UILabel/";
-
+ NSString *const baseUrlAws = @"https://s3-us-west-2.amazonaws.com/";
+ NSString *const dbName =@"garciadb/";
 
 
 

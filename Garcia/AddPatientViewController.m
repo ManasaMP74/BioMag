@@ -9,6 +9,7 @@
 #import "editModel.h"
 #import "ImageUploadAPI.h"
 #import "SeedSyncer.h"
+#import <MCLocalization/MCLocalization.h>
 @interface AddPatientViewController ()<datePickerProtocol,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *nameTF;
 @property (strong, nonatomic) IBOutlet UITextField *genderTF;
@@ -25,6 +26,8 @@
 - (IBAction)hideKeyboard:(UIControl *)sender;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *maritialTVHeight;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *genderTVheight;
+@property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
+@property (weak, nonatomic) IBOutlet UIButton *saveBtn;
 @end
 
 @implementation AddPatientViewController
@@ -37,27 +40,28 @@
     NSString *genderCode,*martialCode,*addedPatientCode;
     ImageUploadAPI *imageManager;
     ContainerViewController *containerVC;
+     NSString *alertOkStr,*alertStr,*saveFailedStr,*saveSuccessfullyStr,*requiredGenderFieldStr,*requiredNameField,*navTitle,*yesStr,*noStr,*requiredDateOfBirth,*requiredEmail,*requiredmobile,*requiredTransfusion,*invalidEmail,*invalidMobile;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     constant=[[Constant alloc]init];
     imageManager=[[ImageUploadAPI alloc]init];
+    [self localize];
     [self textFieldLayer];
     genderArray=[[NSMutableArray alloc]init];
     MaritialStatusArray=[[NSMutableArray alloc]init];
     UINavigationController *nav=(UINavigationController*)self.parentViewController;
     if (nav.parentViewController==NULL) {
-         self.title=@"Add Patient";
+         self.title=navTitle;
     }
     else{
         containerVC=(ContainerViewController*)nav.parentViewController;
-        [containerVC setTitle:@"Add Patient"];
+        [containerVC setTitle:navTitle];
     }
      [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-1.jpg"]]];
      [self registerForKeyboardNotifications];
-     _addressTextView.placeholder=@"Surgeries";
     self.addressTextView.delegate=self;
-    MaritialStatusArray=[@[@"YES",@"NO"]mutableCopy];
+    MaritialStatusArray=[@[yesStr,noStr]mutableCopy];
     
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         //For Vzone API
@@ -211,7 +215,7 @@
 }
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     if ([textField isEqual:_mobileNoTF]) {
-        NSCharacterSet * numberCharSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+        NSCharacterSet * numberCharSet = [NSCharacterSet characterSetWithCharactersInString:@"()+-0123456789"];
         for (int i = 0; i < [string length]; ++i)
         {
             unichar c = [string characterAtIndex:i];
@@ -220,7 +224,6 @@
                 return NO;
             }
         }
-        
         return YES;
     }
     else return YES;
@@ -229,12 +232,6 @@
 -(void)textFieldLayer{
 //    _patientImageView.layer.cornerRadius=_patientImageView.frame.size.width/2;
 //    _patientImageView.clipsToBounds=YES;
-    _nameTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Name"];
-    _emailTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Email"];
-    _genderTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Gender"];
-    _mobileNoTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Mobile"];
-        _maritialStatus.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Transfusion"];
-    _dateOfBirthTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Date Of Birth"];
     [constant spaceAtTheBeginigOfTextField:_genderTF];
     [constant spaceAtTheBeginigOfTextField:_emailTF];
     [constant spaceAtTheBeginigOfTextField:_nameTF];
@@ -503,7 +500,7 @@
     }
 }
 
-//validate email
+//validate Email
 -(void)validateEmail:(NSString*)email{
     NSString *emailRegEx=@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
     NSPredicate *emailTest=[NSPredicate predicateWithFormat:@"self matches %@",emailRegEx];
@@ -539,8 +536,8 @@
             if (_mobileNoTF.text.length==0) {
                 [alertArray addObject:@"Mobile no. is required\n"];
             }
-          else  [alertArray addObject:@"Mobile no. is invalid\n"];
-        if (_emailTF.text.length==0) {
+            else  [alertArray addObject:@"Mobile no. is invalid\n"];
+            if (_emailTF.text.length==0) {
                 [alertArray addObject:@"Email id is required\n"];
             }
             else [alertArray addObject:@"Email id is invalid\n"];
@@ -580,8 +577,8 @@
     return alrtArray;
 }
 -(void)alertView:(NSString*)message{
-    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:message preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alertStr message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:alertOkStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
         [alertView dismissViewControllerAnimated:YES completion:nil];
     }];
     [alertView addAction:success];
@@ -590,10 +587,10 @@
 //validate phone number
 -(int)validPhonenumber:(NSString *)string
 {
-    NSString *phoneRegex = @"[0-9]{0,10}";
-    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
-    BOOL validatePhone=[phoneTest evaluateWithObject:string];
-    if ((string.length!=10) | !validatePhone) {
+//    NSString *phoneRegex = @"[0-9]{0,10}";
+//    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
+//    BOOL validatePhone=[phoneTest evaluateWithObject:string];
+    if ((string.length!=10)) {
         return 0;
     }
     else return 1;
@@ -608,22 +605,26 @@
         NSString* path = [documentsDirectory stringByAppendingPathComponent:@"EdittedProfile.jpeg" ];
         NSData* data = UIImageJPEGRepresentation(image,.5);
         [data writeToFile:path atomically:YES];
-        [imageManager uploadUserImagePath:path forRequestCode:addedPatientCode withDocumentType:@"ABC123" onCompletion:^(BOOL success) {
+//        [imageManager uploadUserImagePath:path forRequestCode:addedPatientCode withDocumentType:@"ABC123" onCompletion:^(BOOL success) {
+//           
+   [imageManager uploadUserImagePath:path forRequestCode:addedPatientCode withDocumentType:@"ABC123" andRequestType:@"User" onCompletion:^(BOOL success) {
+            
             if (success)
             {
-                [self alertmessage:@"Saved successfully"];
+                [self alertmessage:saveSuccessfullyStr];
                  [containerVC hideAllMBprogressTillLoadThedata];
             }else
             {
-              [self alertView:@"Saved Failed"];
+              [self alertView:saveFailedStr];
                  [containerVC hideAllMBprogressTillLoadThedata];
             }
         }];
     }
 }
+//alertMessage
 -(void)alertmessage :(NSString*)msg{
-    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alertStr message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:alertOkStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
         [self.delegate successfullyAdded:addedPatientCode];
         [self.navigationController popViewControllerAnimated:YES];
         [alertView dismissViewControllerAnimated:YES completion:nil];
@@ -631,4 +632,33 @@
     [alertView addAction:success];
     [self presentViewController:alertView animated:YES completion:nil];
 }
+//localize
+-(void)localize
+{
+    alertStr=[MCLocalization stringForKey:@"Alert!"];
+    alertOkStr=[MCLocalization stringForKey:@"AlertOK"];
+    saveFailedStr=[MCLocalization stringForKey:@"Save Failed"];
+    saveSuccessfullyStr=[MCLocalization stringForKey:@"Saved successfully"];
+    requiredGenderFieldStr=[MCLocalization stringForKey:@"Gender is required"];
+    requiredNameField=[MCLocalization stringForKey:@"Name is required"];
+    requiredmobile=[MCLocalization stringForKey:@"Mobile no. is required"];
+    requiredEmail=[MCLocalization stringForKey:@"Email id is required"];
+    requiredTransfusion=[MCLocalization stringForKey:@"Transfusion is required"];
+    invalidEmail=[MCLocalization stringForKey:@"Email id is invalid"];
+    invalidMobile=[MCLocalization stringForKey:@"Mobile no. is invalid"];
+    requiredDateOfBirth=[MCLocalization stringForKey:@"Date Of Birth is required"];
+    _nameTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Name"]];
+    _emailTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"EmailLabel"]];
+    _genderTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"GenderLabel"]];
+    _mobileNoTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"MobileLabel"]];
+    _maritialStatus.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"TransfusionLabel"]];
+    _dateOfBirthTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"DateOfBirthLabel"]];
+    _addressTextView.placeholder=[MCLocalization stringForKey:@"SurgeriesLabel"];
+    navTitle=[MCLocalization stringForKey:@"Edit"];
+    yesStr=[MCLocalization stringForKey:@"Yes"];
+    noStr=[MCLocalization stringForKey:@"No"];
+    [_cancelBtn setTitle:[MCLocalization stringForKey:@"Cancel"] forState:normal];
+     [_saveBtn setTitle:[MCLocalization stringForKey:@"Save"] forState:normal];
+}
+
 @end

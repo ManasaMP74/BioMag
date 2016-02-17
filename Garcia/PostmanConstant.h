@@ -1,6 +1,10 @@
 #import <Foundation/Foundation.h>
 @interface PostmanConstant : NSObject
 FOUNDATION_EXPORT NSString *const baseUrl;
+FOUNDATION_EXPORT NSString *const baseUrlAws;
+FOUNDATION_EXPORT NSString *const dbName;
+
+
 FOUNDATION_EXPORT NSString *const getGender;
 FOUNDATION_EXPORT NSString *const getMartialStatus;
 FOUNDATION_EXPORT NSString *const getPatientList;

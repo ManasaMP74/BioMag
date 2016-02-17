@@ -42,7 +42,7 @@
     Postman *postman;
     NSMutableArray *treatmentListArray;
     ProfileImageView *profileView;
-    NSString *alertTitle,*alertOK;
+    NSString *alertTitle,*alertOK,*navTitle;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -54,7 +54,6 @@
     postman=[[Postman alloc]init];
     _tableViewHeight.constant=self.tableview.contentSize.height;
     treatmentListArray=[[NSMutableArray alloc]init];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(localize) name:MCLocalizationLanguageDidChangeNotification object:nil];
     [self localize];
 }
 - (void)didReceiveMemoryWarning {
@@ -63,7 +62,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-1.jpg"]]];
-    [containerVC setTitle:@"Patients"];
+    [containerVC setTitle:navTitle];
     [_tableview reloadData];
 }
 //set the DefaultValues For Label
@@ -76,8 +75,20 @@
     _transfusinTF.text=_model.tranfusion;
     _genderValueLabel.text=_model.gender;
     _emailValueLabel.text=_model.emailId;
-    NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,_model.profileImageCode];
-    [_patientImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
+   
+    NSString *strimageUrl;
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+    strimageUrl = [NSString stringWithFormat:@"%@%@%@/EdittedProfile.jpeg",baseUrlAws,dbName,_model.storageID];
+        
+    }else
+    {
+  strimageUrl = [NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,_model.profileImageCode];
+    
+    }
+    
+      [_patientImageView setImageWithURL:[NSURL URLWithString:strimageUrl] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
+    
     _patientImageView.layer.cornerRadius=_patientImageView.frame.size.width/2;
     _patientImageView.clipsToBounds=YES;
     if (_model.surgeries!=nil) {
@@ -154,6 +165,9 @@
     if (profileView==nil)
         profileView=[[ProfileImageView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x+70, self.view.frame.origin.y+100,self.view.frame.size.width-40,self.view.frame.size.height-100)];
     profileView.imageCode=_model.profileImageCode;
+    profileView.storageId = _model.storageID;
+    profileView.DisplayImg = _patientImageView.image;
+    
     [profileView alphaViewInitialize];
 }
 //call api to get detail of treatment
@@ -222,6 +236,17 @@
 }
 -(void)localize{
     alertTitle=[MCLocalization stringForKey:@"Alert!"];
-    alertOK=[MCLocalization stringForKey:@"AlertButtonOK"];
+    alertOK=[MCLocalization stringForKey:@"AlertOK"];
+    _genderLabel.text=[MCLocalization stringForKey:@"GenderLabel"];
+     _dobLabel.text=[MCLocalization stringForKey:@"DateOfBirthLabel"];
+     _ageLabel.text=[MCLocalization stringForKey:@"AgeLabel"];
+     _mobileLabel.text=[MCLocalization stringForKey:@"MobileLabel"];
+     _martiralStatus.text=[MCLocalization stringForKey:@"TransfusionLabel"];
+     _emailLabel.text=[MCLocalization stringForKey:@"EmailLabel"];
+     _addressLabel.text=[MCLocalization stringForKey:@"SurgeriesLabel"];
+     _treatmentLabel.text=[MCLocalization stringForKey:@"TreatmentsHeading"];
+    [_addTreatmentButton setTitle:[MCLocalization stringForKey:@"AddTreatmentHeading"] forState:normal];
+    navTitle=[MCLocalization stringForKey:@"Patients"];
+    [_edit setTitle:[MCLocalization stringForKey:@"Edit"] forState:normal];
 }
 @end

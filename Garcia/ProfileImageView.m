@@ -30,13 +30,28 @@
         alphaView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
         [alphaView addSubview:view];
     }
-     view.center = alphaView.center;
+    view.center = alphaView.center;
     if (_imageCode==nil) {
         _profileImageView.image=[UIImage imageNamed:@"Patient-img.jpg"];
     }else{
-        NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,expandProfileImage,_imageCode];
-       [_profileImageView clearImageCacheForURL:[NSURL URLWithString:str]];
-        [_profileImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"] ];
+        
+        NSString *strimageUrl;
+        if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+            strimageUrl = [NSString stringWithFormat:@"%@%@%@/EdittedProfile.jpeg",baseUrlAws,dbName,self.storageId];
+            
+        }else
+        {
+            strimageUrl = [NSString stringWithFormat:@"%@%@%@",baseUrl,expandProfileImage,_imageCode];
+            
+        }
+
+//        [_profileImageView clearImageCacheForURL:[NSURL URLWithString:strimageUrl]];
+//        [_profileImageView setImageWithURL:[NSURL URLWithString:strimageUrl] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"] ];
+    
+  
+        _profileImageView.image = self.DisplayImg;
+        
+        
     }
     AppDelegate *appDel = [UIApplication sharedApplication].delegate;
     [appDel.window addSubview:alphaView];

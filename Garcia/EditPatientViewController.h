@@ -7,4 +7,6 @@
 @interface EditPatientViewController : UIViewController<UITextViewDelegate>
 @property(strong,nonatomic)searchPatientModel *model;
 @property(weak,nonatomic)id<editPatient>delegate;
+@property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
+@property (weak, nonatomic) IBOutlet UIButton *saveBtn;
 @end

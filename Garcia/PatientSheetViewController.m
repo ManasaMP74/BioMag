@@ -18,7 +18,15 @@
 #import "AppDelegate.h"
 #import "ImageUploadAPI.h"
 #import "SeedSyncer.h"
-@interface PatientSheetViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextFieldDelegate,UITextViewDelegate,deleteCell,selectedImage,increaseSittingCell,cellHeight>
+#import "PopOverViewController.h"
+#import <WYPopoverController/WYPopoverController.h>
+#import <MCLocalization/MCLocalization.h>
+
+#define NULL_CHECK(X) [X isKindOfClass:[NSNull class]]?nil:X
+
+
+@interface PatientSheetViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextFieldDelegate,UITextViewDelegate,deleteCell,selectedImage,increaseSittingCell,cellHeight,WYPopoverControllerDelegate>
+@property (weak, nonatomic) IBOutlet UILabel *attachment;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UILabel *nameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *nameValueLabel;
@@ -71,6 +79,12 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *symptomTagViewHeight;
 @property (strong, nonatomic) IBOutlet UICollectionView *sittingCollectionView;
 @property (strong, nonatomic) IBOutlet UICollectionView *tagCollectionView;
+@property (weak, nonatomic) IBOutlet UILabel *medicalDate;
+@property (weak, nonatomic) IBOutlet UILabel *medicalTime;
+@property (weak, nonatomic) IBOutlet UILabel *medicalMessage;
+@property (weak, nonatomic) IBOutlet UILabel *diagnosisDate;
+@property (weak, nonatomic) IBOutlet UILabel *diagnosisTime;
+@property (weak, nonatomic) IBOutlet UILabel *diagnosismessage;
 
 @end
 
@@ -92,9 +106,12 @@
     NSDictionary *sittingAddOrEditDiffer;
     NSString *sittingNumberToPassSittingVC;
     NSIndexPath *selectedSittingIndex;
+    NSArray *slideoutImageArray,*slideoutArray;
+    NSString *navTitle,*titleOfTreatment,*closureNote,*medicalNote,*diagnosisNote,*doYouWantToCloseTreatment,*alert,*alertOk,*updatedSuccess,*updateFailed,*saveSuccess,*saveFailed,*enterTreatmentClosure,*ok,*yesStr,*noStr,*treatmentTitlerequired,*sittingStr,*closedSuccess;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self localize];
     imageManager =[[ImageUploadAPI alloc]init];
     allTagListArray=[[NSMutableArray alloc]init];
     filterdTagListArray=[[NSMutableArray alloc]init];
@@ -102,7 +119,7 @@
     sittingCollectionViewHeight=0.0,uploadCellHeight=0.0,diagnosisCellHeight=25.0,medicalHistoryCellHeight=25.0;
     constant=[[Constant alloc]init];
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-2.jpg"]]];
-    self.title=@"Treatment Sheet";
+    self.title=navTitle;
     [_treatmentNameTF addTarget:self action:@selector(enableAndDisableTreatmentName) forControlEvents:UIControlEventEditingChanged];
     uploadedImageArray=[[NSMutableArray alloc]init];
     sittingCollectionArray=[[NSMutableArray alloc]init];
@@ -124,6 +141,9 @@
         treatmentID=@"0";
     }
 }
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self changeTreatmentTF];
@@ -133,6 +153,11 @@
         [self DisableAllButton:NO];
     }else [self DisableAllButton:YES];
 }
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [_sittingCollectionView reloadData];
+}
+
 -(void)callSeedApi{
     
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
@@ -193,13 +218,9 @@
         _treatmentEncloserTextView.userInteractionEnabled=NO;
     }
 }
--(void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    [_sittingCollectionView reloadData];
-}
 //navigation bar
 -(void)navigationItemMethod{
-    UIImage* image3 = [UIImage imageNamed:@"Icon-Signout.png"];
+    UIImage* image3 = [UIImage imageNamed:@"06-Icon-Navigation.png"];
     CGRect frameimg = CGRectMake(0, 0, image3.size.width, image3.size.height);
     UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
     [someButton setBackgroundImage:image3 forState:UIControlStateNormal];
@@ -216,6 +237,27 @@
     negativeSpace.width=-25;
     self.navigationItem.leftBarButtonItems=@[barItem];
     [button addTarget:self action:@selector(popView) forControlEvents:UIControlEventTouchUpInside];
+
+    CGRect lagFrameimg = CGRectMake(30,0,95,25);
+    UIButton *lagSomeButton= [[UIButton alloc] initWithFrame:lagFrameimg];
+    lagSomeButton.backgroundColor=[UIColor whiteColor];
+    lagSomeButton.layer.cornerRadius=13;
+    NSUserDefaults *standardDefault=[NSUserDefaults standardUserDefaults];
+    [lagSomeButton setTitle:[standardDefault valueForKey:@"languageName"] forState:normal];
+    [lagSomeButton setTitleColor:[UIColor blackColor] forState:normal];
+    lagSomeButton.titleLabel.font=[UIFont fontWithName:@"OpenSansSemibold" size:10];
+    [lagSomeButton addTarget:self action:@selector(languageChange:) forControlEvents:UIControlEventTouchUpInside];
+    [lagSomeButton setShowsTouchWhenHighlighted:YES];
+    UIBarButtonItem *lagButton =[[UIBarButtonItem alloc] initWithCustomView:lagSomeButton];
+    
+    self.navigationItem.rightBarButtonItems=@[mailbutton,lagButton];
+    
+    slideoutArray=@[@"About Us",@"FAQ",@"Terms and Conditions",@"Privacy and Policy",@"Logout"];
+    slideoutImageArray=@[@"07-User.png",@"01-Icon-About-Us.png",@"02-Icon-FAQ.png",@"04-Icon-Terms.png",@"03-Icon-Privacy.png",@"05-Icon-Logout.png"];
+}
+-(void)languageChange:(id)sender
+{
+
 }
 //pop view
 -(void)popView{
@@ -223,7 +265,7 @@
 }
 //pop to root view
 -(void)popToViewController{
- [self.navigationController popToRootViewControllerAnimated:YES];   
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 //enable disable treatmentName
 -(void)enableAndDisableTreatmentName{
@@ -231,9 +273,6 @@
         _treatmentButton.userInteractionEnabled=YES;
     }
     else _treatmentButton.userInteractionEnabled=NO;
-}
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
 }
 //increase the View Height of patient view
 - (IBAction)increaseViewHeightOfPatientView:(id)sender {
@@ -319,7 +358,7 @@
 //save treatment enclosure
 - (IBAction)saveTreatmentEncloser:(id)sender {
     if (_treatmentNameTF.text.length==0) {
-        [self ShowAlert:@"Treatment Title is required"];
+        [self ShowAlert:treatmentTitlerequired];
     }else{
         [self callApiToPostTreatment];
     }
@@ -328,15 +367,15 @@
 - (IBAction)closeTreatmentEncloser:(id)sender {
     if (![_treatmentEncloserTextView.text isEqualToString:@""]) {
         if (_treatmentNameTF.text.length==0) {
-            [self ShowAlert:@"Treatment Title is required"];
+            [self ShowAlert:treatmentTitlerequired];
         }else{
-            UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:@"Do you want to close the Treatment?" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *success=[UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+            UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:doYouWantToCloseTreatment preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
                 [self callAPIToCloseTreatmentOrUpdate:@"close"];
                 [alertView dismissViewControllerAnimated:YES completion:nil];
             }];
             [alertView addAction:success];
-            UIAlertAction *failure=[UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+            UIAlertAction *failure=[UIAlertAction actionWithTitle:noStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
                 [alertView dismissViewControllerAnimated:YES completion:nil];
             }];
             [alertView addAction:failure];
@@ -344,13 +383,13 @@
         }
     }
     else{
-        [self ShowAlert:@"Please enter Treatment Closure Notes"];
+        [self ShowAlert:enterTreatmentClosure];
     }
 }
 //show alert
 -(void)ShowAlert:(NSString*)msg{
-    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:alertOk style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
         [alertView dismissViewControllerAnimated:YES completion:nil];
     }];
     [alertView addAction:success];
@@ -495,7 +534,7 @@
             _sittingCollectionViewWidth.constant=_settingView.frame.size.width-100;
         }
         else _sittingCollectionViewWidth.constant=_sittingCollectionView.contentSize.width;
-        cell.sittingLabel.text=[NSString stringWithFormat:@"Sitting #%@",model.sittingNumber];
+        cell.sittingLabel.text=[NSString stringWithFormat:@"%@ #%@",sittingStr,model.sittingNumber];
         if ([_patientDetailModel.IsTreatmentCompleted intValue]==0) {
             if ([model.completed isEqualToString:@"0"]) {
                 cell.closeSitting.hidden=NO;
@@ -530,8 +569,16 @@
                     cell.uploadImageView.image=model.imageName;
             }
             else{
-                NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,expandProfileImage,model.code];
-                [cell.uploadImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@""]];
+                NSString *strimageUrl;
+                if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+                    strimageUrl = [NSString stringWithFormat:@"%@%@%@/EdittedProfile.jpeg",baseUrlAws,dbName,model.storgeId];
+                }else
+                {
+                    strimageUrl = [NSString stringWithFormat:@"%@%@%@",baseUrl,expandProfileImage,model.code];
+                }
+                
+                [cell.uploadImageView setImageWithURL:[NSURL URLWithString:strimageUrl] placeholderImage:[UIImage imageNamed:@""]];
+                        
             }
             cell.labelHeight.constant =[model.captionText boundingRectWithSize:(CGSize){136,CGFLOAT_MAX } options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:12]} context:nil].size.height+10;
             cell.captionLabel.text=model.captionText;
@@ -594,8 +641,6 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
     
     SittingModelClass *sitMode = sittingCollectionArray[0];
     NSLog(@"%@",sitMode.visit);
-    
-    
     
     
     [self callApiToDeleteSitting];
@@ -678,7 +723,7 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
     [_increaseMedicalViewButton setImage:[UIImage imageNamed:@"Dropdown-icon"] forState:normal];
     [_increasePatientViewButton setImage:[UIImage imageNamed:@"Dropdown-icon-up"] forState:normal];
     [_increasesettingViewButton setImage:[UIImage imageNamed:@"Dropdown-icon"] forState:normal];
-    _treatmentNameTF.attributedPlaceholder=[constant textFieldPatient:@"Treatment Title"];
+    _treatmentNameTF.attributedPlaceholder=[constant textFieldPatient:titleOfTreatment];
     [constant spaceAtTheBeginigOfTextField:_treatmentNameTF];
     _treatmentEncloserTextView.layer.borderColor=[UIColor colorWithRed:0.682 green:0.718 blue:0.729 alpha:0.6].CGColor;
     _treatmentEncloserTextView.layer.borderWidth=1;
@@ -733,7 +778,7 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
         _treatmentNameTF.layer.borderWidth=1;
         _treatmentNameTF.layer.cornerRadius=5;
         _treatmentNameTF.layer.borderColor=[UIColor colorWithRed:0.557 green:0.733 blue:0.796 alpha:1].CGColor;
-        _treatmentNameTF.attributedPlaceholder=[constant PatientSheetPlaceHolderText:@"Title of the Treatment"];
+        _treatmentNameTF.attributedPlaceholder=[constant PatientSheetPlaceHolderText:titleOfTreatment];
         _treatmentButton.userInteractionEnabled=NO;
         [_treatmentButton setImage:[UIImage imageNamed:@"Tick-icon1.png"] forState:normal];
         _treatmentNameTF.enabled=YES;
@@ -810,8 +855,13 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
 }
 -(void)selectedImage:(UIImage *)image withCaption:(NSString *)captionText{
     UploadModelClass *uploadModel=[[UploadModelClass alloc]init];
+    
+    
     uploadModel.imageName=image;
     uploadModel.captionText=captionText;
+    
+    
+    
     [uploadedImageArray addObject:uploadModel];
     for (UploadModelClass *m in uploadedImageArray) {
         CGFloat labelHeight=[m.captionText boundingRectWithSize:(CGSize){136,CGFLOAT_MAX }
@@ -823,6 +873,9 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
     _uploadCollectionView.hidden=NO;
     _uploadViewHeigh.constant=uploadCellHeight+185;
 }
+
+
+
 -(void)deleteCell:(id)cell{
     uploadCellHeight=0.0;
     NSIndexPath *index=[_uploadCollectionView indexPathForCell:cell];
@@ -839,6 +892,12 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
     }
     else _uploadViewHeigh.constant=uploadCellHeight+185;
 }
+
+
+
+
+
+
 - (IBAction)gestureRecognize:(id)sender {
     [self.view endEditing:YES];
 }
@@ -949,8 +1008,8 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
             NSDictionary *dict1=dict[@"TreatmentRequest"];
             [self saveImage:dict1[@"Code"]];
         }
-        UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:dict[@"Message"] preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:dict[@"Message"] preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *success=[UIAlertAction actionWithTitle:alertOk style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
             [self.navigationController popViewControllerAnimated:YES];
             if (![_patientDetailModel.title isEqualToString:_treatmentNameTF.text]) {
                 [self CallLoadTreatMentDelegate];
@@ -1013,10 +1072,18 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
     if (_patientDetailModel.documentDetails.count>0) {
         for (NSDictionary *dict in _patientDetailModel.documentDetails) {
             UploadModelClass *uploadModel=[[UploadModelClass alloc]init];
-            uploadModel.storgeId=dict[@"StorageID"];
-            uploadModel.code=dict[@"Code"];
-            uploadModel.captionText=dict[@"RenamedFilename"];
+//            uploadModel.storgeId=  dict[@"StorageID"];
+//            uploadModel.code=  dict[@"Code"];
+//            uploadModel.captionText=  dict[@"RenamedFilename"];
+//            uploadModel.imageName=nil;
+            
+            uploadModel.storgeId = NULL_CHECK(dict[@"StorageID"]);
+            uploadModel.code=   NULL_CHECK(dict[@"Code"]);
+            uploadModel.captionText= NULL_CHECK(dict[@"RenamedFilename"]);
             uploadModel.imageName=nil;
+
+            
+            
             [uploadedImageArray addObject:uploadModel];
         }
         if (![_increaseUploadViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
@@ -1061,8 +1128,8 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
     else  parameter=[self getParameterForSaveORCloseOrUpdateTreatment:@"true" withTreatmentCompleted:@"false" withMethodType:@"PUT"];
     [postman put:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if ([closeOrUpdate isEqualToString:@"close"]) {
-            [self processCloseTreatment:responseObject withMessage:@"Closed successfully"];
-        }else  [self processCloseTreatment:responseObject withMessage:@"Updated successfully"];
+            [self processCloseTreatment:responseObject withMessage:closedSuccess];
+        }else  [self processCloseTreatment:responseObject withMessage:updatedSuccess];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -1079,16 +1146,18 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
         dict  = responseDict1[@"aaData"];
     }else  dict=responseObject;
     if ([dict[@"Success"]intValue]==1) {
-        UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:msg preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *success=[UIAlertAction actionWithTitle:alertOk style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
             [self.navigationController popViewControllerAnimated:YES];
             [self CallLoadTreatMentDelegate];
             [alertView dismissViewControllerAnimated:YES completion:nil];
         }];
         [alertView addAction:success];
         [self presentViewController:alertView animated:YES completion:nil];
-    }else  [self MBProgressMessage:dict[@"Message"]];
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }else {
+        [self MBProgressMessage:dict[@"Message"]];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    }
 }
 
 
@@ -1117,8 +1186,6 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
         jsondict[@"Diagnosis"]=medicalText;
     }
     jsondict[@"TreatmentClosure"]=_treatmentEncloserTextView.text;
-    NSData *jsonData2 = [NSJSONSerialization dataWithJSONObject:jsondict options:kNilOptions error:nil];
-    NSString *treatmentRequest = [[NSString alloc] initWithData:jsonData2 encoding:NSUTF8StringEncoding];
     NSMutableDictionary *treatmentRequestDict=[[NSMutableDictionary alloc]init];
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSString *dateStr=[formatter stringFromDate:[NSDate date]];
@@ -1132,7 +1199,18 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
     treatmentRequestDict[@"Title"]=_treatmentNameTF.text;
     treatmentRequestDict[@"Status"]=status;
     treatmentRequestDict[@"CompanyCode"]=postmanCompanyCode;
-    treatmentRequestDict[@"JSON"]=treatmentRequest;
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"])
+    {
+        treatmentRequestDict[@"JSON"]=jsondict;
+
+    }else
+    {
+        NSData *jsonData2 = [NSJSONSerialization dataWithJSONObject:jsondict options:kNilOptions error:nil];
+        NSString *treatmentRequest = [[NSString alloc] initWithData:jsonData2 encoding:NSUTF8StringEncoding];
+        treatmentRequestDict[@"JSON"]=treatmentRequest;
+    }
+    
     if ([type isEqualToString:@""]) {
         passingDictToSittingVc=treatmentRequestDict;
     }
@@ -1149,7 +1227,12 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
         NSData *parameterData1 = [NSJSONSerialization dataWithJSONObject:dict options:kNilOptions error:nil];
         NSString *treatmentRequestStr1 = [[NSString alloc] initWithData:parameterData1 encoding:NSUTF8StringEncoding];
         parameter =[NSString stringWithFormat:@"{\"request\":%@}",treatmentRequestStr1];
-    }else{
+   
+    
+    }
+    
+    
+    else{
         //For Material API
         parameter=[NSString stringWithFormat:@"{\"MethodType\": \"%@\", \"Id\": \"%@\",\"TreatmentRequest\":%@}",type,treatmentID,treatmentRequestStr];
     }
@@ -1310,7 +1393,7 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
 }
 - (IBAction)addSitting:(id)sender {
     if (_treatmentNameTF.text.length==0) {
-        [self ShowAlert:@"Treatment title is required"];
+        [self ShowAlert:treatmentTitlerequired];
     }else{
         selectedSittingIndex=nil;
         [previousSittingDetailArray removeAllObjects];
@@ -1371,7 +1454,7 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
             }
         }
     }else{
-        [self callAPIToCloseTreatmentOrUpdate:@"update"];
+        //[self callAPIToCloseTreatmentOrUpdate:@"update"];
     }
 }
 - (IBAction)exit:(id)sender {
@@ -1414,29 +1497,32 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
         dict=responseObject;
     }
     if ([dict[@"Success"] intValue]==1) {
-        for (NSDictionary *dict1 in dict[@"TreatmentRequest"]) {
+        for (NSDictionary *dict1 in dict[@"TreatmentRequests"]) {
             if ([dict1[@"Status"]intValue]==1) {
                 if ([dict1[@"Id"]intValue]==[_patientTitleModel.idValue intValue]) {
-                    _patientDetailModel=[[PatientDetailModel alloc]init];
-                    _patientDetailModel.IsTreatmentCompleted=dict1[@"IsTreatmentCompleted"];
-                   // _patientDetailModel.idValue=dict1[@"TreatmentId"];
-                     _patientDetailModel.idValue=dict1[@"Id"];
-                    _patientDetailModel.code=dict1[@"TreatmentCode"];
-                    _patientDetailModel.title=dict1[@"Title"];
-                    _patientDetailModel.symptomTagCodes=[dict1[@"SymptomTagCodes"] componentsSeparatedByString:@"|$|"];
-                    NSDictionary *bioDict=dict1[@"BiomagneticSittingResults"];
-                    NSSortDescriptor *descriptor=[[NSSortDescriptor alloc]initWithKey:@"SittingNumber" ascending:YES];
-                    NSArray *ar=[bioDict[@"ViewModels"] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
-                    _patientDetailModel.biomagneticSittingResults=ar;
-                    _patientDetailModel.documentDetails=dict1[@"DocumentDetails"];
-                    _patientDetailModel.treatmentRequestDate=dict1[@"TreatmentRequestDate"];
-                    _patientDetailModel.treatmentDetail=dict1[@"JSON"];
-                    // model.updateCount=dict1[@"UpdateCount"];
+                    [self getDataOfResponseOfTreatmentRequestDetail:dict1];
                 }
             }
         }
         [self showTreatmentDetail];
     }
+}
+-(void)getDataOfResponseOfTreatmentRequestDetail:(NSDictionary*)dict1{
+    _patientDetailModel=[[PatientDetailModel alloc]init];
+    _patientDetailModel.IsTreatmentCompleted=dict1[@"IsTreatmentCompleted"];
+    // _patientDetailModel.idValue=dict1[@"TreatmentId"];
+    _patientDetailModel.idValue=dict1[@"Id"];
+    _patientDetailModel.code=dict1[@"TreatmentCode"];
+    _patientDetailModel.title=dict1[@"Title"];
+    _patientDetailModel.symptomTagCodes=[dict1[@"SymptomTagCodes"] componentsSeparatedByString:@"|$|"];
+    NSDictionary *bioDict=dict1[@"BiomagneticSittingResults"];
+    NSSortDescriptor *descriptor=[[NSSortDescriptor alloc]initWithKey:@"SittingNumber" ascending:YES];
+    NSArray *ar=[bioDict[@"ViewModels"] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
+    _patientDetailModel.biomagneticSittingResults=ar;
+    _patientDetailModel.documentDetails=dict1[@"DocumentDetails"];
+    _patientDetailModel.treatmentRequestDate=dict1[@"TreatmentRequestDate"];
+    _patientDetailModel.treatmentDetail=dict1[@"JSON"];
+    // model.updateCount=dict1[@"UpdateCount"];
 }
 //upload image after save sitting
 -(void)uploadImageAfterSaveInSitting:(NSString*)code{
@@ -1526,5 +1612,51 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
         [self callApiTogetAllDetailOfTheTreatment];
     }else [self ShowAlert:dict[@"Message"]];
 }
-
+-(void)localize{
+    navTitle=[MCLocalization stringForKey:@"TreatmentSheet"];
+    alert=[MCLocalization stringForKey:@"Alert!"];
+    alertOk=[MCLocalization stringForKey:@"AlertOK"];
+    updateFailed=[MCLocalization stringForKey:@"Updated.Failed"];
+    updatedSuccess=[MCLocalization stringForKey:@"Updated.successfully"];
+    saveFailed=[MCLocalization stringForKey:@"Save Failed"];
+    saveSuccess=[MCLocalization stringForKey:@"Saved successfully"];
+    _genderLabel.text=[MCLocalization stringForKey:@"GenderLabel"];
+    _dobLabel.text=[MCLocalization stringForKey:@"DateOfBirthLabel"];
+    _ageLabel.text=[MCLocalization stringForKey:@"AgeLabel"];
+    _mobileLabel.text=[MCLocalization stringForKey:@"MobileLabel"];
+    _tranfusion.text=[MCLocalization stringForKey:@"TransfusionLabel"];
+    _emailLabel.text=[MCLocalization stringForKey:@"EmailLabel"];
+    _surgeryLabel.text=[MCLocalization stringForKey:@"SurgeriesLabel"];
+    yesStr=[MCLocalization stringForKey:@"Yes"];
+    noStr=[MCLocalization stringForKey:@"No"];
+    _attachment.text=[MCLocalization stringForKey:@"Attachment"];
+    _medicalHistoryLabel.text=[MCLocalization stringForKey:@"Medical History"];
+    _diagnosisLabel.text=[MCLocalization stringForKey:@"Diagnosis"];
+    _uploadLabel.text=[MCLocalization stringForKey:@"upload"];
+    _settingLabel.text=[MCLocalization stringForKey:@"Sittings"];
+    _treatmentEnclosure.text=[MCLocalization stringForKey:@"Treatment Closure"];
+    closureNote=[MCLocalization stringForKey:@"Add Closure Notes"];
+    medicalNote=[MCLocalization stringForKey:@"Add Medical Notes"];
+    diagnosisNote=[MCLocalization stringForKey:@"Add Diagnosis Notes"];
+    _medicalDate.text=[MCLocalization stringForKey:@"Date"];
+    _medicalTime.text=[MCLocalization stringForKey:@"Time"];
+    _medicalMessage.text=[MCLocalization stringForKey:@"Message"];
+    _diagnosisDate.text=[MCLocalization stringForKey:@"Date"];
+    _diagnosisTime.text=[MCLocalization stringForKey:@"Time"];
+    _diagnosismessage.text=[MCLocalization stringForKey:@"Message"];
+    _patientDetailLabel.text=[MCLocalization stringForKey:@"Patient Details"];
+    titleOfTreatment=[MCLocalization stringForKey:@"Title of the Treatment"];
+    [_closeTreatmentClosure setTitle:[MCLocalization stringForKey:@"close"] forState:normal];
+    [_saveTreatmentClosure setTitle:[MCLocalization stringForKey:@"Save"] forState:normal];
+    [_exit setTitle:[MCLocalization stringForKey:@"Exit"] forState:normal];
+     [_addMedical setTitle:[MCLocalization stringForKey:@"Add"] forState:normal];
+     [_addDiagnosis setTitle:[MCLocalization stringForKey:@"Add"] forState:normal];
+    [_cancelMedical setTitle:[MCLocalization stringForKey:@"Clear"] forState:normal];
+    ok=[MCLocalization stringForKey:@"OK"];
+    enterTreatmentClosure=[MCLocalization stringForKey:@"Please enter Treatment Closure Notes"];
+    doYouWantToCloseTreatment=[MCLocalization stringForKey:@"Do you want to close the Treatment?"];
+    treatmentTitlerequired=[MCLocalization stringForKey:@"Treatment Title  is required"];
+    sittingStr=[MCLocalization stringForKey:@"Sitting"];
+    closedSuccess=[MCLocalization stringForKey:@"Closed successfully"];
+}
 @end

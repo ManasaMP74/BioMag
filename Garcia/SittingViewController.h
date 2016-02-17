@@ -46,6 +46,23 @@
 @property(strong,nonatomic)NSArray *biomagneticAnotomicalPointArray;
 @property(strong,nonatomic)NSString *sittingNumber;
 @property(strong,nonatomic)NSArray *allAddedBiomagArray;
+
+@property (weak, nonatomic) IBOutlet UILabel *ageLabel;
+@property (weak, nonatomic) IBOutlet UILabel *interpretationLabel;
+@property (weak, nonatomic) IBOutlet UILabel *scanpointLabel;
+@property (weak, nonatomic) IBOutlet UILabel *CodeLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *genderLabel;
+@property (weak, nonatomic) IBOutlet UILabel *mobileLabel;
+@property (weak, nonatomic) IBOutlet UILabel *emailLabel;
+@property (weak, nonatomic) IBOutlet UILabel *transfusion;
+@property (weak, nonatomic) IBOutlet UILabel *chargeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *surgeriesLabel;
+@property (weak, nonatomic) IBOutlet UILabel *correspondingPair;
+@property (weak, nonatomic) IBOutlet UILabel *psychoemotionalLabel;
+
+
+
 //get Data From SlideOut
 -(void)sittingFromSlideOut;
 @end

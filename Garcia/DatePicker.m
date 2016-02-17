@@ -1,6 +1,6 @@
 #import "DatePicker.h"
 #import "AppDelegate.h"
-
+#import <MCLocalization/MCLocalization.h>
 @implementation DatePicker
 {
     UIView *view;
@@ -22,6 +22,8 @@
 }
 -(void)initializeView
 {
+    [_cancelButton setTitle:[MCLocalization stringForKey:@"Cancel"] forState:normal];
+    [_doneButton setTitle:[MCLocalization stringForKey:@"Done"] forState:normal];
     view.layer.cornerRadius = 10;
     view.layer.masksToBounds  = YES;
     _doneButton.layer.cornerRadius=21;

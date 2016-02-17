@@ -12,6 +12,7 @@
 #import "PostmanConstant.h"
 #import "lagModel.h"
 #import "SeedSyncer.h"
+#import "LanguageChanger.h"
 @interface ContainerViewController ()<addedPatient,loadTreatmentDelegate,selectedObjectInPop,WYPopoverControllerDelegate>
 
 @end
@@ -34,7 +35,7 @@
     postman=[[Postman alloc]init];
     [self callSeed];
     slideoutArray=@[@"About Us",@"FAQ",@"Terms and Conditions",@"Privacy and Policy",@"Logout"];
-    slideoutImageArray=@[@"07-User.png",@"01-Icon-About-Us.png",@"02-Icon-FAQ.png",@"04-Icon-Terms.png",@"03-Icon-Privacy.png",@"05-Icon-Logout.png"];
+    slideoutImageArray=@[@"07-User.png",@"Icon-About.png",@"Icon-Faq.png",@"Icon-Terms.png",@"Icon-Privacy.png",@"Icon-Logout.png"];
     
     
     
@@ -126,7 +127,7 @@
     wypopOverController.theme=[WYPopoverTheme themeForIOS6];
     wypopOverController.theme.outerCornerRadius=2;
     wypopOverController.theme.outerStrokeColor=[UIColor lightGrayColor];
-    wypopOverController.theme.arrowHeight = 8;
+    wypopOverController.theme.arrowHeight =0;
     wypopOverController.theme.arrowBase= 15;
     wypopOverController.theme.fillTopColor = [UIColor grayColor];
     wypopOverController.theme.overlayColor= [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
@@ -138,6 +139,8 @@
      [standardDefault setValue:model.name forKey:@"languageName"];
     [lagSomeButton setTitle:[standardDefault valueForKey:@"languageName"] forState:normal];
   [wypopOverController dismissPopoverAnimated:NO];
+    LanguageChanger *languageChanger=[[LanguageChanger alloc]init];
+    [languageChanger callApiForLanguage];
 }
 //delegate of slideout
 -(void)selectedSlideOutObject:(NSString *)name{
@@ -286,22 +289,23 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
     }
-    
 }
 -(void)processResponse:(id)response{
     NSDictionary *dict;
      if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
     NSDictionary *dic1=response;
          dict=dic1[@"aaData"];
-         
      }else{
          dict=response;
      }
     for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
-        lagModel *model=[[lagModel alloc]init];
-        model.name=dict1[@"Name"];
-        model.code=dict1[@"Code"];
-        [languageArray addObject:model];
+        if ([dict1[@"Status"]boolValue]) {
+            lagModel *model=[[lagModel alloc]init];
+            model.name=dict1[@"Name"];
+            model.code=dict1[@"Code"];
+            [languageArray addObject:model];
+
+        }
     }
 }
 

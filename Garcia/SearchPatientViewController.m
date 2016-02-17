@@ -5,8 +5,10 @@
 #import "MBProgressHUD.h"
 #import "searchPatientModel.h"
 #import "SeedSyncer.h"
+#import <MCLocalization/MCLocalization.h>
 @interface SearchPatientViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *searchTextField;
+@property (weak, nonatomic) IBOutlet UILabel *addPatientLabel;
 
 @property (weak, nonatomic) IBOutlet UITableView *patientListTableView;
 
@@ -23,6 +25,7 @@
     Postman *postman;
     NSDateFormatter *dateFormatter;
     int initialSelectedRow,MBProgressCountToHide;
+    NSString *search,*addPatient;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -31,17 +34,18 @@
     postman=[[Postman alloc]init];
     postmanConstant=[[PostmanConstant alloc]init];
     constant=[[Constant alloc]init];
+    [self localize];
     [_searchTextField addTarget:self action:@selector(searchDoctorOnProfession) forControlEvents:UIControlEventEditingChanged];
     [constant spaceAtTheBeginigOfTextField:_searchTextField];
-    _searchTextField.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Search"];
+    _searchTextField.attributedPlaceholder=[constant textFieldPlaceHolderText:search];
+    _addPatientLabel.text=addPatient;
     _searchTextField.layer.cornerRadius=18;
     _searchTextField.layer.borderColor=[UIColor colorWithRed:0.004 green:0.216 blue:0.294 alpha:0.5].CGColor;
     _searchTextField.layer.borderWidth=1;
     selectedIndexPath=nil;
     patentnameArray=[[NSMutableArray alloc]init];
     patentFilteredArray=[[NSMutableArray alloc]init];
-  ContainerViewController *containerVc =(ContainerViewController*)self.parentViewController;
-    if (patentnameArray.count==0) {
+      if (patentnameArray.count==0) {
         MBProgressCountToHide=0;
         [self callSeed];
     }
@@ -104,8 +108,26 @@
     {
         model = patentFilteredArray[indexPath.row];
     }
-    NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,model.profileImageCode];
-    [cell.patientImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
+   
+//        NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,model.profileImageCode];
+//    [cell.patientImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
+//    
+    
+    
+    NSString *strimageUrl;
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        strimageUrl = [NSString stringWithFormat:@"%@%@%@/EdittedProfile.jpeg",baseUrlAws,dbName,model.storageID];
+        
+    }else
+    {
+        strimageUrl = [NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,model.profileImageCode];
+        
+    }
+
+    [cell.patientImageView setImageWithURL:[NSURL URLWithString:strimageUrl] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
+    
+    
+    
     cell.patientNameLabel.text = model.name;
     if ([selectedIndexPath isEqual:indexPath]) {
         cell.patientNameLabel.textColor=[UIColor colorWithRed:0.7098 green:0.99 blue:0.98 alpha:1];
@@ -412,5 +434,9 @@
     }];
     [alertView addAction:success];
     [self presentViewController:alertView animated:YES completion:nil];
+}
+-(void)localize{
+    search=[MCLocalization stringForKey:@"Search"];
+    addPatient=[MCLocalization stringForKey:@"Add Patient"];
 }
 @end

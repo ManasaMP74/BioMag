@@ -229,16 +229,30 @@
 //languageChange
 -(void)localize
 {
-    _userNameTf.attributedPlaceholder=[constant textFieldPlaceLogin:[MCLocalization stringForKey:@"Username"]];
-    _passwordTF.attributedPlaceholder=[constant textFieldPlaceLogin:[MCLocalization stringForKey:@"Password"]];
-    authenticationFailedStr=[MCLocalization stringForKey:@"Authentication.failed"];
-    alertStr=[MCLocalization stringForKey:@"Alert!"];
-    alertOkStr=[MCLocalization stringForKey:@"AlertButtonOK"];
-    userNameRequiredStr=[MCLocalization stringForKey:@"User.Name.is.required"];
-    PasswordRequiredStr=[MCLocalization stringForKey:@"Password.is.required"];
-    seedError=@"Some.error.occured.Please.try.again";
-    loginFailed= @"Login.failed";
-    [_signIn setTitle:[MCLocalization stringForKey:@"Sign.In"] forState:normal];
-    [_forgotPassword setTitle:[MCLocalization stringForKey:@"Forgot.password?"] forState:normal];
+    _userNameTf.attributedPlaceholder=[constant textFieldPlaceLogin:@"Username"];
+        _passwordTF.attributedPlaceholder=[constant textFieldPlaceLogin:@"Password"];
+        authenticationFailedStr=@"Authentication failed";
+        alertStr=@"Alert!";
+        alertOkStr=@"OK";
+        userNameRequiredStr=@"User name is required";
+        PasswordRequiredStr=@"Password is required";
+        seedError=@"Some error occured Please try again";
+        loginFailed= @"Login failed";
+        [_signIn setTitle:@"Sign In" forState:normal];
+        [_forgotPassword setTitle:@"Forgot password?" forState:normal];
+    
+    
+    
+//    _userNameTf.attributedPlaceholder=[constant textFieldPlaceLogin:[MCLocalization stringForKey:@"Username"]];
+//    _passwordTF.attributedPlaceholder=[constant textFieldPlaceLogin:[MCLocalization stringForKey:@"Password"]];
+//    authenticationFailedStr=[MCLocalization stringForKey:@"Authentication.failed"];
+//    alertStr=[MCLocalization stringForKey:@"Alert!"];
+//    alertOkStr=[MCLocalization stringForKey:@"AlertButtonOK"];
+//    userNameRequiredStr=[MCLocalization stringForKey:@"User.Name.is.required"];
+//    PasswordRequiredStr=[MCLocalization stringForKey:@"Password.is.required"];
+//    seedError=@"Some.error.occured.Please.try.again";
+//    loginFailed= @"Login.failed";
+//    [_signIn setTitle:[MCLocalization stringForKey:@"Sign.In"] forState:normal];
+//    [_forgotPassword setTitle:[MCLocalization stringForKey:@"Forgot.password?"] forState:normal];
 }
 @end

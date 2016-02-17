@@ -34,6 +34,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *otherGermsLabel;
 @property (weak, nonatomic) IBOutlet UIView *germView;
 
+@property (weak, nonatomic) IBOutlet UILabel *author;
+@property (weak, nonatomic) IBOutlet UILabel *previousSitting;
 
 
 @end

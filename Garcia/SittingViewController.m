@@ -23,6 +23,7 @@
 #import "SeedSyncer.h"
 #import "PreviousSittingModelClass.h"
 #import "ToxicDeficiency.h"
+#import <MCLocalization/MCLocalization.h>
 @interface SittingViewController ()<UITableViewDelegate,UITableViewDataSource,addsymptom,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,UICollectionViewDataSource,ExpandCellProtocol,SWRevealViewControllerDelegate,deleteCellValue,SWRevealViewControllerDelegate,datePickerProtocol,sendGermsData>
 @property (strong, nonatomic) IBOutlet UILabel *ageValue;
 @property (strong, nonatomic) IBOutlet UILabel *filterLabel;
@@ -51,8 +52,10 @@
     AppDelegate *appdelegate;
     NSString *selectedToxicString;
     NSArray *selectedPreviousArray;
+    NSString *navTitle,*alert,*alertOK,*saveFailed,*saveSuccess,*yesStr,*noStr,*authour,*enterSittingInfo,*previousSittings,*issueStr,*noIssueStr,*sStr,*s1Str,*doYoucloseSitting;
 }
 - (void)viewDidLoad {
+    [self localize];
     appdelegate=[UIApplication sharedApplication].delegate;
     constant=[[Constant alloc]init];
     toxicDeficiencyArray=[[NSMutableArray alloc]init];
@@ -88,6 +91,9 @@
         _exit.hidden=NO;
     }
     [self setTheValuesInTableView];
+}
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
 }
 //Set The Data at the Begining
 -(void)setTheValuesInTableView{
@@ -147,15 +153,12 @@
         
     }
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
 -(void)defaultValues{
     _patientimage.layer.cornerRadius=_patientimage.frame.size.width/2;
     _patientimage.clipsToBounds=YES;
     [constant SetBorderForTextField:_priceTf];
     [constant spaceAtTheBeginigOfTextField:_priceTf];
-    _priceTf.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Charge"];
+    _priceTf.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Charge"]];
     _patientName.text= _searchModel.name;
     _ageValue.text=_searchModel.age;
     _mobileValue.text=_searchModel.mobileNo;
@@ -181,7 +184,7 @@
 //navigation bar
 -(void)navigationItemMethod{
     self.revealViewController.navigationItem.hidesBackButton=YES;
-    self.revealViewController.title=@"Sitting";
+    self.revealViewController.title=navTitle;
     UIImage* image3 = [UIImage imageNamed:@"Icon-Signout.png"];
     CGRect frameimg = CGRectMake(0, 0, image3.size.width, image3.size.height);
     UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
@@ -233,7 +236,7 @@
     cell.serialNumber.text=model.sortNumber;
     cell.doctorName.text=model.author;
     cell.sittingTextView.text=model.germsString;
-    
+    cell.author.text=authour;
     if ([selectedIndexArray containsObject:indexPath]) {
         [self hideTheViewInTableViewCell:NO withCell:cell];
         cell.interpretation.numberOfLines=0;
@@ -384,8 +387,8 @@
                 if (anotomicalPointArray.count>0) {
                     for (NSDictionary *anotomicalDict in anotomicalPointArray) {
                         if (([anotomicalDict[@"SectionCode"] isEqualToString:model.sectionCode])&([anotomicalDict[@"CorrespondingPairCode"] isEqualToString:model.correspondingPairCode])&([anotomicalDict[@"ScanPointCode"] isEqualToString:model.scanPointCode]) ) {
-                            cell.sittingNumber.text=[NSString stringWithFormat:@"S%d",[dict[@"SittingNumber"]intValue]];
-                            _sittingNumberLabel.text=[NSString stringWithFormat:@"S%d",[dict[@"SittingNumber"]intValue]];
+                            cell.sittingNumber.text=[NSString stringWithFormat:@"%@%d",sStr,[dict[@"SittingNumber"]intValue]];
+                            _sittingNumberLabel.text=[NSString stringWithFormat:@"%@%d",sStr,[dict[@"SittingNumber"]intValue]];
                             cell.sittingTextView.text=anotomicalDict[@"GermsName"];
                             model.germsString= cell.sittingTextView.text;
                             cell.sittingTvPlaceholder.hidden=YES;
@@ -407,7 +410,7 @@
     }else {
         cell.sittingTextView.text=model.germsString;
         cell.sittingTvPlaceholder.hidden=YES;
-         _sittingNumberLabel.text=@"S1";
+         _sittingNumberLabel.text=s1Str;
     }
     if ([_isTreatmntCompleted intValue]==0) {
         if ([_bioSittingDict[@"IsCompleted"]intValue]==0 ){
@@ -430,7 +433,7 @@
             for (NSDictionary *anotomicalDict in anotomicalPointArray) {
                 if (([anotomicalDict[@"SectionCode"] isEqualToString:model.sectionCode])&([anotomicalDict[@"CorrespondingPairCode"] isEqualToString:model.correspondingPairCode])&([anotomicalDict[@"ScanPointCode"] isEqualToString:model.scanPointCode]) ) {
                     if ([anotomicalDict[@"Issue"] integerValue]==1) {
-                        NSString *str=[NSString stringWithFormat:@"S%d",[dict[@"SittingNumber"]intValue]];
+                        NSString *str=[NSString stringWithFormat:@"%@%d",sStr,[dict[@"SittingNumber"]intValue]];
                         model.otherSittingNumberHaveIssue=[model.otherSittingNumberHaveIssue stringByAppendingString:str];
                         model.otherSittingNumberHaveIssue=[model.otherSittingNumberHaveIssue stringByAppendingString:@" "];
                     }
@@ -457,10 +460,10 @@
 -(void)colorChange:(BOOL)issue withCell:(SittingTableViewCell*)cell{
     if (issue) {
         [cell.checkBox setBackgroundImage:[UIImage imageNamed:@"issue-Button"] forState:normal];
-        [cell.checkBox setTitle:@"Issues" forState:normal];
+        [cell.checkBox setTitle:issueStr forState:normal];
     }else{
         [cell.checkBox setBackgroundImage:[UIImage imageNamed:@"no-issue-Button"] forState:normal];
-        [cell.checkBox setTitle:@"No issues" forState:normal];
+        [cell.checkBox setTitle:noIssueStr forState:normal];
     }
 }
 //Hide button if treatment is completed
@@ -500,13 +503,13 @@
 //save
 - (IBAction)save:(id)sender {
     
-    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:@"Do you want to close Sitting?" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *success=[UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:doYoucloseSitting preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
         [self callApiToSaveTreatmentRequest:@"true"];
         [alertView dismissViewControllerAnimated:YES completion:nil];
     }];
     [alertView addAction:success];
-    UIAlertAction *failure=[UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+    UIAlertAction *failure=[UIAlertAction actionWithTitle:noStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
         [self callApiToSaveTreatmentRequest:@"false"];
         [alertView dismissViewControllerAnimated:YES completion:nil];
     }];
@@ -893,20 +896,29 @@
         parameter =[self getParameteToSaveSittingDetail:0 withSittingNum:0 withCompletedData:str];
     }
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    
     if ([_treatmentId integerValue]==0) {
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self processResponseObjectOfSaveTreatment:responseObject];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
         }];
     }else{
+        
         [postman put:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self processResponseObjectOfSaveTreatment:responseObject];
+        
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            
+            NSLog(@"%@",[operation responseObject]);
+            
             [self showAlerView:[NSString stringWithFormat:@"%@",error]];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
         }];
     }
 }
@@ -917,11 +929,15 @@
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData options:NSJSONReadingMutableContainers
                                                            error:&jsonError];
     NSMutableDictionary *finalDict=[json mutableCopy];
-    if ([_treatmentId integerValue]==0) {
-        finalDict[@"MethodType"]=@"POST";
-    }
-    else finalDict[@"MethodType"]=@"PUT";
-    NSMutableDictionary *treatmentDict=[finalDict[@"TreatmentRequest"]mutableCopy];
+    
+    NSMutableDictionary *treatmentDict;
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        NSString *str1=finalDict[@"TreatmentRequest"];
+        NSData *objectData1 = [str1 dataUsingEncoding:NSUTF8StringEncoding];
+    treatmentDict=[NSJSONSerialization JSONObjectWithData:objectData1 options:kNilOptions error:nil];
+    }else treatmentDict=[finalDict[@"TreatmentRequest"]mutableCopy];
     NSString *symptomStr=@"";
     for (SymptomTagModel *m in appdelegate.symptomTagArray) {
         symptomStr=[symptomStr stringByAppendingString:m.tagCode];
@@ -972,27 +988,59 @@
     sittingDict[@"Status"]=@"1";
     sittingDict[@"AnatomicalPoints"]=jsonSittingArray;
     sittingDict[@"Price"]=_priceTf.text;
+//    NSData *sittingData = [NSJSONSerialization dataWithJSONObject:sittingDict options:kNilOptions error:nil];
+//    NSString *jsonString = [[NSString alloc] initWithData:sittingData encoding:NSUTF8StringEncoding];
+//    dict[@"JSON"]=jsonString;
+//    [sittingResultArray addObject:dict];
+    
+//    finalDict[@"SittingResultsRequest"]=sittingResultArray;
+    
+    NSString *parameter;
+    
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        
+        dict[@"JSON"]=sittingDict;
+        NSData *sitingReq = [NSJSONSerialization dataWithJSONObject:@[dict] options:kNilOptions error:nil];
+        NSString *sittunReqJsonString = [[NSString alloc] initWithData:sitingReq encoding:NSUTF8StringEncoding];
+
+        if ([_treatmentId integerValue]==0) {
+            finalDict[@"request"][@"MethodType"]=@"POST";
+        }
+        else finalDict[@"request"][@"MethodType"]=@"PUT";
+        finalDict[@"request"][@"SittingResultsRequest"]=sittunReqJsonString;
+
+//        NSMutableDictionary *vzoneFinalDict=[[NSMutableDictionary alloc]init];
+//        vzoneFinalDict[@"request"]=finalDict;
+//        NSData *parameterData = [NSJSONSerialization dataWithJSONObject:finalDict options:kNilOptions error:nil];
+//        parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
+        
+        
+        NSData *parameterData1 = [NSJSONSerialization dataWithJSONObject:finalDict options:kNilOptions error:nil];
+        parameter = [[NSString alloc] initWithData:parameterData1 encoding:NSUTF8StringEncoding];
+        
+        
+}else{
+    
     NSData *sittingData = [NSJSONSerialization dataWithJSONObject:sittingDict options:kNilOptions error:nil];
     NSString *jsonString = [[NSString alloc] initWithData:sittingData encoding:NSUTF8StringEncoding];
     dict[@"JSON"]=jsonString;
-    [sittingResultArray addObject:dict];
-    finalDict[@"SittingResultsRequest"]=sittingResultArray;
     
-    NSString *parameter;
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        //For Vzone API
-        NSMutableDictionary *vzoneFinalDict=[[NSMutableDictionary alloc]init];
-        vzoneFinalDict[@""]=finalDict;
-        NSData *parameterData = [NSJSONSerialization dataWithJSONObject:vzoneFinalDict options:kNilOptions error:nil];
-        parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
-    }else{
+    
+    finalDict[@"SittingResultsRequest"]=sittingResultArray;
         //For Material API
+    if ([_treatmentId integerValue]==0) {
+        finalDict[@"MethodType"]=@"POST";
+    }
+    else finalDict[@"MethodType"]=@"PUT";
         NSData *parameterData = [NSJSONSerialization dataWithJSONObject:finalDict options:kNilOptions error:nil];
         parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
     }
 
     return parameter;
 }
+
 -(void)processResponseObjectOfSaveTreatment:(id)responseObject{
     NSDictionary *dict;
     
@@ -1005,19 +1053,26 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
     dict=responseObject;
 }
     if ([dict[@"Success"] intValue]==1) {
-        NSDictionary *dict1=responseObject[@"TreatmentRequest"];
+        NSDictionary *dict1=dict[@"TreatmentRequest"];
         int i=[dict1[@"ID"] intValue];
         [self.delegateForIncreasingSitting uploadImageAfterSaveInSitting:dict1[@"Code"]];
         [self.delegateForIncreasingSitting loadTreatMentFromSittingPart:[@(i) description] withTreatmentCode:dict1[@"Code"]];
+        [self dismissViewControllerAnimated:YES completion:nil];
         [self.navigationController popViewControllerAnimated:YES];
+//        UIAlertController *alert1=[UIAlertController alertControllerWithTitle:alert message:dict[@"Message"] preferredStyle:UIAlertControllerStyleAlert];
+//        UIAlertAction *failure=[UIAlertAction actionWithTitle:alertOK style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+//            
+//        }];
+//        [alert1 addAction:failure];
+//        [self presentViewController:alert1 animated:YES completion:nil];
     }
     else{
-        UIAlertController *alert=[UIAlertController alertControllerWithTitle:@"Alert!" message:dict[@"Message"] preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *failure=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        UIAlertController *alert1=[UIAlertController alertControllerWithTitle:alert message:dict[@"Message"] preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *failure=[UIAlertAction actionWithTitle:alertOK style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             [self dismissViewControllerAnimated:YES completion:nil];
         }];
-        [alert addAction:failure];
-        [self presentViewController:alert animated:YES completion:nil];
+        [alert1 addAction:failure];
+        [self presentViewController:alert1 animated:YES completion:nil];
     }
 }
 -(void)getTheSortDetailOfCompleteDitailArray:(NSString*)str{
@@ -1165,11 +1220,47 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
 }
 //Alert Message
 -(void)showAlerView:(NSString*)msg{
-    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:alertOK style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
         [alertView dismissViewControllerAnimated:YES completion:nil];
     }];
     [alertView addAction:success];
     [self presentViewController:alertView animated:YES completion:nil];
+}
+-(void)localize{
+    navTitle=[MCLocalization stringForKey:@"TreatmentSheet"];
+    alert=[MCLocalization stringForKey:@"Alert!"];
+    alertOK=[MCLocalization stringForKey:@"AlertOK"];
+    saveFailed=[MCLocalization stringForKey:@"Save Failed"];
+    saveSuccess=[MCLocalization stringForKey:@"Saved successfully"];
+    _genderLabel.text=[MCLocalization stringForKey:@"GenderLabel"];
+    _ageLabel.text=[MCLocalization stringForKey:@"AgeLabel"];
+    _mobileLabel.text=[MCLocalization stringForKey:@"MobileLabel"];
+    _transfusion.text=[MCLocalization stringForKey:@"TransfusionLabel"];
+    _emailLabel.text=[MCLocalization stringForKey:@"EmailLabel"];
+    _surgeriesLabel.text=[MCLocalization stringForKey:@"SurgeriesLabel"];
+    yesStr=[MCLocalization stringForKey:@"Yes"];
+    noStr=[MCLocalization stringForKey:@"No"];
+    _chargeLabel.text=[MCLocalization stringForKey:@"Charge"];
+    navTitle=[MCLocalization stringForKey:@"Sitting"];
+    [_saveBtn setTitle:[MCLocalization stringForKey:@"Save"] forState:normal];
+    [_exit setTitle:[MCLocalization stringForKey:@"Exit"] forState:normal];
+    [_nextBtn setTitle:[MCLocalization stringForKey:@"Next"] forState:normal];
+    [_previousBtn setTitle:[MCLocalization stringForKey:@"Previous"] forState:normal];
+    [_addSymptom setTitle:[MCLocalization stringForKey:@"Add symptoms"] forState:normal];
+    
+    _scanpointLabel.text=[MCLocalization stringForKey:@"Scan Point"];
+    _correspondingPair.text=[MCLocalization stringForKey:@"Corresponding Pair"];
+    _CodeLabel.text=[MCLocalization stringForKey:@"Code"];
+    _interpretationLabel.text=[MCLocalization stringForKey:@"Interpretation"];
+    _psychoemotionalLabel.text=[MCLocalization stringForKey:@"Psychoemotional"];
+   authour=[MCLocalization stringForKey:@"Author"];
+    enterSittingInfo=[MCLocalization stringForKey:@"Enter Sitting information"];
+    previousSittings=[MCLocalization stringForKey:@"Previous Sittings"];
+    sStr=[MCLocalization stringForKey:@"S"];
+    issueStr=[MCLocalization stringForKey:@"issues"];
+    noIssueStr=[MCLocalization stringForKey:@"No issues"];
+    s1Str=[MCLocalization stringForKey:@"S1"];
+    doYoucloseSitting=[MCLocalization stringForKey:@"Do you want to close Sitting?"];
 }
 @end

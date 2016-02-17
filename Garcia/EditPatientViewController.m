@@ -39,12 +39,13 @@
     NSString *genderCode,*martialCode;
     ImageUploadAPI *imageManager;
     NSString *editedPatientCode;
-    NSString *alertOkStr,*alertStr,*updatedFailedStr,*updatedSuccessfullyStr,*requiredGenderFieldStr,*requiredNameField;
+    NSString *alertOkStr,*alertStr,*updatedFailedStr,*updatedSuccessfullyStr,*requiredGenderFieldStr,*requiredNameField,*navTitle,*yesStr,*noStr,*requiredDateOfBirth,*requiredEmail,*requiredmobile,*requiredTransfusion,*invalidEmail,*invalidMobile;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     constant=[[Constant alloc]init];
     imageManager=[[ImageUploadAPI alloc]init];
+     [self localize];
     [self textFieldLayer];
     genderArray=[[NSMutableArray alloc]init];
     MaritialStatusArray=[[NSMutableArray alloc]init];
@@ -54,10 +55,14 @@
     self.gendertableview.delegate=self;
     self.nameTF.delegate=self;
     self.mobileNoTF.delegate=self;
-    MaritialStatusArray=[@[@"YES",@"NO"]mutableCopy];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(localize) name:MCLocalizationLanguageDidChangeNotification object:nil];
+    MaritialStatusArray=[@[yesStr,noStr]mutableCopy];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(localize) name:MCLocalizationLanguageDidChangeNotification object:nil];
+//
     
-    [self localize];
+    
+    _patientImageView.layer.cornerRadius=_patientImageView.frame.size.height/2;
+    _patientImageView.layer.masksToBounds = YES;
+
     
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         //For Vzone API
@@ -86,7 +91,7 @@
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-1.jpg"]]];
     UINavigationController *nav=(UINavigationController*)self.parentViewController;
     containerVC=(ContainerViewController*)nav.parentViewController;
-    [containerVC setTitle:@"Edit"];
+    [containerVC setTitle:navTitle];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -95,7 +100,6 @@
 -(void)defaultValues{
     _nameTF.text=_model.name;
     _genderTF.text=_model.gender;
-    _maritialStatus.text=@"YES";
     _dateOfBirthTF.text=_model.dob;
     _mobileNoTF.text=_model.mobileNo;
     _emailTF.text=_model.emailId;
@@ -104,8 +108,23 @@
     if (_model.profileImageCode==nil) {
         _patientImageView.image=[UIImage imageNamed:@"Patient-img.jpg"];
     }else{
-        NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,_model.profileImageCode];
-        [_patientImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
+        
+        NSString *strimageUrl;
+        if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        strimageUrl = [NSString stringWithFormat:@"%@%@%@/EdittedProfile.jpeg",baseUrlAws,dbName,_model.storageID];
+        
+    }else
+    {
+        strimageUrl = [NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,_model.profileImageCode];
+        
+    }
+        
+        [_patientImageView setImageWithURL:[NSURL URLWithString:strimageUrl] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
+    
+    
+    
+    
+    
     }
     if (_model.surgeries!=nil) {
         _addressTextView.text=_model.surgeries;
@@ -221,15 +240,9 @@
 }
 //set layesr for TextField and placeHolder
 -(void)textFieldLayer{
-    _patientImageView.layer.cornerRadius=_patientImageView.frame.size.width/2;
-    _patientImageView.layer.masksToBounds = YES;
-    _nameTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Name"];
-    _emailTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Email"];
-    _genderTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Gender"];
-    _mobileNoTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Mobile"];
-    _maritialStatus.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Transfusion"];
-    _dateOfBirthTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Date Of Birth"];
-    _addressTextView.placeholder=@"Surgeries";
+//       _patientImageView.layer.cornerRadius=_patientImageView.frame.size.width/2;
+//    _patientImageView.clipsToBounds=YES;
+    
     [constant spaceAtTheBeginigOfTextField:_genderTF];
     [constant spaceAtTheBeginigOfTextField:_emailTF];
     [constant spaceAtTheBeginigOfTextField:_nameTF];
@@ -271,7 +284,7 @@
 }
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     if ([textField isEqual:_mobileNoTF]) {
-        NSCharacterSet * numberCharSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+        NSCharacterSet * numberCharSet = [NSCharacterSet characterSetWithCharactersInString:@"()+-0123456789"];
         for (int i = 0; i < [string length]; ++i)
         {
             unichar c = [string characterAtIndex:i];
@@ -280,7 +293,6 @@
                 return NO;
             }
         }
-        
         return YES;
     }
     else return YES;
@@ -289,26 +301,7 @@
 - (void)textViewDidEndEditing:(UITextView *)textView{
     activeField = nil;
 }
-//Mobile number valid
-- (BOOL)myMobileNumberValidate:(NSString*)number
-{
-    NSString *numberRegEx = @"[1-9]{1}[0-9]{9}";
-    NSPredicate *numberTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", numberRegEx];
-    if ([numberTest evaluateWithObject:number] == YES)
-        return YES;
-    else
-        return NO;
-}
-//Age Valid
-- (BOOL)myAgeValidate:(NSString*)number
-{
-    NSString *numberRegEx = @"[0-9]{2}";
-    NSPredicate *numberTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", numberRegEx];
-    if ([numberTest evaluateWithObject:number] == YES)
-        return YES;
-    else
-        return NO;
-}
+
 //Move the TextField Up
 - (void)registerForKeyboardNotifications
 {
@@ -652,10 +645,10 @@
 //validate phone number
 -(int)validPhonenumber:(NSString *)string
 {
-    NSString *phoneRegex = @"[0-9]{0,10}";
-    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
-    BOOL validatePhone=[phoneTest evaluateWithObject:string];
-    if ((string.length!=10) | !validatePhone) {
+//    NSString *phoneRegex = @"[0-9]{0,10}";
+//    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
+//    BOOL validatePhone=[phoneTest evaluateWithObject:string];
+    if ((string.length<10)) {
         return 0;
     }
     else return 1;
@@ -670,7 +663,10 @@
         NSString* path = [documentsDirectory stringByAppendingPathComponent:@"EdittedProfile.jpeg" ];
         NSData* data = UIImageJPEGRepresentation(image,.5);
         [data writeToFile:path atomically:YES];
-        [imageManager uploadUserImagePath:path forRequestCode:_model.code withDocumentType:@"ABC123" onCompletion:^(BOOL success) {
+//        [imageManager uploadUserImagePath:path forRequestCode:_model.code withDocumentType:@"ABC123" onCompletion:^(BOOL success) {
+        
+        
+        [imageManager uploadUserImagePath:path forRequestCode:_model.code withDocumentType:@"ABC123" andRequestType:@"User" onCompletion:^(BOOL success) {
             if (success)
             {
                 if (_model.profileImageCode)
@@ -710,20 +706,34 @@
     
 }
 
-
+//localize
 -(void)localize
 {
     alertStr=[MCLocalization stringForKey:@"Alert!"];
-    alertOkStr=[MCLocalization stringForKey:@"AlertButtonOK"];
+    alertOkStr=[MCLocalization stringForKey:@"AlertOK"];
     updatedFailedStr=[MCLocalization stringForKey:@"Updated.Failed"];
     updatedSuccessfullyStr=[MCLocalization stringForKey:@"Updated.successfully"];
-    requiredGenderFieldStr=[MCLocalization stringForKey:@"required.gender.field"];
-    requiredNameField=[MCLocalization stringForKey:@"required.name.field"];
-     requiredGenderFieldStr=[MCLocalization stringForKey:@"required.gender.field"];
-     requiredGenderFieldStr=[MCLocalization stringForKey:@"required.gender.field"];
-     requiredGenderFieldStr=[MCLocalization stringForKey:@"required.gender.field"];
-     requiredGenderFieldStr=[MCLocalization stringForKey:@"required.gender.field"];
-     requiredGenderFieldStr=[MCLocalization stringForKey:@"required.gender.field"];
+    requiredGenderFieldStr=[MCLocalization stringForKey:@"Gender is required"];
+    requiredNameField=[MCLocalization stringForKey:@"Name is required"];
+    requiredmobile=[MCLocalization stringForKey:@"Mobile no. is required"];
+    requiredEmail=[MCLocalization stringForKey:@"Email id is required"];
+    requiredTransfusion=[MCLocalization stringForKey:@"Transfusion is required"];
+    invalidEmail=[MCLocalization stringForKey:@"Email id is invalid"];
+    invalidMobile=[MCLocalization stringForKey:@"Mobile no. is invalid"];
+  requiredDateOfBirth=[MCLocalization stringForKey:@"Date Of Birth is required"];
    
+    
+    _nameTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Name"]];
+    _emailTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"EmailLabel"]];
+    _genderTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"GenderLabel"]];
+    _mobileNoTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"MobileLabel"]];
+    _maritialStatus.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"TransfusionLabel"]];
+    _dateOfBirthTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"DateOfBirthLabel"]];
+    _addressTextView.placeholder=[MCLocalization stringForKey:@"SurgeriesLabel"];
+    navTitle=[MCLocalization stringForKey:@"Edit"];
+   yesStr=[MCLocalization stringForKey:@"Yes"];
+    noStr=[MCLocalization stringForKey:@"No"];
+    [_cancelBtn setTitle:[MCLocalization stringForKey:@"Cancel"] forState:normal];
+    [_saveBtn setTitle:[MCLocalization stringForKey:@"Save"] forState:normal];
 }
 @end

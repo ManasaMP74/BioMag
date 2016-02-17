@@ -6,6 +6,7 @@
 #import "Postman.h"
 #import "PostmanConstant.h"
 #import "SeedSyncer.h"
+#import <MCLocalization/MCLocalization.h>
 @implementation AddSymptom
 {
     UIView *view;
@@ -44,6 +45,8 @@
         alphaView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
         [alphaView addSubview:view];
     }
+    _symptomsLabel.text=[MCLocalization stringForKey:@"Symptoms"];
+    [_addButton setTitle:[MCLocalization stringForKey:@"Add"] forState:normal];
     _collectionViewHeight.constant=0;
     _collectionView.hidden=YES;
     _symptomTf.text=@"";
@@ -54,7 +57,7 @@
     [self.collectionView registerNib:[UINib nibWithNibName:@"SymptomTagCustomeCell" bundle:nil] forCellWithReuseIdentifier:@"cell"];
     [constant SetBorderForTextField:_symptomTf];
     [_symptomTf addTarget:self action:@selector(tagTextFieldChange) forControlEvents:UIControlEventEditingChanged];
-    _symptomTf.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Enter Symptom Tag"];
+    _symptomTf.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Enter Symptom Tag"]];
     [constant spaceAtTheBeginigOfTextField:_symptomTf];
     [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
     [appDel.window addSubview:alphaView];

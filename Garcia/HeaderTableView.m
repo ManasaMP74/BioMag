@@ -1,5 +1,6 @@
 #import "HeaderTableVIew.h"
 #import "HeaderModelClass.h"
+#import <MCLocalization/MCLocalization.h>
 @implementation HeaderTableVIew
 {
     UIView *view;
@@ -210,8 +211,8 @@
         i++;
     }
     
-    [selectedSectionNameArray addObject:@"Price"];
-    [selectedSectionNameArray addObject:@"Completed"];
+    [selectedSectionNameArray addObject:[MCLocalization stringForKey:@"Price"]];
+    [selectedSectionNameArray addObject:[MCLocalization stringForKey:@"Completed"]];
 }
 -(float)getTHeHeightOfTableVIew{
     [_tableview reloadData];

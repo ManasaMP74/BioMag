@@ -6,6 +6,7 @@
 #import "MBProgressHUD.h"
 #import "germsModel.h"
 #import "SeedSyncer.h"
+#import <MCLocalization/MCLocalization.h>
 @implementation germsView
 {
     UIView *view;
@@ -13,6 +14,7 @@
     NSMutableArray *germsArray,*selectedIndex,*selectedGerms;
     Constant *constant;
     Postman *postman;
+    NSString *alert,*alertOK;
 }
 -(id)initWithFrame:(CGRect)frame
 {
@@ -30,6 +32,7 @@
 }
 -(void)initializeView
 {
+    
     view.layer.cornerRadius = 10;
     view.layer.masksToBounds  = YES;
     [constant SetBorderForTextField:_codeSymbolTF];
@@ -45,6 +48,7 @@
         alphaView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
         [alphaView addSubview:view];
     }
+    [self localization];
     _codeFullNameTF.text=@"";
     _codeSymbolTF.text=@"";
     AppDelegate *appDel = [UIApplication sharedApplication].delegate;
@@ -52,8 +56,6 @@
     [self changeTheNewGermAppearence:YES withHeight:0];
     [constant SetBorderForTextField:_codeSymbolTF];
     [constant SetBorderForTextField:_codeFullNameTF];
-    _codeSymbolTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Symbol"];
-    _codeFullNameTF.attributedPlaceholder=[constant textFieldPlaceHolderText:@"Name"];
     [constant spaceAtTheBeginigOfTextField:_codeSymbolTF];
     [constant spaceAtTheBeginigOfTextField:_codeFullNameTF];
     [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
@@ -172,6 +174,8 @@
     
     NSDictionary *dict;
     
+    [germsArray removeAllObjects];
+    
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         //For Vzone API
         NSDictionary *responseDict1 = responseObject;
@@ -194,6 +198,7 @@
         }
     }
     [_tableView reloadData];
+   
     NSArray *ar=[_fromParentViewGermsString componentsSeparatedByString:@","];
     for (NSString *str in ar) {
         for (int i=0; i<germsArray.count; i++) {
@@ -261,8 +266,15 @@
         [self heightOfView:106];
 
     }else{
-        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Alert!" message:dict[@"Message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil,nil];
-        [alert show];
+        UIAlertView *alert1=[[UIAlertView alloc]initWithTitle:alert message:dict[@"Message"] delegate:nil cancelButtonTitle:alertOK otherButtonTitles:nil,nil];
+        [alert1 show];
     }
+}
+-(void)localization{
+    alert=[MCLocalization stringForKey:@"Alert!"];
+    alertOK=[MCLocalization stringForKey:@"AlertOK"];
+    _codeSymbolTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Symbol"]];
+    _codeFullNameTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Name"]];
+    _codesLabel.text=[MCLocalization stringForKey:@"Codes"];
 }
 @end

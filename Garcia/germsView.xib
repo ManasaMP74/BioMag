@@ -17,9 +17,11 @@
             <connections>
                 <outlet property="codeFullNameTF" destination="5Lz-Vg-rt7" id="Sa0-jS-sTC"/>
                 <outlet property="codeSymbolTF" destination="kKO-hD-c89" id="gbA-Gn-lKH"/>
+                <outlet property="codesLabel" destination="lB1-UL-q2K" id="sG5-GQ-hSX"/>
                 <outlet property="germNewAddButton" destination="z5L-Gy-maX" id="2b2-6n-uB6"/>
                 <outlet property="germNewAddView" destination="hRn-0K-pqM" id="tab-SJ-tYc"/>
                 <outlet property="heightOfNewGermView" destination="lOY-p5-68s" id="6Ia-56-qU0"/>
+                <outlet property="saveBtn" destination="Fdl-ph-Edh" id="NvM-wK-NpC"/>
                 <outlet property="tableView" destination="OZc-JH-5NM" id="83j-5T-dvr"/>
                 <outlet property="tableviewHeight" destination="FjN-10-yH8" id="uhh-uk-uuy"/>
             </connections>

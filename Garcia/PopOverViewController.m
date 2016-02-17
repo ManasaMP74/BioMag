@@ -49,6 +49,9 @@
          }
      }
 }
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    cell.backgroundColor=[UIColor clearColor];
+}
 -(float)getHeightOfTableView{
     [self.tableView reloadData];
     return self.tableView.contentSize.height;

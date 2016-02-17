@@ -7,6 +7,7 @@
 #import "PostmanConstant.h"
 #import "MBProgressHUD.h"
 #import "SeedSyncer.h"
+#import <MCLocalization/MCLocalization.h>
 @interface SlideOutTableViewController ()<expandCellToGetSectionName,getSectionNameProtocol>
 
 @end
@@ -43,10 +44,10 @@
     SlideOutTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     cell.delegate=self;
     if (indexPath.row==0) {
-        cell.label.text=@"Section(s)";
+        cell.label.text=[MCLocalization stringForKey:@"Section(s)"];
         cell.sectionNameXib.delegateForGetName=self;
     }if (indexPath.row==1) {
-        cell.label.text=@"Toxic & Deficiency";
+        cell.label.text=[MCLocalization stringForKey:@"Toxic & Deficiency"];
         cell.sectionNameXib.delegateForGetName=self;
     }
     if ([selectedIndexpath isEqual:indexPath]) {

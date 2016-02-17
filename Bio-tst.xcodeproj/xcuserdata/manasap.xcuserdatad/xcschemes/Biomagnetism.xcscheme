@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "DAEFA18D1BD0B11500900379"
                BuildableName = "Biomagnetism.app"
-               BlueprintName = "Biomagnetism"
-               ReferencedContainer = "container:Biomagnetism.xcodeproj">
+               BlueprintName = "Biomagnetism-tst"
+               ReferencedContainer = "container:Biomagnetism-tst.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DAEFA18D1BD0B11500900379"
-            BuildableName = "Biomagnetism.app"
-            BlueprintName = "Biomagnetism"
-            ReferencedContainer = "container:Biomagnetism.xcodeproj">
+            BuildableName = "Bio-tst.app"
+            BlueprintName = "Bio-tst"
+            ReferencedContainer = "container:Bio-tst.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -56,9 +56,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DAEFA18D1BD0B11500900379"
-            BuildableName = "Biomagnetism.app"
-            BlueprintName = "Biomagnetism"
-            ReferencedContainer = "container:Biomagnetism.xcodeproj">
+            BuildableName = "Bio-tst.app"
+            BlueprintName = "Bio-tst"
+            ReferencedContainer = "container:Bio-tst.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -76,8 +76,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DAEFA18D1BD0B11500900379"
             BuildableName = "Biomagnetism.app"
-            BlueprintName = "Biomagnetism"
-            ReferencedContainer = "container:Biomagnetism.xcodeproj">
+            BlueprintName = "Biomagnetism-tst"
+            ReferencedContainer = "container:Biomagnetism-tst.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -18,6 +18,7 @@
                 <outlet property="allTaglistTableView" destination="ZWk-vp-K8g" id="9Hh-PH-sej"/>
                 <outlet property="collectionView" destination="Wl9-oG-atM" id="7KS-cG-cJD"/>
                 <outlet property="symptomTf" destination="fhe-Px-Acj" id="B1Z-uA-fHY"/>
+                <outlet property="symptomsLabel" destination="WH6-iG-TWg" id="0j5-0y-v8r"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

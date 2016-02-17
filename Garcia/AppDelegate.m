@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import <MCLocalization/MCLocalization.h>
+#import "LanguageChanger.h"
 @interface AppDelegate ()
 
 @end
@@ -22,14 +23,15 @@
  
     
 // Localization
-    
 
-    NSDictionary * languageURLPairs = @{@"en":[[NSBundle mainBundle] URLForResource:@"eng.json" withExtension:nil]};
-        [MCLocalization loadFromLanguageURLPairs:languageURLPairs defaultLanguage:@"en"];
-    
-        [MCLocalization sharedInstance].noKeyPlaceholder = @"[No '{key}' in '{language}']";
-        
-    
+    LanguageChanger *lang=[[LanguageChanger alloc]init];
+    NSUserDefaults *userdefault=[NSUserDefaults standardUserDefaults];
+    NSString *str=[userdefault valueForKey:@"languageCode"];
+    if (str==nil) {
+      [userdefault setValue:@"en" forKey:@"languageCode"];
+    }
+    [lang callApiForLanguage];
+   
     
     return YES;
 }
