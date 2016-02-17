@@ -13,6 +13,9 @@
 #import "lagModel.h"
 #import "SeedSyncer.h"
 #import "LanguageChanger.h"
+#if !defined(MAX)
+#define MAX(A,B)((A) > (B) ? (A) : (B))
+#endif
 @interface ContainerViewController ()<addedPatient,loadTreatmentDelegate,selectedObjectInPop,WYPopoverControllerDelegate>
 
 @end
@@ -81,9 +84,14 @@
         pop.delegate=self;
         pop.buttonName=@"language";
         pop.lagArray=languageArray;
+        CGFloat finalWidth =0.0;
+        for (lagModel *str in languageArray) {
+            CGFloat width =  [str.name boundingRectWithSize:(CGSizeMake(NSIntegerMax,40)) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:15]} context:nil].size.width;
+            finalWidth=MAX(finalWidth, width);
+        }
         [self wypopOver:btn withPopOver:pop];
         CGFloat height=[pop getHeightOfTableView];
-        CGSize contentSize = CGSizeMake(200,height);
+        CGSize contentSize = CGSizeMake(finalWidth+50,height);
         pop.preferredContentSize=contentSize;
         CGRect biggerBounds = CGRectInset(btn.bounds, -6, -6);
         [wypopOverController presentPopoverFromRect:biggerBounds inView:sender permittedArrowDirections:(WYPopoverArrowDirectionUp) animated:YES options:(WYPopoverAnimationOptionFadeWithScale)];
@@ -103,10 +111,16 @@
         pop.delegate=self;
         pop.buttonName=@"slideout";
         pop.slideoutImageArray=slideoutImageArray;
+        
+       CGFloat finalWidth =0.0;
+        for (NSString *str in slideoutArray) {
+            CGFloat width =  [str boundingRectWithSize:(CGSizeMake(NSIntegerMax,40)) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:15]} context:nil].size.width;
+            finalWidth=MAX(finalWidth+50, width);
+        }
         pop.slideoutNameArray=slideoutArray;
         [self wypopOver:btn withPopOver:pop];
         CGFloat height=[pop getHeightOfTableView];
-        CGSize contentSize = CGSizeMake(300,height);
+        CGSize contentSize = CGSizeMake(finalWidth,height);
         pop.preferredContentSize=contentSize;
         CGRect biggerBounds = CGRectInset(btn.bounds, -6, -6);
         [wypopOverController presentPopoverFromRect:biggerBounds inView:sender permittedArrowDirections:(WYPopoverArrowDirectionUp) animated:YES options:(WYPopoverAnimationOptionFadeWithScale)];

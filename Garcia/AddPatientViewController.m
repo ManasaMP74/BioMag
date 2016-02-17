@@ -654,11 +654,10 @@
     _maritialStatus.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"TransfusionLabel"]];
     _dateOfBirthTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"DateOfBirthLabel"]];
     _addressTextView.placeholder=[MCLocalization stringForKey:@"SurgeriesLabel"];
-    navTitle=[MCLocalization stringForKey:@"Edit"];
+    navTitle=[MCLocalization stringForKey:@"Add"];
     yesStr=[MCLocalization stringForKey:@"Yes"];
     noStr=[MCLocalization stringForKey:@"No"];
     [_cancelBtn setTitle:[MCLocalization stringForKey:@"Cancel"] forState:normal];
      [_saveBtn setTitle:[MCLocalization stringForKey:@"Save"] forState:normal];
 }
-
 @end

@@ -928,16 +928,21 @@
     NSData *objectData = [str dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData options:NSJSONReadingMutableContainers
                                                            error:&jsonError];
-    NSMutableDictionary *finalDict=[json mutableCopy];
     
     NSMutableDictionary *treatmentDict;
-    
+    NSMutableDictionary *finalDict;
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         //For Vzone API
-        NSString *str1=finalDict[@"TreatmentRequest"];
+        NSDictionary *dict=json[@"request"];
+        NSString *str1=dict[@"TreatmentRequest"];
         NSData *objectData1 = [str1 dataUsingEncoding:NSUTF8StringEncoding];
-    treatmentDict=[NSJSONSerialization JSONObjectWithData:objectData1 options:kNilOptions error:nil];
-    }else treatmentDict=[finalDict[@"TreatmentRequest"]mutableCopy];
+    NSDictionary *dict1=[NSJSONSerialization JSONObjectWithData:objectData1 options:kNilOptions error:nil];
+        treatmentDict=[dict1 mutableCopy];
+        finalDict=[[NSMutableDictionary alloc]init];
+    }else{
+       finalDict =[json mutableCopy];
+        treatmentDict=[finalDict[@"TreatmentRequest"]mutableCopy];
+    }
     NSString *symptomStr=@"";
     for (SymptomTagModel *m in appdelegate.symptomTagArray) {
         symptomStr=[symptomStr stringByAppendingString:m.tagCode];
@@ -946,7 +951,7 @@
     treatmentDict[@"SymptomTagCodes"]=symptomStr;
     treatmentDict[@"IsTreatmentCompleted"]=@"false";
     treatmentDict[@"Status"]=@"true";
-    finalDict[@"TreatmentRequest"]=treatmentDict;
+    
     NSMutableArray *sittingResultArray=[[NSMutableArray alloc]init];
     NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
     dict[@"BiomagneticSittingId"]= [@(biomagneticId) description];
@@ -988,46 +993,41 @@
     sittingDict[@"Status"]=@"1";
     sittingDict[@"AnatomicalPoints"]=jsonSittingArray;
     sittingDict[@"Price"]=_priceTf.text;
-//    NSData *sittingData = [NSJSONSerialization dataWithJSONObject:sittingDict options:kNilOptions error:nil];
-//    NSString *jsonString = [[NSString alloc] initWithData:sittingData encoding:NSUTF8StringEncoding];
-//    dict[@"JSON"]=jsonString;
-//    [sittingResultArray addObject:dict];
-    
-//    finalDict[@"SittingResultsRequest"]=sittingResultArray;
     
     NSString *parameter;
-    
     
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         //For Vzone API
         
+        NSData *sitingReq1 = [NSJSONSerialization dataWithJSONObject:treatmentDict options:kNilOptions error:nil];
+        NSString *sittunReqJsonString1 = [[NSString alloc] initWithData:sitingReq1 encoding:NSUTF8StringEncoding];
+        NSMutableDictionary *dict1ofSitting=[[NSMutableDictionary alloc]init];
+        dict1ofSitting[@"TreatmentRequest"]=sittunReqJsonString1;
         dict[@"JSON"]=sittingDict;
-        NSData *sitingReq = [NSJSONSerialization dataWithJSONObject:@[dict] options:kNilOptions error:nil];
-        NSString *sittunReqJsonString = [[NSString alloc] initWithData:sitingReq encoding:NSUTF8StringEncoding];
-
-        if ([_treatmentId integerValue]==0) {
-            finalDict[@"request"][@"MethodType"]=@"POST";
-        }
-        else finalDict[@"request"][@"MethodType"]=@"PUT";
-        finalDict[@"request"][@"SittingResultsRequest"]=sittunReqJsonString;
-
-//        NSMutableDictionary *vzoneFinalDict=[[NSMutableDictionary alloc]init];
-//        vzoneFinalDict[@"request"]=finalDict;
-//        NSData *parameterData = [NSJSONSerialization dataWithJSONObject:finalDict options:kNilOptions error:nil];
-//        parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
+        [sittingResultArray addObject:dict];
         
+        NSData *sitingReq = [NSJSONSerialization dataWithJSONObject:sittingResultArray options:kNilOptions error:nil];
+        NSString *sittunReqJsonString = [[NSString alloc] initWithData:sitingReq encoding:NSUTF8StringEncoding];
+   dict1ofSitting[@"SittingResultsRequest"]=sittunReqJsonString;
+        
+        if ([_treatmentId integerValue]==0) {
+            dict1ofSitting[@"MethodType"]=@"POST";
+        }
+        else dict1ofSitting[@"MethodType"]=@"PUT";
+        
+        dict1ofSitting[@"Id"]=_treatmentId;
+        finalDict[@"request"]=dict1ofSitting;
         
         NSData *parameterData1 = [NSJSONSerialization dataWithJSONObject:finalDict options:kNilOptions error:nil];
         parameter = [[NSString alloc] initWithData:parameterData1 encoding:NSUTF8StringEncoding];
         
         
 }else{
-    
+    finalDict[@"TreatmentRequest"]=treatmentDict;
     NSData *sittingData = [NSJSONSerialization dataWithJSONObject:sittingDict options:kNilOptions error:nil];
     NSString *jsonString = [[NSString alloc] initWithData:sittingData encoding:NSUTF8StringEncoding];
     dict[@"JSON"]=jsonString;
-    
-    
+    [sittingResultArray addObject:dict];
     finalDict[@"SittingResultsRequest"]=sittingResultArray;
         //For Material API
     if ([_treatmentId integerValue]==0) {
