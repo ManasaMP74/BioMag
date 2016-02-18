@@ -60,9 +60,10 @@ NSString *const languageCode=@"en";
 
 
 //Vzone Production API
- NSString *const dbName =@"biomag.images.resized/";
+ NSString *const dbName =@"biomag-tst.images.resized/";//AWS Thumbnail Bucket Name
 NSString *const baseUrl=@"http://biomagnetictherapy.us-west-2.elasticbeanstalk.com/";
 NSString *const postmanCompanyCode=@"VM001";
+//NSString *const dbName =@"biomag.images.resized/";
 //NSString *const dbName =@"biomag.images.original";
 NSString *const baseUrlAws = @"https://s3-us-west-2.amazonaws.com/";
 
