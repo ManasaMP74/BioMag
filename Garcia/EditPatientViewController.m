@@ -212,6 +212,9 @@
         [constant setFontForLabel:label];
     }
     tableView.tableFooterView=[UIView new];
+   // cell.backgroundColor = [UIColor colorWithRed:0.933 green:0.933 blue:0.941 alpha:1];
+    
+    
     return cell;
 }
 //select tableviewContent
@@ -232,7 +235,9 @@
 }
 //cell Color
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    [cell setBackgroundColor:[UIColor colorWithRed:0.73 green:0.76 blue:0.91 alpha:1]];
+    //[cell setBackgroundColor:[UIColor colorWithRed:0.73 green:0.76 blue:0.91 alpha:1]];
+  [cell setBackgroundColor:[UIColor colorWithRed:0.933 green:0.933 blue:0.941 alpha:1]];
+
 }
 //Hide KeyBoard
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{

@@ -26,10 +26,11 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Box2-Uncheck" translatesAutoresizingMaskIntoConstraints="NO" id="FZ0-7Z-41C">
-                        <rect key="frame" x="295" y="0.0" width="42" height="32"/>
+                        <rect key="frame" x="292" y="1" width="30" height="30"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="42" id="gK2-gK-6wG"/>
+                            <constraint firstAttribute="height" constant="30" id="CZQ-g6-ixe"/>
+                            <constraint firstAttribute="width" constant="30" id="wf9-Ro-9dI"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="opX-17-rnP">
@@ -40,7 +41,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kkf-Xp-rpb">
-                        <rect key="frame" x="56" y="6" width="38" height="21"/>
+                        <rect key="frame" x="138" y="6" width="38" height="21"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -50,11 +51,11 @@
                 <constraints>
                     <constraint firstAttribute="centerY" secondItem="opX-17-rnP" secondAttribute="centerY" id="4aG-Y7-42K"/>
                     <constraint firstItem="opX-17-rnP" firstAttribute="leading" secondItem="Ptq-M4-q4l" secondAttribute="leadingMargin" constant="8" id="FRb-Op-GdX"/>
-                    <constraint firstItem="Kkf-Xp-rpb" firstAttribute="leading" secondItem="opX-17-rnP" secondAttribute="trailing" constant="2" id="Fdq-S4-LM8"/>
+                    <constraint firstItem="Kkf-Xp-rpb" firstAttribute="leading" secondItem="Ptq-M4-q4l" secondAttribute="leadingMargin" constant="130" id="X5V-dZ-EAY"/>
                     <constraint firstItem="Kkf-Xp-rpb" firstAttribute="centerY" secondItem="Ptq-M4-q4l" secondAttribute="centerY" id="bau-Xm-6tA"/>
-                    <constraint firstAttribute="bottom" secondItem="FZ0-7Z-41C" secondAttribute="bottom" id="dqA-cV-DoH"/>
-                    <constraint firstItem="FZ0-7Z-41C" firstAttribute="top" secondItem="Ptq-M4-q4l" secondAttribute="top" id="jFJ-QQ-394"/>
-                    <constraint firstAttribute="trailing" secondItem="FZ0-7Z-41C" secondAttribute="trailing" id="wv8-BG-ahP"/>
+                    <constraint firstAttribute="trailing" secondItem="FZ0-7Z-41C" secondAttribute="trailing" constant="15" id="lWy-zh-vlo"/>
+                    <constraint firstItem="FZ0-7Z-41C" firstAttribute="centerY" secondItem="Ptq-M4-q4l" secondAttribute="centerY" id="mBO-x6-iNg"/>
+                    <constraint firstItem="Kkf-Xp-rpb" firstAttribute="centerY" secondItem="Ptq-M4-q4l" secondAttribute="centerY" id="sz4-Hi-0im"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
