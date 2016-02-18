@@ -283,6 +283,7 @@
     
     if ([dict1[@"Success"] intValue]==1) {
         for (NSDictionary *dict in dict1[@"ViewModels"]) {
+            if ([dict[@"Status"]intValue]==1) {
             searchPatientModel *model=[[searchPatientModel alloc]init];
             if (![dict[@"Lastname"] isEqualToString:@""]) {
                 model.name=[NSString stringWithFormat:@"%@ %@",dict[@"Firstname"],dict[@"Lastname"]];
@@ -374,6 +375,7 @@
                     
                 }
             }
+        }
         }
         
         [self reloadData];

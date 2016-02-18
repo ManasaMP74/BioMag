@@ -2,18 +2,7 @@
 #import <MCLocalization/MCLocalization.h>
 @implementation PostmanConstant
 
-// Vzone API
-NSString *const baseUrl=@"http://prithiviraj.vmokshagroup.com:8089/";
-NSString *const postmanCompanyCode=@"A0I7LV";
-NSString *const getProfile=@"LoadThumbnailImage/";
-NSString *const uploadFile=@"aws/upload";
-NSString *const expandProfileImage=@"LoadFile/";
-
-
-//Vzone Production API
-//NSString *const baseUrl=@"biomagnetictherapy-vzn-prod.elasticbeanstalk.com";
-//NSString *const postmanCompanyCode=@"VM001";
-
+NSString *const languageCode=@"en";
 
 // Material API For Testing
 //NSString *const baseUrl=@"http://prithiviraj.vmokshagroup.com:8033/api/";
@@ -30,11 +19,10 @@ NSString *const expandProfileImage=@"LoadFile/";
 //NSString *const uploadFile=@"aws/upload";
 //NSString *const expandProfileImage=@"aws/LoadFile/";
 
+
 // Staging
 //NSString *const baseUrl=@"http://prithiviraj.vmokshagroup.com:8035/api/";
 //NSString *const postmanCompanyCode=@"VM001";
-
-NSString *const languageCode=@"en";
 
 
 //For Material API
@@ -62,7 +50,25 @@ NSString *const languageCode=@"en";
 //NSString *const language=@"language";
 
 
+
+//Vzone testing
+NSString *const baseUrlAws = @"https://s3-us-west-2.amazonaws.com/";
+NSString *const dbName =@"garciadb/";
+NSString *const baseUrl=@"http://prithiviraj.vmokshagroup.com:8089/";
+NSString *const postmanCompanyCode=@"A0I7LV";
+
+
+//Vzone Production API
+// NSString *const dbName =@"biomag.images.resized/";
+//NSString *const baseUrl=@"http://biomagnetictherapy.us-west-2.elasticbeanstalk.com/";
+//NSString *const postmanCompanyCode=@"VM001";
+//NSString *const dbName =@"biomag-tst.images.original";
+
+
 //For Vzone API
+NSString *const getProfile=@"LoadThumbnailImage/";
+NSString *const uploadFile=@"aws/upload";
+NSString *const expandProfileImage=@"LoadFile/";
 NSString *const getGender=@"search/gender";
 NSString *const getMartialStatus=@"maritalstatus";
 NSString *const getPatientList=@"userdetails";
@@ -86,8 +92,9 @@ NSString *const allScanpointsApi=@"AnatomicalDetails";
 NSString *const DifferMetirialOrVzoneApi=@"vzone";
 NSString *const language=@"search/language";
 NSString *const languageUILabel=@"search/UILabel/";
- NSString *const baseUrlAws = @"https://s3-us-west-2.amazonaws.com/";
- NSString *const dbName =@"garciadb/";
+
+
+
 
 
 

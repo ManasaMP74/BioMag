@@ -20,4 +20,5 @@
 -(NSAttributedString*)PatientSheetPlaceHolderText:(NSString *)text;
 - (NSMutableAttributedString *)setColoredLabelandStar:(NSString *)strplaceHolder;
 
+-(void)getTheAllSaveButtonImage:(UIButton*)btn;
 @end

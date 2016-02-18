@@ -1,8 +1,8 @@
 #import <UIKit/UIKit.h>
 #import "lagModel.h"
 @protocol selectedObjectInPop<NSObject>
--(void)selectedObject:(lagModel*)model;
--(void)selectedSlideOutObject:(NSString *)name;
+-(void)selectedObject:(int)row;
+-(void)selectedSlideOutObject:(int)row;
 @end
 @interface PopOverViewController : UITableViewController
 @property(weak,nonatomic)id <selectedObjectInPop>delegate;

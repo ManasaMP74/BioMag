@@ -1,12 +1,14 @@
 #import "DatePicker.h"
 #import "AppDelegate.h"
 #import <MCLocalization/MCLocalization.h>
+#import "Constant.h"
 @implementation DatePicker
 {
     UIView *view;
     NSDateFormatter *formater;
     NSString *date;
     UIControl  *alphaView;
+    Constant *constant;
 }
 -(id)initWithFrame:(CGRect)frame
 {
@@ -22,6 +24,7 @@
 }
 -(void)initializeView
 {
+    constant=[[Constant alloc]init];
     [_cancelButton setTitle:[MCLocalization stringForKey:@"Cancel"] forState:normal];
     [_doneButton setTitle:[MCLocalization stringForKey:@"Done"] forState:normal];
     view.layer.cornerRadius = 10;
@@ -33,6 +36,7 @@
     [formater setDateFormat:@"dd-MMM-yyyy"];
     date=[formater stringFromDate:self.datePicker.date];
      [_datePicker setValue:[UIColor lightGrayColor] forKey:@"textColor"];
+      [constant getTheAllSaveButtonImage:_doneButton];
 }
 - (IBAction)datePickerAction:(id)sender {
     date=[formater stringFromDate:self.datePicker.date];

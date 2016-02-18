@@ -21,6 +21,7 @@
 #import "PopOverViewController.h"
 #import <WYPopoverController/WYPopoverController.h>
 #import <MCLocalization/MCLocalization.h>
+#import "ContainerViewController.h"
 
 #define NULL_CHECK(X) [X isKindOfClass:[NSNull class]]?nil:X
 
@@ -107,6 +108,7 @@
     NSString *sittingNumberToPassSittingVC;
     NSIndexPath *selectedSittingIndex;
     NSArray *slideoutImageArray,*slideoutArray;
+    NSString *differForNavButton;
     NSString *navTitle,*titleOfTreatment,*closureNote,*medicalNote,*diagnosisNote,*doYouWantToCloseTreatment,*alert,*alertOk,*updatedSuccess,*updateFailed,*saveSuccess,*saveFailed,*enterTreatmentClosure,*ok,*yesStr,*noStr,*treatmentTitlerequired,*sittingStr,*closedSuccess;
 }
 - (void)viewDidLoad {
@@ -224,7 +226,7 @@
     CGRect frameimg = CGRectMake(0, 0, image3.size.width, image3.size.height);
     UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
     [someButton setBackgroundImage:image3 forState:UIControlStateNormal];
-    [someButton addTarget:self action:@selector(popToViewController) forControlEvents:UIControlEventTouchUpInside];
+    [someButton addTarget:self action:@selector(callMethodInContainerForSlideOut) forControlEvents:UIControlEventTouchUpInside];
     [someButton setShowsTouchWhenHighlighted:YES];
     UIBarButtonItem *mailbutton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
     self.navigationItem.rightBarButtonItem=mailbutton;
@@ -246,18 +248,11 @@
     [lagSomeButton setTitle:[standardDefault valueForKey:@"languageName"] forState:normal];
     [lagSomeButton setTitleColor:[UIColor blackColor] forState:normal];
     lagSomeButton.titleLabel.font=[UIFont fontWithName:@"OpenSansSemibold" size:10];
-    [lagSomeButton addTarget:self action:@selector(languageChange:) forControlEvents:UIControlEventTouchUpInside];
+    [lagSomeButton addTarget:self action:@selector(callMethodInContainerForLang) forControlEvents:UIControlEventTouchUpInside];
     [lagSomeButton setShowsTouchWhenHighlighted:YES];
     UIBarButtonItem *lagButton =[[UIBarButtonItem alloc] initWithCustomView:lagSomeButton];
     
     self.navigationItem.rightBarButtonItems=@[mailbutton,lagButton];
-    
-    slideoutArray=@[@"About Us",@"FAQ",@"Terms and Conditions",@"Privacy and Policy",@"Logout"];
-    slideoutImageArray=@[@"07-User.png",@"01-Icon-About-Us.png",@"02-Icon-FAQ.png",@"04-Icon-Terms.png",@"03-Icon-Privacy.png",@"05-Icon-Logout.png"];
-}
--(void)languageChange:(id)sender
-{
-
 }
 //pop view
 -(void)popView{
@@ -346,7 +341,7 @@
         if (sittingCollectionArray.count>0) {
             _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
             _settingViewHeight.constant=sittingCollectionViewHeight+120;
-        }else _settingViewHeight.constant=50;
+        }else _settingViewHeight.constant=100;
         [self ChangeIncreaseDecreaseButtonImage:_increasesettingViewButton];
     }
     else{
@@ -671,8 +666,10 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
     if ([ar[0] intValue]==0) {
     [m.selectedHeaderIndexpath removeAllObjects];
     [m.correspondingPairHeight removeAllObjects];
-    }else [m.selectedHeaderIndexpath removeObject:deselectedHeader];
+    }else{
+    [m.selectedHeaderIndexpath removeObject:deselectedHeader];
      [m.correspondingPairHeight removeObject:deselectedHeader];
+    }
        [self.view layoutIfNeeded];
      [_sittingCollectionView reloadData];
       [self.view layoutIfNeeded];
@@ -687,6 +684,10 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
 
 //default values
 -(void)defaultValue{
+    [constant getTheAllSaveButtonImage:_exit];
+    [constant getTheAllSaveButtonImage:_addDiagnosis];
+    [constant getTheAllSaveButtonImage:_addMedical];
+    [constant getTheAllSaveButtonImage:_saveTreatmentClosure];
     _treatmentClosureLabelView.layer.cornerRadius=1;
     _treatmentclosureView.layer.cornerRadius=1;
     _settingLabelView.layer.cornerRadius=1;
@@ -1361,7 +1362,7 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
             if (sittingCollectionArray.count>0) {
                 _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
                 _settingViewHeight.constant=sittingCollectionViewHeight+120;
-            }else _settingViewHeight.constant=50;
+            }else _settingViewHeight.constant=100;
         }
     if (selectedSittingIndex!=nil) {
         [_sittingCollectionView scrollToItemAtIndexPath:selectedSittingIndex atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
@@ -1659,4 +1660,17 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
     sittingStr=[MCLocalization stringForKey:@"Sitting"];
     closedSuccess=[MCLocalization stringForKey:@"Closed successfully"];
 }
+-(void)callMethodInContainerForLang{
+    UINavigationController *nav=(UINavigationController*)self.parentViewController;
+    ContainerViewController *container=nav.viewControllers[1];
+    [container callForNavigationButton:@"language"];
+    
+}
+-(void)callMethodInContainerForSlideOut{
+    UINavigationController *nav=(UINavigationController*)self.parentViewController;
+    ContainerViewController *container=nav.viewControllers[1];
+    [container callForNavigationButton:@"slideout"];
+    
+}
+
 @end

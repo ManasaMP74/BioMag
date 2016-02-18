@@ -104,7 +104,10 @@
     
 }
 
-
+//get the buttonImage
+-(void)getTheAllSaveButtonImage:(UIButton*)btn{
+    [btn setBackgroundImage:[UIImage imageNamed:@"Button-Orange1.png"] forState:normal];
+}
 
 
 

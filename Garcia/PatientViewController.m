@@ -201,11 +201,10 @@
 }
 - (IBAction)showFullProfileImage:(id)sender {
     if (profileView==nil)
-        profileView=[[ProfileImageView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x+70, self.view.frame.origin.y+100,self.view.frame.size.width-40,self.view.frame.size.height-100)];
+        profileView=[[ProfileImageView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x+70, self.view.frame.origin.y+100,self.view.frame.size.width-40,self.view.frame.size.height-400)];
     profileView.imageCode=_model.profileImageCode;
     profileView.storageId = _model.storageID;
     profileView.DisplayImg = _patientImageView.image;
-    
     [profileView alphaViewInitialize];
 }
 //call api to get detail of treatment

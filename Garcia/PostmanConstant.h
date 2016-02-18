@@ -32,16 +32,7 @@ FOUNDATION_EXPORT NSString *const kGET_SEED_URL;
 FOUNDATION_EXPORT NSString *const forgotPassword;
 FOUNDATION_EXPORT NSString *const language;
 FOUNDATION_EXPORT NSString *const languageUILabel;
-
-
 FOUNDATION_EXPORT NSString *const DifferMetirialOrVzoneApi;
-
-
-
-
-
-
-//FOUNDATION_EXPORT NSString *const alertOK;
 
 
 @end

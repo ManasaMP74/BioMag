@@ -232,6 +232,7 @@
 -(void)textFieldLayer{
 //    _patientImageView.layer.cornerRadius=_patientImageView.frame.size.width/2;
 //    _patientImageView.clipsToBounds=YES;
+    [constant getTheAllSaveButtonImage:_saveBtn];
     [constant spaceAtTheBeginigOfTextField:_genderTF];
     [constant spaceAtTheBeginigOfTextField:_emailTF];
     [constant spaceAtTheBeginigOfTextField:_nameTF];

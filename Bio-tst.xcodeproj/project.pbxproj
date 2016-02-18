@@ -1279,7 +1279,7 @@
 				INFOPLIST_FILE = Garcia/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.BiomagPractitionerBeta1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.Garcia;
 				PRODUCT_NAME = "Bio-tst";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
@@ -1297,7 +1297,7 @@
 				INFOPLIST_FILE = Garcia/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.BiomagPractitionerBeta1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.Garcia;
 				PRODUCT_NAME = "Bio-tst";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;

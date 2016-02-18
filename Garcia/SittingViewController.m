@@ -154,6 +154,8 @@
     }
 }
 -(void)defaultValues{
+    [constant getTheAllSaveButtonImage:_saveBtn];
+    [constant getTheAllSaveButtonImage:_exit];
     _patientimage.layer.cornerRadius=_patientimage.frame.size.width/2;
     _patientimage.clipsToBounds=YES;
     [constant SetBorderForTextField:_priceTf];
@@ -185,14 +187,14 @@
 -(void)navigationItemMethod{
     self.revealViewController.navigationItem.hidesBackButton=YES;
     self.revealViewController.title=navTitle;
-    UIImage* image3 = [UIImage imageNamed:@"Icon-Signout.png"];
-    CGRect frameimg = CGRectMake(0, 0, image3.size.width, image3.size.height);
-    UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
-    [someButton setBackgroundImage:image3 forState:UIControlStateNormal];
-    [someButton addTarget:self action:@selector(popToViewController) forControlEvents:UIControlEventTouchUpInside];
-    [someButton setShowsTouchWhenHighlighted:YES];
-    UIBarButtonItem *mailbutton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
-    self.revealViewController.navigationItem.rightBarButtonItem=mailbutton;
+//    UIImage* image3 = [UIImage imageNamed:@"Icon-Signout.png"];
+//    CGRect frameimg = CGRectMake(0, 0, image3.size.width, image3.size.height);
+//    UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
+//    [someButton setBackgroundImage:image3 forState:UIControlStateNormal];
+//    [someButton addTarget:self action:@selector(popToViewController) forControlEvents:UIControlEventTouchUpInside];
+//    [someButton setShowsTouchWhenHighlighted:YES];
+//  UIBarButtonItem *mailbutton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
+ //   self.revealViewController.navigationItem.rightBarButtonItem=mailbutton;
     UIImage* image = [UIImage imageNamed:@"Back button.png"];
     CGRect frameimg1 = CGRectMake(100, 0, image.size.width+30, image.size.height);
     UIButton *button=[[UIButton alloc]initWithFrame:frameimg1];
@@ -1245,8 +1247,8 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
     navTitle=[MCLocalization stringForKey:@"Sitting"];
     [_saveBtn setTitle:[MCLocalization stringForKey:@"Save"] forState:normal];
     [_exit setTitle:[MCLocalization stringForKey:@"Exit"] forState:normal];
-    [_nextBtn setTitle:[MCLocalization stringForKey:@"Next"] forState:normal];
-    [_previousBtn setTitle:[MCLocalization stringForKey:@"Previous"] forState:normal];
+//    [_nextBtn setTitle:[MCLocalization stringForKey:@"Next"] forState:normal];
+//    [_previousBtn setTitle:[MCLocalization stringForKey:@"Previous"] forState:normal];
     [_addSymptom setTitle:[MCLocalization stringForKey:@"Add symptoms"] forState:normal];
     
     _scanpointLabel.text=[MCLocalization stringForKey:@"Scan Point"];

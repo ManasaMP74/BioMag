@@ -39,7 +39,7 @@
     NSString *str=@"{";
     for (NSDictionary *dict1 in genericArray) {
         if ([dict1[@"Status"]intValue]==1) {
-        str=[str stringByAppendingString:[NSString stringWithFormat:@"\"%@\":\"%@\"",dict1[@"Value"],dict1[@"Name"]]];
+        str=[str stringByAppendingString:[NSString stringWithFormat:@"\"%@\":\"%@\"",dict1[@"Name"],dict1[@"Value"]]];
         if (![dict1 isEqualToDictionary:[genericArray lastObject]]) {
             str=[str stringByAppendingString:@","];
         }else

@@ -125,7 +125,9 @@
     }else {
         for (NSString *i in _model.selectedHeaderIndexpath) {
             if ([i isEqual:[NSString stringWithFormat:@"%d-%d",indexPath.row,indexPath.section]]) {
-                height=[_model.correspondingPairHeight[indexPath.row] floatValue];
+                NSArray *ar=[i componentsSeparatedByString:@"-"];
+                int height1=[ar[0] intValue];
+                height=[_model.correspondingPairHeight[height1] floatValue]+30;
             }
         }
         return height;

@@ -35,16 +35,15 @@
         UIImageView *im=(UIImageView*)[cell viewWithTag:20];
         im.image=[UIImage imageNamed:_slideoutImageArray[indexPath.row]];
         return cell;
-
     }
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
      if ([_buttonName isEqualToString:@"language"]) {
-    [self.delegate selectedObject:_lagArray[indexPath.row]];
+    [self.delegate selectedObject:indexPath.row];
      }else
      {
          if (indexPath.row>0) {
-              [self.delegate selectedSlideOutObject:_slideoutNameArray[indexPath.row-1]];
+              [self.delegate selectedSlideOutObject:indexPath.row];
          }
      }
 }

@@ -98,6 +98,7 @@
 }
 //default values
 -(void)defaultValues{
+    [constant getTheAllSaveButtonImage:_saveBtn];
     _nameTF.text=_model.name;
     _genderTF.text=_model.gender;
     _dateOfBirthTF.text=_model.dob;
@@ -745,7 +746,5 @@
     [self.dobLabel setAttributedText:[constant setColoredLabelandStar:[MCLocalization stringForKey:@"DateOfBirthLabel"]]];
     [self.mobNumbLabel setAttributedText:[constant setColoredLabelandStar:[MCLocalization stringForKey:@"MobileLabel"]]];
     [self.emailLabel setAttributedText:[constant setColoredLabelandStar:[MCLocalization stringForKey:@"EmailLabel"]]];
-    
-
 }
 @end
