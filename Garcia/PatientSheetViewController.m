@@ -631,7 +631,7 @@
 }
 //delete sitting cell
 -(void)deleteSittingCell:(SittingCollectionViewCell *)cell{
-NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
+//NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
     NSLog(@"%@",sittingCollectionArray);
     
     SittingModelClass *sitMode = sittingCollectionArray[0];
@@ -1398,6 +1398,9 @@ NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
     }else{
         selectedSittingIndex=nil;
         [previousSittingDetailArray removeAllObjects];
+        for (NSDictionary *dict in biomagneticArray) {
+         [previousSittingDetailArray addObject:dict];
+        }
         sittingAddOrEditDiffer=nil;
         [app.symptomTagArray removeAllObjects];
         [self performSegueWithIdentifier:@"sitting" sender:nil];

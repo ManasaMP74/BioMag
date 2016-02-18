@@ -107,6 +107,7 @@
 //get the buttonImage
 -(void)getTheAllSaveButtonImage:(UIButton*)btn{
     [btn setBackgroundImage:[UIImage imageNamed:@"Button-Orange1.png"] forState:normal];
+    [btn setTitleColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1] forState:normal];
 }
 
 

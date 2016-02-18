@@ -235,7 +235,8 @@
         [nav popToViewController:patientVc animated:YES];
         patientVc.model =model;
         [patientVc setDefaultValues];
-        slideoutArray=@[model.name,@"About Us",@"FAQ",@"Terms and Conditions",@"Privacy and Policy",@"Logout"];
+        NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+        slideoutArray=@[[defaults valueForKey:@"DoctorName"],@"About Us",@"FAQ",@"Terms and Conditions",@"Privacy and Policy",@"Logout"];
         slideoutImageArray=@[@"07-User.png",@"01-Icon-About-Us.png",@"02-Icon-FAQ.png",@"04-Icon-Terms.png",@"03-Icon-Privacy.png",@"05-Icon-Logout.png"];
     }
 }

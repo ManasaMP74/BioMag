@@ -294,19 +294,15 @@
         str1=[str1 stringByAppendingString:@" "];
     }
     cell.germLabel.text=str1;
-    NSString *str=[ cell.sittingTextView.text stringByReplacingOccurrencesOfString:@"," withString:@" "];
-    cell.otherGermsLabel.text=str;
    
     if ([model.otherSittingNumberHaveIssue isEqualToString:@""]) {
         cell.previousSittingBadgeLabel.hidden=YES;
         cell.previousSittingBadgeImageView.hidden=YES;
     }else{
-        cell.previousSittingBadgeLabel.hidden=YES;
-        cell.previousSittingBadgeImageView.hidden=YES;
-        //        cell.previousSittingBadgeLabel.hidden=NO;
-        //        NSArray *ar=[model.otherSittingNumberHaveIssue componentsSeparatedByString:@" "];
-        //        cell.previousSittingBadgeLabel.text=ar[ar.count-2];
-        //        cell.previousSittingBadgeImageView.hidden=NO;
+                cell.previousSittingBadgeLabel.hidden=NO;
+                NSArray *ar=[model.otherSittingNumberHaveIssue componentsSeparatedByString:@" "];
+                cell.previousSittingBadgeLabel.text=ar[ar.count-2];
+                cell.previousSittingBadgeImageView.hidden=NO;
     }
     return cell;
 }
@@ -386,13 +382,16 @@
                 if (![json[@"Price"] isEqualToString:@""]) {
                     _priceTf.text=json[@"Price"];
                 }
+                _sittingNumberLabel.text=[NSString stringWithFormat:@"%@%d",sStr,[dict[@"SittingNumber"]intValue]];
+                 cell.sittingNumber.text=[NSString stringWithFormat:@"%@%d",sStr,[dict[@"SittingNumber"]intValue]];
                 if (anotomicalPointArray.count>0) {
                     for (NSDictionary *anotomicalDict in anotomicalPointArray) {
                         if (([anotomicalDict[@"SectionCode"] isEqualToString:model.sectionCode])&([anotomicalDict[@"CorrespondingPairCode"] isEqualToString:model.correspondingPairCode])&([anotomicalDict[@"ScanPointCode"] isEqualToString:model.scanPointCode]) ) {
-                            cell.sittingNumber.text=[NSString stringWithFormat:@"%@%d",sStr,[dict[@"SittingNumber"]intValue]];
-                            _sittingNumberLabel.text=[NSString stringWithFormat:@"%@%d",sStr,[dict[@"SittingNumber"]intValue]];
                             cell.sittingTextView.text=anotomicalDict[@"GermsName"];
                             model.germsString= cell.sittingTextView.text;
+                            model.germsCodeString=anotomicalDict[@"GermsCode"];
+                            NSString *str=[model.germsCodeString stringByReplacingOccurrencesOfString:@"," withString:@" "];
+                            cell.otherGermsLabel.text=str;
                             cell.sittingTvPlaceholder.hidden=YES;
                             if ([anotomicalDict[@"Issue"] integerValue]==1) {
                                 model.issue= YES;
@@ -403,16 +402,20 @@
                                 [self colorChange:model.issue withCell:cell];
                                  cell.headerView.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
                             }
-                           
                         }
                     }
                 }
             }
+        }else{
+            _sittingNumberLabel.text=[NSString stringWithFormat:@"%@%d",sStr,[_sittingNumber intValue]+1];
+            cell.sittingNumber.text=[NSString stringWithFormat:@"%@%d",sStr,[_sittingNumber intValue]+1];
         }
     }else {
         cell.sittingTextView.text=model.germsString;
+        NSString *str=[model.germsCodeString stringByReplacingOccurrencesOfString:@"," withString:@" "];
+        cell.otherGermsLabel.text=str;
         cell.sittingTvPlaceholder.hidden=YES;
-         _sittingNumberLabel.text=s1Str;
+         _sittingNumberLabel.text=[NSString stringWithFormat:@"%@%@",sStr,_sittingNumber];
     }
     if ([_isTreatmntCompleted intValue]==0) {
         if ([_bioSittingDict[@"IsCompleted"]intValue]==0 ){
@@ -716,6 +719,9 @@
                 model.code=dict1[@"Code"];
                 model.germsName=[[NSMutableArray alloc]init];
                 model.germsCode=[[NSMutableArray alloc]init];
+                if (dict1[@"Code"]!=[NSNull null]) {
+                    model.anatomicalBiomagenticCode=dict1[@"Code"];
+                }
                 if (dict1[@"Author"]!=[NSNull null]) {
                     model.author=dict1[@"Author"];
                 }
@@ -809,7 +815,7 @@
     germsViewXib.delegateForGerms=self;
     germsViewXib.heightOfSuperView=self.view.frame.size.height;
     if (![cell1.sittingTextView.text isEqualToString:@""]) {
-        germsViewXib.fromParentViewGermsString=cell1.sittingTextView.text;
+        germsViewXib.fromParentViewGermsString=cell1.otherGermsLabel.text;
     }else germsViewXib.fromParentViewGermsString=@"";
     [germsViewXib alphaViewInitialize];
 }
@@ -821,7 +827,7 @@
         NSString *selectedGermsCode=@"";
         for (germsModel *model in germasData) {
             selectedGerms= [selectedGerms stringByAppendingString:[NSString stringWithFormat:@"%@",model.germsName]];
-             selectedGermsCode= [selectedGerms stringByAppendingString:[NSString stringWithFormat:@"%@",model.germsCode]];
+             selectedGermsCode= [selectedGerms stringByAppendingString:[NSString stringWithFormat:@"%@",model.germsUserFriendlycode]];
             if (![[germasData lastObject] isEqual:model]) {
                 selectedGerms= [selectedGerms stringByAppendingString:@","];
                 selectedGerms= [selectedGermsCode stringByAppendingString:@","];
@@ -834,6 +840,7 @@
     }else {
         model1.selectedCellIndex=nil;
         model1.germsString=@"";
+        model1.germsCodeString=@"";
         model1.issue=NO;
         model1.edited=@"Y";
     }
@@ -986,6 +993,7 @@
             sectionDict[@"LocationCorrespondingPair"]=@"";
             sectionDict[@"GermsName"]=model.germsString;
             sectionDict[@"Issue"]=[@(model.issue) description];
+            sectionDict[@"AnatomicalBiomagenticCode"]=model.anatomicalBiomagenticCode;
             [jsonSittingArray addObject:sectionDict];
         }
     }

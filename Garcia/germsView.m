@@ -202,11 +202,11 @@
     }
     [_tableView reloadData];
    
-    NSArray *ar=[_fromParentViewGermsString componentsSeparatedByString:@","];
+    NSArray *ar=[_fromParentViewGermsString componentsSeparatedByString:@" "];
     for (NSString *str in ar) {
         for (int i=0; i<germsArray.count; i++) {
             germsModel *model=germsArray[i];
-            if ([str isEqualToString:model.germsName]) {
+            if ([str isEqualToString:model.germsUserFriendlycode]) {
                 [self tableView:_tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
                 break;
             }
