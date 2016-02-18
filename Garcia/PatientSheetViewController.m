@@ -22,7 +22,7 @@
 #import <WYPopoverController/WYPopoverController.h>
 #import <MCLocalization/MCLocalization.h>
 #import "ContainerViewController.h"
-
+#import <WYPopoverController/WYPopoverController.h>
 #define NULL_CHECK(X) [X isKindOfClass:[NSNull class]]?nil:X
 
 
@@ -110,6 +110,7 @@
     NSArray *slideoutImageArray,*slideoutArray;
     NSString *differForNavButton;
     NSString *navTitle,*titleOfTreatment,*closureNote,*medicalNote,*diagnosisNote,*doYouWantToCloseTreatment,*alert,*alertOk,*updatedSuccess,*updateFailed,*saveSuccess,*saveFailed,*enterTreatmentClosure,*ok,*yesStr,*noStr,*treatmentTitlerequired,*sittingStr,*closedSuccess;
+    WYPopoverController *wypopOverController;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -226,7 +227,7 @@
     CGRect frameimg = CGRectMake(0, 0, image3.size.width, image3.size.height);
     UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
     [someButton setBackgroundImage:image3 forState:UIControlStateNormal];
-    [someButton addTarget:self action:@selector(callMethodInContainerForSlideOut) forControlEvents:UIControlEventTouchUpInside];
+    [someButton addTarget:self action:@selector(callMethodInContainerForSlideOut:) forControlEvents:UIControlEventTouchUpInside];
     [someButton setShowsTouchWhenHighlighted:YES];
     UIBarButtonItem *mailbutton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
     self.navigationItem.rightBarButtonItem=mailbutton;
@@ -248,7 +249,7 @@
     [lagSomeButton setTitle:[standardDefault valueForKey:@"languageName"] forState:normal];
     [lagSomeButton setTitleColor:[UIColor blackColor] forState:normal];
     lagSomeButton.titleLabel.font=[UIFont fontWithName:@"OpenSansSemibold" size:10];
-    [lagSomeButton addTarget:self action:@selector(callMethodInContainerForLang) forControlEvents:UIControlEventTouchUpInside];
+    [lagSomeButton addTarget:self action:@selector(callMethodInContainerForLang:) forControlEvents:UIControlEventTouchUpInside];
     [lagSomeButton setShowsTouchWhenHighlighted:YES];
     UIBarButtonItem *lagButton =[[UIBarButtonItem alloc] initWithCustomView:lagSomeButton];
     
@@ -1663,17 +1664,16 @@
     sittingStr=[MCLocalization stringForKey:@"Sitting"];
     closedSuccess=[MCLocalization stringForKey:@"Closed successfully"];
 }
--(void)callMethodInContainerForLang{
+//for language popOver
+-(IBAction)callMethodInContainerForLang:(id)sender{
     UINavigationController *nav=(UINavigationController*)self.parentViewController;
-    ContainerViewController *container=nav.viewControllers[1];
-    [container callForNavigationButton:@"language"];
-    
+    ContainerViewController *contain=nav.viewControllers[1];
+    [contain callForNavigationButton:@"language" withButton:sender];
 }
--(void)callMethodInContainerForSlideOut{
+//for slideout popOver
+-(IBAction)callMethodInContainerForSlideOut:(id)sender{
     UINavigationController *nav=(UINavigationController*)self.parentViewController;
-    ContainerViewController *container=nav.viewControllers[1];
-    [container callForNavigationButton:@"slideout"];
-    
+    ContainerViewController *contain=nav.viewControllers[1];
+    [contain callForNavigationButton:@"slideout" withButton:sender];
 }
-
 @end

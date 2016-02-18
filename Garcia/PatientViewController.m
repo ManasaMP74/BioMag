@@ -44,8 +44,6 @@
     NSMutableArray *treatmentListArray;
     ProfileImageView *profileView;
     NSString *alertTitle,*alertOK,*navTitle,*differForSlideoutAndLang;
-    NSArray *langArray,*slideoutImageArray,*slideoutNameArray;
-    
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -104,8 +102,6 @@
     if (_model.tranfusion!=nil) {
         _transfusinTF.text=_model.tranfusion;
     }else _surgeriesLabel.text=@"";
-    slideoutImageArray=@[@"07-User.png",@"Icon-About.png",@"Icon-Faq.png",@"Icon-Terms.png",@"Icon-Privacy.png",@"Icon-Logout.png"];
-    slideoutNameArray=@[_model.name,@"About Us",@"FAQ",@"Terms and Conditions",@"Privacy and Policy",@"Logout"];
     [self callApiTogetAllDetailOfTheTreatment];
 }
 //setfont for label
@@ -129,32 +125,11 @@
 //TableView Delegate Method
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     int count;
-    if (tableView==_popTableView) {
-        if ([differForSlideoutAndLang isEqualToString:@"lang"]) {
-            count=langArray.count;
-        }
-        else count=slideoutNameArray.count;
-    }
-   else count= treatmentListArray.count;
+   count= treatmentListArray.count;
     return count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell;
-    if (tableView==_popTableView) {
-        if ([differForSlideoutAndLang isEqualToString:@"lang"]) {
-            UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
-            UILabel *label=(UILabel*)[cell viewWithTag:10];
-            lagModel *model=langArray[indexPath.row];
-            label.text=model.name;
-        }else{
-            UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell1"];
-            UILabel *label=(UILabel*)[cell viewWithTag:10];
-            label.text=slideoutNameArray[indexPath.row];
-            UIImageView *im=(UIImageView*)[cell viewWithTag:20];
-            im.image=[UIImage imageNamed:slideoutImageArray[indexPath.row]];
-
-        }
-     }else{
     cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
     UILabel *label=(UILabel*)[cell viewWithTag:10];
     PatientTitleModel *model=treatmentListArray[indexPath.row];
@@ -167,7 +142,6 @@
     }else{
        //cell.backgroundColor=[UIColor colorWithRed:0.627 green:0.89 blue:1 alpha:1];
        cell.backgroundColor=[UIColor colorWithRed:0.933 green:0.933 blue:0.941 alpha:1];
-    }
     }
      return cell;
 }
@@ -289,18 +263,5 @@
 - (IBAction)ShowAlphaView:(id)sender {
     _popTableView.hidden=YES;
     _alphaViewToShowLanguage.hidden=YES;
-}
--(void)getThePopOverForLanguage:(NSArray *)popOverArray{
-    langArray=popOverArray;
-    _alphaViewToShowLanguage.hidden=NO;
-    _popTableView.hidden=NO;
-    differForSlideoutAndLang=@"lang";
-    [_popTableView reloadData];
-}
--(void)getThePopOverForslideout{
-    differForSlideoutAndLang=@"slideout";
-    _alphaViewToShowLanguage.hidden=NO;
-    _popTableView.hidden=NO;
- [_popTableView reloadData];
 }
 @end

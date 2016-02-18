@@ -34,6 +34,9 @@
              label.text=_slideoutNameArray[indexPath.row];
         UIImageView *im=(UIImageView*)[cell viewWithTag:20];
         im.image=[UIImage imageNamed:_slideoutImageArray[indexPath.row]];
+        if (indexPath.row==0) {
+            label.textColor=[UIColor blackColor];
+        }
         return cell;
     }
 }

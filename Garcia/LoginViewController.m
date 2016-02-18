@@ -159,7 +159,7 @@
             NSDictionary *dict=ar[0];
             [userdefault setValue:dict[@"Id"] forKey:@"Id"];
             [userdefault setValue:dict[@"CompanyCode"] forKey:@"CompanyCode"];
-            NSString *doctorName=[NSString stringWithFormat:@"%@ %@",dict[@"FirstName"],dict[@"LastName"]];
+            NSString *doctorName=[NSString stringWithFormat:@"%@",dict[@"Name"]];
             [userdefault setValue:doctorName forKey:@"DoctorName"];
             //            [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
             //                if (success) {

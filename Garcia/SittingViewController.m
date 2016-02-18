@@ -383,7 +383,7 @@
                     _priceTf.text=json[@"Price"];
                 }
                 _sittingNumberLabel.text=[NSString stringWithFormat:@"%@%d",sStr,[dict[@"SittingNumber"]intValue]];
-                 cell.sittingNumber.text=[NSString stringWithFormat:@"%@%d",sStr,[dict[@"SittingNumber"]intValue]];
+                  cell.sittingNumber.text=[NSString stringWithFormat:@"%@%d",sStr,[dict[@"SittingNumber"]intValue]];
                 if (anotomicalPointArray.count>0) {
                     for (NSDictionary *anotomicalDict in anotomicalPointArray) {
                         if (([anotomicalDict[@"SectionCode"] isEqualToString:model.sectionCode])&([anotomicalDict[@"CorrespondingPairCode"] isEqualToString:model.correspondingPairCode])&([anotomicalDict[@"ScanPointCode"] isEqualToString:model.scanPointCode]) ) {

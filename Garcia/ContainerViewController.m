@@ -29,6 +29,7 @@
     UIButton *lagSomeButton;
      NSArray *slideoutImageArray,*slideoutArray;
     UIButton *someButton ;
+    NSUserDefaults *standardDefault;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -37,8 +38,16 @@
     languageArray =[[NSMutableArray alloc]init];
     postman=[[Postman alloc]init];
     [self callSeed];
-    
-
+}
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self navigationMethod];
+}
+//navigationMethod
+-(void)navigationMethod{
     UIImage* image3 = [UIImage imageNamed:@"06-Icon-Navigation.png"];
     CGRect frameimg = CGRectMake(0, 0, image3.size.width, image3.size.height);
     someButton= [[UIButton alloc] initWithFrame:frameimg];
@@ -52,9 +61,9 @@
     lagSomeButton= [[UIButton alloc] initWithFrame:lagFrameimg];
     lagSomeButton.backgroundColor=[UIColor whiteColor];
     lagSomeButton.layer.cornerRadius=13;
-    NSUserDefaults *standardDefault=[NSUserDefaults standardUserDefaults];
+    standardDefault=[NSUserDefaults standardUserDefaults];
     [standardDefault setValue:@"English" forKey:@"languageName"];
-   // lagSomeButton.font=[UIFont systemFontOfSize:15];
+    // lagSomeButton.font=[UIFont systemFontOfSize:15];
     [lagSomeButton setTitle:[standardDefault valueForKey:@"languageName"] forState:normal];
     [lagSomeButton setTitleColor:[UIColor blackColor] forState:normal];
     lagSomeButton.titleLabel.font=[UIFont fontWithName:@"OpenSansSemibold" size:10];
@@ -64,20 +73,20 @@
     
     self.navigationItem.rightBarButtonItems=@[mailbutton,lagButton];
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-}
+
 //pop back
 -(void)popToViewController{
     [self.navigationController popViewControllerAnimated:YES];
 }
--(void)callForNavigationButton:(NSString*)str{
+//call lang from PatientSheet
+-(void)callForNavigationButton:(NSString*)str withButton:(UIButton *)btn{
     if ([str isEqualToString:@"language"]) {
+        lagSomeButton=btn;
         [self languageChange:lagSomeButton];
-    }else [self slideout:someButton];
+    }else {
+        someButton=btn;
+        [self slideout:someButton];
+    }
 }
 
 //LanguageChange
@@ -163,7 +172,6 @@
 }
 //delegate of language selection
 -(void)selectedObject:(int)row{
-    NSUserDefaults *standardDefault=[NSUserDefaults standardUserDefaults];
     lagModel *model=languageArray[row];
     [standardDefault setValue:model.code forKey:@"languageCode"];
      [standardDefault setValue:model.name forKey:@"languageName"];
@@ -188,10 +196,6 @@
     else  if (row==2) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://biomagnetictherapy.us-west-2.elasticbeanstalk.com/configurationview/AOO6FQ"]];
     }
-
-    
-    
-    
     [wypopOverController dismissPopoverAnimated:NO];
 }
 //delegate of wypopover
@@ -211,7 +215,7 @@
 -(void)showFailureAlerMessage:(NSString*)msg{
     UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *success=[UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
-        [self.navigationController popViewControllerAnimated:YES];
+        [self.navigationController popToRootViewControllerAnimated:YES];
         NSUserDefaults *userdefault=[NSUserDefaults standardUserDefaults];
         [userdefault setValue:@"" forKey:@"userName"];
         [userdefault setValue:@"" forKey:@"password"];
@@ -236,7 +240,8 @@
         patientVc.model =model;
         [patientVc setDefaultValues];
         NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
-        slideoutArray=@[[defaults valueForKey:@"DoctorName"],@"About Us",@"FAQ",@"Terms and Conditions",@"Privacy and Policy",@"Logout"];
+        NSString *str=[defaults valueForKey:@"DoctorName"];
+        slideoutArray=@[str,@"About Us",@"FAQ",@"Terms and Conditions",@"Privacy and Policy",@"Logout"];
         slideoutImageArray=@[@"07-User.png",@"01-Icon-About-Us.png",@"02-Icon-FAQ.png",@"04-Icon-Terms.png",@"03-Icon-Privacy.png",@"05-Icon-Logout.png"];
     }
 }

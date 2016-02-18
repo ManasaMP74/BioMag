@@ -23,5 +23,5 @@
 -(void)hideMBprogressTillLoadThedata;
 -(void)hideAllMBprogressTillLoadThedata;
 @property(weak,nonatomic)id<loadTreatmentDelegateInContainer>delegate;
--(void)callForNavigationButton:(NSString*)str;
+-(void)callForNavigationButton:(NSString*)str withButton:(UIButton*)btn;
 @end

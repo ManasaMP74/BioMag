@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import <MCLocalization/MCLocalization.h>
 #import "LanguageChanger.h"
+#import "ContainerViewController.h"
 @interface AppDelegate ()
 
 @end
@@ -20,7 +21,7 @@
     // Override point for customization after application launch.
     [[UINavigationBar appearance]setBarTintColor:[UIColor colorWithRed:0 green:0.71 blue:0.93 alpha:1]];
     [[UINavigationBar appearance]setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithRed:1 green:1 blue:1 alpha:1],NSForegroundColorAttributeName,[UIFont fontWithName:@"OpenSans" size:20],NSFontAttributeName, nil]];
- 
+
     
 // Localization
 
@@ -31,7 +32,16 @@
       [userdefault setValue:@"en" forKey:@"languageCode"];
     }
     [lang callApiForLanguage];
-   
+//    NSString *userName=[userdefault valueForKey:@"userName"];
+//    UIStoryboard *storyBoard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    if (![userName isEqualToString:@""]) {
+//        UINavigationController *navController = (UINavigationController *)self.window.rootViewController;
+//        
+//        ContainerViewController *container=[storyBoard instantiateViewControllerWithIdentifier:@"ContainerViewController"];
+//        [navController setViewControllers:@[container]];
+////        UINavigationController *nav=[[UINavigationController alloc]initWithRootViewController:container];
+////        [self.window setRootViewController:nav];
+//    }
     
     return YES;
 }
