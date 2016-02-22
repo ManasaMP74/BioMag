@@ -119,6 +119,7 @@
     allTagListArray=[[NSMutableArray alloc]init];
     filterdTagListArray=[[NSMutableArray alloc]init];
     previousSittingDetailArray=[[NSMutableArray alloc]init];
+     formatter=[[NSDateFormatter alloc]init];
     sittingCollectionViewHeight=0.0,uploadCellHeight=0.0,diagnosisCellHeight=25.0,medicalHistoryCellHeight=25.0;
     constant=[[Constant alloc]init];
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-2.jpg"]]];
@@ -151,7 +152,6 @@
     [super viewWillAppear:animated];
     [self changeTreatmentTF];
     self.navigationItem.hidesBackButton=YES;
-    formatter=[[NSDateFormatter alloc]init];
     if ([_patientTitleModel.IsTreatmentCompleted intValue]==0) {
         [self DisableAllButton:NO];
     }else [self DisableAllButton:YES];
@@ -163,12 +163,12 @@
 
 -(void)callSeedApi{
     
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        //For Vzone API
-        [self callApiTogetSymptomTag];
-    }else{
-        //For Material Api
-        
+//    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+//        //For Vzone API
+//        [self callApiTogetSymptomTag];
+//    }else{
+//        //For Material Api
+    
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         if ([userDefault boolForKey:@"symptomtag_FLAG"]) {
             [self callApiTogetSymptomTag];
@@ -184,7 +184,7 @@
                 }
             }];
         }
-    }
+  //  }
     
 }
 //Hide button if treatment is closed
@@ -241,20 +241,26 @@
     self.navigationItem.leftBarButtonItems=@[barItem];
     [button addTarget:self action:@selector(popView) forControlEvents:UIControlEventTouchUpInside];
 
-    CGRect lagFrameimg = CGRectMake(30,0,95,25);
-    UIButton *lagSomeButton= [[UIButton alloc] initWithFrame:lagFrameimg];
-    lagSomeButton.backgroundColor=[UIColor whiteColor];
-    lagSomeButton.layer.cornerRadius=13;
+   
+    //UIImage* image2 = [UIImage imageNamed:@"Icon-Langauge.png"];
+    UIImage* image1 = [UIImage imageNamed:@"Language-Button.png"];
+    CGRect lagFrameimg = CGRectMake(0,0,image1.size.width, image1.size.height);
+    UIButton * lagSomeButton= [[UIButton alloc] initWithFrame:lagFrameimg];
+    [lagSomeButton setBackgroundImage:image1 forState:normal];
+   // [lagSomeButton setImage:image2 forState:normal];
+     lagSomeButton.titleEdgeInsets=UIEdgeInsetsMake(0,10, 0,28);
+   // lagSomeButton.imageEdgeInsets=UIEdgeInsetsMake(0,74, 0, 0);
     NSUserDefaults *standardDefault=[NSUserDefaults standardUserDefaults];
     [lagSomeButton setTitle:[standardDefault valueForKey:@"languageName"] forState:normal];
     [lagSomeButton setTitleColor:[UIColor blackColor] forState:normal];
-    lagSomeButton.titleLabel.font=[UIFont fontWithName:@"OpenSansSemibold" size:10];
+     lagSomeButton.titleLabel.font=[UIFont fontWithName:@"OpenSans-Semibold" size:14];
     [lagSomeButton addTarget:self action:@selector(callMethodInContainerForLang:) forControlEvents:UIControlEventTouchUpInside];
     [lagSomeButton setShowsTouchWhenHighlighted:YES];
     UIBarButtonItem *lagButton =[[UIBarButtonItem alloc] initWithCustomView:lagSomeButton];
-    
-    self.navigationItem.rightBarButtonItems=@[mailbutton,lagButton];
-}
+
+    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    negativeSpacer.width = 20;
+    self.navigationItem.rightBarButtonItems=@[mailbutton,negativeSpacer,lagButton];}
 //pop view
 -(void)popView{
     [self.navigationController popViewControllerAnimated:YES];
@@ -301,7 +307,7 @@
 - (IBAction)increaseDiagnosisView:(id)sender {
     if ([_increaseDiagnosisViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
         _diagnosisView.hidden=NO;
-        _diagnosisViewHeight.constant=218;
+        _diagnosisViewHeight.constant=250;
         [self ChangeIncreaseDecreaseButtonImage:_increaseDiagnosisViewButton];
     }
     else{
@@ -540,15 +546,20 @@
                 cell.closeSitting.hidden=YES;
                 [cell.editButton setImage:[UIImage imageNamed:@"View-button.png"] forState:normal];
             }
-            
-            //For Header TableView Part
-            cell.headerTableView.model=model;
-            cell.delegate=self;
-            [cell.headerTableView gettheSection];
-            CGFloat height= [cell.headerTableView getTHeHeightOfTableVIew];
-            model.height=height;
-            
+//            NSArray *treatmentDateArray=[model.visit componentsSeparatedByString:@"T"];
+//            [formatter setTimeZone:[NSTimeZone localTimeZone]];
+//            [formatter setDateFormat:@"yyyy-MM-DD"];
+//            NSDate *dateofTreatment=[formatter dateFromString:treatmentDateArray[0]];
+//            [formatter setDateFormat:@"dd-MMM-yyyy"];
+//            NSString *dateofTreatmentStr=[formatter stringFromDate:dateofTreatment];
         }
+        cell.visitDateLabel.text=model.visit;
+        //For Header TableView Part
+        cell.headerTableView.model=model;
+        cell.delegate=self;
+        [cell.headerTableView gettheSection];
+        CGFloat height= [cell.headerTableView getTHeHeightOfTableVIew];
+        model.height=height;
         return cell;
     }
     else if (collectionView==_uploadCollectionView){
@@ -646,7 +657,9 @@
     NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell1];
      SittingModelClass *m=sittingCollectionArray[index.row];
      [m.selectedHeaderIndexpath addObject:selectedHeader];
-     [m.correspondingPairHeight addObject:[NSString stringWithFormat:@"%f",height]];
+    NSString *str=[NSString stringWithFormat:@"%f",height];
+    NSDictionary *dict=[NSDictionary dictionaryWithObject:str forKey:selectedHeader];
+    [m.correspondingPairHeight addObject:dict];
        [self.view layoutIfNeeded];
     [_sittingCollectionView reloadData];
     [self.view layoutIfNeeded];
@@ -663,13 +676,17 @@
     NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell1];
     SittingModelClass *m=sittingCollectionArray[index.row];
     NSArray *ar=[deselectedHeader componentsSeparatedByString:@"-"];
-    [m.correspondingPairHeight addObject:[NSString stringWithFormat:@"%f",height]];
     if ([ar[0] intValue]==0) {
     [m.selectedHeaderIndexpath removeAllObjects];
     [m.correspondingPairHeight removeAllObjects];
     }else{
     [m.selectedHeaderIndexpath removeObject:deselectedHeader];
-     [m.correspondingPairHeight removeObject:deselectedHeader];
+        for (NSDictionary *dict in m.correspondingPairHeight) {
+            if (dict[deselectedHeader]) {
+                 [m.correspondingPairHeight removeObject:dict[deselectedHeader]];
+                break;
+            }
+        }
     }
        [self.view layoutIfNeeded];
      [_sittingCollectionView reloadData];
@@ -873,7 +890,7 @@
     [_uploadCollectionView reloadData];
     [self.view layoutIfNeeded];
     _uploadCollectionView.hidden=NO;
-    _uploadViewHeigh.constant=uploadCellHeight+185;
+    _uploadViewHeigh.constant=uploadCellHeight+230;
 }
 
 
@@ -890,9 +907,9 @@
     [_uploadCollectionView reloadData];
     [_scrollView layoutIfNeeded];
     if (uploadedImageArray.count==0) {
-        _uploadViewHeigh.constant=55;
+        _uploadViewHeigh.constant=100;
     }
-    else _uploadViewHeigh.constant=uploadCellHeight+185;
+    else _uploadViewHeigh.constant=uploadCellHeight+230;
 }
 
 
@@ -1106,11 +1123,11 @@
                 uploadCellHeight=MAX(uploadCellHeight, labelHeight);
             }
             _uploadCollectionView.hidden=NO;
-            _uploadViewHeigh.constant=uploadCellHeight+185;
+            _uploadViewHeigh.constant=uploadCellHeight+230;
             [_uploadCollectionView reloadData];
             [self.view layoutIfNeeded];
         }
-        else  _uploadViewHeigh.constant=55;
+        else  _uploadViewHeigh.constant=100;
         [self ChangeIncreaseDecreaseButtonImage:_increaseUploadViewButton];
     }
     else{
@@ -1139,7 +1156,6 @@
 }
 
 //Process Close treatment
-
 -(void)processCloseTreatment:(id)responseObject withMessage:(NSString*)msg{
     
     NSDictionary *dict;

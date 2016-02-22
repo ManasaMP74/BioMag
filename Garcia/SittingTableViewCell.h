@@ -36,6 +36,8 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *author;
 @property (weak, nonatomic) IBOutlet UILabel *previousSitting;
+@property (weak, nonatomic) IBOutlet UILabel *addNoteLabel;
+@property (weak, nonatomic) IBOutlet UITextView *addNoteTV;
 
 
 @end

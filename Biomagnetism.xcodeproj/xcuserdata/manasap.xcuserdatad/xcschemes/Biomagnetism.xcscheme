@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DAEFA18D1BD0B11500900379"
-            BuildableName = "Bio-tst.app"
-            BlueprintName = "Bio-tst"
-            ReferencedContainer = "container:Bio-tst.xcodeproj">
+            BuildableName = "Biomagnetism.app"
+            BlueprintName = "Biomagnetism"
+            ReferencedContainer = "container:Biomagnetism.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -56,9 +56,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DAEFA18D1BD0B11500900379"
-            BuildableName = "Bio-tst.app"
-            BlueprintName = "Bio-tst"
-            ReferencedContainer = "container:Bio-tst.xcodeproj">
+            BuildableName = "Biomagnetism.app"
+            BlueprintName = "Biomagnetism"
+            ReferencedContainer = "container:Biomagnetism.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>

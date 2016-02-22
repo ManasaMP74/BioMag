@@ -52,20 +52,31 @@ NSString *const languageCode=@"en";
 
 
 //Vzone testing
-//NSString *const baseUrlAws = @"https://s3-us-west-2.amazonaws.com/";
-////NSString *const dbName =@"garciadb/";
-//NSString *const dbName =@"biomag-tst.images.original";
-//NSString *const baseUrl=@"http://prithiviraj.vmokshagroup.com:8089/";
-//NSString *const postmanCompanyCode=@"A0I7LV";
+NSString *const baseUrlAws = @"https://s3-us-west-2.amazonaws.com/";
+//NSString *const dbName =@"garciadb/";
+NSString *const dbName =@"biomag-tst.images.original";
+NSString *const baseUrl=@"http://prithiviraj.vmokshagroup.com:8089/";
+NSString *const postmanCompanyCode=@"A0I7LV";
+NSString *const aboutUs=@"http://prithiviraj.vmokshagroup.com:8089/configurationview/TH868Q";
+NSString *const FAQurl=@"http://prithiviraj.vmokshagroup.com:8089/configurationview/TH868Q";
+NSString *const termsAndCondition=@"http://prithiviraj.vmokshagroup.com:8089/configurationview/TH868Q";
+NSString *const privecyAndPolicy=@"http://prithiviraj.vmokshagroup.com:8089/configurationview/TH868Q";
+
 
 
 //Vzone Production API
- NSString *const dbName =@"biomag-tst.images.resized/";//AWS Thumbnail Bucket Name
-NSString *const baseUrl=@"http://biomagnetictherapy.us-west-2.elasticbeanstalk.com/";
-NSString *const postmanCompanyCode=@"VM001";
-//NSString *const dbName =@"biomag.images.resized/";
-//NSString *const dbName =@"biomag.images.original";
-NSString *const baseUrlAws = @"https://s3-us-west-2.amazonaws.com/";
+//NSString *const dbName =@"biomag-tst.images.resized/";//AWS Thumbnail Bucket Name
+//NSString *const baseUrl=@"http://biomagnetictherapy.us-west-2.elasticbeanstalk.com/";
+//NSString *const postmanCompanyCode=@"VM001";
+////NSString *const dbName =@"biomag.images.resized/";
+////NSString *const dbName =@"biomag.images.original";
+//NSString *const baseUrlAws = @"https://s3-us-west-2.amazonaws.com/";
+//NSString *const aboutUs=@"http://biomagnetictherapy.us-west-2.elasticbeanstalk.com/configurationview/MWUFJM";
+//NSString *const FAQurl=@"http://biomagnetictherapy.us-west-2.elasticbeanstalk.com/configurationview/AOO6FQ";
+//NSString *const termsAndCondition=@"http://biomagnetictherapy.us-west-2.elasticbeanstalk.com/configurationview/I0UAWB";
+//NSString *const privecyAndPolicy=@"http://biomagnetictherapy.us-west-2.elasticbeanstalk.com/configurationview/4XOSBX";
+
+
 
 //For Vzone API
 NSString *const getProfile=@"LoadThumbnailImage/";
@@ -94,12 +105,5 @@ NSString *const allScanpointsApi=@"AnatomicalDetails";
 NSString *const DifferMetirialOrVzoneApi=@"vzone";
 NSString *const language=@"search/language";
 NSString *const languageUILabel=@"search/UILabel/";
-
-
-
-
-
-
-
 
 @end

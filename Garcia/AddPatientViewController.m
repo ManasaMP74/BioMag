@@ -46,6 +46,7 @@
     [super viewDidLoad];
     constant=[[Constant alloc]init];
     imageManager=[[ImageUploadAPI alloc]init];
+    [self setFont];
     [self localize];
     [self textFieldLayer];
     genderArray=[[NSMutableArray alloc]init];
@@ -63,12 +64,12 @@
     self.addressTextView.delegate=self;
     MaritialStatusArray=[@[yesStr,noStr]mutableCopy];
     
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        //For Vzone API
-        [self callApiForGender];
-    }else{
-        //For Material Api
-        
+//    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+//        //For Vzone API
+//        [self callApiForGender];
+//    }else{
+//        //For Material Api
+    
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         if ([userDefault boolForKey:@"gender_FLAG"]) {
             [self callApiForGender];
@@ -84,7 +85,7 @@
                 }
             }];
         }
-    }
+  //  }
 
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -176,6 +177,9 @@
         [constant setFontForLabel:label];
     }
     tableView.tableFooterView=[UIView new];
+    cell.backgroundColor=[UIColor colorWithRed:0.933 green:0.933 blue:0.941 alpha:1];
+    cell.separatorInset=UIEdgeInsetsZero;
+    cell.layoutMargins=UIEdgeInsetsZero;
     return cell;
     
 }
@@ -234,6 +238,7 @@
 -(void)textFieldLayer{
 //    _patientImageView.layer.cornerRadius=_patientImageView.frame.size.width/2;
 //    _patientImageView.clipsToBounds=YES;
+    _addView.layer.cornerRadius=5;
     [constant getTheAllSaveButtonImage:_saveBtn];
     [constant spaceAtTheBeginigOfTextField:_genderTF];
     [constant spaceAtTheBeginigOfTextField:_emailTF];
@@ -256,6 +261,16 @@
     [constant setFontFortextField:_mobileNoTF];
      _addressTextView.textContainerInset = UIEdgeInsetsMake(10,5,10, 10);
     self.addressTextView.backgroundColor=[UIColor whiteColor];
+}
+//setfont for label
+-(void)setFont{
+    [constant setFontForLabel:_genderLabel];
+    [constant setFontForLabel:_nameLabel];
+    [constant setFontForLabel:_transfusionLabel];
+    [constant setFontForLabel:_dobLabel];
+    [constant setFontForLabel:_surgeriesLabel];
+    [constant setFontForLabel:_emailLabel];
+    [constant setFontForLabel:_mobNumbLabel];
 }
 //Move the TextField Up
 - (void)registerForKeyboardNotifications

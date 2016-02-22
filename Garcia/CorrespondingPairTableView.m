@@ -48,7 +48,7 @@
         for (NSDictionary *dict in _correspondingPairNameArray) {
             NSArray *ar=dict[_selectedScanpoint];
             NSDictionary *dict1= ar[indexPath.row];
-            str= [NSString stringWithFormat:@"%@ %@",dict1[@"CorrespondingPairName"],dict1[@"GermsName"]];
+            str= [NSString stringWithFormat:@"%@ %@",dict1[@"CorrespondingPairName"],dict1[@"GermsCode"]];
         }
     }
     return str;

@@ -50,9 +50,6 @@
     constant=[[Constant alloc]init];
     self.navigationController.navigationBarHidden=YES;
     [self setFont];
-    UINavigationController *nav=(UINavigationController*)self.parentViewController;
-    containerVC=(ContainerViewController*)nav.parentViewController;
-    postman=[[Postman alloc]init];
     _tableViewHeight.constant=self.tableview.contentSize.height;
     treatmentListArray=[[NSMutableArray alloc]init];
     _patientDetailView.layer.cornerRadius=5;
@@ -64,23 +61,18 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-1.jpg"]]];
-    [containerVC setTitle:navTitle];
-    containerVC.delegate=self;
     _alphaViewToShowLanguage.hidden=YES;
     _popTableView.hidden=YES;
     [_tableview reloadData];
 }
 //set the DefaultValues For Label
 -(void)setDefaultValues{
-    _patientNameTF.text=_model.name;
-    _ageValueLabel.text=_model.age;
-    _dobValueLabel.text=_model.dob;
-    _mobileValueLabel.text=_model.mobileNo;
-    _mariedValueLabel.text=_model.maritialStatus;
-    _transfusinTF.text=_model.tranfusion;
-    _genderValueLabel.text=_model.gender;
-    _emailValueLabel.text=_model.emailId;
-   
+    UINavigationController *nav=(UINavigationController*)self.parentViewController;
+    containerVC=(ContainerViewController*)nav.parentViewController;
+      postman=[[Postman alloc]init];
+    [containerVC setTitle:navTitle];
+    containerVC.delegate=self;
+    
     NSString *strimageUrl;
     
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
@@ -124,9 +116,7 @@
 }
 //TableView Delegate Method
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    int count;
-   count= treatmentListArray.count;
-    return count;
+    return treatmentListArray.count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell;
@@ -134,7 +124,7 @@
     UILabel *label=(UILabel*)[cell viewWithTag:10];
     PatientTitleModel *model=treatmentListArray[indexPath.row];
     label.text=model.title;
-    label.font=[UIFont fontWithName:@"OpenSans" size:13];
+    label.font=[UIFont fontWithName:@"OpenSans-Semibold" size:14];
     tableView.tableFooterView=[UIView new];
     if ([model.IsTreatmentCompleted intValue]==0) {
        // cell.backgroundColor=[UIColor colorWithRed:0.4471 green:0.8157 blue:0.9725 alpha:1];
@@ -231,7 +221,15 @@
                [treatmentListArray addObject:model];
            }
            }
-           
+           _patientNameTF.text=_model.name;
+           _ageValueLabel.text=_model.age;
+           _dobValueLabel.text=_model.dob;
+           _mobileValueLabel.text=_model.mobileNo;
+           _mariedValueLabel.text=_model.maritialStatus;
+           _transfusinTF.text=_model.tranfusion;
+           _genderValueLabel.text=_model.gender;
+           _emailValueLabel.text=_model.emailId;
+
         [_tableview reloadData];
         _tableViewHeight.constant=self.tableview.contentSize.height;
     }

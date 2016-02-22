@@ -80,8 +80,8 @@
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         //Vzone API
         urlString = [NSString stringWithFormat:@"%@%@",baseUrl,logIn];
-        parameter = [NSString stringWithFormat:@"{\"request\":{\"Username\":\"drluisgarcia@mydomain.com\", \"Password\":\"Power@1234\"}}"];
-        // NSString *parameter = [NSString stringWithFormat:@"{\"request\":{\"Username\":\"%@\", \"Password\":\"%@\"}}",_userNameTf.text,_passwordTF.text];
+       // parameter = [NSString stringWithFormat:@"{\"request\":{\"Username\":\"drluisgarcia@mydomain.com\", \"Password\":\"Power@1234\"}}"];
+        parameter = [NSString stringWithFormat:@"{\"request\":{\"Username\":\"%@\", \"Password\":\"%@\"}}",_userNameTf.text,_passwordTF.text];
     }else{
         //Material Api
         urlString = [NSString stringWithFormat:@"%@%@",baseUrl,logIn];
@@ -126,13 +126,14 @@
             [userdefault setValue:dict[@"Id"] forKey:@"Id"];
             [userdefault setValue:dict[@"CompanyCode"] forKey:@"CompanyCode"];
             NSString *doctorName=[NSString stringWithFormat:@"%@ %@",dict[@"FirstName"],dict[@"LastName"]];
-             [userdefault setValue:doctorName forKey:@"DoctorName"];
+            [userdefault setValue:doctorName forKey:@"DoctorName"];
             [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
                 if (success) {
                     [self performSegueWithIdentifier:@"loginSuccess" sender:nil];
                 }
                 else{
                     [self showAlerView:seedError];
+                    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                 }
             }];
         }
@@ -161,14 +162,15 @@
             [userdefault setValue:dict[@"CompanyCode"] forKey:@"CompanyCode"];
             NSString *doctorName=[NSString stringWithFormat:@"%@",dict[@"Name"]];
             [userdefault setValue:doctorName forKey:@"DoctorName"];
-            //            [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
-            //                if (success) {
-            [self performSegueWithIdentifier:@"loginSuccess" sender:nil];
-            //                }
-            //                else{
-            //                   [self showAlerView:@"Unkown error occured. Please try again."];
-            //                }
-            //            }];
+            [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
+                if (success) {
+                    [self performSegueWithIdentifier:@"loginSuccess" sender:nil];
+                }
+                else{
+                    [self showAlerView:seedError];
+                    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                }
+            }];
         }
         else{
             [self showAlerView:authenticationFailedStr];
@@ -234,29 +236,29 @@
 -(void)localize
 {
     _userNameTf.attributedPlaceholder=[constant textFieldPlaceLogin:@"Username"];
-        _passwordTF.attributedPlaceholder=[constant textFieldPlaceLogin:@"Password"];
-        authenticationFailedStr=@"Authentication failed";
-        alertStr=@"Alert!";
-        alertOkStr=@"OK";
-        userNameRequiredStr=@"User name is required";
-        PasswordRequiredStr=@"Password is required";
-        seedError=@"Some error occured Please try again";
-        loginFailed= @"Login failed";
-        [_signIn setTitle:@"Sign In" forState:normal];
-        [_forgotPassword setTitle:@"Forgot password?" forState:normal];
+    _passwordTF.attributedPlaceholder=[constant textFieldPlaceLogin:@"Password"];
+    authenticationFailedStr=@"Authentication failed";
+    alertStr=@"Alert!";
+    alertOkStr=@"OK";
+    userNameRequiredStr=@"User name is required";
+    PasswordRequiredStr=@"Password is required";
+    seedError=@"Some error occured Please try again";
+    loginFailed= @"Login failed";
+    [_signIn setTitle:@"Sign In" forState:normal];
+    [_forgotPassword setTitle:@"Forgot password?" forState:normal];
     
     
     
-//    _userNameTf.attributedPlaceholder=[constant textFieldPlaceLogin:[MCLocalization stringForKey:@"Username"]];
-//    _passwordTF.attributedPlaceholder=[constant textFieldPlaceLogin:[MCLocalization stringForKey:@"Password"]];
-//    authenticationFailedStr=[MCLocalization stringForKey:@"Authentication.failed"];
-//    alertStr=[MCLocalization stringForKey:@"Alert!"];
-//    alertOkStr=[MCLocalization stringForKey:@"AlertButtonOK"];
-//    userNameRequiredStr=[MCLocalization stringForKey:@"User.Name.is.required"];
-//    PasswordRequiredStr=[MCLocalization stringForKey:@"Password.is.required"];
-//    seedError=@"Some.error.occured.Please.try.again";
-//    loginFailed= @"Login.failed";
-//    [_signIn setTitle:[MCLocalization stringForKey:@"Sign.In"] forState:normal];
-//    [_forgotPassword setTitle:[MCLocalization stringForKey:@"Forgot.password?"] forState:normal];
+    //    _userNameTf.attributedPlaceholder=[constant textFieldPlaceLogin:[MCLocalization stringForKey:@"Username"]];
+    //    _passwordTF.attributedPlaceholder=[constant textFieldPlaceLogin:[MCLocalization stringForKey:@"Password"]];
+    //    authenticationFailedStr=[MCLocalization stringForKey:@"Authentication.failed"];
+    //    alertStr=[MCLocalization stringForKey:@"Alert!"];
+    //    alertOkStr=[MCLocalization stringForKey:@"AlertButtonOK"];
+    //    userNameRequiredStr=[MCLocalization stringForKey:@"User.Name.is.required"];
+    //    PasswordRequiredStr=[MCLocalization stringForKey:@"Password.is.required"];
+    //    seedError=@"Some.error.occured.Please.try.again";
+    //    loginFailed= @"Login.failed";
+    //    [_signIn setTitle:[MCLocalization stringForKey:@"Sign.In"] forState:normal];
+    //    [_forgotPassword setTitle:[MCLocalization stringForKey:@"Forgot.password?"] forState:normal];
 }
 @end

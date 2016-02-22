@@ -41,11 +41,11 @@
         return  self;
 }
 -(void)callSeed{
-  if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-      //For Vzone API
-      [self callApiToToxicDeficiency];
-  }else{
-      //For Material API
+//  if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+//      //For Vzone API
+//      [self callApiToToxicDeficiency];
+//  }else{
+//      //For Material API
       NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
       if ([userDefault boolForKey:@"toxicdeficiency_FLAG"]) {
           [self callApiToToxicDeficiency];
@@ -62,7 +62,7 @@
           }];
           
       }
-}
+//}
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return sortedToxicArray.count;

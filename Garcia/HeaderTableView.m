@@ -35,7 +35,8 @@
             for (NSString *str in _model.selectedHeaderIndexpath) {
                 NSArray *ar=[str componentsSeparatedByString:@"-"];
                 if (section==[ar[1] integerValue]) {
-                    row=selectedScanpointNameArray.count+1;
+                    int i=[self getNumberOfScanpointRow:section];
+                    row=i+1;
                 }
             }
         }
@@ -81,7 +82,7 @@
             cell.headerImageViewWidth.constant=18;
             if (_model.selectedHeaderIndexpath.count>0) {
                 for (NSString *i in _model.selectedHeaderIndexpath) {
-                    if ([i isEqual:[NSString stringWithFormat:@"%d-%d",indexPath.row,indexPath.section]]) {
+                    if ([i isEqual:[NSString stringWithFormat:@"%ld-%ld",(long)indexPath.row,(long)indexPath.section]]) {
                         cell.headerImageView.image=[UIImage imageNamed:@"Button-Collapse"];
                     }else  cell.headerImageView.image=[UIImage imageNamed:@"Button-Expand"];
                     break;
@@ -104,7 +105,7 @@
         if (_model.selectedHeaderIndexpath.count>0) {
             cell1.scanpointImageView.image=[UIImage imageNamed:@"Button-Expand"];
             for (NSString *i in _model.selectedHeaderIndexpath) {
-                if ([i isEqual:[NSString stringWithFormat:@"%d-%d",indexPath.row,indexPath.section]]) {
+                if ([i isEqual:[NSString stringWithFormat:@"%ld-%ld",(long)indexPath.row,(long)indexPath.section]]) {
                     cell1.scanpointImageView.image=[UIImage imageNamed:@"Button-Collapse"];
                     cell1.correspondingViewHeight.constant=cell1.correspondingPairTableView.tableview.contentSize.height;
                 }
@@ -115,6 +116,7 @@
             cell1.scanpointImageView.image=[UIImage imageNamed:@"Button-Expand"];
             cell1.correspondingViewHeight.constant=0;
         }
+        
         return cell1;
     }
 }
@@ -124,10 +126,17 @@
         return 30;
     }else {
         for (NSString *i in _model.selectedHeaderIndexpath) {
-            if ([i isEqual:[NSString stringWithFormat:@"%d-%d",indexPath.row,indexPath.section]]) {
-                NSArray *ar=[i componentsSeparatedByString:@"-"];
-                int height1=[ar[0] intValue];
-                height=[_model.correspondingPairHeight[height1] floatValue]+30;
+            if ([i isEqual:[NSString stringWithFormat:@"%ld-%ld",(long)indexPath.row,(long)indexPath.section]]) {
+//                NSArray *ar=[i componentsSeparatedByString:@"-"];
+//                int height1=[ar[0] intValue];
+//                height=[_model.correspondingPairHeight[height1] floatValue]+30;
+                for (NSDictionary *dict in _model.correspondingPairHeight) {
+                    if (dict[i]) {
+                          height=[dict[i] floatValue]+30;
+                        break;
+                    }
+                }
+                
             }
         }
         return height;
@@ -137,7 +146,7 @@
     NSString *str1;
     NSString *str=selectedSectionNameArray[indexPath.section];
     if (completeDetailOfSectionArray.count>0) {
-        NSDictionary *dict=completeDetailOfSectionArray[indexPath.section];
+        NSDictionary *dict=completeDetailOfSectionArray[0];
         NSArray *ar=dict[str];
         if (indexPath.row==0) {
             NSDictionary *dict1=ar[indexPath.row];
@@ -149,10 +158,19 @@
     }
     return str1;
 }
+-(int)getNumberOfScanpointRow:(int)section{
+    NSArray *ar;
+    NSString *str=selectedSectionNameArray[section];
+    if (completeDetailOfSectionArray.count>0) {
+        NSDictionary *dict=completeDetailOfSectionArray[0];
+       ar =dict[str];
+    }
+    return ar.count;
+}
 -(void)selectedHeaderCell:(UITableViewCell *)cell{
     HeaderTableViewCell *cell1=(HeaderTableViewCell*)cell;
     NSIndexPath *indexPath=[self.tableview indexPathForCell:cell1];
-    NSString *str=[NSString stringWithFormat:@"%d-%d",indexPath.row,indexPath.section];
+    NSString *str=[NSString stringWithFormat:@"%ld-%ld",(long)indexPath.row,(long)indexPath.section];
     if (![_model.selectedHeaderIndexpath containsObject:str]) {
         [self.delegate selectedCell:str withCorrespondingHeight:0];
     }else[self.delegate deselectedCell:str withCorrespondingHeight:0];
@@ -160,7 +178,7 @@
 -(void)selectedScanPoint:(UITableViewCell *)cell{
     ScanPointTableViewCell *cell1=(ScanPointTableViewCell*)cell;
     NSIndexPath *indexPath=[self.tableview indexPathForCell:cell1];
-    NSString *selectedIndex=[NSString stringWithFormat:@"%d-%d",indexPath.row,indexPath.section];
+    NSString *selectedIndex=[NSString stringWithFormat:@"%ld-%ld",(long)indexPath.row,(long)indexPath.section];
     if (![_model.selectedHeaderIndexpath containsObject:selectedIndex]) {
         [self.delegate selectedCell:selectedIndex withCorrespondingHeight:cell1.correspondingPairTableView.tableview.contentSize.height];
     }else{
@@ -185,7 +203,7 @@
         }
     }
     int i=0;
-    NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
+    NSMutableDictionary *dict2=[[NSMutableDictionary alloc]init];
     while (i!=selectedSectionNameArray.count) {
         NSString *str=selectedSectionNameArray[i];
         NSMutableArray *ar=[[NSMutableArray alloc]init];
@@ -194,9 +212,11 @@
                 [ar addObject:dict1];
             }
         }
-        dict[str]=ar;
-        [completeDetailOfSectionArray addObject:dict];
+        dict2[str]=ar;
         i++;
+    }
+    if (dict2.count!=0) {
+        [completeDetailOfSectionArray addObject:dict2];
     }
     i=0;
     NSMutableDictionary *scandict=[[NSMutableDictionary alloc]init];
@@ -209,12 +229,14 @@
             }
         }
         scandict[str1]=ar;
-        [completeCorrespondingArray addObject:scandict];
         i++;
     }
-    
+    if (scandict.count!=0) {
+     [completeCorrespondingArray addObject:scandict];
+    }
     [selectedSectionNameArray addObject:[MCLocalization stringForKey:@"Price"]];
     [selectedSectionNameArray addObject:[MCLocalization stringForKey:@"Completed"]];
+    
 }
 -(float)getTHeHeightOfTableVIew{
     [_tableview reloadData];

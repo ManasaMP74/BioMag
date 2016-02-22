@@ -21,5 +21,11 @@
 - (IBAction)checkNoIssues:(id)sender {
     [self.delegate issueAndNoIssue:self];
 }
-
+- (void)textViewDidChange:(UITextView *)textView{
+    if ([textView isEqual:_addNoteTV]) {
+        if (textView.text.length==0) {
+            _addNoteLabel.hidden=NO;
+        }else _addNoteLabel.hidden=YES;
+    }
+}
 @end

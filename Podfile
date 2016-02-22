@@ -4,7 +4,7 @@
 # use_frameworks!
 
 target 'Biomagnetism' do
-pod "AFNetworking", "~> 2.0"
+pod 'AFNetworking', '2.6.3’
 pod 'WYPopoverController', '~> 0.2.2'
 pod 'MCLocalization', '~> 1.1'
 end

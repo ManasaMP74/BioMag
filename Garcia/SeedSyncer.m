@@ -44,7 +44,11 @@
 
 }
 -(BOOL)parseResponse:(id)responseObject{
-    NSDictionary *dict=responseObject;
+    NSDictionary *dict;
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSDictionary *dict1=responseObject;
+        dict=dict1[@"aaData"];
+    }else dict=responseObject;
     NSArray *seedArray = dict[@"seedmaster"];
     if (seedArray) {
         for (NSDictionary *seed in seedArray) {
@@ -56,12 +60,23 @@
     }
 }
 -(void)compareAndSave:(NSDictionary*)dict{
-    NSInteger localValue=[userDefault integerForKey:[NSString stringWithFormat:@"%@_Value",dict[@"TableName"]]];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSInteger localValue=[userDefault integerForKey:[NSString stringWithFormat:@"%@_Value",dict[@"Name"]]];
+        NSInteger newValue = [dict[@"Value"] integerValue];
+        if (localValue<newValue) {
+            [userDefault setInteger:newValue forKey:[NSString stringWithFormat:@"%@_Value",dict[@"Name"]]];
+            NSString *stausKey=[NSString stringWithFormat:@"%@_FLAG", dict[@"Name"]];
+            [userDefault setBool:true forKey:stausKey];
+        }
+    }
+    else{
+        NSInteger localValue=[userDefault integerForKey:[NSString stringWithFormat:@"%@_Value",dict[@"TableName"]]];
     NSInteger newValue = [dict[@"UpdateCount"] integerValue];
     if (localValue<newValue) {
         [userDefault setInteger:newValue forKey:[NSString stringWithFormat:@"%@_Value",dict[@"TableName"]]];
         NSString *stausKey=[NSString stringWithFormat:@"%@_FLAG", dict[@"TableName"]];
         [userDefault setBool:true forKey:stausKey];
+      }
     }
 }
 - (void)saveResponse:(NSString *)responseString forIdentity:(NSString *)identity{

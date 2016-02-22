@@ -12,7 +12,7 @@
     
 //    NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.333 green:0.329 blue:0.39 alpha:1], NSFontAttributeName :[self customFont:15 ofName:OpenSansRegular]}];
   
-     NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.7], NSFontAttributeName :[self customFont:15 ofName:OpenSansRegular]}];
+     NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.7], NSFontAttributeName :[self customFont:15 ofName:OpenSansBold]}];
     //[UIColor colorWithRed:0.333 green:0.329 blue:0.39 alpha:1]
     
     
@@ -59,17 +59,17 @@
 }
 //set Font for Headers
 -(void)setFontForHeaders:(UILabel*)label{
-    label.font=[self customFont:17 ofName:OpenSansSemibold];
+    label.font=[self customFont:16 ofName:OpenSansBold];
     label.textColor=[UIColor colorWithRed:0.04 green:0.216 blue:.294 alpha:1];
 }
 //set Font for normal label
 -(void)setFontForLabel:(UILabel*)label{
-    label.font=[self customFont:13 ofName:OpenSansSemibold];
+    label.font=[self customFont:14 ofName:OpenSansSemibold];
     label.textColor=[UIColor colorWithRed:0.192 green:0.196 blue:0.196 alpha:1];
 }
 //set Color For Label for normal label
 -(void)setColorForLabel:(UILabel*)label{
-    label.font=[self customFont:13 ofName:OpenSansSemibold];
+    label.font=[self customFont:15 ofName:OpenSansSemibold];
     label.textColor=[UIColor colorWithRed:.082 green:.706 blue:0.941 alpha:1];
 }
 //set Font for textField
@@ -93,11 +93,11 @@
 // Star Redcolour Method
 - (NSMutableAttributedString *)setColoredLabelandStar:(NSString *)strplaceHolder
 {
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"* %@",strplaceHolder]];
-    
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ *",strplaceHolder]];
+    NSLog(@"%d",string.length);
     [string addAttribute:NSForegroundColorAttributeName
                    value:[UIColor redColor]
-                   range:NSMakeRange(0, 1)];
+                   range:NSMakeRange(string.length-1,1)];
     
     
     return string;

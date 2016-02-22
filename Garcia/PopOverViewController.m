@@ -22,21 +22,28 @@
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
+    
     if ([_buttonName isEqualToString:@"language"]) {
     UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
     UILabel *label=(UILabel*)[cell viewWithTag:10];
     lagModel *model=_lagArray[indexPath.row];
     label.text=model.name;
+    label.textAlignment=0;
+    cell.separatorInset=UIEdgeInsetsZero;
+    cell.layoutMargins=UIEdgeInsetsZero;
     return cell;
     }else{
         UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell1"];
         UILabel *label=(UILabel*)[cell viewWithTag:10];
-             label.text=_slideoutNameArray[indexPath.row];
+        label.text=_slideoutNameArray[indexPath.row];
+         label.textAlignment=0;
         UIImageView *im=(UIImageView*)[cell viewWithTag:20];
         im.image=[UIImage imageNamed:_slideoutImageArray[indexPath.row]];
         if (indexPath.row==0) {
             label.textColor=[UIColor blackColor];
         }
+        cell.separatorInset=UIEdgeInsetsZero;
+        cell.layoutMargins=UIEdgeInsetsZero;
         return cell;
     }
 }

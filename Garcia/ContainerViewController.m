@@ -57,21 +57,26 @@
     UIBarButtonItem *mailbutton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
     
     
-    CGRect lagFrameimg = CGRectMake(30,0,95,25);
+  //  UIImage* image = [UIImage imageNamed:@"Icon-Langauge.png"];
+    UIImage* image1 = [UIImage imageNamed:@"Language-Button.png"];
+    CGRect lagFrameimg = CGRectMake(0,0,image1.size.width, image1.size.height);
     lagSomeButton= [[UIButton alloc] initWithFrame:lagFrameimg];
-    lagSomeButton.backgroundColor=[UIColor whiteColor];
-    lagSomeButton.layer.cornerRadius=13;
+    [lagSomeButton setBackgroundImage:image1 forState:normal];
+   // [lagSomeButton setImage:image forState:normal];
+     lagSomeButton.titleEdgeInsets=UIEdgeInsetsMake(0,10, 0,28);
+    // lagSomeButton.titleEdgeInsets=UIEdgeInsetsMake(0, -35, 0, 30);
+   // lagSomeButton.imageEdgeInsets=UIEdgeInsetsMake(0,74, 0, 0);
     standardDefault=[NSUserDefaults standardUserDefaults];
     [standardDefault setValue:@"English" forKey:@"languageName"];
-    // lagSomeButton.font=[UIFont systemFontOfSize:15];
+    lagSomeButton.titleLabel.font=[UIFont fontWithName:@"OpenSans-Semibold" size:14];
     [lagSomeButton setTitle:[standardDefault valueForKey:@"languageName"] forState:normal];
     [lagSomeButton setTitleColor:[UIColor blackColor] forState:normal];
-    lagSomeButton.titleLabel.font=[UIFont fontWithName:@"OpenSansSemibold" size:10];
     [lagSomeButton addTarget:self action:@selector(languageChange:) forControlEvents:UIControlEventTouchUpInside];
     [lagSomeButton setShowsTouchWhenHighlighted:YES];
     UIBarButtonItem *lagButton =[[UIBarButtonItem alloc] initWithCustomView:lagSomeButton];
-    
-    self.navigationItem.rightBarButtonItems=@[mailbutton,lagButton];
+    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    negativeSpacer.width = 20;
+    self.navigationItem.rightBarButtonItems=@[mailbutton,negativeSpacer,lagButton];
 }
 
 //pop back
@@ -104,7 +109,6 @@
             CGFloat width =  [str.name boundingRectWithSize:(CGSizeMake(NSIntegerMax,self.view.frame.size.width)) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:15]} context:nil].size.width;
             finalWidth=MAX(finalWidth, width);
         }
-        
         pop.slideoutNameArray=languageArray;
         [self wypopOver:btn withPopOver:pop];
         CGFloat height=[pop getHeightOfTableView];
@@ -165,8 +169,9 @@
     wypopOverController.theme.arrowHeight =0;
     wypopOverController.theme.arrowBase= 0;
     wypopOverController.theme.fillTopColor = [UIColor clearColor];
-    wypopOverController.theme.overlayColor= [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
+    wypopOverController.theme.overlayColor= [UIColor colorWithRed:0 green:0 blue:0 alpha:.7];
     wypopOverController.theme.borderWidth=0;
+    wypopOverController.theme.tintColor=[UIColor clearColor];
     wypopOverController.theme.outerShadowColor=[UIColor clearColor];
     wypopOverController.theme.outerShadowBlurRadius=0;
 }
@@ -185,16 +190,16 @@
     if (row==5) {
      [self showFailureAlerMessage:@"Do you really want to Signout?"];
     }else  if (row==4) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://biomagnetictherapy.us-west-2.elasticbeanstalk.com/configurationview/4XOSBX"]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:privecyAndPolicy]];
     }
     else  if (row==1) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://biomagnetictherapy.us-west-2.elasticbeanstalk.com/configurationview/MWUFJM"]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:aboutUs]];
     }
     else  if (row==3) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://biomagnetictherapy.us-west-2.elasticbeanstalk.com/configurationview/I0UAWB"]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:termsAndCondition]];
     }
     else  if (row==2) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://biomagnetictherapy.us-west-2.elasticbeanstalk.com/configurationview/AOO6FQ"]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:FAQurl]];
     }
     [wypopOverController dismissPopoverAnimated:NO];
 }
@@ -293,10 +298,10 @@
     [searchVC reloadTableviewAfterAddNewTreatment];
 }
 -(void)callSeed{
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        //Api For Vzone
-        [self callApiForLanguage];
-    }else{
+//    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+//        //Api For Vzone
+//        [self callApiForLanguage];
+//    }else{
         //  API for material
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         if ([userDefault boolForKey:@"language_FLAG"]) {
@@ -313,7 +318,7 @@
                 }
             }];
         }
-    }
+  //  }
 }
 
 -(void)callApiForLanguage{
@@ -355,7 +360,6 @@
             model.name=dict1[@"Name"];
             model.code=dict1[@"Code"];
             [languageArray addObject:model];
-
         }
     }
 }

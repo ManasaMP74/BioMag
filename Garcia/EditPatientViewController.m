@@ -45,6 +45,7 @@
     [super viewDidLoad];
     constant=[[Constant alloc]init];
     imageManager=[[ImageUploadAPI alloc]init];
+    [self setFont];
      [self localize];
     [self textFieldLayer];
     genderArray=[[NSMutableArray alloc]init];
@@ -58,18 +59,17 @@
     MaritialStatusArray=[@[yesStr,noStr]mutableCopy];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(localize) name:MCLocalizationLanguageDidChangeNotification object:nil];
 //
-    
-    
+    _mainController.layer.cornerRadius=5;
     _patientImageView.layer.cornerRadius=_patientImageView.frame.size.height/2;
     _patientImageView.layer.masksToBounds = YES;
 
-    
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        //For Vzone API
-        [self callApiForGender];
-    }else{
-        //For Material Api
-        
+  
+//    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+//        //For Vzone API
+//        [self callApiForGender];
+//    }else{
+//        //For Material Api
+//        
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         if ([userDefault boolForKey:@"gender_FLAG"]) {
             [self callApiForGender];
@@ -85,7 +85,7 @@
                 }
             }];
         }
-    }
+ //   }
 }
 -(void)viewWillAppear:(BOOL)animated{
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-1.jpg"]]];
@@ -119,13 +119,7 @@
         strimageUrl = [NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,_model.profileImageCode];
         
     }
-        
         [_patientImageView setImageWithURL:[NSURL URLWithString:strimageUrl] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
-    
-    
-    
-    
-    
     }
     if (_model.surgeries!=nil) {
         _addressTextView.text=_model.surgeries;
@@ -133,7 +127,16 @@
     if (_model.tranfusion!=nil) {
         _maritialStatus.text=_model.tranfusion;
     }else _maritialStatus.text=@"";
-    
+}
+//setfont for label
+-(void)setFont{
+    [constant setFontForLabel:_genderLabel];
+    [constant setFontForLabel:_nameLabel];
+    [constant setFontForLabel:_transfusionLabel];
+    [constant setFontForLabel:_dobLabel];
+    [constant setFontForLabel:_surgeriesLabel];
+    [constant setFontForLabel:_emailLabel];
+    [constant setFontForLabel:_mobNumbLabel];
 }
 - (IBAction)cancel:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
@@ -212,9 +215,9 @@
         [constant setFontForLabel:label];
     }
     tableView.tableFooterView=[UIView new];
-   // cell.backgroundColor = [UIColor colorWithRed:0.933 green:0.933 blue:0.941 alpha:1];
-    
-    
+    cell.backgroundColor=[UIColor colorWithRed:0.933 green:0.933 blue:0.941 alpha:1];
+    cell.separatorInset=UIEdgeInsetsZero;
+    cell.layoutMargins=UIEdgeInsetsZero;
     return cell;
 }
 //select tableviewContent

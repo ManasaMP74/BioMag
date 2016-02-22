@@ -24,7 +24,7 @@ PODS:
   - WYPopoverController (0.2.2)
 
 DEPENDENCIES:
-  - AFNetworking (~> 2.0)
+  - AFNetworking (= 2.6.3)
   - MCLocalization (~> 1.1)
   - WYPopoverController (~> 0.2.2)
 

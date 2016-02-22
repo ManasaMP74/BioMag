@@ -2,9 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Bio-tst.xcodeproj">
+      location = "group:/Users/manasap/Desktop/BioMagneticWithVZoneURL/Biomagnetism.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Biomagnetism.xcodeproj">
    </FileRef>
 </Workspace>

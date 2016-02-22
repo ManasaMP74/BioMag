@@ -65,11 +65,11 @@
     view.center = alphaView.center;
 }
 -(void)callSeed{
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        //For Vzone API
-        [self callApiToGetGerms];
-    }else {
-        //For Material API
+//    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+//        //For Vzone API
+//        [self callApiToGetGerms];
+//    }else {
+//        //For Material API
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         if ([userDefault boolForKey:@"germs_FLAG"]) {
             [self callApiToGetGerms];
@@ -85,7 +85,7 @@
                 }
             }];
         } 
-    }
+   // }
 }
 -(void)hide{
     [alphaView removeFromSuperview];
@@ -238,7 +238,7 @@
     NSString *parameter;
     NSUserDefaults *defaultvalue=[NSUserDefaults standardUserDefaults];
     int userIdInteger=[[defaultvalue valueForKey:@"Id"]intValue];
-     BOOL status=true;
+     bool status=true;
     
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         //Parameter for Vzone Api

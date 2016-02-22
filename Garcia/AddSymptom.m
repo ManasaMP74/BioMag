@@ -7,6 +7,8 @@
 #import "PostmanConstant.h"
 #import "SeedSyncer.h"
 #import <MCLocalization/MCLocalization.h>
+#import<AFNetworking/AFNetworking.h>
+
 @implementation AddSymptom
 {
     UIView *view;
@@ -151,12 +153,38 @@
         }
     }
 }
+//call seed
+-(void)callSeed{
+    //    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+    //
+    //            //For Vzone Api
+    //        [self callApiTogetSymptomTag];
+    //    }
+    //      else{
+    //        //for Material API
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"symptomtag_FLAG"]) {
+        [self callApiTogetSymptomTag];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getSymptomTag];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+                [self processResponseObjectOfGetAllTag:response];
+            }
+            else{
+                [self callApiTogetSymptomTag];
+            }
+        }];
+    }
+    //  }
+}
 //get symptom tag
 -(void)callApiTogetSymptomTag{
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getSymptomTag];
     [MBProgressHUD showHUDAddedTo:self animated:YES];
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-         NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
+        NSString *parameter=[NSString stringWithFormat:@"{\"request\":{}}"];
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
             [self processResponseObjectOfGetAllTag:responseObject];
             [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
@@ -227,6 +255,7 @@
     view.frame=self.bounds;
     view.center = appDel.window.center;
 }
+//Call api to add symptom tag
 -(void)callAPIforAddSymptomTag{
     NSString *str=@"";
     SymptomTagModel *model;
@@ -264,40 +293,58 @@
     }
     else  if ([str isEqualToString:@""]) {
         NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,addSymptomTag,_searchModel.Id];
-        NSString *parameter=[NSString stringWithFormat:@"{\"Name\":\"%@\",\"Status\": true,\"UserID\": %@,\"MethodType\": \"POST\"}",_symptomTf.text,_searchModel.Id];
+        NSString *parameter;
+        if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+            parameter =[NSString stringWithFormat:@"{\"request\":{\"Name\":\"%@\",\"Status\": true,\"UserID\": %@,\"MethodType\": \"POST\"}}",_symptomTf.text,_searchModel.Id];
+        }
+        else{
+            parameter =[NSString stringWithFormat:@"{\"Name\":\"%@\",\"Status\": true,\"UserID\": %@,\"MethodType\": \"POST\"}",_symptomTf.text,_searchModel.Id];
+        }
         [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
+        
+        
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
             [self processResponseObjectOfAddTag:responseObject];
             [self callApiTogetSymptomTag];
             [MBProgressHUD hideAllHUDsForView:alphaView animated:YES];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Alert!" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [alert show];
             [MBProgressHUD hideAllHUDsForView:alphaView animated:YES];
         }];
+   
+        
+        
+        
+//        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//        
+//        AFHTTPRequestSerializer *requestSerializer =[AFHTTPRequestSerializer serializer];
+//        [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+//        [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+//        manager.requestSerializer=requestSerializer;
+//        
+//       
+//        NSDictionary *parameterDict = [NSJSONSerialization JSONObjectWithData:[parameter dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
+//
+//
+//        [manager POST:url parameters:parameterDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        NSLog(@"%@",[operation responseObject]);
+//        
+//         [MBProgressHUD hideAllHUDsForView:alphaView animated:YES];
+//        
+//        } failure:^(AFHTTPRequestOperation * operation, NSError * error) {
+//            NSLog(@"%@",[operation responseString]);
+//        
+//            [MBProgressHUD hideAllHUDsForView:alphaView animated:YES];
+//        }];
+        
+        
+        
+        
+
     }
 }
--(void)callSeed{
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        //for Material API
-        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-        if ([userDefault boolForKey:@"symptomtag_FLAG"]) {
-            [self callApiTogetSymptomTag];
-        }
-        else{
-            NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getSymptomTag];
-            [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
-                if (success) {
-                    [self processResponseObjectOfGetAllTag:response];
-                }
-                else{
-                    [self callApiTogetSymptomTag];
-                }
-            }];
-        }
-    }else{
-        //For Vzone Api
-        [self callApiTogetSymptomTag];
-    }
-}
+
 //process object
 -(void)processResponseObjectOfAddTag:(id)responseObject{
     

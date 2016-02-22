@@ -50,6 +50,7 @@
     NSIndexPath *selectedCellIndex;
     int selectedCellToFilter;
     AppDelegate *appdelegate;
+    NSDateFormatter *formater;
     NSString *selectedToxicString;
     NSArray *selectedPreviousArray;
     NSString *navTitle,*alert,*alertOK,*saveFailed,*saveSuccess,*yesStr,*noStr,*authour,*enterSittingInfo,*previousSittings,*issueStr,*noIssueStr,*sStr,*s1Str,*doYoucloseSitting;
@@ -129,12 +130,12 @@
 }
 -(void)callSeed{
     
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        //For vzone API
-        [self callApi];
-    }else{
-        //For Material API
-        
+//    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+//        //For vzone API
+//        [self callApi];
+//    }else{
+//        //For Material API
+    
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         if ([userDefault boolForKey:@"anatomicalbiomagneticmatrix_FLAG"]) {
             [self callApi];
@@ -151,7 +152,7 @@
             }];
         }
         
-    }
+ //   }
 }
 -(void)defaultValues{
     [constant getTheAllSaveButtonImage:_saveBtn];
@@ -229,6 +230,11 @@
     cell.sittingTextView.layer.borderWidth=1;
     cell.sittingTextView.font=[UIFont fontWithName:@"OpenSansSemibold" size:14];
     cell.sittingTextView.textColor=[UIColor colorWithRed:0.04 green:0.216 blue:0.294 alpha:1];
+    cell.addNoteTV.layer.cornerRadius=10;
+    cell.addNoteTV.layer.borderColor=[UIColor colorWithRed:0.004 green:0.216 blue:0.294 alpha:0.5].CGColor;
+    cell.addNoteTV.layer.borderWidth=1;
+    cell.addNoteTV.font=[UIFont fontWithName:@"OpenSansSemibold" size:14];
+    cell.addNoteTV.textColor=[UIColor colorWithRed:0.04 green:0.216 blue:0.294 alpha:1];
     cell.delegate=self;
     sittingModel *model= allSortedDetailArray[indexPath.section];
     cell.scanpointLabel.text=model.scanPointName;
@@ -282,10 +288,11 @@
              cell.headerView.backgroundColor=[UIColor colorWithRed:0.686 green:0.741 blue:1 alpha:1];
         }else{
             [self colorChange:model.issue withCell:cell];
-            cell.headerView.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
+            if (indexPath.section%2==0) {
+               cell.headerView.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
+            }else  cell.headerView.backgroundColor=[UIColor colorWithRed:0.667 green:0.902 blue:0.976 alpha:1];
         }
     }
-    
      [self showDataSavedInDBInTable:model withCell:cell];
     
     NSString *str1=@"";
@@ -295,14 +302,18 @@
     }
     cell.germLabel.text=str1;
    
+    cell.previousSittingBadgeImageView.layer.cornerRadius=cell.previousSittingBadgeImageView.frame.size.width/2;
     if ([model.otherSittingNumberHaveIssue isEqualToString:@""]) {
         cell.previousSittingBadgeLabel.hidden=YES;
         cell.previousSittingBadgeImageView.hidden=YES;
     }else{
-                cell.previousSittingBadgeLabel.hidden=NO;
-                NSArray *ar=[model.otherSittingNumberHaveIssue componentsSeparatedByString:@" "];
-                cell.previousSittingBadgeLabel.text=ar[ar.count-2];
-                cell.previousSittingBadgeImageView.hidden=NO;
+        cell.previousSittingBadgeLabel.hidden=NO;
+        NSArray *ar=[model.otherSittingNumberHaveIssue componentsSeparatedByString:@" "];
+        cell.previousSittingBadgeImageView.hidden=NO;
+        if (model.germsString.length==0) {
+             cell.previousSittingBadgeLabel.text=ar[ar.count-2];
+        }
+        else  cell.previousSittingBadgeLabel.text=[NSString stringWithFormat:@"%@%d",sStr,[model.sittingNumber intValue]];
     }
     return cell;
 }
@@ -409,6 +420,11 @@
         }else{
             _sittingNumberLabel.text=[NSString stringWithFormat:@"%@%d",sStr,[_sittingNumber intValue]+1];
             cell.sittingNumber.text=[NSString stringWithFormat:@"%@%d",sStr,[_sittingNumber intValue]+1];
+            formater=[[NSDateFormatter alloc]init];
+            [formater setTimeZone:[NSTimeZone localTimeZone]];
+            [formater setDateFormat:@"dd-MMM-yyyy"];
+            NSString *dateStr=[formater stringFromDate:[NSDate date]];
+            [_datePicButton setTitle:dateStr forState:normal];
         }
     }else {
         cell.sittingTextView.text=model.germsString;
@@ -507,7 +523,8 @@
 }
 //save
 - (IBAction)save:(id)sender {
-    
+  NSString *parameter =[self getParameteToSaveSittingDetail:[_bioSittingDict[@"Id"] integerValue] withSittingNum:[_bioSittingDict[@"SittingNumber"] integerValue] withCompletedData:@""];
+    if (![parameter isEqualToString:@""]) {
     UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:doYoucloseSitting preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
         [self callApiToSaveTreatmentRequest:@"true"];
@@ -520,6 +537,9 @@
     }];
     [alertView addAction:failure];
     [self presentViewController:alertView animated:YES completion:nil];
+    }else{
+        [self showAlerView:@"No changes is there to save"];
+    }
 }
 //next
 - (IBAction)next:(id)sender {
@@ -827,10 +847,10 @@
         NSString *selectedGermsCode=@"";
         for (germsModel *model in germasData) {
             selectedGerms= [selectedGerms stringByAppendingString:[NSString stringWithFormat:@"%@",model.germsName]];
-             selectedGermsCode= [selectedGerms stringByAppendingString:[NSString stringWithFormat:@"%@",model.germsUserFriendlycode]];
+             selectedGermsCode= [selectedGermsCode stringByAppendingString:[NSString stringWithFormat:@"%@",model.germsUserFriendlycode]];
             if (![[germasData lastObject] isEqual:model]) {
                 selectedGerms= [selectedGerms stringByAppendingString:@","];
-                selectedGerms= [selectedGermsCode stringByAppendingString:@","];
+                selectedGermsCode= [selectedGermsCode stringByAppendingString:@","];
             }
         }
         model1.selectedCellIndex=selectedCellIndex;
@@ -905,8 +925,6 @@
         parameter =[self getParameteToSaveSittingDetail:0 withSittingNum:0 withCompletedData:str];
     }
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    
     if ([_treatmentId integerValue]==0) {
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
             [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -1008,7 +1026,9 @@
     
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         //For Vzone API
-        
+        if (([toxicStr isEqualToString:@""]) &(jsonSittingArray.count==0)){
+           parameter=@"";
+        }else{
         NSData *sitingReq1 = [NSJSONSerialization dataWithJSONObject:treatmentDict options:kNilOptions error:nil];
         NSString *sittunReqJsonString1 = [[NSString alloc] initWithData:sitingReq1 encoding:NSUTF8StringEncoding];
         NSMutableDictionary *dict1ofSitting=[[NSMutableDictionary alloc]init];
@@ -1031,8 +1051,11 @@
         NSData *parameterData1 = [NSJSONSerialization dataWithJSONObject:finalDict options:kNilOptions error:nil];
         parameter = [[NSString alloc] initWithData:parameterData1 encoding:NSUTF8StringEncoding];
         
-        
+        }
 }else{
+    if (([toxicStr isEqualToString:@""]) &(jsonSittingArray.count==0)){
+      parameter=@"";
+    }else{
     finalDict[@"TreatmentRequest"]=treatmentDict;
     NSData *sittingData = [NSJSONSerialization dataWithJSONObject:sittingDict options:kNilOptions error:nil];
     NSString *jsonString = [[NSString alloc] initWithData:sittingData encoding:NSUTF8StringEncoding];
@@ -1047,6 +1070,7 @@
         NSData *parameterData = [NSJSONSerialization dataWithJSONObject:finalDict options:kNilOptions error:nil];
         parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
     }
+}
 
     return parameter;
 }
@@ -1142,11 +1166,11 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
 //call toxicDeficiency
 -(void)callSeedForToxicDeficiency{
     
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        //For Vzone API
-        [self callApiForToxicDeficiency];
-    }else{
-        //For Material API
+//    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+//        //For Vzone API
+//        [self callApiForToxicDeficiency];
+//    }else{
+//        //For Material API
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         if ([userDefault boolForKey:@"toxicdeficiencytype_FLAG"]) {
             [self callApiForToxicDeficiency];
@@ -1162,7 +1186,7 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
                 }
             }];
         }
-    }
+  //  }
     
 }
 //Api for Toxic

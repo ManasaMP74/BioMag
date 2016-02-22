@@ -19,7 +19,7 @@
     NSMutableArray *patentFilteredArray;
     Constant *constant;
     NSString *selectedPatientCode;
-    NSMutableArray *patentnameArray;
+    NSMutableArray *patentnameArray,*completePatientNameArray;
     NSIndexPath *selectedIndexPath;
     PostmanConstant *postmanConstant;
     Postman *postman;
@@ -44,11 +44,9 @@
     _searchTextField.layer.borderWidth=1;
     selectedIndexPath=nil;
     patentnameArray=[[NSMutableArray alloc]init];
+    completePatientNameArray=[[NSMutableArray alloc]init];
     patentFilteredArray=[[NSMutableArray alloc]init];
-      if (patentnameArray.count==0) {
-        MBProgressCountToHide=0;
-        [self callSeed];
-    }
+      dateFormatter=[[NSDateFormatter alloc]init];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -58,31 +56,37 @@
     [super viewWillAppear:YES];
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-2.jpg"]]];
     [constant setFontFortextField:_searchTextField];
-    dateFormatter=[[NSDateFormatter alloc]init];
     _patientListTableView.tableFooterView=[UIView new];
+    if (patentnameArray.count==0) {
+        MBProgressCountToHide=0;
+        [self callSeed];
+    }
 }
 -(void)callSeed{
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        //Api For Vzone
-        [self callApi];
-    }else{
-      //  API for material
+//    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+//        //Api For Vzone
+//        [self callApi];
+//    }else{
+//      //  API for material
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         if ([userDefault boolForKey:@"user_FLAG"]) {
             [self callApi];
         }
         else{
             NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPatientList];
-            [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+           NSString *parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
+            NSString *str=[NSString stringWithFormat:@"%@ %@",url,parameter];
+            [[SeedSyncer sharedSyncer]getResponseFor:str completionHandler:^(BOOL success, id response) {
                 if (success) {
                     [self processResponseObject:response];
+                     [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
                 }
                 else{
                     [self callApi];
                 }
             }];
         }
-    }
+   // }
 }
 //TableView Number of section
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -129,6 +133,7 @@
     
     
     cell.patientNameLabel.text = model.name;
+    cell.patientNameLabel.font=[UIFont fontWithName:@"OpenSans-Bold" size:14];
     if ([selectedIndexPath isEqual:indexPath]) {
         cell.patientNameLabel.textColor=[UIColor colorWithRed:0.7098 green:0.99 blue:0.98 alpha:1];
         cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow-3"]];
@@ -254,21 +259,19 @@
    parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
     }else{
      parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
-        ContainerViewController *containerVc =(ContainerViewController*)self.parentViewController;
         [containerVc showMBprogressTillLoadThedata];
     }
-     [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:NO];
+
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObject:responseObject];
-        [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+        NSString *str=[NSString stringWithFormat:@"%@ %@",url,parameter];
+        [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:str];
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         [userDefault setBool:NO forKey:@"user_FLAG"];
         [containerVc hideAllMBprogressTillLoadThedata];
-         [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
          [self showAlerView:[NSString stringWithFormat:@"%@",error]];
         [containerVc hideAllMBprogressTillLoadThedata];
-        [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
     }];
 }
 
@@ -365,6 +368,7 @@
                 NSDateComponents *agecomponent=[[NSCalendar currentCalendar]components:NSCalendarUnitYear fromDate:date toDate:[NSDate date] options:0];
                 model.age=[NSString stringWithFormat:@"%ld",(long)[agecomponent year]];
             }
+                
             [patentnameArray addObject:model];
             if (patentnameArray.count==1) {
                 if (initialSelectedRow==0) {

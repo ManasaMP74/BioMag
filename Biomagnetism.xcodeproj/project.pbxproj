@@ -288,7 +288,7 @@
 		DAEF6AF11BD65C61006868C8 /* DatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePicker.h; sourceTree = "<group>"; };
 		DAEF6AF21BD65C61006868C8 /* DatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePicker.m; sourceTree = "<group>"; };
 		DAEF6AF41BD65C9B006868C8 /* DatePickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DatePickerView.xib; sourceTree = "<group>"; };
-		DAEFA18E1BD0B11500900379 /* Bio-tst.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bio-tst.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAEFA18E1BD0B11500900379 /* Biomagnetism.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Biomagnetism.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAEFA1921BD0B11500900379 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAEFA1931BD0B11500900379 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DAEFA1951BD0B11500900379 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -296,7 +296,7 @@
 		DAEFA19C1BD0B11500900379 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DAEFA19E1BD0B11500900379 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		DAEFA1A11BD0B11500900379 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		DAEFA1A71BD0B11500900379 /* Bio-tst.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Bio-tst.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAEFA1A71BD0B11500900379 /* Biomagnetism.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Biomagnetism.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAEFA1AC1BD0B11500900379 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAEFA1AD1BD0B11500900379 /* GarciaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GarciaTests.m; sourceTree = "<group>"; };
 		DAEFA1B71BD0B49A00900379 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
@@ -651,8 +651,8 @@
 		DAEFA18F1BD0B11500900379 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DAEFA18E1BD0B11500900379 /* Bio-tst.app */,
-				DAEFA1A71BD0B11500900379 /* Bio-tst.xctest */,
+				DAEFA18E1BD0B11500900379 /* Biomagnetism.app */,
+				DAEFA1A71BD0B11500900379 /* Biomagnetism.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -884,9 +884,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		DAEFA18D1BD0B11500900379 /* Bio-tst */ = {
+		DAEFA18D1BD0B11500900379 /* Biomagnetism */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DAEFA1B11BD0B11500900379 /* Build configuration list for PBXNativeTarget "Bio-tst" */;
+			buildConfigurationList = DAEFA1B11BD0B11500900379 /* Build configuration list for PBXNativeTarget "Biomagnetism" */;
 			buildPhases = (
 				83D074B8C8DA33A3E1EC6587 /* Check Pods Manifest.lock */,
 				DAEFA18A1BD0B11500900379 /* Sources */,
@@ -899,14 +899,14 @@
 			);
 			dependencies = (
 			);
-			name = "Bio-tst";
+			name = Biomagnetism;
 			productName = Garcia;
-			productReference = DAEFA18E1BD0B11500900379 /* Bio-tst.app */;
+			productReference = DAEFA18E1BD0B11500900379 /* Biomagnetism.app */;
 			productType = "com.apple.product-type.application";
 		};
-		DAEFA1A61BD0B11500900379 /* Bio-tstTests */ = {
+		DAEFA1A61BD0B11500900379 /* BiomagnetismTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DAEFA1B41BD0B11500900379 /* Build configuration list for PBXNativeTarget "Bio-tstTests" */;
+			buildConfigurationList = DAEFA1B41BD0B11500900379 /* Build configuration list for PBXNativeTarget "BiomagnetismTests" */;
 			buildPhases = (
 				DAEFA1A31BD0B11500900379 /* Sources */,
 				DAEFA1A41BD0B11500900379 /* Frameworks */,
@@ -917,9 +917,9 @@
 			dependencies = (
 				DAEFA1A91BD0B11500900379 /* PBXTargetDependency */,
 			);
-			name = "Bio-tstTests";
+			name = BiomagnetismTests;
 			productName = GarciaTests;
-			productReference = DAEFA1A71BD0B11500900379 /* Bio-tst.xctest */;
+			productReference = DAEFA1A71BD0B11500900379 /* Biomagnetism.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -946,7 +946,7 @@
 					};
 				};
 			};
-			buildConfigurationList = DAEFA1891BD0B11500900379 /* Build configuration list for PBXProject "Bio-tst" */;
+			buildConfigurationList = DAEFA1891BD0B11500900379 /* Build configuration list for PBXProject "Biomagnetism" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -959,8 +959,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DAEFA18D1BD0B11500900379 /* Bio-tst */,
-				DAEFA1A61BD0B11500900379 /* Bio-tstTests */,
+				DAEFA18D1BD0B11500900379 /* Biomagnetism */,
+				DAEFA1A61BD0B11500900379 /* BiomagnetismTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1161,7 +1161,7 @@
 /* Begin PBXTargetDependency section */
 		DAEFA1A91BD0B11500900379 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DAEFA18D1BD0B11500900379 /* Bio-tst */;
+			target = DAEFA18D1BD0B11500900379 /* Biomagnetism */;
 			targetProxy = DAEFA1A81BD0B11500900379 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1280,7 +1280,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.Garcia;
-				PRODUCT_NAME = "Bio-tst";
+				PRODUCT_NAME = Biomagnetism;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -1298,7 +1298,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.Garcia;
-				PRODUCT_NAME = "Bio-tst";
+				PRODUCT_NAME = Biomagnetism;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -1318,7 +1318,7 @@
 				);
 				INFOPLIST_FILE = GarciaTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "Bio-tst";
+				PRODUCT_NAME = Biomagnetism;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Garcia.app/Garcia";
 			};
 			name = Debug;
@@ -1333,7 +1333,7 @@
 				);
 				INFOPLIST_FILE = GarciaTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "Bio-tst";
+				PRODUCT_NAME = Biomagnetism;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Garcia.app/Garcia";
 			};
 			name = Release;
@@ -1341,7 +1341,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		DAEFA1891BD0B11500900379 /* Build configuration list for PBXProject "Bio-tst" */ = {
+		DAEFA1891BD0B11500900379 /* Build configuration list for PBXProject "Biomagnetism" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DAEFA1AF1BD0B11500900379 /* Debug */,
@@ -1350,7 +1350,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DAEFA1B11BD0B11500900379 /* Build configuration list for PBXNativeTarget "Bio-tst" */ = {
+		DAEFA1B11BD0B11500900379 /* Build configuration list for PBXNativeTarget "Biomagnetism" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DAEFA1B21BD0B11500900379 /* Debug */,
@@ -1359,7 +1359,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DAEFA1B41BD0B11500900379 /* Build configuration list for PBXNativeTarget "Bio-tstTests" */ = {
+		DAEFA1B41BD0B11500900379 /* Build configuration list for PBXNativeTarget "BiomagnetismTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DAEFA1B51BD0B11500900379 /* Debug */,
