@@ -8,6 +8,7 @@ FOUNDATION_EXPORT NSString *const dbName;
 FOUNDATION_EXPORT NSString *const getGender;
 FOUNDATION_EXPORT NSString *const getMartialStatus;
 FOUNDATION_EXPORT NSString *const getPatientList;
+FOUNDATION_EXPORT NSString *const getPagingPatientList;
 FOUNDATION_EXPORT NSString *const logIn;
 FOUNDATION_EXPORT NSString *const addPatient;
 FOUNDATION_EXPORT NSString *const editPatient;

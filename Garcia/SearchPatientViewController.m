@@ -71,29 +71,38 @@
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         if ([userDefault boolForKey:@"user_FLAG"]) {
             [self callApiforOffsetApi];
+            [self callApi:NO];
         }
         else{
             NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPatientList];
            NSString *parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
-            NSString *parameterOffset=[NSString stringWithFormat:@"{\"request\":{\"Start\": 0,\"End\": 100}}"];
-            NSString *str=[NSString stringWithFormat:@"%@ %@",url,parameter];
+           NSString *strforComplete=[NSString stringWithFormat:@"%@ %@",url,parameter];
+
             
-            NSString *completeAndOffsetDiffer;
-            
+            NSString *urlForPaging=[NSString stringWithFormat:@"%@%@",baseUrl,getPagingPatientList];
+           NSString * parameterPaging=[NSString stringWithFormat:@"{\"request\":{\"Start\": 0,\"End\": 100}}"];
+            NSString *strforPaging=[NSString stringWithFormat:@"%@ %@",urlForPaging,parameterPaging];
+
+                
             //for complete User Data APi
-            [[SeedSyncer sharedSyncer]getResponseFor:str completionHandler:^(BOOL success, id response) {
+            [[SeedSyncer sharedSyncer]getResponseFor:strforComplete completionHandler:^(BOOL success, id response) {
                 if (success) {
                     [self processResponseObject:response];
                      [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
                 }
                 else{
-                   // completeAndOffsetDiffer=@"offset";
-//                    [self callApiforOffsetApi];
+                    [[SeedSyncer sharedSyncer]getResponseFor:strforPaging completionHandler:^(BOOL success, id response) {
+                        if (success) {
+                            [self processResponseObjectforOffsetApi:response];
+                            [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
+                        }
+                        else{
+                            [self callApiforOffsetApi];
+                            [self callApi:NO];
+                        }
+                    }];
                 }
             }];
-            //for Offse User Data APi
-            
-            
         }
    // }
 }
@@ -258,7 +267,7 @@
 }
 
 //CallAPI for complete patient
--(void)callApi
+-(void)callApi:(BOOL)staus
 {
       ContainerViewController *containerVc =(ContainerViewController*)self.parentViewController;
     NSString *parameter;
@@ -270,17 +279,25 @@
      parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
         [containerVc showMBprogressTillLoadThedata];
     }
-
+    if (staus) {
+        [containerVc showMBprogressTillLoadThedata];
+        [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:NO];
+    }
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObject:responseObject];
         NSString *str=[NSString stringWithFormat:@"%@ %@",url,parameter];
         [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:str];
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         [userDefault setBool:NO forKey:@"user_FLAG"];
-        [containerVc hideAllMBprogressTillLoadThedata];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (staus) {
+            [containerVc hideAllMBprogressTillLoadThedata];
+        }
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
          [self showAlerView:[NSString stringWithFormat:@"%@",error]];
-        [containerVc hideAllMBprogressTillLoadThedata];
+            if (staus) {
+                [containerVc hideAllMBprogressTillLoadThedata];
+                [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
+            }
     }];
 }
 
@@ -294,6 +311,7 @@
     else dict1=responseObject;
     
     if ([dict1[@"Success"] intValue]==1) {
+        [patentnameArray removeAllObjects];
         for (NSDictionary *dict in dict1[@"ViewModels"]) {
             if ([dict[@"Status"]intValue]==1) {
             searchPatientModel *model=[[searchPatientModel alloc]init];
@@ -377,32 +395,25 @@
                 NSDateComponents *agecomponent=[[NSCalendar currentCalendar]components:NSCalendarUnitYear fromDate:date toDate:[NSDate date] options:0];
                 model.age=[NSString stringWithFormat:@"%ld",(long)[agecomponent year]];
             }
-            [completePatientNameArray addObject:model];
+            [patentnameArray addObject:model];
             }
         }
     }
-//    if (patentnameArray.count==1) {
-//        if (initialSelectedRow==0) {
-//            searchPatientModel *model=patentnameArray[0];
-//            selectedPatientCode=model.code;
-//            NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
-//            [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
-//        }
-//        [self reloadData];
+     [self reloadData];
 }
 //CallAPI for 100 offset patient
 -(void)callApiforOffsetApi
 {
     ContainerViewController *containerVc =(ContainerViewController*)self.parentViewController;
     NSString *parameter;
-    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPatientList];
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPagingPatientList];
     
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        parameter=[NSString stringWithFormat:@"{\"request\":{\"Start\": 0,\"End\": 100}}"];
+        parameter=[NSString stringWithFormat:@"{\"request\":{\"Start\": 0,\"End\": 40}}"];
     }else{
         parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
-        [containerVc showMBprogressTillLoadThedata];
     }
+     [containerVc showMBprogressTillLoadThedata];
      [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:NO];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectforOffsetApi:responseObject];
@@ -411,7 +422,6 @@
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         [userDefault setBool:NO forKey:@"user_FLAG"];
         [containerVc hideAllMBprogressTillLoadThedata];
-          [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self showAlerView:[NSString stringWithFormat:@"%@",error]];
         [containerVc hideAllMBprogressTillLoadThedata];
@@ -427,9 +437,7 @@
         dict1=responseDict1[@"aaData"];
     }
     else dict1=responseObject;
-    
-    if ([dict1[@"Success"] intValue]==1) {
-        for (NSDictionary *dict in dict1[@"ViewModels"]) {
+    for (NSDictionary *dict in dict1[@"GenericSearchViewModels"]) {
             if ([dict[@"Status"]intValue]==1) {
                 searchPatientModel *model=[[searchPatientModel alloc]init];
                 if (![dict[@"Lastname"] isEqualToString:@""]) {
@@ -515,6 +523,7 @@
                 [patentnameArray addObject:model];
                 if (patentnameArray.count==1) {
                     if (initialSelectedRow==0) {
+                         initialSelectedRow=1;
                         searchPatientModel *model=patentnameArray[0];
                         selectedPatientCode=model.code;
                         NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
@@ -523,9 +532,7 @@
                 }
             }
         }
-        
         [self reloadData];
-    }
 }
 
 - (void)reloadData
@@ -537,7 +544,13 @@
         [_patientListTableView reloadData];
         if (initialSelectedRow!=0){
             [self selectedCell:patentnameArray];
+        } else if (initialSelectedRow==0) {
+            searchPatientModel *model=patentnameArray[0];
+            selectedPatientCode=model.code;
+            NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
+            [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
         }
+
     }
     MBProgressCountToHide++;
 }
@@ -557,7 +570,7 @@
         selectedPatientCode=code;
         _searchTextField.text=@"";
         initialSelectedRow=-1;
-        [self callApi];
+        [self callApi:YES];
     }else{
         if (patentnameArray.count>0)
         [self tableView:_patientListTableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
@@ -569,7 +582,7 @@
     selectedPatientCode=code;
     [patentnameArray removeAllObjects];
     initialSelectedRow=1;
-     [self callApi];
+    [self callApi:YES];
 }
 -(void)reloadTableviewAfterAddNewTreatment{
     [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedIndexPath];

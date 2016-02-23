@@ -58,7 +58,7 @@ NSString *const dbName =@"biomag-tst.images.original";
 NSString *const baseUrl=@"http://prithiviraj.vmokshagroup.com:8089/";
 NSString *const postmanCompanyCode=@"A0I7LV";
 NSString *const aboutUs=@"http://prithiviraj.vmokshagroup.com:8089/configurationview/TH868Q";
-NSString *const FAQurl=@"http://prithiviraj.vmokshagroup.com:8089/FAQ";
+NSString *const FAQurl=@"http://prithiviraj.vmokshagroup.com:8089/configurationview/LDHX7U";
 NSString *const termsAndCondition=@"http://prithiviraj.vmokshagroup.com:8089/configurationview/1OUAWB";
 NSString *const privecyAndPolicy=@"http://prithiviraj.vmokshagroup.com:8089/configurationview/4XOSBX";
 
@@ -85,6 +85,7 @@ NSString *const expandProfileImage=@"LoadFile/";
 NSString *const getGender=@"search/gender";
 NSString *const getMartialStatus=@"maritalstatus";
 NSString *const getPatientList=@"userdetails";
+NSString *const getPagingPatientList=@"GetUsersBasedOnNumbers";
 NSString *const logIn=@"account/Authenticate";
 NSString *const forgotPassword=@"account/forgotpassword";
 NSString *const addPatient=@"patient/0";

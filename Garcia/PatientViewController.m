@@ -171,14 +171,15 @@
     profileView.DisplayImg = _patientImageView.image;
     [profileView alphaViewInitialize];
 }
-//call api to get detail of treatment
 
+//call api to get detail of treatment
 -(void)callApiTogetAllDetailOfTheTreatment{
     [containerVC showMBprogressTillLoadThedata];
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getTitleOfTreatment];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectToGetTreatmentDetail:responseObject];
         [containerVC hideAllMBprogressTillLoadThedata];
+          [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self showAlerView:[NSString stringWithFormat:@"%@",error]];
         [containerVC hideAllMBprogressTillLoadThedata];
