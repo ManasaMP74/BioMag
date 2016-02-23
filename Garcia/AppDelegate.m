@@ -32,16 +32,15 @@
       [userdefault setValue:@"en" forKey:@"languageCode"];
     }
     [lang callApiForLanguage];
-//    NSString *userName=[userdefault valueForKey:@"userName"];
-//    UIStoryboard *storyBoard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//    if (![userName isEqualToString:@""]) {
-//        UINavigationController *navController = (UINavigationController *)self.window.rootViewController;
-//        
-//        ContainerViewController *container=[storyBoard instantiateViewControllerWithIdentifier:@"ContainerViewController"];
-//        [navController setViewControllers:@[container]];
-////        UINavigationController *nav=[[UINavigationController alloc]initWithRootViewController:container];
-////        [self.window setRootViewController:nav];
-//    }
+    
+    
+    BOOL status=[userdefault boolForKey:@"rememberMe"];
+    UIStoryboard *storyBoard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    if (status) {
+        UINavigationController *navController = (UINavigationController *)self.window.rootViewController;
+        ContainerViewController *container=[storyBoard instantiateViewControllerWithIdentifier:@"ContainerViewController"];
+        [navController setViewControllers:@[container]];
+    }
     
     return YES;
 }

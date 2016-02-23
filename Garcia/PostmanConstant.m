@@ -57,9 +57,9 @@ NSString *const baseUrlAws = @"https://s3-us-west-2.amazonaws.com/";
 NSString *const dbName =@"biomag-tst.images.original";
 NSString *const baseUrl=@"http://prithiviraj.vmokshagroup.com:8089/";
 NSString *const postmanCompanyCode=@"A0I7LV";
-NSString *const aboutUs=@"http://prithiviraj.vmokshagroup.com:8089/configurationview/TH868Q";
+NSString *const aboutUs=@"http://prithiviraj.vmokshagroup.com:8089/configurationview/LDHX7U";
 NSString *const FAQurl=@"http://prithiviraj.vmokshagroup.com:8089/configurationview/LDHX7U";
-NSString *const termsAndCondition=@"http://prithiviraj.vmokshagroup.com:8089/configurationview/1OUAWB";
+NSString *const termsAndCondition=@"http://prithiviraj.vmokshagroup.com:8089/configurationview/MWUFJM";
 NSString *const privecyAndPolicy=@"http://prithiviraj.vmokshagroup.com:8089/configurationview/4XOSBX";
 
 

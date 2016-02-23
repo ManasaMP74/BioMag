@@ -9,8 +9,21 @@
     NSFileManager *fileManager;
     NSMutableDictionary *jsonDictionary;
 }
-
-
+-(void)callApiForPreferredLanguage{
+    userDefault=[NSUserDefaults standardUserDefaults];
+    int userIdInteger=[[userDefault valueForKey:@"Id"]intValue];
+    NSString *userID=[@(userIdInteger) description];
+    Postman *postman=[[Postman alloc]init];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,languageUILabel];
+        NSString *parameter=[NSString stringWithFormat:@"{\"request\":{\"MethodType\":\"PUT\",\"UserID\":\"%@\",\"PreferredLanguageCode\": \"en\",\"Id\": 110091}}",userID];
+        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self responseofLanguageAPI:responseObject];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            
+        }];
+    }
+}
 
 -(void)callApiForLanguage
 {
