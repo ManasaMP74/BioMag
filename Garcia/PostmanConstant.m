@@ -58,9 +58,9 @@ NSString *const dbName =@"biomag-tst.images.original";
 NSString *const baseUrl=@"http://prithiviraj.vmokshagroup.com:8089/";
 NSString *const postmanCompanyCode=@"A0I7LV";
 NSString *const aboutUs=@"http://prithiviraj.vmokshagroup.com:8089/configurationview/TH868Q";
-NSString *const FAQurl=@"http://prithiviraj.vmokshagroup.com:8089/configurationview/TH868Q";
-NSString *const termsAndCondition=@"http://prithiviraj.vmokshagroup.com:8089/configurationview/TH868Q";
-NSString *const privecyAndPolicy=@"http://prithiviraj.vmokshagroup.com:8089/configurationview/TH868Q";
+NSString *const FAQurl=@"http://prithiviraj.vmokshagroup.com:8089/FAQ";
+NSString *const termsAndCondition=@"http://prithiviraj.vmokshagroup.com:8089/configurationview/1OUAWB";
+NSString *const privecyAndPolicy=@"http://prithiviraj.vmokshagroup.com:8089/configurationview/4XOSBX";
 
 
 

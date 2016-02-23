@@ -294,8 +294,10 @@
     else  if ([str isEqualToString:@""]) {
         NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,addSymptomTag,_searchModel.Id];
         NSString *parameter;
+        NSUserDefaults *standardDefault=[NSUserDefaults standardUserDefaults];
+        NSString *languageCode= [standardDefault valueForKey:@"languageName"];
         if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-            parameter =[NSString stringWithFormat:@"{\"request\":{\"Name\":\"%@\",\"Status\": true,\"UserID\": %@,\"MethodType\": \"POST\"}}",_symptomTf.text,_searchModel.Id];
+            parameter =[NSString stringWithFormat:@"{\"request\":{\"Name\":\"%@\",\"Status\": true,\"UserID\": %@,\"MethodType\": \"POST\",\"LanguageCode\": \"%@\"}}",_symptomTf.text,_searchModel.Id,languageCode];
         }
         else{
             parameter =[NSString stringWithFormat:@"{\"Name\":\"%@\",\"Status\": true,\"UserID\": %@,\"MethodType\": \"POST\"}",_symptomTf.text,_searchModel.Id];
