@@ -19,7 +19,7 @@
     NSMutableArray *patentFilteredArray;
     Constant *constant;
     NSString *selectedPatientCode;
-    NSMutableArray *patentnameArray,*completePatientNameArray;
+    NSMutableArray *patentnameArray;
     NSIndexPath *selectedIndexPath;
     PostmanConstant *postmanConstant;
     Postman *postman;
@@ -44,7 +44,6 @@
     _searchTextField.layer.borderWidth=1;
     selectedIndexPath=nil;
     patentnameArray=[[NSMutableArray alloc]init];
-    completePatientNameArray=[[NSMutableArray alloc]init];
     patentFilteredArray=[[NSMutableArray alloc]init];
       dateFormatter=[[NSDateFormatter alloc]init];
 }

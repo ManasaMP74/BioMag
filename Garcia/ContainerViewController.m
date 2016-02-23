@@ -330,7 +330,7 @@
             [self processResponse:responseObject];
             [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-            [userDefault setBool:NO forKey:@"gender_FLAG"];
+            [userDefault setBool:NO forKey:@"language_FLAG"];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
        
         }];
