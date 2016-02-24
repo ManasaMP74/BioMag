@@ -57,10 +57,10 @@ NSString *const baseUrlAws = @"https://s3-us-west-2.amazonaws.com/";
 NSString *const dbName =@"biomag-tst.images.original";
 NSString *const baseUrl=@"http://prithiviraj.vmokshagroup.com:8089/";
 NSString *const postmanCompanyCode=@"A0I7LV";
-NSString *const aboutUs=@"http://prithiviraj.vmokshagroup.com:8089/configurationview/LDHX7U";
-NSString *const FAQurl=@"http://prithiviraj.vmokshagroup.com:8089/configurationview/LDHX7U";
-NSString *const termsAndCondition=@"http://prithiviraj.vmokshagroup.com:8089/configurationview/MWUFJM";
-NSString *const privecyAndPolicy=@"http://prithiviraj.vmokshagroup.com:8089/configurationview/4XOSBX";
+NSString *const aboutUs=@"search/configuration";
+NSString *const FAQurl=@"configurationview/LDHX7U";
+NSString *const termsAndCondition=@"configurationview/MWUFJM";
+NSString *const privecyAndPolicy=@"configurationview/4XOSBX";
 
 
 
@@ -104,8 +104,9 @@ NSString *const addGermsUrl=@"germs";
 NSString *const getTitleOfTreatment=@"partialtreatmentrequest";
 NSString *const kGET_SEED_URL=@"seed";
 NSString *const allScanpointsApi=@"AnatomicalDetails";
-NSString *const DifferMetirialOrVzoneApi=@"vzone";
 NSString *const language=@"search/language";
 NSString *const languageUILabel=@"search/UILabel/";
+NSString *const preferredLanguage=@"PreferredLanguage/User";
 
+NSString *const DifferMetirialOrVzoneApi=@"vzone";
 @end

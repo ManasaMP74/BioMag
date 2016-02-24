@@ -38,6 +38,7 @@
 		DA4884DA1C4E33AE0064774F /* ToxicDeficiencyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA4884D91C4E33AE0064774F /* ToxicDeficiencyView.xib */; };
 		DA4896151C6C6A2100FE12C3 /* LanguageChanger.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4896141C6C6A2100FE12C3 /* LanguageChanger.m */; };
 		DA567A0D1C60AF610046A340 /* eng.json in Resources */ = {isa = PBXBuildFile; fileRef = DA567A0C1C60AF600046A340 /* eng.json */; };
+		DA5EF2B21C7D82EC00A250F5 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5EF2B11C7D82EC00A250F5 /* AboutUsViewController.m */; };
 		DA67CFCF1C1197B200D88BBC /* AddSymptom.m in Sources */ = {isa = PBXBuildFile; fileRef = DA67CFCE1C1197B200D88BBC /* AddSymptom.m */; };
 		DA67CFD11C11981100D88BBC /* AddSymptom.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA67CFD01C11981100D88BBC /* AddSymptom.xib */; };
 		DA6C7B8E1BE09F9500D1130A /* SittingCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA6C7B8D1BE09F9500D1130A /* SittingCollectionViewCell.m */; };
@@ -182,6 +183,8 @@
 		DA4896131C6C6A2100FE12C3 /* LanguageChanger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LanguageChanger.h; sourceTree = "<group>"; };
 		DA4896141C6C6A2100FE12C3 /* LanguageChanger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LanguageChanger.m; sourceTree = "<group>"; };
 		DA567A0C1C60AF600046A340 /* eng.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = eng.json; sourceTree = "<group>"; };
+		DA5EF2B01C7D82EC00A250F5 /* AboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutUsViewController.h; sourceTree = "<group>"; };
+		DA5EF2B11C7D82EC00A250F5 /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
 		DA67CFCD1C1197B200D88BBC /* AddSymptom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddSymptom.h; sourceTree = "<group>"; };
 		DA67CFCE1C1197B200D88BBC /* AddSymptom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddSymptom.m; sourceTree = "<group>"; };
 		DA67CFD01C11981100D88BBC /* AddSymptom.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddSymptom.xib; sourceTree = "<group>"; };
@@ -876,6 +879,8 @@
 			children = (
 				DAF82CDE1BD4BA74006AF1E1 /* ContainerViewController.h */,
 				DAF82CDF1BD4BA74006AF1E1 /* ContainerViewController.m */,
+				DA5EF2B01C7D82EC00A250F5 /* AboutUsViewController.h */,
+				DA5EF2B11C7D82EC00A250F5 /* AboutUsViewController.m */,
 				DAF497F01C5F6C8600CD9E7D /* Language */,
 			);
 			name = ContainerVC;
@@ -1139,6 +1144,7 @@
 				DAF82CE01BD4BA74006AF1E1 /* ContainerViewController.m in Sources */,
 				DA130F381BEA1E1900B5B9FF /* Child.m in Sources */,
 				DA753C8E1C64820B00D1ABE1 /* CorrespondingPairTableView.m in Sources */,
+				DA5EF2B21C7D82EC00A250F5 /* AboutUsViewController.m in Sources */,
 				DAE606001C1FC83600A344F2 /* PatientDetailModel.m in Sources */,
 				DAB0C4A91C5F85F6002F0189 /* PopOverViewController.m in Sources */,
 				DA261DC91C4660CD00B18035 /* ToxicDeficiency.m in Sources */,

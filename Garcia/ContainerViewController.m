@@ -13,10 +13,12 @@
 #import "lagModel.h"
 #import "SeedSyncer.h"
 #import "LanguageChanger.h"
+#import "AboutUsViewController.h"
+#import "LoginViewController.h"
 #if !defined(MAX)
 #define MAX(A,B)((A) > (B) ? (A) : (B))
 #endif
-@interface ContainerViewController ()<addedPatient,loadTreatmentDelegate,selectedObjectInPop,WYPopoverControllerDelegate>
+@interface ContainerViewController ()<addedPatient,loadTreatmentDelegate,selectedObjectInPop,WYPopoverControllerDelegate,languageChangeForDelegat>
 
 @end
 
@@ -30,6 +32,7 @@
      NSArray *slideoutImageArray,*slideoutArray;
     UIButton *someButton ;
     NSUserDefaults *standardDefault;
+    int selectedLangRow;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -177,29 +180,35 @@
 }
 //delegate of language selection
 -(void)selectedObject:(int)row{
-    lagModel *model=languageArray[row];
-    [standardDefault setValue:model.code forKey:@"languageCode"];
-     [standardDefault setValue:model.name forKey:@"languageName"];
-    [lagSomeButton setTitle:[standardDefault valueForKey:@"languageName"] forState:normal];
-  [wypopOverController dismissPopoverAnimated:NO];
     LanguageChanger *languageChanger=[[LanguageChanger alloc]init];
-    [languageChanger callApiForLanguage];
+    selectedLangRow=row;
+      [languageChanger callApiForPreferredLanguage];
+}
+-(void)languageChangeDelegate:(int)str{
+    if (str==1) {
+         lagModel *model=languageArray[selectedLangRow];
+        [standardDefault setValue:model.code forKey:@"languageCode"];
+        [standardDefault setValue:model.name forKey:@"languageName"];
+        [lagSomeButton setTitle:[standardDefault valueForKey:@"languageName"] forState:normal];
+    }
+     [wypopOverController dismissPopoverAnimated:NO];
 }
 //delegate of slideout
 -(void)selectedSlideOutObject:(int)row{
     if (row==5) {
      [self showFailureAlerMessage:@"Do you really want to Signout?"];
     }else  if (row==4) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:privecyAndPolicy]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",baseUrl,privecyAndPolicy]]];
     }
     else  if (row==1) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:aboutUs]];
+        AboutUsViewController *about=[self.storyboard instantiateViewControllerWithIdentifier:@"AboutUsViewController"];
+        [self.navigationController pushViewController:about animated:YES];
     }
     else  if (row==3) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:termsAndCondition]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",baseUrl,termsAndCondition]]];
     }
     else  if (row==2) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:FAQurl]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",baseUrl,FAQurl]]];
     }
     [wypopOverController dismissPopoverAnimated:NO];
 }
@@ -222,6 +231,9 @@
     UIAlertAction *success=[UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
         [self.navigationController popToRootViewControllerAnimated:YES];
         NSUserDefaults *userdefault=[NSUserDefaults standardUserDefaults];
+        UINavigationController *nav=(UINavigationController*)self.parentViewController;
+        LoginViewController *login=[self.storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+        [nav setViewControllers:@[login]];
         [userdefault setValue:@"" forKey:@"userName"];
         [userdefault setValue:@"" forKey:@"password"];
         [userdefault setBool:NO forKey:@"rememberMe"];
@@ -308,7 +320,7 @@
             [self callApiForLanguage];
         }
         else{
-            NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPatientList];
+            NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,language];
             [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
                 if (success) {
                     [self processResponse:response];

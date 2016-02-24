@@ -32,7 +32,7 @@
 }
 - (void)callSeedAPI:(void (^)(BOOL success))completionHandler{
     postman=[[Postman alloc]init];
-   [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:NO];
+   [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication].delegate window] animated:NO];
     [postman get:urlString withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if ([self parseResponse:responseObject]) {
             completionHandler(true);

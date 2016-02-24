@@ -297,7 +297,7 @@
     hubHUD.margin=20.f;
     hubHUD.yOffset=150.f;
     hubHUD.removeFromSuperViewOnHide = YES;
-    [hubHUD hide:YES afterDelay:1];
+    [hubHUD hide:YES afterDelay:2];
 
 }
 @end

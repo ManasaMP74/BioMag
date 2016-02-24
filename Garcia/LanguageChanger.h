@@ -1,9 +1,15 @@
 #import <Foundation/Foundation.h>
 
+@protocol languageChangeForDelegat <NSObject>
+@optional
+-(void)languageChangeDelegate:(int)str;
+@end
+
+
 @interface LanguageChanger : NSObject
 
--(void)callApiForLanguage;
+-(void)callApiForUILabelLanguage;
+-(void)callApiForPreferredLanguage;
 -(void)readingLanguageFromDocument;
-
-
+@property(weak,nonatomic) id<languageChangeForDelegat>delegate;
 @end

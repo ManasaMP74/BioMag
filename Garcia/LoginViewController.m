@@ -6,6 +6,7 @@
 #import "AppDelegate.h"
 #import "SeedSyncer.h"
 #import <MCLocalization/MCLocalization.h>
+
 @interface LoginViewController ()<UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *userNameTf;
 @property (strong, nonatomic) IBOutlet UITextField *passwordTF;
@@ -80,7 +81,7 @@
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         //Vzone API
         urlString = [NSString stringWithFormat:@"%@%@",baseUrl,logIn];
-       // parameter = [NSString stringWithFormat:@"{\"request\":{\"Username\":\"drluisgarcia@mydomain.com\", \"Password\":\"Power@1234\"}}"];
+        // parameter = [NSString stringWithFormat:@"{\"request\":{\"Username\":\"drluisgarcia@mydomain.com\", \"Password\":\"Power@1234\"}}"];
         parameter = [NSString stringWithFormat:@"{\"request\":{\"Username\":\"%@\", \"Password\":\"%@\"}}",_userNameTf.text,_passwordTF.text];
     }else{
         //Material Api
@@ -91,10 +92,10 @@
     }
     
     if (_userNameTf.text.length==0 & _passwordTF.text.length==0) {
-        [self showAlerView:@"Username and Password is required"];
+        [self showToastMessage:@"Username and Password is required"];
     }
-    else if (_userNameTf.text.length==0) [self showAlerView:@"Username is required"];
-    else if (_passwordTF.text.length==0) [self showAlerView:@"Password is required"];
+    else if (_userNameTf.text.length==0) [self showToastMessage:@"Username is required"];
+    else if (_passwordTF.text.length==0) [self showToastMessage:@"Password is required"];
     else{
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [postman post:urlString withParameters:parameter
@@ -106,7 +107,7 @@
                   [MBProgressHUD hideHUDForView:self.view animated:YES];
               }
               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                  [self showAlerView:[NSString stringWithFormat:@"%@",error]];
+                  [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
                   [MBProgressHUD hideHUDForView:self.view animated:YES];
               }];
     }
@@ -138,11 +139,11 @@
             }];
         }
         else{
-            [self showAlerView:loginFailed];
+            [self showToastMessage:loginFailed];
         }
     }
     else{
-        [self showAlerView:responseDict[@"Message"]];
+        [self showToastMessage:responseDict[@"Message"]];
     }
 }
 
@@ -162,33 +163,39 @@
             [userdefault setValue:dict[@"CompanyCode"] forKey:@"CompanyCode"];
             NSString *doctorName=[NSString stringWithFormat:@"%@",dict[@"Name"]];
             [userdefault setValue:doctorName forKey:@"DoctorName"];
+            NSString *languageCode=dict[@"PreferredLanguageCode"];
+            if ([languageCode isEqualToString:@"(null)"]) {
+              languageCode=@"en";
+            }
+            [userdefault setValue:languageCode forKey:@"languageCode"];
             [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
                 if (success) {
-                    [self performSegueWithIdentifier:@"loginSuccess" sender:nil];
+                    [self languageChanger];
                 }
                 else{
-                    [self showAlerView:seedError];
+                    [self showToastMessage:seedError];
                     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                 }
             }];
         }
         else{
-            [self showAlerView:authenticationFailedStr];
+            [self showToastMessage:authenticationFailedStr];
         }
     }
     else{
-        [self showAlerView:responseDict[@"Message"]];
+        [self showToastMessage:responseDict[@"Message"]];
     }
 }
-
-//Alert Message
--(void)showAlerView:(NSString*)msg{
-    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alertStr message:msg preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *success=[UIAlertAction actionWithTitle:alertOkStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
-        [alertView dismissViewControllerAnimated:YES completion:nil];
-    }];
-    [alertView addAction:success];
-    [self presentViewController:alertView animated:YES completion:nil];
+-(void)languageChanger{
+    LanguageChanger *langchanger=[[LanguageChanger alloc]init];
+    [langchanger callApiForPreferredLanguage];
+    langchanger.delegate=self;
+}
+-(void)languageChangeDelegate:(int)str{
+    if (str==0) {
+        [self showToastMessage:seedError];
+    }else
+          [self performSegueWithIdentifier:@"loginSuccess" sender:nil];
 }
 //validate login
 - (BOOL)validateLoginFields
@@ -232,6 +239,29 @@
     [self.view endEditing:YES];
 }
 
+//Alert Message
+-(void)showAlerView:(NSString*)msg{
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alertStr message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:alertOkStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertView addAction:success];
+    [self presentViewController:alertView animated:YES completion:nil];
+}
+
+//Toast Message
+-(void)showToastMessage:(NSString*)msg{
+    MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hubHUD.mode=MBProgressHUDModeText;
+    if (msg.length>0) {
+        hubHUD.labelText=msg;
+    }
+    hubHUD.labelFont=[UIFont systemFontOfSize:15];
+    hubHUD.margin=20.f;
+    hubHUD.yOffset=150.f;
+    hubHUD.removeFromSuperViewOnHide = YES;
+    [hubHUD hide:YES afterDelay:2];
+}
 //languageChange
 -(void)localize
 {

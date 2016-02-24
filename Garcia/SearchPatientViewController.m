@@ -79,7 +79,7 @@
 
             
             NSString *urlForPaging=[NSString stringWithFormat:@"%@%@",baseUrl,getPagingPatientList];
-           NSString * parameterPaging=[NSString stringWithFormat:@"{\"request\":{\"Start\": 0,\"End\": 100}}"];
+           NSString * parameterPaging=[NSString stringWithFormat:@"{\"request\":{\"Start\": 0,\"End\":40}}"];
             NSString *strforPaging=[NSString stringWithFormat:@"%@ %@",urlForPaging,parameterPaging];
 
                 
@@ -290,6 +290,7 @@
         [userDefault setBool:NO forKey:@"user_FLAG"];
         if (staus) {
             [containerVc hideAllMBprogressTillLoadThedata];
+            [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
         }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
          [self showAlerView:[NSString stringWithFormat:@"%@",error]];
@@ -403,6 +404,7 @@
 //CallAPI for 100 offset patient
 -(void)callApiforOffsetApi
 {
+    NSLog(@"%@",self.parentViewController);
     ContainerViewController *containerVc =(ContainerViewController*)self.parentViewController;
     NSString *parameter;
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPagingPatientList];
@@ -540,16 +542,13 @@
         [self searchDoctorOnProfession];
         [self selectedCell:patentFilteredArray];
     } else{
-        [_patientListTableView reloadData];
-        if (initialSelectedRow!=0){
-            [self selectedCell:patentnameArray];
-        } else if (initialSelectedRow==0) {
+        if (initialSelectedRow==0) {
             searchPatientModel *model=patentnameArray[0];
             selectedPatientCode=model.code;
             NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
             [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
-        }
-
+        }else    [self selectedCell:patentnameArray];
+  [_patientListTableView reloadData];
     }
     MBProgressCountToHide++;
 }

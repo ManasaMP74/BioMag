@@ -5,45 +5,68 @@
 #import <MCLocalization/MCLocalization.h>
 @implementation LanguageChanger
 {
-    NSUserDefaults *userDefault;
     NSFileManager *fileManager;
     NSMutableDictionary *jsonDictionary;
+    NSUserDefaults *userdefault;
+     Postman *postman;
+    NSString *successMessage;
 }
+//Call PreferredLanguage
 -(void)callApiForPreferredLanguage{
-    userDefault=[NSUserDefaults standardUserDefaults];
-    int userIdInteger=[[userDefault valueForKey:@"Id"]intValue];
-    NSString *userID=[@(userIdInteger) description];
-    Postman *postman=[[Postman alloc]init];
+    NSString *urlString;
+    NSString *parameter;
+    
+    postman=[[Postman alloc]init];
+    userdefault=[NSUserDefaults standardUserDefaults];
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,languageUILabel];
-        NSString *parameter=[NSString stringWithFormat:@"{\"request\":{\"MethodType\":\"PUT\",\"UserID\":\"%@\",\"PreferredLanguageCode\": \"en\",\"Id\": 110091}}",userID];
-        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            [self responseofLanguageAPI:responseObject];
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            
-        }];
+        //Vzone API
+        urlString = [NSString stringWithFormat:@"%@%@",baseUrl,preferredLanguage];
+        NSString *userId=[userdefault valueForKey:@"Id"];
+        NSString *languageCode=[userdefault valueForKey:@"languageCode"];
+        parameter = [NSString stringWithFormat:@"{\"request\":{\"MethodType\":\"PUT\",\"UserID\": \"1\",\"PreferredLanguageCode\": \"%@\",\"Id\": %@}}",languageCode,userId];
+    }else{
+        //Material Api
+        
+    }
+    [postman put:urlString withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self processResponseOfPreferredLanguage:responseObject];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self.delegate languageChangeDelegate:0];
+    }];
+    
+}
+//process preferredLanguage
+-(void)processResponseOfPreferredLanguage:(id)responseObject{
+    NSDictionary *dict;
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSDictionary *dict1=responseObject;
+        dict=dict1[@"aaData"];
+    }
+    if ([dict[@"Success"]intValue]==1) {
+        [self callApiForUILabelLanguage];
+        
     }
 }
 
--(void)callApiForLanguage
+-(void)callApiForUILabelLanguage
 {
-    userDefault=[NSUserDefaults standardUserDefaults];
-    NSString *languageCode=[userDefault valueForKey:@"languageCode"];
-    Postman *postman=[[Postman alloc]init];
+     userdefault=[NSUserDefaults standardUserDefaults];
+    NSString *languageCode=[userdefault valueForKey:@"languageCode"];
      if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
     NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,languageUILabel,languageCode];
     NSString *parameter=[NSString stringWithFormat:@"{request:{}}"];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [self responseofLanguageAPI:responseObject];
+      [self responseofLanguageAPI:responseObject];
+        [self.delegate languageChangeDelegate:1];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
+     [self.delegate languageChangeDelegate:0];
     }];
     }
 }
 
 
 -(void)responseofLanguageAPI:(id)responseObject{
-    NSDictionary *dict;
+     NSDictionary *dict;
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         NSDictionary *dict1=responseObject;
         dict=dict1[@"aaData"];
@@ -59,7 +82,7 @@
             str=[str stringByAppendingString:@"}"];
         }
     }
-    NSString *languageCode=[userDefault valueForKey:@"languageCode"];
+    NSString *languageCode=[userdefault valueForKey:@"languageCode"];
     [self createFolderandSaveaStringInDocuDirectory:languageCode withContent:str];
 }
 
@@ -83,9 +106,9 @@
 
 -(void)readingLanguageFromDocument
 {
+    fileManager =[[NSFileManager alloc]init];
     jsonDictionary=[[NSMutableDictionary alloc]init];
-   userDefault=[NSUserDefaults standardUserDefaults];
-    NSString *langCode=[userDefault valueForKey:@"languageCode"];
+    NSString *langCode=[userdefault valueForKey:@"languageCode"];
     NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
     NSString *path=[paths objectAtIndex:0];
     NSString *docPath=[path stringByAppendingPathComponent:@"Language"];

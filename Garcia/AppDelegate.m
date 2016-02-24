@@ -8,43 +8,57 @@
 
 #import "AppDelegate.h"
 #import <MCLocalization/MCLocalization.h>
-#import "LanguageChanger.h"
 #import "ContainerViewController.h"
-@interface AppDelegate ()
-
+#import "LanguageChanger.h"
+#import "MBProgressHUD.h"
+#import "SeedSyncer.h"
+@interface AppDelegate ()<languageChangeForDelegat>
 @end
 
 @implementation AppDelegate
+{
+    LanguageChanger *langchanger;
 
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [[UINavigationBar appearance]setBarTintColor:[UIColor colorWithRed:0 green:0.71 blue:0.93 alpha:1]];
     [[UINavigationBar appearance]setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithRed:1 green:1 blue:1 alpha:1],NSForegroundColorAttributeName,[UIFont fontWithName:@"OpenSans-Bold" size:22],NSFontAttributeName, nil]];
 
-    
-// Localization
-
-    LanguageChanger *lang=[[LanguageChanger alloc]init];
+   langchanger=[[LanguageChanger alloc]init];
     NSUserDefaults *userdefault=[NSUserDefaults standardUserDefaults];
-    NSString *str=[userdefault valueForKey:@"languageCode"];
-    if (str==nil) {
-      [userdefault setValue:@"en" forKey:@"languageCode"];
-    }
-    [lang callApiForLanguage];
-    
     
     BOOL status=[userdefault boolForKey:@"rememberMe"];
-    UIStoryboard *storyBoard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
     if (status) {
-//        UINavigationController *navController = (UINavigationController *)self.window.rootViewController;
-//        ContainerViewController *container=[storyBoard instantiateViewControllerWithIdentifier:@"ContainerViewController"];
-//        [navController setViewControllers:@[container]];
+        [langchanger readingLanguageFromDocument];
+        UIStoryboard *storyBoard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UINavigationController *navController = (UINavigationController *)self.window.rootViewController;
+        ContainerViewController *container=[storyBoard instantiateViewControllerWithIdentifier:@"ContainerViewController"];
+        [navController setViewControllers:@[container]];
+        [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
+            if (success) {
+                [self languageChanger];
+            }
+            else{
+
+            }
+        }];
     }
     
     return YES;
 }
-
+-(void)languageChanger{
+    [MBProgressHUD showHUDAddedTo:self.window animated:YES];
+    [langchanger callApiForUILabelLanguage];
+    langchanger.delegate=self;
+}
+-(void)languageChangeDelegate:(int)str{
+     [MBProgressHUD hideHUDForView:self.window animated:YES];
+    if (str!=0) {
+       
+    }
+}
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
