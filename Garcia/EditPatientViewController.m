@@ -292,19 +292,26 @@
     //activeField = textView;
 }
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    BOOL status;
+
     if ([textField isEqual:_mobileNoTF]) {
+        if (string.length>15) {
+            status=NO;
+        }
+        else{
         NSCharacterSet * numberCharSet = [NSCharacterSet characterSetWithCharactersInString:@"()+-0123456789"];
         for (int i = 0; i < [string length]; ++i)
         {
             unichar c = [string characterAtIndex:i];
             if (![numberCharSet characterIsMember:c])
             {
-                return NO;
+                status= NO;
             }
         }
-        return YES;
-    }
-    else return YES;
+        status =YES;
+     }
+    }else status=NO;
+    return status;
 }
 //textField EndEditing
 - (void)textViewDidEndEditing:(UITextView *)textView{

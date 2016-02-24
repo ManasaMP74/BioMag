@@ -220,19 +220,26 @@
     activeField = nil;
 }
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    BOOL status;
+    
     if ([textField isEqual:_mobileNoTF]) {
-        NSCharacterSet * numberCharSet = [NSCharacterSet characterSetWithCharactersInString:@"()+-0123456789"];
-        for (int i = 0; i < [string length]; ++i)
-        {
-            unichar c = [string characterAtIndex:i];
-            if (![numberCharSet characterIsMember:c])
-            {
-                return NO;
-            }
+        if (string.length>15) {
+            status=NO;
         }
-        return YES;
-    }
-    else return YES;
+        else{
+            NSCharacterSet * numberCharSet = [NSCharacterSet characterSetWithCharactersInString:@"()+-0123456789"];
+            for (int i = 0; i < [string length]; ++i)
+            {
+                unichar c = [string characterAtIndex:i];
+                if (![numberCharSet characterIsMember:c])
+                {
+                    status= NO;
+                }
+            }
+            status =YES;
+        }
+    }else status=NO;
+    return status;
 }
 //set layesr for TextField and placeHolder
 -(void)textFieldLayer{

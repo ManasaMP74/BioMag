@@ -3,6 +3,7 @@
 @implementation SittingTableViewCell
 - (void)awakeFromNib {
     self.sittingTextView.delegate=self;
+    self.addNoteTV.delegate=self;
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
