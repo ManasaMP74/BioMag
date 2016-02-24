@@ -37,9 +37,9 @@
     BOOL status=[userdefault boolForKey:@"rememberMe"];
     UIStoryboard *storyBoard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
     if (status) {
-        UINavigationController *navController = (UINavigationController *)self.window.rootViewController;
-        ContainerViewController *container=[storyBoard instantiateViewControllerWithIdentifier:@"ContainerViewController"];
-        [navController setViewControllers:@[container]];
+//        UINavigationController *navController = (UINavigationController *)self.window.rootViewController;
+//        ContainerViewController *container=[storyBoard instantiateViewControllerWithIdentifier:@"ContainerViewController"];
+//        [navController setViewControllers:@[container]];
     }
     
     return YES;
