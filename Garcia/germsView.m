@@ -159,6 +159,8 @@
             [userDefault setBool:NO forKey:@"germs_FLAG"];
             [MBProgressHUD hideHUDForView:alphaView animated:YES];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSString *str=[NSString stringWithFormat:@"%@",error];
+            [self showToastMessage:str];
             [MBProgressHUD hideHUDForView:alphaView animated:YES];
         }];
     }else {
@@ -169,6 +171,8 @@
             [userDefault setBool:NO forKey:@"germs_FLAG"];
             [MBProgressHUD hideHUDForView:alphaView animated:YES];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSString *str=[NSString stringWithFormat:@"%@",error];
+            [self showToastMessage:str];
             [MBProgressHUD hideHUDForView:alphaView animated:YES];
         }];
     }
@@ -178,6 +182,8 @@
     NSDictionary *dict;
     
     [germsArray removeAllObjects];
+    [selectedIndex removeAllObjects];
+    [selectedGerms removeAllObjects];
     
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         //For Vzone API
@@ -201,7 +207,6 @@
         }
     }
     [_tableView reloadData];
-   
     NSArray *ar=[_fromParentViewGermsString componentsSeparatedByString:@" "];
     for (NSString *str in ar) {
         for (int i=0; i<germsArray.count; i++) {
@@ -234,27 +239,28 @@
     _heightOfNewGermView.constant=height;
 }
 -(void)callApiToAddGerm{
-    NSString *url=[NSString stringWithFormat:@"%@%@/0",baseUrl,germsUrl];
+    NSString *url=[NSString stringWithFormat:@"%@%@/0",baseUrl,addGermsUrl];
     NSString *parameter;
     NSUserDefaults *defaultvalue=[NSUserDefaults standardUserDefaults];
     int userIdInteger=[[defaultvalue valueForKey:@"Id"]intValue];
-     bool status=true;
     
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         //Parameter for Vzone Api
        
-        parameter =[NSString stringWithFormat:@"{\"request\":{\"Name\":\"%@\",\"UserfriendlyCode\":\"%@\",\"UserID\":%d,\"Status\":%hhd,\"MethodType\":\"POST\"}}",_codeFullNameTF.text,_codeSymbolTF.text,userIdInteger,status];
+        parameter =[NSString stringWithFormat:@"{\"request\":{\"Name\":\"%@\",\"UserfriendlyCode\":\"%@\",\"UserID\":%d,\"Status\":true,\"MethodType\":\"POST\"}}",_codeFullNameTF.text,_codeSymbolTF.text,userIdInteger];
     }else{
         //Parameter For Material Api
-        parameter =[NSString stringWithFormat:@" {\"Name\":\"%@\",\"UserfriendlyCode\":\"%@\",\"UserID\":%d,\"Status\":%hhd,\"MethodType\":\"POST\"}",_codeFullNameTF.text,_codeSymbolTF.text,userIdInteger,status];
+        parameter =[NSString stringWithFormat:@" {\"Name\":\"%@\",\"UserfriendlyCode\":\"%@\",\"UserID\":%d,\"Status\":true,\"MethodType\":\"POST\"}",_codeFullNameTF.text,_codeSymbolTF.text,userIdInteger];
     }
 
     [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processToAddGerms:responseObject];
-        [MBProgressHUD hideHUDForView:alphaView animated:YES];
+        [MBProgressHUD hideAllHUDsForView:alphaView animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [MBProgressHUD hideHUDForView:alphaView animated:YES];
+        NSString *str=[NSString stringWithFormat:@"%@",error];
+        [self showToastMessage:str];
+        [MBProgressHUD hideAllHUDsForView:alphaView animated:YES];
     }];
 }
 -(void)processToAddGerms:(id)responseObject{
@@ -269,8 +275,9 @@
         [self heightOfView:106];
 
     }else{
-        UIAlertView *alert1=[[UIAlertView alloc]initWithTitle:alert message:dict[@"Message"] delegate:nil cancelButtonTitle:alertOK otherButtonTitles:nil,nil];
-        [alert1 show];
+        [self showToastMessage:dict[@"Message"]];
+//        UIAlertView *alert1=[[UIAlertView alloc]initWithTitle:alert message:dict[@"Message"] delegate:nil cancelButtonTitle:alertOK otherButtonTitles:nil,nil];
+//        [alert1 show];
     }
 }
 -(void)localization{
@@ -279,5 +286,18 @@
     _codeSymbolTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Symbol"]];
     _codeFullNameTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Name"]];
     _codesLabel.text=[MCLocalization stringForKey:@"Codes"];
+}
+-(void)showToastMessage:(NSString*)msg{
+    MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:alphaView animated:YES];
+    hubHUD.mode=MBProgressHUDModeText;
+    if (msg.length>0) {
+    hubHUD.labelText=msg;
+    }
+    hubHUD.labelFont=[UIFont systemFontOfSize:15];
+    hubHUD.margin=20.f;
+    hubHUD.yOffset=150.f;
+    hubHUD.removeFromSuperViewOnHide = YES;
+    [hubHUD hide:YES afterDelay:1];
+
 }
 @end

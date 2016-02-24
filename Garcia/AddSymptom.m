@@ -104,10 +104,10 @@
 }
 - (IBAction)localAdd:(id)sender {
     if (![_symptomTf.text isEqual:@""]) {
-        _collectionViewHeight.constant=37;
-        _collectionView.hidden=NO;
-        _allTaglistTableView.hidden=YES;
-        [self callAPIforAddSymptomTag];
+        NSString *str=[self checkThatAddedSymptomTagIsthereOrNot];
+        if (str.length==0) {
+             [self callAPIforAddSymptomTag];
+        }
     }
 }
 //tag textfield change
@@ -229,6 +229,9 @@
             [allTagListArray addObject:model];
         }
     }
+    if (_symptomTf.text.length!=0) {
+        [self checkThatAddedSymptomTagIsthereOrNot];
+    }
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return filterdTagListArray.count;
@@ -255,8 +258,10 @@
     view.frame=self.bounds;
     view.center = appDel.window.center;
 }
-//Call api to add symptom tag
--(void)callAPIforAddSymptomTag{
+-(NSString*)checkThatAddedSymptomTagIsthereOrNot{
+    _collectionViewHeight.constant=37;
+    _collectionView.hidden=NO;
+    _allTaglistTableView.hidden=YES;
     NSString *str=@"";
     SymptomTagModel *model;
     for (SymptomTagModel *model1 in allTagListArray) {
@@ -279,8 +284,9 @@
                 [self.delegate addsymptom:symptomTagArray];
             }else{
                 str=@"alert";
-                UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Alert!" message:@"Symptom already exist" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                [alert show];
+                //                UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Alert!" message:@"Symptom already exist" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                //                [alert show];
+                [self showToastMessage:@"Symptom already exist"];
             }
         }
         else {
@@ -291,11 +297,14 @@
             [self.delegate addsymptom:symptomTagArray];
         }
     }
-    else  if ([str isEqualToString:@""]) {
+    return str;
+}
+//Call api to add symptom tag
+-(void)callAPIforAddSymptomTag{
         NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,addSymptomTag,_searchModel.Id];
         NSString *parameter;
         NSUserDefaults *standardDefault=[NSUserDefaults standardUserDefaults];
-        NSString *languageCode= [standardDefault valueForKey:@"languageName"];
+        NSString *languageCode= [standardDefault valueForKey:@"languageCode"];
         if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
             parameter =[NSString stringWithFormat:@"{\"request\":{\"Name\":\"%@\",\"Status\": true,\"UserID\": %@,\"MethodType\": \"POST\",\"LanguageCode\": \"%@\"}}",_symptomTf.text,_searchModel.Id,languageCode];
         }
@@ -304,49 +313,18 @@
         }
         [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
         
-        
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
             [self processResponseObjectOfAddTag:responseObject];
             [self callApiTogetSymptomTag];
             [MBProgressHUD hideAllHUDsForView:alphaView animated:YES];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Alert!" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [alert show];
+//            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Alert!" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+//            [alert show];
+            NSString *str=[NSString stringWithFormat:@"%@",error];
+            [self showToastMessage:str];
             [MBProgressHUD hideAllHUDsForView:alphaView animated:YES];
         }];
-   
-        
-        
-        
-//        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-//        
-//        AFHTTPRequestSerializer *requestSerializer =[AFHTTPRequestSerializer serializer];
-//        [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-//        [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-//        manager.requestSerializer=requestSerializer;
-//        
-//       
-//        NSDictionary *parameterDict = [NSJSONSerialization JSONObjectWithData:[parameter dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
-//
-//
-//        [manager POST:url parameters:parameterDict success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        NSLog(@"%@",[operation responseObject]);
-//        
-//         [MBProgressHUD hideAllHUDsForView:alphaView animated:YES];
-//        
-//        } failure:^(AFHTTPRequestOperation * operation, NSError * error) {
-//            NSLog(@"%@",[operation responseString]);
-//        
-//            [MBProgressHUD hideAllHUDsForView:alphaView animated:YES];
-//        }];
-        
-        
-        
-        
-
-    }
 }
-
 //process object
 -(void)processResponseObjectOfAddTag:(id)responseObject{
     
@@ -362,28 +340,36 @@
     }
     
     if ([dict[@"Success"] intValue]==1) {
-        NSDictionary *dict1=dict[@"ViewModel"];
-        if ([dict1[@"Status"] intValue]==1) {
-            SymptomTagModel *model=[[SymptomTagModel alloc]init];
-            model.tagCode=dict1[@"Code"];
-            model.tagId=dict1[@"Id"];
-            model.tagName=dict1[@"Name"];
-            [symptomTagArray addObject:model];
-        }
-        [self.delegate addsymptom:symptomTagArray];
-        [_collectionView reloadData];
-        [self heightOfView:182];
-        _symptomTf.text=@"";
+//        NSDictionary *dict1=dict[@"ViewModel"];
+//        if (dict[@"ViewModel"]!=[NSNull null]) {
+//        if ([dict1[@"Status"] intValue]==1) {
+//            SymptomTagModel *model=[[SymptomTagModel alloc]init];
+//            model.tagCode=dict1[@"Code"];
+//            model.tagId=dict1[@"Id"];
+//            model.tagName=dict1[@"Name"];
+//            [symptomTagArray addObject:model];
+//        }
+//        [self.delegate addsymptom:symptomTagArray];
+//        [_collectionView reloadData];
+//        [self heightOfView:182];
+//        _symptomTf.text=@"";
+   // }
+        [self callApiTogetSymptomTag];
     }
     else{
-        MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:alphaView animated:YES];
-        hubHUD.mode=MBProgressHUDModeText;
-        hubHUD.labelText=dict[@"Message"];
-        hubHUD.labelFont=[UIFont systemFontOfSize:15];
-        hubHUD.margin=20.f;
-        hubHUD.yOffset=150.f;
-        hubHUD.removeFromSuperViewOnHide = YES;
-        [hubHUD hide:YES afterDelay:1];
+        [self showToastMessage:dict[@"Message"]];
     }
+}
+-(void)showToastMessage:(NSString*)msg{
+    MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:alphaView animated:YES];
+    hubHUD.mode=MBProgressHUDModeText;
+     if (msg.length>0) {
+    hubHUD.labelText=msg;
+     }
+    hubHUD.labelFont=[UIFont systemFontOfSize:15];
+    hubHUD.margin=20.f;
+    hubHUD.yOffset=150.f;
+    hubHUD.removeFromSuperViewOnHide = YES;
+    [hubHUD hide:YES afterDelay:1];
 }
 @end

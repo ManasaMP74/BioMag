@@ -19,4 +19,5 @@
 @property(strong,nonatomic)NSString *fromParentViewGermsString;
 @property (weak, nonatomic) IBOutlet UIButton *saveBtn;
 @property (weak, nonatomic) IBOutlet UILabel *codesLabel;
+
 @end

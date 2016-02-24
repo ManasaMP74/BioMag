@@ -100,6 +100,7 @@ NSString *const getTreatmentDetail=@"search/treatmentrequest";
 NSString *const closeTreatmentDetail=@"treatmentrequest/";
 NSString *const biomagneticMatrix=@"anatomicalbiomagneticmatrixorderbyrank";
 NSString *const germsUrl=@"search/germs";
+NSString *const addGermsUrl=@"germs";
 NSString *const getTitleOfTreatment=@"partialtreatmentrequest";
 NSString *const kGET_SEED_URL=@"seed";
 NSString *const allScanpointsApi=@"AnatomicalDetails";

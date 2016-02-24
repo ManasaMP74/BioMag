@@ -159,49 +159,6 @@
         
     }];
 
-
-    
-    
-    
-    
-    
-//    _imagePath = imagePath;
-//    
-//    AFHTTPRequestOperationManager *managerr = [AFHTTPRequestOperationManager manager];
-//    AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
-//    [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-//    managerr.requestSerializer = requestSerializer;
-//    managerr.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"multipart/form-data"];
-//    
-//    NSString *jsonString = [NSString stringWithFormat:@"{\"RequestCode\":\"%@\",\"RequestType\":\"User\",\"DocumentType\":\"ABC123\"}", reqCode];
-//   
-////    NSString *jsonString = [NSString stringWithFormat:@"{\"RequestCode\":\"%@\",\"RequestType\":\"User\",\"DocumentType\":\"%@\"}", reqCode, type];
-////    
-//    
-//    NSDictionary *parameter = @{@"request" : jsonString};
-//   NSString *URLString =  [NSString stringWithFormat:@"%@%@", baseUrl,uploadFile];
-//    
-//    
-//    [managerr POST:URLString parameters:parameter constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-//        [formData appendPartWithFileURL:[NSURL fileURLWithPath:imagePath]
-//                                   name:@"Files"
-//                                  error:nil];
-//        
-//    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        
-//        NSLog(@"Success %@", operation.responseString);
-//        
-//    
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        NSLog(@"Error %@ \n  Response %@", error, operation.responseString);
-//        completionHandler(NO);
-//    
-//    
-//    
-//    }];
-//   
-//    
-
 }
 
 -(void)setHeader{
