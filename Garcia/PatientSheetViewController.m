@@ -360,7 +360,7 @@
 //save treatment enclosure
 - (IBAction)saveTreatmentEncloser:(id)sender {
     if (_treatmentNameTF.text.length==0) {
-        [self ShowAlert:treatmentTitlerequired];
+        [self showToastMessage:treatmentTitlerequired];
     }else{
         [self callApiToPostTreatment];
     }
@@ -369,7 +369,7 @@
 - (IBAction)closeTreatmentEncloser:(id)sender {
     if (![_treatmentEncloserTextView.text isEqualToString:@""]) {
         if (_treatmentNameTF.text.length==0) {
-            [self ShowAlert:treatmentTitlerequired];
+            [self showToastMessage:treatmentTitlerequired];
         }else{
             UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:doYouWantToCloseTreatment preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
@@ -385,11 +385,11 @@
         }
     }
     else{
-        [self ShowAlert:enterTreatmentClosure];
+        [self showToastMessage:enterTreatmentClosure];
     }
 }
 //show alert
--(void)ShowAlert:(NSString*)msg{
+-(void)showAlert:(NSString*)msg{
     UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:msg preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *success=[UIAlertAction actionWithTitle:alertOk style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
         [alertView dismissViewControllerAnimated:YES completion:nil];
@@ -1005,11 +1005,11 @@
     NSString *url=[NSString stringWithFormat:@"%@%@/0",baseUrl,addTreatmentUrl];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
         [self processResponseObject:responseObject];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self ShowAlert:[NSString stringWithFormat:@"%@",error]];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+          [MBProgressHUD hideHUDForView:self.view animated:NO];
+        [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
     }];
     
 }
@@ -1039,8 +1039,8 @@
         [self presentViewController:alertView animated:YES completion:nil];
     }
     else {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [self MBProgressMessage:dict[@"Message"]];
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
+        [self showToastMessage:dict[@"Message"]];
     }
 }
 
@@ -1146,12 +1146,14 @@
     }
     else  parameter=[self getParameterForSaveORCloseOrUpdateTreatment:@"true" withTreatmentCompleted:@"false" withMethodType:@"PUT"];
     [postman put:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
         if ([closeOrUpdate isEqualToString:@"close"]) {
             [self processCloseTreatment:responseObject withMessage:closedSuccess];
         }else  [self processCloseTreatment:responseObject withMessage:updatedSuccess];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
+        NSString *str=[NSString stringWithFormat:@"%@",error];
+        [self showToastMessage:str];
     }];
 }
 
@@ -1173,8 +1175,7 @@
         [alertView addAction:success];
         [self presentViewController:alertView animated:YES completion:nil];
     }else {
-        [self MBProgressMessage:dict[@"Message"]];
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [self showToastMessage:dict[@"Message"]];
     }
 }
 
@@ -1257,17 +1258,6 @@
     
     return parameter;
 }
-//MBProgress message
--(void)MBProgressMessage:(NSString*)message{
-    MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hubHUD.mode=MBProgressHUDModeText;
-    hubHUD.labelText=message;
-    hubHUD.labelFont=[UIFont systemFontOfSize:15];
-    hubHUD.margin=20.f;
-    hubHUD.yOffset=150.f;
-    hubHUD.removeFromSuperViewOnHide = YES;
-    [hubHUD hide:YES afterDelay:14];
-}
 //call api to load treatment api
 -(void)CallLoadTreatMentDelegate{
     [self.delegate loadTreatment];
@@ -1299,7 +1289,8 @@
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
             [userDefault setBool:NO forKey:@"symptomtag_FLAG"];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD hideHUDForView:self.view animated:NO];
+            [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
         }];
     }else{
         [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -1308,8 +1299,8 @@
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
             [userDefault setBool:NO forKey:@"symptomtag_FLAG"];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            [self ShowAlert:[NSString stringWithFormat:@"%@",error]];
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+             [MBProgressHUD hideHUDForView:self.view animated:NO];
+            [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
         }];
     }
 }
@@ -1411,7 +1402,7 @@
 }
 - (IBAction)addSitting:(id)sender {
     if (_treatmentNameTF.text.length==0) {
-        [self ShowAlert:treatmentTitlerequired];
+        [self showToastMessage:treatmentTitlerequired];
     }else{
         selectedSittingIndex=nil;
         [previousSittingDetailArray removeAllObjects];
@@ -1469,7 +1460,7 @@
                         [self callAPIToCloseTreatmentOrUpdate:@"update"];
                     }else
                     {
-                       [self MBProgressMessage:@"failed"];
+                       [self showToastMessage:@"failed"];
                     }
                 }];
             }
@@ -1499,11 +1490,11 @@
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
         [self processResponseObjectToGetTreatmentDetail:responseObject];
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self ShowAlert:[NSString stringWithFormat:@"%@",error]];
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
+        [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
     }];
 }
 
@@ -1557,11 +1548,11 @@
         parameter =[self getParameteToDeleteSittingDetail];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman put:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
         [self processResponseObjectOfCloseTreatment:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self ShowAlert:[NSString stringWithFormat:@"%@",error]];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
+        [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
     }];
 }
 //parameter to Delete SittingPart
@@ -1631,8 +1622,20 @@
     }
     if ([dict[@"Success"] intValue]==1) {
         [self callApiTogetAllDetailOfTheTreatment];
-    }else [self ShowAlert:dict[@"Message"]];
+    }else [self showToastMessage:dict[@"Message"]];
 }
+//Toast Message
+-(void)showToastMessage:(NSString*)msg{
+    MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hubHUD.mode=MBProgressHUDModeText;
+    hubHUD.labelText=msg;
+    hubHUD.labelFont=[UIFont systemFontOfSize:15];
+    hubHUD.margin=20.f;
+    hubHUD.yOffset=150.f;
+    hubHUD.removeFromSuperViewOnHide = YES;
+    [hubHUD hide:YES afterDelay:2];
+}
+
 -(void)localize{
     navTitle=[MCLocalization stringForKey:@"TreatmentSheet"];
     alert=[MCLocalization stringForKey:@"Alert!"];

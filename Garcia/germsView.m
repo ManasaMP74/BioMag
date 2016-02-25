@@ -153,27 +153,27 @@
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
          NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             [MBProgressHUD hideHUDForView:alphaView animated:NO];
             [self processGerms:responseObject];
             [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
             [userDefault setBool:NO forKey:@"germs_FLAG"];
-            [MBProgressHUD hideHUDForView:alphaView animated:YES];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              [MBProgressHUD hideHUDForView:alphaView animated:NO];
             NSString *str=[NSString stringWithFormat:@"%@",error];
             [self showToastMessage:str];
-            [MBProgressHUD hideHUDForView:alphaView animated:YES];
         }];
     }else {
         [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             [MBProgressHUD hideHUDForView:alphaView animated:NO];
             [self processGerms:responseObject];
             [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
             [userDefault setBool:NO forKey:@"germs_FLAG"];
-            [MBProgressHUD hideHUDForView:alphaView animated:YES];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+             [MBProgressHUD hideHUDForView:alphaView animated:NO];
             NSString *str=[NSString stringWithFormat:@"%@",error];
             [self showToastMessage:str];
-            [MBProgressHUD hideHUDForView:alphaView animated:YES];
         }];
     }
 }
@@ -255,12 +255,12 @@
 
     [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          [MBProgressHUD hideAllHUDsForView:alphaView animated:NO];
         [self processToAddGerms:responseObject];
-        [MBProgressHUD hideAllHUDsForView:alphaView animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          [MBProgressHUD hideAllHUDsForView:alphaView animated:NO];
         NSString *str=[NSString stringWithFormat:@"%@",error];
         [self showToastMessage:str];
-        [MBProgressHUD hideAllHUDsForView:alphaView animated:YES];
     }];
 }
 -(void)processToAddGerms:(id)responseObject{

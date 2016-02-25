@@ -61,9 +61,9 @@
 		DA753C8E1C64820B00D1ABE1 /* CorrespondingPairTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA753C8D1C64820B00D1ABE1 /* CorrespondingPairTableView.m */; };
 		DA753C911C6483A000D1ABE1 /* HeaderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA753C901C6483A000D1ABE1 /* HeaderTableViewCell.m */; };
 		DA753C931C6483B600D1ABE1 /* HeaderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA753C921C6483B600D1ABE1 /* HeaderTableViewCell.xib */; };
-		DA753C961C648D5C00D1ABE1 /* HeaderModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DA753C951C648D5C00D1ABE1 /* HeaderModelClass.m */; };
 		DA7674171C0FF948007541F0 /* sittingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7674161C0FF948007541F0 /* sittingModel.m */; };
 		DA76741A1C101319007541F0 /* SittingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7674191C101319007541F0 /* SittingTableViewCell.m */; };
+		DA78B61F1C7EE9FF0096E1A0 /* HeaderModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DA78B61E1C7EE9FF0096E1A0 /* HeaderModelClass.m */; };
 		DA8C3DF91C24327F0076EBD2 /* PreviousSittingCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8C3DF81C24327F0076EBD2 /* PreviousSittingCollectionViewCell.m */; };
 		DA8C68201C5A1E8C00F78E86 /* UIImageView+clearCachImage.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8C681F1C5A1E8C00F78E86 /* UIImageView+clearCachImage.m */; };
 		DA8C68231C5A49D700F78E86 /* PreviousSittingModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8C68221C5A49D700F78E86 /* PreviousSittingModelClass.m */; };
@@ -222,12 +222,12 @@
 		DA753C8F1C6483A000D1ABE1 /* HeaderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderTableViewCell.h; sourceTree = "<group>"; };
 		DA753C901C6483A000D1ABE1 /* HeaderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderTableViewCell.m; sourceTree = "<group>"; };
 		DA753C921C6483B600D1ABE1 /* HeaderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderTableViewCell.xib; sourceTree = "<group>"; };
-		DA753C941C648D5C00D1ABE1 /* HeaderModelClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderModelClass.h; sourceTree = "<group>"; };
-		DA753C951C648D5C00D1ABE1 /* HeaderModelClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderModelClass.m; sourceTree = "<group>"; };
 		DA7674151C0FF948007541F0 /* sittingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sittingModel.h; sourceTree = "<group>"; };
 		DA7674161C0FF948007541F0 /* sittingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = sittingModel.m; sourceTree = "<group>"; };
 		DA7674181C101319007541F0 /* SittingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SittingTableViewCell.h; sourceTree = "<group>"; };
 		DA7674191C101319007541F0 /* SittingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SittingTableViewCell.m; sourceTree = "<group>"; };
+		DA78B61D1C7EE9FF0096E1A0 /* HeaderModelClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderModelClass.h; sourceTree = "<group>"; };
+		DA78B61E1C7EE9FF0096E1A0 /* HeaderModelClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderModelClass.m; sourceTree = "<group>"; };
 		DA8C3DF71C24327F0076EBD2 /* PreviousSittingCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviousSittingCollectionViewCell.h; sourceTree = "<group>"; };
 		DA8C3DF81C24327F0076EBD2 /* PreviousSittingCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviousSittingCollectionViewCell.m; sourceTree = "<group>"; };
 		DA8C681E1C5A1E8C00F78E86 /* UIImageView+clearCachImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+clearCachImage.h"; sourceTree = "<group>"; };
@@ -535,8 +535,8 @@
 				DA753C921C6483B600D1ABE1 /* HeaderTableViewCell.xib */,
 				DA753C8F1C6483A000D1ABE1 /* HeaderTableViewCell.h */,
 				DA753C901C6483A000D1ABE1 /* HeaderTableViewCell.m */,
-				DA753C941C648D5C00D1ABE1 /* HeaderModelClass.h */,
-				DA753C951C648D5C00D1ABE1 /* HeaderModelClass.m */,
+				DA78B61D1C7EE9FF0096E1A0 /* HeaderModelClass.h */,
+				DA78B61E1C7EE9FF0096E1A0 /* HeaderModelClass.m */,
 			);
 			name = HeaderTableView;
 			sourceTree = "<group>";
@@ -1075,13 +1075,13 @@
 				DA6D1A631BDA356F00D91ED3 /* PlaceholderTextView.m in Sources */,
 				DAFD52A71BEC62C80006AF02 /* UploadModelClass.m in Sources */,
 				DA2F9F771C2172300077AEAB /* SlideOutTableViewCell.m in Sources */,
+				DA78B61F1C7EE9FF0096E1A0 /* HeaderModelClass.m in Sources */,
 				DAEC027E1BD51D0C0095C6AE /* OpenSans-Bold.ttf in Sources */,
 				DAF7EF3B1C1AF3FD009ADE9B /* GermsTableViewCell.m in Sources */,
 				DA7521C51C4CCF4D00FF6B03 /* ToxicDeficiencyDetailView.m in Sources */,
 				DA8C3DF91C24327F0076EBD2 /* PreviousSittingCollectionViewCell.m in Sources */,
 				DAE6FBB41BE483BA00952812 /* AttachmentViewController.m in Sources */,
 				DA753C7B1C6480F400D1ABE1 /* HeaderTableVIew.m in Sources */,
-				DA753C961C648D5C00D1ABE1 /* HeaderModelClass.m in Sources */,
 				DAEFA1971BD0B11500900379 /* AppDelegate.m in Sources */,
 				DA7521CC1C4CD15000FF6B03 /* ToxicDeficiencyCell.m in Sources */,
 				DA8C68231C5A49D700F78E86 /* PreviousSittingModelClass.m in Sources */,

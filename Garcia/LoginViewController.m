@@ -86,8 +86,8 @@
     }else{
         //Material Api
         urlString = [NSString stringWithFormat:@"%@%@",baseUrl,logIn];
-        // parameter = [NSString stringWithFormat:@"{\"Username\":\"%@\",\"Password\":\"%@\"}",_userNameTf.text,_passwordTF.text];
-        parameter = [NSString stringWithFormat:@"{\"Username\":\"drluisgarcia@mydomain.com\", \"Password\":\"Power@1234\"}"];
+         parameter = [NSString stringWithFormat:@"{\"Username\":\"%@\",\"Password\":\"%@\"}",_userNameTf.text,_passwordTF.text];
+       // parameter = [NSString stringWithFormat:@"{\"Username\":\"drluisgarcia@mydomain.com\", \"Password\":\"Power@1234\"}"];
         
     }
     
@@ -97,18 +97,18 @@
     else if (_userNameTf.text.length==0) [self showToastMessage:@"Username is required"];
     else if (_passwordTF.text.length==0) [self showToastMessage:@"Password is required"];
     else{
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [MBProgressHUD showHUDAddedTo:self.view animated:NO];
         [postman post:urlString withParameters:parameter
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  [MBProgressHUD hideHUDForView:self.view animated:YES];
                   NSLog(@"Operations = %@", responseObject);
                   if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
                       [self parseLoginResponseVzone:responseObject];
                   }else [self parseLoginResponseMatirial:responseObject];
-                  [MBProgressHUD hideHUDForView:self.view animated:YES];
               }
               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                  [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
-                  [MBProgressHUD hideHUDForView:self.view animated:YES];
+                  [MBProgressHUD hideHUDForView:self.view animated:NO];
+                   [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
               }];
     }
 }
@@ -133,16 +133,24 @@
                     [self performSegueWithIdentifier:@"loginSuccess" sender:nil];
                 }
                 else{
-                    [self showAlerView:seedError];
-                    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                    [userdefault setValue:@"" forKey:@"userName"];
+                    [userdefault setValue:@"" forKey:@"password"];
+                    [userdefault setBool:NO forKey:@"rememberMe"];
+                    [self showToastMessage:seedError];
                 }
             }];
         }
         else{
+            [userdefault setValue:@"" forKey:@"userName"];
+            [userdefault setValue:@"" forKey:@"password"];
+            [userdefault setBool:NO forKey:@"rememberMe"];
             [self showToastMessage:loginFailed];
         }
     }
     else{
+        [userdefault setValue:@"" forKey:@"userName"];
+        [userdefault setValue:@"" forKey:@"password"];
+        [userdefault setBool:NO forKey:@"rememberMe"];
         [self showToastMessage:responseDict[@"Message"]];
     }
 }
@@ -173,16 +181,25 @@
                     [self languageChanger];
                 }
                 else{
+                    [userdefault setValue:@"" forKey:@"userName"];
+                    [userdefault setValue:@"" forKey:@"password"];
+                    [userdefault setBool:NO forKey:@"rememberMe"];
                     [self showToastMessage:seedError];
-                    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                 }
             }];
         }
         else{
+            [userdefault setValue:@"" forKey:@"userName"];
+            [userdefault setValue:@"" forKey:@"password"];
+            [userdefault setBool:NO forKey:@"rememberMe"];
             [self showToastMessage:authenticationFailedStr];
         }
     }
     else{
+        [userdefault setValue:@"" forKey:@"userName"];
+        [userdefault setValue:@"" forKey:@"password"];
+        [userdefault setBool:NO forKey:@"rememberMe"];
+        //sleep(1);
         [self showToastMessage:responseDict[@"Message"]];
     }
 }
@@ -253,9 +270,7 @@
 -(void)showToastMessage:(NSString*)msg{
     MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hubHUD.mode=MBProgressHUDModeText;
-    if (msg.length>0) {
         hubHUD.labelText=msg;
-    }
     hubHUD.labelFont=[UIFont systemFontOfSize:15];
     hubHUD.margin=20.f;
     hubHUD.yOffset=150.f;

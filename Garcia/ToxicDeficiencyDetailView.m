@@ -78,8 +78,8 @@
         ToxicDeficiencyDetailModel *model=sortedToxicArray[indexPath.row];
         cell.label.text=model.toxicName;
     if (model.selected==YES) {
-        cell.cellImageView.image=[UIImage imageNamed:@"Box1-Check.png"];
-    }else cell.cellImageView.image=[UIImage imageNamed:@"Box1-Uncheck.png"];
+        cell.cellImageView.image=[UIImage imageNamed:@"Box2-Check.png"];
+    }else cell.cellImageView.image=[UIImage imageNamed:@"Box2-Uncheck.png"];
     }
     tableView.tableFooterView=[UIView new];
     return cell;
@@ -114,24 +114,29 @@
         if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
              NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
             [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                [MBProgressHUD hideHUDForView:self animated:NO];
                 [self processToxicDeficiency:responseObject];
                 [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
                 NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
                 [userDefault setBool:NO forKey:@"toxicdeficiency_FLAG"];
-                [MBProgressHUD hideHUDForView:self animated:YES];
-            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                [MBProgressHUD hideHUDForView:self animated:YES];
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                [MBProgressHUD hideHUDForView:self animated:NO];
+                    NSString *str=[NSString stringWithFormat:@"%@",error];
+                    [self showToastMessage:str];
             }];
 
         }else{
             [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  [MBProgressHUD hideHUDForView:self animated:NO];
                 [self processToxicDeficiency:responseObject];
                 [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
                 NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
                 [userDefault setBool:NO forKey:@"toxicdeficiency_FLAG"];
-                [MBProgressHUD hideHUDForView:self animated:YES];
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                [MBProgressHUD hideHUDForView:self animated:YES];
+                [MBProgressHUD hideHUDForView:self animated:NO];
+                NSString *str=[NSString stringWithFormat:@"%@",error];
+                [self showToastMessage:str];
+
             }];
         }
 }
@@ -211,5 +216,16 @@
         }
     }
       return str;
+}
+//Toast Message
+-(void)showToastMessage:(NSString*)msg{
+    MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:self animated:YES];
+    hubHUD.mode=MBProgressHUDModeText;
+    hubHUD.labelText=msg;
+    hubHUD.labelFont=[UIFont systemFontOfSize:15];
+    hubHUD.margin=20.f;
+    hubHUD.yOffset=150.f;
+    hubHUD.removeFromSuperViewOnHide = YES;
+    [hubHUD hide:YES afterDelay:2];
 }
 @end

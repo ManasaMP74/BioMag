@@ -314,15 +314,15 @@
         [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
         
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             [MBProgressHUD hideAllHUDsForView:alphaView animated:NO];
             [self processResponseObjectOfAddTag:responseObject];
             [self callApiTogetSymptomTag];
-            [MBProgressHUD hideAllHUDsForView:alphaView animated:YES];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 //            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Alert!" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
 //            [alert show];
+              [MBProgressHUD hideAllHUDsForView:alphaView animated:NO];
             NSString *str=[NSString stringWithFormat:@"%@",error];
             [self showToastMessage:str];
-            [MBProgressHUD hideAllHUDsForView:alphaView animated:YES];
         }];
 }
 //process object

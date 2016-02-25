@@ -33,6 +33,7 @@
     UIButton *someButton ;
     NSUserDefaults *standardDefault;
     int selectedLangRow;
+    PopOverViewController *pop;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -102,7 +103,7 @@
   //  [self.delegate getThePopOverForLanguage:languageArray];
     UIView *btn = (UIView *)sender;
     if (wypopOverController==nil){
-        PopOverViewController *pop=[self.storyboard instantiateViewControllerWithIdentifier:@"PopOverViewController"];
+        pop=[self.storyboard instantiateViewControllerWithIdentifier:@"PopOverViewController"];
         pop.delegate=self;
         pop.buttonName=@"language";
         pop.lagArray=languageArray;
@@ -113,7 +114,7 @@
             finalWidth=MAX(finalWidth, width);
         }
         pop.slideoutNameArray=languageArray;
-        [self wypopOver:btn withPopOver:pop];
+        [self wypopOver:btn];
         CGFloat height=[pop getHeightOfTableView];
         CGSize contentSize = CGSizeMake(finalWidth+70,height);
         pop.preferredContentSize=contentSize;
@@ -133,7 +134,7 @@
     //[self.delegate getThePopOverForslideout];
     UIView *btn = (UIView *)sender;
     if (wypopOverController==nil){
-        PopOverViewController *pop=[self.storyboard instantiateViewControllerWithIdentifier:@"PopOverViewController"];
+        pop=[self.storyboard instantiateViewControllerWithIdentifier:@"PopOverViewController"];
         pop.delegate=self;
         pop.buttonName=@"slideout";
         pop.slideoutImageArray=slideoutImageArray;
@@ -145,7 +146,7 @@
         }
 
         pop.slideoutNameArray=slideoutArray;
-        [self wypopOver:btn withPopOver:pop];
+        [self wypopOver:btn];
         CGFloat height=[pop getHeightOfTableView];
         CGSize contentSize = CGSizeMake(finalWidth+70,height);
         pop.preferredContentSize=contentSize;
@@ -161,7 +162,7 @@
     }
 }
 //wypopover method
--(void)wypopOver:(UIView*)btn withPopOver:(PopOverViewController*)pop{
+-(void)wypopOver:(UIView*)btn{
     wypopOverController=[[WYPopoverController alloc]initWithContentViewController:pop];
     wypopOverController.delegate=self;
     wypopOverController.passthroughViews = @[btn];
@@ -182,9 +183,12 @@
 -(void)selectedObject:(int)row{
     LanguageChanger *languageChanger=[[LanguageChanger alloc]init];
     selectedLangRow=row;
+    [MBProgressHUD showHUDAddedTo:self.view animated:NO];
       [languageChanger callApiForPreferredLanguage];
+    languageChanger.delegate=self;
 }
 -(void)languageChangeDelegate:(int)str{
+    [MBProgressHUD hideHUDForView:self.view animated:NO];
     if (str==1) {
          lagModel *model=languageArray[selectedLangRow];
         [standardDefault setValue:model.code forKey:@"languageCode"];
@@ -294,15 +298,15 @@
 }
 //Show (NSString *)code
 -(void)showMBprogressTillLoadThedata{
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:NO];
 }
 //hide mbprogress
 -(void)hideMBprogressTillLoadThedata{
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [MBProgressHUD hideHUDForView:self.view animated:NO];
 }
 //hide mbprogress
 -(void)hideAllMBprogressTillLoadThedata{
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
 }
 //Load TreatmentList in PatientVC
 -(void)loadTreatment{

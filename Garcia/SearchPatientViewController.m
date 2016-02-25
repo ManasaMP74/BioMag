@@ -283,21 +283,22 @@
         [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:NO];
     }
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if (staus) {
+            [containerVc hideAllMBprogressTillLoadThedata];
+            [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:NO];
+        }
         [self processResponseObject:responseObject];
         NSString *str=[NSString stringWithFormat:@"%@ %@",url,parameter];
         [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:str];
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         [userDefault setBool:NO forKey:@"user_FLAG"];
-        if (staus) {
-            [containerVc hideAllMBprogressTillLoadThedata];
-            [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
-        }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-         [self showAlerView:[NSString stringWithFormat:@"%@",error]];
             if (staus) {
                 [containerVc hideAllMBprogressTillLoadThedata];
-                [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
+                [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:NO];
             }
+         [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
+
     }];
 }
 
@@ -417,16 +418,16 @@
      [containerVc showMBprogressTillLoadThedata];
      [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:NO];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+         [containerVc hideAllMBprogressTillLoadThedata];
         [self processResponseObjectforOffsetApi:responseObject];
         NSString *str=[NSString stringWithFormat:@"%@ %@",url,parameter];
         [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:str];
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         [userDefault setBool:NO forKey:@"user_FLAG"];
-        [containerVc hideAllMBprogressTillLoadThedata];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self showAlerView:[NSString stringWithFormat:@"%@",error]];
         [containerVc hideAllMBprogressTillLoadThedata];
-          [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
+        [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:NO];
+        [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
     }];
 }
 
@@ -585,6 +586,18 @@
 -(void)reloadTableviewAfterAddNewTreatment{
     [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedIndexPath];
 }
+//Toast Message
+-(void)showToastMessage:(NSString*)msg{
+    MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hubHUD.mode=MBProgressHUDModeText;
+    hubHUD.labelText=msg;
+    hubHUD.labelFont=[UIFont systemFontOfSize:15];
+    hubHUD.margin=20.f;
+    hubHUD.yOffset=150.f;
+    hubHUD.removeFromSuperViewOnHide = YES;
+    [hubHUD hide:YES afterDelay:2];
+}
+
 //Alert Message
 -(void)showAlerView:(NSString*)msg{
     UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:msg preferredStyle:UIAlertControllerStyleAlert];

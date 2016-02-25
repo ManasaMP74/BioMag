@@ -72,7 +72,6 @@
     postman=[[Postman alloc]init];
     [self navigationItemMethod];
     [self defaultValues];
-    [_priceTf addTarget:self action:@selector(DidChangePriceTF) forControlEvents:UIControlEventEditingChanged];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
@@ -490,6 +489,7 @@
 //Hide button if treatment is completed
 -(void)disableTheButton:(SittingTableViewCell*)cell withStatus:(BOOL)status{
     cell.showGermsButton.userInteractionEnabled=status;
+     cell.addNoteTV.userInteractionEnabled=status;
     cell.checkBox.userInteractionEnabled=status;
     _priceTf.enabled=status;
     _addSymptom.enabled=status;
@@ -538,7 +538,7 @@
     [alertView addAction:failure];
     [self presentViewController:alertView animated:YES completion:nil];
     }else{
-        [self showAlerView:@"No changes is there to save"];
+        [self showToastMessage:@"No changes is there to save"];
     }
 }
 //next
@@ -704,14 +704,15 @@
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
         [self processResponseObject:responseObject];
         [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         [userDefault setBool:NO forKey:@"anatomicalbiomagneticmatrix_FLAG"];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self showAlerView:[NSString stringWithFormat:@"%@",error]];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
+        [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
+        
     }];
 }
 //Response of biomagnetic matrix
@@ -907,14 +908,36 @@
 -(void)selectingDatePicker:(NSString *)date{
     [_datePicButton setTitle:date forState:normal];
 }
-//Price check
--(void)DidChangePriceTF{
-    NSString *priceRex=@"^[+-]?(?:[0-9]{0,5}\\.[0-9]{0,1}|[0-9]{1,})$";
-    NSPredicate *priceTest=[NSPredicate predicateWithFormat:@"self matches %@",priceRex];
-    BOOL validate=[priceTest evaluateWithObject:_priceTf.text];
-    if (!validate) {
-        [self.view endEditing:YES];
-    }
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    BOOL status=YES;
+    if ([textField isEqual:_priceTf]) {
+        if (_priceTf.text.length>6) {
+            if (string.length==0) {
+                status=YES;
+            }
+            else status=NO;
+        }
+        else{
+            NSCharacterSet * numberCharSet = [NSCharacterSet characterSetWithCharactersInString:@".0123456789"];
+            for (int i = 0; i < [string length]; ++i)
+            {
+                unichar c = [string characterAtIndex:i];
+                if (![numberCharSet characterIsMember:c])
+                {
+                    status= NO;
+                }
+            }
+        }
+        if (string.length!=0) {
+        if (status) {
+            NSString *priceRex=@"^[0-9]*((\\.|,)[0-9]{0,1})?$";;
+            NSPredicate *priceTest=[NSPredicate predicateWithFormat:@"self matches %@",priceRex];
+            BOOL validate=[priceTest evaluateWithObject:_priceTf.text];
+            status=validate;
+        }
+        }
+    }else status=NO;
+    return status;
 }
 -(void)callApiToSaveTreatmentRequest:(NSString*)str{
     NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,closeTreatmentDetail,_treatmentId];
@@ -924,27 +947,27 @@
     }else{
         parameter =[self getParameteToSaveSittingDetail:0 withSittingNum:0 withCompletedData:str];
     }
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:NO];
     if ([_treatmentId integerValue]==0) {
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD hideHUDForView:self.view animated:NO];
             [self processResponseObjectOfSaveTreatment:responseObject];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-        
+            [MBProgressHUD hideHUDForView:self.view animated:NO];
+            NSString *str=[NSString stringWithFormat:@"%@",error];
+            [self showToastMessage:str];
         }];
     }else{
         
         [postman put:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD hideHUDForView:self.view animated:NO];
             [self processResponseObjectOfSaveTreatment:responseObject];
         
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              [MBProgressHUD hideHUDForView:self.view animated:NO];
             
-            NSLog(@"%@",[operation responseObject]);
-            
-            [self showAlerView:[NSString stringWithFormat:@"%@",error]];
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
+          
         
         }];
     }
@@ -1101,12 +1124,13 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
 //        [self presentViewController:alert1 animated:YES completion:nil];
     }
     else{
-        UIAlertController *alert1=[UIAlertController alertControllerWithTitle:alert message:dict[@"Message"] preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *failure=[UIAlertAction actionWithTitle:alertOK style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }];
-        [alert1 addAction:failure];
-        [self presentViewController:alert1 animated:YES completion:nil];
+        [self showToastMessage:dict[@"Message"]];
+//        UIAlertController *alert1=[UIAlertController alertControllerWithTitle:alert message:dict[@"Message"] preferredStyle:UIAlertControllerStyleAlert];
+//        UIAlertAction *failure=[UIAlertAction actionWithTitle:alertOK style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+//            [self dismissViewControllerAnimated:YES completion:nil];
+//        }];
+//        [alert1 addAction:failure];
+//        [self presentViewController:alert1 animated:YES completion:nil];
     }
 }
 -(void)getTheSortDetailOfCompleteDitailArray:(NSString*)str{
@@ -1197,13 +1221,13 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
           NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponse:responseObject];
+         [MBProgressHUD hideHUDForView:self.view animated:NO];
         [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         [userDefault setBool:NO forKey:@"toxicdeficiencytype_FLAG"];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self showAlerView:[NSString stringWithFormat:@"%@",error]];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
+        [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
     }];
      }else{
          [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -1260,6 +1284,17 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
     }];
     [alertView addAction:success];
     [self presentViewController:alertView animated:YES completion:nil];
+}
+//Toast Message
+-(void)showToastMessage:(NSString*)msg{
+    MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hubHUD.mode=MBProgressHUDModeText;
+    hubHUD.labelText=msg;
+    hubHUD.labelFont=[UIFont systemFontOfSize:15];
+    hubHUD.margin=20.f;
+    hubHUD.yOffset=150.f;
+    hubHUD.removeFromSuperViewOnHide = YES;
+    [hubHUD hide:YES afterDelay:2];
 }
 -(void)localize{
     navTitle=[MCLocalization stringForKey:@"TreatmentSheet"];

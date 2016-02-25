@@ -292,11 +292,14 @@
     //activeField = textView;
 }
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
-    BOOL status;
+    BOOL status=YES;
 
     if ([textField isEqual:_mobileNoTF]) {
-        if (string.length>15) {
-            status=NO;
+        if (_mobileNoTF.text.length>15) {
+            if (string.length==0) {
+                status=YES;
+            }
+           else status=NO;
         }
         else{
         NSCharacterSet * numberCharSet = [NSCharacterSet characterSetWithCharactersInString:@"()+-0123456789"];
@@ -308,8 +311,7 @@
                 status= NO;
             }
         }
-        status =YES;
-     }
+    }
     }else status=NO;
     return status;
 }
@@ -543,8 +545,9 @@
     [postman put:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectForEdit:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self showFailureAlerMessage:[NSString stringWithFormat:@"%@",error]];
         [containerVC hideAllMBprogressTillLoadThedata];
+        [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
+        
     }];
 }
 //process response object for edit
@@ -563,15 +566,15 @@
             [self saveImage:_patientImageView.image];
         }
         else{
+             [containerVC hideAllMBprogressTillLoadThedata];
             [self alertmessage:dict[@"Message"]];
-            [containerVC hideAllMBprogressTillLoadThedata];
         }
         
     }
     else{
-        [self showFailureAlerMessage:dict[@"Message"]];
         [containerVC hideAllMBprogressTillLoadThedata];
-    }
+        [self showToastMessage:dict[@"Message"]];
+        }
 }
 
 //validate Email
@@ -650,14 +653,6 @@
     }
     return alrtArray;
 }
--(void)alertView:(NSString*)message{
-    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:message preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
-        [alertView dismissViewControllerAnimated:YES completion:nil];
-    }];
-    [alertView addAction:success];
-    [self presentViewController:alertView animated:YES completion:nil];
-}
 //validate phone number
 -(int)validPhonenumber:(NSString *)string
 {
@@ -694,11 +689,19 @@
                 [containerVC hideAllMBprogressTillLoadThedata];
             }else
             {
-                [self showFailureAlerMessage:updatedFailedStr];
-                [containerVC hideAllMBprogressTillLoadThedata];
+                 [containerVC hideAllMBprogressTillLoadThedata];
+                [self showToastMessage:updatedFailedStr];
             }
         }];
     }
+}
+-(void)alertView:(NSString*)message{
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertView addAction:success];
+    [self presentViewController:alertView animated:YES completion:nil];
 }
 //alert message
 -(void)alertmessage :(NSString*)msg{
@@ -711,17 +714,17 @@
     [alertView addAction:success];
     [self presentViewController:alertView animated:YES completion:nil];
 }
-//failure message
--(void)showFailureAlerMessage:(NSString*)msg{
-    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alertStr message:msg preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *success=[UIAlertAction actionWithTitle:alertOkStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
-        [alertView dismissViewControllerAnimated:YES completion:nil];
-    }];
-    [alertView addAction:success];
-    [self presentViewController:alertView animated:YES completion:nil];
-    
+//Toast Message
+-(void)showToastMessage:(NSString*)msg{
+    MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hubHUD.mode=MBProgressHUDModeText;
+    hubHUD.labelText=msg;
+    hubHUD.labelFont=[UIFont systemFontOfSize:15];
+    hubHUD.margin=20.f;
+    hubHUD.yOffset=150.f;
+    hubHUD.removeFromSuperViewOnHide = YES;
+    [hubHUD hide:YES afterDelay:2];
 }
-
 //localize
 -(void)localize
 {

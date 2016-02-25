@@ -220,11 +220,14 @@
     activeField = nil;
 }
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
-    BOOL status;
+    BOOL status=YES;
     
     if ([textField isEqual:_mobileNoTF]) {
-        if (string.length>15) {
-            status=NO;
+        if (_mobileNoTF.text.length>15) {
+            if (string.length==0) {
+                status=YES;
+            }
+            else status=NO;
         }
         else{
             NSCharacterSet * numberCharSet = [NSCharacterSet characterSetWithCharactersInString:@"()+-0123456789"];
@@ -236,7 +239,6 @@
                     status= NO;
                 }
             }
-            status =YES;
         }
     }else status=NO;
     return status;
@@ -432,14 +434,15 @@
             [self saveImage:_patientImageView.image];
         }
         else{
-        [self alertmessage:dict[@"Message"]];
         [containerVC hideAllMBprogressTillLoadThedata];
+        [self alertmessage:dict[@"Message"]];
+       
         }
     }
     else {
-         [self alertView:dict[@"Message"]];
         [containerVC hideAllMBprogressTillLoadThedata];
-    }
+         [self showToastMessage:dict[@"Message"]];
+        }
 }
 
 //Gender API
@@ -640,7 +643,7 @@
                  [containerVC hideAllMBprogressTillLoadThedata];
             }else
             {
-              [self alertView:saveFailedStr];
+              [self showToastMessage:saveFailedStr];
                  [containerVC hideAllMBprogressTillLoadThedata];
             }
         }];
@@ -656,6 +659,17 @@
     }];
     [alertView addAction:success];
     [self presentViewController:alertView animated:YES completion:nil];
+}
+//Toast Message
+-(void)showToastMessage:(NSString*)msg{
+    MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hubHUD.mode=MBProgressHUDModeText;
+    hubHUD.labelText=msg;
+    hubHUD.labelFont=[UIFont systemFontOfSize:15];
+    hubHUD.margin=20.f;
+    hubHUD.yOffset=150.f;
+    hubHUD.removeFromSuperViewOnHide = YES;
+    [hubHUD hide:YES afterDelay:2];
 }
 //localize
 -(void)localize

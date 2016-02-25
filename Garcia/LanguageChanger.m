@@ -64,7 +64,6 @@
     }
 }
 
-
 -(void)responseofLanguageAPI:(id)responseObject{
      NSDictionary *dict;
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {

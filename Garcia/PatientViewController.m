@@ -177,13 +177,13 @@
     [containerVC showMBprogressTillLoadThedata];
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getTitleOfTreatment];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [containerVC hideAllMBprogressTillLoadThedata];
+        [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:NO];
         [self processResponseObjectToGetTreatmentDetail:responseObject];
-        [containerVC hideAllMBprogressTillLoadThedata];
-          [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self showAlerView:[NSString stringWithFormat:@"%@",error]];
         [containerVC hideAllMBprogressTillLoadThedata];
-    }];
+        [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
+        }];
 }
 
 //process Response of Api
@@ -243,6 +243,17 @@
     }];
     [alertView addAction:success];
     [self presentViewController:alertView animated:YES completion:nil];
+}
+//Toast Message
+-(void)showToastMessage:(NSString*)msg{
+    MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hubHUD.mode=MBProgressHUDModeText;
+    hubHUD.labelText=msg;
+    hubHUD.labelFont=[UIFont systemFontOfSize:15];
+    hubHUD.margin=20.f;
+    hubHUD.yOffset=150.f;
+    hubHUD.removeFromSuperViewOnHide = YES;
+    [hubHUD hide:YES afterDelay:2];
 }
 -(void)localize{
     alertTitle=[MCLocalization stringForKey:@"Alert!"];
