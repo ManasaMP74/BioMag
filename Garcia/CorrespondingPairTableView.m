@@ -25,7 +25,8 @@
     return ar.count;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 3;
+    int i=[self getNumberOfRows:section];
+    return i;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
         CorrespondingPairTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
@@ -48,8 +49,22 @@
         if (indexPath.row==0) {
             str=dict[@"CorrespondingPairName"];
         }else  if (indexPath.row==1) str =dict[@"GermsName"];
-      //  else  str=dict[@""];
+       else  str=dict[@"Notes"];
     }
     return str;
+}
+-(int)getNumberOfRows:(int)section{
+    int i=2;
+    if (_correspondingPairNameArray.count>0) {
+        NSArray *ar=_correspondingPairNameArray[0];
+        NSDictionary *dict=ar[section];
+        if (dict[@"Notes"]) {
+            NSString *str=dict[@"Notes"];
+            if (str.length>0) {
+                  i=3;
+            }
+        }
+    }
+    return i;
 }
 @end

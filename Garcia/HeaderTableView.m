@@ -250,6 +250,7 @@
                     correspondingDict[@"GermsName"]=dict2[@"GermsName"];
                     correspondingDict[@"CorrespondingPairName"]=dict2[@"CorrespondingPairName"];
                     correspondingDict[@"CorrespondingPairCode"]=dict2[@"CorrespondingPairCode"];
+                    correspondingDict[@"Notes"]=dict2[@"Notes"];
                         [ar addObject:correspondingDict];
                     }
             }

@@ -6,6 +6,7 @@
 -(void)datePicker:(UITableViewCell*)cell withDate:(NSString*)date;
 -(void)getGermsView:(UITableViewCell*)cell;
 -(void)issueAndNoIssue:(UITableViewCell*)cell;
+-(void)noteAddedDelegate:(UITableViewCell*)cell;
 @end
 @interface SittingTableViewCell : UITableViewCell<UITextViewDelegate>
 @property (strong, nonatomic) IBOutlet UILabel *serialNumber;

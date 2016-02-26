@@ -27,4 +27,5 @@
 @property(strong,nonatomic)NSArray *allPreviousSittingDetail;
 @property(strong,nonatomic)NSString *otherSittingNumberHaveIssue;
 @property(strong,nonatomic)NSString *anatomicalBiomagenticCode;
+@property(strong,nonatomic)NSString *notes;
 @end

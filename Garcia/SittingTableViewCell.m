@@ -27,6 +27,7 @@
         if (textView.text.length==0) {
             _addNoteLabel.hidden=NO;
         }else _addNoteLabel.hidden=YES;
+          [self.delegate noteAddedDelegate:self];
     }
 }
 @end

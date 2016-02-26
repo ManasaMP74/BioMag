@@ -245,6 +245,8 @@
     cell.serialNumber.text=model.sortNumber;
     cell.doctorName.text=model.author;
     cell.sittingTextView.text=model.germsString;
+    cell.addNoteLabel.hidden=YES;
+    cell.addNoteTV.text=model.notes;
     cell.author.text=authour;
     if ([selectedIndexArray containsObject:indexPath]) {
         [self hideTheViewInTableViewCell:NO withCell:cell];
@@ -375,6 +377,10 @@
 }
 //show the Data added to sitting in db
 -(void)showDataSavedInDBInTable:(sittingModel*)model withCell:(SittingTableViewCell*)cell{
+    if (model.notes.length==0) {
+        cell.addNoteTV.text=@"";
+        cell.addNoteLabel.hidden=NO;
+    }
     if ([model.germsString isEqualToString:@""]) {
         cell.sittingTextView.text=@"";
         cell.sittingTvPlaceholder.hidden=NO;
@@ -405,6 +411,15 @@
                             NSString *str=[model.germsCodeString stringByReplacingOccurrencesOfString:@"," withString:@" "];
                             cell.otherGermsLabel.text=str;
                             cell.sittingTvPlaceholder.hidden=YES;
+                            
+                            if (anotomicalDict[@"Notes"]) {
+                                NSString *str=anotomicalDict[@"Notes"];
+                                if (str.length==0) {
+                                    cell.addNoteTV.text=str;
+                                    cell.addNoteLabel.hidden=YES;
+                                }
+                            }
+                            
                             if ([anotomicalDict[@"Issue"] integerValue]==1) {
                                 model.issue= YES;
                                 [self colorChange:model.issue withCell:cell];
@@ -427,6 +442,7 @@
         }
     }else {
         cell.sittingTextView.text=model.germsString;
+        model.notes=cell.addNoteTV.text;
         NSString *str=[model.germsCodeString stringByReplacingOccurrencesOfString:@"," withString:@" "];
         cell.otherGermsLabel.text=str;
         cell.sittingTvPlaceholder.hidden=YES;
@@ -798,6 +814,7 @@
                 }
                 model.issue=NO;
                 model.germsString=@"";
+                model.notes=@"";
                 [allDoctorDetailArray addObject:model];
             }
         }
@@ -825,6 +842,12 @@
         model1.issue=YES;
     }
     [_tableview reloadData];
+}
+-(void)noteAddedDelegate:(UITableViewCell *)cell{
+    SittingTableViewCell *cell1=(SittingTableViewCell*)cell;
+  NSIndexPath  *i=[_tableview indexPathForCell:cell1];
+   sittingModel *model1=allSortedDetailArray[i.section];
+    model1.notes=cell1.addNoteTV.text;
 }
 //germs view
 -(void)getGermsView:(UITableViewCell *)cell{
@@ -1031,6 +1054,7 @@
 //            sectionDict[@"LocationScanPoint"]=@"";
 //            sectionDict[@"LocationCorrespondingPair"]=@"";
             sectionDict[@"GermsName"]=model.germsString;
+            sectionDict[@"Notes"]=model.notes;
             sectionDict[@"Issue"]=[@(model.issue) description];
             sectionDict[@"AnatomicalBiomagenticCode"]=model.anatomicalBiomagenticCode;
             [jsonSittingArray addObject:sectionDict];
