@@ -898,6 +898,14 @@
 -(void)deleteCell:(id)cell{
     uploadCellHeight=0.0;
     NSIndexPath *index=[_uploadCollectionView indexPathForCell:cell];
+    UploadModelClass *model=uploadedImageArray[index.row];
+    if (model.storgeId.length==0) {
+        [self afterSuccesfullDeleteOfDocument:index];
+    }
+    else [self callDeleteDocumentAPI:index withDocumentModel:model];
+}
+//DocumentDeleteSuccess
+-(void)afterSuccesfullDeleteOfDocument:(NSIndexPath*)index{
     [uploadedImageArray removeObjectAtIndex:index.row];
     for (UploadModelClass *m in uploadedImageArray) {
         CGFloat labelHeight=[m.captionText boundingRectWithSize:(CGSize){136,CGFLOAT_MAX }
@@ -911,11 +919,35 @@
     }
     else _uploadViewHeigh.constant=uploadCellHeight+230;
 }
+//api to delete doc
+-(void)callDeleteDocumentAPI:(NSIndexPath*)index withDocumentModel:(UploadModelClass*)uploadmodel{
+    
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,deleteDocumentUrl];
+    NSString *parameter=[NSString stringWithFormat:@"{\"request\":{\"docid\":%@,\"fileid\":\"%@\",\"RequestId\":%d,\"RequestCode\":\"%@\",\"UserName\":\"%@\",\"AuditEventDescription\":\"Document(%@)Deleted\"}}",uploadmodel.docId,uploadmodel.storgeId,[_model.Id intValue],uploadmodel.docReqCode,_model.name,uploadmodel.fileName];
+    [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+    [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
+        [self processDeleteDoc:responseObject withIndex:index];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
+        NSString *str=[NSString stringWithFormat:@"%@",error];
+        [self showToastMessage:str];
+    }];
+}
+//process delete doc
+-(void)processDeleteDoc:(id)responseObject withIndex:(NSIndexPath*)index{
+    NSDictionary *dict;
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSDictionary *dict1=responseObject;
+        dict=dict1[@"aaData"];
+    }
+    if ([dict[@"Success"]intValue]==1) {
+        [self afterSuccesfullDeleteOfDocument:index];
+        [self showToastMessage:dict[@"Message"]];
+    }
+    else [self showToastMessage:dict[@"Message"]];
 
-
-
-
-
+}
 
 - (IBAction)gestureRecognize:(id)sender {
     [self.view endEditing:YES];
@@ -1001,9 +1033,9 @@
 }
 //call post method
 -(void)callPostTreatment{
+    [MBProgressHUD showHUDAddedTo:self.view animated:NO];
     NSString *parameter =[self getParameterForSaveORCloseOrUpdateTreatment:@"true" withTreatmentCompleted:@"false" withMethodType:@"POST"];
     NSString *url=[NSString stringWithFormat:@"%@%@/0",baseUrl,addTreatmentUrl];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [MBProgressHUD hideHUDForView:self.view animated:NO];
         [self processResponseObject:responseObject];
@@ -1100,9 +1132,10 @@
             uploadModel.code=   NULL_CHECK(dict[@"Code"]);
             uploadModel.captionText= NULL_CHECK(dict[@"RenamedFilename"]);
             uploadModel.imageName=nil;
-
-            
-            
+            uploadModel.docId=NULL_CHECK(dict[@"Id"]);
+            uploadModel.docReqType=NULL_CHECK(dict[@"RequestType"]);
+            uploadModel.docReqCode=NULL_CHECK(dict[@"RequestCode"]);
+            uploadModel.fileName=NULL_CHECK(dict[@"FileName"]);
             [uploadedImageArray addObject:uploadModel];
         }
         if (![_increaseUploadViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
@@ -1444,6 +1477,7 @@
 //save profile
 - (void)saveImage:(NSString*)code
 {
+    [MBProgressHUD showHUDAddedTo:self.view animated:NO];
     if (uploadedImageArray.count>0) {
         for (UploadModelClass *model in uploadedImageArray) {
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
@@ -1457,9 +1491,11 @@
                 [imageManager uploadDocumentPath:path forRequestCode:code withDocumentType:type withText:caption withRequestType:@"Treatment" onCompletion:^(BOOL success) {
                     if (success)
                     {
+                        [MBProgressHUD hideHUDForView:self.view animated:NO];
                         [self callAPIToCloseTreatmentOrUpdate:@"update"];
                     }else
                     {
+                        [MBProgressHUD hideHUDForView:self.view animated:NO];
                        [self showToastMessage:@"failed"];
                     }
                 }];

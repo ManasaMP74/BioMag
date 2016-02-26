@@ -3,7 +3,6 @@
 @implementation CorrespondingPairTableView
 {
     UIView *view;
-    int numberOfRows;
 }
 -(id)initWithCoder:(NSCoder *)aDecoder{
     if (self=[super initWithCoder:aDecoder]) {
@@ -18,16 +17,15 @@
                                                               metrics:nil
                                                                 views:subview];
         [self addConstraints:constraints];
-        numberOfRows=1;
 }
     return self;
 }
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    [self getNumberOfRows];
-        return numberOfRows;
-}
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
+    NSArray *ar=_correspondingPairNameArray[0];
+    return ar.count;
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 3;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
         CorrespondingPairTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
@@ -45,20 +43,13 @@
 -(NSString*)nameForCell:(NSIndexPath*)indexPath{
     NSString *str=@"";
     if (_correspondingPairNameArray.count>0) {
-        for (NSDictionary *dict in _correspondingPairNameArray) {
-            NSArray *ar=dict[_selectedScanpoint];
-            NSDictionary *dict1= ar[indexPath.row];
-            str= [NSString stringWithFormat:@"%@ %@",dict1[@"CorrespondingPairName"],dict1[@"GermsCode"]];
-        }
+        NSArray *ar=_correspondingPairNameArray[0];
+        NSDictionary *dict=ar[indexPath.section];
+        if (indexPath.row==0) {
+            str=dict[@"CorrespondingPairName"];
+        }else  if (indexPath.row==1) str =dict[@"GermsName"];
+      //  else  str=dict[@""];
     }
     return str;
-}
--(void)getNumberOfRows{
-    if (_correspondingPairNameArray.count>0) {
-    for (NSDictionary *dict in _correspondingPairNameArray) {
-        NSArray *ar=dict[_selectedScanpoint];
-        numberOfRows=ar.count;
-    }
-}
 }
 @end

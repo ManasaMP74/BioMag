@@ -41,6 +41,7 @@
     self.navigationItem.hidesBackButton = YES;
     languageArray =[[NSMutableArray alloc]init];
     postman=[[Postman alloc]init];
+    [self navigationMethod];
     [self callSeed];
 }
 - (void)didReceiveMemoryWarning {
@@ -48,7 +49,6 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self navigationMethod];
 }
 //navigationMethod
 -(void)navigationMethod{
@@ -183,6 +183,9 @@
 -(void)selectedObject:(int)row{
     LanguageChanger *languageChanger=[[LanguageChanger alloc]init];
     selectedLangRow=row;
+    lagModel *model=languageArray[selectedLangRow];
+    [standardDefault setValue:model.code forKey:@"changedLanguageCode"];
+    [standardDefault setValue:model.name forKey:@"changedLanguageName"];
     [MBProgressHUD showHUDAddedTo:self.view animated:NO];
       [languageChanger callApiForPreferredLanguage];
     languageChanger.delegate=self;
@@ -378,6 +381,18 @@
             [languageArray addObject:model];
         }
     }
+    NSUserDefaults *standardDefault1=[NSUserDefaults standardUserDefaults];
+    [self getTheLanguageName:[standardDefault1 valueForKey:@"languageCode"]];
 }
-
+-(void)getTheLanguageName:(NSString*)code{
+    if (languageArray.count>0) {
+        for (lagModel *model in languageArray) {
+            if ([model.code isEqualToString:code]) {
+                [standardDefault setValue:model.name forKey:@"languageName"];
+                [lagSomeButton setTitle:[standardDefault valueForKey:@"languageName"] forState:normal];
+  
+            }
+        }
+    }
+}
 @end

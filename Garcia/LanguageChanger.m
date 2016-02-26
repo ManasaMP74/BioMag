@@ -22,7 +22,7 @@
         //Vzone API
         urlString = [NSString stringWithFormat:@"%@%@",baseUrl,preferredLanguage];
         NSString *userId=[userdefault valueForKey:@"Id"];
-        NSString *languageCode=[userdefault valueForKey:@"languageCode"];
+        NSString *languageCode=[userdefault valueForKey:@"changedLanguageCode"];
         parameter = [NSString stringWithFormat:@"{\"request\":{\"MethodType\":\"PUT\",\"UserID\": \"1\",\"PreferredLanguageCode\": \"%@\",\"Id\": %@}}",languageCode,userId];
     }else{
         //Material Api
@@ -44,7 +44,6 @@
     }
     if ([dict[@"Success"]intValue]==1) {
         [self callApiForUILabelLanguage];
-        
     }
 }
 

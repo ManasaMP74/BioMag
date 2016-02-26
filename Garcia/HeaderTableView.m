@@ -1,10 +1,12 @@
 #import "HeaderTableVIew.h"
 #import "HeaderModelClass.h"
 #import <MCLocalization/MCLocalization.h>
+#import "HeaderModelClass.h"
 @implementation HeaderTableVIew
 {
     UIView *view;
-    NSMutableArray *selectedSectionNameArray,*allBiamagneticArray,*completeDetailOfSectionArray,*selectedScanpointNameArray,*correspondingPairArray,*completeCorrespondingArray;
+    NSMutableArray *selectedSectionNameArray,*allBiamagneticArray;
+    NSMutableArray *completeDetailArray;
 }
 -(id)initWithCoder:(NSCoder *)aDecoder{
     if (self=[super initWithCoder:aDecoder]) {
@@ -20,11 +22,8 @@
                                                                 views:subview];
         [self addConstraints:constraints];
         selectedSectionNameArray= [[NSMutableArray alloc]init];
-        completeDetailOfSectionArray=[[NSMutableArray alloc]init];
         allBiamagneticArray= [[NSMutableArray alloc]init];
-        selectedScanpointNameArray= [[NSMutableArray alloc]init];
-        correspondingPairArray =[[NSMutableArray alloc]init];
-        completeCorrespondingArray=[[NSMutableArray alloc]init];
+        completeDetailArray=[[NSMutableArray alloc]init];
     }
     return self;
 }
@@ -99,8 +98,8 @@
         }
         cell1.delegate=self;
         cell1.scanpointLabel.text=[self nameForCell:indexPath];
-        cell1.correspondingPairTableView.correspondingPairNameArray=completeCorrespondingArray;
-        cell1.correspondingPairTableView.selectedScanpoint=selectedScanpointNameArray[indexPath.row-1];
+        NSMutableArray *ar=[self getCorrespondingData:indexPath];
+        cell1.correspondingPairTableView.correspondingPairNameArray=[ar copy];
         [cell1.correspondingPairTableView.tableview reloadData];
         if (_model.selectedHeaderIndexpath.count>0) {
             cell1.scanpointImageView.image=[UIImage imageNamed:@"Button-Expand"];
@@ -143,29 +142,57 @@
     }
 }
 -(NSString*)nameForCell:(NSIndexPath*)indexPath{
-    NSString *str1;
+    NSString *str1=@"";
     NSString *str=selectedSectionNameArray[indexPath.section];
-    if (completeDetailOfSectionArray.count>0) {
-        NSDictionary *dict=completeDetailOfSectionArray[0];
-        NSArray *ar=dict[str];
-        if (indexPath.row==0) {
-            NSDictionary *dict1=ar[indexPath.row];
-            str1= dict1[@"SectionName"];
-        }else{
-            NSDictionary *dict1=ar[indexPath.row-1];
-            str1= dict1[@"ScanPointName"];
+    if (completeDetailArray.count>0) {
+        for (NSDictionary *dict in completeDetailArray) {
+            if (dict[str]) {
+                HeaderModelClass *model=dict[str];
+                if (indexPath.row==0) {
+                    str1=model.sectionName;
+                }
+                else{
+                    str1=model.scanpointNameArray[indexPath.row-1];
+                }
+            }
         }
     }
-    return str1;
+        return str1;
+}
+-(NSMutableArray*)getCorrespondingData:(NSIndexPath*)indexPath{
+    NSMutableArray *ar=[[NSMutableArray alloc]init];
+    NSDictionary *d;
+    NSString *str=selectedSectionNameArray[indexPath.section];
+    if (completeDetailArray.count>0) {
+        for (NSDictionary *dict in completeDetailArray) {
+            if (dict[str]) {
+                HeaderModelClass *model=dict[str];
+             NSString  *str1=model.scanpointCodeArray[indexPath.row-1];
+                if (model.correspondingPair.count>0) {
+            for (NSDictionary *dic in model.correspondingPair) {
+                if (dic[str1]) {
+                 d =dic[str1];
+                  }
+                }
+              }
+            }
+        }
+    }
+     [ar addObject:d];
+    return ar;
 }
 -(int)getNumberOfScanpointRow:(int)section{
-    NSArray *ar;
+    int i=0;
     NSString *str=selectedSectionNameArray[section];
-    if (completeDetailOfSectionArray.count>0) {
-        NSDictionary *dict=completeDetailOfSectionArray[0];
-       ar =dict[str];
+    if (completeDetailArray.count>0) {
+        for (NSDictionary *dict in completeDetailArray) {
+            if (dict[str]) {
+                HeaderModelClass *model=dict[str];
+                i=model.scanpointCodeArray.count;
+            }
+        }
     }
-    return ar.count;
+    return i;
 }
 -(void)selectedHeaderCell:(UITableViewCell *)cell{
     HeaderTableViewCell *cell1=(HeaderTableViewCell*)cell;
@@ -187,52 +214,54 @@
 }
 -(void)gettheSection{
     [selectedSectionNameArray removeAllObjects];
-    [selectedScanpointNameArray removeAllObjects];
-    [completeDetailOfSectionArray removeAllObjects];
-    [completeCorrespondingArray removeAllObjects];
+     [completeDetailArray removeAllObjects];
     for (NSDictionary *dict in _model.anotomicalPointArray) {
         if (![selectedSectionNameArray containsObject:dict[@"SectionCode"]]) {
             if (dict[@"SectionCode"]!=nil) {
                 [selectedSectionNameArray addObject:dict[@"SectionCode"]];
             }
         }
-        if (![selectedScanpointNameArray containsObject:dict[@"ScanPointCode"]]) {
-            if (dict[@"ScanPointCode"]!=nil) {
-                [selectedScanpointNameArray addObject:dict[@"ScanPointCode"]];
-            }
-        }
     }
     int i=0;
-    NSMutableDictionary *dict2=[[NSMutableDictionary alloc]init];
+
     while (i!=selectedSectionNameArray.count) {
+        HeaderModelClass *headerModel=[[HeaderModelClass alloc]init];
+        headerModel.scanpointNameArray=[[NSMutableArray alloc]init];
+        headerModel.scanpointCodeArray=[[NSMutableArray alloc]init];
+        headerModel.correspondingPair=[[NSMutableArray alloc]init];
         NSString *str=selectedSectionNameArray[i];
-        NSMutableArray *ar=[[NSMutableArray alloc]init];
-        for(NSDictionary *dict1 in _model.anotomicalPointArray){
-            if ([dict1[@"SectionCode"] isEqual:str]) {
-                [ar addObject:dict1];
+        for(NSDictionary *dict2 in _model.anotomicalPointArray){
+            if ([dict2[@"SectionCode"] isEqual:str]) {
+                headerModel.sectionCode=dict2[@"SectionCode"];
+                headerModel.sectionName=dict2[@"SectionName"];
+                if (![headerModel.scanpointCodeArray containsObject:dict2[@"ScanPointCode"]]) {
+                    [headerModel.scanpointCodeArray addObject:dict2[@"ScanPointCode"]];
+                    [headerModel.scanpointNameArray addObject:dict2[@"ScanPointName"]];
+                }
+                int j=0;
+                while (j!=headerModel.scanpointCodeArray.count) {
+                    NSDictionary *dic;
+                    NSMutableArray *ar=[[NSMutableArray alloc]init];
+                    NSString *str2=headerModel.scanpointCodeArray[j];
+                    for(NSDictionary *dict2 in _model.anotomicalPointArray){
+                    if ([dict2[@"ScanPointCode"] isEqual:str2]) {
+                    NSMutableDictionary *correspondingDict=[[NSMutableDictionary alloc]init];
+                    correspondingDict[@"GermsCode"]=dict2[@"GermsCode"];
+                    correspondingDict[@"GermsName"]=dict2[@"GermsName"];
+                    correspondingDict[@"CorrespondingPairName"]=dict2[@"CorrespondingPairName"];
+                    correspondingDict[@"CorrespondingPairCode"]=dict2[@"CorrespondingPairCode"];
+                        [ar addObject:correspondingDict];
+                    }
+            }
+                 dic =[NSDictionary dictionaryWithObject:ar forKey:str2];
+                [headerModel.correspondingPair addObject:dic];
+                    j++;
             }
         }
-        dict2[str]=ar;
-        i++;
-    }
-    if (dict2.count!=0) {
-        [completeDetailOfSectionArray addObject:dict2];
-    }
-    i=0;
-    NSMutableDictionary *scandict=[[NSMutableDictionary alloc]init];
-    while (i!=selectedScanpointNameArray.count) {
-        NSString *str1=selectedScanpointNameArray[i];
-        NSMutableArray *ar=[[NSMutableArray alloc]init];
-        for(NSDictionary *dict1 in _model.anotomicalPointArray){
-            if ([dict1[@"ScanPointCode"] isEqual:str1]) {
-                [ar addObject:dict1];
-            }
         }
-        scandict[str1]=ar;
+        NSDictionary *sectionDict=[NSDictionary dictionaryWithObject:headerModel forKey:str];
+        [completeDetailArray addObject:sectionDict];
         i++;
-    }
-    if (scandict.count!=0) {
-     [completeCorrespondingArray addObject:scandict];
     }
     [selectedSectionNameArray addObject:[MCLocalization stringForKey:@"Price"]];
     [selectedSectionNameArray addObject:[MCLocalization stringForKey:@"Completed"]];

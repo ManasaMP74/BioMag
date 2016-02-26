@@ -58,6 +58,8 @@
 - (void)viewDidLoad {
     [self localize];
     appdelegate=[UIApplication sharedApplication].delegate;
+      formater=[[NSDateFormatter alloc]init];
+     [formater setTimeZone:[NSTimeZone localTimeZone]];
     constant=[[Constant alloc]init];
     toxicDeficiencyArray=[[NSMutableArray alloc]init];
     allSortedDetailArray=[[NSMutableArray alloc]init];
@@ -419,8 +421,6 @@
         }else{
             _sittingNumberLabel.text=[NSString stringWithFormat:@"%@%d",sStr,[_sittingNumber intValue]+1];
             cell.sittingNumber.text=[NSString stringWithFormat:@"%@%d",sStr,[_sittingNumber intValue]+1];
-            formater=[[NSDateFormatter alloc]init];
-            [formater setTimeZone:[NSTimeZone localTimeZone]];
             [formater setDateFormat:@"dd-MMM-yyyy"];
             NSString *dateStr=[formater stringFromDate:[NSDate date]];
             [_datePicButton setTitle:dateStr forState:normal];
@@ -731,7 +731,6 @@
     }
     
     if ([dict[@"Success"] intValue]==1) {
-        NSDateFormatter  *formater=[[NSDateFormatter alloc]init];
         for (NSDictionary *dict1 in dict[@"AnatomicalBiomagneticMatrix"]) {
             if ([dict1[@"Status"]intValue]==1) {
                 sittingModel *model=[[sittingModel alloc]init];
@@ -1005,9 +1004,8 @@
     NSMutableArray *sittingResultArray=[[NSMutableArray alloc]init];
     NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
     dict[@"BiomagneticSittingId"]= [@(biomagneticId) description];
-    NSDateFormatter *formatter=[[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"dd-MMM-yyyy"];
-    NSString *visitDate=[formatter stringFromDate:[NSDate date]];
+    [formater setDateFormat:@"dd-MMM-yyyy"];
+    NSString *visitDate=[formater stringFromDate:[NSDate date]];
     dict[@"Visit"]=visitDate;
     if (sittingNum==0) {
         dict[@"SittingNumber"] =@([_sittingNumber intValue]+1);

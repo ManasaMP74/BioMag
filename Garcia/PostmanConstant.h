@@ -39,6 +39,7 @@ FOUNDATION_EXPORT NSString *const termsAndCondition;
 FOUNDATION_EXPORT NSString *const privecyAndPolicy;
 FOUNDATION_EXPORT NSString *const addGermsUrl;
 FOUNDATION_EXPORT NSString *const preferredLanguage;
+FOUNDATION_EXPORT NSString *const deleteDocumentUrl;
 
 
 FOUNDATION_EXPORT NSString *const DifferMetirialOrVzoneApi;

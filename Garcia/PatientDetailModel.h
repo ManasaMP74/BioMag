@@ -11,4 +11,5 @@
 @property(strong,nonatomic)NSString *treatmentDetail;
 @property(strong,nonatomic)NSString *treatmentRequestDate;
 @property(strong,nonatomic)NSString *IsTreatmentCompleted;
+
 @end

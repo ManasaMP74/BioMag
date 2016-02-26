@@ -24,4 +24,5 @@
 -(void)hideAllMBprogressTillLoadThedata;
 @property(weak,nonatomic)id<loadTreatmentDelegateInContainer>delegate;
 -(void)callForNavigationButton:(NSString*)str withButton:(UIButton*)btn;
+-(void)getTheLanguageName:(NSString*)code;
 @end
