@@ -1028,8 +1028,8 @@
             sectionDict[@"Description"]=model.interpretation;
             sectionDict[@"Psychoemotional"]=model.psychoemotional;
             sectionDict[@"Author"]=model.author;
-            sectionDict[@"LocationScanPoint"]=@"";
-            sectionDict[@"LocationCorrespondingPair"]=@"";
+//            sectionDict[@"LocationScanPoint"]=@"";
+//            sectionDict[@"LocationCorrespondingPair"]=@"";
             sectionDict[@"GermsName"]=model.germsString;
             sectionDict[@"Issue"]=[@(model.issue) description];
             sectionDict[@"AnatomicalBiomagenticCode"]=model.anatomicalBiomagenticCode;
@@ -1039,7 +1039,7 @@
     NSString *toxicStr=[_toxicView getAllTheSelectedToxic];
     sittingDict[@"ToxicDeficiency"]=toxicStr;
     sittingDict[@"Notes"]=@"";
-    sittingDict[@"Status"]=@"1";
+    sittingDict[@"Status"]=@"1";  
     sittingDict[@"AnatomicalPoints"]=jsonSittingArray;
     sittingDict[@"Price"]=_priceTf.text;
     

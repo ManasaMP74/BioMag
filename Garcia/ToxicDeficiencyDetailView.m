@@ -40,30 +40,7 @@
     }
         return  self;
 }
--(void)callSeed{
-//  if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-//      //For Vzone API
-//      [self callApiToToxicDeficiency];
-//  }else{
-//      //For Material API
-      NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-      if ([userDefault boolForKey:@"toxicdeficiency_FLAG"]) {
-          [self callApiToToxicDeficiency];
-      }
-      else{
-          NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,toxicDeficiencyDetail];
-          [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
-              if (success) {
-                  [self processToxicDeficiency:response];
-              }
-              else{
-                  [self callApiToToxicDeficiency];
-              }
-          }];
-          
-      }
-//}
-}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return sortedToxicArray.count;
 }
@@ -106,6 +83,30 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 35;
+}
+-(void)callSeed{
+    //  if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+    //      //For Vzone API
+    //      [self callApiToToxicDeficiency];
+    //  }else{
+    //      //For Material API
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"toxicdeficiency_FLAG"]) {
+        [self callApiToToxicDeficiency];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,toxicDeficiencyDetail];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+                [self processToxicDeficiency:response];
+            }
+            else{
+                [self callApiToToxicDeficiency];
+            }
+        }];
+        
+    }
+    //}
 }
 -(void)callApiToToxicDeficiency{
     [MBProgressHUD showHUDAddedTo:self animated:YES];
