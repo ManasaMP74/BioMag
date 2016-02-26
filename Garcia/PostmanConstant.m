@@ -54,7 +54,7 @@ NSString *const languageCode=@"en";
 //Vzone testing
 NSString *const baseUrlAws = @"https://s3-us-west-2.amazonaws.com/";
 //NSString *const dbName =@"garciadb/";
-NSString *const dbName =@"biomag-tst.images.original/";
+NSString *const dbName =@"biomag.images.original/";
 NSString *const baseUrl=@"http://prithiviraj.vmokshagroup.com:8089/";
 NSString *const postmanCompanyCode=@"A0I7LV";
 NSString *const aboutUs=@"search/configuration";

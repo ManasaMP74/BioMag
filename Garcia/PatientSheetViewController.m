@@ -539,12 +539,10 @@
         cell.sittingLabel.text=[NSString stringWithFormat:@"%@ #%@",sittingStr,model.sittingNumber];
         if ([_patientDetailModel.IsTreatmentCompleted intValue]==0) {
             if ([model.completed isEqualToString:@"0"]) {
-                cell.closeSitting.hidden=NO;
                 [cell.editButton setImage:[UIImage imageNamed:@"Edit-1.jpg"] forState:normal];
             }
             else{
-                cell.closeSitting.hidden=YES;
-                [cell.editButton setImage:[UIImage imageNamed:@"View-button.png"] forState:normal];
+            [cell.editButton setImage:[UIImage imageNamed:@"View-button.png"] forState:normal];
             }
 //            NSArray *treatmentDateArray=[model.visit componentsSeparatedByString:@"T"];
 //            [formatter setTimeZone:[NSTimeZone localTimeZone]];

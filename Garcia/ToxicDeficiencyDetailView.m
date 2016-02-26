@@ -108,7 +108,6 @@
     return 35;
 }
 -(void)callApiToToxicDeficiency{
-
     [MBProgressHUD showHUDAddedTo:self animated:YES];
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,toxicDeficiencyDetail];
         if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
