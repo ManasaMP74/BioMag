@@ -53,28 +53,28 @@ NSString *const languageCode=@"en";
 
 //Vzone testing
 NSString *const baseUrlAws = @"https://s3-us-west-2.amazonaws.com/";
-//NSString *const dbName =@"garciadb/";
-NSString *const dbName =@"biomag.images.original/";
+NSString *const dbName =@"biomag-tst.images.original";
+NSString *const dbNameforResized =@"biomag-tst.images.resized";
 NSString *const baseUrl=@"http://prithiviraj.vmokshagroup.com:8089/";
 NSString *const postmanCompanyCode=@"A0I7LV";
 NSString *const aboutUs=@"search/configuration";
-NSString *const FAQurl=@"configurationview/LDHX7U";
+NSString *const FAQurl=@"configurationview/AOO6FQ";
 NSString *const termsAndCondition=@"configurationview/MWUFJM";
 NSString *const privecyAndPolicy=@"configurationview/4XOSBX";
 
 
 
 //Vzone Production API
-////NSString *const dbName =@"biomag-tst.images.resized/";//AWS Thumbnail Bucket Name
+
 //NSString *const baseUrl=@"http://biomagnetictherapy.us-west-2.elasticbeanstalk.com/";
 //NSString *const postmanCompanyCode=@"VM001";
 //NSString *const dbName =@"biomag.images.resized/";
 ////NSString *const dbName =@"biomag.images.original";
 //NSString *const baseUrlAws = @"https://s3-us-west-2.amazonaws.com/";
-//NSString *const aboutUs=@"http://biomagnetictherapy.us-west-2.elasticbeanstalk.com/configurationview/MWUFJM";
-//NSString *const FAQurl=@"http://biomagnetictherapy.us-west-2.elasticbeanstalk.com/configurationview/AOO6FQ";
-//NSString *const termsAndCondition=@"http://biomagnetictherapy.us-west-2.elasticbeanstalk.com/configurationview/I0UAWB";
-//NSString *const privecyAndPolicy=@"http://biomagnetictherapy.us-west-2.elasticbeanstalk.com/configurationview/4XOSBX";
+//NSString *const aboutUs=@"search/configuration";
+//NSString *const FAQurl=@"onfigurationview/AOO6FQ";
+//NSString *const termsAndCondition=@"configurationview/MWUFJM";
+//NSString *const privecyAndPolicy=@"configurationview/4XOSBX";
 
 
 
