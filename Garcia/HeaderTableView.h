@@ -13,5 +13,11 @@
 @property(strong,nonatomic)SittingModelClass *model;
 -(void)gettheSection;
 -(float)getTHeHeightOfTableVIew;
+
+
+@property(strong,nonatomic)NSArray *toxicDeficiencyArray;
+@property(strong,nonatomic)NSArray *sittingArray;
+@property(strong,nonatomic)NSArray *germsArray;
+
 @property(weak,nonatomic)id<selectedCellProtocol>delegate;
 @end

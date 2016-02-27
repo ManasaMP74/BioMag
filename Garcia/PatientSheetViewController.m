@@ -23,6 +23,7 @@
 #import <MCLocalization/MCLocalization.h>
 #import "ContainerViewController.h"
 #import <WYPopoverController/WYPopoverController.h>
+#import "germsModel.h"
 #define NULL_CHECK(X) [X isKindOfClass:[NSNull class]]?nil:X
 
 
@@ -92,7 +93,7 @@
 @implementation PatientSheetViewController
 {
     Constant *constant;
-    NSMutableArray *diagnosisTableListArray,*medicalTableListArray,*previousSittingDetailArray;
+    NSMutableArray *diagnosisTableListArray,*medicalTableListArray,*previousSittingDetailArray,*germsArray;
     float sittingCollectionViewHeight,uploadCellHeight,diagnosisCellHeight,medicalHistoryCellHeight;
     AttachmentViewController *attachView;
     UIView *activeField;
@@ -115,6 +116,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self localize];
+    germsArray=[[NSMutableArray alloc]init];
+    [self callSeedForGerms];
     imageManager =[[ImageUploadAPI alloc]init];
     allTagListArray=[[NSMutableArray alloc]init];
     filterdTagListArray=[[NSMutableArray alloc]init];
@@ -554,6 +557,9 @@
         cell.visitDateLabel.text=model.visit;
         //For Header TableView Part
         cell.headerTableView.model=model;
+        cell.headerTableView.germsArray=germsArray;
+        cell.headerTableView.sittingArray=_sittingArray;
+        cell.headerTableView.toxicDeficiencyArray=_toxicDeficiencyArray;
         cell.delegate=self;
         [cell.headerTableView gettheSection];
         CGFloat height= [cell.headerTableView getTHeHeightOfTableVIew];
@@ -1373,6 +1379,7 @@
                 _sittingCollectionViewWidth.constant=100;
                 m.selectedHeaderIndexpath=[[NSMutableArray alloc]init];
                 m.selectedScanPointIndexpath=[[NSMutableArray alloc]init];
+                m.toxicDeficiency=json[@"ToxicDeficiency"];
                 m.price=json[@"Price"];
                 m.height=100;
                 m.correspondingPairHeight =[[NSMutableArray alloc]init];
@@ -1741,4 +1748,76 @@
     else contain=nav.viewControllers[1];
     [contain callForNavigationButton:@"slideout" withButton:sender];
 }
+-(void)callSeedForGerms{
+    //    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+    //        //For Vzone API
+    //        [self callApiToGetGerms];
+    //    }else {
+    //        //For Material API
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"germs_FLAG"]) {
+        [self callApiToGetGerms];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,germsUrl];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+                [self processGerms:response];
+            }
+            else{
+                [self callApiToGetGerms];
+            }
+        }];
+    }
+    // }
+}
+-(void)callApiToGetGerms{
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,germsUrl];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
+        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processGerms:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"germs_FLAG"];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    }];
+    }else {
+        [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processGerms:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"germs_FLAG"];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    }];
+    }
+}
+-(void)processGerms:(id)responseObject{
+    
+    NSDictionary *dict;
+    [germsArray removeAllObjects];
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        NSDictionary *responseDict1 = responseObject;
+        dict  = responseDict1[@"aaData"];
+    }else{
+        //For Material API
+        dict=responseObject;
+    }
+    
+    for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
+        if ([dict1[@"Status"] intValue]==1) {
+            germsModel *model=[[germsModel alloc]init];
+            model.germsCode=dict1[@"Code"];
+            model.germsName=dict1[@"Name"];
+            model.germsId=dict1[@"Id"];
+            if (dict1[@"UserfriendlyCode"]!=[NSNull null]) {
+                model.germsUserFriendlycode=dict1[@"UserfriendlyCode"];
+            }else model.germsUserFriendlycode=model.germsName;
+            [germsArray addObject:model];
+        }
+    }
+}
+
 @end

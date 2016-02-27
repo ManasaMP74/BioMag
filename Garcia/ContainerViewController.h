@@ -25,4 +25,8 @@
 @property(weak,nonatomic)id<loadTreatmentDelegateInContainer>delegate;
 -(void)callForNavigationButton:(NSString*)str withButton:(UIButton*)btn;
 -(void)getTheLanguageName:(NSString*)code;
+
+
+@property(strong,nonatomic)NSArray *toxicDeficiencyArray;
+@property(strong,nonatomic)NSArray *sittingArray;
 @end

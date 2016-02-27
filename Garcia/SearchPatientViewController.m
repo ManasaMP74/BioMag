@@ -276,7 +276,6 @@
    parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
     }else{
      parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
-        [containerVc showMBprogressTillLoadThedata];
     }
     if (staus) {
         [containerVc showMBprogressTillLoadThedata];
@@ -419,6 +418,7 @@
      [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:NO];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
          [containerVc hideAllMBprogressTillLoadThedata];
+         [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:NO];
         [self processResponseObjectforOffsetApi:responseObject];
         NSString *str=[NSString stringWithFormat:@"%@ %@",url,parameter];
         [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:str];

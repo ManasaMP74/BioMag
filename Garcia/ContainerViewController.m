@@ -15,6 +15,7 @@
 #import "LanguageChanger.h"
 #import "AboutUsViewController.h"
 #import "LoginViewController.h"
+#import "ToxicDeficiencyDetailModel.h"
 #if !defined(MAX)
 #define MAX(A,B)((A) > (B) ? (A) : (B))
 #endif
@@ -24,7 +25,7 @@
 
 @implementation ContainerViewController
 {
-    NSMutableArray *languageArray;
+    NSMutableArray *languageArray,*toxicDeficiencyArray;
     Postman *postman;
     NSString *patientName;
     WYPopoverController *wypopOverController;
@@ -281,6 +282,8 @@
     PatientSheetViewController *patientSheet=[self.storyboard instantiateViewControllerWithIdentifier:@"PatientSheetViewController"];
     patientSheet.model=_model;
     patientSheet.patientTitleModel=model;
+    patientSheet.sittingArray=_sittingArray;
+    patientSheet.toxicDeficiencyArray=_toxicDeficiencyArray;
     patientSheet.delegate=self;
     [self.navigationController pushViewController:patientSheet animated:YES];
 }
@@ -395,4 +398,67 @@
         }
     }
 }
+-(void)callApiToToxicDeficiency{
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,toxicDeficiencyDetail];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
+        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processToxicDeficiency:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"toxicdeficiency_FLAG"];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+       // NSString *str=[NSString stringWithFormat:@"%@",error];
+        }];
+        
+    }else{
+        [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processToxicDeficiency:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"toxicdeficiency_FLAG"];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          //  NSString *str=[NSString stringWithFormat:@"%@",error];
+            
+        }];
+    }
+}
+-(void)processToxicDeficiency:(id)responseObject{
+    [toxicDeficiencyArray removeAllObjects];
+    
+    NSDictionary *dict;
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        NSDictionary *responseDict1 = responseObject;
+        dict  = responseDict1[@"aaData"];
+        for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
+            if ([dict1[@"Status"] intValue]==1) {
+                ToxicDeficiencyDetailModel *model=[[ToxicDeficiencyDetailModel alloc]init];
+                model.toxicCode=dict1[@"Code"];
+                model.toxicName=dict1[@"Name"];
+                model.toxicId=dict1[@"Id"];
+                model.selected=NO;
+                model.toxicTypeCode=dict1[@"ToxicDeficiencyTypeCode"];
+                [toxicDeficiencyArray addObject:model];
+            }
+        }
+    }else{
+        //For Material API
+        dict=responseObject;
+        for (NSDictionary *dict1 in dict[@"ViewModels"]) {
+            if ([dict1[@"Status"] intValue]==1) {
+                ToxicDeficiencyDetailModel *model=[[ToxicDeficiencyDetailModel alloc]init];
+                model.toxicCode=dict1[@"Code"];
+                model.toxicName=dict1[@"Name"];
+                model.toxicId=dict1[@"Id"];
+                model.selected=NO;
+                model.toxicTypeCode=dict1[@"ToxicDeficiencyTypeCode"];
+                [toxicDeficiencyArray addObject:model];
+            }
+        }
+    }
+    _toxicDeficiencyArray=toxicDeficiencyArray;
+}
+
 @end

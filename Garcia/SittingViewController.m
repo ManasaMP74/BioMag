@@ -129,32 +129,6 @@
         }else _collectionViewWidth.constant=self.view.frame.size.width-100;
     }
 }
--(void)callSeed{
-    
-//    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-//        //For vzone API
-//        [self callApi];
-//    }else{
-//        //For Material API
-    
-        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-        if ([userDefault boolForKey:@"anatomicalbiomagneticmatrix_FLAG"]) {
-            [self callApi];
-        }
-        else{
-            NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,biomagneticMatrix];
-            [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
-                if (success) {
-                    [self processResponseObject:response];
-                }
-                else{
-                    [self callApi];
-                }
-            }];
-        }
-        
- //   }
-}
 -(void)defaultValues{
     [constant getTheAllSaveButtonImage:_saveBtn];
     [constant getTheAllSaveButtonImage:_exit];
@@ -703,6 +677,32 @@
         [self.view addGestureRecognizer:self.revealViewController.tapGestureRecognizer];
     }
 }
+-(void)callSeed{
+    
+    //    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+    //        //For vzone API
+    //        [self callApi];
+    //    }else{
+    //        //For Material API
+    
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"anatomicalbiomagneticmatrix_FLAG"]) {
+        [self callApi];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,biomagneticMatrix];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+                [self processResponseObject:response];
+            }
+            else{
+                [self callApi];
+            }
+        }];
+    }
+    
+    //   }
+}
 //Call api to get the biomagnetic matrix
 -(void)callApi{
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,biomagneticMatrix];
@@ -752,7 +752,6 @@
                 sittingModel *model=[[sittingModel alloc]init];
                 model.edited=@"N";
                 model.sittingId=dict1[@"Id"];
-                model.code=dict1[@"Code"];
                 model.germsName=[[NSMutableArray alloc]init];
                 model.germsCode=[[NSMutableArray alloc]init];
                 if (dict1[@"Code"]!=[NSNull null]) {
@@ -775,9 +774,6 @@
                 }
                 if (dict1[@"Psychoemotional"]!=[NSNull null]){
                     model.psychoemotional=dict1[@"Psychoemotional"];
-                }
-                if (dict1[@"Author"]!=[NSNull null]){
-                    model.author=dict1[@"Author"];
                 }
                 if (dict1[@"SectionCode"]!=[NSNull null]){
                     model.sectionCode=dict1[@"SectionCode"];
@@ -1043,9 +1039,9 @@
             sectionDict[@"SectionCode"]=model.sectionCode;
             sectionDict[@"ScanPointCode"]=model.scanPointCode;
             sectionDict[@"CorrespondingPairCode"]=model.correspondingPairCode;
-            sectionDict[@"SectionName"]=model.sectionName;
-            sectionDict[@"ScanPointName"]=model.scanPointName;
-            sectionDict[@"CorrespondingPairName"]=model.correspondingPairName;
+//            sectionDict[@"SectionName"]=model.sectionName;
+//            sectionDict[@"ScanPointName"]=model.scanPointName;
+//            sectionDict[@"CorrespondingPairName"]=model.correspondingPairName;
             sectionDict[@"GermsCode"]=model.germsCodeString;
             sectionDict[@"GenderCode"]=model.genderCode;
             sectionDict[@"Description"]=model.interpretation;

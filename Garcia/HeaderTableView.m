@@ -2,10 +2,12 @@
 #import "HeaderModelClass.h"
 #import <MCLocalization/MCLocalization.h>
 #import "HeaderModelClass.h"
+#import "sittingModel.h"
+#import "germsModel.h"
 @implementation HeaderTableVIew
 {
     UIView *view;
-    NSMutableArray *selectedSectionNameArray,*allBiamagneticArray;
+    NSMutableArray *selectedSectionNameArray,*allBiamagneticArray,*selectedToxicDeficiency;
     NSMutableArray *completeDetailArray;
 }
 -(id)initWithCoder:(NSCoder *)aDecoder{
@@ -24,6 +26,7 @@
         selectedSectionNameArray= [[NSMutableArray alloc]init];
         allBiamagneticArray= [[NSMutableArray alloc]init];
         completeDetailArray=[[NSMutableArray alloc]init];
+        selectedToxicDeficiency=[[NSMutableArray alloc]init];
     }
     return self;
 }
@@ -233,10 +236,23 @@
         for(NSDictionary *dict2 in _model.anotomicalPointArray){
             if ([dict2[@"SectionCode"] isEqual:str]) {
                 headerModel.sectionCode=dict2[@"SectionCode"];
-                headerModel.sectionName=dict2[@"SectionName"];
+                
+                sittingModel *m1=[[sittingModel alloc]init];
+                if (_sittingArray.count>0) {
+                    for (sittingModel *m in _sittingArray) {
+                        if ([dict2[@"AnatomicalBiomagenticCode"] isEqualToString:m.anatomicalBiomagenticCode]) {
+                            m1=m;
+                            break;
+                        }
+                    }
+                }
+                
+                //headerModel.sectionName=dict2[@"SectionName"];
+                headerModel.sectionName=m1.sectionName;
                 if (![headerModel.scanpointCodeArray containsObject:dict2[@"ScanPointCode"]]) {
                     [headerModel.scanpointCodeArray addObject:dict2[@"ScanPointCode"]];
-                    [headerModel.scanpointNameArray addObject:dict2[@"ScanPointName"]];
+                   // [headerModel.scanpointNameArray addObject:dict2[@"ScanPointName"]];
+                     [headerModel.scanpointNameArray addObject:m1.scanPointName];
                 }
                 int j=0;
                 while (j!=headerModel.scanpointCodeArray.count) {
@@ -247,8 +263,28 @@
                     if ([dict2[@"ScanPointCode"] isEqual:str2]) {
                     NSMutableDictionary *correspondingDict=[[NSMutableDictionary alloc]init];
                     correspondingDict[@"GermsCode"]=dict2[@"GermsCode"];
-                    correspondingDict[@"GermsName"]=dict2[@"GermsName"];
-                    correspondingDict[@"CorrespondingPairName"]=dict2[@"CorrespondingPairName"];
+                     
+                        NSArray *ar1=[dict2[@"GermsCode"] componentsSeparatedByString:@","];
+                        NSString *germstr=@"";
+                        if (ar1.count>0) {
+                            for (int i=0; i<ar1.count; i++) {
+                                if (_germsArray.count>0) {
+                                    for (germsModel *g in _germsArray) {
+                                        if ([g.germsUserFriendlycode isEqualToString:ar1[i]]) {
+                                            germstr=[germstr stringByAppendingString:g.germsName];
+                                            if (i!=ar1.count-1) {
+                                                germstr=[germstr stringByAppendingString:@","];
+                                            }
+                                            break;
+                                        }
+                                    }
+                                }
+                                
+                            }
+                        }
+                        
+                    correspondingDict[@"GermsName"]=germstr;
+                    correspondingDict[@"CorrespondingPairName"]=m1.correspondingPairName;
                     correspondingDict[@"CorrespondingPairCode"]=dict2[@"CorrespondingPairCode"];
                     correspondingDict[@"Notes"]=dict2[@"Notes"];
                         [ar addObject:correspondingDict];
@@ -264,6 +300,38 @@
         [completeDetailArray addObject:sectionDict];
         i++;
     }
+    
+    if (_model.toxicDeficiency.length>0) {
+        NSArray *ar=[_model.toxicDeficiency componentsSeparatedByString:@","];
+        NSMutableArray *ar1=[[NSMutableArray alloc]init];
+        for (NSString *str in ar) {
+        NSArray *a = [str componentsSeparatedByString:@":"];
+            [ar1 addObjectsFromArray:a];
+
+        }
+        for (int i=0; i<ar1.count-1;i++) {
+            if (![selectedToxicDeficiency containsObject:ar1[i]]) {
+                [selectedToxicDeficiency addObject:ar1[i]];
+            }
+            i++;
+        }
+//        int j=0;
+//        while (j!=selectedToxicDeficiency.count) {
+//            NSString  *selectedToxicType=selectedToxicDeficiency[j];
+//            NSMutableArray *selectedToxicCode=[[NSMutableArray alloc]init];
+//        for (int i=0; i<ar1.count-1; i++) {
+//            if ([ar1[i] isEqual:selectedToxicType]) {
+//                [selectedToxicCode addObject:ar1[i+1]];
+//            }
+//          }
+//            NSDictionary *dict=[NSDictionary dictionaryWithObject:selectedToxicType forKey:<#(nonnull id<NSCopying>)#>]
+//            j++;
+//        }
+        
+    
+}
+    
+    
     [selectedSectionNameArray addObject:[MCLocalization stringForKey:@"Price"]];
     [selectedSectionNameArray addObject:[MCLocalization stringForKey:@"Completed"]];
     

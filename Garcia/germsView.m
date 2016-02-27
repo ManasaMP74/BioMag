@@ -64,29 +64,7 @@
     [self callSeed];
     view.center = alphaView.center;
 }
--(void)callSeed{
-//    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-//        //For Vzone API
-//        [self callApiToGetGerms];
-//    }else {
-//        //For Material API
-        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-        if ([userDefault boolForKey:@"germs_FLAG"]) {
-            [self callApiToGetGerms];
-        }
-        else{
-            NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,germsUrl];
-            [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
-                if (success) {
-                    [self processGerms:response];
-                }
-                else{
-                    [self callApiToGetGerms];
-                }
-            }];
-        } 
-   // }
-}
+
 -(void)hide{
     [alphaView removeFromSuperview];
 }
@@ -146,6 +124,29 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 35;
+}
+-(void)callSeed{
+    //    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+    //        //For Vzone API
+    //        [self callApiToGetGerms];
+    //    }else {
+    //        //For Material API
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"germs_FLAG"]) {
+        [self callApiToGetGerms];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,germsUrl];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+                [self processGerms:response];
+            }
+            else{
+                [self callApiToGetGerms];
+            }
+        }];
+    }
+    // }
 }
 -(void)callApiToGetGerms{
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,germsUrl];

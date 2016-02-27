@@ -13,4 +13,5 @@
 @property(strong,nonatomic)NSArray *anotomicalPointArray;
 @property(strong,nonatomic)NSString *price;
 @property(strong,nonatomic)NSMutableArray *correspondingPairHeight;
+@property(strong,nonatomic)NSString *toxicDeficiency;
 @end

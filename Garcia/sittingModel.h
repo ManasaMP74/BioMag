@@ -2,7 +2,6 @@
 
 @interface sittingModel : NSObject
 @property(strong,nonatomic)NSString *sittingId;
-@property(strong,nonatomic)NSString *code;
 @property(strong,nonatomic)NSString *sectionName;
 @property(strong,nonatomic)NSString *sectionCode;
 @property(strong,nonatomic)NSString *scanPointName;

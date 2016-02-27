@@ -11,6 +11,8 @@
 #import "PatientTitleModel.h"
 #import <MCLocalization/MCLocalization.h>
 #import "lagModel.h"
+#import "SeedSyncer.h"
+#import "sittingModel.h"
 @interface PatientViewController ()<UITableViewDataSource,UITableViewDelegate,editPatient,loadTreatmentDelegateInContainer>
 @property (weak, nonatomic) IBOutlet UILabel *transfusinTF;
 @property (weak, nonatomic) IBOutlet UIButton *edit;
@@ -44,10 +46,13 @@
     NSMutableArray *treatmentListArray;
     ProfileImageView *profileView;
     NSString *alertTitle,*alertOK,*navTitle,*differForSlideoutAndLang;
+    NSMutableArray *sittingArray;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     constant=[[Constant alloc]init];
+    sittingArray =[[NSMutableArray alloc]init];
+    [self callSeedForSitting];
     self.navigationController.navigationBarHidden=YES;
     [self setFont];
     _tableViewHeight.constant=self.tableview.contentSize.height;
@@ -139,6 +144,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     PatientTitleModel *model=treatmentListArray[indexPath.row];
     containerVC.model=_model;
+    containerVC.sittingArray=sittingArray;
     [containerVC pushTreatmentViewController:model];
    }
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -273,5 +279,105 @@
 - (IBAction)ShowAlphaView:(id)sender {
     _popTableView.hidden=YES;
     _alphaViewToShowLanguage.hidden=YES;
+}
+
+-(void)callSeedForSitting{
+    
+    //    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+    //        //For vzone API
+    //        [self callApi];
+    //    }else{
+    //        //For Material API
+    
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"anatomicalbiomagneticmatrix_FLAG"]) {
+        [self callApiforSitting];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,biomagneticMatrix];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+                [self processResponseObjectforSitting:response];
+            }
+            else{
+                [self callApiforSitting];
+            }
+        }];
+    }
+    
+    //   }
+}
+//Call api to get the biomagnetic matrix
+-(void)callApiforSitting{
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,biomagneticMatrix];
+    
+    NSString *parameter;
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        parameter=[NSString stringWithFormat:@"{\"request\":{\"SectionCode\": \"\",\"ScanPointCode\": \"\",\"CorrespondingPairCode\":\"\",\"GermsCode\": \"\"}}"];
+    }else{
+        
+        //For material API
+        
+        parameter =[NSString stringWithFormat:@"{\"SectionCode\": \"\",\"ScanPointCode\": \"\",\"CorrespondingPairCode\":\"\",\"GermsCode\": \"\"}"];
+    }
+    [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self processResponseObjectforSitting:responseObject];
+        [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        [userDefault setBool:NO forKey:@"anatomicalbiomagneticmatrix_FLAG"];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        [MBProgressHUD hideHUDForView:self.view animated:NO];
+//        [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
+        
+    }];
+}
+//Response of biomagnetic matrix
+-(void)processResponseObjectforSitting:(id)responseObject{
+    [sittingArray removeAllObjects];
+    NSDictionary *dict;
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        NSDictionary *responseDict1 = responseObject;
+        dict= responseDict1[@"aaData"];
+    }else{
+        //For Material API
+        dict=responseObject;
+    }
+    
+    if ([dict[@"Success"] intValue]==1) {
+        for (NSDictionary *dict1 in dict[@"AnatomicalBiomagneticMatrix"]) {
+            if ([dict1[@"Status"]intValue]==1) {
+                sittingModel *model=[[sittingModel alloc]init];
+                model.sittingId=dict1[@"Id"];
+                if (dict1[@"Code"]!=[NSNull null]) {
+                    model.anatomicalBiomagenticCode=dict1[@"Code"];
+                }
+                if (dict1[@"ScanPointCode"]!=[NSNull null]) {
+                    model.scanPointCode=dict1[@"ScanPointCode"];
+                }
+                if (dict1[@"CorrespondingPairCode"]!=[NSNull null]){
+                    model.correspondingPairCode=dict1[@"CorrespondingPairCode"];
+                }
+                if (dict1[@"GermsCode"]!=[NSNull null]){
+                    [model.germsCode addObject:dict1[@"GermsCode"]];
+                }
+                if (dict1[@"SectionCode"]!=[NSNull null]){
+                    model.sectionCode=dict1[@"SectionCode"];
+                }
+                if (dict1[@"Section"]!=[NSNull null]){
+                    model.sectionName=dict1[@"Section"];
+                }
+                if (dict1[@"ScanPoint"]!=[NSNull null]){
+                    model.scanPointName=dict1[@"ScanPoint"];
+                }
+                if (dict1[@"CorrespondingPair"]!=[NSNull null]){
+                    model.correspondingPairName=dict1[@"CorrespondingPair"];
+                }
+                [sittingArray addObject:model];
+            }
+        }
+    }
 }
 @end
