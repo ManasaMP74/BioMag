@@ -318,7 +318,7 @@
         }
         
 //        int j=0;
-//        while (j!=selectedToxicDeficiency.count) {
+//    while (j!=selectedToxicDeficiency.count) {
 //            NSString  *selectedToxicType=selectedToxicDeficiency[j];
 //            NSMutableArray *selectedToxicCode=[[NSMutableArray alloc]init];
 //        for (int i=0; i<ar1.count-1; i++) {
@@ -328,10 +328,9 @@
 //          }
 //            
 //            
-//            NSDictionary *dict=[NSDictionary dictionaryWithObject:selectedToxicType forKey:<#(nonnull id<NSCopying>)#>]
+//         //   NSDictionary *dict=[NSDictionary dictionaryWithObject:selectedToxicType forKey:<#(nonnull id<NSCopying>)#>]
 //            j++;
 //        }
-        
 }
     
     

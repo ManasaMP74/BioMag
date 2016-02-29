@@ -43,6 +43,7 @@
     languageArray =[[NSMutableArray alloc]init];
     postman=[[Postman alloc]init];
     [self navigationMethod];
+    [self callSeedForToxic];
     [self callSeed];
 }
 - (void)didReceiveMemoryWarning {
@@ -283,7 +284,7 @@
     patientSheet.model=_model;
     patientSheet.patientTitleModel=model;
     patientSheet.sittingArray=_sittingArray;
-    patientSheet.toxicDeficiencyArray=_toxicDeficiencyArray;
+    patientSheet.toxicDeficiencyArray=_toxicDeficiencyCompleteArray;
     patientSheet.delegate=self;
     [self.navigationController pushViewController:patientSheet animated:YES];
 }
@@ -398,6 +399,32 @@
         }
     }
 }
+
+-(void)callSeedForToxic{
+    //  if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+    //      //For Vzone API
+    //      [self callApiToToxicDeficiency];
+    //  }else{
+    //      //For Material API
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"toxicdeficiency_FLAG"]) {
+        [self callApiToToxicDeficiency];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,toxicDeficiencyDetail];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+                [self processToxicDeficiency:response];
+            }
+            else{
+                [self callApiToToxicDeficiency];
+            }
+        }];
+        
+    }
+    //}
+}
+
 -(void)callApiToToxicDeficiency{
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,toxicDeficiencyDetail];
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
@@ -458,7 +485,7 @@
             }
         }
     }
-    _toxicDeficiencyArray=toxicDeficiencyArray;
+    _toxicDeficiencyCompleteArray=toxicDeficiencyArray;
 }
 
 @end
