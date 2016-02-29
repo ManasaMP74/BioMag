@@ -317,25 +317,27 @@
             i++;
         }
         
-//        int j=0;
-//    while (j!=selectedToxicDeficiency.count) {
-//            NSString  *selectedToxicType=selectedToxicDeficiency[j];
-//            NSMutableArray *selectedToxicCode=[[NSMutableArray alloc]init];
-//        for (int i=0; i<ar1.count-1; i++) {
-//            if ([ar1[i] isEqual:selectedToxicType]) {
-//                [selectedToxicCode addObject:ar1[i+1]];
-//            }
-//          }
-//            
-//            
-//         //   NSDictionary *dict=[NSDictionary dictionaryWithObject:selectedToxicType forKey:<#(nonnull id<NSCopying>)#>]
-//            j++;
-//        }
+        int j=0;
+    while (j!=selectedToxicDeficiency.count) {
+            NSString  *selectedToxicType=selectedToxicDeficiency[j];
+            NSMutableArray *selectedToxicCode=[[NSMutableArray alloc]init];
+        for (int i=0; i<ar1.count-1; i++) {
+            if ([ar1[i] isEqual:selectedToxicType]) {
+                [selectedToxicCode addObject:ar1[i+1]];
+            }
+          }
+            
+            
+         //   NSDictionary *dict=[NSDictionary dictionaryWithObject:selectedToxicType forKey:<#(nonnull id<NSCopying>)#>]
+            j++;
+        }
+        
+        
 }
     
     
     [selectedSectionNameArray addObject:[MCLocalization stringForKey:@"Price"]];
-    [selectedSectionNameArray addObject:[MCLocalization stringForKey:@"Completed"]];
+    [selectedSectionNameArray addObject:[MCLocalization stringForKey:@" "]];
     
 }
 -(float)getTHeHeightOfTableVIew{

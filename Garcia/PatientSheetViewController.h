@@ -53,7 +53,8 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *diagnosisTableHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *diagnosisTextViewHeight;
 
-@property(strong,nonatomic)NSArray *toxicDeficiencyArray;
+@property(strong,nonatomic)NSArray *toxicDeficiencyDetailArray;
+@property(strong,nonatomic)NSArray *toxicDeficiencyTypeArray;
 @property(strong,nonatomic)NSArray *sittingArray;
 
 @property(weak,nonatomic)id<loadTreatmentDelegate>delegate;

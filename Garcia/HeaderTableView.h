@@ -15,7 +15,8 @@
 -(float)getTHeHeightOfTableVIew;
 
 
-@property(strong,nonatomic)NSArray *toxicDeficiencyArray;
+@property(strong,nonatomic)NSArray *toxicDeficiencyDetailArray;
+@property(strong,nonatomic)NSArray *toxicDeficiencyTypeArray;
 @property(strong,nonatomic)NSArray *sittingArray;
 @property(strong,nonatomic)NSArray *germsArray;
 
