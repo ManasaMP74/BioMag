@@ -582,7 +582,7 @@
             else{
                 NSString *strimageUrl;
                 if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-                    strimageUrl = [NSString stringWithFormat:@"%@%@%@/EdittedProfile.jpeg",baseUrlAws,dbName,model.storgeId];
+                    strimageUrl = [NSString stringWithFormat:@"%@%@%@/%@",baseUrlAws,dbName,model.storgeId,model.fileName];
                 }else
                 {
                     strimageUrl = [NSString stringWithFormat:@"%@%@%@",baseUrl,expandProfileImage,model.code];

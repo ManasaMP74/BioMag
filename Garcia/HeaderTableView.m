@@ -4,6 +4,7 @@
 #import "HeaderModelClass.h"
 #import "sittingModel.h"
 #import "germsModel.h"
+#import "ToxicDeficiencyDetailModel.h"
 @implementation HeaderTableVIew
 {
     UIView *view;
@@ -315,6 +316,7 @@
             }
             i++;
         }
+        
 //        int j=0;
 //        while (j!=selectedToxicDeficiency.count) {
 //            NSString  *selectedToxicType=selectedToxicDeficiency[j];
@@ -324,11 +326,12 @@
 //                [selectedToxicCode addObject:ar1[i+1]];
 //            }
 //          }
+//            
+//            
 //            NSDictionary *dict=[NSDictionary dictionaryWithObject:selectedToxicType forKey:<#(nonnull id<NSCopying>)#>]
 //            j++;
 //        }
         
-    
 }
     
     
