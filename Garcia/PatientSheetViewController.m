@@ -559,7 +559,8 @@
         cell.headerTableView.model=model;
         cell.headerTableView.germsArray=germsArray;
         cell.headerTableView.sittingArray=_sittingArray;
-        cell.headerTableView.toxicDeficiencyArray=_toxicDeficiencyArray;
+        cell.headerTableView.toxicDeficiencyDetailArray=_toxicDeficiencyDetailArray;
+        cell.headerTableView.toxicDeficiencyTypeArray=_toxicDeficiencyTypeArray;
         cell.delegate=self;
         [cell.headerTableView gettheSection];
         CGFloat height= [cell.headerTableView getTHeHeightOfTableVIew];

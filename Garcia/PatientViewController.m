@@ -138,8 +138,8 @@
        //cell.backgroundColor=[UIColor colorWithRed:0.627 green:0.89 blue:1 alpha:1];
        cell.backgroundColor=[UIColor colorWithRed:0.933 green:0.933 blue:0.941 alpha:1];
     }
-    cell.separatorInset=UIEdgeInsetsZero;
-    cell.layoutMargins=UIEdgeInsetsZero;
+//    cell.separatorInset=UIEdgeInsetsZero;
+//    cell.layoutMargins=UIEdgeInsetsZero;
      return cell;
 }
 //table didselect
