@@ -41,7 +41,7 @@
 
 @implementation SittingViewController
 {
-    NSMutableArray  *selectedIndexArray,*allSortedDetailArray,*selectedPreviousSittingDetailArray,*allSectionNameArray,*toxicDeficiencyArray,*allDoctorDetailArray,*allPreviousSittingDetail;
+    NSMutableArray  *selectedIndexArray,*allSortedDetailArray,*selectedPreviousSittingDetailArray,*allSectionNameArray,*toxicDeficiencyArray,*allDoctorDetailArray,*allPreviousSittingDetail,*selectedSittingModelInallDoctorDetailArray;
     AddSymptom *symptomView;
     Postman *postman;
     Constant *constant;
@@ -62,6 +62,7 @@
      [formater setTimeZone:[NSTimeZone localTimeZone]];
     constant=[[Constant alloc]init];
     toxicDeficiencyArray=[[NSMutableArray alloc]init];
+    selectedSittingModelInallDoctorDetailArray=[[NSMutableArray alloc]init];
     allSortedDetailArray=[[NSMutableArray alloc]init];
     allDoctorDetailArray=[[NSMutableArray alloc]init];
     selectedIndexArray=[[NSMutableArray alloc]init];
@@ -158,6 +159,7 @@
         [self.view endEditing:YES];
         _priceTf.enabled=NO;
     }
+     _priceTf.enabled=YES;
 }
 //navigation bar
 -(void)navigationItemMethod{
@@ -513,8 +515,14 @@
 }
 //save
 - (IBAction)save:(id)sender {
-  NSString *parameter =[self getParameteToSaveSittingDetail:[_bioSittingDict[@"Id"] integerValue] withSittingNum:[_bioSittingDict[@"SittingNumber"] integerValue] withCompletedData:@""];
-    if (![parameter isEqualToString:@""]) {
+    BOOL parameter =NO;
+    for (sittingModel *model in allDoctorDetailArray) {
+        if (![model.germsString isEqualToString:@""]) {
+            parameter=YES;
+            break;
+        }
+    }
+    if (parameter) {
     UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:doYoucloseSitting preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
         [self callApiToSaveTreatmentRequest:@"true"];
@@ -1152,6 +1160,7 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
     }
 }
 -(void)getTheSortDetailOfCompleteDitailArray:(NSString*)str{
+    [selectedSittingModelInallDoctorDetailArray removeAllObjects];
     if ([_toxicDeficiencyString isEqualToString:@""]) {
         _toxicView.hidden=YES;
         _tableview.hidden=NO;
@@ -1166,7 +1175,9 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
             }
         }
         [_tableview reloadData];
+        [_scrollView layoutIfNeeded];
     }
+      [self getGermsStringForCompleDetailArray];
 }
 - (IBAction)exit:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
@@ -1294,6 +1305,30 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft];
     [self setTheValuesInTableView];
 }
+//get the germs string for each array
+-(void)getGermsStringForCompleDetailArray{
+    NSDictionary *dict=_bioSittingDict;
+    NSString *str=dict[@"JSON"];
+    NSError *jsonError;
+    NSData *objectData = [str dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData options:NSJSONReadingMutableContainers error:&jsonError];
+    NSArray *anotomicalPointArray=json[@"AnatomicalPoints"];
+    if (anotomicalPointArray.count>0) {
+        for (NSDictionary *anotomicalDict in anotomicalPointArray) {
+            for (sittingModel *model in allDoctorDetailArray) {
+                if (([anotomicalDict[@"SectionCode"] isEqualToString:model.sectionCode])&([anotomicalDict[@"CorrespondingPairCode"] isEqualToString:model.correspondingPairCode])&([anotomicalDict[@"ScanPointCode"] isEqualToString:model.scanPointCode]) ) {
+                    if (model.germsString.length==0) {
+                        model.germsCodeString=anotomicalDict[@"GermsCode"];
+                        model.germsString=anotomicalDict[@"GermsName"];
+                    }
+                    [selectedSittingModelInallDoctorDetailArray addObject:model];
+                    break;
+                }
+            }
+        }
+    }
+}
+
 //Alert Message
 -(void)showAlerView:(NSString*)msg{
     UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:msg preferredStyle:UIAlertControllerStyleAlert];

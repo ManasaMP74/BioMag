@@ -240,7 +240,7 @@
                 }
             }
         }
-    }else status=NO;
+    }
     return status;
 }
 //set layesr for TextField and placeHolder

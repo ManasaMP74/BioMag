@@ -312,7 +312,7 @@
             }
         }
     }
-    }else status=NO;
+    }
     return status;
 }
 //textField EndEditing

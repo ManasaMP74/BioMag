@@ -35,7 +35,7 @@
     int row=1;
     if (tableView==_tableview) {
     if (_model.selectedHeaderIndexpath.count>0) {
-        if (section<selectedSectionNameArray.count-2) {
+        if (section<selectedSectionNameArray.count) {
             for (NSString *str in _model.selectedHeaderIndexpath) {
                 NSArray *ar=[str componentsSeparatedByString:@"-"];
                 if (section==[ar[1] integerValue]) {
@@ -127,15 +127,17 @@
                        cell.switchImageView.image=[UIImage imageNamed:@"Button-off"];
                    }else  cell.switchImageView.image=[UIImage imageNamed:@"Button-on"];
                }else if (indexPath.section==selectedToxicDeficiency.count-2) {
-                   cell.imageView.hidden=YES;
+                   cell.switchImageView.hidden=YES;
                    cell.priceValueLabel.hidden=NO;
                    cell.button.userInteractionEnabled=NO;
                    cell.priceValueLabel.text=_model.price;
                    cell.headingLabel.text=selectedToxicDeficiency[indexPath.section];
                }else{
-               
-               
-               
+                   cell.button.userInteractionEnabled=YES;
+                   cell.switchImageView.hidden=NO;
+                   cell.priceValueLabel.hidden=YES;
+                   cell.imageViewHeight.constant=18;
+                   cell.imageViewWidth.constant=18;
                }
                
                
@@ -278,7 +280,7 @@
                 //headerModel.sectionName=dict2[@"SectionName"];
                 headerModel.sectionName=m1.sectionName;
                 if (![headerModel.scanpointCodeArray containsObject:dict2[@"ScanPointCode"]]) {
-                    [headerModel.scanpointCodeArray addObject:dict2[@"ScanPointCode"]];
+                        [headerModel.scanpointCodeArray addObject:dict2[@"ScanPointCode"]];
                    // [headerModel.scanpointNameArray addObject:dict2[@"ScanPointName"]];
                      [headerModel.scanpointNameArray addObject:m1.scanPointName];
                 }
