@@ -160,6 +160,8 @@
         cell.patientNameLabel.textColor=[UIColor whiteColor];
     }
     tableView.tableFooterView=[UIView new];
+    cell.separatorInset=UIEdgeInsetsZero;
+    cell.layoutMargins=UIEdgeInsetsZero;
     return cell;
 }
 //Row Height

@@ -317,34 +317,34 @@
             i++;
         }
         
-        int j=0;
-    while (j!=selectedToxicDeficiency.count) {
-            NSString  *selectedToxicType=selectedToxicDeficiency[j];
-            NSMutableArray *selectedToxicCode=[[NSMutableArray alloc]init];
-        for (int i=0; i<ar1.count-1; i++) {
-            if ([ar1[i] isEqual:selectedToxicType]) {
-                [selectedToxicCode addObject:ar1[i+1]];
-            }
-          }
-            
-            
-         //   NSDictionary *dict=[NSDictionary dictionaryWithObject:selectedToxicType forKey:<#(nonnull id<NSCopying>)#>]
-            j++;
-        }
-        
-        
+//        int j=0;
+//    while (j!=selectedToxicDeficiency.count) {
+//            NSString  *selectedToxicType=selectedToxicDeficiency[j];
+//            NSMutableArray *selectedToxicCode=[[NSMutableArray alloc]init];
+//        for (int i=0; i<ar1.count-1; i++) {
+//            if ([ar1[i] isEqual:selectedToxicType]) {
+//                [selectedToxicCode addObject:ar1[i+1]];
+//            }
+//          }
+//            
+//            
+//         //   NSDictionary *dict=[NSDictionary dictionaryWithObject:selectedToxicType forKey:<#(nonnull id<NSCopying>)#>]
+//            j++;
+//        }
 }
     
     
     [selectedSectionNameArray addObject:[MCLocalization stringForKey:@"Price"]];
-    [selectedSectionNameArray addObject:[MCLocalization stringForKey:@" "]];
+    [selectedSectionNameArray addObject:[MCLocalization stringForKey:@"Completed"]];
     
 }
 -(float)getTHeHeightOfTableVIew{
     [_tableview reloadData];
-    CGRect frame=_tableview.frame;
+    CGRect frame=self.frame;
     frame.size.height=_tableview.contentSize.height;
-    _tableview.frame=frame;
+    self.frame=frame;
+    view.frame=self.bounds;
+    _tableviewHeight.constant=_tableview.contentSize.height;
     return _tableview.contentSize.height;
 }
 @end

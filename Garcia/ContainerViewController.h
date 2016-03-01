@@ -27,6 +27,6 @@
 -(void)getTheLanguageName:(NSString*)code;
 
 
-
+@property(strong,nonatomic)NSArray *toxicDeficiencyCompleteArray;
 @property(strong,nonatomic)NSArray *sittingArray;
 @end

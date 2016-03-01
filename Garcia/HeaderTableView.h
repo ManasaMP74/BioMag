@@ -9,14 +9,14 @@
 @interface HeaderTableVIew : UIView<UITableViewDataSource,UITableViewDelegate,selectedcell,selectedScanpoint>
 @property (strong, nonatomic) IBOutlet ScanPointTableViewCell *scapointCell;
 @property (strong, nonatomic) IBOutlet HeaderTableViewCell *headerCell;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableviewHeight;
 @property (strong, nonatomic) IBOutlet UITableView *tableview;
 @property(strong,nonatomic)SittingModelClass *model;
 -(void)gettheSection;
 -(float)getTHeHeightOfTableVIew;
 
 
-@property(strong,nonatomic)NSArray *toxicDeficiencyDetailArray;
-@property(strong,nonatomic)NSArray *toxicDeficiencyTypeArray;
+@property(strong,nonatomic)NSArray *toxicDeficiencyArray;
 @property(strong,nonatomic)NSArray *sittingArray;
 @property(strong,nonatomic)NSArray *germsArray;
 
