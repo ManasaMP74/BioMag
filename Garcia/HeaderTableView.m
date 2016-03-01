@@ -128,8 +128,19 @@
         return cell1;
     }
        }else{
+           if (indexPath.row==0) {
+               ToxicTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell3"];
+               if (cell==nil) {
+                   _toxicCustomCell=[[[NSBundle mainBundle]loadNibNamed:@"ToxicTableviewCell" owner:self options:nil]lastObject];
+                   cell=_toxicCustomCell;
+                   _toxicCustomCell=nil;
+               }
+               return cell;
+           }
+           else{
            UITableViewCell *cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"c"];
            return cell;
+           }
        }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

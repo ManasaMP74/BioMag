@@ -124,6 +124,8 @@
 		DAFBE3D01C08277600C1C796 /* TreatmentDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFBE3CF1C08277600C1C796 /* TreatmentDetailModel.m */; };
 		DAFC4AC31C2567A500FE6234 /* ProfileImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFC4AC21C2567A500FE6234 /* ProfileImageView.m */; };
 		DAFC4AC51C2567C800FE6234 /* ProfileImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAFC4AC41C2567C800FE6234 /* ProfileImageView.xib */; };
+		DAFC75FB1C856740005A6AD7 /* ToxicTableviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAFC75FA1C856740005A6AD7 /* ToxicTableviewCell.xib */; };
+		DAFC75FE1C85675D005A6AD7 /* ToxicTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFC75FD1C85675D005A6AD7 /* ToxicTableViewCell.m */; };
 		DAFD52A71BEC62C80006AF02 /* UploadModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFD52A61BEC62C80006AF02 /* UploadModelClass.m */; };
 /* End PBXBuildFile section */
 
@@ -341,6 +343,9 @@
 		DAFC4AC11C2567A500FE6234 /* ProfileImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileImageView.h; sourceTree = "<group>"; };
 		DAFC4AC21C2567A500FE6234 /* ProfileImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileImageView.m; sourceTree = "<group>"; };
 		DAFC4AC41C2567C800FE6234 /* ProfileImageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileImageView.xib; sourceTree = "<group>"; };
+		DAFC75FA1C856740005A6AD7 /* ToxicTableviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToxicTableviewCell.xib; sourceTree = "<group>"; };
+		DAFC75FC1C85675D005A6AD7 /* ToxicTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToxicTableViewCell.h; sourceTree = "<group>"; };
+		DAFC75FD1C85675D005A6AD7 /* ToxicTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToxicTableViewCell.m; sourceTree = "<group>"; };
 		DAFD52A51BEC62C80006AF02 /* UploadModelClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadModelClass.h; sourceTree = "<group>"; };
 		DAFD52A61BEC62C80006AF02 /* UploadModelClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadModelClass.m; sourceTree = "<group>"; };
 		FA1A2B4682F2428F6C5810DD /* libPods-Biomagnetism.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Biomagnetism.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -537,6 +542,7 @@
 				DA753C901C6483A000D1ABE1 /* HeaderTableViewCell.m */,
 				DA78B61D1C7EE9FF0096E1A0 /* HeaderModelClass.h */,
 				DA78B61E1C7EE9FF0096E1A0 /* HeaderModelClass.m */,
+				DAFC75F91C856720005A6AD7 /* ToxicTableViewCell */,
 			);
 			name = HeaderTableView;
 			sourceTree = "<group>";
@@ -886,6 +892,16 @@
 			name = ContainerVC;
 			sourceTree = "<group>";
 		};
+		DAFC75F91C856720005A6AD7 /* ToxicTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				DAFC75FA1C856740005A6AD7 /* ToxicTableviewCell.xib */,
+				DAFC75FC1C85675D005A6AD7 /* ToxicTableViewCell.h */,
+				DAFC75FD1C85675D005A6AD7 /* ToxicTableViewCell.m */,
+			);
+			name = ToxicTableViewCell;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1002,6 +1018,7 @@
 				DA7521C91C4CD13800FF6B03 /* ToxicDeficiencyCell.xib in Resources */,
 				DAEF6AF51BD65C9B006868C8 /* DatePickerView.xib in Resources */,
 				DAEFA1A21BD0B11500900379 /* LaunchScreen.xib in Resources */,
+				DAFC75FB1C856740005A6AD7 /* ToxicTableviewCell.xib in Resources */,
 				DAEFA19F1BD0B11500900379 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1089,6 +1106,7 @@
 				DAEC02711BD513500095C6AE /* customFont.m in Sources */,
 				DA76741A1C101319007541F0 /* SittingTableViewCell.m in Sources */,
 				DA130F401BEA1E1900B5B9FF /* SettingView.m in Sources */,
+				DAFC75FE1C85675D005A6AD7 /* ToxicTableViewCell.m in Sources */,
 				DA130F371BEA1E1900B5B9FF /* AddSectionCell.m in Sources */,
 				DA130F3C1BEA1E1900B5B9FF /* PartModel.m in Sources */,
 				DAF616821C0428E500B54F5D /* ImageUploadAPI.m in Sources */,
