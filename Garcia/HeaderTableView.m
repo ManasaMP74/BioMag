@@ -350,16 +350,18 @@
         [completeDetailArray addObject:sectionDict];
         i++;
     }
-    
+    [self getToxicDeficiencey];
+}
+-(void)getToxicDeficiencey{
     if (_model.toxicDeficiency.length>0) {
         NSArray *ar=[_model.toxicDeficiency componentsSeparatedByString:@","];
         NSMutableArray *ar1=[[NSMutableArray alloc]init];
         for (NSString *str in ar) {
-        NSArray *a = [str componentsSeparatedByString:@":"];
+            NSArray *a = [str componentsSeparatedByString:@":"];
             [ar1 addObjectsFromArray:a];
-
+            
         }
-        //NSMutableArray *
+       
         for (int i=0; i<ar1.count-1;i++) {
             for (ToxicDeficiency *m in _toxicDeficiencyTypeArray) {
                 if ([m.code isEqualToString:ar1[i]]) {
@@ -368,29 +370,29 @@
                     }
                 }
             }
-           i++;
+            i++;
         }
         
-//        int j=0;
-//    while (j!=selectedToxicDeficiency.count) {
-//            NSString  *selectedToxicType=selectedToxicDeficiency[j];
-//            NSMutableArray *selectedToxicCode=[[NSMutableArray alloc]init];
-//        for (int i=0; i<ar1.count-1; i++) {
-//            if ([ar1[i] isEqual:selectedToxicType]) {
-//                [selectedToxicCode addObject:ar1[i+1]];
-//            }
-//          }
-//            
-//            
-//         //   NSDictionary *dict=[NSDictionary dictionaryWithObject:selectedToxicType forKey:<#(nonnull id<NSCopying>)#>]
-//            j++;
-//        }
-}
+        //        int j=0;
+        //    while (j!=selectedToxicDeficiency.count) {
+        //            NSString  *selectedToxicType=selectedToxicDeficiency[j];
+        //            NSMutableArray *selectedToxicCode=[[NSMutableArray alloc]init];
+        //        for (int i=0; i<ar1.count-1; i++) {
+        //            if ([ar1[i] isEqual:selectedToxicType]) {
+        //                [selectedToxicCode addObject:ar1[i+1]];
+        //            }
+        //          }
+        //
+        //
+        //         //   NSDictionary *dict=[NSDictionary dictionaryWithObject:selectedToxicType forKey:<#(nonnull id<NSCopying>)#>]
+        //            j++;
+        //        }
+    }
     
     
     [selectedToxicDeficiency addObject:[MCLocalization stringForKey:@"Price"]];
     [selectedToxicDeficiency addObject:[MCLocalization stringForKey:@"Completed"]];
-    
+
 }
 -(float)getTHeHeightOfTableVIew{
     [_tableview reloadData];
