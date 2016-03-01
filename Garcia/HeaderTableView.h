@@ -14,6 +14,8 @@
 @property(strong,nonatomic)SittingModelClass *model;
 -(void)gettheSection;
 -(float)getTHeHeightOfTableVIew;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *toxicTableViewHeight;
+@property (weak, nonatomic) IBOutlet UITableView *toxicTableView;
 
 
 @property(strong,nonatomic)NSArray *toxicDeficiencyArray;

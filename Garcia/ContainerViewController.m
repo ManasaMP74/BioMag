@@ -16,6 +16,7 @@
 #import "AboutUsViewController.h"
 #import "LoginViewController.h"
 #import "ToxicDeficiencyDetailModel.h"
+#import "ToxicDeficiency.h"
 #if !defined(MAX)
 #define MAX(A,B)((A) > (B) ? (A) : (B))
 #endif
@@ -25,7 +26,7 @@
 
 @implementation ContainerViewController
 {
-    NSMutableArray *languageArray,*toxicDeficiencyArray;
+    NSMutableArray *languageArray,*toxicDeficiencyDetailArray,*toxicDeficiencyTypeArray;
     Postman *postman;
     NSString *patientName;
     WYPopoverController *wypopOverController;
@@ -41,6 +42,8 @@
       self.navigationController.navigationBarHidden=NO;
     self.navigationItem.hidesBackButton = YES;
     languageArray =[[NSMutableArray alloc]init];
+    toxicDeficiencyDetailArray=[[NSMutableArray alloc]init];
+    toxicDeficiencyTypeArray=[[NSMutableArray alloc]init];
     postman=[[Postman alloc]init];
     [self navigationMethod];
     [self callSeedForToxic];
@@ -284,7 +287,8 @@
     patientSheet.model=_model;
     patientSheet.patientTitleModel=model;
     patientSheet.sittingArray=_sittingArray;
-    patientSheet.toxicDeficiencyArray=_toxicDeficiencyCompleteArray;
+    patientSheet.toxicDeficiencyDetailArray=toxicDeficiencyDetailArray;
+    patientSheet.toxicDeficiencyTypeArray=toxicDeficiencyTypeArray;
     patientSheet.delegate=self;
     [self.navigationController pushViewController:patientSheet animated:YES];
 }
@@ -346,7 +350,7 @@
 
 -(void)callApiForLanguage{
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,language];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:NO];
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -363,9 +367,11 @@
         [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         [userDefault setBool:NO forKey:@"language_FLAG"];
-        [MBProgressHUD hideHUDForView:self.view animated:YES ];
+        [MBProgressHUD hideHUDForView:self.view animated:NO ];
+         [self callSeedForToxicDeficiency];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
+        [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
     }];
     }
 }
@@ -451,7 +457,7 @@
     }
 }
 -(void)processToxicDeficiency:(id)responseObject{
-    [toxicDeficiencyArray removeAllObjects];
+    [toxicDeficiencyDetailArray removeAllObjects];
     
     NSDictionary *dict;
     
@@ -467,7 +473,7 @@
                 model.toxicId=dict1[@"Id"];
                 model.selected=NO;
                 model.toxicTypeCode=dict1[@"ToxicDeficiencyTypeCode"];
-                [toxicDeficiencyArray addObject:model];
+                [toxicDeficiencyDetailArray addObject:model];
             }
         }
     }else{
@@ -481,11 +487,95 @@
                 model.toxicId=dict1[@"Id"];
                 model.selected=NO;
                 model.toxicTypeCode=dict1[@"ToxicDeficiencyTypeCode"];
-                [toxicDeficiencyArray addObject:model];
+                [toxicDeficiencyDetailArray addObject:model];
             }
         }
     }
-    _toxicDeficiencyCompleteArray=toxicDeficiencyArray;
 }
-
+//call toxicDeficiency
+-(void)callSeedForToxicDeficiency{
+    
+    //    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+    //        //For Vzone API
+    //        [self callApiForToxicDeficiency];
+    //    }else{
+    //        //For Material API
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"toxicdeficiencytype_FLAG"]) {
+        [self callApiForToxicDeficiencyType];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,toxicDeficiencyType];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+                [self processResponseForToxicType:response];
+            }
+            else{
+                [self callApiForToxicDeficiencyType];
+            }
+        }];
+    }
+    //  }
+    
+}
+//Api for Toxic
+-(void)callApiForToxicDeficiencyType{
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,toxicDeficiencyType];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
+        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processResponseForToxicType:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"toxicdeficiencytype_FLAG"];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    
+        }];
+    }else{
+        [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processResponseForToxicType:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"toxicdeficiencytype_FLAG"];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        }];
+    }
+}
+//process Response
+-(void)processResponseForToxicType:(id)responseObject{
+    [toxicDeficiencyTypeArray removeAllObjects];
+    
+    NSDictionary *dict;
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        NSDictionary *responseDict1 = responseObject;
+        dict  = responseDict1[@"aaData"];
+    }else{
+        //For Material API
+        dict=responseObject;
+    }
+    
+    for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
+        if ([dict1[@"Status"]intValue]==1) {
+            ToxicDeficiency *model=[[ToxicDeficiency alloc]init];
+            model.idValue=dict1[@"Id"];
+            model.name=dict1[@"Name"];
+            model.code=dict1[@"Code"];
+            [toxicDeficiencyTypeArray addObject:model];
+        }
+    }
+}
+//Toast Message
+-(void)showToastMessage:(NSString*)msg{
+    MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hubHUD.mode=MBProgressHUDModeText;
+    hubHUD.labelText=msg;
+    hubHUD.labelFont=[UIFont systemFontOfSize:15];
+    hubHUD.margin=20.f;
+    hubHUD.yOffset=150.f;
+    hubHUD.removeFromSuperViewOnHide = YES;
+    [hubHUD hide:YES afterDelay:2];
+}
 @end

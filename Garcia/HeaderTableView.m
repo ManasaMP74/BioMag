@@ -33,6 +33,7 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     int row=1;
+    if (tableView==_tableview) {
     if (_model.selectedHeaderIndexpath.count>0) {
         if (section<selectedSectionNameArray.count-2) {
             for (NSString *str in _model.selectedHeaderIndexpath) {
@@ -44,12 +45,16 @@
             }
         }
     }
+    }
     return row;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+      if (tableView==_tableview) {
     return selectedSectionNameArray.count;
+      }else return 1;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+       if (tableView==_tableview) {
     if (indexPath.row==0) {
         HeaderTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
         if (cell==nil) {
@@ -122,9 +127,14 @@
         
         return cell1;
     }
+       }else{
+           UITableViewCell *cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"c"];
+           return cell;
+       }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat height=30;
+     if (tableView==_tableview) {
     if (indexPath.row==0) {
         return 30;
     }else {
@@ -144,6 +154,7 @@
         }
         return height;
     }
+     }else return height;
 }
 -(NSString*)nameForCell:(NSIndexPath*)indexPath{
     NSString *str1=@"";
@@ -219,6 +230,7 @@
 -(void)gettheSection{
     [selectedSectionNameArray removeAllObjects];
      [completeDetailArray removeAllObjects];
+    [selectedToxicDeficiency removeAllObjects];
     for (NSDictionary *dict in _model.anotomicalPointArray) {
         if (![selectedSectionNameArray containsObject:dict[@"SectionCode"]]) {
             if (dict[@"SectionCode"]!=nil) {
@@ -340,11 +352,13 @@
 }
 -(float)getTHeHeightOfTableVIew{
     [_tableview reloadData];
+    [_toxicTableView reloadData];
     CGRect frame=self.frame;
-    frame.size.height=_tableview.contentSize.height;
+    frame.size.height=_tableview.contentSize.height+_toxicTableView.contentSize.height;
     self.frame=frame;
     view.frame=self.bounds;
     _tableviewHeight.constant=_tableview.contentSize.height;
-    return _tableview.contentSize.height;
+    _toxicTableViewHeight.constant=_toxicTableView.contentSize.height;
+    return _tableview.contentSize.height+_toxicTableView.contentSize.height;
 }
 @end
