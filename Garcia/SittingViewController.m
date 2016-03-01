@@ -221,6 +221,7 @@
     cell.serialNumber.text=model.sortNumber;
     cell.doctorName.text=model.author;
     cell.sittingTextView.text=model.germsString;
+    cell.otherGermsLabel.text=model.germsCodeString;
     cell.addNoteLabel.hidden=YES;
     cell.addNoteTV.text=model.notes;
     cell.author.text=authour;
@@ -395,7 +396,6 @@
                                     cell.addNoteLabel.hidden=YES;
                                 }
                             }
-                            
                             if ([anotomicalDict[@"Issue"] integerValue]==1) {
                                 model.issue= YES;
                                 [self colorChange:model.issue withCell:cell];
@@ -417,6 +417,14 @@
             [_datePicButton setTitle:dateStr forState:normal];
         }
     }else {
+        if (model.issue) {
+            [self colorChange:model.issue withCell:cell];
+            cell.headerView.backgroundColor=[UIColor colorWithRed:0.686 green:0.741 blue:1 alpha:1];
+        }else{
+            [self colorChange:model.issue withCell:cell];
+            cell.headerView.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
+        }
+
         cell.sittingTextView.text=model.germsString;
         model.notes=cell.addNoteTV.text;
         NSString *str=[model.germsCodeString stringByReplacingOccurrencesOfString:@"," withString:@" "];
@@ -818,6 +826,7 @@
                 }
                 model.issue=NO;
                 model.germsString=@"";
+                 model.germsCodeString=@"";
                 model.notes=@"";
                 [allDoctorDetailArray addObject:model];
             }
@@ -1065,6 +1074,9 @@
         }
     }
     NSString *toxicStr=[_toxicView getAllTheSelectedToxic];
+    if (toxicStr.length==0) {
+        toxicStr=selectedToxicString;
+    }
     sittingDict[@"ToxicDeficiency"]=toxicStr;
     sittingDict[@"Notes"]=@"";
     sittingDict[@"Status"]=@"1";  
@@ -1320,6 +1332,7 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
                     if (model.germsString.length==0) {
                         model.germsCodeString=anotomicalDict[@"GermsCode"];
                         model.germsString=anotomicalDict[@"GermsName"];
+                        model.issue=YES;
                     }
                     [selectedSittingModelInallDoctorDetailArray addObject:model];
                     break;
