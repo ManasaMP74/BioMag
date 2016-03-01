@@ -126,6 +126,8 @@
 		DAFC4AC51C2567C800FE6234 /* ProfileImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAFC4AC41C2567C800FE6234 /* ProfileImageView.xib */; };
 		DAFC75FB1C856740005A6AD7 /* ToxicTableviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAFC75FA1C856740005A6AD7 /* ToxicTableviewCell.xib */; };
 		DAFC75FE1C85675D005A6AD7 /* ToxicTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFC75FD1C85675D005A6AD7 /* ToxicTableViewCell.m */; };
+		DAFC76011C85A4FF005A6AD7 /* ToxicDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFC76001C85A4FF005A6AD7 /* ToxicDetailTableViewCell.m */; };
+		DAFC76031C85A511005A6AD7 /* ToxicDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAFC76021C85A511005A6AD7 /* ToxicDetailCell.xib */; };
 		DAFD52A71BEC62C80006AF02 /* UploadModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFD52A61BEC62C80006AF02 /* UploadModelClass.m */; };
 /* End PBXBuildFile section */
 
@@ -346,6 +348,9 @@
 		DAFC75FA1C856740005A6AD7 /* ToxicTableviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToxicTableviewCell.xib; sourceTree = "<group>"; };
 		DAFC75FC1C85675D005A6AD7 /* ToxicTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToxicTableViewCell.h; sourceTree = "<group>"; };
 		DAFC75FD1C85675D005A6AD7 /* ToxicTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToxicTableViewCell.m; sourceTree = "<group>"; };
+		DAFC75FF1C85A4FF005A6AD7 /* ToxicDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToxicDetailTableViewCell.h; sourceTree = "<group>"; };
+		DAFC76001C85A4FF005A6AD7 /* ToxicDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToxicDetailTableViewCell.m; sourceTree = "<group>"; };
+		DAFC76021C85A511005A6AD7 /* ToxicDetailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToxicDetailCell.xib; sourceTree = "<group>"; };
 		DAFD52A51BEC62C80006AF02 /* UploadModelClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadModelClass.h; sourceTree = "<group>"; };
 		DAFD52A61BEC62C80006AF02 /* UploadModelClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadModelClass.m; sourceTree = "<group>"; };
 		FA1A2B4682F2428F6C5810DD /* libPods-Biomagnetism.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Biomagnetism.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -898,6 +903,9 @@
 				DAFC75FA1C856740005A6AD7 /* ToxicTableviewCell.xib */,
 				DAFC75FC1C85675D005A6AD7 /* ToxicTableViewCell.h */,
 				DAFC75FD1C85675D005A6AD7 /* ToxicTableViewCell.m */,
+				DAFC76021C85A511005A6AD7 /* ToxicDetailCell.xib */,
+				DAFC75FF1C85A4FF005A6AD7 /* ToxicDetailTableViewCell.h */,
+				DAFC76001C85A4FF005A6AD7 /* ToxicDetailTableViewCell.m */,
 			);
 			name = ToxicTableViewCell;
 			sourceTree = "<group>";
@@ -1001,6 +1009,7 @@
 				DA4884DA1C4E33AE0064774F /* ToxicDeficiencyView.xib in Resources */,
 				DA753C931C6483B600D1ABE1 /* HeaderTableViewCell.xib in Resources */,
 				DA753C7D1C64810900D1ABE1 /* HeaderTableVIew.xib in Resources */,
+				DAFC76031C85A511005A6AD7 /* ToxicDetailCell.xib in Resources */,
 				DA567A0D1C60AF610046A340 /* eng.json in Resources */,
 				DAF7EF381C1AF3EA009ADE9B /* GermsCell.xib in Resources */,
 				DAEF6AEF1BD5FA52006868C8 /* OpenSans-Regular.ttf in Resources */,
@@ -1139,6 +1148,7 @@
 				DAE6FBB71BE4AB8300952812 /* UploadCollectionViewCell.m in Sources */,
 				DA130F351BEA1E1900B5B9FF /* AddSection.m in Sources */,
 				DAEFA1B91BD0B49A00900379 /* LoginViewController.m in Sources */,
+				DAFC76011C85A4FF005A6AD7 /* ToxicDetailTableViewCell.m in Sources */,
 				DAEFA1C21BD0B4FA00900379 /* AddPatientViewController.m in Sources */,
 				DAEFA1D91BD0D8ED00900379 /* SearchPatientTableViewCell.m in Sources */,
 				DAE7B7AA1BEDFB8A006C5C70 /* MBProgressHUD.m in Sources */,

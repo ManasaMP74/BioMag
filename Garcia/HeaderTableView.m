@@ -47,6 +47,16 @@
             }
         }
     }
+    }else{
+     if (_model.selectedToxicHeader.count>0) {
+         for (NSString *str in _model.selectedToxicHeader) {
+             NSArray *ar=[str componentsSeparatedByString:@"-"];
+             if (section==[ar[1] integerValue]) {
+                 int i=[self getNumberOfToxicRow:section];
+                 row=i+1;
+             }
+         }
+     }
     }
     return row;
 }
@@ -155,7 +165,13 @@
                return cell;
            }
            else{
-           UITableViewCell *cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"c"];
+               ToxicDetailTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell4"];
+               if (cell==nil) {
+                   _toxicDetailCell=[[[NSBundle mainBundle]loadNibNamed:@"ToxicDetailCell" owner:self options:nil]lastObject];
+                   cell=_toxicDetailCell;
+                   _toxicCustomCell=nil;
+               }
+               cell.toxicNameLabel.text=[self nameForToxicCell:indexPath];
            return cell;
            }
        }
@@ -236,6 +252,34 @@
         }
     }
     return i;
+}
+-(int)getNumberOfToxicRow:(int)section{
+int i=0;
+  NSString *str=selectedToxicDeficiency[section];
+    if (completeToxicArray.count>0) {
+        for (NSDictionary *dict in completeToxicArray) {
+            if (dict[str]) {
+                NSArray *ar=dict[str];
+                i=ar.count;
+                 break;
+            }
+        }
+    }
+    return i;
+}
+-(NSString*)nameForToxicCell:(NSIndexPath*)indexPath{
+    NSString *str1=@"";
+    NSString *str=selectedToxicDeficiency[indexPath.section];
+    if (completeToxicArray.count>0) {
+        for (NSDictionary *dict in completeToxicArray) {
+            if (dict[str]) {
+                NSArray *ar=dict[str];
+                str1=ar[indexPath.row-1];
+                break;
+            }
+        }
+    }
+    return str1;
 }
 -(void)selectedHeaderCell:(UITableViewCell *)cell{
     HeaderTableViewCell *cell1=(HeaderTableViewCell*)cell;
@@ -362,31 +406,42 @@
             
         }
        
+        NSMutableArray *toxicTypeCode=[[NSMutableArray alloc]init];
         for (int i=0; i<ar1.count-1;i++) {
             for (ToxicDeficiency *m in _toxicDeficiencyTypeArray) {
                 if ([m.code isEqualToString:ar1[i]]) {
                     if (![selectedToxicDeficiency containsObject:m.name]) {
                         [selectedToxicDeficiency addObject:m.name];
+                        [toxicTypeCode addObject:m.code];
                     }
                 }
             }
             i++;
         }
         
-        //        int j=0;
-        //    while (j!=selectedToxicDeficiency.count) {
-        //            NSString  *selectedToxicType=selectedToxicDeficiency[j];
-        //            NSMutableArray *selectedToxicCode=[[NSMutableArray alloc]init];
-        //        for (int i=0; i<ar1.count-1; i++) {
-        //            if ([ar1[i] isEqual:selectedToxicType]) {
-        //                [selectedToxicCode addObject:ar1[i+1]];
-        //            }
-        //          }
-        //
-        //
-        //         //   NSDictionary *dict=[NSDictionary dictionaryWithObject:selectedToxicType forKey:<#(nonnull id<NSCopying>)#>]
-        //            j++;
-        //        }
+                int j=0;
+            while (j!=toxicTypeCode.count) {
+                    NSString  *selectedToxic=toxicTypeCode[j];
+                 NSString  *selectedToxicTypeName=selectedToxicDeficiency[j];
+                    NSMutableArray *selectedToxicCode=[[NSMutableArray alloc]init];
+                for (int i=0; i<ar1.count-1; i++) {
+                    if ([ar1[i] isEqual:selectedToxic]) {
+                        [selectedToxicCode addObject:ar1[i+1]];
+                    }
+                  }
+                NSMutableArray *toxicDetailName=[[NSMutableArray alloc]init];
+                for (NSString *str in selectedToxicCode) {
+                    for (ToxicDeficiencyDetailModel *m in _toxicDeficiencyDetailArray) {
+                        if ([m.toxicCode isEqualToString:str]) {
+                            [toxicDetailName addObject:m.toxicName];
+                            break;
+                        }
+                    }
+                }
+                NSDictionary *dict=[NSDictionary dictionaryWithObject:toxicDetailName forKey:selectedToxicTypeName];
+                [completeToxicArray addObject:dict];
+                    j++;
+            }
     }
     
     
