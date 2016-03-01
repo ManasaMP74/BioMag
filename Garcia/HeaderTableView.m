@@ -51,7 +51,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
       if (tableView==_tableview) {
     return selectedSectionNameArray.count;
-      }else return 1;
+      }else return selectedToxicDeficiency.count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
        if (tableView==_tableview) {
@@ -63,26 +63,8 @@
             _headerCell=nil;
         }
         cell.delegate=self;
-        if (indexPath.section<selectedSectionNameArray.count-2) {
-            cell.headerLabel.text=[self nameForCell:indexPath];
-        }else  cell.headerLabel.text=selectedSectionNameArray[indexPath.section];
         
-        if (indexPath.section==selectedSectionNameArray.count-1) {
-            cell.headerImageView.hidden=NO;
-            cell.priceLabel.hidden=YES;
-            cell.headerImageViewWidth.constant=35;
-            cell.HeaderImageViewHeight.constant=15;
-            cell.headerButton.userInteractionEnabled=NO;
-            if ([_model.completed intValue]==0) {
-                cell.headerImageView.image=[UIImage imageNamed:@"Button-off"];
-            }else  cell.headerImageView.image=[UIImage imageNamed:@"Button-on"];
-        }else if (indexPath.section==selectedSectionNameArray.count-2) {
-            cell.headerImageView.hidden=YES;
-            cell.priceLabel.hidden=NO;
-            cell.headerButton.userInteractionEnabled=NO;
-            cell.priceLabel.text=_model.price;
-            
-        }else{
+        cell.headerLabel.text=[self nameForCell:indexPath];
             cell.headerButton.userInteractionEnabled=YES;
             cell.headerImageView.hidden=NO;
             cell.priceLabel.hidden=YES;
@@ -96,7 +78,6 @@
                     break;
                 }
             }else  cell.headerImageView.image=[UIImage imageNamed:@"Button-Expand"];
-        }
         return cell;
     }else{
         ScanPointTableViewCell *cell1=[tableView dequeueReusableCellWithIdentifier:@"cell1"];
@@ -135,6 +116,29 @@
                    cell=_toxicCustomCell;
                    _toxicCustomCell=nil;
                }
+               if (indexPath.section==selectedToxicDeficiency.count-1) {
+                   cell.switchImageView.hidden=NO;
+                   cell.priceValueLabel.hidden=YES;
+                   cell.imageViewWidth.constant=35;
+                   cell.imageViewHeight.constant=15;
+                   cell.button.userInteractionEnabled=NO;
+                   cell.headingLabel.text=selectedToxicDeficiency[indexPath.section];
+                   if ([_model.completed intValue]==0) {
+                       cell.switchImageView.image=[UIImage imageNamed:@"Button-off"];
+                   }else  cell.switchImageView.image=[UIImage imageNamed:@"Button-on"];
+               }else if (indexPath.section==selectedToxicDeficiency.count-2) {
+                   cell.imageView.hidden=YES;
+                   cell.priceValueLabel.hidden=NO;
+                   cell.button.userInteractionEnabled=NO;
+                   cell.priceValueLabel.text=_model.price;
+                   cell.headingLabel.text=selectedToxicDeficiency[indexPath.section];
+               }else{
+               
+               
+               
+               }
+               
+               
                return cell;
            }
            else{
@@ -357,8 +361,8 @@
 }
     
     
-    [selectedSectionNameArray addObject:[MCLocalization stringForKey:@"Price"]];
-    [selectedSectionNameArray addObject:[MCLocalization stringForKey:@"Completed"]];
+    [selectedToxicDeficiency addObject:[MCLocalization stringForKey:@"Price"]];
+    [selectedToxicDeficiency addObject:[MCLocalization stringForKey:@"Completed"]];
     
 }
 -(float)getTHeHeightOfTableVIew{
