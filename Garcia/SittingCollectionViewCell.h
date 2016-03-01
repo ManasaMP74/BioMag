@@ -1,10 +1,13 @@
 #import <UIKit/UIKit.h>
 #import "HeaderTableVIew.h"
 @protocol cellHeight<NSObject>
+@optional
 -(void)deleteSittingCell:(UICollectionViewCell*)cell;
 -(void)editSittingCell:(UICollectionViewCell*)cell;
 -(void)selectedHeaderCell:(NSString*)selectedHeader withcell:(UICollectionViewCell*)cell withCorrespondingHeight:(CGFloat)height;
 -(void)deselectedHeaderCell:(NSString*)deselectedHeader withcell:(UICollectionViewCell*)cell withCorrespondingHeight:(CGFloat)height;
+-(void)selectedToxicCell1:(NSString*)selectedToxicHeader withcell:(UICollectionViewCell*)cell ;
+-(void)deselectedToxicCell1:(NSString*)deselectedHeader withcell:(UICollectionViewCell*)cell ;
 @end
 @interface SittingCollectionViewCell : UICollectionViewCell<selectedCellProtocol>
 @property (strong, nonatomic) IBOutlet UILabel *visitLabel;

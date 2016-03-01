@@ -6,6 +6,7 @@
 @property(assign,nonatomic) float height;
 @property(strong,nonatomic) NSMutableArray *selectedScanPointIndexpath;
 @property(strong,nonatomic) NSMutableArray *selectedHeaderIndexpath;
+@property(strong,nonatomic) NSMutableArray *selectedToxicHeader;
 @property(strong,nonatomic) NSString *completed;
 @property(strong,nonatomic)NSString *visit;
 @property(strong,nonatomic)NSString *sittingNumber;

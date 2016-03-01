@@ -5,11 +5,12 @@
 #import "sittingModel.h"
 #import "germsModel.h"
 #import "ToxicDeficiencyDetailModel.h"
+#import "ToxicDeficiency.h"
 @implementation HeaderTableVIew
 {
     UIView *view;
     NSMutableArray *selectedSectionNameArray,*allBiamagneticArray,*selectedToxicDeficiency;
-    NSMutableArray *completeDetailArray;
+    NSMutableArray *completeDetailArray,*completeToxicArray;
 }
 -(id)initWithCoder:(NSCoder *)aDecoder{
     if (self=[super initWithCoder:aDecoder]) {
@@ -28,6 +29,7 @@
         allBiamagneticArray= [[NSMutableArray alloc]init];
         completeDetailArray=[[NSMutableArray alloc]init];
         selectedToxicDeficiency=[[NSMutableArray alloc]init];
+        completeToxicArray=[[NSMutableArray alloc]init];
     }
     return self;
 }
@@ -116,6 +118,7 @@
                    cell=_toxicCustomCell;
                    _toxicCustomCell=nil;
                }
+               cell.delegate=self;
                if (indexPath.section==selectedToxicDeficiency.count-1) {
                    cell.switchImageView.hidden=NO;
                    cell.priceValueLabel.hidden=YES;
@@ -138,6 +141,14 @@
                    cell.priceValueLabel.hidden=YES;
                    cell.imageViewHeight.constant=18;
                    cell.imageViewWidth.constant=18;
+                   cell.headingLabel.text=selectedToxicDeficiency[indexPath.section];
+                cell.switchImageView.image=[UIImage imageNamed:@"Button-Expand"];
+                   for (NSString *i in _model.selectedToxicHeader) {
+                       if ([i isEqual:[NSString stringWithFormat:@"%ld-%ld",(long)indexPath.row,(long)indexPath.section]]) {
+                           cell.switchImageView.image=[UIImage imageNamed:@"Button-Collapse"];
+                           break;
+                       }
+                   }
                }
                
                
@@ -244,10 +255,19 @@
         [self.delegate deselectedCell:selectedIndex withCorrespondingHeight:0];
     }
 }
+-(void)selectedToxicCell:(UITableViewCell *)cell{
+    ToxicTableViewCell *cell1=(ToxicTableViewCell*)cell;
+    NSIndexPath *indexPath=[self.toxicTableView indexPathForCell:cell1];
+    NSString *str=[NSString stringWithFormat:@"%ld-%ld",(long)indexPath.row,(long)indexPath.section];
+    if (![_model.selectedToxicHeader containsObject:str]) {
+        [self.delegate selectedToxicCell:str];
+    }else[self.delegate deselectedToxicCell:str];
+}
 -(void)gettheSection{
     [selectedSectionNameArray removeAllObjects];
      [completeDetailArray removeAllObjects];
     [selectedToxicDeficiency removeAllObjects];
+    [completeToxicArray removeAllObjects];
     for (NSDictionary *dict in _model.anotomicalPointArray) {
         if (![selectedSectionNameArray containsObject:dict[@"SectionCode"]]) {
             if (dict[@"SectionCode"]!=nil) {
@@ -339,11 +359,16 @@
             [ar1 addObjectsFromArray:a];
 
         }
+        //NSMutableArray *
         for (int i=0; i<ar1.count-1;i++) {
-            if (![selectedToxicDeficiency containsObject:ar1[i]]) {
-                [selectedToxicDeficiency addObject:ar1[i]];
+            for (ToxicDeficiency *m in _toxicDeficiencyTypeArray) {
+                if ([m.code isEqualToString:ar1[i]]) {
+                    if (![selectedToxicDeficiency containsObject:m.name]) {
+                        [selectedToxicDeficiency addObject:m.name];
+                    }
+                }
             }
-            i++;
+           i++;
         }
         
 //        int j=0;

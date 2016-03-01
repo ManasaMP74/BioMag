@@ -368,7 +368,6 @@
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         [userDefault setBool:NO forKey:@"language_FLAG"];
         [MBProgressHUD hideHUDForView:self.view animated:NO ];
-         [self callSeedForToxicDeficiency];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [MBProgressHUD hideHUDForView:self.view animated:NO];
         [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
@@ -393,6 +392,7 @@
     }
     NSUserDefaults *standardDefault1=[NSUserDefaults standardUserDefaults];
     [self getTheLanguageName:[standardDefault1 valueForKey:@"languageCode"]];
+     [self callSeedForToxicDeficiency];
 }
 -(void)getTheLanguageName:(NSString*)code{
     if (languageArray.count>0) {

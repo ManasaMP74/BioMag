@@ -11,8 +11,7 @@
 
    }
 - (IBAction)selectTheCell:(id)sender {
-
-
+    [self.delegate selectedToxicCell:self];
 }
 
 @end

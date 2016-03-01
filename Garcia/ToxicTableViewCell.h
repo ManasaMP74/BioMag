@@ -1,5 +1,7 @@
 #import <UIKit/UIKit.h>
-
+@protocol selectedToxicCellProtocol<NSObject>
+-(void)selectedToxicCell:(UITableViewCell*)cell;
+@end
 @interface ToxicTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *switchImageView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewHeight;
@@ -8,4 +10,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *headingLabel;
 @property (weak, nonatomic) IBOutlet UIButton *button;
 
+@property(weak,nonatomic)id<selectedToxicCellProtocol>delegate;
 @end

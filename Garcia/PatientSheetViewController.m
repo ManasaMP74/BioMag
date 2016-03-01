@@ -704,7 +704,39 @@
     _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
     _settingViewHeight.constant=sittingCollectionViewHeight+120;
 }
+-(void)selectedToxicCell1:(NSString *)selectedToxicHeader withcell:(UICollectionViewCell*)cell {
+    SittingCollectionViewCell *cell1=(SittingCollectionViewCell*)cell;
+    NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell1];
+    SittingModelClass *m=sittingCollectionArray[index.row];
+    [m.selectedToxicHeader addObject:selectedToxicHeader];
+    [self.view layoutIfNeeded];
+    [_sittingCollectionView reloadData];
+    [self.view layoutIfNeeded];
+    [_sittingCollectionView reloadData];
+    sittingCollectionViewHeight=0;
+    for (SittingModelClass *m in sittingCollectionArray) {
+        sittingCollectionViewHeight=MAX(sittingCollectionViewHeight, m.height);
+    }
+    _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
+    _settingViewHeight.constant=sittingCollectionViewHeight+120;
 
+}
+-(void)deselectedToxicCell1:(NSString *)deselectedHeader withcell:(UICollectionViewCell*)cell {
+    SittingCollectionViewCell *cell1=(SittingCollectionViewCell*)cell;
+    NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell1];
+    SittingModelClass *m=sittingCollectionArray[index.row];
+    [m.selectedToxicHeader removeObject:deselectedHeader];
+    [self.view layoutIfNeeded];
+    [_sittingCollectionView reloadData];
+    [self.view layoutIfNeeded];
+    [_sittingCollectionView reloadData];
+    sittingCollectionViewHeight=0;
+    for (SittingModelClass *m in sittingCollectionArray) {
+        sittingCollectionViewHeight=MAX(sittingCollectionViewHeight, m.height);
+    }
+    _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
+    _settingViewHeight.constant=sittingCollectionViewHeight+120;
+}
 //default values
 -(void)defaultValue{
     [constant getTheAllSaveButtonImage:_exit];
@@ -1380,6 +1412,7 @@
                 _sittingCollectionViewWidth.constant=100;
                 m.selectedHeaderIndexpath=[[NSMutableArray alloc]init];
                 m.selectedScanPointIndexpath=[[NSMutableArray alloc]init];
+                m.selectedToxicHeader=[[NSMutableArray alloc]init];
                 m.toxicDeficiency=json[@"ToxicDeficiency"];
                 m.price=json[@"Price"];
                 m.height=100;

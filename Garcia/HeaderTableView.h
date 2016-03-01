@@ -6,8 +6,10 @@
 @protocol selectedCellProtocol<NSObject>
 -(void)selectedCell:(NSString*)selectedHeader withCorrespondingHeight:(CGFloat)height;
 -(void)deselectedCell:(NSString*)deselectedHeader withCorrespondingHeight:(CGFloat)height;
+-(void)selectedToxicCell:(NSString*)selectedToxicHeader;
+-(void)deselectedToxicCell:(NSString*)deselectedHeader;
 @end
-@interface HeaderTableVIew : UIView<UITableViewDataSource,UITableViewDelegate,selectedcell,selectedScanpoint>
+@interface HeaderTableVIew : UIView<UITableViewDataSource,UITableViewDelegate,selectedcell,selectedScanpoint,selectedToxicCellProtocol>
 @property (strong, nonatomic) IBOutlet ScanPointTableViewCell *scapointCell;
 @property (strong, nonatomic) IBOutlet HeaderTableViewCell *headerCell;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableviewHeight;

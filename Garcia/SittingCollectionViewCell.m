@@ -18,4 +18,10 @@
 -(void)deselectedCell:(NSString*)deselectedHeader withCorrespondingHeight:(CGFloat)height{
     [self.delegate deselectedHeaderCell:deselectedHeader withcell:self withCorrespondingHeight:height];
 }
+-(void)selectedToxicCell:(NSString*)selectedToxicHeader{
+    [self.delegate selectedToxicCell1:selectedToxicHeader withcell:self];
+}
+-(void)deselectedToxicCell:(NSString*)deselectedHeader{
+    [self.delegate deselectedToxicCell1:deselectedHeader withcell:self];
+}
 @end
