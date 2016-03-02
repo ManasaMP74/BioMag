@@ -1,17 +1,20 @@
 #import "AttachmentViewController.h"
-
+#import "Constant.h"
 @interface AttachmentViewController ()<UIImagePickerControllerDelegate,UITextViewDelegate>
 
 
 @end
 
 @implementation AttachmentViewController
-
+{
+ Constant *constant;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.hidesBackButton=YES;
      [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-2.jpg"]]];
     [self navigationItemMethod];
+    constant=[[Constant alloc]init];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -34,6 +37,8 @@
         _CancelButton.hidden=NO;
         _textView.backgroundColor=[UIColor whiteColor];
     }
+    [constant changeSaveBtnImage:_okButton];
+    [constant changeCancelBtnImage:_CancelButton];
 }
 - (IBAction)okButton:(id)sender {
     [self.delegate selectedImage:_imageView.image withCaption:_textView.text];

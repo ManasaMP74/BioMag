@@ -27,6 +27,8 @@
     constant=[[Constant alloc]init];
     [_cancelButton setTitle:[MCLocalization stringForKey:@"Cancel"] forState:normal];
     [_doneButton setTitle:[MCLocalization stringForKey:@"Done"] forState:normal];
+    [constant changeSaveBtnImage:_doneButton];
+    [constant changeCancelBtnImage:_cancelButton];
     view.layer.cornerRadius = 10;
     view.layer.masksToBounds  = YES;
     _doneButton.layer.cornerRadius=21;

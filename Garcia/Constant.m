@@ -109,8 +109,18 @@
     [btn setBackgroundImage:[UIImage imageNamed:@"Save-Button.png"] forState:normal];
     [btn setTitleColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1] forState:normal];
 }
-
-
+//change the save btn image size according to text
+-(void)changeSaveBtnImage:(UIButton*)btn{
+ [btn setBackgroundImage:[[UIImage imageNamed:@"Save-Button"] resizableImageWithCapInsets:(UIEdgeInsetsMake(12, 30, 12, 30))] forState:(UIControlStateNormal)];
+    btn.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    btn.titleLabel.numberOfLines = 2;
+}
+//change the cancel btn image size according to text
+-(void)changeCancelBtnImage:(UIButton*)btn{
+    [btn setBackgroundImage:[[UIImage imageNamed:@"Cancel-Button"] resizableImageWithCapInsets:(UIEdgeInsetsMake(12, 30, 12, 30))] forState:(UIControlStateNormal)];
+    btn.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    btn.titleLabel.numberOfLines = 2;
+}
 
 
 

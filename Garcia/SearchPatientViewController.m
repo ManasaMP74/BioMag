@@ -305,6 +305,9 @@
 
 //Response for API complete patient
 -(void)processResponseObject:(id)responseObject{
+    ContainerViewController *containerVc =(ContainerViewController*)self.parentViewController;
+    [containerVc hideAllMBprogressTillLoadThedata];
+    [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:NO];
     NSDictionary *dict1;
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         NSDictionary *responseDict1 = responseObject;
@@ -435,6 +438,9 @@
 
 //Response for API 100 offset patient
 -(void)processResponseObjectforOffsetApi:(id)responseObject{
+     ContainerViewController *containerVc =(ContainerViewController*)self.parentViewController;
+    [containerVc hideAllMBprogressTillLoadThedata];
+    [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:NO];
     NSDictionary *dict1;
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         NSDictionary *responseDict1 = responseObject;

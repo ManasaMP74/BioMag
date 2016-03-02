@@ -158,6 +158,12 @@
     if ([_patientTitleModel.IsTreatmentCompleted intValue]==0) {
         [self DisableAllButton:NO];
     }else [self DisableAllButton:YES];
+    [constant changeSaveBtnImage:_saveTreatmentClosure];
+    [constant changeCancelBtnImage:_closeTreatmentClosure];
+    [constant changeSaveBtnImage:_addDiagnosis];
+     [constant changeSaveBtnImage:_addMedical];
+     [constant changeSaveBtnImage:_exit];
+     [constant changeCancelBtnImage:_cancelMedical];
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];

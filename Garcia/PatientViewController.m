@@ -196,6 +196,8 @@
 
 //process Response of Api
 -(void)processResponseObjectToGetTreatmentDetail:(id)responseObject{
+    [containerVC hideAllMBprogressTillLoadThedata];
+    [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:NO];
     [treatmentListArray removeAllObjects];
     NSUserDefaults *defaultValues=[NSUserDefaults standardUserDefaults];
     NSString *docID=[defaultValues valueForKey:@"Id"];

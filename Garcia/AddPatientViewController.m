@@ -91,6 +91,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+    [constant changeSaveBtnImage:_saveBtn];
+    [constant changeCancelBtnImage:_cancelBtn];
     _patientImageView.layer.cornerRadius=_patientImageView.frame.size.width/2;
     _patientImageView.clipsToBounds=YES;
 }

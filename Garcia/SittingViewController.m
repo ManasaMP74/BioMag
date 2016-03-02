@@ -94,6 +94,7 @@
         _exit.hidden=NO;
     }
     [self setTheValuesInTableView];
+    [constant changeSaveBtnImage:_saveBtn];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -1319,6 +1320,7 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
 }
 //get the germs string for each array
 -(void)getGermsStringForCompleDetailArray{
+    if (_bioSittingDict!=nil) {
     NSDictionary *dict=_bioSittingDict;
     NSString *str=dict[@"JSON"];
     NSError *jsonError;
@@ -1339,6 +1341,7 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
                 }
             }
         }
+    }
     }
 }
 

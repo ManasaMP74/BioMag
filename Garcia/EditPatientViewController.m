@@ -89,6 +89,8 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-1.jpg"]]];
+    [constant changeSaveBtnImage:_saveBtn];
+    [constant changeCancelBtnImage:_cancelBtn];
     UINavigationController *nav=(UINavigationController*)self.parentViewController;
     containerVC=(ContainerViewController*)nav.parentViewController;
     [containerVC setTitle:navTitle];
@@ -753,8 +755,9 @@
    yesStr=[MCLocalization stringForKey:@"Yes"];
     noStr=[MCLocalization stringForKey:@"No"];
     [_cancelBtn setTitle:[MCLocalization stringForKey:@"Cancel"] forState:normal];
-    [_saveBtn setTitle:[MCLocalization stringForKey:@"Save"] forState:normal];
-
+    //[_saveBtn setTitle:[MCLocalization stringForKey:@"Save"] forState:normal];
+ [_saveBtn setTitle:@"dhfgsfhdjsfgaesiufrtdhvklsfrsughvcnvkdixfsghfjgnsldifrtghfbgkdgjuisrtghfgdskfgturdghdfkgjsi" forState:normal];
+//    [self.saveBtn sizeToFit];
     [self.nameLabel setAttributedText:[constant setColoredLabelandStar:[MCLocalization stringForKey:@"Name"]]];
     
     [self.genderLabel setAttributedText:[constant setColoredLabelandStar:[MCLocalization stringForKey:@"GenderLabel"]]];

@@ -21,4 +21,6 @@
 - (NSMutableAttributedString *)setColoredLabelandStar:(NSString *)strplaceHolder;
 
 -(void)getTheAllSaveButtonImage:(UIButton*)btn;
+-(void)changeSaveBtnImage:(UIButton*)btn;
+-(void)changeCancelBtnImage:(UIButton*)btn;
 @end
