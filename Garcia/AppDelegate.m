@@ -18,6 +18,7 @@
 @implementation AppDelegate
 {
     LanguageChanger *langchanger;
+    BOOL appIsLaunched;
 
 }
 
@@ -26,6 +27,7 @@
     [[UINavigationBar appearance]setBarTintColor:[UIColor colorWithRed:0 green:0.71 blue:0.93 alpha:1]];
     [[UINavigationBar appearance]setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithRed:1 green:1 blue:1 alpha:1],NSForegroundColorAttributeName,[UIFont fontWithName:@"OpenSans-Bold" size:22],NSFontAttributeName, nil]];
 
+    appIsLaunched=YES;
    langchanger=[[LanguageChanger alloc]init];
     NSUserDefaults *userdefault=[NSUserDefaults standardUserDefaults];
     
@@ -76,15 +78,18 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-       [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
+    if (!appIsLaunched) {
+    [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
         if (success) {
-       
+         [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:NO];
+            [langchanger readingLanguageFromDocument];
         }
         else{
             
         }
     }];
-
+    }
+    appIsLaunched=NO;
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 

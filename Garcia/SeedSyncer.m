@@ -39,7 +39,7 @@
         }else completionHandler(false);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         completionHandler(false);
-        [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
+        [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:NO];
     }];
 
 }

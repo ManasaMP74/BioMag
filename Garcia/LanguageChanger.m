@@ -99,7 +99,6 @@
         NSData *data=[content dataUsingEncoding:NSUTF8StringEncoding];
         [fileManager createFileAtPath:filePath contents:data attributes:nil];
     }
- [self readingLanguageFromDocument];
 }
 
 

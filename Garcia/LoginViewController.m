@@ -23,6 +23,7 @@
     AppDelegate *app;
     NSString *userNameRequiredStr,*PasswordRequiredStr,*alertOkStr,*alertStr,*authenticationFailedStr,*seedError,*loginFailed;
     NSUserDefaults *userdefault;
+    LanguageChanger *langchanger;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -204,7 +205,7 @@
     }
 }
 -(void)languageChanger{
-    LanguageChanger *langchanger=[[LanguageChanger alloc]init];
+    langchanger=[[LanguageChanger alloc]init];
     [langchanger callApiForPreferredLanguage];
     langchanger.delegate=self;
 }
@@ -212,6 +213,7 @@
     if (str==0) {
         [self showToastMessage:seedError];
     }else
+        [langchanger readingLanguageFromDocument];
           [self performSegueWithIdentifier:@"loginSuccess" sender:nil];
 }
 //validate login
