@@ -76,9 +76,9 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
+       [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
         if (success) {
-            [self languageChanger];
+       
         }
         else{
             

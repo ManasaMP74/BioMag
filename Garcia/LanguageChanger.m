@@ -49,6 +49,7 @@
 
 -(void)callApiForUILabelLanguage
 {
+     postman=[[Postman alloc]init];
      userdefault=[NSUserDefaults standardUserDefaults];
     NSString *languageCode=[userdefault valueForKey:@"languageCode"];
      if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {

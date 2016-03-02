@@ -17,6 +17,7 @@
 #import "LoginViewController.h"
 #import "ToxicDeficiencyDetailModel.h"
 #import "ToxicDeficiency.h"
+#import "sittingModel.h"
 #if !defined(MAX)
 #define MAX(A,B)((A) > (B) ? (A) : (B))
 #endif
@@ -26,7 +27,7 @@
 
 @implementation ContainerViewController
 {
-    NSMutableArray *languageArray,*toxicDeficiencyDetailArray,*toxicDeficiencyTypeArray;
+    NSMutableArray *languageArray,*toxicDeficiencyDetailArray,*toxicDeficiencyTypeArray,*sittingArray;
     Postman *postman;
     NSString *patientName;
     WYPopoverController *wypopOverController;
@@ -44,9 +45,10 @@
     languageArray =[[NSMutableArray alloc]init];
     toxicDeficiencyDetailArray=[[NSMutableArray alloc]init];
     toxicDeficiencyTypeArray=[[NSMutableArray alloc]init];
+    sittingArray=[[NSMutableArray alloc]init];
     postman=[[Postman alloc]init];
     [self navigationMethod];
-    [self callSeedForToxic];
+    [self callSeedForSitting];
     [self callSeed];
 }
 - (void)didReceiveMemoryWarning {
@@ -286,7 +288,7 @@
     PatientSheetViewController *patientSheet=[self.storyboard instantiateViewControllerWithIdentifier:@"PatientSheetViewController"];
     patientSheet.model=_model;
     patientSheet.patientTitleModel=model;
-    patientSheet.sittingArray=_sittingArray;
+    patientSheet.sittingArray=sittingArray;
     patientSheet.toxicDeficiencyDetailArray=toxicDeficiencyDetailArray;
     patientSheet.toxicDeficiencyTypeArray=toxicDeficiencyTypeArray;
     patientSheet.delegate=self;
@@ -566,7 +568,108 @@
             [toxicDeficiencyTypeArray addObject:model];
         }
     }
+     [self callSeedForToxic];
 }
+-(void)callSeedForSitting{
+    
+    //    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+    //        //For vzone API
+    //        [self callApi];
+    //    }else{
+    //        //For Material API
+    
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"anatomicalbiomagneticmatrix_FLAG"]) {
+        [self callApiforSitting];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,biomagneticMatrix];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+                [self processResponseObjectforSitting:response];
+            }
+            else{
+                [self callApiforSitting];
+            }
+        }];
+    }
+    
+    //   }
+}
+//Call api to get the biomagnetic matrix
+-(void)callApiforSitting{
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,biomagneticMatrix];
+    
+    NSString *parameter;
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        parameter=[NSString stringWithFormat:@"{\"request\":{\"SectionCode\": \"\",\"ScanPointCode\": \"\",\"CorrespondingPairCode\":\"\",\"GermsCode\": \"\"}}"];
+    }else{
+        
+        //For material API
+        
+        parameter =[NSString stringWithFormat:@"{\"SectionCode\": \"\",\"ScanPointCode\": \"\",\"CorrespondingPairCode\":\"\",\"GermsCode\": \"\"}"];
+    }
+    [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self processResponseObjectforSitting:responseObject];
+        [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        [userDefault setBool:NO forKey:@"anatomicalbiomagneticmatrix_FLAG"];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //        [MBProgressHUD hideHUDForView:self.view animated:NO];
+        //        [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
+        
+    }];
+}
+//Response of biomagnetic matrix
+-(void)processResponseObjectforSitting:(id)responseObject{
+    [sittingArray removeAllObjects];
+    NSDictionary *dict;
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        NSDictionary *responseDict1 = responseObject;
+        dict= responseDict1[@"aaData"];
+    }else{
+        //For Material API
+        dict=responseObject;
+    }
+    
+    if ([dict[@"Success"] intValue]==1) {
+        for (NSDictionary *dict1 in dict[@"AnatomicalBiomagneticMatrix"]) {
+            if ([dict1[@"Status"]intValue]==1) {
+                sittingModel *model=[[sittingModel alloc]init];
+                model.sittingId=dict1[@"Id"];
+                if (dict1[@"Code"]!=[NSNull null]) {
+                    model.anatomicalBiomagenticCode=dict1[@"Code"];
+                }
+                if (dict1[@"ScanPointCode"]!=[NSNull null]) {
+                    model.scanPointCode=dict1[@"ScanPointCode"];
+                }
+                if (dict1[@"CorrespondingPairCode"]!=[NSNull null]){
+                    model.correspondingPairCode=dict1[@"CorrespondingPairCode"];
+                }
+                if (dict1[@"GermsCode"]!=[NSNull null]){
+                    [model.germsCode addObject:dict1[@"GermsCode"]];
+                }
+                if (dict1[@"SectionCode"]!=[NSNull null]){
+                    model.sectionCode=dict1[@"SectionCode"];
+                }
+                if (dict1[@"Section"]!=[NSNull null]){
+                    model.sectionName=dict1[@"Section"];
+                }
+                if (dict1[@"ScanPoint"]!=[NSNull null]){
+                    model.scanPointName=dict1[@"ScanPoint"];
+                }
+                if (dict1[@"CorrespondingPair"]!=[NSNull null]){
+                    model.correspondingPairName=dict1[@"CorrespondingPair"];
+                }
+                [sittingArray addObject:model];
+            }
+        }
+    }
+}
+
 //Toast Message
 -(void)showToastMessage:(NSString*)msg{
     MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:self.view animated:YES];

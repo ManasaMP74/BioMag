@@ -339,7 +339,6 @@ int i=0;
                             break;
                         }
                     }
-                }
                 
                 //headerModel.sectionName=dict2[@"SectionName"];
                 headerModel.sectionName=m1.sectionName;
@@ -361,12 +360,12 @@ int i=0;
                         NSArray *ar1=[dict2[@"GermsCode"] componentsSeparatedByString:@","];
                         NSString *germstr=@"";
                         if (ar1.count>0) {
-                            for (int i=0; i<ar1.count; i++) {
+                            for (int k=0; k<ar1.count; k++) {
                                 if (_germsArray.count>0) {
                                     for (germsModel *g in _germsArray) {
-                                        if ([g.germsUserFriendlycode isEqualToString:ar1[i]]) {
+                                        if ([g.germsUserFriendlycode isEqualToString:ar1[k]]) {
                                             germstr=[germstr stringByAppendingString:g.germsName];
-                                            if (i!=ar1.count-1) {
+                                            if (k!=ar1.count-1) {
                                                 germstr=[germstr stringByAppendingString:@","];
                                             }
                                             break;
@@ -390,10 +389,11 @@ int i=0;
             }
         }
         }
+        }
         NSDictionary *sectionDict=[NSDictionary dictionaryWithObject:headerModel forKey:str];
         [completeDetailArray addObject:sectionDict];
         i++;
-    }
+   }
     [self getToxicDeficiencey];
 }
 -(void)getToxicDeficiencey{
@@ -407,6 +407,7 @@ int i=0;
         }
        
         NSMutableArray *toxicTypeCode=[[NSMutableArray alloc]init];
+        if (ar1.count>0) {
         for (int i=0; i<ar1.count-1;i++) {
             for (ToxicDeficiency *m in _toxicDeficiencyTypeArray) {
                 if ([m.code isEqualToString:ar1[i]]) {
@@ -418,6 +419,7 @@ int i=0;
             }
             i++;
         }
+    }
         
                 int j=0;
             while (j!=toxicTypeCode.count) {
