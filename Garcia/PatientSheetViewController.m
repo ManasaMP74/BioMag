@@ -737,7 +737,6 @@
     }
     _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
     _settingViewHeight.constant=sittingCollectionViewHeight+120;
-
 }
 -(void)deselectedToxicCell1:(NSString *)deselectedHeader withcell:(UICollectionViewCell*)cell {
     SittingCollectionViewCell *cell1=(SittingCollectionViewCell*)cell;
