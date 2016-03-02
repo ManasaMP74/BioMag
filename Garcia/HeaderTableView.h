@@ -3,6 +3,7 @@
 #import "HeaderTableViewCell.h"
 #import "SittingModelClass.h"
 #import "ToxicTableViewCell.h"
+#import "ToxicDetailTableViewCell.h"
 @protocol selectedCellProtocol<NSObject>
 -(void)selectedCell:(NSString*)selectedHeader withCorrespondingHeight:(CGFloat)height;
 -(void)deselectedCell:(NSString*)deselectedHeader withCorrespondingHeight:(CGFloat)height;
@@ -20,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *toxicTableViewHeight;
 @property (weak, nonatomic) IBOutlet UITableView *toxicTableView;
 @property (strong, nonatomic) IBOutlet ToxicTableViewCell *toxicCustomCell;
+@property (strong, nonatomic) IBOutlet ToxicDetailTableViewCell *toxicDetailCell;
 
 
 @property(strong,nonatomic)NSArray *toxicDeficiencyDetailArray;

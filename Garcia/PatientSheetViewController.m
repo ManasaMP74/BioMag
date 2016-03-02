@@ -682,16 +682,34 @@
     SittingModelClass *m=sittingCollectionArray[index.row];
     NSArray *ar=[deselectedHeader componentsSeparatedByString:@"-"];
     if ([ar[0] intValue]==0) {
-        [m.selectedHeaderIndexpath removeAllObjects];
-        [m.correspondingPairHeight removeAllObjects];
+        NSMutableArray *headerRemoveArray=[[NSMutableArray alloc]init];
+        for (NSString *str in m.selectedHeaderIndexpath) {
+          NSArray *ar1=[str componentsSeparatedByString:@"-"];
+            if ([ar1[1] isEqualToString:ar[1]]) {
+                [headerRemoveArray addObject:str];
+            }
+        }
+        NSMutableArray *dictArray=[[NSMutableArray alloc]init];
+        for (NSString *str in headerRemoveArray) {
+            for (NSDictionary *dict in m.correspondingPairHeight) {
+                    if (dict[str]) {
+                        [dictArray addObject:dict[str]];
+                        break;
+                    }
+                }
+        }
+        [m.selectedHeaderIndexpath removeObjectsInArray:headerRemoveArray];
+        [m.correspondingPairHeight removeObjectsInArray:dictArray];
     }else{
         [m.selectedHeaderIndexpath removeObject:deselectedHeader];
+        NSDictionary *dict1;
         for (NSDictionary *dict in m.correspondingPairHeight) {
             if (dict[deselectedHeader]) {
-                [m.correspondingPairHeight removeObject:dict[deselectedHeader]];
+                dict1=dict;
                 break;
             }
         }
+        [m.correspondingPairHeight removeObject:dict1];
     }
     [self.view layoutIfNeeded];
     [_sittingCollectionView reloadData];
