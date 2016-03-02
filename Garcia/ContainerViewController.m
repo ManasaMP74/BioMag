@@ -56,6 +56,10 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [lagSomeButton setBackgroundImage:[[UIImage imageNamed:@"Language-Button.png"] resizableImageWithCapInsets:(UIEdgeInsetsMake(14,30, 14,30))] forState:(UIControlStateNormal)];
+    lagSomeButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    lagSomeButton.titleLabel.numberOfLines = 2;
+         [lagSomeButton sizeToFit];
 }
 //navigationMethod
 -(void)navigationMethod{
@@ -69,18 +73,17 @@
     
     
   //  UIImage* image = [UIImage imageNamed:@"Icon-Langauge.png"];
-    UIImage* image1 = [UIImage imageNamed:@"Language-Button.png"];
-    CGRect lagFrameimg = CGRectMake(0,0,image1.size.width, image1.size.height);
-    lagSomeButton= [[UIButton alloc] initWithFrame:lagFrameimg];
-    [lagSomeButton setBackgroundImage:image1 forState:normal];
-   // [lagSomeButton setImage:image forState:normal];
-     lagSomeButton.titleEdgeInsets=UIEdgeInsetsMake(0,10, 0,28);
+    // [lagSomeButton setImage:image forState:normal];
     // lagSomeButton.titleEdgeInsets=UIEdgeInsetsMake(0, -35, 0, 30);
-   // lagSomeButton.imageEdgeInsets=UIEdgeInsetsMake(0,74, 0, 0);
+    // lagSomeButton.imageEdgeInsets=UIEdgeInsetsMake(0,74, 0, 0);
+    //    [standardDefault setValue:@"English" forKey:@"languageName"];
+   // CGRect lagFrameimg = CGRectMake(0,0,image1.size.width, image1.size.height);
+    // lagSomeButton.titleEdgeInsets=UIEdgeInsetsMake(0,0.20,0,0.20);
+    
+    lagSomeButton= [[UIButton alloc] init];
     standardDefault=[NSUserDefaults standardUserDefaults];
-    [standardDefault setValue:@"English" forKey:@"languageName"];
     lagSomeButton.titleLabel.font=[UIFont fontWithName:@"OpenSans-Semibold" size:14];
-    [lagSomeButton setTitle:[standardDefault valueForKey:@"languageName"] forState:normal];
+    //[lagSomeButton setTitle:[standardDefault valueForKey:@"languageName"] forState:normal];
     [lagSomeButton setTitleColor:[UIColor blackColor] forState:normal];
     [lagSomeButton addTarget:self action:@selector(languageChange:) forControlEvents:UIControlEventTouchUpInside];
     [lagSomeButton setShowsTouchWhenHighlighted:YES];
@@ -89,7 +92,6 @@
     negativeSpacer.width = 20;
     self.navigationItem.rightBarButtonItems=@[mailbutton,negativeSpacer,lagButton];
 }
-
 //pop back
 -(void)popToViewController{
     [self.navigationController popViewControllerAnimated:YES];
@@ -680,5 +682,11 @@
     hubHUD.yOffset=150.f;
     hubHUD.removeFromSuperViewOnHide = YES;
     [hubHUD hide:YES afterDelay:2];
+}
+-(void)languageBtnFrame:(UIButton*)btn{
+    standardDefault=[NSUserDefaults standardUserDefaults];
+    lagSomeButton.titleLabel.font=[UIFont fontWithName:@"OpenSans-Semibold" size:14];
+    NSString *languageName=[standardDefault valueForKey:@"languageName"];
+    
 }
 @end

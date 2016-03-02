@@ -112,6 +112,7 @@
     NSString *differForNavButton;
     NSString *navTitle,*titleOfTreatment,*closureNote,*medicalNote,*diagnosisNote,*doYouWantToCloseTreatment,*alert,*alertOk,*updatedSuccess,*updateFailed,*saveSuccess,*saveFailed,*enterTreatmentClosure,*ok,*yesStr,*noStr,*treatmentTitlerequired,*sittingStr,*closedSuccess;
     WYPopoverController *wypopOverController;
+    UIButton * lagSomeButton;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -164,6 +165,11 @@
      [constant changeSaveBtnImage:_addMedical];
      [constant changeSaveBtnImage:_exit];
      [constant changeCancelBtnImage:_cancelMedical];
+    [lagSomeButton setBackgroundImage:[[UIImage imageNamed:@"Language-Button.png"] resizableImageWithCapInsets:(UIEdgeInsetsMake(14,30, 14,30))] forState:(UIControlStateNormal)];
+    lagSomeButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    lagSomeButton.titleLabel.numberOfLines = 2;
+    [lagSomeButton sizeToFit];
+
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
@@ -254,7 +260,7 @@
     //UIImage* image2 = [UIImage imageNamed:@"Icon-Langauge.png"];
     UIImage* image1 = [UIImage imageNamed:@"Language-Button.png"];
     CGRect lagFrameimg = CGRectMake(0,0,image1.size.width, image1.size.height);
-    UIButton * lagSomeButton= [[UIButton alloc] initWithFrame:lagFrameimg];
+   lagSomeButton = [[UIButton alloc] initWithFrame:lagFrameimg];
     [lagSomeButton setBackgroundImage:image1 forState:normal];
     // [lagSomeButton setImage:image2 forState:normal];
     lagSomeButton.titleEdgeInsets=UIEdgeInsetsMake(0,10, 0,28);
