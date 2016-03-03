@@ -67,6 +67,7 @@
 		DA8C3DF91C24327F0076EBD2 /* PreviousSittingCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8C3DF81C24327F0076EBD2 /* PreviousSittingCollectionViewCell.m */; };
 		DA8C68201C5A1E8C00F78E86 /* UIImageView+clearCachImage.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8C681F1C5A1E8C00F78E86 /* UIImageView+clearCachImage.m */; };
 		DA8C68231C5A49D700F78E86 /* PreviousSittingModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8C68221C5A49D700F78E86 /* PreviousSittingModelClass.m */; };
+		DA9E393B1C88260A00499142 /* CriticalTreatmentInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9E393A1C88260A00499142 /* CriticalTreatmentInfoViewController.m */; };
 		DAA92F811C2146680057AF19 /* germsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAA92F801C2146680057AF19 /* germsView.xib */; };
 		DAACC89F1C154AE90026132A /* germsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAACC89E1C154AE90026132A /* germsModel.m */; };
 		DAB0C4A91C5F85F6002F0189 /* PopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB0C4A81C5F85F6002F0189 /* PopOverViewController.m */; };
@@ -238,6 +239,8 @@
 		DA8C681F1C5A1E8C00F78E86 /* UIImageView+clearCachImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+clearCachImage.m"; sourceTree = "<group>"; };
 		DA8C68211C5A49D700F78E86 /* PreviousSittingModelClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviousSittingModelClass.h; sourceTree = "<group>"; };
 		DA8C68221C5A49D700F78E86 /* PreviousSittingModelClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviousSittingModelClass.m; sourceTree = "<group>"; };
+		DA9E39391C88260A00499142 /* CriticalTreatmentInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CriticalTreatmentInfoViewController.h; sourceTree = "<group>"; };
+		DA9E393A1C88260A00499142 /* CriticalTreatmentInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CriticalTreatmentInfoViewController.m; sourceTree = "<group>"; };
 		DAA92F801C2146680057AF19 /* germsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = germsView.xib; sourceTree = "<group>"; };
 		DAACC89D1C154AE90026132A /* germsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = germsModel.h; sourceTree = "<group>"; };
 		DAACC89E1C154AE90026132A /* germsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = germsModel.m; sourceTree = "<group>"; };
@@ -892,6 +895,8 @@
 				DAF82CDF1BD4BA74006AF1E1 /* ContainerViewController.m */,
 				DA5EF2B01C7D82EC00A250F5 /* AboutUsViewController.h */,
 				DA5EF2B11C7D82EC00A250F5 /* AboutUsViewController.m */,
+				DA9E39391C88260A00499142 /* CriticalTreatmentInfoViewController.h */,
+				DA9E393A1C88260A00499142 /* CriticalTreatmentInfoViewController.m */,
 				DAF497F01C5F6C8600CD9E7D /* Language */,
 			);
 			name = ContainerVC;
@@ -1178,6 +1183,7 @@
 				DA261DC91C4660CD00B18035 /* ToxicDeficiency.m in Sources */,
 				DAF7EF341C1AF375009ADE9B /* germsView.m in Sources */,
 				DA4896151C6C6A2100FE12C3 /* LanguageChanger.m in Sources */,
+				DA9E393B1C88260A00499142 /* CriticalTreatmentInfoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
