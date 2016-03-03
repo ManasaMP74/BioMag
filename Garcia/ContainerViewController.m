@@ -211,19 +211,19 @@
 }
 //delegate of slideout
 -(void)selectedSlideOutObject:(int)row{
-    if (row==5) {
+    if (row==7) {
      [self showFailureAlerMessage:@"Do you really want to Signout?"];
-    }else  if (row==4) {
+    }else  if (row==6) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",baseUrl,privecyAndPolicy]]];
     }
-    else  if (row==1) {
+    else  if (row==3) {
         AboutUsViewController *about=[self.storyboard instantiateViewControllerWithIdentifier:@"AboutUsViewController"];
         [self.navigationController pushViewController:about animated:YES];
     }
-    else  if (row==3) {
+    else  if (row==5) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",baseUrl,termsAndCondition]]];
     }
-    else  if (row==2) {
+    else  if (row==4) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",baseUrl,FAQurl]]];
     }
     [wypopOverController dismissPopoverAnimated:NO];
@@ -274,8 +274,8 @@
         [patientVc setDefaultValues];
         NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
         NSString *str=[defaults valueForKey:@"DoctorName"];
-        slideoutArray=@[str,@"About Us",@"FAQ",@"Terms and Conditions",@"Privacy and Policy",@"Logout"];
-        slideoutImageArray=@[@"07-User.png",@"01-Icon-About-Us.png",@"02-Icon-FAQ.png",@"04-Icon-Terms.png",@"03-Icon-Privacy.png",@"05-Icon-Logout.png"];
+        slideoutArray=@[str,@"Profile",@"Share Critical Treatment info",@"About Us",@"FAQ",@"Terms and Conditions",@"Privacy and Policy",@"Logout"];
+        slideoutImageArray=@[@"07-User.png",@"07-User.png",@"07-User.png",@"01-Icon-About-Us.png",@"02-Icon-FAQ.png",@"04-Icon-Terms.png",@"03-Icon-Privacy.png",@"05-Icon-Logout.png"];
     }
 }
 //Change the UiviewController

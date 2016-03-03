@@ -100,7 +100,7 @@
     NSMutableArray *uploadedImageArray,*sittingCollectionArray,*allTagListArray,*filterdTagListArray;
     Postman *postman;
     NSDateFormatter *formatter;
-    NSString *treatmentID,*passDataToSittingVC,*treatmentModifiedDate;
+    NSString *treatmentID,*passDataToSittingVC;
     NSDictionary *passingDictToSittingVc;
     NSArray *biomagneticArray;
     AppDelegate *app;
@@ -466,18 +466,16 @@
         cell=[tableView dequeueReusableCellWithIdentifier:@"cell1"];
         if (medicalTableListArray.count!=0 | diagnosisTableListArray.count!=0) {
             if (tableView==_MedicaltableView) {
-                NSArray *dateTime=[treatmentModifiedDate componentsSeparatedByString:@"T"];
-                NSArray *ar=[dateTime[1] componentsSeparatedByString:@"."];
+                NSArray *dateTime=[medicalTableListArray[indexPath.section] componentsSeparatedByString:@"T"];
                 cell.dateValueLabel.text=dateTime[0];
-                cell.timeValueLabel.text=ar[0];
-                cell.messageValueLabel.text=medicalTableListArray[indexPath.section];
+                cell.timeValueLabel.text=dateTime[1];
+                cell.messageValueLabel.text=dateTime[2];
             }
             else{
-                NSArray *dateTime=[treatmentModifiedDate componentsSeparatedByString:@"T"];
-                NSArray *ar=[dateTime[1] componentsSeparatedByString:@"."];
+                NSArray *dateTime=[diagnosisTableListArray[indexPath.section] componentsSeparatedByString:@"T"];
                 cell.dateValueLabel.text=dateTime[0];
-                cell.timeValueLabel.text=ar[0];
-                cell.messageValueLabel.text=diagnosisTableListArray[indexPath.section];
+                cell.timeValueLabel.text=dateTime[1];
+                cell.messageValueLabel.text=dateTime[2];
             }
         }
         tableView.tableFooterView=[UIView new];
@@ -900,12 +898,12 @@
     [formatter setDateFormat:@"HH:mm:ss"];
     NSString *currentTime=[formatter stringFromDate:[NSDate date]];
     if ([str isEqualToString:@"medical"]) {
-        treatmentModifiedDate=[NSString stringWithFormat:@"%@T%@",currentDate,currentTime];
-        [medicalTableListArray addObject:_medicalHistoryTextView.text];
+      NSString  *treatmentModifiedDate=[NSString stringWithFormat:@"%@T%@",currentDate,currentTime];
+        [medicalTableListArray addObject:[NSString stringWithFormat:@"%@T%@",treatmentModifiedDate,_medicalHistoryTextView.text]];
     }
     else{
-        treatmentModifiedDate=[NSString stringWithFormat:@"%@T%@",currentDate,currentTime];
-        [diagnosisTableListArray addObject:_diagnosisTextView.text];
+        NSString  *treatmentModifiedDate=[NSString stringWithFormat:@"%@T%@",currentDate,currentTime];
+        [diagnosisTableListArray addObject:[NSString stringWithFormat:@"%@T%@",treatmentModifiedDate,_diagnosisTextView.text]];
     }
 }
 //take pic
@@ -1159,7 +1157,6 @@
         if ([_treatmentEncloserTextView.text isEqualToString:@""]) {
             _addClosureNoteLabel.hidden=NO;
         }else _addClosureNoteLabel.hidden=YES;
-        treatmentModifiedDate=_patientDetailModel.treatmentRequestDate;
         for (NSString *str in medicalArray) {
             if (![str isEqualToString:@""]) {
                 [medicalTableListArray addObject:str];
