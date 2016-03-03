@@ -18,6 +18,7 @@
 #import "ToxicDeficiencyDetailModel.h"
 #import "ToxicDeficiency.h"
 #import "sittingModel.h"
+#import "CriticalTreatmentInfoViewController.h"
 #if !defined(MAX)
 #define MAX(A,B)((A) > (B) ? (A) : (B))
 #endif
@@ -225,6 +226,13 @@
     }
     else  if (row==4) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",baseUrl,FAQurl]]];
+    }
+    else if (row==2){
+        CriticalTreatmentInfoViewController *critical=[self.storyboard instantiateViewControllerWithIdentifier:@"CriticalTreatmentInfoViewController"];
+        [self.navigationController pushViewController:critical animated:YES];
+    }else if (row==1){
+    
+    
     }
     [wypopOverController dismissPopoverAnimated:NO];
 }

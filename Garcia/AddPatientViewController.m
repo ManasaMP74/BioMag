@@ -64,6 +64,10 @@
     self.addressTextView.delegate=self;
     MaritialStatusArray=[@[yesStr,noStr]mutableCopy];
     
+    UITapGestureRecognizer *gest=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(addImage:)];
+    [_patientImageView addGestureRecognizer:gest];
+    
+    
 //    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
 //        //For Vzone API
 //        [self callApiForGender];

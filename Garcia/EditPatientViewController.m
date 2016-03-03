@@ -57,6 +57,10 @@
     self.nameTF.delegate=self;
     self.mobileNoTF.delegate=self;
     MaritialStatusArray=[@[yesStr,noStr]mutableCopy];
+    
+    UITapGestureRecognizer *gest=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(addImage:)];
+    [_patientImageView addGestureRecognizer:gest];
+    
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(localize) name:MCLocalizationLanguageDidChangeNotification object:nil];
 //
     _mainController.layer.cornerRadius=5;
