@@ -18,6 +18,7 @@
 #import "ToxicDeficiencyDetailModel.h"
 #import "ToxicDeficiency.h"
 #import "sittingModel.h"
+#import "DrProfileViewController.h"
 #import "CriticalTreatmentInfoViewController.h"
 #if !defined(MAX)
 #define MAX(A,B)((A) > (B) ? (A) : (B))
@@ -231,7 +232,8 @@
         CriticalTreatmentInfoViewController *critical=[self.storyboard instantiateViewControllerWithIdentifier:@"CriticalTreatmentInfoViewController"];
         [self.navigationController pushViewController:critical animated:YES];
     }else if (row==1){
-    
+        DrProfileViewController *dr=[self.storyboard instantiateViewControllerWithIdentifier:@"DrProfileViewController"];
+        [self.navigationController pushViewController:dr animated:YES];
     
     }
     [wypopOverController dismissPopoverAnimated:NO];

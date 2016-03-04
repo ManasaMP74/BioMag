@@ -68,6 +68,8 @@
 		DA8C68201C5A1E8C00F78E86 /* UIImageView+clearCachImage.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8C681F1C5A1E8C00F78E86 /* UIImageView+clearCachImage.m */; };
 		DA8C68231C5A49D700F78E86 /* PreviousSittingModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8C68221C5A49D700F78E86 /* PreviousSittingModelClass.m */; };
 		DA9E393B1C88260A00499142 /* CriticalTreatmentInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9E393A1C88260A00499142 /* CriticalTreatmentInfoViewController.m */; };
+		DA9E393E1C88650D00499142 /* DrProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9E393D1C88650D00499142 /* DrProfileViewController.m */; };
+		DA9E39411C88681100499142 /* EditDrProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9E39401C88681100499142 /* EditDrProfileViewController.m */; };
 		DAA92F811C2146680057AF19 /* germsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAA92F801C2146680057AF19 /* germsView.xib */; };
 		DAACC89F1C154AE90026132A /* germsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAACC89E1C154AE90026132A /* germsModel.m */; };
 		DAB0C4A91C5F85F6002F0189 /* PopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB0C4A81C5F85F6002F0189 /* PopOverViewController.m */; };
@@ -241,6 +243,10 @@
 		DA8C68221C5A49D700F78E86 /* PreviousSittingModelClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviousSittingModelClass.m; sourceTree = "<group>"; };
 		DA9E39391C88260A00499142 /* CriticalTreatmentInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CriticalTreatmentInfoViewController.h; sourceTree = "<group>"; };
 		DA9E393A1C88260A00499142 /* CriticalTreatmentInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CriticalTreatmentInfoViewController.m; sourceTree = "<group>"; };
+		DA9E393C1C88650D00499142 /* DrProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrProfileViewController.h; sourceTree = "<group>"; };
+		DA9E393D1C88650D00499142 /* DrProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrProfileViewController.m; sourceTree = "<group>"; };
+		DA9E393F1C88681100499142 /* EditDrProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditDrProfileViewController.h; sourceTree = "<group>"; };
+		DA9E39401C88681100499142 /* EditDrProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditDrProfileViewController.m; sourceTree = "<group>"; };
 		DAA92F801C2146680057AF19 /* germsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = germsView.xib; sourceTree = "<group>"; };
 		DAACC89D1C154AE90026132A /* germsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = germsModel.h; sourceTree = "<group>"; };
 		DAACC89E1C154AE90026132A /* germsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = germsModel.m; sourceTree = "<group>"; };
@@ -897,6 +903,10 @@
 				DA5EF2B11C7D82EC00A250F5 /* AboutUsViewController.m */,
 				DA9E39391C88260A00499142 /* CriticalTreatmentInfoViewController.h */,
 				DA9E393A1C88260A00499142 /* CriticalTreatmentInfoViewController.m */,
+				DA9E393C1C88650D00499142 /* DrProfileViewController.h */,
+				DA9E393D1C88650D00499142 /* DrProfileViewController.m */,
+				DA9E393F1C88681100499142 /* EditDrProfileViewController.h */,
+				DA9E39401C88681100499142 /* EditDrProfileViewController.m */,
 				DAF497F01C5F6C8600CD9E7D /* Language */,
 			);
 			name = ContainerVC;
@@ -1131,6 +1141,7 @@
 				DAE6FBBB1BE4DC3500952812 /* TagCollectionViewCell.m in Sources */,
 				DA2D3E541C0F21E0008D0AC2 /* SittingViewController.m in Sources */,
 				DAF277281BFB135300D236B2 /* ProfileImageModel.m in Sources */,
+				DA9E393E1C88650D00499142 /* DrProfileViewController.m in Sources */,
 				DAEFA1C51BD0B50800900379 /* EditPatientViewController.m in Sources */,
 				DA1BB06F1C3F9224003D221C /* PatientTitleModel.m in Sources */,
 				8678F1AC1BE1DC54006046CF /* HexColors.m in Sources */,
@@ -1150,6 +1161,7 @@
 				DAACC89F1C154AE90026132A /* germsModel.m in Sources */,
 				DAED98001C06D26E005D170C /* ScanPointModel.m in Sources */,
 				DAED98031C06D2A9005D170C /* CorrespondingModelClass.m in Sources */,
+				DA9E39411C88681100499142 /* EditDrProfileViewController.m in Sources */,
 				DAE6FBB71BE4AB8300952812 /* UploadCollectionViewCell.m in Sources */,
 				DA130F351BEA1E1900B5B9FF /* AddSection.m in Sources */,
 				DAEFA1B91BD0B49A00900379 /* LoginViewController.m in Sources */,

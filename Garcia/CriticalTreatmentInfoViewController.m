@@ -55,6 +55,7 @@
     negativeSpace.width=-25;
     self.navigationItem.leftBarButtonItems=@[negativeSpace,barItem];
     [button addTarget:self action:@selector(popView) forControlEvents:UIControlEventTouchUpInside];
+    self.title=@"Share critical Treatment info";
 }
 -(void)popView{
     [self.navigationController popViewControllerAnimated:YES];
