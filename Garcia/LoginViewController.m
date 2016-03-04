@@ -172,6 +172,19 @@
             [userdefault setValue:dict[@"CompanyCode"] forKey:@"CompanyCode"];
             NSString *doctorName=[NSString stringWithFormat:@"%@",dict[@"Name"]];
             [userdefault setValue:doctorName forKey:@"DoctorName"];
+            NSMutableArray *doctorDetail=[[NSMutableArray alloc]init];
+            [doctorDetail addObject:dict[@"Name"]];
+            [doctorDetail addObject:dict[@"DOb"]];
+            [doctorDetail addObject:dict[@"Email"]];
+            NSString *str=dict[@"JSON"];
+            NSDictionary *jsonDict=[NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
+             [doctorDetail addObject:jsonDict[@"ContactNo"]];
+            [doctorDetail addObject:dict[@"Name"]];
+            [doctorDetail addObject:dict[@"Name"]];
+             [doctorDetail addObject:dict[@"Gender"]];
+            [userdefault setValue:doctorDetail forKey:@"DoctorDetail"];
+
+
             NSString *languageCode=dict[@"PreferredLanguageCode"];
             if ([languageCode isEqualToString:@"(null)"]) {
               languageCode=@"en";

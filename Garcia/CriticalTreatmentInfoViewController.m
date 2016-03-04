@@ -1,6 +1,7 @@
 #import "CriticalTreatmentInfoViewController.h"
 #import <MCLocalization/MCLocalization.h>
-@interface CriticalTreatmentInfoViewController ()<UITextViewDelegate>
+#import "CriticalTreatmentInfoCollectionViewCell.h"
+@interface CriticalTreatmentInfoViewController ()<UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,deleteCellProtocol>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *uploadImageView;
 @property (weak, nonatomic) IBOutlet UITextView *summaryTextView;
@@ -14,12 +15,16 @@
 @end
 
 @implementation CriticalTreatmentInfoViewController
-
+{
+    NSMutableArray *criticalImageArray;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self layerOfTV];
     [self localize];
      [self navigationItemMethod];
+    criticalImageArray =[[NSMutableArray alloc]init];
+    _collectionviewHeight.constant=0;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -45,6 +50,13 @@
         }else _descritionLabel.hidden=NO;
     }
 }
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    if (textView==_summaryTextView) {
+        if (textView.text.length==100) {
+            return NO;
+        }else return YES;
+    }else return YES;
+}
 -(void)navigationItemMethod{
     UIImage* image = [UIImage imageNamed:@"Back button.png"];
     CGRect frameimg1 = CGRectMake(100, 0, image.size.width+30, image.size.height);
@@ -55,7 +67,7 @@
     negativeSpace.width=-25;
     self.navigationItem.leftBarButtonItems=@[negativeSpace,barItem];
     [button addTarget:self action:@selector(popView) forControlEvents:UIControlEventTouchUpInside];
-    self.title=@"Share critical Treatment info";
+    self.title=@"Share Critical Treatment Info";
 }
 -(void)popView{
     [self.navigationController popViewControllerAnimated:YES];
@@ -67,5 +79,36 @@
     [_cancelButton setTitle:[MCLocalization stringForKey:@"Cancel"] forState:normal];
     [_saveButton setTitle:[MCLocalization stringForKey:@"Save"] forState:normal];
 
+}
+- (IBAction)addImage:(id)sender {
+    UIImagePickerController *imgpick=[[UIImagePickerController alloc]init];
+    imgpick.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+    [self.navigationController presentViewController:imgpick animated:YES completion:nil];
+    imgpick.delegate=self;
+}
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+   [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    UIImage *image=info[UIImagePickerControllerOriginalImage];
+    [criticalImageArray addObject:image];
+    _collectionviewHeight.constant=128;
+    [_collectionView reloadData];
+}
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    return criticalImageArray.count;
+}
+-(UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    CriticalTreatmentInfoCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    cell.treatmentImageView.image=criticalImageArray[indexPath.row];
+    cell.delegate=self;
+    return cell;
+}
+-(void)deleteCell:(UICollectionViewCell *)cell{
+    CriticalTreatmentInfoCollectionViewCell *cell1=(CriticalTreatmentInfoCollectionViewCell*)cell;
+    NSIndexPath *i=[_collectionView indexPathForCell:cell1];
+    [criticalImageArray removeObjectAtIndex:i.row];
+    if (criticalImageArray.count>0) {
+        _collectionviewHeight.constant=128;
+    }else _collectionviewHeight.constant=0;
+    [_collectionView reloadData];
 }
 @end

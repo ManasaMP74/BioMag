@@ -124,6 +124,7 @@
 		DAF7EF381C1AF3EA009ADE9B /* GermsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF7EF371C1AF3EA009ADE9B /* GermsCell.xib */; };
 		DAF7EF3B1C1AF3FD009ADE9B /* GermsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF7EF3A1C1AF3FD009ADE9B /* GermsTableViewCell.m */; };
 		DAF82CE01BD4BA74006AF1E1 /* ContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF82CDF1BD4BA74006AF1E1 /* ContainerViewController.m */; };
+		DAFB92DB1C89638400F4F0C4 /* CriticalTreatmentInfoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFB92DA1C89638400F4F0C4 /* CriticalTreatmentInfoCollectionViewCell.m */; };
 		DAFBE3D01C08277600C1C796 /* TreatmentDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFBE3CF1C08277600C1C796 /* TreatmentDetailModel.m */; };
 		DAFC4AC31C2567A500FE6234 /* ProfileImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFC4AC21C2567A500FE6234 /* ProfileImageView.m */; };
 		DAFC4AC51C2567C800FE6234 /* ProfileImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAFC4AC41C2567C800FE6234 /* ProfileImageView.xib */; };
@@ -349,6 +350,8 @@
 		DAF7EF3A1C1AF3FD009ADE9B /* GermsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GermsTableViewCell.m; sourceTree = "<group>"; };
 		DAF82CDE1BD4BA74006AF1E1 /* ContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContainerViewController.h; sourceTree = "<group>"; };
 		DAF82CDF1BD4BA74006AF1E1 /* ContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContainerViewController.m; sourceTree = "<group>"; };
+		DAFB92D91C89638400F4F0C4 /* CriticalTreatmentInfoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CriticalTreatmentInfoCollectionViewCell.h; sourceTree = "<group>"; };
+		DAFB92DA1C89638400F4F0C4 /* CriticalTreatmentInfoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CriticalTreatmentInfoCollectionViewCell.m; sourceTree = "<group>"; };
 		DAFBE3CE1C08277600C1C796 /* TreatmentDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreatmentDetailModel.h; sourceTree = "<group>"; };
 		DAFBE3CF1C08277600C1C796 /* TreatmentDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreatmentDetailModel.m; sourceTree = "<group>"; };
 		DAFC4AC11C2567A500FE6234 /* ProfileImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileImageView.h; sourceTree = "<group>"; };
@@ -901,15 +904,33 @@
 				DAF82CDF1BD4BA74006AF1E1 /* ContainerViewController.m */,
 				DA5EF2B01C7D82EC00A250F5 /* AboutUsViewController.h */,
 				DA5EF2B11C7D82EC00A250F5 /* AboutUsViewController.m */,
-				DA9E39391C88260A00499142 /* CriticalTreatmentInfoViewController.h */,
-				DA9E393A1C88260A00499142 /* CriticalTreatmentInfoViewController.m */,
+				DAFB92DC1C89638900F4F0C4 /* CriticalTreatmentInfo */,
+				DAFB92D81C89634E00F4F0C4 /* DrProfile */,
+				DAF497F01C5F6C8600CD9E7D /* Language */,
+			);
+			name = ContainerVC;
+			sourceTree = "<group>";
+		};
+		DAFB92D81C89634E00F4F0C4 /* DrProfile */ = {
+			isa = PBXGroup;
+			children = (
 				DA9E393C1C88650D00499142 /* DrProfileViewController.h */,
 				DA9E393D1C88650D00499142 /* DrProfileViewController.m */,
 				DA9E393F1C88681100499142 /* EditDrProfileViewController.h */,
 				DA9E39401C88681100499142 /* EditDrProfileViewController.m */,
-				DAF497F01C5F6C8600CD9E7D /* Language */,
 			);
-			name = ContainerVC;
+			name = DrProfile;
+			sourceTree = "<group>";
+		};
+		DAFB92DC1C89638900F4F0C4 /* CriticalTreatmentInfo */ = {
+			isa = PBXGroup;
+			children = (
+				DA9E39391C88260A00499142 /* CriticalTreatmentInfoViewController.h */,
+				DA9E393A1C88260A00499142 /* CriticalTreatmentInfoViewController.m */,
+				DAFB92D91C89638400F4F0C4 /* CriticalTreatmentInfoCollectionViewCell.h */,
+				DAFB92DA1C89638400F4F0C4 /* CriticalTreatmentInfoCollectionViewCell.m */,
+			);
+			name = CriticalTreatmentInfo;
 			sourceTree = "<group>";
 		};
 		DAFC75F91C856720005A6AD7 /* ToxicTableViewCell */ = {
@@ -1155,6 +1176,7 @@
 				DA753C911C6483A000D1ABE1 /* HeaderTableViewCell.m in Sources */,
 				DAB1351A1C633A3900B639DD /* lagModel.m in Sources */,
 				DA753C831C64816400D1ABE1 /* ScanPointTableViewCell.m in Sources */,
+				DAFB92DB1C89638400F4F0C4 /* CriticalTreatmentInfoCollectionViewCell.m in Sources */,
 				DAEFA1941BD0B11500900379 /* main.m in Sources */,
 				DAFBE3D01C08277600C1C796 /* TreatmentDetailModel.m in Sources */,
 				DAF6733E1C17EB290072ED8E /* SlideOutTableViewController.m in Sources */,

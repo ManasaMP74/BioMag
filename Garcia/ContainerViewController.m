@@ -284,7 +284,7 @@
         [patientVc setDefaultValues];
         NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
         NSString *str=[defaults valueForKey:@"DoctorName"];
-        slideoutArray=@[str,@"Profile",@"Share Critical Treatment info",@"About Us",@"FAQ",@"Terms and Conditions",@"Privacy and Policy",@"Logout"];
+        slideoutArray=@[str,@"Profile",@"Share Critical Treatment Info",@"About Us",@"FAQ",@"Terms and Conditions",@"Privacy and Policy",@"Logout"];
         slideoutImageArray=@[@"07-User.png",@"07-User.png",@"07-User.png",@"01-Icon-About-Us.png",@"02-Icon-FAQ.png",@"04-Icon-Terms.png",@"03-Icon-Privacy.png",@"05-Icon-Logout.png"];
     }
 }
