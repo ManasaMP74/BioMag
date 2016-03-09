@@ -45,6 +45,8 @@
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         
         
+//        {\"SortNumbers\":[\"1\"],\"RequestCode\":\"6GJZS2MAUT\",\"RequestType\":\"Treatment\",\"DocumentTypeCode\":\"NLB0H7\",\" UserID\":\"30046\"}
+        
       NSString  *jsonString = [NSString stringWithFormat:@"{\"RequestCode\":\"%@\",\"RequestType\":\"%@\",\"DocumentType\":\"%@\",\"Renames\":\"%@\",\"SortNumbers\":\"1\"}",reqCode,reqType,type,caption];
         
         NSDictionary *parameter = @{@"request":jsonString};
@@ -181,7 +183,19 @@
     manager.requestSerializer = requestSerializer;
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
 }
+//upload Image
+- (void)uploadUserForVzoneDocumentPath:(NSString *)imagePath forRequestCode:(NSString *)reqCode withType:(NSArray *)type withText:(NSArray*)caption withRequestType:(NSString*)reqType onCompletion:(void (^)(BOOL))completionHandler
+{
+    if ([reqCode isKindOfClass:[NSNull class]])
+    {
+        return;
+    }
+    if (reqCode.length == 0)
+    {
+        return;
+    }
 
+}
 
 
 @end

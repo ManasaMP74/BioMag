@@ -639,8 +639,7 @@
         NSString* path = [documentsDirectory stringByAppendingPathComponent:@"EdittedProfile.jpeg" ];
         NSData* data = UIImageJPEGRepresentation(image,.5);
         [data writeToFile:path atomically:YES];
-//        [imageManager uploadUserImagePath:path forRequestCode:addedPatientCode withDocumentType:@"ABC123" onCompletion:^(BOOL success) {
-//           
+       
    [imageManager uploadUserImagePath:path forRequestCode:addedPatientCode withDocumentType:@"ABC123" andRequestType:@"User" onCompletion:^(BOOL success) {
             
             if (success)
