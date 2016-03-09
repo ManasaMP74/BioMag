@@ -379,6 +379,10 @@
             if (![dict[@"StorageID"] isKindOfClass:[NSNull class]]) {
                 model.storageID=dict[@"StorageID"];
             }
+            if (![dict[@"Filename"] isKindOfClass:[NSNull class]]) {
+                    model.fileName=dict[@"Filename"];
+            }
+                
             NSArray *documentTypeArray=[model.documentTypeCode componentsSeparatedByString:@"|"];
             NSArray *documentCodeArray=[model.documentCode componentsSeparatedByString:@"^$|"];
             for (int i=0; i<documentTypeArray.count; i++) {

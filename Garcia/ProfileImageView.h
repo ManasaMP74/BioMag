@@ -5,6 +5,6 @@
 @property (strong, nonatomic)NSString *imageCode;
 @property (strong, nonatomic)UIImage *storageId;
 @property (strong, nonatomic)UIImage *DisplayImg;
-
+@property (strong, nonatomic)NSString *filename;
 -(void)alphaViewInitialize;
 @end

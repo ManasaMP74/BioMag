@@ -43,14 +43,10 @@
     
     // For VZONE
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
-        dict[@"RequestCode"]=reqCode;
-        dict[@"RequestType"]=reqType;
-        dict[@"DocumentTypes"]=type;
-        dict[@"Renames"]=caption;
-        dict[@"SortNumbers"]=@[@"1"];
-        NSData *parameterData = [NSJSONSerialization dataWithJSONObject:dict options:kNilOptions error:nil];
-        NSString *jsonString = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
+        
+        
+      NSString  *jsonString = [NSString stringWithFormat:@"{\"RequestCode\":\"%@\",\"RequestType\":\"%@\",\"DocumentType\":\"%@\",\"Renames\":\"%@\",\"SortNumbers\":\"1\"}",reqCode,reqType,type,caption];
+        
         NSDictionary *parameter = @{@"request":jsonString};
       //  NSString *jsonString;
         AFHTTPRequestOperationManager *managerNew;

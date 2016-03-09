@@ -78,7 +78,7 @@
     NSString *strimageUrl;
     
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-    strimageUrl = [NSString stringWithFormat:@"%@%@%@/EdittedProfile.jpeg",baseUrlAws,dbName,_model.storageID];
+    strimageUrl = [NSString stringWithFormat:@"%@%@%@/%@",baseUrlAws,dbName,_model.storageID,_model.fileName];
         
     }else
     {
@@ -173,6 +173,7 @@
     profileView.imageCode=_model.profileImageCode;
     profileView.storageId = _model.storageID;
     profileView.DisplayImg = _patientImageView.image;
+    profileView.filename=_model.fileName;
     [profileView alphaViewInitialize];
 }
 

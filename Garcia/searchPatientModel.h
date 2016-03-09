@@ -40,4 +40,5 @@
 @property(strong,nonatomic)NSString *surgeries;
 @property(strong,nonatomic)UIImage *profileImage;
 @property(strong,nonatomic)UIImage *storageID;
+@property(strong,nonatomic)NSString *fileName;
 @end
