@@ -82,7 +82,6 @@
     [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
         if (success) {
          [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:NO];
-            [langchanger readingLanguageFromDocument];
         }
         else{
             

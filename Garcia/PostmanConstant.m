@@ -63,7 +63,7 @@ NSString *const termsAndCondition=@"configurationview/MWUFJM";
 NSString *const privecyAndPolicy=@"configurationview/4XOSBX";
 
 
-
+ 
 //Vzone Production API
 
 //NSString *const baseUrl=@"http://biomagnetictherapy.us-west-2.elasticbeanstalk.com/";
