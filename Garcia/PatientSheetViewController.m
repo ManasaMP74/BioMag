@@ -657,14 +657,12 @@
 }
 //delete sitting cell
 -(void)deleteSittingCell:(SittingCollectionViewCell *)cell{
-    //NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
-    NSLog(@"%@",sittingCollectionArray);
+    NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
+    if (sittingCollectionArray.count>0) {
+         SittingModelClass *sitMode = sittingCollectionArray[index.row];
+         [self callApiToDeleteSitting];
+    }
     
-    SittingModelClass *sitMode = sittingCollectionArray[0];
-    NSLog(@"%@",sitMode.visit);
-    
-    
-    [self callApiToDeleteSitting];
 }
 -(void)selectedHeaderCell:(NSString*)selectedHeader withcell:(UICollectionViewCell*)cell withCorrespondingHeight:(CGFloat)height{
     SittingCollectionViewCell *cell1=(SittingCollectionViewCell*)cell;

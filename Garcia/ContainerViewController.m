@@ -209,7 +209,7 @@
         [standardDefault setValue:model.code forKey:@"languageCode"];
         [standardDefault setValue:model.name forKey:@"languageName"];
         [lagSomeButton setTitle:[standardDefault valueForKey:@"languageName"] forState:normal];
-        [languageChanger readingLanguageFromDocument];
+       // [languageChanger readingLanguageFromDocument];
     }
      [wypopOverController dismissPopoverAnimated:NO];
 }
