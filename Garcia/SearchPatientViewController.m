@@ -556,10 +556,12 @@
         [self selectedCell:patentFilteredArray];
     } else{
         if (initialSelectedRow==0) {
-            searchPatientModel *model=patentnameArray[0];
-            selectedPatientCode=model.code;
-            NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
-            [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
+            if (patentnameArray.count>0) {
+                searchPatientModel *model=patentnameArray[0];
+                selectedPatientCode=model.code;
+                NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
+                [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
+            }
         }else    [self selectedCell:patentnameArray];
   [_patientListTableView reloadData];
     }
