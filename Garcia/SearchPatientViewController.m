@@ -442,6 +442,7 @@
 
 //Response for API 100 offset patient
 -(void)processResponseObjectforOffsetApi:(id)responseObject{
+      [patentnameArray removeAllObjects];
      ContainerViewController *containerVc =(ContainerViewController*)self.parentViewController;
     [containerVc hideAllMBprogressTillLoadThedata];
     [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:NO];

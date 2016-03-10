@@ -225,9 +225,16 @@
 -(void)languageChangeDelegate:(int)str{
     if (str==0) {
         [self showToastMessage:seedError];
-    }else
-        [langchanger readingLanguageFromDocument];
-          [self performSegueWithIdentifier:@"loginSuccess" sender:nil];
+    }else{
+       BOOL status= [userdefault boolForKey:@"logout"];
+        if (!status) {
+            [langchanger readingLanguageFromDocument];
+            [self performSegueWithIdentifier:@"loginSuccess" sender:nil];
+            [userdefault setBool:NO forKey:@"logout"];
+        }else{
+         [self performSegueWithIdentifier:@"loginSuccess" sender:nil];
+        }
+    }
 }
 //validate login
 - (BOOL)validateLoginFields

@@ -39,6 +39,7 @@
     NSUserDefaults *standardDefault;
     int selectedLangRow;
     PopOverViewController *pop;
+    LanguageChanger *languageChanger;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -192,7 +193,7 @@
 }
 //delegate of language selection
 -(void)selectedObject:(int)row{
-    LanguageChanger *languageChanger=[[LanguageChanger alloc]init];
+  languageChanger =[[LanguageChanger alloc]init];
     selectedLangRow=row;
     lagModel *model=languageArray[selectedLangRow];
     [standardDefault setValue:model.code forKey:@"changedLanguageCode"];
@@ -208,6 +209,7 @@
         [standardDefault setValue:model.code forKey:@"languageCode"];
         [standardDefault setValue:model.name forKey:@"languageName"];
         [lagSomeButton setTitle:[standardDefault valueForKey:@"languageName"] forState:normal];
+        [languageChanger readingLanguageFromDocument];
     }
      [wypopOverController dismissPopoverAnimated:NO];
 }
@@ -263,6 +265,7 @@
         [userdefault setValue:@"" forKey:@"userName"];
         [userdefault setValue:@"" forKey:@"password"];
         [userdefault setBool:NO forKey:@"rememberMe"];
+        [userdefault setBool:YES forKey:@"logout"];
         [alertView dismissViewControllerAnimated:YES completion:nil];
     }];
     [alertView addAction:success];
