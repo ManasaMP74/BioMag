@@ -1549,20 +1549,40 @@
             NSString* path = [documentsDirectory stringByAppendingPathComponent:@"EdittedProfile.jpeg" ];
             NSData* data = UIImageJPEGRepresentation(model.imageName,.5);
             [data writeToFile:path atomically:YES];
-            NSArray *type=@[@"NLB0H7"];
-            NSArray *caption=@[model.captionText];
-            if (model.storgeId==nil) {
-                [imageManager uploadDocumentPath:path forRequestCode:code withDocumentType:type withText:caption withRequestType:@"Treatment" onCompletion:^(BOOL success) {
-                    if (success)
-                    {
-                        [MBProgressHUD hideHUDForView:self.view animated:NO];
-                        [self callAPIToCloseTreatmentOrUpdate:@"update"];
-                    }else
-                    {
-                        [MBProgressHUD hideHUDForView:self.view animated:NO];
-                        [self showToastMessage:@"failed"];
+            if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+                NSString *type=@"NLB0H7";
+                NSArray *caption=@[model.captionText];
+                if (model.storgeId==nil) {
+                    [imageManager uploadUserForVzoneDocumentPath:path forRequestCode:code withType:type withText:caption withRequestType:@"Treatment" withUserId:_model.Id onCompletion:^(BOOL success) {
+                        if (success)
+                        {
+                            [MBProgressHUD hideHUDForView:self.view animated:NO];
+                            [self callAPIToCloseTreatmentOrUpdate:@"update"];
+                        }else
+                        {
+                            [MBProgressHUD hideHUDForView:self.view animated:NO];
+                            [self showToastMessage:@"failed"];
+                        }
+                    }];
+                }else{
+                    NSArray *type=@[@"NLB0H7"];
+                    NSArray *caption=@[model.captionText];
+                    if (model.storgeId==nil) {
+                        [imageManager uploadDocumentPath:path forRequestCode:code withDocumentType:type withText:caption withRequestType:@"Treatment" onCompletion:^(BOOL success) {
+                            if (success)
+                            {
+                                [MBProgressHUD hideHUDForView:self.view animated:NO];
+                                [self callAPIToCloseTreatmentOrUpdate:@"update"];
+                            }else
+                            {
+                                [MBProgressHUD hideHUDForView:self.view animated:NO];
+                                [self showToastMessage:@"failed"];
+                            }
+                        }];
                     }
-                }];
+
+                
+                }
             }
         }
     }else{

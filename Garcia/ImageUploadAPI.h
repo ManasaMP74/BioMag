@@ -9,6 +9,7 @@
 
 
 
+- (void)uploadUserForVzoneDocumentPath:(NSString *)imagePath forRequestCode:(NSString *)reqCode withType:(NSString *)type withText:(NSArray*)caption withRequestType:(NSString*)reqType withUserId:(NSString*)UserId onCompletion:(void (^)(BOOL))completionHandler;
 
 
 @end

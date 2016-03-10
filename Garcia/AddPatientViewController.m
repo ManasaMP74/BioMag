@@ -37,7 +37,7 @@
     DatePicker *datePicker;
     UIControl *activeField;
     Postman *postman;
-    NSString *genderCode,*martialCode,*addedPatientCode;
+    NSString *genderCode,*martialCode,*addedPatientCode,*addedpatientId;
     ImageUploadAPI *imageManager;
     ContainerViewController *containerVC;
      NSString *alertOkStr,*alertStr,*saveFailedStr,*saveSuccessfullyStr,*requiredGenderFieldStr,*requiredNameField,*navTitle,*yesStr,*noStr,*requiredDateOfBirth,*requiredEmail,*requiredmobile,*requiredTransfusion,*invalidEmail,*invalidMobile;
@@ -436,6 +436,7 @@
         NSArray *userDetail=dict[@"UserDetails"];
         NSDictionary *dict1=userDetail[0];
         addedPatientCode=dict1[@"Code"];
+        addedpatientId=dict1[@"Id"];
         if (![_patientImageView.image isEqual:[UIImage imageNamed:@"Patient-img.jpg"]]) {
             [self saveImage:_patientImageView.image];
         }
@@ -639,8 +640,21 @@
         NSString* path = [documentsDirectory stringByAppendingPathComponent:@"EdittedProfile.jpeg" ];
         NSData* data = UIImageJPEGRepresentation(image,.5);
         [data writeToFile:path atomically:YES];
-       
-   [imageManager uploadUserImagePath:path forRequestCode:addedPatientCode withDocumentType:@"ABC123" andRequestType:@"User" onCompletion:^(BOOL success) {
+        if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+            NSString *type=@"ABC123";
+                [imageManager uploadUserForVzoneDocumentPath:path forRequestCode:addedPatientCode withType:type withText:@[@""] withRequestType:@"User" withUserId:addedpatientId onCompletion:^(BOOL success) {
+                    if (success)
+                    {
+                        [self alertmessage:saveSuccessfullyStr];
+                        [containerVC hideAllMBprogressTillLoadThedata];
+                    }else
+                    {
+                        [self showToastMessage:saveFailedStr];
+                        [containerVC hideAllMBprogressTillLoadThedata];
+                    }
+                }];
+            }else{
+        [imageManager uploadUserImagePath:path forRequestCode:addedPatientCode withDocumentType:@"ABC123" andRequestType:@"User" onCompletion:^(BOOL success) {
             
             if (success)
             {
@@ -652,6 +666,7 @@
                  [containerVC hideAllMBprogressTillLoadThedata];
             }
         }];
+            }
     }
 }
 //alertMessage

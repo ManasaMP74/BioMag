@@ -183,8 +183,8 @@
     manager.requestSerializer = requestSerializer;
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
 }
-//upload Image
-- (void)uploadUserForVzoneDocumentPath:(NSString *)imagePath forRequestCode:(NSString *)reqCode withType:(NSArray *)type withText:(NSArray*)caption withRequestType:(NSString*)reqType onCompletion:(void (^)(BOOL))completionHandler
+//upload Image for Vzone
+- (void)uploadUserForVzoneDocumentPath:(NSString *)imagePath forRequestCode:(NSString *)reqCode withType:(NSString *)type withText:(NSArray*)caption withRequestType:(NSString*)reqType withUserId:(NSString*)UserId onCompletion:(void (^)(BOOL))completionHandler
 {
     if ([reqCode isKindOfClass:[NSNull class]])
     {
@@ -194,6 +194,39 @@
     {
         return;
     }
+        
+        
+        //        {\"SortNumbers\":[\"1\"],\"RequestCode\":\"6GJZS2MAUT\",\"RequestType\":\"Treatment\",\"DocumentTypeCode\":\"NLB0H7\",\" UserID\":\"30046\"}
+    
+    
+    
+    
+        NSString  *jsonString = [NSString stringWithFormat:@"{\"SortNumbers\":[\"1\"],\"RequestCode\":\"%@\",\"RequestType\":\"%@\",\"DocumentTypeCode\":\"%@\",\" UserID\":\"%@\"}",reqCode,reqType,type,UserId];
+        
+        NSDictionary *parameter = @{@"request":jsonString};
+        //  NSString *jsonString;
+        AFHTTPRequestOperationManager *managerNew;
+        managerNew = [AFHTTPRequestOperationManager manager];
+        AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
+        [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+        managerNew.requestSerializer = requestSerializer;
+        managerNew.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"multipart/form-data"];
+        
+        NSString *URLString =  [NSString stringWithFormat:@"%@%@", baseUrl,uploadFile];
+        [managerNew POST:URLString parameters:parameter constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+            [formData appendPartWithFileURL:[NSURL fileURLWithPath:imagePath]name:@"files" error:nil];
+        } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            completionHandler(YES);
+            
+            NSLog(@"success");
+            NSLog(@"%@",[operation responseString]);
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            completionHandler(NO);
+            
+            NSLog(@"Error: %@ ***** %@", operation.responseString, error);
+            
+        }];
 
 }
 

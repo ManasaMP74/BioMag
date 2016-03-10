@@ -680,7 +680,25 @@
         NSString* path = [documentsDirectory stringByAppendingPathComponent:@"EdittedProfile.jpeg" ];
         NSData* data = UIImageJPEGRepresentation(image,.5);
         [data writeToFile:path atomically:YES];
-
+        if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+            NSString *type=@"ABC123";
+            [imageManager uploadUserForVzoneDocumentPath:path forRequestCode:_model.code withType:type withText:@[@""] withRequestType:@"User" withUserId:_model.Id onCompletion:^(BOOL success) {
+                if (success)
+                {
+                    if (_model.profileImageCode)
+                    {
+                        NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,_model.profileImageCode];
+                        [self.patientImageView clearImageCacheForURL:[NSURL URLWithString:str]];
+                    }
+                    [self alertmessage:updatedSuccessfullyStr];
+                    [containerVC hideAllMBprogressTillLoadThedata];
+                }else
+                {
+                    [containerVC hideAllMBprogressTillLoadThedata];
+                    [self showToastMessage:updatedFailedStr];
+                }
+            }];
+        }else{
         [imageManager uploadUserImagePath:path forRequestCode:_model.code withDocumentType:@"ABC123" andRequestType:@"User" onCompletion:^(BOOL success) {
             if (success)
             {
@@ -697,6 +715,7 @@
                 [self showToastMessage:updatedFailedStr];
             }
         }];
+    }
     }
 }
 -(void)alertView:(NSString*)message{
