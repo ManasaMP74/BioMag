@@ -625,7 +625,7 @@
 //    NSString *phoneRegex = @"[0-9]{0,10}";
 //    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
 //    BOOL validatePhone=[phoneTest evaluateWithObject:string];
-    if ((string.length!=10)) {
+    if ((string.length>15)) {
         return 0;
     }
     else return 1;

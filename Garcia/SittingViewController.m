@@ -37,6 +37,7 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableview;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *tableviewHeight;
 @property (weak, nonatomic) IBOutlet UILabel *sittingNumberLabel;
+@property (weak, nonatomic) IBOutlet UILabel *genderValue;
 @end
 
 @implementation SittingViewController
@@ -133,7 +134,19 @@
 }
 -(void)defaultValues{
     [constant setColorForLabel:_genderLabel];
-    [constant setColorForLabel:_genderLabel];
+    [constant setColorForLabel:_mobileLabel];
+    [constant setColorForLabel:_transfusion];
+    [constant setColorForLabel:_emailLabel];
+    [constant setColorForLabel:_surgeriesLabel];
+    [constant setColorForLabel:_chargeLabel];
+    [constant setFontForLabel:_genderValue];
+    [constant setFontForLabel:_mobileValue];
+    [constant setFontForLabel:_transfusionValue];
+    [constant setFontForLabel:_emailValue];
+    [constant setFontForLabel:_surgeriesValueLabel];
+    [constant setFontForLabel:_patientName];
+    [constant setFontForLabel:_ageLabel];
+    [constant setFontForLabel:_ageValue];
     [constant getTheAllSaveButtonImage:_saveBtn];
     [constant getTheAllSaveButtonImage:_exit];
     _patientimage.layer.cornerRadius=_patientimage.frame.size.width/2;
@@ -147,6 +160,7 @@
     _emailValue.text=_searchModel.emailId;
     _surgeriesValueLabel.text=_searchModel.surgeries;
     _transfusionValue.text=_searchModel.tranfusion;
+    _genderValue.text=_searchModel.gender;
     _patienViewHeight.constant=44;
     _patientDetailView.hidden=YES;
     if (_searchModel.profileImageCode==nil) {
