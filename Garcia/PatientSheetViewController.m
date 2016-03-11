@@ -658,9 +658,23 @@
 //delete sitting cell
 -(void)deleteSittingCell:(SittingCollectionViewCell *)cell{
     NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
-    if (sittingCollectionArray.count>0) {
+    if ([treatmentID intValue]==0) {
+      if (sittingCollectionArray.count>0) {
+          [sittingCollectionArray removeObjectAtIndex:index.row];
+          [self.view layoutIfNeeded];
+          [_sittingCollectionView reloadData];
+          [self.view layoutIfNeeded];
+          [_sittingCollectionView reloadData];
+          sittingCollectionViewHeight=0;
+          for (SittingModelClass *m in sittingCollectionArray) {
+              sittingCollectionViewHeight=MAX(sittingCollectionViewHeight, m.height);
+          }
+          _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
+          _settingViewHeight.constant=sittingCollectionViewHeight+120;
+        }
+    }else{
          SittingModelClass *sitMode = sittingCollectionArray[index.row];
-         [self callApiToDeleteSitting];
+        [self callApiToDeleteSitting:sitMode];
     }
     
 }
@@ -1668,76 +1682,21 @@
 -(void)uploadImageAfterSaveInSitting:(NSString*)code{
     [self saveImage:code withUpdateAndPostDiffer:@"post"];
 }
-
 //Delete SittingPart
--(void)callApiToDeleteSitting{
-    NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,closeTreatmentDetail,treatmentID];
-    NSString *parameter;
-    parameter =[self getParameteToDeleteSittingDetail];
+-(void)callApiToDeleteSitting:(SittingModelClass*)model{
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,deleteSitting];
+    NSString *parameter=[NSString stringWithFormat:@"{\"request\":{\"TreatmentRequestCode\":\"%@\",\"Id\": \"%@\",\"MethodType\": \"PUT\",\"UserID\": \"%@\"}}",_patientTitleModel.code,model.sittingID,_model.Id];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman put:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [MBProgressHUD hideHUDForView:self.view animated:NO];
-        [self processResponseObjectOfCloseTreatment:responseObject];
+        [self processResponseObjectOfCloseTreatment:responseObject withSittingModel:model];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [MBProgressHUD hideHUDForView:self.view animated:NO];
         [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
     }];
 }
-//parameter to Delete SittingPart
--(NSString*)getParameteToDeleteSittingDetail{
-    NSString *parameter= [self getParameterForSaveORCloseOrUpdateTreatment:@"true" withTreatmentCompleted:@"false" withMethodType:@"PUT"];
-    NSDictionary *parameterDict = [NSJSONSerialization JSONObjectWithData:[parameter dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
-    NSMutableDictionary *finalDict=[parameterDict mutableCopy];
-    NSMutableDictionary *sectionDict=[[NSMutableDictionary alloc]init];
-    NSMutableArray *jsonSittingArray=[[NSMutableArray alloc]init];
-    sectionDict[@"SectionCode"]=@"";
-    sectionDict[@"ScanPointCode"]=@"";
-    sectionDict[@"CorrespondingPairCode"]=@"";
-    sectionDict[@"SectionName"]=@"";
-    sectionDict[@"ScanPointName"]=@"";
-    sectionDict[@"CorrespondingPairName"]=@"";
-    sectionDict[@"GermsCode"]=@"";
-    sectionDict[@"GenderCode"]=@"";
-    sectionDict[@"Description"]=@"";
-    sectionDict[@"Psychoemotional"]=@"";
-    sectionDict[@"Author"]=@"";
-    sectionDict[@"LocationScanPoint"]=@"";
-    sectionDict[@"LocationCorrespondingPair"]=@"";
-    sectionDict[@"Price"]=@"";
-    sectionDict[@"GermsName"]=@"";
-    sectionDict[@"Issue"]=@"";
-    [jsonSittingArray addObject:sectionDict];
-    
-    NSMutableDictionary *sittingDict=[[NSMutableDictionary alloc]init];
-    NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
-    NSDictionary *toxicDict=[NSDictionary dictionaryWithObjectsAndKeys:@"",@"ToxicDeficiency", nil];
-    [jsonSittingArray addObject:toxicDict];
-    sittingDict[@"Notes"]=@"";
-    sittingDict[@"AnatomicalPoints"]=jsonSittingArray;
-    sittingDict[@"Status"]=@"0";
-    NSData *sittingData = [NSJSONSerialization dataWithJSONObject:parameterDict options:kNilOptions error:nil];
-    NSString *jsonString = [[NSString alloc] initWithData:sittingData encoding:NSUTF8StringEncoding];
-    dict[@"JSON"]=jsonString;
-    NSArray *sittingResultArray=@[dict];
-    finalDict[@"SittingResultsRequest"]=sittingResultArray;
-    
-    NSString *parameter1;
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        //For Vzone API
-        NSMutableDictionary *vzoneFinalDict=[[NSMutableDictionary alloc]init];
-        vzoneFinalDict[@""]=finalDict;
-        NSData *parameterData = [NSJSONSerialization dataWithJSONObject:vzoneFinalDict options:kNilOptions error:nil];
-        parameter1 = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
-    }else{
-        //For Material API
-        NSData *parameterData = [NSJSONSerialization dataWithJSONObject:finalDict options:kNilOptions error:nil];
-        parameter1 = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
-    }
-    
-    return parameter1;
-}
 //process Delete SittingPart
--(void)processResponseObjectOfCloseTreatment:(id)responseObject{
+-(void)processResponseObjectOfCloseTreatment:(id)responseObject withSittingModel:(SittingModelClass*)model{
     NSDictionary *dict;
     
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
@@ -1749,7 +1708,19 @@
         dict=responseObject;
     }
     if ([dict[@"Success"] intValue]==1) {
-        [self callApiTogetAllDetailOfTheTreatment];
+        if (sittingCollectionArray.count>0) {
+            [sittingCollectionArray removeObject:model];
+            [self.view layoutIfNeeded];
+            [_sittingCollectionView reloadData];
+            [self.view layoutIfNeeded];
+            [_sittingCollectionView reloadData];
+            sittingCollectionViewHeight=0;
+            for (SittingModelClass *m in sittingCollectionArray) {
+                sittingCollectionViewHeight=MAX(sittingCollectionViewHeight, m.height);
+            }
+            _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
+            _settingViewHeight.constant=sittingCollectionViewHeight+120;
+        }
     }else [self showToastMessage:dict[@"Message"]];
 }
 //Toast Message

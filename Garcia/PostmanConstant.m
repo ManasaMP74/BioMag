@@ -109,7 +109,7 @@ NSString *const language=@"search/language";
 NSString *const languageUILabel=@"search/UILabel/";
 NSString *const preferredLanguage=@"PreferredLanguage/User";
 NSString *const deleteDocumentUrl=@"aws/DeleteDocument";
-
+NSString *const deleteSitting=@"BiomagneticSittingResult/Delete";
 
 NSString *const DifferMetirialOrVzoneApi=@"vzone";
 @end
