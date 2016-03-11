@@ -382,7 +382,7 @@
                   cell.sittingNumber.text=[NSString stringWithFormat:@"%@%d",sStr,[dict[@"SittingNumber"]intValue]];
                 if (anotomicalPointArray.count>0) {
                     for (NSDictionary *anotomicalDict in anotomicalPointArray) {
-                        if (([anotomicalDict[@"SectionCode"] isEqualToString:model.sectionCode])&([anotomicalDict[@"CorrespondingPairCode"] isEqualToString:model.correspondingPairCode])&([anotomicalDict[@"ScanPointCode"] isEqualToString:model.scanPointCode]) ) {
+                        if ([model.anatomicalBiomagenticCode isEqualToString:anotomicalDict[@"AnatomicalBiomagenticCode"]]) {
                             cell.sittingTextView.text=anotomicalDict[@"GermsName"];
                             model.germsString= cell.sittingTextView.text;
                             model.germsCodeString=anotomicalDict[@"GermsCode"];
@@ -727,7 +727,9 @@
     NSString *parameter;
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         //For Vzone API
-        parameter=[NSString stringWithFormat:@"{\"request\":{\"SectionCode\": \"\",\"ScanPointCode\": \"\",\"CorrespondingPairCode\":\"\",\"GermsCode\": \"\"}}"];
+        NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+        NSString *languageCode=[defaults valueForKey:@"languageCode"];
+        parameter=[NSString stringWithFormat:@"{\"request\":{\"SectionCode\": \"\",\"ScanPointCode\": \"\",\"CorrespondingPairCode\":\"\",\"GermsCode\": \"\",\"CurrentLanguageCode\": \"%@\"}}",languageCode];
     }else{
         
         //For material API
@@ -752,6 +754,7 @@
 -(void)processResponseObject:(id)responseObject{
     [allSortedDetailArray removeAllObjects];
     [allSectionNameArray removeAllObjects];
+    [allDoctorDetailArray removeAllObjects];
     NSDictionary *dict;
     
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {

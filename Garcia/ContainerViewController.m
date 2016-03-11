@@ -616,9 +616,11 @@
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,biomagneticMatrix];
     
     NSString *parameter;
+      NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         //For Vzone API
-        parameter=[NSString stringWithFormat:@"{\"request\":{\"SectionCode\": \"\",\"ScanPointCode\": \"\",\"CorrespondingPairCode\":\"\",\"GermsCode\": \"\"}}"];
+        NSString *languageCode=[userDefault valueForKey:@"languageCode"];
+        parameter=[NSString stringWithFormat:@"{\"request\":{\"SectionCode\": \"\",\"ScanPointCode\": \"\",\"CorrespondingPairCode\":\"\",\"GermsCode\": \"\",\"CurrentLanguageCode\": \"%@\"}}",languageCode];
     }else{
         
         //For material API
@@ -628,7 +630,6 @@
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectforSitting:responseObject];
         [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
-        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         [userDefault setBool:NO forKey:@"anatomicalbiomagneticmatrix_FLAG"];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         //        [MBProgressHUD hideHUDForView:self.view animated:NO];
