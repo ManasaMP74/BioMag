@@ -1088,7 +1088,7 @@
             [self callPostTreatment];
         }
         else {
-            [self saveImage:_patientDetailModel.code];
+            [self saveImage:_patientDetailModel.code withUpdateAndPostDiffer:@"update"];
         }
     }
 }
@@ -1118,7 +1118,7 @@
     if ([dict[@"Success"] intValue]==1) {
         if ([treatmentID isEqualToString:@"0"]) {
             NSDictionary *dict1=dict[@"TreatmentRequest"];
-            [self saveImage:dict1[@"Code"]];
+            [self saveImage:dict1[@"Code"] withUpdateAndPostDiffer:@"post"];
         }
         UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:dict[@"Message"] preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *success=[UIAlertAction actionWithTitle:alertOk style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
@@ -1537,7 +1537,7 @@
 }
 
 //save profile
-- (void)saveImage:(NSString*)code
+- (void)saveImage:(NSString*)code withUpdateAndPostDiffer:(NSString*)differ
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:NO];
     if (uploadedImageArray.count>0) {
@@ -1549,42 +1549,52 @@
             [data writeToFile:path atomically:YES];
             if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
                 NSString *type=@"NLB0H7";
-                NSArray *caption=@[model.captionText];
+                NSArray *caption=@[@""];
+                if (model.captionText!=nil) {
+                    caption=@[model.captionText];
+                }
                 if (model.storgeId==nil) {
+                    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
                     [imageManager uploadUserForVzoneDocumentPath:path forRequestCode:code withType:type withText:caption withRequestType:@"Treatment" withUserId:_model.Id onCompletion:^(BOOL success) {
                         if (success)
                         {
                             [MBProgressHUD hideHUDForView:self.view animated:NO];
-                            [self callAPIToCloseTreatmentOrUpdate:@"update"];
                         }else
                         {
                             [MBProgressHUD hideHUDForView:self.view animated:NO];
-                            [self showToastMessage:@"failed"];
+                            [self showToastMessage:@"Image upload failed"];
                         }
                     }];
                 }else{
                     NSArray *type=@[@"NLB0H7"];
-                    NSArray *caption=@[model.captionText];
+                    NSArray *caption=@[@""];
+                    if (model.captionText!=nil) {
+                        caption=@[model.captionText];
+                    }
                     if (model.storgeId==nil) {
                         [imageManager uploadDocumentPath:path forRequestCode:code withDocumentType:type withText:caption withRequestType:@"Treatment" onCompletion:^(BOOL success) {
                             if (success)
                             {
                                 [MBProgressHUD hideHUDForView:self.view animated:NO];
-                                [self callAPIToCloseTreatmentOrUpdate:@"update"];
                             }else
                             {
                                 [MBProgressHUD hideHUDForView:self.view animated:NO];
-                                [self showToastMessage:@"failed"];
+                                [self showToastMessage:@"Image upload failed"];
                             }
                         }];
                     }
-
+                  }
                 
                 }
             }
         }
+        if ([differ isEqualToString:@"update"]) {
+             [self callAPIToCloseTreatmentOrUpdate:@"update"];
+        }
     }else{
-        [self callAPIToCloseTreatmentOrUpdate:@"update"];
+        if ([differ isEqualToString:@"update"]) {
+            [self callAPIToCloseTreatmentOrUpdate:@"update"];
+        }
     }
 }
 - (IBAction)exit:(id)sender {
@@ -1656,7 +1666,7 @@
 }
 //upload image after save sitting
 -(void)uploadImageAfterSaveInSitting:(NSString*)code{
-    [self saveImage:code];
+    [self saveImage:code withUpdateAndPostDiffer:@"post"];
 }
 
 //Delete SittingPart
@@ -1896,5 +1906,4 @@
         }
     }
 }
-
 @end
