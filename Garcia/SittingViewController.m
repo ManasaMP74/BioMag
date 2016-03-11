@@ -544,6 +544,10 @@
             parameter=YES;
             break;
         }
+//        if (![model.notes isEqualToString:@""]) {
+//            parameter=YES;
+//            break;
+//        }
     }
     if (parameter) {
     UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:doYoucloseSitting preferredStyle:UIAlertControllerStyleAlert];
