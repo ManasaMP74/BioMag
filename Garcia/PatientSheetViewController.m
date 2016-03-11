@@ -118,7 +118,6 @@
     [super viewDidLoad];
     [self localize];
     germsArray=[[NSMutableArray alloc]init];
-    [self callSeedForGerms];
     imageManager =[[ImageUploadAPI alloc]init];
     allTagListArray=[[NSMutableArray alloc]init];
     filterdTagListArray=[[NSMutableArray alloc]init];
@@ -140,6 +139,7 @@
     diagnosisTableListArray=[[NSMutableArray alloc]init];
     app=[UIApplication sharedApplication].delegate;
     app.symptomTagArray=[[NSMutableArray alloc]init];
+    [self callSeedForGerms];
     if (_patientTitleModel.title!=nil) {
         _treatmentNameTF.text=_patientTitleModel.title;
         [self callSeedApi];
@@ -1839,6 +1839,7 @@
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
             [userDefault setBool:NO forKey:@"germs_FLAG"];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
     }];
     }else {
         [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -1847,6 +1848,7 @@
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
             [userDefault setBool:NO forKey:@"germs_FLAG"];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
     }];
     }
 }

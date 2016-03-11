@@ -239,8 +239,6 @@
     cell.doctorName.text=model.author;
     cell.sittingTextView.text=model.germsString;
     cell.otherGermsLabel.text=model.germsCodeString;
-    cell.addNoteLabel.hidden=YES;
-    cell.addNoteTV.text=model.notes;
     cell.author.text=authour;
     if ([selectedIndexArray containsObject:indexPath]) {
         [self hideTheViewInTableViewCell:NO withCell:cell];
@@ -371,11 +369,7 @@
 }
 //show the Data added to sitting in db
 -(void)showDataSavedInDBInTable:(sittingModel*)model withCell:(SittingTableViewCell*)cell{
-    if (model.notes.length==0) {
-        cell.addNoteTV.text=@"";
-        cell.addNoteLabel.hidden=NO;
-    }
-    if ([model.germsString isEqualToString:@""]) {
+      if ([model.germsString isEqualToString:@""]) {
         cell.sittingTextView.text=@"";
         cell.sittingTvPlaceholder.hidden=NO;
         if (_bioSittingDict!=nil) {
@@ -407,10 +401,13 @@
                             cell.sittingTvPlaceholder.hidden=YES;
                             
                             if (anotomicalDict[@"Notes"]) {
-                                NSString *str=anotomicalDict[@"Notes"];
-                                if (str.length==0) {
-                                    cell.addNoteTV.text=str;
+                                NSString *str1=anotomicalDict[@"Notes"];
+                                if (str1.length!=0) {
+                                    cell.addNoteTV.text=str1;
                                     cell.addNoteLabel.hidden=YES;
+                                }else {
+                                    cell.addNoteTV.text=@"";
+                                    cell.addNoteLabel.hidden=NO;
                                 }
                             }
                             if ([anotomicalDict[@"Issue"] integerValue]==1) {

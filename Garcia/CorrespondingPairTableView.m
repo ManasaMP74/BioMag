@@ -48,8 +48,9 @@
         NSDictionary *dict=ar[indexPath.section];
         if (indexPath.row==0) {
             str=dict[@"CorrespondingPairName"];
-        }else  if (indexPath.row==1) str =dict[@"GermsName"];
-       else  str=dict[@"Notes"];
+        }
+        else  if (indexPath.row==1) str =dict[@"GermsName"];
+        else  str=dict[@"Notes"];
     }
     return str;
 }
