@@ -498,7 +498,7 @@
     }
     else if(tableView==_MedicaltableView){
         if (medicalTableListArray.count>0) {
-            CGFloat i=_diagnosisView.frame.size.width-240;
+            CGFloat i=_medicalHistoryView.frame.size.width-240;
             CGFloat labelHeight=[ medicalTableListArray[indexPath.section] boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }
                                                                                         options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
             if (labelHeight<25) {
@@ -593,7 +593,7 @@
             else{
                 NSString *strimageUrl;
                 if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-                    strimageUrl = [NSString stringWithFormat:@"%@%@%@/%@",baseUrlAws,dbName,model.storgeId,model.fileName];
+                    strimageUrl = [NSString stringWithFormat:@"%@%@%@%@/%@",baseUrl,baseUrlAws,dbName,model.storgeId,model.fileName];
                 }else
                 {
                     strimageUrl = [NSString stringWithFormat:@"%@%@%@",baseUrl,expandProfileImage,model.code];
@@ -1710,14 +1710,17 @@
     if ([dict[@"Success"] intValue]==1) {
         if (sittingCollectionArray.count>0) {
             [sittingCollectionArray removeObject:model];
-            [self.view layoutIfNeeded];
-            [_sittingCollectionView reloadData];
-            [self.view layoutIfNeeded];
-            [_sittingCollectionView reloadData];
             sittingCollectionViewHeight=0;
-            for (SittingModelClass *m in sittingCollectionArray) {
-                sittingCollectionViewHeight=MAX(sittingCollectionViewHeight, m.height);
-            }
+            if (sittingCollectionArray.count>0) {
+                [self.view layoutIfNeeded];
+                [_sittingCollectionView reloadData];
+                [self.view layoutIfNeeded];
+                [_sittingCollectionView reloadData];
+                for (SittingModelClass *m in sittingCollectionArray) {
+                    sittingCollectionViewHeight=MAX(sittingCollectionViewHeight, m.height);
+                }
+
+            }else _sittingCollectionViewWidth.constant=0;
             _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
             _settingViewHeight.constant=sittingCollectionViewHeight+120;
         }

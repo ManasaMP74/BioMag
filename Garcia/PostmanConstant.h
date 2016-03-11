@@ -3,7 +3,8 @@
 FOUNDATION_EXPORT NSString *const baseUrl;
 FOUNDATION_EXPORT NSString *const baseUrlAws;
 FOUNDATION_EXPORT NSString *const dbName;
-
+FOUNDATION_EXPORT NSString *const dbNameforResized;
+FOUNDATION_EXPORT NSString *const baseUrlCompleteAws;
 
 FOUNDATION_EXPORT NSString *const getGender;
 FOUNDATION_EXPORT NSString *const getMartialStatus;

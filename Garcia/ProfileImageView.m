@@ -37,7 +37,7 @@
         
         NSString *strimageUrl;
         if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-            strimageUrl = [NSString stringWithFormat:@"%@%@%@/%@",baseUrlAws,dbName,self.storageId,_filename];
+            strimageUrl = [NSString stringWithFormat:@"%@%@%@%@/%@",baseUrl,baseUrlAws,dbName,self.storageId,_filename];
             
         }else
         {

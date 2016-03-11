@@ -166,7 +166,8 @@
     if (_searchModel.profileImageCode==nil) {
         _patientimage.image=_searchModel.profileImage;
     }else{
-        NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,_searchModel.profileImageCode];
+       
+        NSString *str= [NSString stringWithFormat:@"%@%@%@%@/%@",baseUrl,baseUrlAws,dbNameforResized,_searchModel.storageID,_searchModel.fileName];
         [_patientimage setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
     }
 }
