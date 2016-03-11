@@ -167,7 +167,7 @@
         _patientimage.image=_searchModel.profileImage;
     }else{
        
-        NSString *str= [NSString stringWithFormat:@"%@%@%@%@/%@",baseUrl,baseUrlAws,dbNameforResized,_searchModel.storageID,_searchModel.fileName];
+        NSString *str= [NSString stringWithFormat:@"%@%@%@/%@",baseUrlAws,dbNameforResized,_searchModel.storageID,_searchModel.fileName];
         [_patientimage setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
     }
 }
