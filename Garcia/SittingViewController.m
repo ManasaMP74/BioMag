@@ -1407,7 +1407,6 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
 //    [_nextBtn setTitle:[MCLocalization stringForKey:@"Next"] forState:normal];
 //    [_previousBtn setTitle:[MCLocalization stringForKey:@"Previous"] forState:normal];
     [_addSymptom setTitle:[MCLocalization stringForKey:@"Add symptoms"] forState:normal];
-    
     _scanpointLabel.text=[MCLocalization stringForKey:@"Scan Point"];
     _correspondingPair.text=[MCLocalization stringForKey:@"Corresponding Pair"];
     _CodeLabel.text=[MCLocalization stringForKey:@"Code"];

@@ -55,6 +55,8 @@
     _tableViewHeight.constant=self.tableview.contentSize.height;
     treatmentListArray=[[NSMutableArray alloc]init];
     _patientDetailView.layer.cornerRadius=5;
+    _patientImageView.layer.cornerRadius=_patientImageView.frame.size.width/2;
+    _patientImageView.clipsToBounds=YES;
     [self localize];
 }
 - (void)didReceiveMemoryWarning {
@@ -87,9 +89,6 @@
     }
     
       [_patientImageView setImageWithURL:[NSURL URLWithString:strimageUrl] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
-    
-    _patientImageView.layer.cornerRadius=_patientImageView.frame.size.width/2;
-    _patientImageView.clipsToBounds=YES;
     if (_model.surgeries!=nil) {
         _surgeriesLabel.text=_model.surgeries;
     }else _surgeriesLabel.text=@"";

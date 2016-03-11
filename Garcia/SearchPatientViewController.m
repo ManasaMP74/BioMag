@@ -377,10 +377,12 @@
                 model.maritialStatus=dict[@"MaritalStatus"];
             }
             if (![dict[@"StorageID"] isKindOfClass:[NSNull class]]) {
-                model.storageID=dict[@"StorageID"];
+                NSArray *ar=[dict[@"StorageID"] componentsSeparatedByString:@"^$|"];
+                model.storageID=ar[ar.count-1];
             }
             if (![dict[@"Filename"] isKindOfClass:[NSNull class]]) {
-                    model.fileName=dict[@"Filename"];
+                NSArray *ar=[dict[@"Filename"] componentsSeparatedByString:@"|"];
+                model.fileName=ar[ar.count-1];
             }
                 
             NSArray *documentTypeArray=[model.documentTypeCode componentsSeparatedByString:@"|"];
