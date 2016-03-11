@@ -132,6 +132,8 @@
     }
 }
 -(void)defaultValues{
+    [constant setColorForLabel:_genderLabel];
+    [constant setColorForLabel:_genderLabel];
     [constant getTheAllSaveButtonImage:_saveBtn];
     [constant getTheAllSaveButtonImage:_exit];
     _patientimage.layer.cornerRadius=_patientimage.frame.size.width/2;

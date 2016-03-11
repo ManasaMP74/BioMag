@@ -1,6 +1,7 @@
 #import "CriticalTreatmentInfoViewController.h"
 #import <MCLocalization/MCLocalization.h>
 #import "CriticalTreatmentInfoCollectionViewCell.h"
+#import "Constant.h"
 @interface CriticalTreatmentInfoViewController ()<UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,deleteCellProtocol>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *uploadImageView;
@@ -11,6 +12,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *Label;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 @property (weak, nonatomic) IBOutlet UIButton *saveButton;
+@property (weak, nonatomic) IBOutlet UIButton *addImageButton;
 
 @end
 
@@ -20,6 +22,8 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    Constant *constant=[[Constant alloc]init];
+    [constant changeSaveBtnImage:_addImageButton];
     [self layerOfTV];
     [self localize];
      [self navigationItemMethod];
@@ -78,7 +82,7 @@
 {
     [_cancelButton setTitle:[MCLocalization stringForKey:@"Cancel"] forState:normal];
     [_saveButton setTitle:[MCLocalization stringForKey:@"Save"] forState:normal];
-
+    [_addImageButton setTitle:@"Tap here to add image" forState:normal];
 }
 - (IBAction)addImage:(id)sender {
     UIImagePickerController *imgpick=[[UIImagePickerController alloc]init];
