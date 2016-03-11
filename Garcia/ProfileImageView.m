@@ -45,10 +45,9 @@
             
         }
 
-//        [_profileImageView clearImageCacheForURL:[NSURL URLWithString:strimageUrl]];
-//        [_profileImageView setImageWithURL:[NSURL URLWithString:strimageUrl] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"] ];
+        [_profileImageView clearImageCacheForURL:[NSURL URLWithString:strimageUrl]];
+        [_profileImageView setImageWithURL:[NSURL URLWithString:strimageUrl] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"] ];
     
-  
         _profileImageView.image = self.DisplayImg;
         
         
