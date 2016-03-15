@@ -33,12 +33,7 @@
     
     BOOL status=[userdefault boolForKey:@"rememberMe"];
     if (status) {
-        [langchanger readingLanguageFromDocument];
-        UIStoryboard *storyBoard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        UINavigationController *navController = (UINavigationController *)self.window.rootViewController;
-        ContainerViewController *container=[storyBoard instantiateViewControllerWithIdentifier:@"ContainerViewController"];
-        [navController setViewControllers:@[container]];
-        [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
+    [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
             if (success) {
                 [self languageChanger];
             }
@@ -57,6 +52,11 @@
 }
 -(void)languageChangeDelegate:(int)str{
      [MBProgressHUD hideHUDForView:self.window animated:YES];
+    [langchanger readingLanguageFromDocument];
+    UIStoryboard *storyBoard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UINavigationController *navController = (UINavigationController *)self.window.rootViewController;
+    ContainerViewController *container=[storyBoard instantiateViewControllerWithIdentifier:@"ContainerViewController"];
+    [navController setViewControllers:@[container]];
     if (str!=0) {
        
     }

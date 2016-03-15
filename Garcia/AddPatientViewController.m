@@ -706,6 +706,7 @@
     invalidEmail=[MCLocalization stringForKey:@"Email id is invalid"];
     invalidMobile=[MCLocalization stringForKey:@"Mobile no. is invalid"];
     requiredDateOfBirth=[MCLocalization stringForKey:@"Date Of Birth is required"];
+    NSString *str=[MCLocalization stringForKey:@"Name"];
     _nameTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Name"]];
     _emailTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"EmailLabel"]];
     _genderTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"GenderLabel"]];
