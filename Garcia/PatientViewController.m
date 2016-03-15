@@ -137,6 +137,15 @@
 //    cell.layoutMargins=UIEdgeInsetsZero;
      return cell;
 }
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    PatientTitleModel *model=treatmentListArray[indexPath.row];
+    CGFloat i=self.view.frame.size.width-150;
+    CGFloat labelHeight=[model.title boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
+    if (labelHeight>41) {
+        return labelHeight+20;
+    }
+    else return 41;
+}
 //table didselect
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     PatientTitleModel *model=treatmentListArray[indexPath.row];

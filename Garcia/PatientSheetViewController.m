@@ -1129,7 +1129,7 @@
         [MBProgressHUD hideHUDForView:self.view animated:NO];
         [self processResponseObject:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [MBProgressHUD hideHUDForView:self.view animated:NO];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
         [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
     }];
     
@@ -1272,7 +1272,7 @@
             [self processCloseTreatment:responseObject withMessage:closedSuccess];
         }else  [self processCloseTreatment:responseObject withMessage:updatedSuccess];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [MBProgressHUD hideHUDForView:self.view animated:NO];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
         NSString *str=[NSString stringWithFormat:@"%@",error];
         [self showToastMessage:str];
     }];
@@ -1568,9 +1568,18 @@
 - (void)saveImage:(NSString*)code withUpdateAndPostDiffer:(NSString*)differ
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+     NSMutableArray *uploadArray=[[NSMutableArray alloc]init];
     if (uploadedImageArray.count>0) {
         for (UploadModelClass *model in uploadedImageArray) {
-            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+             if (model.storgeId==nil) {
+                 [uploadArray addObject:model];
+             }
+        }
+    }
+    
+    if (uploadArray.count>0) {
+         for (UploadModelClass *model in uploadArray) {
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
             NSString *documentsDirectory = [paths objectAtIndex:0];
             NSString* path = [documentsDirectory stringByAppendingPathComponent:@"EdittedProfile.jpeg" ];
             NSData* data = UIImageJPEGRepresentation(model.imageName,.5);

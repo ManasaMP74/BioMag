@@ -26,13 +26,17 @@
     // Override point for customization after application launch.
     [[UINavigationBar appearance]setBarTintColor:[UIColor colorWithRed:0 green:0.71 blue:0.93 alpha:1]];
     [[UINavigationBar appearance]setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithRed:1 green:1 blue:1 alpha:1],NSForegroundColorAttributeName,[UIFont fontWithName:@"OpenSans-Bold" size:22],NSFontAttributeName, nil]];
-
     appIsLaunched=YES;
    langchanger=[[LanguageChanger alloc]init];
     NSUserDefaults *userdefault=[NSUserDefaults standardUserDefaults];
     
     BOOL status=[userdefault boolForKey:@"rememberMe"];
     if (status) {
+        [langchanger readingLanguageFromDocument];
+        UIStoryboard *storyBoard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UINavigationController *navController = (UINavigationController *)self.window.rootViewController;
+        ContainerViewController *container=[storyBoard instantiateViewControllerWithIdentifier:@"ContainerViewController"];
+        [navController setViewControllers:@[container]];
     [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
             if (success) {
                 [self languageChanger];
@@ -52,11 +56,6 @@
 }
 -(void)languageChangeDelegate:(int)str{
      [MBProgressHUD hideHUDForView:self.window animated:YES];
-    [langchanger readingLanguageFromDocument];
-    UIStoryboard *storyBoard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UINavigationController *navController = (UINavigationController *)self.window.rootViewController;
-    ContainerViewController *container=[storyBoard instantiateViewControllerWithIdentifier:@"ContainerViewController"];
-    [navController setViewControllers:@[container]];
     if (str!=0) {
        
     }
