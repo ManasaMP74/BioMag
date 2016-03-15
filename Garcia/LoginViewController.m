@@ -61,13 +61,9 @@
         BOOL remember=[userdefault boolForKey:@"rememberMe"];
         if (!remember) {
             [userdefault setBool:YES forKey:@"rememberMe"];
-            [userdefault setValue:_userNameTf.text forKey:@"userName"];
-            [userdefault setValue:_passwordTF.text forKey:@"password"];
-            [_rememberMe setImage:[UIImage imageNamed:@"Box-Checked.png"] forState:normal];
+        [_rememberMe setImage:[UIImage imageNamed:@"Box-Checked.png"] forState:normal];
         }
         else {
-            [userdefault setValue:@"" forKey:@"userName"];
-            [userdefault setValue:@"" forKey:@"password"];
             [userdefault setBool:NO forKey:@"rememberMe"];
             [_rememberMe setImage:[UIImage imageNamed:@"Box-Unchecked.png"] forState:normal];
         }
@@ -131,6 +127,10 @@
             [userdefault setValue:doctorName forKey:@"DoctorName"];
             [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
                 if (success) {
+                    if ([userdefault boolForKey:@"rememberMe"]) {
+                        [userdefault setValue:_userNameTf.text forKey:@"userName"];
+                        [userdefault setValue:_passwordTF.text forKey:@"password"];
+                    }
                     [self performSegueWithIdentifier:@"loginSuccess" sender:nil];
                 }
                 else{

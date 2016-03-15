@@ -95,10 +95,10 @@
         [fileManager createDirectoryAtPath:path withIntermediateDirectories:NO attributes:nil error:&error];
     }
     NSString *filePath=[path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.json",languageCode]];
-    if ([fileManager fileExistsAtPath:filePath]) {
+//    if ([fileManager fileExistsAtPath:filePath]) {
         NSData *data=[content dataUsingEncoding:NSUTF8StringEncoding];
         [fileManager createFileAtPath:filePath contents:data attributes:nil];
-    }
+//    }
 }
 
 
