@@ -57,8 +57,7 @@
 }
 // Remember me
 - (IBAction)rememberMe:(id)sender {
-    if (_userNameTf.text.length>0 & _passwordTF.text.length>0) {
-        BOOL remember=[userdefault boolForKey:@"rememberMe"];
+    BOOL remember=[userdefault boolForKey:@"rememberMe"];
         if (!remember) {
             [userdefault setBool:YES forKey:@"rememberMe"];
         [_rememberMe setImage:[UIImage imageNamed:@"Box-Checked.png"] forState:normal];
@@ -67,7 +66,6 @@
             [userdefault setBool:NO forKey:@"rememberMe"];
             [_rememberMe setImage:[UIImage imageNamed:@"Box-Unchecked.png"] forState:normal];
         }
-    }
 }
 //signin button action
 - (IBAction)signIn:(id)sender {

@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'F0632E9401267F5E398D69C3'
+               BlueprintIdentifier = '6FE8932E1C2FB0EB5133EF69'
                BlueprintName = 'MCLocalization'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libMCLocalization.a'>
