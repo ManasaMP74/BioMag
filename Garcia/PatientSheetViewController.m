@@ -657,26 +657,38 @@
 }
 //delete sitting cell
 -(void)deleteSittingCell:(SittingCollectionViewCell *)cell{
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:@"Do you want to delete sitting" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [self deleteSittingAfterAlertView:cell];
+         [alertView dismissViewControllerAnimated:YES completion:nil];
+    }];
+    UIAlertAction *failure=[UIAlertAction actionWithTitle:noStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertView addAction:success];
+    [alertView addAction:failure];
+    [self presentViewController:alertView animated:YES completion:nil];
+}
+-(void)deleteSittingAfterAlertView:(SittingCollectionViewCell *)cell{
     NSIndexPath *index=[_sittingCollectionView indexPathForCell:cell];
     if ([treatmentID intValue]==0) {
-      if (sittingCollectionArray.count>0) {
-          [sittingCollectionArray removeObjectAtIndex:index.row];
-          [self.view layoutIfNeeded];
-          [_sittingCollectionView reloadData];
-          [self.view layoutIfNeeded];
-          [_sittingCollectionView reloadData];
-          sittingCollectionViewHeight=0;
-          for (SittingModelClass *m in sittingCollectionArray) {
-              sittingCollectionViewHeight=MAX(sittingCollectionViewHeight, m.height);
-          }
-          _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
-          _settingViewHeight.constant=sittingCollectionViewHeight+120;
+        if (sittingCollectionArray.count>0) {
+            [sittingCollectionArray removeObjectAtIndex:index.row];
+            [self.view layoutIfNeeded];
+            [_sittingCollectionView reloadData];
+            [self.view layoutIfNeeded];
+            [_sittingCollectionView reloadData];
+            sittingCollectionViewHeight=0;
+            for (SittingModelClass *m in sittingCollectionArray) {
+                sittingCollectionViewHeight=MAX(sittingCollectionViewHeight, m.height);
+            }
+            _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
+            _settingViewHeight.constant=sittingCollectionViewHeight+120;
         }
     }else{
-         SittingModelClass *sitMode = sittingCollectionArray[index.row];
+        SittingModelClass *sitMode = sittingCollectionArray[index.row];
         [self callApiToDeleteSitting:sitMode];
     }
-    
 }
 -(void)selectedHeaderCell:(NSString*)selectedHeader withcell:(UICollectionViewCell*)cell withCorrespondingHeight:(CGFloat)height{
     SittingCollectionViewCell *cell1=(SittingCollectionViewCell*)cell;
