@@ -85,7 +85,6 @@
     }else
     {
   strimageUrl = [NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,_model.profileImageCode];
-    
     }
     
       [_patientImageView setImageWithURL:[NSURL URLWithString:strimageUrl] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
