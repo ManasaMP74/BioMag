@@ -9,6 +9,7 @@
 @interface SearchPatientViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *searchTextField;
 @property (weak, nonatomic) IBOutlet UILabel *addPatientLabel;
+@property (weak, nonatomic) IBOutlet UIView *searchView;
 
 @property (weak, nonatomic) IBOutlet UITableView *patientListTableView;
 
@@ -39,9 +40,9 @@
     [constant spaceAtTheBeginigOfTextField:_searchTextField];
     _searchTextField.attributedPlaceholder=[constant textFieldPlaceHolderText:search];
     _addPatientLabel.text=addPatient;
-    _searchTextField.layer.cornerRadius=18;
-    _searchTextField.layer.borderColor=[UIColor colorWithRed:0.004 green:0.216 blue:0.294 alpha:0.5].CGColor;
-    _searchTextField.layer.borderWidth=1;
+    _searchView.layer.cornerRadius=18;
+    _searchView.layer.borderColor=[UIColor colorWithRed:0.004 green:0.216 blue:0.294 alpha:0.5].CGColor;
+    _searchView.layer.borderWidth=1;
     selectedIndexPath=nil;
     patentnameArray=[[NSMutableArray alloc]init];
     patentFilteredArray=[[NSMutableArray alloc]init];

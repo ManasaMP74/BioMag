@@ -28,6 +28,7 @@
 
 
 @interface PatientSheetViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextFieldDelegate,UITextViewDelegate,deleteCell,selectedImage,increaseSittingCell,cellHeight,WYPopoverControllerDelegate>
+@property (weak, nonatomic) IBOutlet UIView *treatmnetNameView;
 @property (weak, nonatomic) IBOutlet UILabel *attachment;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UILabel *nameLabel;
@@ -875,16 +876,16 @@
 //change treatment textfield
 -(void)changeTreatmentTF{
     if (![_treatmentNameTF.text isEqualToString:@""]) {
-        _treatmentNameTF.layer.borderWidth=0;
+        _treatmnetNameView.layer.borderWidth=0;
         [_treatmentButton setImage:[UIImage imageNamed:@"Edit-icon.png"] forState:normal];
         [constant setFontbold:_treatmentNameTF];
         _treatmentNameTF.enabled=NO;
         _treatmentButton.userInteractionEnabled=YES;
     }
     else{
-        _treatmentNameTF.layer.borderWidth=1;
-        _treatmentNameTF.layer.cornerRadius=5;
-        _treatmentNameTF.layer.borderColor=[UIColor colorWithRed:0.557 green:0.733 blue:0.796 alpha:1].CGColor;
+        _treatmnetNameView.layer.borderWidth=1;
+        _treatmnetNameView.layer.cornerRadius=5;
+        _treatmnetNameView.layer.borderColor=[UIColor colorWithRed:0.557 green:0.733 blue:0.796 alpha:1].CGColor;
         _treatmentNameTF.attributedPlaceholder=[constant PatientSheetPlaceHolderText:titleOfTreatment];
         _treatmentButton.userInteractionEnabled=NO;
         [_treatmentButton setImage:[UIImage imageNamed:@"Tick-icon1.png"] forState:normal];
@@ -900,15 +901,15 @@
 - (IBAction)TreatmentButton:(id)sender {
     if (![_treatmentNameTF.text isEqualToString:@""]) {
         if (![_treatmentButton.currentImage isEqual:[UIImage imageNamed:@"Edit-icon.png"]]) {
-            _treatmentNameTF.layer.borderWidth=0;
+            _treatmnetNameView.layer.borderWidth=0;
             [_treatmentButton setImage:[UIImage imageNamed:@"Edit-icon.png"] forState:normal];
             [constant setFontbold:_treatmentNameTF];
             _treatmentNameTF.enabled=NO;
         }
         else {
-            _treatmentNameTF.layer.borderWidth=1;
-            _treatmentNameTF.layer.cornerRadius=5;
-            _treatmentNameTF.layer.borderColor=[UIColor lightGrayColor].CGColor;
+            _treatmnetNameView.layer.borderWidth=1;
+            _treatmnetNameView.layer.cornerRadius=5;
+            _treatmnetNameView.layer.borderColor=[UIColor lightGrayColor].CGColor;
             [_treatmentButton setImage:[UIImage imageNamed:@"Tick-icon1.png"] forState:normal];
             _treatmentNameTF.enabled=YES;
             [_treatmentNameTF becomeFirstResponder];
