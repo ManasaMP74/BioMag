@@ -231,9 +231,11 @@
             for (NSDictionary *dic in model.correspondingPair) {
                 if (dic[str1]) {
                  d =dic[str1];
+                    break;
                   }
                 }
               }
+                 break;
             }
         }
     }

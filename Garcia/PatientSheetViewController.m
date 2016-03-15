@@ -549,7 +549,8 @@
             _sittingCollectionViewWidth.constant=_settingView.frame.size.width-100;
         }
         else _sittingCollectionViewWidth.constant=_sittingCollectionView.contentSize.width;
-        cell.sittingLabel.text=[NSString stringWithFormat:@"%@ #%@",sittingStr,model.sittingNumber];
+        cell.sittingLabel.text=[NSString stringWithFormat:@"%@ #%d",sittingStr,indexPath.row+1];
+        model.sittingNumber=[NSString stringWithFormat:@"%d",indexPath.row+1];
         if ([_patientDetailModel.IsTreatmentCompleted intValue]==0) {
             if ([model.completed isEqualToString:@"0"]) {
                 [cell.editButton setImage:[UIImage imageNamed:@"Edit-1.jpg"] forState:normal];
@@ -1723,6 +1724,9 @@
         if (sittingCollectionArray.count>0) {
             [sittingCollectionArray removeObject:model];
             sittingCollectionViewHeight=0;
+            int i=[sittingNumberToPassSittingVC intValue];
+            i=i-1;
+            sittingNumberToPassSittingVC=[@(i)description];
             if (sittingCollectionArray.count>0) {
                 [self.view layoutIfNeeded];
                 [_sittingCollectionView reloadData];
