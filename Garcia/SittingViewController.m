@@ -621,6 +621,7 @@
 -(void)expandCell:(UITableViewCell *)cell{
     SittingTableViewCell *cell1=(SittingTableViewCell*)cell;
     NSIndexPath *indexPath=[_tableview indexPathForCell:cell1];
+    if (indexPath!=nil) {
     if ([cell1.expandButton.image isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
         [selectedIndexArray addObject:indexPath];
         [_tableview reloadData];
@@ -631,6 +632,8 @@
         [selectedPreviousSittingDetailArray removeObject:indexPath];
         [_tableview reloadData];
     }
+    }0.
+    
 }
 //enpand previous sitting detail
 -(void)expandCellTOGetPreviousSitting:(UITableViewCell *)cell{

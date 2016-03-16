@@ -11,7 +11,6 @@
 
 - (IBAction)expandableButtonAction:(id)sender {
  [self.delegate expandCell:self];
-
 }
 - (IBAction)getPreviousSittingDetail:(id)sender {
         [self.delegate expandCellTOGetPreviousSitting:self];
