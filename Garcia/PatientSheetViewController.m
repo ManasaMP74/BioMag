@@ -585,7 +585,7 @@
         [cell.headerTableView gettheSection];
         CGFloat height= [cell.headerTableView getTHeHeightOfTableVIew];
         model.height=height;
-        return cell;
+                return cell;
     }
     else if (collectionView==_uploadCollectionView){
         UploadCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
