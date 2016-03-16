@@ -632,7 +632,7 @@
         [selectedPreviousSittingDetailArray removeObject:indexPath];
         [_tableview reloadData];
     }
-    }0.
+    }
     
 }
 //enpand previous sitting detail
