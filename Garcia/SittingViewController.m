@@ -207,7 +207,26 @@
 }
 //pop
 -(void)popView{
-    [self.navigationController popViewControllerAnimated:YES];
+    BOOL parameter =NO;
+    for (sittingModel *model in allDoctorDetailArray) {
+        if (![model.germsString isEqualToString:@""]) {
+            parameter=YES;
+            break;
+        }
+    }
+    if (parameter) {
+        UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:@"changes will discard if you exit from screen" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+           [self.navigationController popViewControllerAnimated:YES];
+             [alertView dismissViewControllerAnimated:YES completion:nil];
+        }];
+        [alertView addAction:success];
+        UIAlertAction *failure=[UIAlertAction actionWithTitle:noStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+            [alertView dismissViewControllerAnimated:YES completion:nil];
+        }];
+        [alertView addAction:failure];
+        [self presentViewController:alertView animated:YES completion:nil];
+    }else [self.navigationController popViewControllerAnimated:YES];
 }
 //tableview number of sections
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

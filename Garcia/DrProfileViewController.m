@@ -3,6 +3,7 @@
 #import <MCLocalization/MCLocalization.h>
 #import "EditDrProfileViewController.h"
 @interface DrProfileViewController ()
+@property (weak, nonatomic) IBOutlet UIView *profileView;
 
 @end
 
@@ -27,6 +28,8 @@
    
 }
 -(void)navigationItemMethod{
+    _profileView.layer.borderWidth=1;
+    _profileView.layer.cornerRadius=5;
     self.title=@"Practitioner Profile";
     UIImage* image = [UIImage imageNamed:@"Back button.png"];
     CGRect frameimg1 = CGRectMake(100, 0, image.size.width+30, image.size.height);
