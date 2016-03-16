@@ -107,7 +107,6 @@
               }];
     }
 }
-
 //parse login response of Matirial API
 - (void)parseLoginResponseMatirial:(id)response
 {

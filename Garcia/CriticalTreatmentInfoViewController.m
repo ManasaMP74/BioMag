@@ -82,7 +82,7 @@
     self.title=[MCLocalization stringForKey:@"Share Critical Treatment Info"];
     [_cancelButton setTitle:[MCLocalization stringForKey:@"Cancel"] forState:normal];
     [_saveButton setTitle:[MCLocalization stringForKey:@"Save"] forState:normal];
-    [_addImageButton setTitle:@"Tap here to add image" forState:normal];
+    [_addImageButton setTitle:[MCLocalization stringForKey:@"Add image"] forState:normal];
 }
 - (IBAction)addImage:(id)sender {
     UIImagePickerController *imgpick=[[UIImagePickerController alloc]init];

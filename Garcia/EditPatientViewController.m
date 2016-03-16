@@ -181,8 +181,7 @@
 }
 //gender Field
 - (IBAction)gender:(id)sender {
-    [self.view endEditing:YES];
-    [self.view endEditing:YES];
+   [self.view endEditing:YES];
     _maritialTableView.hidden=YES;
     _gendertableview.hidden=NO;
     [_gendertableview reloadData];
