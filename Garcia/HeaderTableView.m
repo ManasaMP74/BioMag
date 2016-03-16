@@ -135,6 +135,7 @@
                    cell.imageViewWidth.constant=35;
                    cell.imageViewHeight.constant=15;
                    cell.button.userInteractionEnabled=NO;
+                   cell.selectionStyle=0;
                    cell.headingLabel.text=selectedToxicDeficiency[indexPath.section];
                    if ([_model.completed intValue]==0) {
                        cell.switchImageView.image=[UIImage imageNamed:@"Button-off"];
@@ -142,6 +143,7 @@
                }else if (indexPath.section==selectedToxicDeficiency.count-2) {
                    cell.switchImageView.hidden=YES;
                    cell.priceValueLabel.hidden=NO;
+                   cell.selectionStyle=0;
                    cell.button.userInteractionEnabled=NO;
                    cell.priceValueLabel.text=_model.price;
                    cell.headingLabel.text=selectedToxicDeficiency[indexPath.section];
@@ -149,6 +151,7 @@
                    cell.button.userInteractionEnabled=YES;
                    cell.switchImageView.hidden=NO;
                    cell.priceValueLabel.hidden=YES;
+                   cell.selectionStyle=2;
                    cell.imageViewHeight.constant=18;
                    cell.imageViewWidth.constant=18;
                    cell.headingLabel.text=selectedToxicDeficiency[indexPath.section];

@@ -938,6 +938,7 @@
 }
 //Getting Current Date Time Values
 -(void)getCurrentTimeAndDate:(NSString*)str{
+    formatter=[[NSDateFormatter alloc]init];
     [formatter setDateFormat:@"dd-MMM-yyyy"];
     NSString *currentDate=[formatter stringFromDate:[NSDate date]];
     [formatter setDateFormat:@"HH:mm:ss"];
