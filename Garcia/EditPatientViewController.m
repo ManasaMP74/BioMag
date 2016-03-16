@@ -39,6 +39,7 @@
     NSString *genderCode,*martialCode;
     ImageUploadAPI *imageManager;
     NSString *editedPatientCode;
+    BOOL imageAlreadyUpdated;
     NSString *alertOkStr,*alertStr,*updatedFailedStr,*updatedSuccessfullyStr,*requiredGenderFieldStr,*requiredNameField,*navTitle,*yesStr,*noStr,*requiredDateOfBirth,*requiredEmail,*requiredmobile,*requiredTransfusion,*invalidEmail,*invalidMobile;
 }
 - (void)viewDidLoad {
@@ -114,11 +115,13 @@
     genderCode=_model.genderCode;
     if (_model.profileImageCode==nil) {
         _patientImageView.image=[UIImage imageNamed:@"Patient-img.jpg"];
+        imageAlreadyUpdated=NO;
     }else{
         
         NSString *strimageUrl;
         if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         strimageUrl = [NSString stringWithFormat:@"%@%@%@/%@",baseUrlAws,dbName,_model.storageID,_model.fileName];
+            imageAlreadyUpdated=YES;
         
     }else
     {
@@ -365,6 +368,7 @@
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     UIImage *profileImage =info[UIImagePickerControllerOriginalImage];
     _patientImageView.image=profileImage;
+    imageAlreadyUpdated=NO;
     containerVC.viewControllerDiffer=@"Edit";
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
@@ -569,13 +573,17 @@
         NSDictionary *dict1=dict[@"UserObj"];
         editedPatientCode=dict1[@"Code"];
         if (![_patientImageView.image isEqual:[UIImage imageNamed:@"Patient-img.jpg"]]) {
-            [self saveImage:_patientImageView.image];
+            if (!imageAlreadyUpdated) {
+               [self saveImage:_patientImageView.image];
+            }else{
+                [containerVC hideAllMBprogressTillLoadThedata];
+                [self alertmessage:dict[@"Message"]];
+            }
         }
         else{
              [containerVC hideAllMBprogressTillLoadThedata];
             [self alertmessage:dict[@"Message"]];
         }
-        
     }
     else{
         [containerVC hideAllMBprogressTillLoadThedata];

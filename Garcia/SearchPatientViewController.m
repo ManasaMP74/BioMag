@@ -540,7 +540,7 @@
                 }
                 [patentnameArray addObject:model];
                 if (patentnameArray.count==1) {
-                    initialSelectedRow=1;
+                    initialSelectedRow=-1;
                     searchPatientModel *model=patentnameArray[0];
                     selectedPatientCode=model.code;
                     NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
@@ -564,7 +564,7 @@
                 NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
                 [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
             }
-        }else [self selectedCell:patentnameArray];
+        }else if(initialSelectedRow!=-1) [self selectedCell:patentnameArray];
   [_patientListTableView reloadData];
     }
     MBProgressCountToHide++;
@@ -584,7 +584,7 @@
         [patentnameArray removeAllObjects];
         selectedPatientCode=code;
         _searchTextField.text=@"";
-        initialSelectedRow=-1;
+        initialSelectedRow=1;
         [self callApi:YES];
     }else{
         if (patentnameArray.count>0)
