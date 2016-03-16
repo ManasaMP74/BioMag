@@ -2,6 +2,7 @@
 #import "Postman.h"
 #import "PostmanConstant.h"
 #import "MBProgressHUD.h"
+#import <MCLocalization/MCLocalization.h>
 @interface AboutUsViewController ()
 @property (weak, nonatomic) IBOutlet UITextView *aboutTextView;
 @property (weak, nonatomic) IBOutlet UIView *aboutView;
@@ -18,7 +19,7 @@
      _aboutTextView.textContainerInset = UIEdgeInsetsMake(0,0,0, 0);
     _aboutView.layer.cornerRadius=5;
     _aboutTextView.layer.cornerRadius=5;
-    self.title=@"About App";
+    self.title=[MCLocalization stringForKey:@"About App"];
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-1.jpg"]]];
     UIImage* image = [UIImage imageNamed:@"Back button.png"];
     CGRect frameimg1 = CGRectMake(100, 0, image.size.width+30, image.size.height);

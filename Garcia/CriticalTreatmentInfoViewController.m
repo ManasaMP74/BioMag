@@ -71,7 +71,6 @@
     negativeSpace.width=-25;
     self.navigationItem.leftBarButtonItems=@[negativeSpace,barItem];
     [button addTarget:self action:@selector(popView) forControlEvents:UIControlEventTouchUpInside];
-    self.title=@"Share Critical Treatment Info";
 }
 -(void)popView{
     [self.navigationController popViewControllerAnimated:YES];
@@ -80,6 +79,7 @@
 //localize
 -(void)localize
 {
+    self.title=[MCLocalization stringForKey:@"Share Critical Treatment Info"];
     [_cancelButton setTitle:[MCLocalization stringForKey:@"Cancel"] forState:normal];
     [_saveButton setTitle:[MCLocalization stringForKey:@"Save"] forState:normal];
     [_addImageButton setTitle:@"Tap here to add image" forState:normal];

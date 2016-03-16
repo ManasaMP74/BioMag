@@ -20,6 +20,7 @@
 #import "sittingModel.h"
 #import "DrProfileViewController.h"
 #import "CriticalTreatmentInfoViewController.h"
+#import <MCLocalization/MCLocalization.h>
 #if !defined(MAX)
 #define MAX(A,B)((A) > (B) ? (A) : (B))
 #endif
@@ -40,9 +41,11 @@
     int selectedLangRow;
     PopOverViewController *pop;
     LanguageChanger *languageChanger;
+    NSString *doyoureallywanttoSignout,*profile,*shareCriticalTreatmentInfo,*aboutUsStr,*FAQStr,*termsandConditionsStr,*privacyandPolicyStr,*logoutStr;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self localize];
       self.navigationController.navigationBarHidden=NO;
     self.navigationItem.hidesBackButton = YES;
     languageArray =[[NSMutableArray alloc]init];
@@ -216,7 +219,7 @@
 //delegate of slideout
 -(void)selectedSlideOutObject:(int)row{
     if (row==7) {
-     [self showFailureAlerMessage:@"Do you really want to Signout?"];
+     [self showFailureAlerMessage:doyoureallywanttoSignout];
     }else  if (row==6) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",baseUrl,privecyAndPolicy]]];
     }
@@ -287,7 +290,7 @@
         [patientVc setDefaultValues];
         NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
         NSString *str=[defaults valueForKey:@"DoctorName"];
-        slideoutArray=@[str,@"Profile",@"Share Critical Treatment Info",@"About Us",@"FAQ",@"Terms and Conditions",@"Privacy and Policy",@"Logout"];
+        slideoutArray=@[str,profile,shareCriticalTreatmentInfo,aboutUsStr,FAQStr,termsandConditionsStr,privacyandPolicyStr,logoutStr];
         slideoutImageArray=@[@"07-User.png",@"07-User.png",@"07-User.png",@"01-Icon-About-Us.png",@"02-Icon-FAQ.png",@"04-Icon-Terms.png",@"03-Icon-Privacy.png",@"05-Icon-Logout.png"];
     }
 }
@@ -700,7 +703,16 @@
 -(void)languageBtnFrame:(UIButton*)btn{
     standardDefault=[NSUserDefaults standardUserDefaults];
     lagSomeButton.titleLabel.font=[UIFont fontWithName:@"OpenSans-Semibold" size:14];
-    NSString *languageName=[standardDefault valueForKey:@"languageName"];
-    
+   // NSString *languageName=[standardDefault valueForKey:@"languageName"];
+}
+-(void)localize{
+    doyoureallywanttoSignout=[MCLocalization stringForKey:@"Do you really want to Signout?"];
+    profile=[MCLocalization stringForKey:@"Profile"];
+    shareCriticalTreatmentInfo=[MCLocalization stringForKey:@"Share Critical Treatment Info"];
+    aboutUsStr=[MCLocalization stringForKey:@"About Us"];
+    FAQStr=[MCLocalization stringForKey:@"FAQ"];
+    termsandConditionsStr=[MCLocalization stringForKey:@"Terms and Conditions"];
+    privacyandPolicyStr=[MCLocalization stringForKey:@"Privacy and Policy"];
+    logoutStr=[MCLocalization stringForKey:@"Logout"];
 }
 @end

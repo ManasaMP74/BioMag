@@ -54,7 +54,7 @@
     NSDateFormatter *formater;
     NSString *selectedToxicString;
     NSArray *selectedPreviousArray;
-    NSString *navTitle,*alert,*alertOK,*saveFailed,*saveSuccess,*yesStr,*noStr,*authour,*enterSittingInfo,*previousSittings,*issueStr,*noIssueStr,*sStr,*s1Str,*doYoucloseSitting;
+    NSString *navTitle,*alert,*alertOK,*saveFailed,*saveSuccess,*yesStr,*noStr,*authour,*enterSittingInfo,*previousSittings,*issueStr,*noIssueStr,*sStr,*s1Str,*doYoucloseSitting,*noChangesToSaveSitting;
 }
 - (void)viewDidLoad {
     [self localize];
@@ -563,7 +563,7 @@
     [alertView addAction:failure];
     [self presentViewController:alertView animated:YES completion:nil];
     }else{
-        [self showToastMessage:@"No changes is there to save"];
+        [self showToastMessage:noChangesToSaveSitting];
     }
 }
 //next
@@ -1422,5 +1422,6 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
     noIssueStr=[MCLocalization stringForKey:@"No issues"];
     s1Str=[MCLocalization stringForKey:@"S1"];
     doYoucloseSitting=[MCLocalization stringForKey:@"Do you want to close Sitting?"];
+    noChangesToSaveSitting=[MCLocalization stringForKey:@"No changes is there to save"];
 }
 @end

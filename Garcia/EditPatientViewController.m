@@ -601,9 +601,9 @@
         int a= [self validPhonenumber:_mobileNoTF.text];
         if (a==0) {
             if (_mobileNoTF.text.length==0) {
-                [alertArray addObject:@"Mobile no. is required\n"];
+                [alertArray addObject:[NSString stringWithFormat:@"%@\n",requiredmobile]];
             }
-            else  [alertArray addObject:@"Mobile no. is invalid\n"];
+            else  [alertArray addObject:[NSString stringWithFormat:@"%@\n",invalidMobile]];
             NSString *str1=@"";
             for (NSString *str in alertArray) {
                 str1 =[str1 stringByAppendingString:str];
@@ -625,13 +625,13 @@
         int a= [self validPhonenumber:_mobileNoTF.text];
         if (a==0) {
             if (_mobileNoTF.text.length==0) {
-                [alertArray addObject:@"Mobile no. is required\n"];
+                [alertArray addObject:[NSString stringWithFormat:@"%@\n",requiredmobile]];
             }
-            else  [alertArray addObject:@"Mobile no. is invalid\n"];
+            else  [alertArray addObject:[NSString stringWithFormat:@"%@\n",invalidMobile]];
             if (_emailTF.text.length==0) {
-                [alertArray addObject:@"Email id is required\n"];
+                [alertArray addObject:[NSString stringWithFormat:@"%@\n",requiredEmail]];
             }
-            else [alertArray addObject:@"Email id is invalid\n"];
+            else [alertArray addObject:[NSString stringWithFormat:@"%@\n",invalidEmail]];
             NSString *str1=@"";
             for (NSString *str in alertArray) {
                 str1 =[str1 stringByAppendingString:str];
@@ -640,9 +640,9 @@
         }
         else{
             if (_emailTF.text.length==0) {
-                [alertArray addObject:@"Email id is required\n"];
+                [alertArray addObject:[NSString stringWithFormat:@"%@\n",requiredEmail]];
             }
-            else [alertArray addObject:@"Email id is invalid\n"];
+            else [alertArray addObject:[NSString stringWithFormat:@"%@\n",invalidEmail]];
             NSString *str1=@"";
             for (NSString *str in alertArray) {
                 str1 =[str1 stringByAppendingString:str];
@@ -654,16 +654,16 @@
 -(NSMutableArray*)validateAllFields{
     NSMutableArray *alrtArray=[[NSMutableArray alloc]init];
     if(_nameTF.text.length==0){
-        [alrtArray addObject:@"Name is required\n"];
+        [alrtArray addObject:[NSString stringWithFormat:@"%@\n",requiredNameField]];
     }
     if(_genderTF.text.length==0){
-        [alrtArray addObject:@"Gender is required\n"];
+        [alrtArray addObject:[NSString stringWithFormat:@"%@\n",requiredGenderFieldStr]];
     }
     if(_maritialStatus.text.length==0){
-        [alrtArray addObject:@"Transfusion is required\n"];
+        [alrtArray addObject:[NSString stringWithFormat:@"%@\n",requiredTransfusion]];
     }
     if(_dateOfBirthTF.text.length==0){
-        [alrtArray addObject:@"Date Of Birth is required\n"];
+        [alrtArray addObject:[NSString stringWithFormat:@"%@\n",requiredDateOfBirth]];
     }
     return alrtArray;
 }
@@ -727,8 +727,8 @@
     }
 }
 -(void)alertView:(NSString*)message{
-    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:message preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *success=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alertStr message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:alertOkStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
         [alertView dismissViewControllerAnimated:YES completion:nil];
     }];
     [alertView addAction:success];

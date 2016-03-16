@@ -111,7 +111,7 @@
     NSIndexPath *selectedSittingIndex;
     NSArray *slideoutImageArray,*slideoutArray;
     NSString *differForNavButton;
-    NSString *navTitle,*titleOfTreatment,*closureNote,*medicalNote,*diagnosisNote,*doYouWantToCloseTreatment,*alert,*alertOk,*updatedSuccess,*updateFailed,*saveSuccess,*saveFailed,*enterTreatmentClosure,*ok,*yesStr,*noStr,*treatmentTitlerequired,*sittingStr,*closedSuccess;
+    NSString *navTitle,*titleOfTreatment,*closureNote,*medicalNote,*diagnosisNote,*doYouWantToCloseTreatment,*alert,*alertOk,*updatedSuccess,*updateFailed,*saveSuccess,*saveFailed,*enterTreatmentClosure,*ok,*yesStr,*noStr,*treatmentTitlerequired,*sittingStr,*closedSuccess,*deleteSittingMsg,*imageUploadFailed;
     WYPopoverController *wypopOverController;
     UIButton * lagSomeButton;
 }
@@ -678,7 +678,7 @@
 }
 //delete sitting cell
 -(void)deleteSittingCell:(SittingCollectionViewCell *)cell{
-    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:@"Do you want to delete sitting" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:deleteSittingMsg preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
         [self deleteSittingAfterAlertView:cell];
          [alertView dismissViewControllerAnimated:YES completion:nil];
@@ -1619,7 +1619,7 @@
                         }else
                         {
                             [MBProgressHUD hideHUDForView:self.view animated:NO];
-                            [self showToastMessage:@"Image upload failed"];
+                            [self showToastMessage:imageUploadFailed];
                         }
                     }];
                 }else{
@@ -1636,7 +1636,7 @@
                             }else
                             {
                                 [MBProgressHUD hideHUDForView:self.view animated:NO];
-                                [self showToastMessage:@"Image upload failed"];
+                                [self showToastMessage:imageUploadFailed];
                             }
                         }];
                     }
@@ -1783,54 +1783,6 @@
     hubHUD.removeFromSuperViewOnHide = YES;
     [hubHUD hide:YES afterDelay:2];
 }
-
--(void)localize{
-    navTitle=[MCLocalization stringForKey:@"TreatmentSheet"];
-    alert=[MCLocalization stringForKey:@"Alert!"];
-    alertOk=[MCLocalization stringForKey:@"AlertOK"];
-    updateFailed=[MCLocalization stringForKey:@"Updated.Failed"];
-    updatedSuccess=[MCLocalization stringForKey:@"Updated.successfully"];
-    saveFailed=[MCLocalization stringForKey:@"Save Failed"];
-    saveSuccess=[MCLocalization stringForKey:@"Saved successfully"];
-    _genderLabel.text=[MCLocalization stringForKey:@"GenderLabel"];
-    _dobLabel.text=[MCLocalization stringForKey:@"DateOfBirthLabel"];
-    _ageLabel.text=[MCLocalization stringForKey:@"AgeLabel"];
-    _mobileLabel.text=[MCLocalization stringForKey:@"MobileLabel"];
-    _tranfusion.text=[MCLocalization stringForKey:@"TransfusionLabel"];
-    _emailLabel.text=[MCLocalization stringForKey:@"EmailLabel"];
-    _surgeryLabel.text=[MCLocalization stringForKey:@"SurgeriesLabel"];
-    yesStr=[MCLocalization stringForKey:@"Yes"];
-    noStr=[MCLocalization stringForKey:@"No"];
-    _attachment.text=[MCLocalization stringForKey:@"Attachment"];
-    _medicalHistoryLabel.text=[MCLocalization stringForKey:@"Medical History"];
-    _diagnosisLabel.text=[MCLocalization stringForKey:@"Diagnosis"];
-    _uploadLabel.text=[MCLocalization stringForKey:@"upload"];
-    _settingLabel.text=[MCLocalization stringForKey:@"Sittings"];
-    _treatmentEnclosure.text=[MCLocalization stringForKey:@"Treatment Closure"];
-    closureNote=[MCLocalization stringForKey:@"Add Closure Notes"];
-    medicalNote=[MCLocalization stringForKey:@"Add Medical Notes"];
-    diagnosisNote=[MCLocalization stringForKey:@"Add Diagnosis Notes"];
-    _medicalDate.text=[MCLocalization stringForKey:@"Date"];
-    _medicalTime.text=[MCLocalization stringForKey:@"Time"];
-    _medicalMessage.text=[MCLocalization stringForKey:@"Message"];
-    _diagnosisDate.text=[MCLocalization stringForKey:@"Date"];
-    _diagnosisTime.text=[MCLocalization stringForKey:@"Time"];
-    _diagnosismessage.text=[MCLocalization stringForKey:@"Message"];
-    _patientDetailLabel.text=[MCLocalization stringForKey:@"Patient Details"];
-    titleOfTreatment=[MCLocalization stringForKey:@"Title of the Treatment"];
-    [_closeTreatmentClosure setTitle:[MCLocalization stringForKey:@"close"] forState:normal];
-    [_saveTreatmentClosure setTitle:[MCLocalization stringForKey:@"Save"] forState:normal];
-    [_exit setTitle:[MCLocalization stringForKey:@"Exit"] forState:normal];
-    [_addMedical setTitle:[MCLocalization stringForKey:@"Add"] forState:normal];
-    [_addDiagnosis setTitle:[MCLocalization stringForKey:@"Add"] forState:normal];
-    [_cancelMedical setTitle:[MCLocalization stringForKey:@"Clear"] forState:normal];
-    ok=[MCLocalization stringForKey:@"OK"];
-    enterTreatmentClosure=[MCLocalization stringForKey:@"Please enter Treatment Closure Notes"];
-    doYouWantToCloseTreatment=[MCLocalization stringForKey:@"Do you want to close the Treatment?"];
-    treatmentTitlerequired=[MCLocalization stringForKey:@"Treatment Title  is required"];
-    sittingStr=[MCLocalization stringForKey:@"Sitting"];
-    closedSuccess=[MCLocalization stringForKey:@"Closed successfully"];
-}
 //for language popOver
 -(IBAction)callMethodInContainerForLang:(id)sender{
     UINavigationController *nav=(UINavigationController*)self.parentViewController;
@@ -1855,6 +1807,7 @@
     else contain=nav.viewControllers[1];
     [contain callForNavigationButton:@"slideout" withButton:sender];
 }
+//seed for germs
 -(void)callSeedForGerms{
     //    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
     //        //For Vzone API
@@ -1878,6 +1831,7 @@
     }
     // }
 }
+//get germs
 -(void)callApiToGetGerms{
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,germsUrl];
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
@@ -1928,4 +1882,55 @@
         }
     }
 }
+//localization
+-(void)localize{
+    navTitle=[MCLocalization stringForKey:@"TreatmentSheet"];
+    alert=[MCLocalization stringForKey:@"Alert!"];
+    alertOk=[MCLocalization stringForKey:@"AlertOK"];
+    updateFailed=[MCLocalization stringForKey:@"Updated.Failed"];
+    updatedSuccess=[MCLocalization stringForKey:@"Updated.successfully"];
+    saveFailed=[MCLocalization stringForKey:@"Save Failed"];
+    saveSuccess=[MCLocalization stringForKey:@"Saved successfully"];
+    _genderLabel.text=[MCLocalization stringForKey:@"GenderLabel"];
+    _dobLabel.text=[MCLocalization stringForKey:@"DateOfBirthLabel"];
+    _ageLabel.text=[MCLocalization stringForKey:@"AgeLabel"];
+    _mobileLabel.text=[MCLocalization stringForKey:@"MobileLabel"];
+    _tranfusion.text=[MCLocalization stringForKey:@"TransfusionLabel"];
+    _emailLabel.text=[MCLocalization stringForKey:@"EmailLabel"];
+    _surgeryLabel.text=[MCLocalization stringForKey:@"SurgeriesLabel"];
+    yesStr=[MCLocalization stringForKey:@"Yes"];
+    noStr=[MCLocalization stringForKey:@"No"];
+    _attachment.text=[MCLocalization stringForKey:@"Attachment"];
+    _medicalHistoryLabel.text=[MCLocalization stringForKey:@"Medical History"];
+    _diagnosisLabel.text=[MCLocalization stringForKey:@"Diagnosis"];
+    _uploadLabel.text=[MCLocalization stringForKey:@"upload"];
+    _settingLabel.text=[MCLocalization stringForKey:@"Sittings"];
+    _treatmentEnclosure.text=[MCLocalization stringForKey:@"Treatment Closure"];
+    closureNote=[MCLocalization stringForKey:@"Add Closure Notes"];
+    medicalNote=[MCLocalization stringForKey:@"Add Medical Notes"];
+    diagnosisNote=[MCLocalization stringForKey:@"Add Diagnosis Notes"];
+    _medicalDate.text=[MCLocalization stringForKey:@"Date"];
+    _medicalTime.text=[MCLocalization stringForKey:@"Time"];
+    _medicalMessage.text=[MCLocalization stringForKey:@"Message"];
+    _diagnosisDate.text=[MCLocalization stringForKey:@"Date"];
+    _diagnosisTime.text=[MCLocalization stringForKey:@"Time"];
+    _diagnosismessage.text=[MCLocalization stringForKey:@"Message"];
+    _patientDetailLabel.text=[MCLocalization stringForKey:@"Patient Details"];
+    titleOfTreatment=[MCLocalization stringForKey:@"Title of the Treatment"];
+    [_closeTreatmentClosure setTitle:[MCLocalization stringForKey:@"close"] forState:normal];
+    [_saveTreatmentClosure setTitle:[MCLocalization stringForKey:@"Save"] forState:normal];
+    [_exit setTitle:[MCLocalization stringForKey:@"Exit"] forState:normal];
+    [_addMedical setTitle:[MCLocalization stringForKey:@"Add"] forState:normal];
+    [_addDiagnosis setTitle:[MCLocalization stringForKey:@"Add"] forState:normal];
+    [_cancelMedical setTitle:[MCLocalization stringForKey:@"Clear"] forState:normal];
+    ok=[MCLocalization stringForKey:@"OK"];
+    enterTreatmentClosure=[MCLocalization stringForKey:@"Please enter Treatment Closure Notes"];
+    doYouWantToCloseTreatment=[MCLocalization stringForKey:@"Do you want to close the Treatment?"];
+    treatmentTitlerequired=[MCLocalization stringForKey:@"Treatment Title  is required"];
+    sittingStr=[MCLocalization stringForKey:@"Sitting"];
+    closedSuccess=[MCLocalization stringForKey:@"Closed successfully"];
+    deleteSittingMsg=[MCLocalization stringForKey:@"Do you want to delete sitting?"];
+    imageUploadFailed=[MCLocalization stringForKey:@"Image upload failed"];
+}
+
 @end

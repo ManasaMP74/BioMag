@@ -1,5 +1,6 @@
 #import "AttachmentViewController.h"
 #import "Constant.h"
+#import <MCLocalization/MCLocalization.h>
 @interface AttachmentViewController ()<UIImagePickerControllerDelegate,UITextViewDelegate>
 
 
@@ -8,6 +9,7 @@
 @implementation AttachmentViewController
 {
  Constant *constant;
+NSString * navTitle,*alert,*alertOk,*TextShouldBeLessThan150;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -49,6 +51,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)navigationItemMethod{
+    self.title=navTitle;
     _textView.layer.cornerRadius=5;
     _textView.layer.borderColor=[UIColor colorWithRed:0.682 green:0.718 blue:0.729 alpha:0.6].CGColor;
     _textView.layer.borderWidth=1;
@@ -71,8 +74,8 @@
 {
         if (textView.text.length + (text.length - range.length) > 150) {
         [self.view endEditing:YES];
-        UIAlertController *alertView=[UIAlertController alertControllerWithTitle:@"Alert!" message:@"Text should be less than 150" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *cancel=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:TextShouldBeLessThan150 preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancel=[UIAlertAction actionWithTitle:alertOk style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
            [alertView dismissViewControllerAnimated:YES completion:nil];
         }];
         [alertView addAction:cancel];
@@ -88,5 +91,12 @@
 }
 - (IBAction)gesture:(id)sender {
     [self.view endEditing:YES];
+}
+//localization
+-(void)localize{
+    navTitle=[MCLocalization stringForKey:@"Attachment Sheet"];
+    alert=[MCLocalization stringForKey:@"Alert!"];
+    alertOk=[MCLocalization stringForKey:@"AlertOK"];
+    TextShouldBeLessThan150=[MCLocalization stringForKey:@"Text should be less than 150"];
 }
 @end

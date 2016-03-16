@@ -73,7 +73,7 @@
     _dobLabel.text=[MCLocalization stringForKey:@"DateOfBirthLabel"];
     _mobileLabel.text=[MCLocalization stringForKey:@"MobileLabel"];
     _emailLabel.text=[MCLocalization stringForKey:@"EmailLabel"];
-_certificateLabel.text=@"Certificate";
+    _certificateLabel.text=@"Certificate";
     _yearOfExpValueLabel.text=@"Year Of Experience";
 }
 @end
