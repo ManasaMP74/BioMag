@@ -6,4 +6,5 @@
 @property (weak, nonatomic) IBOutlet UIControl *alphaViewToShowLanguage;
 @property (weak, nonatomic) IBOutlet UITableView *popTableView;
 @property (weak, nonatomic) IBOutlet UIView *patientDetailView;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @end

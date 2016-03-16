@@ -314,16 +314,19 @@
     if (![_medicalHistoryTextView.text isEqualToString:@""]) {
         [self getCurrentTimeAndDate:@"medical"];
         [_MedicaltableView reloadData];
+        [_scrollView layoutIfNeeded];
+        _medicalTableHeight.constant=_MedicaltableView.contentSize.height;
+        _medicalHistoryViewHeight.constant=_medicalTableHeight.constant+190;
         _medicalHistoryTextView.text=@"";
         _medicalNoteLabel.hidden=NO;
-        
     }
 }
 //increase the View Height of Daignosis view
 - (IBAction)increaseDiagnosisView:(id)sender {
     if ([_increaseDiagnosisViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
         _diagnosisView.hidden=NO;
-        _diagnosisViewHeight.constant=250;
+        _diagnosisTableHeight.constant=_diagnosisTableView.contentSize.height;
+        _diagnosisViewHeight.constant= _diagnosisTableHeight.constant+150;
         [self ChangeIncreaseDecreaseButtonImage:_increaseDiagnosisViewButton];
     }
     else{
@@ -339,7 +342,8 @@
 - (IBAction)increaseViewHeightOfMedicalHistort:(id)sender {
     if ([_increaseMedicalViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
         _medicalHistoryView.hidden=NO;
-        _medicalHistoryViewHeight.constant=250;
+        _medicalTableHeight.constant=_MedicaltableView.contentSize.height;
+        _medicalHistoryViewHeight.constant=_medicalTableHeight.constant+190;
         [self ChangeIncreaseDecreaseButtonImage:_increaseMedicalViewButton];
     }
     else{
@@ -353,6 +357,9 @@
     if (![_diagnosisTextView.text isEqualToString:@""]) {
         [self getCurrentTimeAndDate:@"Diagnosis"];
         [_diagnosisTableView reloadData];
+        [_scrollView layoutIfNeeded];
+        _diagnosisTableHeight.constant=_diagnosisTableView.contentSize.height;
+        _diagnosisViewHeight.constant= _diagnosisTableHeight.constant+150;
         _diagnosisTextView.text=@"";
         _diagnosisNoteLabel.hidden=NO;
     }
@@ -550,8 +557,9 @@
             _sittingCollectionViewWidth.constant=_settingView.frame.size.width-100;
         }
         else _sittingCollectionViewWidth.constant=_sittingCollectionView.contentSize.width;
-        cell.sittingLabel.text=[NSString stringWithFormat:@"%@ #%d",sittingStr,indexPath.row+1];
-        model.sittingNumber=[NSString stringWithFormat:@"%d",indexPath.row+1];
+//        cell.sittingLabel.text=[NSString stringWithFormat:@"%@ #%ld",sittingStr,indexPath.row+1];
+//        model.sittingNumber=[NSString stringWithFormat:@"%ld",indexPath.row+1];
+        cell.sittingLabel.text=[NSString stringWithFormat:@"%@ #%@",sittingStr,model.sittingNumber];
         if ([_patientDetailModel.IsTreatmentCompleted intValue]==0) {
             if ([model.completed isEqualToString:@"0"]) {
                 [cell.editButton setImage:[UIImage imageNamed:@"Edit-1.jpg"] forState:normal];
@@ -655,6 +663,17 @@
         attachView.captionText=model.captionText;
         attachView.imageViewHeight.constant=self.view.frame.size.height-300;
         attachView.textViewEnabled=NO;
+    }
+    else if (collectionView==_sittingCollectionView) {
+        SittingCollectionViewCell *cell=(SittingCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
+         cell.selectedBackgroundView.backgroundColor=[UIColor clearColor];
+    }
+}
+-(void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath{
+    if (collectionView==_sittingCollectionView) {
+        SittingCollectionViewCell *cell=(SittingCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
+        cell.selectedBackgroundView.backgroundColor=[UIColor clearColor];
+
     }
 }
 //delete sitting cell

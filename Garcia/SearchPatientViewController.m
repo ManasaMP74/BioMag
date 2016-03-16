@@ -539,6 +539,13 @@
                     model.age=[NSString stringWithFormat:@"%ld",(long)[agecomponent year]];
                 }
                 [patentnameArray addObject:model];
+                if (patentnameArray.count==1) {
+                    initialSelectedRow=1;
+                    searchPatientModel *model=patentnameArray[0];
+                    selectedPatientCode=model.code;
+                    NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
+                    [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
+                }
             }
         }
         [self reloadData];
@@ -557,7 +564,7 @@
                 NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
                 [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
             }
-        }else    [self selectedCell:patentnameArray];
+        }else [self selectedCell:patentnameArray];
   [_patientListTableView reloadData];
     }
     MBProgressCountToHide++;

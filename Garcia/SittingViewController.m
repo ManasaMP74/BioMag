@@ -633,7 +633,6 @@
         [_tableview reloadData];
     }
     }
-    
 }
 //enpand previous sitting detail
 -(void)expandCellTOGetPreviousSitting:(UITableViewCell *)cell{

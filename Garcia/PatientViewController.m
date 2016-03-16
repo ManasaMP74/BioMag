@@ -246,6 +246,7 @@
            _emailValueLabel.text=_model.emailId;
 
         [_tableview reloadData];
+        [_scrollView layoutIfNeeded];
         _tableViewHeight.constant=self.tableview.contentSize.height;
        }else {
        [self showToastMessage:dict[@"Message"]];
