@@ -154,13 +154,13 @@
         pop.buttonName=@"slideout";
         pop.slideoutImageArray=slideoutImageArray;
         
-       CGFloat finalWidth =0.0;
+       CGFloat finalWidth = 0.0;
         for (NSString *str in slideoutArray) {
             CGFloat width =  [str boundingRectWithSize:(CGSizeMake(NSIntegerMax,self.view.frame.size.width)) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:15]} context:nil].size.width;
             finalWidth=MAX(finalWidth, width);
         }
 
-        pop.slideoutNameArray=slideoutArray;
+        pop.slideoutNameArray = slideoutArray;
         [self wypopOver:btn];
         CGFloat height=[pop getHeightOfTableView];
         CGSize contentSize = CGSizeMake(finalWidth+70,height);
@@ -173,7 +173,6 @@
             wypopOverController.delegate = nil;
             wypopOverController = nil;
         }];
-        
     }
 }
 //wypopover method
