@@ -1189,6 +1189,15 @@
             NSDictionary *dict1=dict[@"TreatmentRequest"];
             [self saveImage:dict1[@"Code"] withUpdateAndPostDiffer:@"post"];
         }
+        NSMutableArray *uploadArray=[[NSMutableArray alloc]init];
+        if (uploadedImageArray.count>0) {
+            for (UploadModelClass *model in uploadedImageArray) {
+                if (model.storgeId==nil) {
+                    [uploadArray addObject:model];
+                }
+            }
+        }
+        if (uploadArray.count==0) {
         UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:dict[@"Message"] preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *success=[UIAlertAction actionWithTitle:alertOk style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
             [self.navigationController popViewControllerAnimated:YES];
@@ -1199,6 +1208,12 @@
         }];
         [alertView addAction:success];
         [self presentViewController:alertView animated:YES completion:nil];
+        }else{
+            [self showToastMessage:dict[@"Message"]];
+            if (![_patientDetailModel.title isEqualToString:_treatmentNameTF.text]) {
+                [self CallLoadTreatMentDelegate];
+            }
+        }
     }
     else {
         [MBProgressHUD hideHUDForView:self.view animated:NO];
@@ -1759,7 +1774,8 @@
     _patientDetailModel.idValue=dict1[@"Id"];
     _patientDetailModel.code=dict1[@"TreatmentCode"];
     _patientDetailModel.title=dict1[@"Title"];
-    _patientDetailModel.symptomTagCodes=[dict1[@"SymptomTagCodes"] componentsSeparatedByString:@"|$|"];
+    NSString *str=dict1[@"SymptomTagCodes"];
+    _patientDetailModel.symptomTagCodes=[str componentsSeparatedByString:@","];
     NSDictionary *bioDict=dict1[@"BiomagneticSittingResults"];
     NSSortDescriptor *descriptor=[[NSSortDescriptor alloc]initWithKey:@"SittingNumber" ascending:YES];
     NSArray *ar=[bioDict[@"ViewModels"] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
