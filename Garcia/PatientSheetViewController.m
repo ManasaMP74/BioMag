@@ -1598,7 +1598,9 @@
     }
     
     if (uploadArray.count>0) {
+        int imagecount=0;
          for (UploadModelClass *model in uploadArray) {
+             imagecount++;
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
             NSString *documentsDirectory = [paths objectAtIndex:0];
             NSString* path = [documentsDirectory stringByAppendingPathComponent:@"EdittedProfile.jpeg" ];

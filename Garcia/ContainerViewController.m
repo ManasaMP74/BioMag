@@ -198,11 +198,21 @@
   languageChanger =[[LanguageChanger alloc]init];
     selectedLangRow=row;
     lagModel *model=languageArray[selectedLangRow];
+    NSString *langCode=[standardDefault valueForKey:@"languageCode"];
+    if ([langCode isEqualToString:model.code]) {
+       [MBProgressHUD hideHUDForView:self.view animated:NO];
+        [wypopOverController dismissPopoverAnimated:YES completion:^{
+            wypopOverController.delegate = nil;
+            wypopOverController = nil;
+        }];
+        [wypopOverController dismissPopoverAnimated:NO];
+    }else{
     [standardDefault setValue:model.code forKey:@"changedLanguageCode"];
     [standardDefault setValue:model.name forKey:@"changedLanguageName"];
     [MBProgressHUD showHUDAddedTo:self.view animated:NO];
       [languageChanger callApiForPreferredLanguage];
     languageChanger.delegate=self;
+    }
 }
 -(void)languageChangeDelegate:(int)str{
     [MBProgressHUD hideHUDForView:self.view animated:NO];
