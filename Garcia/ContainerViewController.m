@@ -213,6 +213,10 @@
         [lagSomeButton setTitle:[standardDefault valueForKey:@"languageName"] forState:normal];
        // [languageChanger readingLanguageFromDocument];
     }
+    [wypopOverController dismissPopoverAnimated:YES completion:^{
+        wypopOverController.delegate = nil;
+        wypopOverController = nil;
+    }];
      [wypopOverController dismissPopoverAnimated:NO];
 }
 //delegate of slideout
@@ -240,6 +244,10 @@
         [self.navigationController pushViewController:dr animated:YES];
     
     }
+    [wypopOverController dismissPopoverAnimated:YES completion:^{
+        wypopOverController.delegate = nil;
+        wypopOverController = nil;
+    }];
     [wypopOverController dismissPopoverAnimated:NO];
 }
 //delegate of wypopover
