@@ -990,7 +990,7 @@
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     BOOL status=YES;
     if ([textField isEqual:_priceTf]) {
-        if (_priceTf.text.length>6) {
+        if (_priceTf.text.length>5) {
             if (string.length==0) {
                 status=YES;
             }
