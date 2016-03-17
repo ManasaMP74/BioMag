@@ -250,8 +250,8 @@
         CriticalTreatmentInfoViewController *critical=[self.storyboard instantiateViewControllerWithIdentifier:@"CriticalTreatmentInfoViewController"];
         [self.navigationController pushViewController:critical animated:YES];
     }else if (row==1){
-        DrProfileViewController *dr=[self.storyboard instantiateViewControllerWithIdentifier:@"DrProfileViewController"];
-        [self.navigationController pushViewController:dr animated:YES];
+//        DrProfileViewController *dr=[self.storyboard instantiateViewControllerWithIdentifier:@"DrProfileViewController"];
+//        [self.navigationController pushViewController:dr animated:YES];
     
     }
     [wypopOverController dismissPopoverAnimated:YES completion:^{
