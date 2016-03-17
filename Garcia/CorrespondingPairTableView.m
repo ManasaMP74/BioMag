@@ -39,7 +39,12 @@
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 30;
+    NSString *str=[self nameForCell:indexPath];
+     CGFloat labelHeight=[str boundingRectWithSize:(CGSize){280,CGFLOAT_MAX } options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
+    if (labelHeight>30) {
+        return labelHeight+10;
+    }
+    else return 30;
 }
 -(NSString*)nameForCell:(NSIndexPath*)indexPath{
     NSString *str=@"";

@@ -183,13 +183,15 @@
     CGFloat height=30;
      if (tableView==_tableview) {
     if (indexPath.row==0) {
-        return 30;
+        NSString *str=[self nameForCell:indexPath];
+        CGFloat labelHeight=[str boundingRectWithSize:(CGSize){210,CGFLOAT_MAX } options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans-Semibold" size:14]} context:nil].size.height;
+        if (labelHeight>30) {
+            height= labelHeight+15;
+        }
+        else height= 30;
     }else {
         for (NSString *i in _model.selectedHeaderIndexpath) {
             if ([i isEqual:[NSString stringWithFormat:@"%ld-%ld",(long)indexPath.row,(long)indexPath.section]]) {
-//                NSArray *ar=[i componentsSeparatedByString:@"-"];
-//                int height1=[ar[0] intValue];
-//                height=[_model.correspondingPairHeight[height1] floatValue]+30;
                 for (NSDictionary *dict in _model.correspondingPairHeight) {
                     if (dict[i]) {
                           height=[dict[i] floatValue]+30;
@@ -199,9 +201,9 @@
                 
             }
         }
-        return height;
     }
-     }else return height;
+     }
+     return height;
 }
 -(NSString*)nameForCell:(NSIndexPath*)indexPath{
     NSString *str1=@"";

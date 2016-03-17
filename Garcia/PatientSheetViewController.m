@@ -110,7 +110,7 @@
     NSIndexPath *selectedSittingIndex;
     NSArray *slideoutImageArray,*slideoutArray;
     NSString *differForNavButton;
-    NSString *navTitle,*titleOfTreatment,*closureNote,*medicalNote,*diagnosisNote,*doYouWantToCloseTreatment,*alert,*alertOk,*updatedSuccess,*updateFailed,*saveSuccess,*saveFailed,*enterTreatmentClosure,*ok,*yesStr,*noStr,*treatmentTitlerequired,*sittingStr,*closedSuccess,*deleteSittingMsg,*imageUploadFailed;
+    NSString *navTitle,*titleOfTreatment,*closureNote,*medicalNote,*diagnosisNote,*doYouWantToCloseTreatment,*alert,*alertOk,*updatedSuccess,*updateFailed,*saveSuccess,*saveFailed,*enterTreatmentClosure,*ok,*yesStr,*noStr,*treatmentTitlerequired,*sittingStr,*closedSuccess,*deleteSittingMsg,*imageUploadFailed,*popBackAlert;
     WYPopoverController *wypopOverController;
     UIButton * lagSomeButton;
     BOOL changesDoneOrNot;
@@ -284,7 +284,7 @@
          changesDoneOrNot=YES;
     }
     if (changesDoneOrNot) {
-        UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:@"changes will discard if you exit from screen" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:popBackAlert preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
             [self.navigationController popViewControllerAnimated:YES];
             [alertView dismissViewControllerAnimated:YES completion:nil];
@@ -1230,8 +1230,10 @@
         }
         [_MedicaltableView reloadData];
         [_scrollView layoutIfNeeded];
+        if (!_medicalHistoryView.hidden) {
         _medicalTableHeight.constant=_MedicaltableView.contentSize.height;
         _medicalHistoryViewHeight.constant=_medicalTableHeight.constant+190;
+        }
         for (NSString *str in diagnosisArray) {
             if (![str isEqualToString:@""]) {
                 [diagnosisTableListArray addObject:str];
@@ -1239,8 +1241,10 @@
         }
         [_diagnosisTableView reloadData];
          [_scrollView layoutIfNeeded];
+        if (!_diagnosisView.hidden) {
         _diagnosisTableHeight.constant=_diagnosisTableView.contentSize.height;
         _diagnosisViewHeight.constant=_diagnosisTableHeight.constant+150;
+        }
     }
     [app.symptomTagArray removeAllObjects];
     if (_patientDetailModel.symptomTagCodes.count>0) {
@@ -1959,6 +1963,7 @@
     closedSuccess=[MCLocalization stringForKey:@"Closed successfully"];
     deleteSittingMsg=[MCLocalization stringForKey:@"Do you want to delete sitting?"];
     imageUploadFailed=[MCLocalization stringForKey:@"Image upload failed"];
+    popBackAlert=[MCLocalization stringForKey:@"Changes will be discarded if you exit from screen. Are you sure to proceed?"];
 }
 
 @end

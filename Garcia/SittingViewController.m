@@ -54,7 +54,7 @@
     NSDateFormatter *formater;
     NSString *selectedToxicString;
     NSArray *selectedPreviousArray;
-    NSString *navTitle,*alert,*alertOK,*saveFailed,*saveSuccess,*yesStr,*noStr,*authour,*enterSittingInfo,*previousSittings,*issueStr,*noIssueStr,*sStr,*s1Str,*doYoucloseSitting,*noChangesToSaveSitting;
+    NSString *navTitle,*alert,*alertOK,*saveFailed,*saveSuccess,*yesStr,*noStr,*authour,*enterSittingInfo,*previousSittings,*issueStr,*noIssueStr,*sStr,*s1Str,*doYoucloseSitting,*noChangesToSaveSitting,*popBackAlert;
 }
 - (void)viewDidLoad {
     [self localize];
@@ -215,7 +215,7 @@
         }
     }
     if (parameter) {
-        UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:@"changes will discard if you exit from screen" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:popBackAlert preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
            [self.navigationController popViewControllerAnimated:YES];
              [alertView dismissViewControllerAnimated:YES completion:nil];
@@ -1443,5 +1443,6 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
     s1Str=[MCLocalization stringForKey:@"S1"];
     doYoucloseSitting=[MCLocalization stringForKey:@"Do you want to close Sitting?"];
     noChangesToSaveSitting=[MCLocalization stringForKey:@"No changes is there to save"];
+    popBackAlert=[MCLocalization stringForKey:@"Changes will be discarded if you exit from screen. Are you sure to proceed?"];
 }
 @end
