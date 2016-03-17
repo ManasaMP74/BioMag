@@ -55,6 +55,7 @@
     NSString *selectedToxicString;
     NSArray *selectedPreviousArray;
     NSString *navTitle,*alert,*alertOK,*saveFailed,*saveSuccess,*yesStr,*noStr,*authour,*enterSittingInfo,*previousSittings,*issueStr,*noIssueStr,*sStr,*s1Str,*doYoucloseSitting,*noChangesToSaveSitting,*popBackAlert;
+    BOOL changesDoneorNot;
 }
 - (void)viewDidLoad {
     [self localize];
@@ -76,6 +77,7 @@
     postman=[[Postman alloc]init];
     [self navigationItemMethod];
     [self defaultValues];
+    changesDoneorNot=NO;
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
@@ -207,14 +209,7 @@
 }
 //pop
 -(void)popView{
-    BOOL parameter =NO;
-    for (sittingModel *model in allDoctorDetailArray) {
-        if (![model.germsString isEqualToString:@""]) {
-            parameter=YES;
-            break;
-        }
-    }
-    if (parameter) {
+        if (changesDoneorNot) {
         UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:popBackAlert preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
            [self.navigationController popViewControllerAnimated:YES];
@@ -408,6 +403,23 @@
                 if (![json[@"Price"] isEqualToString:@""]) {
                     _priceTf.text=json[@"Price"];
                 }
+                [appdelegate.symptomTagArray removeAllObjects];
+                NSString *symptomString=json[@"SymptomTagCode"];
+                NSArray *symptomTagArray=[symptomString componentsSeparatedByString:@","];
+                if (_allSymptomTagArray.count>0) {
+                    if (symptomTagArray.count>0) {
+                    for (NSString *symptomString1 in symptomTagArray) {
+                        for (int i=0; i<_allSymptomTagArray.count; i++) {
+                            SymptomTagModel *m=_allSymptomTagArray[i];
+                            if ([m.tagCode isEqualToString:symptomString1]) {
+                                [appdelegate.symptomTagArray addObject:m];
+                            }
+                        }
+                    }
+                  }
+                    [_collectionView reloadData];
+                    [_scrollView layoutIfNeeded];
+                }
                 _sittingNumberLabel.text=[NSString stringWithFormat:@"%@%d",sStr,[dict[@"SittingNumber"]intValue]];
                   cell.sittingNumber.text=[NSString stringWithFormat:@"%@%d",sStr,[dict[@"SittingNumber"]intValue]];
                 if (anotomicalPointArray.count>0) {
@@ -539,6 +551,7 @@
 }
 //add symptom
 -(void)addsymptom:(NSArray *)array{
+     changesDoneorNot=YES;
     [appdelegate.symptomTagArray removeAllObjects];
     [appdelegate.symptomTagArray addObjectsFromArray:array];
     _collectionViewWidth.constant=50;
@@ -920,6 +933,7 @@
 }
 //delegate of germs
 -(void)germsData:(NSArray *)germasData{
+    changesDoneorNot=YES;
     sittingModel *model1=allSortedDetailArray[selectedCellIndex.section];
     if (germasData.count>0) {
         NSString *selectedGerms=@"";
@@ -1072,12 +1086,7 @@
        finalDict =[json mutableCopy];
         treatmentDict=[finalDict[@"TreatmentRequest"]mutableCopy];
     }
-    NSString *symptomStr=@"";
-    for (SymptomTagModel *m in appdelegate.symptomTagArray) {
-        symptomStr=[symptomStr stringByAppendingString:m.tagCode];
-        symptomStr=[symptomStr stringByAppendingString:@","];
-    }
-    treatmentDict[@"SymptomTagCodes"]=symptomStr;
+    treatmentDict[@"SymptomTagCodes"]=@"";
     treatmentDict[@"IsTreatmentCompleted"]=@"false";
     treatmentDict[@"Status"]=@"true";
     
@@ -1126,7 +1135,12 @@
     sittingDict[@"Status"]=@"1";  
     sittingDict[@"AnatomicalPoints"]=jsonSittingArray;
     sittingDict[@"Price"]=_priceTf.text;
-    
+    NSString *symptomStr=@"";
+    for (SymptomTagModel *m in appdelegate.symptomTagArray) {
+        symptomStr=[symptomStr stringByAppendingString:m.tagCode];
+        symptomStr=[symptomStr stringByAppendingString:@","];
+    }
+    sittingDict[@"SymptomTagCode"]=symptomStr;
     NSString *parameter;
     
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {

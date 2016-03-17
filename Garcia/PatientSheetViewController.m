@@ -492,16 +492,20 @@
         cell=[tableView dequeueReusableCellWithIdentifier:@"cell1"];
         if (medicalTableListArray.count!=0 | diagnosisTableListArray.count!=0) {
             if ([tableView isEqual:_MedicaltableView]) {
-                NSArray *dateTime=[medicalTableListArray[indexPath.section] componentsSeparatedByString:@"T"];
-                cell.dateValueLabel.text=dateTime[0];
-                cell.timeValueLabel.text=dateTime[1];
-                cell.messageValueLabel.text=dateTime[2];
+                NSArray *dateTime=[medicalTableListArray[indexPath.section] componentsSeparatedByString:@"$"];
+                if (dateTime.count==3) {
+                    cell.dateValueLabel.text=dateTime[0];
+                    cell.timeValueLabel.text=dateTime[1];
+                    cell.messageValueLabel.text=dateTime[2];
+                }
             }
             else{
-                NSArray *dateTime=[diagnosisTableListArray[indexPath.section] componentsSeparatedByString:@"T"];
+                NSArray *dateTime=[diagnosisTableListArray[indexPath.section] componentsSeparatedByString:@"$"];
+                 if (dateTime.count==3) {
                 cell.dateValueLabel.text=dateTime[0];
                 cell.timeValueLabel.text=dateTime[1];
                 cell.messageValueLabel.text=dateTime[2];
+                 }
             }
         }
         tableView.tableFooterView=[UIView new];
@@ -513,7 +517,11 @@
     if (tableView==_diagnosisTableView) {
         if (diagnosisTableListArray.count>0) {
             CGFloat i=_diagnosisView.frame.size.width-230;
-            CGFloat labelHeight=[ diagnosisTableListArray[indexPath.section] boundingRectWithSize:(CGSize){i,CGFLOAT_MAX } options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
+            NSArray *dateTime=[diagnosisTableListArray[indexPath.section] componentsSeparatedByString:@"$"];
+            CGFloat labelHeight=0;
+            if (dateTime.count==3) {
+           labelHeight =[ dateTime[2] boundingRectWithSize:(CGSize){i,CGFLOAT_MAX } options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
+            }
             if (labelHeight<25) {
                 return 30;
             }
@@ -524,7 +532,11 @@
     else if(tableView==_MedicaltableView){
         if (medicalTableListArray.count>0) {
             CGFloat i=_medicalHistoryView.frame.size.width-240;
-            CGFloat labelHeight=[ medicalTableListArray[indexPath.section] boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
+            NSArray *dateTime=[medicalTableListArray[indexPath.section] componentsSeparatedByString:@"$"];
+            CGFloat labelHeight=0;
+             if (dateTime.count==3) {
+            labelHeight=[ medicalTableListArray[indexPath.section] boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
+             }
             if (labelHeight<25) {
                 return 30;
             }
@@ -960,12 +972,12 @@
     [formatter setDateFormat:@"HH:mm:ss"];
     NSString *currentTime=[formatter stringFromDate:[NSDate date]];
     if ([str isEqualToString:@"medical"]) {
-      NSString  *treatmentModifiedDate=[NSString stringWithFormat:@"%@T%@",currentDate,currentTime];
-        [medicalTableListArray addObject:[NSString stringWithFormat:@"%@T%@",treatmentModifiedDate,_medicalHistoryTextView.text]];
+      NSString  *treatmentModifiedDate=[NSString stringWithFormat:@"%@$%@",currentDate,currentTime];
+        [medicalTableListArray addObject:[NSString stringWithFormat:@"%@$%@",treatmentModifiedDate,_medicalHistoryTextView.text]];
     }
     else{
-        NSString  *treatmentModifiedDate=[NSString stringWithFormat:@"%@T%@",currentDate,currentTime];
-        [diagnosisTableListArray addObject:[NSString stringWithFormat:@"%@T%@",treatmentModifiedDate,_diagnosisTextView.text]];
+        NSString  *treatmentModifiedDate=[NSString stringWithFormat:@"%@$%@",currentDate,currentTime];
+        [diagnosisTableListArray addObject:[NSString stringWithFormat:@"%@$%@",treatmentModifiedDate,_diagnosisTextView.text]];
     }
 }
 //take pic
@@ -1186,15 +1198,15 @@
             NSDictionary *dict1=dict[@"TreatmentRequest"];
             [self saveImage:dict1[@"Code"] withUpdateAndPostDiffer:@"post"];
         }
-        NSMutableArray *uploadArray=[[NSMutableArray alloc]init];
-        if (uploadedImageArray.count>0) {
-            for (UploadModelClass *model in uploadedImageArray) {
-                if (model.storgeId==nil) {
-                    [uploadArray addObject:model];
-                }
-            }
-        }
-        if (uploadArray.count==0) {
+//        NSMutableArray *uploadArray=[[NSMutableArray alloc]init];
+//        if (uploadedImageArray.count>0) {
+//            for (UploadModelClass *model in uploadedImageArray) {
+//                if (model.storgeId==nil) {
+//                    [uploadArray addObject:model];
+//                }
+//            }
+//        }
+//        if (uploadArray.count==0) {
         UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:dict[@"Message"] preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *success=[UIAlertAction actionWithTitle:alertOk style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
             [self.navigationController popViewControllerAnimated:YES];
@@ -1205,12 +1217,12 @@
         }];
         [alertView addAction:success];
         [self presentViewController:alertView animated:YES completion:nil];
-        }else{
-            [self showToastMessage:dict[@"Message"]];
-            if (![_patientDetailModel.title isEqualToString:_treatmentNameTF.text]) {
-                [self CallLoadTreatMentDelegate];
-            }
-        }
+//        }else{
+//            [self showToastMessage:dict[@"Message"]];
+//            if (![_patientDetailModel.title isEqualToString:_treatmentNameTF.text]) {
+//                [self CallLoadTreatMentDelegate];
+//            }
+//        }
     }
     else {
         [MBProgressHUD hideHUDForView:self.view animated:NO];
@@ -1257,17 +1269,6 @@
         if (!_diagnosisView.hidden) {
         _diagnosisTableHeight.constant=_diagnosisTableView.contentSize.height;
         _diagnosisViewHeight.constant=_diagnosisTableHeight.constant+150;
-        }
-    }
-    [app.symptomTagArray removeAllObjects];
-    if (_patientDetailModel.symptomTagCodes.count>0) {
-        for (NSString *str in _patientDetailModel.symptomTagCodes) {
-            for (int i=0; i<allTagListArray.count; i++) {
-                SymptomTagModel *m=allTagListArray[i];
-                if ([m.tagCode isEqualToString:str]) {
-                    [app.symptomTagArray addObject:m];
-                }
-            }
         }
     }
     [uploadedImageArray removeAllObjects];
@@ -1640,6 +1641,7 @@
         sittingVC.SortType=@"";
         sittingVC.toxicDeficiencyString=@"";
         sittingVC.sittingNumber=sittingNumberToPassSittingVC;
+        sittingVC.allSymptomTagArray=allTagListArray;
     }
 }
 

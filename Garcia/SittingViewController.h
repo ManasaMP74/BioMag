@@ -46,6 +46,7 @@
 @property(strong,nonatomic)NSArray *biomagneticAnotomicalPointArray;
 @property(strong,nonatomic)NSString *sittingNumber;
 @property(strong,nonatomic)NSArray *allAddedBiomagArray;
+@property(strong,nonatomic)NSArray *allSymptomTagArray;
 
 @property (weak, nonatomic) IBOutlet UILabel *ageLabel;
 @property (weak, nonatomic) IBOutlet UILabel *interpretationLabel;
