@@ -83,6 +83,8 @@
     [_cancelButton setTitle:[MCLocalization stringForKey:@"Cancel"] forState:normal];
     [_saveButton setTitle:[MCLocalization stringForKey:@"Save"] forState:normal];
     [_addImageButton setTitle:[MCLocalization stringForKey:@"Add image"] forState:normal];
+    _descritionLabel.text=[MCLocalization stringForKey:@"Add description"];
+     _summaryLabel.text=[MCLocalization stringForKey:@"Add summary (100 Characters)"];
 }
 - (IBAction)addImage:(id)sender {
     UIImagePickerController *imgpick=[[UIImagePickerController alloc]init];

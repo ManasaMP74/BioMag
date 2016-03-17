@@ -953,19 +953,20 @@
 - (IBAction)expandPatientView:(id)sender {
     if ([_expandPatientViewImageView.image isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
         _expandPatientViewImageView.image=[UIImage imageNamed:@"Dropdown-icon-up"];
-        CGFloat height=(self.view.frame.size.height-498)/2;
-        CGFloat emailHeight=[_emailValue.text boundingRectWithSize:(CGSize){height,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
-        CGFloat surgeriesHeight=[_surgeriesValueLabel.text boundingRectWithSize:(CGSize){height,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
-        CGFloat finalheight=MAX(surgeriesHeight, emailHeight);
-        if (finalheight>33) {
-            _patienViewHeight.constant=finalheight+98;
-            _emailValueHeight.constant=emailHeight;
-            _surgeriesValueHeight.constant=surgeriesHeight;
-        }else{
-            _patienViewHeight.constant=115+finalheight;
-            _emailValueHeight.constant=33+finalheight;
-            _surgeriesValueHeight.constant=33+finalheight;
-        }
+//        CGFloat height=(self.view.frame.size.height-498)/2;
+//        CGFloat emailHeight=[_emailValue.text boundingRectWithSize:(CGSize){height,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
+//        CGFloat surgeriesHeight=[_surgeriesValueLabel.text boundingRectWithSize:(CGSize){height,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
+//        CGFloat finalheight=MAX(surgeriesHeight, emailHeight);
+//        if (finalheight>33) {
+//            _patienViewHeight.constant=finalheight+98;
+//            _emailValueHeight.constant=emailHeight;
+//            _surgeriesValueHeight.constant=surgeriesHeight;
+//        }else{
+//            _patienViewHeight.constant=115+finalheight;
+//            _emailValueHeight.constant=33+finalheight;
+//            _surgeriesValueHeight.constant=33+finalheight;
+//        }
+         _patienViewHeight.constant=140;
         _patientDetailView.hidden=NO;
         
     }else{
