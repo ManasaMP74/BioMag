@@ -642,7 +642,7 @@
         [data writeToFile:path atomically:YES];
         if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
             NSString *type=@"ABC123";
-                [imageManager uploadUserForVzoneDocumentPath:path forRequestCode:addedPatientCode withType:type withText:@[@""] withRequestType:@"User" withUserId:addedpatientId onCompletion:^(BOOL success) {
+                [imageManager uploadUserForVzoneDocumentPath:path forRequestCode:addedPatientCode withType:type withText:@"" withRequestType:@"User" withUserId:addedpatientId onCompletion:^(BOOL success) {
                     if (success)
                     {
                         [self alertmessage:saveSuccessfullyStr];

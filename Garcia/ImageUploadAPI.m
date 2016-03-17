@@ -184,7 +184,7 @@
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
 }
 //upload Image for Vzone
-- (void)uploadUserForVzoneDocumentPath:(NSString *)imagePath forRequestCode:(NSString *)reqCode withType:(NSString *)type withText:(NSArray*)caption withRequestType:(NSString*)reqType withUserId:(NSString*)UserId onCompletion:(void (^)(BOOL))completionHandler
+- (void)uploadUserForVzoneDocumentPath:(NSString *)imagePath forRequestCode:(NSString *)reqCode withType:(NSString *)type withText:(NSString*)caption withRequestType:(NSString*)reqType withUserId:(NSString*)UserId onCompletion:(void (^)(BOOL))completionHandler
 {
     if ([reqCode isKindOfClass:[NSNull class]])
     {
@@ -201,7 +201,7 @@
     
     
     
-        NSString  *jsonString = [NSString stringWithFormat:@"{\"SortNumbers\":[\"1\"],\"RequestCode\":\"%@\",\"RequestType\":\"%@\",\"DocumentTypeCode\":\"%@\",\" UserID\":\"%@\"}",reqCode,reqType,type,UserId];
+        NSString  *jsonString = [NSString stringWithFormat:@"{\"SortNumbers\":[\"1\"],\"RequestCode\":\"%@\",\"RequestType\":\"%@\",\"DocumentTypeCode\":\"%@\",\" UserID\":\"%@\",\"Rename\":\"%@\"}",reqCode,reqType,type,UserId,caption];
         
         NSDictionary *parameter = @{@"request":jsonString};
         //  NSString *jsonString;

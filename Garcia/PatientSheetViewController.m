@@ -405,6 +405,7 @@
     if (_treatmentNameTF.text.length==0) {
         [self showToastMessage:treatmentTitlerequired];
     }else{
+         changesDoneOrNot=NO;
         [self callApiToPostTreatment];
     }
 }
@@ -1337,6 +1338,15 @@
         dict  = responseDict1[@"aaData"];
     }else  dict=responseObject;
     if ([dict[@"Success"]intValue]==1) {
+        NSMutableArray *uploadArray=[[NSMutableArray alloc]init];
+        if (uploadedImageArray.count>0) {
+            for (UploadModelClass *model in uploadedImageArray) {
+                if (model.storgeId==nil) {
+                    [uploadArray addObject:model];
+                }
+            }
+        }
+        if (uploadArray.count==0) {
         UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:msg preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *success=[UIAlertAction actionWithTitle:alertOk style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
             [self.navigationController popViewControllerAnimated:YES];
@@ -1345,6 +1355,12 @@
         }];
         [alertView addAction:success];
         [self presentViewController:alertView animated:YES completion:nil];
+        }else
+        {
+        [self showToastMessage:msg];
+        [self CallLoadTreatMentDelegate];
+        [self callApiTogetAllDetailOfTheTreatment];
+        }
     }else {
         [self showToastMessage:dict[@"Message"]];
     }
@@ -1638,9 +1654,9 @@
             [data writeToFile:path atomically:YES];
             if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
                 NSString *type=@"NLB0H7";
-                NSArray *caption=@[@""];
+                NSString *caption=@"";
                 if (model.captionText!=nil) {
-                    caption=@[model.captionText];
+                    caption=model.captionText;
                 }
                 if (model.storgeId==nil) {
                     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
