@@ -88,7 +88,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *diagnosisDate;
 @property (weak, nonatomic) IBOutlet UILabel *diagnosisTime;
 @property (weak, nonatomic) IBOutlet UILabel *diagnosismessage;
-
 @end
 
 @implementation PatientSheetViewController
@@ -114,10 +113,12 @@
     NSString *navTitle,*titleOfTreatment,*closureNote,*medicalNote,*diagnosisNote,*doYouWantToCloseTreatment,*alert,*alertOk,*updatedSuccess,*updateFailed,*saveSuccess,*saveFailed,*enterTreatmentClosure,*ok,*yesStr,*noStr,*treatmentTitlerequired,*sittingStr,*closedSuccess,*deleteSittingMsg,*imageUploadFailed;
     WYPopoverController *wypopOverController;
     UIButton * lagSomeButton;
+    BOOL changesDoneOrNot;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self localize];
+    changesDoneOrNot=NO;
     germsArray=[[NSMutableArray alloc]init];
     imageManager =[[ImageUploadAPI alloc]init];
     allTagListArray=[[NSMutableArray alloc]init];
@@ -279,7 +280,24 @@
     self.navigationItem.rightBarButtonItems=@[mailbutton,negativeSpacer,lagButton];}
 //pop view
 -(void)popView{
+    if (![_treatmentNameTF.text isEqualToString:_patientDetailModel.title]) {
+         changesDoneOrNot=YES;
+    }
+    if (changesDoneOrNot) {
+        UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:@"changes will discard if you exit from screen" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+            [self.navigationController popViewControllerAnimated:YES];
+            [alertView dismissViewControllerAnimated:YES completion:nil];
+        }];
+        [alertView addAction:success];
+        UIAlertAction *failure=[UIAlertAction actionWithTitle:noStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+            [alertView dismissViewControllerAnimated:YES completion:nil];
+        }];
+        [alertView addAction:failure];
+        [self presentViewController:alertView animated:YES completion:nil];
+    }else{
     [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 //pop to root view
 -(void)popToViewController{
@@ -312,6 +330,7 @@
 //save medical history
 - (IBAction)saveMedicalHistory:(id)sender {
     if (![_medicalHistoryTextView.text isEqualToString:@""]) {
+        changesDoneOrNot=YES;
         [self getCurrentTimeAndDate:@"medical"];
         [_MedicaltableView reloadData];
         [_scrollView layoutIfNeeded];
@@ -355,6 +374,7 @@
 //save diagnosis textview
 - (IBAction)saveDiagnosisTextViewValue:(id)sender {
     if (![_diagnosisTextView.text isEqualToString:@""]) {
+        changesDoneOrNot=YES;
         [self getCurrentTimeAndDate:@"Diagnosis"];
         [_diagnosisTableView reloadData];
         [_scrollView layoutIfNeeded];
@@ -473,7 +493,7 @@
         PatientSheetTableViewCell *cell;
         cell=[tableView dequeueReusableCellWithIdentifier:@"cell1"];
         if (medicalTableListArray.count!=0 | diagnosisTableListArray.count!=0) {
-            if (tableView==_MedicaltableView) {
+            if ([tableView isEqual:_MedicaltableView]) {
                 NSArray *dateTime=[medicalTableListArray[indexPath.section] componentsSeparatedByString:@"T"];
                 cell.dateValueLabel.text=dateTime[0];
                 cell.timeValueLabel.text=dateTime[1];
@@ -495,8 +515,7 @@
     if (tableView==_diagnosisTableView) {
         if (diagnosisTableListArray.count>0) {
             CGFloat i=_diagnosisView.frame.size.width-230;
-            CGFloat labelHeight=[ diagnosisTableListArray[indexPath.section] boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }
-                                                                                          options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
+            CGFloat labelHeight=[ diagnosisTableListArray[indexPath.section] boundingRectWithSize:(CGSize){i,CGFLOAT_MAX } options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
             if (labelHeight<25) {
                 return 30;
             }
@@ -507,8 +526,7 @@
     else if(tableView==_MedicaltableView){
         if (medicalTableListArray.count>0) {
             CGFloat i=_medicalHistoryView.frame.size.width-240;
-            CGFloat labelHeight=[ medicalTableListArray[indexPath.section] boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }
-                                                                                        options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
+            CGFloat labelHeight=[ medicalTableListArray[indexPath.section] boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:13]} context:nil].size.height;
             if (labelHeight<25) {
                 return 30;
             }
@@ -978,6 +996,7 @@
         attachView.textViewEnabled=YES;
         attachView.imageViewHeight.constant=350;
         attachView.delegate=self;
+        changesDoneOrNot=YES;
         [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
@@ -1111,6 +1130,7 @@
     if (textView==_treatmentEncloserTextView) {
         if ([_treatmentEncloserTextView.text isEqualToString:@""]) {
             _addClosureNoteLabel.hidden=NO;
+            changesDoneOrNot=YES;
         }
         else _addClosureNoteLabel.hidden=YES;
     }
@@ -1209,12 +1229,18 @@
             }
         }
         [_MedicaltableView reloadData];
+        [_scrollView layoutIfNeeded];
+        _medicalTableHeight.constant=_MedicaltableView.contentSize.height;
+        _medicalHistoryViewHeight.constant=_medicalTableHeight.constant+190;
         for (NSString *str in diagnosisArray) {
             if (![str isEqualToString:@""]) {
                 [diagnosisTableListArray addObject:str];
             }
         }
         [_diagnosisTableView reloadData];
+         [_scrollView layoutIfNeeded];
+        _diagnosisTableHeight.constant=_diagnosisTableView.contentSize.height;
+        _diagnosisViewHeight.constant=_diagnosisTableHeight.constant+150;
     }
     [app.symptomTagArray removeAllObjects];
     if (_patientDetailModel.symptomTagCodes.count>0) {
@@ -1406,6 +1432,7 @@
 //Load Treatment from sitting part
 -(void)loadTreatMentFromSittingPart:(NSString*)idvalue withTreatmentCode:(NSString *)treatmentCode{
     _patientTitleModel=[[PatientTitleModel alloc]init];
+    changesDoneOrNot=NO;
     _patientTitleModel.idValue=idvalue;
     _patientTitleModel.code=treatmentCode;
     [self CallLoadTreatMentDelegate];
@@ -1596,7 +1623,6 @@
              }
         }
     }
-    
     if (uploadArray.count>0) {
         int imagecount=0;
          for (UploadModelClass *model in uploadArray) {
