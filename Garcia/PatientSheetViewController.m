@@ -280,9 +280,6 @@
     self.navigationItem.rightBarButtonItems=@[mailbutton,negativeSpacer,lagButton];}
 //pop view
 -(void)popView{
-    if (![_treatmentNameTF.text isEqualToString:_patientDetailModel.title]) {
-         changesDoneOrNot=YES;
-    }
     if (changesDoneOrNot) {
         UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:popBackAlert preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
