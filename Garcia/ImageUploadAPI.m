@@ -201,7 +201,7 @@
     
     
     
-        NSString  *jsonString = [NSString stringWithFormat:@"{\"SortNumbers\":[\"1\"],\"RequestCode\":\"%@\",\"RequestType\":\"%@\",\"DocumentTypeCode\":\"%@\",\" UserID\":\"%@\",\"Rename\":\"%@\"}",reqCode,reqType,type,UserId,caption];
+        NSString  *jsonString = [NSString stringWithFormat:@"{\"SortNumbers\":[\"1\"],\"RequestCode\":\"%@\",\"RequestType\":\"%@\",\"DocumentTypeCode\":\"%@\",\" UserID\":\"%@\",\"Renames\":[\"%@\"]}",reqCode,reqType,type,UserId,caption];
         
         NSDictionary *parameter = @{@"request":jsonString};
         //  NSString *jsonString;
