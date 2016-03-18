@@ -21,6 +21,7 @@
 #import "DrProfileViewController.h"
 #import "CriticalTreatmentInfoViewController.h"
 #import <MCLocalization/MCLocalization.h>
+#import "ShowCriticalInfoViewController.h"
 #if !defined(MAX)
 #define MAX(A,B)((A) > (B) ? (A) : (B))
 #endif
@@ -247,11 +248,10 @@
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",baseUrl,FAQurl]]];
     }
     else if (row==2){
-        CriticalTreatmentInfoViewController *critical=[self.storyboard instantiateViewControllerWithIdentifier:@"CriticalTreatmentInfoViewController"];
-        [self.navigationController pushViewController:critical animated:YES];
+        [self  callApiToSearchSaredCriticalInfo];
     }else if (row==1){
-//        DrProfileViewController *dr=[self.storyboard instantiateViewControllerWithIdentifier:@"DrProfileViewController"];
-//        [self.navigationController pushViewController:dr animated:YES];
+        DrProfileViewController *dr=[self.storyboard instantiateViewControllerWithIdentifier:@"DrProfileViewController"];
+        [self.navigationController pushViewController:dr animated:YES];
     
     }
     [wypopOverController dismissPopoverAnimated:YES completion:^{
@@ -652,8 +652,6 @@
         [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
         [userDefault setBool:NO forKey:@"anatomicalbiomagneticmatrix_FLAG"];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        //        [MBProgressHUD hideHUDForView:self.view animated:NO];
-        //        [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
         
     }];
 }
@@ -731,5 +729,41 @@
     termsandConditionsStr=[MCLocalization stringForKey:@"Terms and Conditions"];
     privacyandPolicyStr=[MCLocalization stringForKey:@"Privacy and Policy"];
     logoutStr=[MCLocalization stringForKey:@"Logout"];
+}
+-(void)callApiToSearchSaredCriticalInfo{
+    [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+   NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSString *docid=[userDefault valueForKey:@"Id"];
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,searchSaredCriticalInfo];
+    NSString *parameter=[NSString stringWithFormat:@"{\"request\":{\"Published\":\"0\",\"FromDate\":null,\"ToDate\":null,\"CreatedBy\":\"%@\"}}",docid];
+    [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self processResponseOfcallApiToSearchSaredCriticalInfo:responseObject];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
+        [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
+    }];
+}
+-(void)processResponseOfcallApiToSearchSaredCriticalInfo:(id)responseObject{
+    NSDictionary *dict;
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSDictionary *dic1=responseObject;
+        dict=dic1[@"aaData"];
+    }else{
+        dict=responseObject;
+    }
+    if ([dict[@"Success"] intValue]==1) {
+        NSArray *ar=dict[@"GenericSearchViewModels"];
+        if (ar.count==0) {
+            CriticalTreatmentInfoViewController *critical=[self.storyboard instantiateViewControllerWithIdentifier:@"CriticalTreatmentInfoViewController"];
+            [self.navigationController pushViewController:critical animated:YES];
+        }else{
+            ShowCriticalInfoViewController *critical=[self.storyboard instantiateViewControllerWithIdentifier:@"ShowCriticalInfoViewController"];
+            critical.CriticalInfoArray=ar;
+            [self.navigationController pushViewController:critical animated:YES];
+        }
+    }else {
+    [self showToastMessage:[NSString stringWithFormat:@"%@",dict[@"Message"]]];
+    }
 }
 @end

@@ -175,10 +175,15 @@
             [doctorDetail addObject:dict[@"Email"]];
             NSString *str=dict[@"JSON"];
             NSDictionary *jsonDict=[NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
-             [doctorDetail addObject:jsonDict[@"ContactNo"]];
-            [doctorDetail addObject:dict[@"Name"]];
-            [doctorDetail addObject:dict[@"Name"]];
-             [doctorDetail addObject:dict[@"Gender"]];
+            [doctorDetail addObject:jsonDict[@"ContactNo"]];
+            [doctorDetail addObject:dict[@"Experience"]];
+            [doctorDetail addObject:dict[@"Specialities"]];
+            [doctorDetail addObject:dict[@"Gender"]];
+            NSString *Json=dict[@"JSON"];
+            if (![Json isKindOfClass:[NSNull class]]) {
+                NSData *jsonData1 = [Json dataUsingEncoding:NSUTF8StringEncoding];
+                NSDictionary *jsonDict1 = [NSJSONSerialization JSONObjectWithData:jsonData1 options:kNilOptions error:nil];
+            }
             [userdefault setValue:doctorDetail forKey:@"DoctorDetail"];
 
 

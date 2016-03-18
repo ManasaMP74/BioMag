@@ -109,6 +109,9 @@ NSString *const languageUILabel=@"search/UILabel/";
 NSString *const preferredLanguage=@"PreferredLanguage/User";
 NSString *const deleteDocumentUrl=@"aws/DeleteDocument";
 NSString *const deleteSitting=@"BiomagneticSittingResult/Delete";
+NSString *const criticalTreatmentInfoUrl=@"ShareTreatmentInfo";
+NSString *const searchSaredCriticalInfo=@"Search/ShareTreatmentInfo";
+
 
 NSString *const DifferMetirialOrVzoneApi=@"vzone";
 @end

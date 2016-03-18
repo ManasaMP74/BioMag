@@ -1673,7 +1673,6 @@
                     caption=model.captionText;
                 }
                 if (model.storgeId==nil) {
-                    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
                     [imageManager uploadUserForVzoneDocumentPath:path forRequestCode:code withType:type withText:caption withRequestType:@"Treatment" withUserId:_model.Id onCompletion:^(BOOL success) {
                         if (success)
                         {
@@ -1684,7 +1683,8 @@
                             [self showToastMessage:imageUploadFailed];
                         }
                     }];
-                }else{
+                    }
+            }else{
                     NSArray *type=@[@"NLB0H7"];
                     NSArray *caption=@[@""];
                     if (model.captionText!=nil) {
@@ -1702,19 +1702,12 @@
                             }
                         }];
                     }
-                  }
-                
-                }
             }
-        }
-        if ([differ isEqualToString:@"update"]) {
+         }
+    }
+    if ([differ isEqualToString:@"update"]) {
              [self callAPIToCloseTreatmentOrUpdate:@"update"];
         }
-    }else{
-        if ([differ isEqualToString:@"update"]) {
-            [self callAPIToCloseTreatmentOrUpdate:@"update"];
-        }
-    }
 }
 - (IBAction)exit:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];

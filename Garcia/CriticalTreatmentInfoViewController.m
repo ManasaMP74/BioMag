@@ -2,6 +2,10 @@
 #import <MCLocalization/MCLocalization.h>
 #import "CriticalTreatmentInfoCollectionViewCell.h"
 #import "Constant.h"
+#import "MBProgressHUD.h"
+#import "Postman.h"
+#import "PostmanConstant.h"
+#import "ImageUploadAPI.h"
 @interface CriticalTreatmentInfoViewController ()<UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,deleteCellProtocol>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *uploadImageView;
@@ -19,15 +23,20 @@
 @implementation CriticalTreatmentInfoViewController
 {
     NSMutableArray *criticalImageArray;
+    Postman *postman;
+    NSString *noChangesToSave,*imageUploadFailed;
+    ImageUploadAPI *imageManager;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     Constant *constant=[[Constant alloc]init];
+    postman=[[Postman alloc]init];
     [constant changeSaveBtnImage:_addImageButton];
     [self layerOfTV];
     [self localize];
      [self navigationItemMethod];
     criticalImageArray =[[NSMutableArray alloc]init];
+    imageManager=[[ImageUploadAPI alloc]init];
     _collectionviewHeight.constant=0;
 }
 
@@ -85,6 +94,8 @@
     [_addImageButton setTitle:[MCLocalization stringForKey:@"Add image"] forState:normal];
     _descritionLabel.text=[MCLocalization stringForKey:@"Add description"];
      _summaryLabel.text=[MCLocalization stringForKey:@"Add summary (100 Characters)"];
+    noChangesToSave=[MCLocalization stringForKey:@"No changes is there to save"];
+   imageUploadFailed=[MCLocalization stringForKey:@"Image upload failed"];
 }
 - (IBAction)addImage:(id)sender {
     UIImagePickerController *imgpick=[[UIImagePickerController alloc]init];
@@ -108,6 +119,9 @@
     cell.delegate=self;
     return cell;
 }
+-(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
+    cell.backgroundColor=[UIColor clearColor];
+}
 -(void)deleteCell:(UICollectionViewCell *)cell{
     CriticalTreatmentInfoCollectionViewCell *cell1=(CriticalTreatmentInfoCollectionViewCell*)cell;
     NSIndexPath *i=[_collectionView indexPathForCell:cell1];
@@ -117,4 +131,118 @@
     }else _collectionviewHeight.constant=0;
     [_collectionView reloadData];
 }
+- (IBAction)cancel:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+- (IBAction)save:(id)sender {
+    if (criticalImageArray.count>0) {
+        [self callApiToPostCriticalTreatmentInfo];
+    }else{
+        [self showToastMessage:noChangesToSave];
+    }
+}
+//Toast Message
+-(void)showToastMessage:(NSString*)msg{
+    MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hubHUD.mode=MBProgressHUDModeText;
+    hubHUD.labelText=msg;
+    hubHUD.labelFont=[UIFont systemFontOfSize:15];
+    hubHUD.margin=20.f;
+    hubHUD.yOffset=150.f;
+    hubHUD.removeFromSuperViewOnHide = YES;
+    [hubHUD hide:YES afterDelay:2];
+}
+//save profile
+- (void)saveImage:(NSString*)code
+{
+    [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+    if (criticalImageArray.count>0) {
+        int imagecount=0;
+        for (UIImage *image in criticalImageArray) {
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+            NSString *documentsDirectory = [paths objectAtIndex:0];
+            NSString* path = [documentsDirectory stringByAppendingPathComponent:@"EdittedProfile.jpeg" ];
+            NSData* data = UIImageJPEGRepresentation(image,.5);
+            [data writeToFile:path atomically:YES];
+            if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+                NSString *type=@"NLB0H7";
+                NSString *caption=@"";
+                NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+                NSString *docId=[defaults valueForKey:@"Id"];
+                        [imageManager uploadUserForVzoneDocumentPath:path forRequestCode:code withType:type withText:caption withRequestType:@"TreatmentInfo" withUserId:docId onCompletion:^(BOOL success) {
+                            if (success)
+                            {
+                                if (imagecount==criticalImageArray.count-1) {
+                                     [MBProgressHUD hideHUDForView:self.view animated:NO];
+                                }else  [self incrementThevalue:imagecount];
+                            }else
+                            {
+                                [MBProgressHUD hideHUDForView:self.view animated:NO];
+                                [self showToastMessage:imageUploadFailed];
+                            }
+                        }];
+                    }else{
+                        NSArray *type=@[@"NLB0H7"];
+                        NSArray *caption=@[@""];
+                            [imageManager uploadDocumentPath:path forRequestCode:code withDocumentType:type withText:caption withRequestType:@"Treatment" onCompletion:^(BOOL success) {
+                                if (success)
+                                {
+                                    [MBProgressHUD hideHUDForView:self.view animated:NO];
+                                }else
+                                {
+                                    [MBProgressHUD hideHUDForView:self.view animated:NO];
+                                    [self showToastMessage:imageUploadFailed];
+                                }
+                            }];
+                    }
+            }
+        }
+}
+-(void)incrementThevalue:(int)imagecount{
+    imagecount++;
+}
+//call api for critical info
+-(void)callApiToPostCriticalTreatmentInfo{
+    
+    NSString *url=[NSString stringWithFormat:@"%@%@/0",baseUrl,criticalTreatmentInfoUrl];
+    [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSString *parameter=[NSString stringWithFormat:@"{\"request\":{\"Summary\":\"%@\",\"Description\":\"%@\",\"Published\":false,\"Status\":\"1\",\"SortNumber\":\"1\",\"PublishedDocs\":\"\",\"DocSortNumber\":\"1\",\"UserID\":60069, \"MethodType\":\"POST\"}}",_summaryTextView.text,_descriptionTextView.text];
+        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processResponseTopostCriticalInfo:responseObject];
+             [MBProgressHUD hideHUDForView:self.view animated:NO];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            
+        }];
+    }
+}
+-(void)processResponseTopostCriticalInfo:(id)response{
+    NSDictionary *dict;
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSDictionary *dic1=response;
+        dict=dic1[@"aaData"];
+    }else{
+        dict=response;
+    }
+    if ([dict[@"Success"] intValue]==1) {
+        [self saveImage:dict[@"Code"]];
+    
+    }else{
+        [self showToastMessage:dict[@"Message"]];
+    }
+}
+-(void)getDetailOfSharedTreatmentInfo{
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSString *docid=[userDefault valueForKey:@"Id"];
+    NSString *url=[NSString stringWithFormat:@"%@%@/%@",baseUrl,criticalTreatmentInfoUrl,docid];
+    [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self processResponseOfgetDetailOfSharedTreatmentInfo:responseObject];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+    }];
+}
+-(void)processResponseOfgetDetailOfSharedTreatmentInfo:(id)responseObject{
+    
+}
+
 @end

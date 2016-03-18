@@ -74,6 +74,8 @@
 		DAACC89F1C154AE90026132A /* germsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAACC89E1C154AE90026132A /* germsModel.m */; };
 		DAB0C4A91C5F85F6002F0189 /* PopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB0C4A81C5F85F6002F0189 /* PopOverViewController.m */; };
 		DAB1351A1C633A3900B639DD /* lagModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB135191C633A3900B639DD /* lagModel.m */; };
+		DAB3E9421C9C141B0014BD3C /* ShowCriticalInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB3E9411C9C141B0014BD3C /* ShowCriticalInfoViewController.m */; };
+		DAB3E9451C9C15B70014BD3C /* ShowCriticalInfoListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB3E9441C9C15B70014BD3C /* ShowCriticalInfoListModel.m */; };
 		DAD52B5A1C2169370052579D /* SectionXib.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAD52B591C2169370052579D /* SectionXib.xib */; };
 		DAD52B5D1C21694B0052579D /* SectionXibView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD52B5C1C21694B0052579D /* SectionXibView.m */; };
 		DAD52B5F1C216AF70052579D /* SctionXibCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAD52B5E1C216AF70052579D /* SctionXibCell.xib */; };
@@ -255,6 +257,10 @@
 		DAB0C4A81C5F85F6002F0189 /* PopOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopOverViewController.m; sourceTree = "<group>"; };
 		DAB135181C633A3900B639DD /* lagModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lagModel.h; sourceTree = "<group>"; };
 		DAB135191C633A3900B639DD /* lagModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = lagModel.m; sourceTree = "<group>"; };
+		DAB3E9401C9C141B0014BD3C /* ShowCriticalInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowCriticalInfoViewController.h; sourceTree = "<group>"; };
+		DAB3E9411C9C141B0014BD3C /* ShowCriticalInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowCriticalInfoViewController.m; sourceTree = "<group>"; };
+		DAB3E9431C9C15B70014BD3C /* ShowCriticalInfoListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowCriticalInfoListModel.h; sourceTree = "<group>"; };
+		DAB3E9441C9C15B70014BD3C /* ShowCriticalInfoListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowCriticalInfoListModel.m; sourceTree = "<group>"; };
 		DAD52B591C2169370052579D /* SectionXib.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SectionXib.xib; sourceTree = "<group>"; };
 		DAD52B5B1C21694B0052579D /* SectionXibView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionXibView.h; sourceTree = "<group>"; };
 		DAD52B5C1C21694B0052579D /* SectionXibView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionXibView.m; sourceTree = "<group>"; };
@@ -585,6 +591,17 @@
 				DA753C861C6481C500D1ABE1 /* CorrespondingPairTableViewCell.m */,
 			);
 			name = CorrespondingPair;
+			sourceTree = "<group>";
+		};
+		DAB3E9461C9C15C20014BD3C /* ShowCriticalInfo */ = {
+			isa = PBXGroup;
+			children = (
+				DAB3E9401C9C141B0014BD3C /* ShowCriticalInfoViewController.h */,
+				DAB3E9411C9C141B0014BD3C /* ShowCriticalInfoViewController.m */,
+				DAB3E9431C9C15B70014BD3C /* ShowCriticalInfoListModel.h */,
+				DAB3E9441C9C15B70014BD3C /* ShowCriticalInfoListModel.m */,
+			);
+			name = ShowCriticalInfo;
 			sourceTree = "<group>";
 		};
 		DAE6FBB81BE4DBDB00952812 /* CustomCell */ = {
@@ -929,6 +946,7 @@
 				DA9E393A1C88260A00499142 /* CriticalTreatmentInfoViewController.m */,
 				DAFB92D91C89638400F4F0C4 /* CriticalTreatmentInfoCollectionViewCell.h */,
 				DAFB92DA1C89638400F4F0C4 /* CriticalTreatmentInfoCollectionViewCell.m */,
+				DAB3E9461C9C15C20014BD3C /* ShowCriticalInfo */,
 			);
 			name = CriticalTreatmentInfo;
 			sourceTree = "<group>";
@@ -1146,6 +1164,8 @@
 				DA753C7B1C6480F400D1ABE1 /* HeaderTableVIew.m in Sources */,
 				DAEFA1971BD0B11500900379 /* AppDelegate.m in Sources */,
 				DA7521CC1C4CD15000FF6B03 /* ToxicDeficiencyCell.m in Sources */,
+				DAB3E9421C9C141B0014BD3C /* ShowCriticalInfoViewController.m in Sources */,
+				DAB3E9451C9C15B70014BD3C /* ShowCriticalInfoListModel.m in Sources */,
 				DA8C68231C5A49D700F78E86 /* PreviousSittingModelClass.m in Sources */,
 				DA7674171C0FF948007541F0 /* sittingModel.m in Sources */,
 				DAEC02711BD513500095C6AE /* customFont.m in Sources */,

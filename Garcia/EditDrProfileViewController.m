@@ -465,7 +465,7 @@
 //        [data writeToFile:path atomically:YES];
 //        if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
 //            NSString *type=@"ABC123";
-//            [imageManager uploadUserForVzoneDocumentPath:path forRequestCode:_model.code withType:type withText:@[@""] withRequestType:@"User" withUserId:_model.Id onCompletion:^(BOOL success) {
+//            [imageManager uploadUserForVzoneDocumentPath:path forRequestCode:_model.code withType:type withText:@"" withRequestType:@"User" withUserId:_model.Id onCompletion:^(BOOL success) {
 //                if (success)
 //                {
 //                    if (_model.profileImageCode)

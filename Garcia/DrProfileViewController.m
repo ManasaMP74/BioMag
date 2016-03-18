@@ -28,7 +28,6 @@
    
 }
 -(void)navigationItemMethod{
-    _profileView.layer.borderWidth=1;
     _profileView.layer.cornerRadius=5;
     self.title=@"Practitioner Profile";
     UIImage* image = [UIImage imageNamed:@"Back button.png"];
