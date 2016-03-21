@@ -31,9 +31,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    Constant *constant=[[Constant alloc]init];
     postman=[[Postman alloc]init];
-    [constant changeSaveBtnImage:_addImageButton];
     [self layerOfTV];
     [self localize];
      [self navigationItemMethod];
