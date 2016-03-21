@@ -1,5 +1,6 @@
 #import "ShowCriticalInfoViewController.h"
 #import "ShowCriticalInfoListModel.h"
+#import "CriticalTreatmentInfoViewController.h"
 @interface ShowCriticalInfoViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @end
@@ -46,5 +47,9 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     ShowCriticalInfoListModel *model=completeCriticalDetailArray[indexPath.row];
+}
+- (IBAction)addCriticalInfo:(id)sender {
+    CriticalTreatmentInfoViewController *critical=[self.storyboard instantiateViewControllerWithIdentifier:@"CriticalTreatmentInfoViewController"];
+    [self.navigationController pushViewController:critical animated:YES];
 }
 @end
