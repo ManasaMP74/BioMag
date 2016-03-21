@@ -31,6 +31,7 @@
 		DA2D3DA61C0EB3F3008D0AC2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2D3DA51C0EB3F3008D0AC2 /* CoreGraphics.framework */; };
 		DA2D3E541C0F21E0008D0AC2 /* SittingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2D3E531C0F21E0008D0AC2 /* SittingViewController.m */; };
 		DA2F9F771C2172300077AEAB /* SlideOutTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2F9F761C2172300077AEAB /* SlideOutTableViewCell.m */; };
+		DA34944E1C9FD62B001171DF /* CriticalImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA34944D1C9FD62B001171DF /* CriticalImageModel.m */; };
 		DA4461E61BD771F600F80F5A /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC027B1BD514340095C6AE /* OpenSans-Semibold.ttf */; };
 		DA4461E71BD7720300F80F5A /* OpenSans-Semibold.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC027B1BD514340095C6AE /* OpenSans-Semibold.ttf */; };
 		DA45B5201C50988300087DA3 /* PatientSheetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE955591BD24A7500EDFD8F /* PatientSheetViewController.m */; };
@@ -126,6 +127,7 @@
 		DAF7EF381C1AF3EA009ADE9B /* GermsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF7EF371C1AF3EA009ADE9B /* GermsCell.xib */; };
 		DAF7EF3B1C1AF3FD009ADE9B /* GermsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF7EF3A1C1AF3FD009ADE9B /* GermsTableViewCell.m */; };
 		DAF82CE01BD4BA74006AF1E1 /* ContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF82CDF1BD4BA74006AF1E1 /* ContainerViewController.m */; };
+		DAFB07931C9FC91A00674FBB /* ShowDetailOfCriticalInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFB07921C9FC91A00674FBB /* ShowDetailOfCriticalInfoViewController.m */; };
 		DAFB92DB1C89638400F4F0C4 /* CriticalTreatmentInfoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFB92DA1C89638400F4F0C4 /* CriticalTreatmentInfoCollectionViewCell.m */; };
 		DAFBE3D01C08277600C1C796 /* TreatmentDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFBE3CF1C08277600C1C796 /* TreatmentDetailModel.m */; };
 		DAFC4AC31C2567A500FE6234 /* ProfileImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFC4AC21C2567A500FE6234 /* ProfileImageView.m */; };
@@ -187,6 +189,8 @@
 		DA2D3E531C0F21E0008D0AC2 /* SittingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SittingViewController.m; sourceTree = "<group>"; };
 		DA2F9F751C2172300077AEAB /* SlideOutTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideOutTableViewCell.h; sourceTree = "<group>"; };
 		DA2F9F761C2172300077AEAB /* SlideOutTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideOutTableViewCell.m; sourceTree = "<group>"; };
+		DA34944C1C9FD62B001171DF /* CriticalImageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CriticalImageModel.h; sourceTree = "<group>"; };
+		DA34944D1C9FD62B001171DF /* CriticalImageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CriticalImageModel.m; sourceTree = "<group>"; };
 		DA487E661C59E7260015A3D0 /* ForgotPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgotPasswordViewController.h; sourceTree = "<group>"; };
 		DA487E671C59E7260015A3D0 /* ForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgotPasswordViewController.m; sourceTree = "<group>"; };
 		DA4884D91C4E33AE0064774F /* ToxicDeficiencyView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToxicDeficiencyView.xib; sourceTree = "<group>"; };
@@ -356,6 +360,8 @@
 		DAF7EF3A1C1AF3FD009ADE9B /* GermsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GermsTableViewCell.m; sourceTree = "<group>"; };
 		DAF82CDE1BD4BA74006AF1E1 /* ContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContainerViewController.h; sourceTree = "<group>"; };
 		DAF82CDF1BD4BA74006AF1E1 /* ContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContainerViewController.m; sourceTree = "<group>"; };
+		DAFB07911C9FC91A00674FBB /* ShowDetailOfCriticalInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowDetailOfCriticalInfoViewController.h; sourceTree = "<group>"; };
+		DAFB07921C9FC91A00674FBB /* ShowDetailOfCriticalInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowDetailOfCriticalInfoViewController.m; sourceTree = "<group>"; };
 		DAFB92D91C89638400F4F0C4 /* CriticalTreatmentInfoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CriticalTreatmentInfoCollectionViewCell.h; sourceTree = "<group>"; };
 		DAFB92DA1C89638400F4F0C4 /* CriticalTreatmentInfoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CriticalTreatmentInfoCollectionViewCell.m; sourceTree = "<group>"; };
 		DAFBE3CE1C08277600C1C796 /* TreatmentDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreatmentDetailModel.h; sourceTree = "<group>"; };
@@ -598,6 +604,8 @@
 			children = (
 				DAB3E9401C9C141B0014BD3C /* ShowCriticalInfoViewController.h */,
 				DAB3E9411C9C141B0014BD3C /* ShowCriticalInfoViewController.m */,
+				DAFB07911C9FC91A00674FBB /* ShowDetailOfCriticalInfoViewController.h */,
+				DAFB07921C9FC91A00674FBB /* ShowDetailOfCriticalInfoViewController.m */,
 				DAB3E9431C9C15B70014BD3C /* ShowCriticalInfoListModel.h */,
 				DAB3E9441C9C15B70014BD3C /* ShowCriticalInfoListModel.m */,
 			);
@@ -946,6 +954,8 @@
 				DA9E393A1C88260A00499142 /* CriticalTreatmentInfoViewController.m */,
 				DAFB92D91C89638400F4F0C4 /* CriticalTreatmentInfoCollectionViewCell.h */,
 				DAFB92DA1C89638400F4F0C4 /* CriticalTreatmentInfoCollectionViewCell.m */,
+				DA34944C1C9FD62B001171DF /* CriticalImageModel.h */,
+				DA34944D1C9FD62B001171DF /* CriticalImageModel.m */,
 				DAB3E9461C9C15C20014BD3C /* ShowCriticalInfo */,
 			);
 			name = CriticalTreatmentInfo;
@@ -1177,6 +1187,7 @@
 				DAF616821C0428E500B54F5D /* ImageUploadAPI.m in Sources */,
 				DA130F3A1BEA1E1900B5B9FF /* DetailsSection.m in Sources */,
 				DAEFA1BF1BD0B4EB00900379 /* PatientViewController.m in Sources */,
+				DAFB07931C9FC91A00674FBB /* ShowDetailOfCriticalInfoViewController.m in Sources */,
 				DAEF6AF31BD65C61006868C8 /* DatePicker.m in Sources */,
 				DA70EECE1C44CE3300D20570 /* SeedSyncer.m in Sources */,
 				DAE6FBBB1BE4DC3500952812 /* TagCollectionViewCell.m in Sources */,
@@ -1237,6 +1248,7 @@
 				DA261DC91C4660CD00B18035 /* ToxicDeficiency.m in Sources */,
 				DAF7EF341C1AF375009ADE9B /* germsView.m in Sources */,
 				DA4896151C6C6A2100FE12C3 /* LanguageChanger.m in Sources */,
+				DA34944E1C9FD62B001171DF /* CriticalImageModel.m in Sources */,
 				DA9E393B1C88260A00499142 /* CriticalTreatmentInfoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

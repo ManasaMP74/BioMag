@@ -6,6 +6,8 @@
 #import "Postman.h"
 #import "PostmanConstant.h"
 #import "ImageUploadAPI.h"
+#import "CriticalImageModel.h"
+#import "UIImageView+AFNetworking.h"
 @interface CriticalTreatmentInfoViewController ()<UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,deleteCellProtocol>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *uploadImageView;
@@ -24,7 +26,7 @@
 {
     NSMutableArray *criticalImageArray;
     Postman *postman;
-    NSString *noChangesToSave,*imageUploadFailed;
+    NSString *noChangesToSave,*imageUploadFailed,*deleteImageStr,*yesStr,*noStr,*alert,*alertOk;
     ImageUploadAPI *imageManager;
 }
 - (void)viewDidLoad {
@@ -37,9 +39,23 @@
      [self navigationItemMethod];
     criticalImageArray =[[NSMutableArray alloc]init];
     imageManager=[[ImageUploadAPI alloc]init];
-    _collectionviewHeight.constant=0;
-}
+    [criticalImageArray addObjectsFromArray:_addedcriticalArray];
+    if (criticalImageArray.count>0) {
+        _collectionviewHeight.constant=128;
+        [_collectionView reloadData];
 
+    }
+    else  _collectionviewHeight.constant=0;
+    if (_summary.length>0) {
+        _summaryLabel.hidden=YES;
+        _summaryTextView.text=_summary;
+    }
+    if (_descriptionvalue.length>0) {
+        _descritionLabel.hidden=YES;
+        _descriptionTextView.text=_descriptionvalue;
+    }
+
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -96,6 +112,11 @@
      _summaryLabel.text=[MCLocalization stringForKey:@"Add summary (100 Characters)"];
     noChangesToSave=[MCLocalization stringForKey:@"No changes is there to save"];
    imageUploadFailed=[MCLocalization stringForKey:@"Image upload failed"];
+    deleteImageStr =[MCLocalization stringForKey:@"Do you want to delete Image?"];
+    yesStr=[MCLocalization stringForKey:@"Yes"];
+    noStr=[MCLocalization stringForKey:@"No"];
+    alert=[MCLocalization stringForKey:@"Alert!"];
+    alertOk=[MCLocalization stringForKey:@"AlertOK"];
 }
 - (IBAction)addImage:(id)sender {
     UIImagePickerController *imgpick=[[UIImagePickerController alloc]init];
@@ -106,7 +127,9 @@
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     UIImage *image=info[UIImagePickerControllerOriginalImage];
-    [criticalImageArray addObject:image];
+    CriticalImageModel *model=[[CriticalImageModel alloc]init];
+    model.selectedImage=image;
+    [criticalImageArray addObject:model];
     _collectionviewHeight.constant=128;
     [_collectionView reloadData];
 }
@@ -115,7 +138,15 @@
 }
 -(UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     CriticalTreatmentInfoCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-    cell.treatmentImageView.image=criticalImageArray[indexPath.row];
+    CriticalImageModel *model=criticalImageArray[indexPath.row];
+    if (model.storageId.length>0) {
+        NSString *strimageUrl;
+        if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+            strimageUrl = [NSString stringWithFormat:@"%@%@%@/%@",baseUrlAws,dbName,model.storageId,model.fileName];
+        }
+        [cell.treatmentImageView setImageWithURL:[NSURL URLWithString:strimageUrl] placeholderImage:[UIImage imageNamed:@"default-placeholder"] ];
+    }
+  else  cell.treatmentImageView.image=model.selectedImage;
     cell.delegate=self;
     return cell;
 }
@@ -123,20 +154,44 @@
     cell.backgroundColor=[UIColor clearColor];
 }
 -(void)deleteCell:(UICollectionViewCell *)cell{
-    CriticalTreatmentInfoCollectionViewCell *cell1=(CriticalTreatmentInfoCollectionViewCell*)cell;
-    NSIndexPath *i=[_collectionView indexPathForCell:cell1];
-    [criticalImageArray removeObjectAtIndex:i.row];
-    if (criticalImageArray.count>0) {
-        _collectionviewHeight.constant=128;
-    }else _collectionviewHeight.constant=0;
-    [_collectionView reloadData];
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:deleteImageStr preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+        CriticalTreatmentInfoCollectionViewCell *cell1=(CriticalTreatmentInfoCollectionViewCell*)cell;
+        NSIndexPath *i=[_collectionView indexPathForCell:cell1];
+        CriticalImageModel *model=criticalImageArray[i.row];
+        if (model.storageId.length>0) {
+            [self callDeleteDocumentAPI:i withDocumentModel:model];
+        }else{
+            [criticalImageArray removeObjectAtIndex:i.row];
+            if (criticalImageArray.count>0) {
+                _collectionviewHeight.constant=128;
+            }else _collectionviewHeight.constant=0;
+            [_collectionView reloadData];
+        }
+    }];
+    UIAlertAction *failure=[UIAlertAction actionWithTitle:noStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertView addAction:success];
+    [alertView addAction:failure];
+    [self presentViewController:alertView animated:YES completion:nil];
 }
 - (IBAction)cancel:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (IBAction)save:(id)sender {
     if (criticalImageArray.count>0) {
-        [self callApiToPostCriticalTreatmentInfo];
+        NSMutableArray *array=[[NSMutableArray alloc]init];
+        for (CriticalImageModel *model in criticalImageArray) {
+            if (model.storageId.length==0) {
+                [array addObject:model];
+            }
+        }
+        if (array.count>0) {
+             [self callApiToPostCriticalTreatmentInfo];
+        }else  [self showToastMessage:noChangesToSave];
+       
     }else{
         [self showToastMessage:noChangesToSave];
     }
@@ -158,11 +213,12 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:NO];
     if (criticalImageArray.count>0) {
         int imagecount=0;
-        for (UIImage *image in criticalImageArray) {
+        for (CriticalImageModel *model in criticalImageArray) {
+            if (model.storageId.length==0) {
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
             NSString *documentsDirectory = [paths objectAtIndex:0];
             NSString* path = [documentsDirectory stringByAppendingPathComponent:@"EdittedProfile.jpeg" ];
-            NSData* data = UIImageJPEGRepresentation(image,.5);
+            NSData* data = UIImageJPEGRepresentation(model.selectedImage,.5);
             [data writeToFile:path atomically:YES];
             if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
                 NSString *type=@"NLB0H7";
@@ -172,9 +228,10 @@
                         [imageManager uploadUserForVzoneDocumentPath:path forRequestCode:code withType:type withText:caption withRequestType:@"TreatmentInfo" withUserId:docId onCompletion:^(BOOL success) {
                             if (success)
                             {
-                                if (imagecount==criticalImageArray.count-1) {
-                                     [MBProgressHUD hideHUDForView:self.view animated:NO];
-                                }else  [self incrementThevalue:imagecount];
+                                //if (imagecount==criticalImageArray.count-1) {
+                                [MBProgressHUD hideHUDForView:self.view animated:NO];
+                                [self.navigationController popViewControllerAnimated:YES];
+                               // }else  [self incrementThevalue:imagecount];
                             }else
                             {
                                 [MBProgressHUD hideHUDForView:self.view animated:NO];
@@ -197,6 +254,7 @@
                     }
             }
         }
+    }
 }
 -(void)incrementThevalue:(int)imagecount{
     imagecount++;
@@ -204,19 +262,37 @@
 //call api for critical info
 -(void)callApiToPostCriticalTreatmentInfo{
     
-    NSString *url=[NSString stringWithFormat:@"%@%@/0",baseUrl,criticalTreatmentInfoUrl];
-    [MBProgressHUD showHUDAddedTo:self.view animated:NO];
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        NSString *parameter=[NSString stringWithFormat:@"{\"request\":{\"Summary\":\"%@\",\"Description\":\"%@\",\"Published\":false,\"Status\":\"1\",\"SortNumber\":\"1\",\"PublishedDocs\":\"\",\"DocSortNumber\":\"1\",\"UserID\":60069, \"MethodType\":\"POST\"}}",_summaryTextView.text,_descriptionTextView.text];
-        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            [self processResponseTopostCriticalInfo:responseObject];
-             [MBProgressHUD hideHUDForView:self.view animated:NO];
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            
-        }];
+    if ([_differOfAddOrEdit isEqualToString:@"add"]) {
+        NSString *url=[NSString stringWithFormat:@"%@%@/0",baseUrl,criticalTreatmentInfoUrl];
+        [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+        if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+            NSString *parameter=[NSString stringWithFormat:@"{\"request\":{\"Summary\":\"%@\",\"Description\":\"%@\",\"Published\":false,\"Status\":\"1\",\"SortNumber\":\"1\",\"PublishedDocs\":\"\",\"DocSortNumber\":\"1\",\"UserID\":60069, \"MethodType\":\"POST\"}}",_summaryTextView.text,_descriptionTextView.text];
+            [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                [self processResponseTopostCriticalInfo:responseObject withPostOrPut:@"post"];
+                [MBProgressHUD hideHUDForView:self.view animated:NO];
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
+                [MBProgressHUD hideHUDForView:self.view animated:NO];
+            }];
+        }
+    }else{
+        NSString *url=[NSString stringWithFormat:@"%@%@/%@",baseUrl,criticalTreatmentInfoUrl,_criticalInfoModel.idvalue];
+        [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+        if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            NSString *docid=[userDefault valueForKey:@"Id"];
+            NSString *parameter=[NSString stringWithFormat:@"{\"request\":{\"Summary\":\"%@\",\"Description\":\"%@\",\"Published\":false,\"Status\":\"1\",\"SortNumber\":\"1\",\"PublishedDocs\":\"WE0UZ38PBI\",\"DocSortNumber\":\"1\",\"UserID\":%d,\"Id\":%d,\"MethodType\":\"PUT\" }}",_summaryTextView.text,_descriptionTextView.text,[docid intValue],[_criticalInfoModel.idvalue intValue]];
+            [postman put:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                 [MBProgressHUD hideHUDForView:self.view animated:NO];
+                [self processResponseTopostCriticalInfo:responseObject withPostOrPut:@"put"];
+            } failure:^(AFHTTPRequestOperation *operation,NSError *error) {
+                [MBProgressHUD hideHUDForView:self.view animated:NO];
+                [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
+            }];
+        }
     }
 }
--(void)processResponseTopostCriticalInfo:(id)response{
+-(void)processResponseTopostCriticalInfo:(id)response withPostOrPut:(NSString*)str{
     NSDictionary *dict;
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         NSDictionary *dic1=response;
@@ -225,24 +301,47 @@
         dict=response;
     }
     if ([dict[@"Success"] intValue]==1) {
-        [self saveImage:dict[@"Code"]];
-    
+        if ([str isEqualToString:@"post"]) {
+             [self saveImage:dict[@"Code"]];
+        }else  [self saveImage:_criticalInfoModel.code];
     }else{
         [self showToastMessage:dict[@"Message"]];
     }
 }
--(void)getDetailOfSharedTreatmentInfo{
+//api to delete doc
+-(void)callDeleteDocumentAPI:(NSIndexPath*)index withDocumentModel:(CriticalImageModel*)uploadmodel{
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    NSString *docid=[userDefault valueForKey:@"Id"];
-    NSString *url=[NSString stringWithFormat:@"%@%@/%@",baseUrl,criticalTreatmentInfoUrl,docid];
-    [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [self processResponseOfgetDetailOfSharedTreatmentInfo:responseObject];
+    NSString *drid=[userDefault valueForKey:@"Id"];
+    NSString *drName=[userDefault valueForKey:@"Name"];
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,deleteDocumentUrl];
+    NSString *parameter=[NSString stringWithFormat:@"{\"request\":{\"docid\":%@,\"fileid\":\"%@\",\"RequestId\":%d,\"RequestCode\":\"%@\",\"UserName\":\"%@\",\"AuditEventDescription\":\"Document(%@)Deleted\"}}",uploadmodel.idvalue,uploadmodel.storageId,[drid intValue],uploadmodel.requestCode,drName,uploadmodel.fileName];
+    [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+    [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
+        [self processDeleteDoc:responseObject withIndex:index];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
+        NSString *str=[NSString stringWithFormat:@"%@",error];
+        [self showToastMessage:str];
     }];
 }
--(void)processResponseOfgetDetailOfSharedTreatmentInfo:(id)responseObject{
-    
+//process delete doc
+-(void)processDeleteDoc:(id)responseObject withIndex:(NSIndexPath*)index{
+    NSDictionary *dict;
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSDictionary *dict1=responseObject;
+        dict=dict1[@"aaData"];
+    }
+    if ([dict[@"Success"]intValue]==1) {
+        [criticalImageArray removeObjectAtIndex:index.row];
+        [self.delegate deleteImage];
+        if (criticalImageArray.count>0) {
+            _collectionviewHeight.constant=128;
+        }
+        else  _collectionviewHeight.constant=0;
+        [self showToastMessage:dict[@"Message"]];
+    }
+    else [self showToastMessage:dict[@"Message"]];
 }
 
 @end

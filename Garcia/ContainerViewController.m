@@ -756,6 +756,9 @@
         NSArray *ar=dict[@"GenericSearchViewModels"];
         if (ar.count==0) {
             CriticalTreatmentInfoViewController *critical=[self.storyboard instantiateViewControllerWithIdentifier:@"CriticalTreatmentInfoViewController"];
+           critical.summary=@"";
+            critical.descriptionvalue=@"";
+            critical.differOfAddOrEdit=@"add";
             [self.navigationController pushViewController:critical animated:YES];
         }else{
             ShowCriticalInfoViewController *critical=[self.storyboard instantiateViewControllerWithIdentifier:@"ShowCriticalInfoViewController"];
