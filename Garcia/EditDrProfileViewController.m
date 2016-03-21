@@ -118,8 +118,8 @@
 
 -(void)setDefault{
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
-    NSArray *doctorDetail=[defaults valueForKey:@"DoctorDetail"];
-    DrProfilModel *model=doctorDetail[0];
+    NSData *doctorDetail=[defaults valueForKey:@"DoctorDetail"];
+    DrProfilModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:doctorDetail];
     _nameTF.text=model.name;
     NSArray *ar=[model.DOB componentsSeparatedByString:@"T"];
     [formatter setDateFormat:@"yyyy-MM-dd"];
@@ -244,133 +244,138 @@
 }
 //Patient Update
 -(void)callApiForUpdate{
-//    postman =[[Postman alloc]init];
-//    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-//    if (_model.addressLine1!=nil) {
-//        dict[@"AddressLine1"]=_model.addressLine1;
-//    }else  dict[@"AddressLine1"]=@"";
-//    if (_model.addressline2!=nil) {
-//        dict[@"AddressLine2"]=_model.addressline2;
-//    }else  dict[@"AddressLine2"]=@"";
-//    if (_model.country!=nil) {
-//        dict[@"Country"]=_model.country;
-//    }else   dict[@"Country"]=@"";
-//    if (_model.state!=nil) {
-//        dict[@"State"]=_model.state;
-//    }else dict[@"State"]=@"";
-//    if (_model.city!=nil) {
-//        dict[@"City"]=_model.city;
-//    }else  dict[@"City"]=@"";
-//    if (_model.pinCode!=nil) {
-//        dict[@"Postal"]=_model.pinCode;
-//    }else   dict[@"Postal"]=@"";
-//    NSMutableDictionary *dict1 = [[NSMutableDictionary alloc] init];
-//    if (_model.addressLine1!=nil) {
-//        dict[@"AddressLine1"]=_model.addressLine1;
-//    }else  dict[@"AddressLine1"]=@"";
-//    if (_model.addressline2!=nil) {
-//        dict1[@"AddressLine2"]=_model.addressline2;
-//    }else   dict1[@"AddressLine2"]=@"";
-//    dict1[@"Country"]=@"";
-//    dict1[@"State"]=@"";
-//    dict1[@"City"]=@"";
-//    dict1[@"Postal"]=@"";
-//    NSMutableDictionary *address=[[NSMutableDictionary alloc]init];
-//    address[@"PermanentAddress"]=dict;
-//    address[@"TemporaryAddress"]=dict1;
-//    NSData *jsonData1 = [NSJSONSerialization dataWithJSONObject:address options:kNilOptions error:nil];
-//    NSString *temporaryAddress = [[NSString alloc] initWithData:jsonData1 encoding:NSUTF8StringEncoding];
-//    NSMutableDictionary *jsonWithGender;
-//    if (self.model.jsonDict==nil) {
-//        jsonWithGender=[[NSMutableDictionary alloc]init];
-//    }else jsonWithGender=[self.model.jsonDict mutableCopy];
-//    jsonWithGender[@"Gender"]=genderCode;
-//    jsonWithGender[@"MaritalStatus"]=@"";
-//    jsonWithGender[@"ContactNo"]=_mobileNoTF.text;
-//    jsonWithGender[@"Surgeries"]=_addressTextView.text;
-//    jsonWithGender[@"Transfusion"]=_maritialStatus.text;;
-//    NSData *jsonData2 = [NSJSONSerialization dataWithJSONObject:jsonWithGender options:kNilOptions error:nil];
-//    
-//    NSString *genderData = [[NSString alloc] initWithData:jsonData2 encoding:NSUTF8StringEncoding];
-//    NSMutableDictionary *parameterDict=[[NSMutableDictionary alloc]init];
-//    NSDateFormatter *format=[[NSDateFormatter alloc]init];
-//    [format setDateFormat:@"dd-MMM-yyyy"];
-//    NSDate *Dobdate=[format dateFromString:_dateOfBirthTF.text];
-//    [format setDateFormat:@"yyyy-MM-dd"];
-//    NSString *dobString=[format stringFromDate:Dobdate];
-//    parameterDict[@"Address"]=temporaryAddress;
-//    parameterDict[@"Email"]=_emailTF.text;
-//    parameterDict[@"FirstName"]=_nameTF.text;
-//    parameterDict[@"DOB"]=dobString;
-//    parameterDict[@"JSON"]=genderData;
-//    parameterDict[@"Status"]=@"true";
-//    parameterDict[@"Id"]=[NSString stringWithFormat:@"%@",_model.Id];
-//    parameterDict[@"Code"]=_model.code;
-//    parameterDict[@"UserTypeCode"]=_model.userTypeCode;
-//    parameterDict[@"CompanyCode"]=postmanCompanyCode;
-//    parameterDict[@"Username"]=_emailTF.text;
-//    parameterDict[@"MethodType"]=@"PUT";
-//    parameterDict[@"UserID"]=[NSString stringWithFormat:@"%@",_model.userID];
-//    parameterDict[@"MiddleName"]=@"";
-//    parameterDict[@"LastName"]=@"";
-//    parameterDict[@"RoleCode"]=@"B2ETN9";
-//    NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,editPatient,_model.Id];
-//    NSString *parameter;
-//    
-//    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-//        //Parameter for Vzone Api
-//        NSMutableDictionary *finalVzoneParameteDict=[[NSMutableDictionary alloc]init];
-//        finalVzoneParameteDict[@"request"]=parameterDict;
-//        NSData *parameterData = [NSJSONSerialization dataWithJSONObject:finalVzoneParameteDict options:NSJSONWritingPrettyPrinted error:nil];
-//        parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
-//    }else{
-//        //Parameter For Material Api
-//        NSData *parameterData = [NSJSONSerialization dataWithJSONObject:parameterDict options:NSJSONWritingPrettyPrinted error:nil];
-//        parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
-//    }
-//    
-//    [containerVC showMBprogressTillLoadThedata];
-//    [postman put:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        [self processResponseObjectForEdit:responseObject];
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        [containerVC hideAllMBprogressTillLoadThedata];
-//        [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
-//        
-//    }];
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    NSData *doctorDetail=[defaults valueForKey:@"DoctorDetail"];
+    DrProfilModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:doctorDetail];
+    postman =[[Postman alloc]init];
+    NSMutableDictionary *address;
+    if (model.addressDict==nil) {
+        address=[[NSMutableDictionary alloc]init];
+    }else address=[model.addressDict mutableCopy];
+    NSData *jsonData1 = [NSJSONSerialization dataWithJSONObject:address options:kNilOptions error:nil];
+    NSString *temporaryAddress = [[NSString alloc] initWithData:jsonData1 encoding:NSUTF8StringEncoding];
+    NSMutableDictionary *jsonWithGender;
+    if (model.jsonDict==nil) {
+        jsonWithGender=[[NSMutableDictionary alloc]init];
+    }else jsonWithGender=[model.jsonDict mutableCopy];
+    jsonWithGender[@"Gender"]=genderCode;
+    jsonWithGender[@"MaritalStatus"]=model.maritialStatus;
+    jsonWithGender[@"ContactNo"]=_mobileNoTF.text;
+    jsonWithGender[@"Certificates"]=_certificateTextView.text;
+    NSData *jsonData2 = [NSJSONSerialization dataWithJSONObject:jsonWithGender options:kNilOptions error:nil];
+    NSString *genderData = [[NSString alloc] initWithData:jsonData2 encoding:NSUTF8StringEncoding];
+    
+    NSMutableDictionary *parameterDict=[[NSMutableDictionary alloc]init];
+    NSDateFormatter *format=[[NSDateFormatter alloc]init];
+    [format setDateFormat:@"dd-MMM-yyyy"];
+    NSDate *Dobdate=[format dateFromString:_dateOfBirthTF.text];
+    [format setDateFormat:@"yyyy-MM-dd"];
+    NSString *dobString=[format stringFromDate:Dobdate];
+    parameterDict[@"Address"]=temporaryAddress;
+    parameterDict[@"Email"]=_emailTF.text;
+    parameterDict[@"FirstName"]=_nameTF.text;
+    parameterDict[@"DOB"]=dobString;
+    parameterDict[@"JSON"]=genderData;
+    parameterDict[@"Status"]=@"true";
+    parameterDict[@"Id"]=[NSString stringWithFormat:@"%@",model.idValue];
+    parameterDict[@"Code"]=model.code;
+    parameterDict[@"UserTypeCode"]=model.userTypeCode;
+    parameterDict[@"CompanyCode"]=postmanCompanyCode;
+    parameterDict[@"Username"]=_emailTF.text;
+    parameterDict[@"MethodType"]=@"PUT";
+    parameterDict[@"UserID"]=[NSString stringWithFormat:@"%@",model.idValue];
+    parameterDict[@"MiddleName"]=model.middleName;
+    parameterDict[@"LastName"]=model.lastName;
+    parameterDict[@"RoleCode"]=model.roleCode;
+    NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,editPatient,model.idValue];
+    NSString *parameter;
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //Parameter for Vzone Api
+        NSMutableDictionary *finalVzoneParameteDict=[[NSMutableDictionary alloc]init];
+        finalVzoneParameteDict[@"request"]=parameterDict;
+        NSData *parameterData = [NSJSONSerialization dataWithJSONObject:finalVzoneParameteDict options:NSJSONWritingPrettyPrinted error:nil];
+        parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
+    }else{
+        //Parameter For Material Api
+        NSData *parameterData = [NSJSONSerialization dataWithJSONObject:parameterDict options:NSJSONWritingPrettyPrinted error:nil];
+        parameter = [[NSString alloc] initWithData:parameterData encoding:NSUTF8StringEncoding];
+    }
+    [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+    [postman put:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+               [self processResponseObjectForEdit:responseObject];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
+        [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
+        
+    }];
 }
 
 //process response object for edit
 
-//-(void)processResponseObjectForEdit:(id)responseObject{
-//    NSDictionary *dict;
-//    
-//    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-//        NSDictionary *responseDict1 = responseObject;
-//        dict=responseDict1[@"aaData"];
-//    }else  dict=responseObject;
-//    
-//    if ([dict[@"Success"] intValue]==1) {
-//        NSDictionary *dict1=dict[@"UserObj"];
-//        editedPatientCode=dict1[@"Code"];
-//        if (![_patientImageView.image isEqual:[UIImage imageNamed:@"Patient-img.jpg"]]) {
-//            if (!imageAlreadyUpdated) {
-//                [self saveImage:_patientImageView.image];
-//            }else{
-//                [containerVC hideAllMBprogressTillLoadThedata];
-//                [self alertmessage:dict[@"Message"]];
-//            }
-//        }
-//        else{
-//            [containerVC hideAllMBprogressTillLoadThedata];
-//            [self alertmessage:dict[@"Message"]];
-//        }
-//    }
-//    else{
-//        [containerVC hideAllMBprogressTillLoadThedata];
-//        [self showToastMessage:dict[@"Message"]];
-//    }
-//}
-
+-(void)processResponseObjectForEdit:(id)responseObject{
+    NSDictionary *dict1;
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSDictionary *responseDict1 = responseObject;
+        dict1=responseDict1[@"aaData"];
+    }else  dict1=responseObject;
+    
+    if ([dict1[@"Success"] intValue]==1) {
+        NSDictionary *dict=dict1[@"UserObj"];
+        if (![_drImageView.image isEqual:[UIImage imageNamed:@"Doctor-Image"]]) {
+        
+        
+        }else{
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            [self alertmsg:dict1[@"Message"]];
+        }
+        DrProfilModel *model=[[DrProfilModel alloc]init];
+        model.name= dict[@"Name"];
+        model.DOB=dict[@"DOb"];
+        model.email= dict[@"Email"];
+        model.idValue=dict[@"Id"];
+        model.code=dict[@"Code"];
+        NSString *str=dict[@"JSON"];
+        NSDictionary *jsonDict=[NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
+        model.ContactNo= jsonDict[@"ContactNo"];
+        model.experience= dict[@"Experience"];
+        model.certificate= dict[@"Certificates"];
+        model.gendername= dict[@"Gender"];
+        model.genderCode= dict[@"GenderCode"];
+        model.userTypeCode=dict[@"UserTypeCode"];
+        model.companyCode=dict[@"CompanyCode"];
+        model.FirstName=dict[@"Firstname"];
+        model.middleName=dict[@"Middlename"];
+        model.lastName=dict[@"Lastname"];
+        model.roleCode=dict[@"RoleCode"];
+        model.maritialStatus=dict[@"MaritalStatusCode"];
+        NSString *Json=dict[@"JSON"];
+        if (![Json isKindOfClass:[NSNull class]]) {
+            NSData *jsonData1 = [Json dataUsingEncoding:NSUTF8StringEncoding];
+            NSDictionary *jsonDict1 = [NSJSONSerialization JSONObjectWithData:jsonData1 options:kNilOptions error:nil];
+            model.jsonDict=jsonDict1;
+        }
+        NSString *address=dict[@"Address"];
+        if (![address isKindOfClass:[NSNull class]]) {
+            NSData *jsonData1 = [address dataUsingEncoding:NSUTF8StringEncoding];
+            NSDictionary *jsonDict1 = [NSJSONSerialization JSONObjectWithData:jsonData1 options:kNilOptions error:nil];
+            model.addressDict=jsonDict1;
+        }
+        NSUserDefaults *userdefault=[NSUserDefaults standardUserDefaults];
+        NSData *dataOnObject = [NSKeyedArchiver archivedDataWithRootObject:model];
+        [userdefault setValue:dataOnObject forKey:@"DoctorDetail"];
+    }
+}
+-(void)alertmsg :(NSString*)msg{
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alertStr message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:alertOkStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [self.navigationController popViewControllerAnimated:YES];
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertView addAction:success];
+    [self presentViewController:alertView animated:YES completion:nil];
+}
 //validate Email
 -(void)validateEmail:(NSString*)email{
     NSString *emailRegEx=@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";

@@ -174,15 +174,18 @@
             model.name= dict[@"Name"];
            model.DOB=dict[@"DOb"];
            model.email= dict[@"Email"];
+            model.idValue=dict[@"Id"];
+              model.code=dict[@"Code"];
             NSString *str=dict[@"JSON"];
             NSDictionary *jsonDict=[NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
            model.ContactNo= jsonDict[@"ContactNo"];
           model.experience= dict[@"Experience"];
-         model.certificate= dict[@"Specialities"];
+         model.certificate= dict[@"Certificates"];
            model.gendername= dict[@"Gender"];
              model.genderCode= dict[@"GenderCode"];
             model.userTypeCode=dict[@"UserTypeCode"];
             model.companyCode=dict[@"CompanyCode"];
+              model.FirstName=dict[@"Firstname"];
             model.middleName=dict[@"Middlename"];
             model.lastName=dict[@"Lastname"];
             model.roleCode=dict[@"RoleCode"];
@@ -193,16 +196,14 @@
                 NSDictionary *jsonDict1 = [NSJSONSerialization JSONObjectWithData:jsonData1 options:kNilOptions error:nil];
                 model.jsonDict=jsonDict1;
             }
-            NSString *address=dict[@"JSON"];
+            NSString *address=dict[@"Address"];
             if (![address isKindOfClass:[NSNull class]]) {
                 NSData *jsonData1 = [address dataUsingEncoding:NSUTF8StringEncoding];
                 NSDictionary *jsonDict1 = [NSJSONSerialization JSONObjectWithData:jsonData1 options:kNilOptions error:nil];
                 model.addressDict=jsonDict1;
             }
             NSData *dataOnObject = [NSKeyedArchiver archivedDataWithRootObject:model];
-            
-        //    [userdefault setValue:dataOnObject forKey:@"DoctorDetail"];
-
+           [userdefault setValue:dataOnObject forKey:@"DoctorDetail"];
 
             NSString *languageCode=dict[@"PreferredLanguageCode"];
             if ([languageCode isEqualToString:@"(null)"]) {

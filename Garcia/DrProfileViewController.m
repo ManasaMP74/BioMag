@@ -55,12 +55,11 @@
     [constant setFontForLabel:_yearOfExpValueLabel];
     [constant setFontForLabel:_certificateValueLabel];
     [constant setFontForLabel:_dobValueLabel];
-    [constant setFontForLabel:_nameValueLabel];
 }
 -(void)setDefault{
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
-    NSArray *doctorDetail=[defaults valueForKey:@"DoctorDetail"];
-    DrProfilModel *model=doctorDetail[0];
+    NSData *doctorDetail=[defaults valueForKey:@"DoctorDetail"];
+    DrProfilModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:doctorDetail];
     _nameValueLabel.text=model.name;
     NSArray *ar=[model.DOB componentsSeparatedByString:@"T"];
     [formatter setDateFormat:@"yyyy-MM-dd"];
