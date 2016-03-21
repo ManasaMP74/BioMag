@@ -30,6 +30,7 @@
 		DA2D3DA41C0EB3E6008D0AC2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2D3DA31C0EB3E6008D0AC2 /* Foundation.framework */; };
 		DA2D3DA61C0EB3F3008D0AC2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2D3DA51C0EB3F3008D0AC2 /* CoreGraphics.framework */; };
 		DA2D3E541C0F21E0008D0AC2 /* SittingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2D3E531C0F21E0008D0AC2 /* SittingViewController.m */; };
+		DA2F9E621CA00BAF000A4A3A /* DrProfilModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2F9E611CA00BAF000A4A3A /* DrProfilModel.m */; };
 		DA2F9F771C2172300077AEAB /* SlideOutTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2F9F761C2172300077AEAB /* SlideOutTableViewCell.m */; };
 		DA34944E1C9FD62B001171DF /* CriticalImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA34944D1C9FD62B001171DF /* CriticalImageModel.m */; };
 		DA4461E61BD771F600F80F5A /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC027B1BD514340095C6AE /* OpenSans-Semibold.ttf */; };
@@ -187,6 +188,8 @@
 		DA2D3DA51C0EB3F3008D0AC2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		DA2D3E521C0F21E0008D0AC2 /* SittingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SittingViewController.h; sourceTree = "<group>"; };
 		DA2D3E531C0F21E0008D0AC2 /* SittingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SittingViewController.m; sourceTree = "<group>"; };
+		DA2F9E601CA00BAF000A4A3A /* DrProfilModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrProfilModel.h; sourceTree = "<group>"; };
+		DA2F9E611CA00BAF000A4A3A /* DrProfilModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrProfilModel.m; sourceTree = "<group>"; };
 		DA2F9F751C2172300077AEAB /* SlideOutTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideOutTableViewCell.h; sourceTree = "<group>"; };
 		DA2F9F761C2172300077AEAB /* SlideOutTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideOutTableViewCell.m; sourceTree = "<group>"; };
 		DA34944C1C9FD62B001171DF /* CriticalImageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CriticalImageModel.h; sourceTree = "<group>"; };
@@ -769,6 +772,8 @@
 			children = (
 				DAEFA1B71BD0B49A00900379 /* LoginViewController.h */,
 				DAEFA1B81BD0B49A00900379 /* LoginViewController.m */,
+				DA2F9E601CA00BAF000A4A3A /* DrProfilModel.h */,
+				DA2F9E611CA00BAF000A4A3A /* DrProfilModel.m */,
 				DA487E661C59E7260015A3D0 /* ForgotPasswordViewController.h */,
 				DA487E671C59E7260015A3D0 /* ForgotPasswordViewController.m */,
 			);
@@ -1164,6 +1169,7 @@
 				DAEF6AEE1BD5FA37006868C8 /* OpenSans-Regular.ttf in Sources */,
 				DA6D1A631BDA356F00D91ED3 /* PlaceholderTextView.m in Sources */,
 				DAFD52A71BEC62C80006AF02 /* UploadModelClass.m in Sources */,
+				DA2F9E621CA00BAF000A4A3A /* DrProfilModel.m in Sources */,
 				DA2F9F771C2172300077AEAB /* SlideOutTableViewCell.m in Sources */,
 				DA78B61F1C7EE9FF0096E1A0 /* HeaderModelClass.m in Sources */,
 				DAEC027E1BD51D0C0095C6AE /* OpenSans-Bold.ttf in Sources */,

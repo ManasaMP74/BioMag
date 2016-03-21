@@ -2,6 +2,7 @@
 #import "Constant.h"
 #import <MCLocalization/MCLocalization.h>
 #import "EditDrProfileViewController.h"
+#import "DrProfilModel.h"
 @interface DrProfileViewController ()
 @property (weak, nonatomic) IBOutlet UIView *profileView;
 
@@ -59,17 +60,18 @@
 -(void)setDefault{
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     NSArray *doctorDetail=[defaults valueForKey:@"DoctorDetail"];
-    _nameValueLabel.text=doctorDetail[0];
-    NSArray *ar=[doctorDetail[1] componentsSeparatedByString:@"T"];
+    DrProfilModel *model=doctorDetail[0];
+    _nameValueLabel.text=model.name;
+    NSArray *ar=[model.DOB componentsSeparatedByString:@"T"];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     NSDate *date=[formatter dateFromString:ar[0]];
     [formatter setDateFormat:@"dd-MMM-yyyy"];
     NSString *str=[formatter stringFromDate:date];
     _dobValueLabel.text=str;
-    _emailValueLabel.text=doctorDetail[2];
-    _yearOfExpValueLabel.text=doctorDetail[4];
-    _certificateValueLabel.text=doctorDetail[5];
-    _mobileValueLabel.text=doctorDetail[3];
+    _emailValueLabel.text=model.email;
+    _yearOfExpValueLabel.text=model.experience;
+    _certificateValueLabel.text=model.certificate;
+    _mobileValueLabel.text=model.ContactNo;
 }
 -(void)localize{
     _dobLabel.text=[MCLocalization stringForKey:@"DateOfBirthLabel"];

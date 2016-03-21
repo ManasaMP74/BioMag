@@ -6,7 +6,7 @@
 #import "AppDelegate.h"
 #import "SeedSyncer.h"
 #import <MCLocalization/MCLocalization.h>
-
+#import "DrProfilModel.h"
 @interface LoginViewController ()<UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *userNameTf;
 @property (strong, nonatomic) IBOutlet UITextField *passwordTF;
@@ -169,22 +169,39 @@
             [userdefault setValue:dict[@"CompanyCode"] forKey:@"CompanyCode"];
             NSString *doctorName=[NSString stringWithFormat:@"%@",dict[@"Name"]];
             [userdefault setValue:doctorName forKey:@"DoctorName"];
-            NSMutableArray *doctorDetail=[[NSMutableArray alloc]init];
-            [doctorDetail addObject:dict[@"Name"]];
-            [doctorDetail addObject:dict[@"DOb"]];
-            [doctorDetail addObject:dict[@"Email"]];
+            
+            DrProfilModel *model=[[DrProfilModel alloc]init];
+            model.name= dict[@"Name"];
+           model.DOB=dict[@"DOb"];
+           model.email= dict[@"Email"];
             NSString *str=dict[@"JSON"];
             NSDictionary *jsonDict=[NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
-            [doctorDetail addObject:jsonDict[@"ContactNo"]];
-            [doctorDetail addObject:dict[@"Experience"]];
-            [doctorDetail addObject:dict[@"Specialities"]];
-            [doctorDetail addObject:dict[@"Gender"]];
+           model.ContactNo= jsonDict[@"ContactNo"];
+          model.experience= dict[@"Experience"];
+         model.certificate= dict[@"Specialities"];
+           model.gendername= dict[@"Gender"];
+             model.genderCode= dict[@"GenderCode"];
+            model.userTypeCode=dict[@"UserTypeCode"];
+            model.companyCode=dict[@"CompanyCode"];
+            model.middleName=dict[@"Middlename"];
+            model.lastName=dict[@"Lastname"];
+            model.roleCode=dict[@"RoleCode"];
+             model.maritialStatus=dict[@"MaritalStatusCode"];
             NSString *Json=dict[@"JSON"];
             if (![Json isKindOfClass:[NSNull class]]) {
                 NSData *jsonData1 = [Json dataUsingEncoding:NSUTF8StringEncoding];
                 NSDictionary *jsonDict1 = [NSJSONSerialization JSONObjectWithData:jsonData1 options:kNilOptions error:nil];
+                model.jsonDict=jsonDict1;
             }
-            [userdefault setValue:doctorDetail forKey:@"DoctorDetail"];
+            NSString *address=dict[@"JSON"];
+            if (![address isKindOfClass:[NSNull class]]) {
+                NSData *jsonData1 = [address dataUsingEncoding:NSUTF8StringEncoding];
+                NSDictionary *jsonDict1 = [NSJSONSerialization JSONObjectWithData:jsonData1 options:kNilOptions error:nil];
+                model.addressDict=jsonDict1;
+            }
+            NSData *dataOnObject = [NSKeyedArchiver archivedDataWithRootObject:model];
+            
+        //    [userdefault setValue:dataOnObject forKey:@"DoctorDetail"];
 
 
             NSString *languageCode=dict[@"PreferredLanguageCode"];

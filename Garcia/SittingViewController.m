@@ -567,6 +567,8 @@
     [selectedIndexArray removeAllObjects];
     [selectedPreviousSittingDetailArray removeAllObjects];
     [self compareNextBtnToBeHidden];
+      [_tableview setContentOffset:CGPointZero animated:YES];
+    [_scrollView setContentOffset:CGPointZero animated:YES];
 }
 //save
 - (IBAction)save:(id)sender {
@@ -604,6 +606,8 @@
     [selectedIndexArray removeAllObjects];
     [selectedPreviousSittingDetailArray removeAllObjects];
     [self compareNextBtnToBeHidden];
+   [self.scrollView setContentOffset:CGPointMake(0,0) animated:YES];
+    [_tableview setContentOffset:CGPointZero animated:YES];
 }
 //Compare Next and Previous
 -(void)compareNextBtnToBeHidden{

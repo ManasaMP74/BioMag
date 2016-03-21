@@ -107,7 +107,6 @@
     self.title=[MCLocalization stringForKey:@"Share Critical Treatment Info"];
     [_cancelButton setTitle:[MCLocalization stringForKey:@"Cancel"] forState:normal];
     [_saveButton setTitle:[MCLocalization stringForKey:@"Save"] forState:normal];
-    [_addImageButton setTitle:[MCLocalization stringForKey:@"Add image"] forState:normal];
     _descritionLabel.text=[MCLocalization stringForKey:@"Add description"];
      _summaryLabel.text=[MCLocalization stringForKey:@"Add summary (100 Characters)"];
     noChangesToSave=[MCLocalization stringForKey:@"No changes is there to save"];
@@ -117,6 +116,12 @@
     noStr=[MCLocalization stringForKey:@"No"];
     alert=[MCLocalization stringForKey:@"Alert!"];
     alertOk=[MCLocalization stringForKey:@"AlertOK"];
+}
+- (IBAction)camera:(id)sender {
+    UIImagePickerController *picker=[[UIImagePickerController alloc]init];
+    picker.sourceType=UIImagePickerControllerSourceTypeCamera;
+    [self presentViewController:picker animated:YES completion:nil];
+    picker.delegate=self;
 }
 - (IBAction)addImage:(id)sender {
     UIImagePickerController *imgpick=[[UIImagePickerController alloc]init];
@@ -334,6 +339,7 @@
     }
     if ([dict[@"Success"]intValue]==1) {
         [criticalImageArray removeObjectAtIndex:index.row];
+        [_collectionView reloadData];
         [self.delegate deleteImage];
         if (criticalImageArray.count>0) {
             _collectionviewHeight.constant=128;

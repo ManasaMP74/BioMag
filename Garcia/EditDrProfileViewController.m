@@ -9,6 +9,7 @@
 #import "DatePicker.h"
 #import "ImageUploadAPI.h"
 #import "MBProgressHUD.h"
+#import "DrProfilModel.h"
 @interface EditDrProfileViewController ()<UITableViewDataSource,UITableViewDelegate,datePickerProtocol>
 @property (strong, nonatomic) IBOutlet UITextField *nameTF;
 @property (strong, nonatomic) IBOutlet UITextField *genderTF;
@@ -118,19 +119,20 @@
 -(void)setDefault{
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     NSArray *doctorDetail=[defaults valueForKey:@"DoctorDetail"];
-    _nameTF.text=doctorDetail[0];
-    NSArray *ar=[doctorDetail[1] componentsSeparatedByString:@"T"];
+    DrProfilModel *model=doctorDetail[0];
+    _nameTF.text=model.name;
+    NSArray *ar=[model.DOB componentsSeparatedByString:@"T"];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     NSDate *date=[formatter dateFromString:ar[0]];
     [formatter setDateFormat:@"dd-MMM-yyyy"];
     NSString *str=[formatter stringFromDate:date];
     _dateOfBirthTF.text=str;
-    _emailTF.text=doctorDetail[2];
-    _yearOfExpTF.text=doctorDetail[4];
-    _certificateTextView.text=doctorDetail[5];
-    _mobileNoTF.text=doctorDetail[3];
-    _genderTF.text=doctorDetail[6];
-
+    _emailTF.text=model.email;
+    _yearOfExpTF.text=model.experience;
+    _certificateTextView.text=model.certificate;
+    _mobileNoTF.text=model.ContactNo;
+    _genderTF.text=model.gendername;
+    genderCode=model.genderCode;
 }
 //Gender API
 -(void)callApiForGender{
@@ -210,7 +212,7 @@
         editModel *model=genderArray[indexPath.row];
         _genderTF.text=model.genderName;
         genderCode=model.genderCode;
-        _gendertableview.hidden=YES;
+       _gendertableview.hidden=YES;
     }
 }
 

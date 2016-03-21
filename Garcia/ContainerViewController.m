@@ -737,9 +737,9 @@
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,searchSaredCriticalInfo];
     NSString *parameter=[NSString stringWithFormat:@"{\"request\":{\"Published\":\"0\",\"FromDate\":null,\"ToDate\":null,\"CreatedBy\":\"%@\"}}",docid];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
         [self processResponseOfcallApiToSearchSaredCriticalInfo:responseObject];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+           } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [MBProgressHUD hideHUDForView:self.view animated:NO];
         [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
     }];
