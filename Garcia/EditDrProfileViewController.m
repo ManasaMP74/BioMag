@@ -124,7 +124,7 @@
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     NSData *doctorDetail=[defaults valueForKey:@"DoctorDetail"];
     DrProfilModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:doctorDetail];
-    _nameTF.text=model.FirstName;
+    _nameTF.text=model.name;
     NSArray *ar=[model.DOB componentsSeparatedByString:@"T"];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     NSDate *date=[formatter dateFromString:ar[0]];
@@ -289,8 +289,9 @@
     parameterDict[@"MethodType"]=@"PUT";
     parameterDict[@"UserID"]=[NSString stringWithFormat:@"%@",model.idValue];
     parameterDict[@"MiddleName"]=model.middleName;
-    parameterDict[@"LastName"]=model.lastName;
+    parameterDict[@"LastName"]=@"";
     parameterDict[@"RoleCode"]=model.roleCode;
+    
     NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,editPatient,model.idValue];
     NSString *parameter;
     
@@ -327,24 +328,17 @@
     
     if ([dict1[@"Success"] intValue]==1) {
         NSDictionary *dict=dict1[@"UserObj"];
-        if (![_drImageView.image isEqual:[UIImage imageNamed:@"Doctor-Image"]]) {
-        
-            [self saveImage:_drImageView.image withCode:dict[@"Code"] withId:dict[@"Id"]];
-        }else{
-            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-            [self alertmsg:dict1[@"Message"]];
-        }
         DrProfilModel *model=[[DrProfilModel alloc]init];
-        model.name= dict[@"Name"];
-        model.DOB=dict[@"DOb"];
+        model.name= dict[@"FirstName"];
+        model.DOB=dict[@"DOB"];
         model.email= dict[@"Email"];
         model.idValue=dict[@"Id"];
         model.code=dict[@"Code"];
         NSString *str=dict[@"JSON"];
         NSDictionary *jsonDict=[NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
         model.ContactNo= jsonDict[@"ContactNo"];
-        model.experience= dict[@"Experience"];
-        model.certificate= dict[@"Certificates"];
+        model.experience= jsonDict[@"Experience"];
+        model.certificate= jsonDict[@"Certificates"];
         model.gendername= dict[@"Gender"];
         model.genderCode= dict[@"GenderCode"];
         model.userTypeCode=dict[@"UserTypeCode"];
@@ -369,6 +363,13 @@
         NSUserDefaults *userdefault=[NSUserDefaults standardUserDefaults];
         NSData *dataOnObject = [NSKeyedArchiver archivedDataWithRootObject:model];
         [userdefault setValue:dataOnObject forKey:@"DoctorDetail"];
+        if (![_drImageView.image isEqual:[UIImage imageNamed:@"Doctor-Image"]]) {
+            
+            [self saveImage:_drImageView.image withCode:dict[@"Code"] withId:dict[@"Id"]];
+        }else{
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            [self alertmsg:dict1[@"Message"]];
+        }
     }
 }
 -(void)alertmsg :(NSString*)msg{

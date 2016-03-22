@@ -131,6 +131,7 @@
                     [self performSegueWithIdentifier:@"loginSuccess" sender:nil];
                 }
                 else{
+                    [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
                     [userdefault setValue:@"" forKey:@"userName"];
                     [userdefault setValue:@"" forKey:@"password"];
                     [userdefault setBool:NO forKey:@"rememberMe"];
@@ -139,6 +140,7 @@
             }];
         }
         else{
+             [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
             [userdefault setValue:@"" forKey:@"userName"];
             [userdefault setValue:@"" forKey:@"password"];
             [userdefault setBool:NO forKey:@"rememberMe"];
@@ -146,6 +148,7 @@
         }
     }
     else{
+         [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
         [userdefault setValue:@"" forKey:@"userName"];
         [userdefault setValue:@"" forKey:@"password"];
         [userdefault setBool:NO forKey:@"rememberMe"];
@@ -160,16 +163,11 @@
     NSDictionary *responseDict = responseDict1[@"aaData"];
     if ([responseDict[@"Success"] intValue]==1)
     {
-        NSDictionary *userDict = responseDict[@"UserDetailsViewModel"];
-        if ([userDict[@"UserTypeCode"] isEqual:@"DOC123"]) {
+        NSArray *ar=responseDict[@"UserDetails"];
+        NSDictionary *dict=ar[0];
+        if ([dict[@"UserTypeCode"] isEqual:@"DOC123"]) {
             [userdefault setValue:responseDict[@"token"] forKey:@"X-access-Token"];
-            NSArray *ar=responseDict[@"UserDetails"];
-            NSDictionary *dict=ar[0];
             [userdefault setValue:dict[@"Id"] forKey:@"Id"];
-            [userdefault setValue:dict[@"CompanyCode"] forKey:@"CompanyCode"];
-            NSString *doctorName=[NSString stringWithFormat:@"%@",dict[@"Name"]];
-            [userdefault setValue:doctorName forKey:@"DoctorName"];
-            
             DrProfilModel *model=[[DrProfilModel alloc]init];
             model.name= dict[@"Name"];
            model.DOB=dict[@"DOb"];

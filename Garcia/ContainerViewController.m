@@ -22,6 +22,7 @@
 #import "CriticalTreatmentInfoViewController.h"
 #import <MCLocalization/MCLocalization.h>
 #import "ShowCriticalInfoViewController.h"
+#import "DrProfilModel.h"
 #if !defined(MAX)
 #define MAX(A,B)((A) > (B) ? (A) : (B))
 #endif
@@ -306,8 +307,9 @@
         patientVc.model =model;
         [patientVc setDefaultValues];
         NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
-        NSString *str=[defaults valueForKey:@"DoctorName"];
-        slideoutArray=@[str,profile,shareCriticalTreatmentInfo,aboutUsStr,FAQStr,termsandConditionsStr,privacyandPolicyStr,logoutStr];
+        NSData *doctorDetail=[defaults valueForKey:@"DoctorDetail"];
+        DrProfilModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:doctorDetail];
+        slideoutArray=@[model.name,profile,shareCriticalTreatmentInfo,aboutUsStr,FAQStr,termsandConditionsStr,privacyandPolicyStr,logoutStr];
         slideoutImageArray=@[@"07-User.png",@"07-User.png",@"07-User.png",@"01-Icon-About-Us.png",@"02-Icon-FAQ.png",@"04-Icon-Terms.png",@"03-Icon-Privacy.png",@"05-Icon-Logout.png"];
     }
 }

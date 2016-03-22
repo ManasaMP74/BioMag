@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Garcia/EditDrProfileViewController.m"
-            timestampString = "480315143.258834"
+            timestampString = "480319643.755332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "484"
-            endingLineNumber = "484"
+            startingLineNumber = "489"
+            endingLineNumber = "489"
             landmarkName = "-saveImage:withCode:withId:"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Garcia/EditDrProfileViewController.m"
-            timestampString = "480315245.471207"
+            timestampString = "480319643.755332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "495"
-            endingLineNumber = "495"
+            startingLineNumber = "500"
+            endingLineNumber = "500"
             landmarkName = "-saveImage:withCode:withId:"
             landmarkType = "5">
          </BreakpointContent>
@@ -41,13 +41,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Garcia/LoginViewController.m"
-            timestampString = "480315761.195552"
+            filePath = "Garcia/EditDrProfileViewController.m"
+            timestampString = "480317355.38852"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "173"
-            endingLineNumber = "173"
-            landmarkName = "-parseLoginResponseVzone:"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
+            landmarkName = "-setDefault"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Garcia/EditDrProfileViewController.m"
+            timestampString = "480319643.755332"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "331"
+            endingLineNumber = "331"
+            landmarkName = "-processResponseObjectForEdit:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
