@@ -21,6 +21,7 @@
      [coder encodeObject:self.companyCode forKey:@"companyCode"];
      [coder encodeObject:self.certificate forKey:@"certificate"];
      [coder encodeObject:self.experience forKey:@"experience"];
+    [coder encodeObject:self.drProfileDocument forKey:@"drProfileDocument"];
 }
 - (id)initWithCoder:(NSCoder *)decoder {
     if (self = [super init]) {
@@ -43,6 +44,7 @@
         self.companyCode= [decoder decodeObjectForKey:@"companyCode"];
        self.certificate= [decoder decodeObjectForKey:@"certificate"];
         self.experience= [decoder decodeObjectForKey:@"experience"];
+         self.drProfileDocument= [decoder decodeObjectForKey:@"drProfileDocument"];
     }
     return self;
 }

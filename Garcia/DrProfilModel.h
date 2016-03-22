@@ -20,4 +20,5 @@
 @property(strong,nonatomic)NSString *certificate;
 @property(strong,nonatomic)NSString *gendername;
 @property(strong,nonatomic)NSString *experience;
+@property(strong,nonatomic)NSString *drProfileDocument;
 @end

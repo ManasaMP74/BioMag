@@ -190,6 +190,7 @@
             model.lastName=dict[@"Lastname"];
             model.roleCode=dict[@"RoleCode"];
              model.maritialStatus=dict[@"MaritalStatusCode"];
+            model.drProfileDocument=dict[@"DocumentCode"];
             NSString *Json=dict[@"JSON"];
             if (![Json isKindOfClass:[NSNull class]]) {
                 NSData *jsonData1 = [Json dataUsingEncoding:NSUTF8StringEncoding];

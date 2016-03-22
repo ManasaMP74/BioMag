@@ -10,7 +10,8 @@
 #import "ImageUploadAPI.h"
 #import "MBProgressHUD.h"
 #import "DrProfilModel.h"
-@interface EditDrProfileViewController ()<UITableViewDataSource,UITableViewDelegate,datePickerProtocol>
+#import "UIImageView+clearCachImage.h"
+@interface EditDrProfileViewController ()<UITableViewDataSource,UITableViewDelegate,datePickerProtocol,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *nameTF;
 @property (strong, nonatomic) IBOutlet UITextField *genderTF;
 @property (strong, nonatomic) IBOutlet UITextField *yearOfExpTF;
@@ -41,7 +42,7 @@
     NSMutableArray *genderArray;
     NSString *genderCode;
     DatePicker *datePicker;
-      NSString *alertOkStr,*alertStr,*updatedFailedStr,*updatedSuccessfullyStr,*requiredGenderFieldStr,*requiredNameField,*navTitle,*yesStr,*noStr,*requiredDateOfBirth,*requiredEmail,*requiredmobile,*requiredTransfusion,*invalidEmail,*invalidMobile;
+      NSString *alertOkStr,*alertStr,*updatedFailedStr,*updatedSuccessfullyStr,*requiredGenderFieldStr,*requiredNameField,*navTitle,*yesStr,*noStr,*requiredDateOfBirth,*requiredEmail,*requiredmobile,*requiredTransfusion,*invalidEmail,*invalidMobile,*requiredYearOfExp;
     ImageUploadAPI *imageManager;
 }
 - (void)viewDidLoad {
@@ -55,9 +56,12 @@
     [self setDefault];
     [self navigationItemMethod];
     [self localize];
+     [self callSeedForGender];
     genderArray=[[NSMutableArray alloc]init];
     _gendertableview.hidden=YES;
-    [self callApiForGender];
+    UITapGestureRecognizer *gest=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(getProfileImage)];
+    [_drImageView addGestureRecognizer:gest];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -120,7 +124,7 @@
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     NSData *doctorDetail=[defaults valueForKey:@"DoctorDetail"];
     DrProfilModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:doctorDetail];
-    _nameTF.text=model.name;
+    _nameTF.text=model.FirstName;
     NSArray *ar=[model.DOB componentsSeparatedByString:@"T"];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     NSDate *date=[formatter dateFromString:ar[0]];
@@ -325,7 +329,7 @@
         NSDictionary *dict=dict1[@"UserObj"];
         if (![_drImageView.image isEqual:[UIImage imageNamed:@"Doctor-Image"]]) {
         
-        
+            [self saveImage:_drImageView.image withCode:dict[@"Code"] withId:dict[@"Id"]];
         }else{
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             [self alertmsg:dict1[@"Message"]];
@@ -447,6 +451,9 @@
     if(_dateOfBirthTF.text.length==0){
         [alrtArray addObject:[NSString stringWithFormat:@"%@\n",requiredDateOfBirth]];
     }
+    if(_yearOfExpTF.text.length==0){
+        [alrtArray addObject:[NSString stringWithFormat:@"%@\n",requiredYearOfExp]];
+    }
     return alrtArray;
 }
 //validate phone number
@@ -460,52 +467,62 @@
     }
     else return 1;
 }
+//get the profileImage
+-(void)getProfileImage{
+UIImagePickerController *picker=[[UIImagePickerController alloc]init];
+picker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+picker.delegate=self;
+[self.navigationController presentViewController:picker animated:YES completion:nil];
+}
+//image picker delegate
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+    UIImage *profileImage =info[UIImagePickerControllerOriginalImage];
+    _drImageView.image=profileImage;
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
+
 //save profile
-- (void)saveImage: (UIImage*)image
+- (void)saveImage: (UIImage*)image withCode:(NSString*)code withId:(NSString*)idvalue
 {
     if (image != nil)
     {
-//        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
-//        NSString *documentsDirectory = [paths objectAtIndex:0];
-//        NSString* path = [documentsDirectory stringByAppendingPathComponent:@"EdittedProfile.jpeg" ];
-//        NSData* data = UIImageJPEGRepresentation(image,.5);
-//        [data writeToFile:path atomically:YES];
-//        if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-//            NSString *type=@"ABC123";
-//            [imageManager uploadUserForVzoneDocumentPath:path forRequestCode:_model.code withType:type withText:@"" withRequestType:@"User" withUserId:_model.Id onCompletion:^(BOOL success) {
-//                if (success)
-//                {
-//                    if (_model.profileImageCode)
-//                    {
-//                        NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,_model.profileImageCode];
-//                        [self.patientImageView clearImageCacheForURL:[NSURL URLWithString:str]];
-//                    }
-//                    [self alertmessage:updatedSuccessfullyStr];
-//                    [containerVC hideAllMBprogressTillLoadThedata];
-//                }else
-//                {
-//                    [containerVC hideAllMBprogressTillLoadThedata];
-//                    [self showToastMessage:updatedFailedStr];
-//                }
-//            }];
-//        }else{
-//            [imageManager uploadUserImagePath:path forRequestCode:_model.code withDocumentType:@"ABC123" andRequestType:@"User" onCompletion:^(BOOL success) {
-//                if (success)
-//                {
-//                    if (_model.profileImageCode)
-//                    {
-//                        NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,_model.profileImageCode];
-//                        [self.patientImageView clearImageCacheForURL:[NSURL URLWithString:str]];
-//                    }
-//                    [self alertmessage:updatedSuccessfullyStr];
-//                    [containerVC hideAllMBprogressTillLoadThedata];
-//                }else
-//                {
-//                    [containerVC hideAllMBprogressTillLoadThedata];
-//                    [self showToastMessage:updatedFailedStr];
-//                }
-//            }];
-//        }
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString* path = [documentsDirectory stringByAppendingPathComponent:@"EdittedProfile.jpeg" ];
+        NSData* data = UIImageJPEGRepresentation(image,.5);
+        [data writeToFile:path atomically:YES];
+        if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+            NSString *type=@"ABC123";
+            [imageManager uploadUserForVzoneDocumentPath:path forRequestCode:code withType:type withText:@"" withRequestType:@"User" withUserId:idvalue onCompletion:^(BOOL success) {
+                if (success)
+                {
+                    if (code)
+                    {
+                        NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,idvalue];
+                        [self.drImageView clearImageCacheForURL:[NSURL URLWithString:str]];
+                    }
+                    [self alertmessage:updatedSuccessfullyStr];
+                }else
+                {
+                    [self showToastMessage:updatedFailedStr];
+                }
+            }];
+        }else{
+            [imageManager uploadUserImagePath:path forRequestCode:code withDocumentType:@"ABC123" andRequestType:@"User" onCompletion:^(BOOL success) {
+                if (success)
+                {
+                    if (code)
+                    {
+                        NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,code];
+                        [self.drImageView clearImageCacheForURL:[NSURL URLWithString:str]];
+                    }
+                    [self alertmessage:updatedSuccessfullyStr];
+                }else
+                {
+                    [self showToastMessage:updatedFailedStr];
+                }
+            }];
+        }
     }
 }
 -(void)alertView:(NSString*)message{
@@ -550,6 +567,8 @@
     invalidEmail=[MCLocalization stringForKey:@"Email id is invalid"];
     invalidMobile=[MCLocalization stringForKey:@"Mobile no. is invalid"];
     requiredDateOfBirth=[MCLocalization stringForKey:@"Date Of Birth is required"];
+    requiredYearOfExp=[MCLocalization stringForKey:@"Year of Experience is required"];
+
     _nameTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Name"]];
     _emailTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"EmailLabel"]];
     _genderTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"GenderLabel"]];
@@ -584,5 +603,41 @@
             }
         }];
     }
+}
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    BOOL status=YES;
+    
+    if ([textField isEqual:_mobileNoTF]) {
+        if (_mobileNoTF.text.length>15) {
+            if (string.length==0) {
+                status=YES;
+            }
+            else status=NO;
+        }
+        else{
+            NSCharacterSet * numberCharSet = [NSCharacterSet characterSetWithCharactersInString:@"()+-0123456789"];
+            for (int i = 0; i < [string length]; ++i)
+            {
+                unichar c = [string characterAtIndex:i];
+                if (![numberCharSet characterIsMember:c])
+                {
+                    status= NO;
+                }
+            }
+        }
+    }
+   else if ([textField isEqual:_yearOfExpTF]) {
+            NSCharacterSet * numberCharSet = [NSCharacterSet characterSetWithCharactersInString:@"()+-0123456789"];
+            for (int i = 0; i < [string length]; ++i)
+            {
+                unichar c = [string characterAtIndex:i];
+                if (![numberCharSet characterIsMember:c])
+                {
+                    status= NO;
+                }
+            }
+    }
+
+    return status;
 }
 @end
