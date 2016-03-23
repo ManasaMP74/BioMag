@@ -76,18 +76,6 @@
       postman=[[Postman alloc]init];
     [containerVC setTitle:navTitle];
     containerVC.delegate=self;
-    
-    NSString *strimageUrl;
-    
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-    strimageUrl = [NSString stringWithFormat:@"%@%@%@/%@",baseUrlAws,dbNameforResized,_model.storageID,_model.fileName];
-        
-    }else
-    {
-  strimageUrl = [NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,_model.profileImageCode];
-    }
-    
-      [_patientImageView setImageWithURL:[NSURL URLWithString:strimageUrl] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
     if (_model.surgeries!=nil) {
         _surgeriesLabel.text=_model.surgeries;
     }else _surgeriesLabel.text=@"";
@@ -186,14 +174,6 @@
 
 //call api to get detail of treatment
 -(void)callApiTogetAllDetailOfTheTreatment{
-    _patientNameTF.text=_model.name;
-    _ageValueLabel.text=_model.age;
-    _dobValueLabel.text=_model.dob;
-    _mobileValueLabel.text=_model.mobileNo;
-    _surgeriesLabel.text=_model.surgeries;
-    _transfusinTF.text=_model.tranfusion;
-    _genderValueLabel.text=_model.gender;
-    _emailValueLabel.text=_model.emailId;
     [containerVC showMBprogressTillLoadThedata];
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getTitleOfTreatment];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -205,9 +185,27 @@
         [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
         }];
 }
-
 //process Response of Api
 -(void)processResponseObjectToGetTreatmentDetail:(id)responseObject{
+    NSString *strimageUrl;
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        strimageUrl = [NSString stringWithFormat:@"%@%@%@/%@",baseUrlAws,dbNameforResized,_model.storageID,_model.fileName];
+        
+    }else
+    {
+        strimageUrl = [NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,_model.profileImageCode];
+    }
+    
+    [_patientImageView setImageWithURL:[NSURL URLWithString:strimageUrl] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
+    _patientNameTF.text=_model.name;
+    _ageValueLabel.text=_model.age;
+    _dobValueLabel.text=_model.dob;
+    _mobileValueLabel.text=_model.mobileNo;
+    _surgeriesLabel.text=_model.surgeries;
+    _transfusinTF.text=_model.tranfusion;
+    _genderValueLabel.text=_model.gender;
+    _emailValueLabel.text=_model.emailId;
     [containerVC hideAllMBprogressTillLoadThedata];
     [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:NO];
     [treatmentListArray removeAllObjects];

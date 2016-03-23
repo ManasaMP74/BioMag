@@ -310,7 +310,7 @@
         NSData *doctorDetail=[defaults valueForKey:@"DoctorDetail"];
         DrProfilModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:doctorDetail];
         slideoutArray=@[model.name,profile,shareCriticalTreatmentInfo,aboutUsStr,FAQStr,termsandConditionsStr,privacyandPolicyStr,logoutStr];
-        slideoutImageArray=@[@"07-User.png",@"07-User.png",@"07-User.png",@"01-Icon-About-Us.png",@"02-Icon-FAQ.png",@"04-Icon-Terms.png",@"03-Icon-Privacy.png",@"05-Icon-Logout.png"];
+        slideoutImageArray=@[@"Dr-Thumbnail",@"Doctor-128.png",@"Data-Information-128.png",@"01-Icon-About-Us.png",@"02-Icon-FAQ.png",@"04-Icon-Terms.png",@"03-Icon-Privacy.png",@"05-Icon-Logout.png"];
     }
 }
 //Change the UiviewController

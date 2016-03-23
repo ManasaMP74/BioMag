@@ -42,8 +42,8 @@
          label.textAlignment=0;
         UIImageView *im=(UIImageView*)[cell viewWithTag:20];
         if (indexPath.row==0) {
+            cell.userInteractionEnabled=NO;
             label.textColor=[UIColor blackColor];
-            
             NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
             NSData *doctorDetail=[defaults valueForKey:@"DoctorDetail"];
             DrProfilModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:doctorDetail];
@@ -58,6 +58,7 @@
             [im setImageWithURL:[NSURL URLWithString:strimageUrl] placeholderImage:[UIImage imageNamed:_slideoutImageArray[indexPath.row]]];
 
         }else{
+             cell.userInteractionEnabled=YES;
          im.image=[UIImage imageNamed:_slideoutImageArray[indexPath.row]];
         }
         cell.separatorInset=UIEdgeInsetsZero;
