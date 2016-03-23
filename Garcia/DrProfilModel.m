@@ -22,6 +22,8 @@
      [coder encodeObject:self.certificate forKey:@"certificate"];
      [coder encodeObject:self.experience forKey:@"experience"];
     [coder encodeObject:self.drProfileDocument forKey:@"drProfileDocument"];
+     [coder encodeObject:self.fileName forKey:@"fileName"];
+     [coder encodeObject:self.storageId forKey:@"storageId"];
 }
 - (id)initWithCoder:(NSCoder *)decoder {
     if (self = [super init]) {
@@ -45,6 +47,8 @@
        self.certificate= [decoder decodeObjectForKey:@"certificate"];
         self.experience= [decoder decodeObjectForKey:@"experience"];
          self.drProfileDocument= [decoder decodeObjectForKey:@"drProfileDocument"];
+          self.fileName= [decoder decodeObjectForKey:@"fileName"];
+         self.storageId= [decoder decodeObjectForKey:@"storageId"];
     }
     return self;
 }

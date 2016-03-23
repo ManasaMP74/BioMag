@@ -1368,11 +1368,6 @@
         }];
         [alertView addAction:success];
         [self presentViewController:alertView animated:YES completion:nil];
-        }else
-        {
-        [self showToastMessage:msg];
-        [self CallLoadTreatMentDelegate];
-        [self callApiTogetAllDetailOfTheTreatment];
         }
     }else {
         [self showToastMessage:dict[@"Message"]];

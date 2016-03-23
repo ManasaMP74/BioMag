@@ -10,8 +10,9 @@
 #import "ImageUploadAPI.h"
 #import "MBProgressHUD.h"
 #import "DrProfilModel.h"
+#import "UIImageView+AFNetworking.h"
 #import "UIImageView+clearCachImage.h"
-@interface EditDrProfileViewController ()<UITableViewDataSource,UITableViewDelegate,datePickerProtocol,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface EditDrProfileViewController ()<UITableViewDataSource,UITableViewDelegate,datePickerProtocol,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *nameTF;
 @property (strong, nonatomic) IBOutlet UITextField *genderTF;
 @property (strong, nonatomic) IBOutlet UITextField *yearOfExpTF;
@@ -42,24 +43,25 @@
     NSMutableArray *genderArray;
     NSString *genderCode;
     DatePicker *datePicker;
-      NSString *alertOkStr,*alertStr,*updatedFailedStr,*updatedSuccessfullyStr,*requiredGenderFieldStr,*requiredNameField,*navTitle,*yesStr,*noStr,*requiredDateOfBirth,*requiredEmail,*requiredmobile,*requiredTransfusion,*invalidEmail,*invalidMobile,*requiredYearOfExp;
+      NSString *alertOkStr,*alertStr,*updatedFailedStr,*updatedSuccessfullyStr,*requiredGenderFieldStr,*requiredNameField,*navTitle,*yesStr,*noStr,*requiredDateOfBirth,*requiredEmail,*requiredmobile,*requiredTransfusion,*invalidEmail,*invalidMobile,*requiredYearOfExp,*imageUploadFailed;
     ImageUploadAPI *imageManager;
+    BOOL imageAlreadyUpdated;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+      [self localize];
     formatter=[[NSDateFormatter alloc]init];
     constant=[[Constant alloc]init];
+    genderArray=[[NSMutableArray alloc]init];
+    _gendertableview.hidden=YES;
     imageManager=[[ImageUploadAPI alloc]init];
     [self textFieldLayer];
     [self setFont];
     [self textFieldLayer];
     [self setDefault];
     [self navigationItemMethod];
-    [self localize];
      [self callSeedForGender];
-    genderArray=[[NSMutableArray alloc]init];
-    _gendertableview.hidden=YES;
-    UITapGestureRecognizer *gest=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(getProfileImage)];
+      UITapGestureRecognizer *gest=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(getProfileImage)];
     [_drImageView addGestureRecognizer:gest];
 
 }
@@ -137,6 +139,23 @@
     _mobileNoTF.text=model.ContactNo;
     _genderTF.text=model.gendername;
     genderCode=model.genderCode;
+    if (model.storageId==nil) {
+        _drImageView.image=[UIImage imageNamed:@"Doctor-Image"];
+        imageAlreadyUpdated=NO;
+    }else{
+        
+        NSString *strimageUrl;
+        if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+            strimageUrl = [NSString stringWithFormat:@"%@%@%@/%@",baseUrlAws,dbName,model.storageId,model.fileName];
+            imageAlreadyUpdated=YES;
+            
+        }else
+        {
+            strimageUrl = [NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,model.storageId];
+            
+        }
+        [_drImageView setImageWithURL:[NSURL URLWithString:strimageUrl] placeholderImage:[UIImage imageNamed:@"Doctor-Image"]];
+    }
 }
 //Gender API
 -(void)callApiForGender{
@@ -246,6 +265,20 @@
     [self.view endEditing:YES];
     [self validateEmail:_emailTF.text];
 }
+
+-(void)callUpdateFunc{
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    NSData *doctorDetail=[defaults valueForKey:@"DoctorDetail"];
+    DrProfilModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:doctorDetail];
+    if (![_drImageView.image isEqual:[UIImage imageNamed:@"Doctor-Image"]]) {
+        if (imageAlreadyUpdated==YES) {
+            [self callApiForUpdate];
+        }
+        else [self saveImage:_drImageView.image withCode:model.code withId:model.idValue];
+    }else{
+        [self callApiForUpdate];
+    }
+}
 //Patient Update
 -(void)callApiForUpdate{
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
@@ -265,7 +298,8 @@
     jsonWithGender[@"Gender"]=genderCode;
     jsonWithGender[@"MaritalStatus"]=model.maritialStatus;
     jsonWithGender[@"ContactNo"]=_mobileNoTF.text;
-    jsonWithGender[@"Certificates"]=_certificateTextView.text;
+    jsonWithGender[@"Experience"]=_yearOfExpTF.text;
+     jsonWithGender[@"Certificates"]=_certificateTextView.text;
     NSData *jsonData2 = [NSJSONSerialization dataWithJSONObject:jsonWithGender options:kNilOptions error:nil];
     NSString *genderData = [[NSString alloc] initWithData:jsonData2 encoding:NSUTF8StringEncoding];
     
@@ -339,15 +373,21 @@
         model.ContactNo= jsonDict[@"ContactNo"];
         model.experience= jsonDict[@"Experience"];
         model.certificate= jsonDict[@"Certificates"];
-        model.gendername= dict[@"Gender"];
-        model.genderCode= dict[@"GenderCode"];
+        model.genderCode= jsonDict[@"Gender"];
+        
+          model.gendername= dict[@"Gender"];
+        for (editModel *model1 in genderArray) {
+            if ([model1.genderCode isEqualToString:model.genderCode]) {
+                model.gendername=model1.genderName;
+            }
+        }
         model.userTypeCode=dict[@"UserTypeCode"];
         model.companyCode=dict[@"CompanyCode"];
-        model.FirstName=dict[@"Firstname"];
-        model.middleName=dict[@"Middlename"];
-        model.lastName=dict[@"Lastname"];
+        model.FirstName=dict[@"FirstName"];
+        model.middleName=dict[@"MiddleName"];
+        model.lastName=dict[@"LastName"];
         model.roleCode=dict[@"RoleCode"];
-        model.maritialStatus=dict[@"MaritalStatusCode"];
+        model.maritialStatus=jsonDict[@"MaritalStatusCode"];
         NSString *Json=dict[@"JSON"];
         if (![Json isKindOfClass:[NSNull class]]) {
             NSData *jsonData1 = [Json dataUsingEncoding:NSUTF8StringEncoding];
@@ -363,13 +403,8 @@
         NSUserDefaults *userdefault=[NSUserDefaults standardUserDefaults];
         NSData *dataOnObject = [NSKeyedArchiver archivedDataWithRootObject:model];
         [userdefault setValue:dataOnObject forKey:@"DoctorDetail"];
-        if (![_drImageView.image isEqual:[UIImage imageNamed:@"Doctor-Image"]]) {
-            
-            [self saveImage:_drImageView.image withCode:dict[@"Code"] withId:dict[@"Id"]];
-        }else{
-            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-            [self alertmsg:dict1[@"Message"]];
-        }
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [self alertmsg:dict1[@"Message"]];
     }
 }
 -(void)alertmsg :(NSString*)msg{
@@ -408,7 +443,7 @@
                 }
                 [self alertView:str1];
             }
-            else [self callApiForUpdate];
+            else [self callUpdateFunc];
         }
     }
     else{
@@ -479,6 +514,7 @@ picker.delegate=self;
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     UIImage *profileImage =info[UIImagePickerControllerOriginalImage];
     _drImageView.image=profileImage;
+    imageAlreadyUpdated=NO;
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -502,12 +538,12 @@ picker.delegate=self;
                         NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,idvalue];
                         [self.drImageView clearImageCacheForURL:[NSURL URLWithString:str]];
                     }
-                    [self alertmessage:updatedSuccessfullyStr];
                 }else
                 {
-                    [self showToastMessage:updatedFailedStr];
+                    [self showToastMessage:imageUploadFailed];
                 }
             }];
+             [self callApiForUpdate];
         }else{
             [imageManager uploadUserImagePath:path forRequestCode:code withDocumentType:@"ABC123" andRequestType:@"User" onCompletion:^(BOOL success) {
                 if (success)
@@ -569,6 +605,7 @@ picker.delegate=self;
     invalidMobile=[MCLocalization stringForKey:@"Mobile no. is invalid"];
     requiredDateOfBirth=[MCLocalization stringForKey:@"Date Of Birth is required"];
     requiredYearOfExp=[MCLocalization stringForKey:@"Year of Experience is required"];
+    imageUploadFailed=[MCLocalization stringForKey:@"Image upload failed"];
 
     _nameTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Name"]];
     _emailTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"EmailLabel"]];
@@ -640,5 +677,12 @@ picker.delegate=self;
     }
 
     return status;
+}
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+    _gendertableview.hidden=YES;
+}
+- (IBAction)gesture:(id)sender {
+    [self.view endEditing:YES];
+    _gendertableview.hidden=YES;
 }
 @end

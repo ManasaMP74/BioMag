@@ -21,4 +21,6 @@
 @property(strong,nonatomic)NSString *gendername;
 @property(strong,nonatomic)NSString *experience;
 @property(strong,nonatomic)NSString *drProfileDocument;
+@property(strong,nonatomic)NSString *fileName;
+@property(strong,nonatomic)NSString *storageId;
 @end

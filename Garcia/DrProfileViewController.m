@@ -3,6 +3,9 @@
 #import <MCLocalization/MCLocalization.h>
 #import "EditDrProfileViewController.h"
 #import "DrProfilModel.h"
+#import "UIImageView+AFNetworking.h"
+#import "UIImageView+clearCachImage.h"
+#import "PostmanConstant.h"
 @interface DrProfileViewController ()
 @property (weak, nonatomic) IBOutlet UIView *profileView;
 
@@ -71,6 +74,21 @@
     _yearOfExpValueLabel.text=model.experience;
     _certificateValueLabel.text=model.certificate;
     _mobileValueLabel.text=model.ContactNo;
+    if (model.storageId.length==0) {
+        _doctorImage.image=[UIImage imageNamed:@"Doctor-Image"];
+    }else{
+        
+        NSString *strimageUrl;
+        if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+            strimageUrl = [NSString stringWithFormat:@"%@%@%@/%@",baseUrlAws,dbName,model.storageId,model.fileName];
+            
+        }else
+        {
+            strimageUrl = [NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,model.storageId];
+            
+        }
+        [_doctorImage setImageWithURL:[NSURL URLWithString:strimageUrl] placeholderImage:[UIImage imageNamed:@"Doctor-Image"]];
+    }
 }
 -(void)localize{
     _dobLabel.text=[MCLocalization stringForKey:@"DateOfBirthLabel"];
