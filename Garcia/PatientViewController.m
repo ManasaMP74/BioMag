@@ -186,6 +186,14 @@
 
 //call api to get detail of treatment
 -(void)callApiTogetAllDetailOfTheTreatment{
+    _patientNameTF.text=_model.name;
+    _ageValueLabel.text=_model.age;
+    _dobValueLabel.text=_model.dob;
+    _mobileValueLabel.text=_model.mobileNo;
+    _surgeriesLabel.text=_model.surgeries;
+    _transfusinTF.text=_model.tranfusion;
+    _genderValueLabel.text=_model.gender;
+    _emailValueLabel.text=_model.emailId;
     [containerVC showMBprogressTillLoadThedata];
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getTitleOfTreatment];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -242,15 +250,6 @@
        }else {
        [self showToastMessage:dict[@"Message"]];
        }
-    _patientNameTF.text=_model.name;
-    _ageValueLabel.text=_model.age;
-    _dobValueLabel.text=_model.dob;
-    _mobileValueLabel.text=_model.mobileNo;
-    _surgeriesLabel.text=_model.surgeries;
-    _transfusinTF.text=_model.tranfusion;
-    _genderValueLabel.text=_model.gender;
-    _emailValueLabel.text=_model.emailId;
-
 }
 //Alert Message
 -(void)showAlerView:(NSString*)msg{
