@@ -615,6 +615,13 @@
 			name = ShowCriticalInfo;
 			sourceTree = "<group>";
 		};
+		DAD375C81CA2794300FDD5C7 /* Add Section */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Add Section";
+			sourceTree = "<group>";
+		};
 		DAE6FBB81BE4DBDB00952812 /* CustomCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -723,6 +730,7 @@
 				DAEFA1D41BD0B72E00900379 /* AddPatient */,
 				DAE955571BD24A4900EDFD8F /* PtientSheet */,
 				DAF161D01C0D8444006BCD8D /* SittingVC */,
+				DAD375C81CA2794300FDD5C7 /* Add Section */,
 				DAF82CDD1BD4BA4E006AF1E1 /* ContainerVC */,
 				DAEFA1D01BD0B6F400900379 /* Constant */,
 				DAEC026E1BD5131F0095C6AE /* CustomFont */,
