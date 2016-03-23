@@ -24,6 +24,7 @@
 #import "PreviousSittingModelClass.h"
 #import "ToxicDeficiency.h"
 #import <MCLocalization/MCLocalization.h>
+#import "AddSectionData.h"
 @interface SittingViewController ()<UITableViewDelegate,UITableViewDataSource,addsymptom,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,UICollectionViewDataSource,ExpandCellProtocol,SWRevealViewControllerDelegate,deleteCellValue,SWRevealViewControllerDelegate,datePickerProtocol,sendGermsData>
 @property (strong, nonatomic) IBOutlet UILabel *ageValue;
 @property (strong, nonatomic) IBOutlet UILabel *filterLabel;
@@ -56,6 +57,7 @@
     NSArray *selectedPreviousArray;
     NSString *navTitle,*alert,*alertOK,*saveFailed,*saveSuccess,*yesStr,*noStr,*authour,*enterSittingInfo,*previousSittings,*issueStr,*noIssueStr,*sStr,*s1Str,*doYoucloseSitting,*noChangesToSaveSitting,*popBackAlert;
     BOOL changesDoneorNot;
+    AddSectionData *addsectionData;
 }
 - (void)viewDidLoad {
     [self localize];
@@ -1378,6 +1380,16 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
 -(void)sittingFromSlideOut{
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft];
     [self setTheValuesInTableView];
+}
+-(void)addSectionDataViewInSitting:(NSString *)differForView{
+    [self.revealViewController setFrontViewPosition:FrontViewPositionLeft];
+    if (![differForView isEqualToString:@"anatomicalPoint"]) {
+       if (addsectionData==nil) {
+        addsectionData=[[AddSectionData alloc]init];
+    }
+    [addsectionData alphaViewInitialize];
+    addsectionData.differForSaveData=differForView;
+    }
 }
 //get the germs string for each array
 -(void)getGermsStringForCompleDetailArray{

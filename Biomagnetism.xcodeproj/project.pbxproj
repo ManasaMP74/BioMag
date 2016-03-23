@@ -78,6 +78,8 @@
 		DAB1351A1C633A3900B639DD /* lagModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB135191C633A3900B639DD /* lagModel.m */; };
 		DAB3E9421C9C141B0014BD3C /* ShowCriticalInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB3E9411C9C141B0014BD3C /* ShowCriticalInfoViewController.m */; };
 		DAB3E9451C9C15B70014BD3C /* ShowCriticalInfoListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB3E9441C9C15B70014BD3C /* ShowCriticalInfoListModel.m */; };
+		DAD375CB1CA27BB200FDD5C7 /* AddSectionData.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD375CA1CA27BB200FDD5C7 /* AddSectionData.m */; };
+		DAD375CD1CA27BE200FDD5C7 /* AddSectionData.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAD375CC1CA27BE200FDD5C7 /* AddSectionData.xib */; };
 		DAD52B5A1C2169370052579D /* SectionXib.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAD52B591C2169370052579D /* SectionXib.xib */; };
 		DAD52B5D1C21694B0052579D /* SectionXibView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD52B5C1C21694B0052579D /* SectionXibView.m */; };
 		DAD52B5F1C216AF70052579D /* SctionXibCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAD52B5E1C216AF70052579D /* SctionXibCell.xib */; };
@@ -268,6 +270,9 @@
 		DAB3E9411C9C141B0014BD3C /* ShowCriticalInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowCriticalInfoViewController.m; sourceTree = "<group>"; };
 		DAB3E9431C9C15B70014BD3C /* ShowCriticalInfoListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowCriticalInfoListModel.h; sourceTree = "<group>"; };
 		DAB3E9441C9C15B70014BD3C /* ShowCriticalInfoListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowCriticalInfoListModel.m; sourceTree = "<group>"; };
+		DAD375C91CA27BB200FDD5C7 /* AddSectionData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddSectionData.h; sourceTree = "<group>"; };
+		DAD375CA1CA27BB200FDD5C7 /* AddSectionData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddSectionData.m; sourceTree = "<group>"; };
+		DAD375CC1CA27BE200FDD5C7 /* AddSectionData.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddSectionData.xib; sourceTree = "<group>"; };
 		DAD52B591C2169370052579D /* SectionXib.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SectionXib.xib; sourceTree = "<group>"; };
 		DAD52B5B1C21694B0052579D /* SectionXibView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionXibView.h; sourceTree = "<group>"; };
 		DAD52B5C1C21694B0052579D /* SectionXibView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionXibView.m; sourceTree = "<group>"; };
@@ -618,6 +623,9 @@
 		DAD375C81CA2794300FDD5C7 /* Add Section */ = {
 			isa = PBXGroup;
 			children = (
+				DAD375CC1CA27BE200FDD5C7 /* AddSectionData.xib */,
+				DAD375C91CA27BB200FDD5C7 /* AddSectionData.h */,
+				DAD375CA1CA27BB200FDD5C7 /* AddSectionData.m */,
 			);
 			name = "Add Section";
 			sourceTree = "<group>";
@@ -1097,6 +1105,7 @@
 				DA753C801C64814C00D1ABE1 /* ScanPointTableViewCell.xib in Resources */,
 				DAEFA19D1BD0B11500900379 /* Main.storyboard in Resources */,
 				DA130F411BEA1E1900B5B9FF /* SettingView.xib in Resources */,
+				DAD375CD1CA27BE200FDD5C7 /* AddSectionData.xib in Resources */,
 				DA130F391BEA1E1900B5B9FF /* Child.xib in Resources */,
 				DA753C8B1C6481EB00D1ABE1 /* CorrespondingPairTableView.xib in Resources */,
 				DAFC4AC51C2567C800FE6234 /* ProfileImageView.xib in Resources */,
@@ -1172,6 +1181,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA4461E71BD7720300F80F5A /* OpenSans-Semibold.ttf in Sources */,
+				DAD375CB1CA27BB200FDD5C7 /* AddSectionData.m in Sources */,
 				DAEEA20F1C3261DF00718EC6 /* BiomagneticSittingModel.m in Sources */,
 				DAFC4AC31C2567A500FE6234 /* ProfileImageView.m in Sources */,
 				DAEF6AEE1BD5FA37006868C8 /* OpenSans-Regular.ttf in Sources */,

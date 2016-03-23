@@ -20,15 +20,17 @@
     Postman *postman;
     NSArray *toxicDeficiencyArray;
     int selectedRow;
+    NSArray *slideoutContentArray;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     postman=[[Postman alloc]init];
-}
+   }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     toxicDeficiencyArray=_allToxicDeficiencyArray;
     selectedIndexpath=[NSIndexPath indexPathForRow:0 inSection:0];
+    slideoutContentArray=@[[MCLocalization stringForKey:@"Section(s)"],[MCLocalization stringForKey:@"Toxic & Deficiency"],[MCLocalization stringForKey:@"Add ScanPoint"],[MCLocalization stringForKey:@"Add CorrespondingPair"],[MCLocalization stringForKey:@"Add Anatomical Points"]];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -37,29 +39,35 @@
     return 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return slideoutContentArray.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SlideOutTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    cell.delegate=self;
+      cell.label.text=slideoutContentArray[indexPath.row];
+     cell.delegate=self;
     if (indexPath.row==0) {
-        cell.label.text=[MCLocalization stringForKey:@"Section(s)"];
         cell.sectionNameXib.delegateForGetName=self;
     }if (indexPath.row==1) {
-        cell.label.text=[MCLocalization stringForKey:@"Toxic & Deficiency"];
         cell.sectionNameXib.delegateForGetName=self;
     }
-    if ([selectedIndexpath isEqual:indexPath]) {
-        cell.expandImageView.image=[UIImage imageNamed:@"Button-Expand"];
-        int index=(int)indexPath.row;
-        if (indexPath.row==0) {
-            [self getDataOfSectionName:cell withArray:_allSectionNameArray withIndex:index];
-        }else  [self getDataOfSectionName:cell withArray:toxicDeficiencyArray withIndex:index];
-    }else{
+    if (indexPath.row==0 | indexPath.row==1) {
+        if ([selectedIndexpath isEqual:indexPath]) {
+            cell.expandImageView.image=[UIImage imageNamed:@"Button-Expand"];
+            int index=(int)indexPath.row;
+            if (indexPath.row==0) {
+                [self getDataOfSectionName:cell withArray:_allSectionNameArray withIndex:index];
+            }else  [self getDataOfSectionName:cell withArray:toxicDeficiencyArray withIndex:index];
+        }else{
+            cell.sectionNameViewHeight.constant=0;
+            cell.sectionNameXib.hidden=YES;
+            cell.expandImageView.image=[UIImage imageNamed:@"Button-Collapse"];
+        }
+    }
+    else{
+        cell.expandImageView.hidden=YES;
         cell.sectionNameViewHeight.constant=0;
         cell.sectionNameXib.hidden=YES;
-        cell.expandImageView.image=[UIImage imageNamed:@"Button-Collapse"];
     }
     return cell;
 }
@@ -79,6 +87,7 @@
     SlideOutTableViewCell *cell1=(SlideOutTableViewCell*)cell;
     NSIndexPath *indexPath=[self.tableView indexPathForCell:cell1];
     SlideOutTableViewCell *cell2=(SlideOutTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+     if (indexPath.row==0 | indexPath.row==1) {
     if ([cell1.expandImageView.image isEqual:[UIImage imageNamed:@"Button-Expand"]]) {
         selectedIndexpath=nil;
     }
@@ -88,7 +97,27 @@
         else if(indexPath.row==1) [self getDataOfSectionName:cell2 withArray:toxicDeficiencyArray withIndex:indexPath.row];
     }
     [self.tableView reloadData];
+      }
+     else{
+         [self getViewToAddSectionData:indexPath];
+     }
 }
+-(void)getViewToAddSectionData:(NSIndexPath*)index
+{
+    UINavigationController *nav=(UINavigationController*)self.parentViewController;
+    SWRevealViewController *reveal=(SWRevealViewController*)nav.parentViewController;
+    SittingViewController *sitting=(SittingViewController*)reveal.childViewControllers[0];
+    if (index.row==2) {
+        [sitting addSectionDataViewInSitting:@"scanpoint"];
+    }else if (index.row==3){
+        [sitting addSectionDataViewInSitting:@"correspondingpair"];
+    }else if (index.row==4){
+        [sitting addSectionDataViewInSitting:@"anatomicalPoint"];
+    }
+}
+
+
+//get data of section name
 -(void)getDataOfSectionName:(UITableViewCell*)cell2 withArray:(NSArray*)array withIndex:(int)i{
     SlideOutTableViewCell *cell=(SlideOutTableViewCell*)cell2;
     cell.sectionNameViewHeight.constant=35;
@@ -97,6 +126,7 @@
     cellHeight=cell.sectionNameViewHeight.constant+35;
     cell.sectionNameXib.hidden=NO;
 }
+//get section name
 -(void)getSectionName:(NSString *)str withIndex:(NSIndexPath *)index withCellIndex:(int)i{
     if (i==0) {
         selectedSection=str;
@@ -114,6 +144,7 @@
     [self setTheDataToSittingVC:sitting];
     [sitting sittingFromSlideOut];
 }
+//set data to sitting view
 -(void)setTheDataToSittingVC:(SittingViewController*)sitting{
     if (selectedRow==0) {
         sitting.selectedIndexPathOfSectionInSlideOut=selectedCell;

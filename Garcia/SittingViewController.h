@@ -66,4 +66,5 @@
 
 //get Data From SlideOut
 -(void)sittingFromSlideOut;
+-(void)addSectionDataViewInSitting:(NSString *)differForView;
 @end
