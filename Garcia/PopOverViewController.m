@@ -1,4 +1,7 @@
 #import "PopOverViewController.h"
+#import "PostmanConstant.h"
+#import "UIImageView+AFNetworking.h"
+#import "DrProfilModel.h"
 @interface PopOverViewController ()
 
 @end
@@ -38,9 +41,24 @@
         label.text=_slideoutNameArray[indexPath.row];
          label.textAlignment=0;
         UIImageView *im=(UIImageView*)[cell viewWithTag:20];
-        im.image=[UIImage imageNamed:_slideoutImageArray[indexPath.row]];
         if (indexPath.row==0) {
             label.textColor=[UIColor blackColor];
+            
+            NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+            NSData *doctorDetail=[defaults valueForKey:@"DoctorDetail"];
+            DrProfilModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:doctorDetail];
+            NSString *strimageUrl;
+            if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+                strimageUrl = [NSString stringWithFormat:@"%@%@%@/%@",baseUrlAws,dbNameforResized,model.storageId,model.fileName];
+            }else
+            {
+                strimageUrl = [NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,model.storageId];
+                
+            }
+            [im setImageWithURL:[NSURL URLWithString:strimageUrl] placeholderImage:[UIImage imageNamed:_slideoutImageArray[indexPath.row]]];
+
+        }else{
+         im.image=[UIImage imageNamed:_slideoutImageArray[indexPath.row]];
         }
         cell.separatorInset=UIEdgeInsetsZero;
         cell.layoutMargins=UIEdgeInsetsZero;
