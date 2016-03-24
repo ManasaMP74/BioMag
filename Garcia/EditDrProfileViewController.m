@@ -361,21 +361,25 @@
     }else  dict1=responseObject;
     
     if ([dict1[@"Success"] intValue]==1) {
-        NSDictionary *dict=dict1[@"UserObj"];
+     NSArray *ar=dict1[@"UserDetails"];
+        NSDictionary *dict=ar[0];
         DrProfilModel *model=[[DrProfilModel alloc]init];
-        model.name= dict[@"FirstName"];
-        model.DOB=dict[@"DOB"];
+        model.name= dict[@"Name"];
+        model.DOB=dict[@"DOb"];
         model.email= dict[@"Email"];
         model.idValue=dict[@"Id"];
         model.code=dict[@"Code"];
+        model.fileName=dict[@"Filename"];
+         model.drProfileDocument=dict[@"DocumentCode"];
+        model.storageId=dict[@"StorageID"];
         NSString *str=dict[@"JSON"];
         NSDictionary *jsonDict=[NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
         model.ContactNo= jsonDict[@"ContactNo"];
         model.experience= jsonDict[@"Experience"];
         model.certificate= jsonDict[@"Certificates"];
         model.genderCode= jsonDict[@"Gender"];
-        
-          model.gendername= dict[@"Gender"];
+        model.maritialStatus=jsonDict[@"MaritalStatus"];
+        model.gendername= dict[@"Gender"];
         for (editModel *model1 in genderArray) {
             if ([model1.genderCode isEqualToString:model.genderCode]) {
                 model.gendername=model1.genderName;
@@ -383,9 +387,9 @@
         }
         model.userTypeCode=dict[@"UserTypeCode"];
         model.companyCode=dict[@"CompanyCode"];
-        model.FirstName=dict[@"FirstName"];
-        model.middleName=dict[@"MiddleName"];
-        model.lastName=dict[@"LastName"];
+        model.FirstName=dict[@"Firstname"];
+        model.middleName=dict[@"Middlename"];
+        model.lastName=dict[@"Lastname"];
         model.roleCode=dict[@"RoleCode"];
         model.maritialStatus=jsonDict[@"MaritalStatusCode"];
         NSString *Json=dict[@"JSON"];
@@ -410,6 +414,7 @@
 -(void)alertmsg :(NSString*)msg{
     UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alertStr message:msg preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *success=[UIAlertAction actionWithTitle:alertOkStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [self.delegate editedSuccessfully];
         [self.navigationController popViewControllerAnimated:YES];
         [alertView dismissViewControllerAnimated:YES completion:nil];
     }];

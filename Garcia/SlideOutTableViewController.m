@@ -30,7 +30,8 @@
     [super viewWillAppear:animated];
     toxicDeficiencyArray=_allToxicDeficiencyArray;
     selectedIndexpath=[NSIndexPath indexPathForRow:0 inSection:0];
-    slideoutContentArray=@[[MCLocalization stringForKey:@"Section(s)"],[MCLocalization stringForKey:@"Toxic & Deficiency"],[MCLocalization stringForKey:@"Add ScanPoint"],[MCLocalization stringForKey:@"Add CorrespondingPair"],[MCLocalization stringForKey:@"Add Anatomical Points"]];
+   // slideoutContentArray=@[[MCLocalization stringForKey:@"Section(s)"],[MCLocalization stringForKey:@"Toxic & Deficiency"],[MCLocalization stringForKey:@"Add ScanPoint"],[MCLocalization stringForKey:@"Add CorrespondingPair"],[MCLocalization stringForKey:@"Add Anatomical Points"]];
+      slideoutContentArray=@[[MCLocalization stringForKey:@"Section(s)"],[MCLocalization stringForKey:@"Toxic & Deficiency"]];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

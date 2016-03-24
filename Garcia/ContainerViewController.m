@@ -69,6 +69,14 @@
     lagSomeButton.titleLabel.numberOfLines = 2;
          [lagSomeButton sizeToFit];
 }
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    NSData *doctorDetail=[defaults valueForKey:@"DoctorDetail"];
+    DrProfilModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:doctorDetail];
+    slideoutArray=@[model.name,profile,shareCriticalTreatmentInfo,aboutUsStr,FAQStr,termsandConditionsStr,privacyandPolicyStr,logoutStr];
+    slideoutImageArray=@[@"Dr-Thumbnail",@"Doctor-128.png",@"Data-Information-128.png",@"01-Icon-About-Us.png",@"02-Icon-FAQ.png",@"04-Icon-Terms.png",@"03-Icon-Privacy.png",@"05-Icon-Logout.png"];
+}
 //navigationMethod
 -(void)navigationMethod{
     UIImage* image3 = [UIImage imageNamed:@"06-Icon-Navigation.png"];
@@ -306,11 +314,6 @@
         [nav popToViewController:patientVc animated:YES];
         patientVc.model =model;
         [patientVc setDefaultValues];
-        NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
-        NSData *doctorDetail=[defaults valueForKey:@"DoctorDetail"];
-        DrProfilModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:doctorDetail];
-        slideoutArray=@[model.name,profile,shareCriticalTreatmentInfo,aboutUsStr,FAQStr,termsandConditionsStr,privacyandPolicyStr,logoutStr];
-        slideoutImageArray=@[@"Dr-Thumbnail",@"Doctor-128.png",@"Data-Information-128.png",@"01-Icon-About-Us.png",@"02-Icon-FAQ.png",@"04-Icon-Terms.png",@"03-Icon-Privacy.png",@"05-Icon-Logout.png"];
     }
 }
 //Change the UiviewController

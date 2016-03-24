@@ -6,7 +6,7 @@
 #import "UIImageView+AFNetworking.h"
 #import "UIImageView+clearCachImage.h"
 #import "PostmanConstant.h"
-@interface DrProfileViewController ()
+@interface DrProfileViewController ()<editSuccess>
 @property (weak, nonatomic) IBOutlet UIView *profileView;
 
 @end
@@ -96,5 +96,12 @@
     _emailLabel.text=[MCLocalization stringForKey:@"EmailLabel"];
     _certificateLabel.text=@"Certificate";
     _yearOfExpValueLabel.text=@"Year Of Experience";
+}
+-(void)editedSuccessfully{
+    [self setDefault];
+}
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    EditDrProfileViewController *edit=segue.destinationViewController;
+    edit.delegate=self;
 }
 @end
