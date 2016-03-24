@@ -177,8 +177,8 @@
             NSString *str=dict[@"JSON"];
             NSDictionary *jsonDict=[NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
            model.ContactNo= jsonDict[@"ContactNo"];
-          model.experience= dict[@"Experience"];
-         model.certificate= dict[@"Certificates"];
+            model.experience= jsonDict[@"Experience"];
+            model.certificate= jsonDict[@"Certificates"];
            model.gendername= dict[@"Gender"];
              model.genderCode= dict[@"GenderCode"];
             model.userTypeCode=dict[@"UserTypeCode"];

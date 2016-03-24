@@ -1385,7 +1385,7 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft];
     if (![differForView isEqualToString:@"anatomicalPoint"]) {
        if (addsectionData==nil) {
-        addsectionData=[[AddSectionData alloc]init];
+        addsectionData=[[AddSectionData alloc]initWithFrame:CGRectMake(self.view.frame.origin.x+150,self.view.frame.origin.y+100,self.view.frame.size.width-300,150)];
     }
     [addsectionData alphaViewInitialize];
     addsectionData.differForSaveData=differForView;

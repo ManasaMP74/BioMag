@@ -19,8 +19,8 @@
     self=[super initWithFrame:frame];
     view=[[[NSBundle mainBundle]loadNibNamed:@"AddSectionData" owner:self options:nil]lastObject];
     [self initializeView];
+     view.frame=self.bounds;
     [self addSubview:view];
-    view.frame=self.bounds;
     constant=[[Constant alloc]init];
     return self;
 }
@@ -45,7 +45,7 @@
     [constant spaceAtTheBeginigOfTextField:_nameTF];
      _nameTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Name"]];
     appDel = [UIApplication sharedApplication].delegate;
-    
+  
     if ([_differForSaveData isEqualToString:@"scanpoint"]) {
         _titleLabel.text=[MCLocalization stringForKey:@"Scanpoint"];
     }else if ([_differForSaveData isEqualToString:@"correspondingpair"]) {
@@ -53,6 +53,7 @@
     }
     [alphaView addTarget:self action:@selector(hideAlphaview) forControlEvents:UIControlEventTouchUpInside];
     [appDel.window addSubview:alphaView];
+    view.center = alphaView.center;
 }
 -(void)hideAlphaview{
     [alphaView removeFromSuperview];
