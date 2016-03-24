@@ -111,7 +111,8 @@ NSString *const deleteDocumentUrl=@"aws/DeleteDocument";
 NSString *const deleteSitting=@"BiomagneticSittingResult/Delete";
 NSString *const criticalTreatmentInfoUrl=@"ShareTreatmentInfo";
 NSString *const searchSaredCriticalInfo=@"Search/ShareTreatmentInfo";
-
+NSString *const saveScanpoint=@"scanpoint";
+NSString *const saveCorrespondingPair=@"correspondingpair";
 
 NSString *const DifferMetirialOrVzoneApi=@"vzone";
 @end

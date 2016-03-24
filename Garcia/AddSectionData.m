@@ -62,52 +62,48 @@
  if ([_differForSaveData isEqualToString:@"scanpoint"]) {
      [self callApiToSaveScanpoint];
  }else if ([_differForSaveData isEqualToString:@"correspondingpair"]) {
-     [self callApiToSaveCorrespondingPair];
+     [self callApiToSaveScanpoint];
  }
 }
 -(void)callApiToSaveScanpoint{
-    NSString *url=[NSString stringWithFormat:@"%@",baseUrl];
-    NSString *parameter;
-    NSUserDefaults *standardDefault=[NSUserDefaults standardUserDefaults];
-    NSString *languageCode= [standardDefault valueForKey:@"languageCode"];
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        parameter =[NSString stringWithFormat:@""];
+    NSString *url;
+    if ([_differForSaveData isEqualToString:@"scanpoint"]) {
+  url=[NSString stringWithFormat:@"%@%@/0",baseUrl,saveScanpoint];
+    }else{
+     url=[NSString stringWithFormat:@"%@%@/0",baseUrl,saveCorrespondingPair];
     }
-    else{
-        parameter =[NSString stringWithFormat:@""];
+    NSString *parameter;
+    NSUserDefaults *defaultvalue=[NSUserDefaults standardUserDefaults];
+    int userIdInteger=[[defaultvalue valueForKey:@"Id"]intValue];
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //Parameter for Vzone Api
+        parameter =[NSString stringWithFormat:@"{\"request\":{\"Name\":\"%@\",\"UserID\":%d,\"Status\":true,\"MethodType\":\"POST\"}}",_nameTF.text,userIdInteger];
+    }else{
+        //Parameter For Material Api
+        parameter =[NSString stringWithFormat:@" {\"Name\":\"%@\",\"UserID\":%d,\"Status\":true,\"MethodType\":\"POST\"}",_nameTF.text,userIdInteger];
     }
     [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
-    
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [MBProgressHUD hideAllHUDsForView:alphaView animated:NO];
-        [self processResponseObjectOfSaveScanpoint:responseObject];
+        [self processToAddGerms:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [MBProgressHUD hideAllHUDsForView:alphaView animated:NO];
         NSString *str=[NSString stringWithFormat:@"%@",error];
         [self showToastMessage:str];
     }];
 }
-//process object
--(void)processResponseObjectOfSaveScanpoint:(id)responseObject{
-    
+-(void)processToAddGerms:(id)responseObject{
     NSDictionary *dict;
-    
+    NSDictionary *dict1=responseObject;
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        //For Vzone API
-        NSDictionary *responseDict1 = responseObject;
-        dict  = responseDict1[@"aaData"];
+        dict =dict1[@"aaData"];
+    }else dict=responseObject;
+    if ([dict[@"Success"]intValue]==1) {
+         [self showToastMessage:dict[@"Message"]];
     }else{
-        //For Material API
-        dict=responseObject;
+        [self showToastMessage:dict[@"Message"]];
     }
-    
-    if ([dict[@"Success"] intValue]==1) {
-    
-}
-
-}
--(void)callApiToSaveCorrespondingPair{
-    
 }
 -(void)showToastMessage:(NSString*)msg{
         MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:alphaView animated:YES];
@@ -121,5 +117,4 @@
         hubHUD.removeFromSuperViewOnHide = YES;
         [hubHUD hide:YES afterDelay:2];
 }
-
 @end
