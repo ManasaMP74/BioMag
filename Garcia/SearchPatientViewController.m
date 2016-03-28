@@ -302,6 +302,7 @@
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         [userDefault setBool:NO forKey:@"user_FLAG"];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+             [self callApi:NO];
             if (staus) {
                 [containerVc hideAllMBprogressTillLoadThedata];
                 [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:NO];

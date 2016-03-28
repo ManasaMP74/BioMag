@@ -14,7 +14,7 @@
     NSMutableArray *germsArray,*selectedIndex,*selectedGerms;
     Constant *constant;
     Postman *postman;
-    NSString *alert,*alertOK,*symbolRequiredStr,*nameRequiredStr;
+    NSString *alert,*alertOK,*symbolRequiredStr,*nameRequiredStr,*bothDataRequired;
 }
 -(id)initWithFrame:(CGRect)frame
 {
@@ -73,8 +73,7 @@
     if (![_codeFullNameTF.text isEqualToString:@""] & ![_codeSymbolTF.text isEqualToString:@""]) {
         [self callApiToAddGerm];
     }else if ([_codeFullNameTF.text isEqualToString:@""] & [_codeSymbolTF.text isEqualToString:@""]) {
-        NSString *str=[NSString stringWithFormat:@"%@,%@",symbolRequiredStr,nameRequiredStr];
-        [self showToastMessage:str];
+        [self showToastMessage:bothDataRequired];
     }else if ([_codeFullNameTF.text isEqualToString:@""]){
      [self showToastMessage:nameRequiredStr];
     }else{
@@ -303,6 +302,7 @@
     _codesLabel.text=[MCLocalization stringForKey:@"Codes"];
    symbolRequiredStr= [MCLocalization stringForKey:@"Symbol is required"];
     nameRequiredStr= [MCLocalization stringForKey:@"Name is required"];
+    bothDataRequired=[MCLocalization stringForKey:@"Symbol and Name are required"];;
 }
 -(void)showToastMessage:(NSString*)msg{
     MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:alphaView animated:YES];

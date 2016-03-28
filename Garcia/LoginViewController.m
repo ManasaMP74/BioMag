@@ -35,7 +35,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(localize) name:MCLocalizationLanguageDidChangeNotification object:nil];
     userdefault =[NSUserDefaults standardUserDefaults];
     [self localize];
-    
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
@@ -204,13 +203,14 @@
                 model.addressDict=jsonDict1;
             }
             NSData *dataOnObject = [NSKeyedArchiver archivedDataWithRootObject:model];
-           [userdefault setValue:dataOnObject forKey:@"DoctorDetail"];
+           [userdefault setValue:dataOnObject forKey:@"DoctorDetail1"];
 
             NSString *languageCode=dict[@"PreferredLanguageCode"];
             if ([languageCode isEqualToString:@"(null)"]) {
               languageCode=@"en";
             }
             [userdefault setValue:languageCode forKey:@"languageCode"];
+            [userdefault setValue:languageCode forKey:@"changedLanguageCode"];
             [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
                 if (success) {
                     [self languageChanger];
@@ -241,20 +241,22 @@
 -(void)languageChanger{
     langchanger=[[LanguageChanger alloc]init];
     [langchanger callApiForPreferredLanguage];
+    if ([userdefault boolForKey:@"rememberMe"]) {
+        [userdefault setValue:_userNameTf.text forKey:@"userName"];
+        [userdefault setValue:_passwordTF.text forKey:@"password"];
+    }
+    BOOL status= [userdefault boolForKey:@"logout"];
+    if (!status) {
+        [langchanger readingLanguageFromDocument];
+        [userdefault setBool:NO forKey:@"logout"];
+    }
     langchanger.delegate=self;
 }
 -(void)languageChangeDelegate:(int)str{
     if (str==0) {
         [self showToastMessage:seedError];
     }else{
-       BOOL status= [userdefault boolForKey:@"logout"];
-        if (!status) {
-            [langchanger readingLanguageFromDocument];
-            [self performSegueWithIdentifier:@"loginSuccess" sender:nil];
-            [userdefault setBool:NO forKey:@"logout"];
-        }else{
-         [self performSegueWithIdentifier:@"loginSuccess" sender:nil];
-        }
+        [self performSegueWithIdentifier:@"loginSuccess" sender:nil];
     }
 }
 //validate login

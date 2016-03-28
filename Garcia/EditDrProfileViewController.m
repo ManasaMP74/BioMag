@@ -134,8 +134,14 @@
     NSString *str=[formatter stringFromDate:date];
     _dateOfBirthTF.text=str;
     _emailTF.text=model.email;
-    _yearOfExpTF.text=model.experience;
-    _certificateTextView.text=model.certificate;
+    if (model.experience.length>0) {
+        _yearOfExpTF.text=model.experience;
+    }else  _yearOfExpTF.text=@"";
+    if (model.certificate.length>0) {
+        _certificateTextView.text=model.certificate;
+    }else{
+        _certificateTextView.text=@"";
+    }
     _mobileNoTF.text=model.ContactNo;
     _genderTF.text=model.gendername;
     genderCode=model.genderCode;
@@ -406,7 +412,7 @@
         }
         NSUserDefaults *userdefault=[NSUserDefaults standardUserDefaults];
         NSData *dataOnObject = [NSKeyedArchiver archivedDataWithRootObject:model];
-        [userdefault setValue:dataOnObject forKey:@"DoctorDetail"];
+        [userdefault setValue:dataOnObject forKey:@"DoctorDetail1"];
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [self alertmsg:dict1[@"Message"]];
     }

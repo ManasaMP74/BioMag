@@ -45,8 +45,9 @@
 
             }
         }];
+    }else{
+      [userdefault setBool:NO forKey:@"logout"];
     }
-    
     return YES;
 }
 -(void)languageChanger{

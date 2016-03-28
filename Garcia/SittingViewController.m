@@ -1407,6 +1407,7 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
                     if (model.germsString.length==0) {
                         model.germsCodeString=anotomicalDict[@"GermsCode"];
                         model.germsString=anotomicalDict[@"GermsName"];
+                        model.notes=anotomicalDict[@"Notes"];
                         model.issue=YES;
                     }
                     [selectedSittingModelInallDoctorDetailArray addObject:model];
