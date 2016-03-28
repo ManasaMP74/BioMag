@@ -14,7 +14,7 @@
     NSMutableArray *germsArray,*selectedIndex,*selectedGerms;
     Constant *constant;
     Postman *postman;
-    NSString *alert,*alertOK;
+    NSString *alert,*alertOK,*symbolRequiredStr,*nameRequiredStr;
 }
 -(id)initWithFrame:(CGRect)frame
 {
@@ -69,8 +69,16 @@
     [alphaView removeFromSuperview];
 }
 - (IBAction)add:(id)sender {
+     [alphaView endEditing:YES];
     if (![_codeFullNameTF.text isEqualToString:@""] & ![_codeSymbolTF.text isEqualToString:@""]) {
         [self callApiToAddGerm];
+    }else if ([_codeFullNameTF.text isEqualToString:@""] & [_codeSymbolTF.text isEqualToString:@""]) {
+        NSString *str=[NSString stringWithFormat:@"%@,%@",symbolRequiredStr,nameRequiredStr];
+        [self showToastMessage:str];
+    }else if ([_codeFullNameTF.text isEqualToString:@""]){
+     [self showToastMessage:nameRequiredStr];
+    }else{
+    [self showToastMessage:symbolRequiredStr];
     }
 }
 - (IBAction)saveCode:(id)sender {
@@ -79,10 +87,16 @@
     [self.delegateForGerms germsData:selectedGerms];
 }
 - (IBAction)addNewGerm:(id)sender {
-    _codeFullNameTF.text=@"";
-    _codeSymbolTF.text=@"";
-    [self changeTheNewGermAppearence:NO withHeight:43];
-    [self heightOfView:166];
+     [alphaView endEditing:YES];
+    if (_germNewAddButton.hidden) {
+        _codeFullNameTF.text=@"";
+        _codeSymbolTF.text=@"";
+        [self changeTheNewGermAppearence:NO withHeight:43];
+        [self heightOfView:200];
+    }else{
+        [self changeTheNewGermAppearence:YES withHeight:0];
+        [self heightOfView:130];
+    }
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return germsArray.count;
@@ -218,7 +232,7 @@
             }
         }
     }
-    [self heightOfView:106];
+    [self heightOfView:130];
 }
 -(void)heightOfView:(CGFloat)height{
     CGRect frame=view.frame;
@@ -273,7 +287,7 @@
     if ([dict[@"Success"]intValue]==1) {
         [self callApiToGetGerms];
         [self changeTheNewGermAppearence:YES withHeight:0];
-        [self heightOfView:106];
+        [self heightOfView:130];
 
     }else{
         [self showToastMessage:dict[@"Message"]];
@@ -287,6 +301,8 @@
     _codeSymbolTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Symbol"]];
     _codeFullNameTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Name"]];
     _codesLabel.text=[MCLocalization stringForKey:@"Codes"];
+   symbolRequiredStr= [MCLocalization stringForKey:@"Symbol is required"];
+    nameRequiredStr= [MCLocalization stringForKey:@"Name is required"];
 }
 -(void)showToastMessage:(NSString*)msg{
     MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:alphaView animated:YES];

@@ -45,7 +45,7 @@
             cell.userInteractionEnabled=NO;
             label.textColor=[UIColor blackColor];
             NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
-            NSData *doctorDetail=[defaults valueForKey:@"DoctorDetail"];
+            NSData *doctorDetail=[defaults valueForKey:@"DoctorDetail1"];
             DrProfilModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:doctorDetail];
             NSString *strimageUrl;
             if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {

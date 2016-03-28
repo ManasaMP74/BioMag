@@ -124,7 +124,7 @@
 
 -(void)setDefault{
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
-    NSData *doctorDetail=[defaults valueForKey:@"DoctorDetail"];
+    NSData *doctorDetail=[defaults valueForKey:@"DoctorDetail1"];
     DrProfilModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:doctorDetail];
     _nameTF.text=model.name;
     NSArray *ar=[model.DOB componentsSeparatedByString:@"T"];
@@ -268,7 +268,7 @@
 
 -(void)callUpdateFunc{
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
-    NSData *doctorDetail=[defaults valueForKey:@"DoctorDetail"];
+    NSData *doctorDetail=[defaults valueForKey:@"DoctorDetail1"];
     DrProfilModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:doctorDetail];
     if (![_drImageView.image isEqual:[UIImage imageNamed:@"Doctor-Image"]]) {
         if (imageAlreadyUpdated==YES) {
@@ -282,7 +282,7 @@
 //Patient Update
 -(void)callApiForUpdate{
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
-    NSData *doctorDetail=[defaults valueForKey:@"DoctorDetail"];
+    NSData *doctorDetail=[defaults valueForKey:@"DoctorDetail1"];
     DrProfilModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:doctorDetail];
     postman =[[Postman alloc]init];
     NSMutableDictionary *address;

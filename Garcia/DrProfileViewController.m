@@ -61,7 +61,7 @@
 }
 -(void)setDefault{
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
-    NSData *doctorDetail=[defaults valueForKey:@"DoctorDetail"];
+    NSData *doctorDetail=[defaults valueForKey:@"DoctorDetail1"];
     DrProfilModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:doctorDetail];
     _nameValueLabel.text=model.name;
     NSArray *ar=[model.DOB componentsSeparatedByString:@"T"];
