@@ -214,8 +214,10 @@
     _takePic.hidden=status;
     _addSittingButton.hidden=status;
     _cancelMedical.hidden=status;
+    _medicalNoteLabel.text=medicalNote;
     _medicalNoteLabel.hidden=status;
     _diagnosisNoteLabel.hidden=status;
+    _diagnosisNoteLabel.text=diagnosisNote;
     _medicalHistoryTextView.hidden=status;
     _diagnosisTextView.hidden=status;
     if (status==NO) {

@@ -6,6 +6,7 @@
 #import "searchPatientModel.h"
 #import "SeedSyncer.h"
 #import <MCLocalization/MCLocalization.h>
+#import "PatientViewController.h"
 @interface SearchPatientViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *searchTextField;
 @property (weak, nonatomic) IBOutlet UILabel *addPatientLabel;
@@ -94,6 +95,7 @@
                     [[SeedSyncer sharedSyncer]getResponseFor:strforPaging completionHandler:^(BOOL success, id response) {
                         if (success) {
                             [self processResponseObjectforOffsetApi:response];
+                             [self callApi:NO];
                             [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
                         }
                         else{
@@ -206,7 +208,12 @@
             [containerVc passDataFromsearchPatientTableViewToPatient:patentnameArray[indexPath.row]];
             
         }
-        else [containerVc passDataFromsearchPatientTableViewToPatient:patentFilteredArray[indexPath.row]];
+        else
+        {
+            if (patentFilteredArray.count>0) {
+                  [containerVc passDataFromsearchPatientTableViewToPatient:patentFilteredArray[indexPath.row]];
+            }
+        }
     }
 }
 //Search
@@ -588,6 +595,8 @@
         [self callApi:YES];
     }else{
         if (patentnameArray.count>0)
+        _searchTextField.text=@"";
+        [_patientListTableView reloadData];
         [self tableView:_patientListTableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     }
 }
