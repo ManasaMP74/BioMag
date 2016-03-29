@@ -54,7 +54,7 @@
     NSString *languageCode=[userdefault valueForKey:@"languageCode"];
      if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
     NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,languageUILabel,languageCode];
-    NSString *parameter=[NSString stringWithFormat:@"{request:{}}"];
+         NSString *parameter=[NSString stringWithFormat:@"{\"\"}"];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
       [self responseofLanguageAPI:responseObject];
         [self.delegate languageChangeDelegate:1];

@@ -28,6 +28,7 @@
     NSDateFormatter *dateFormatter;
     int initialSelectedRow,MBProgressCountToHide;
     NSString *search,*addPatient;
+    BOOL completeApiCalled;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -47,7 +48,7 @@
     selectedIndexPath=nil;
     patentnameArray=[[NSMutableArray alloc]init];
     patentFilteredArray=[[NSMutableArray alloc]init];
-      dateFormatter=[[NSDateFormatter alloc]init];
+    dateFormatter=[[NSDateFormatter alloc]init];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -56,10 +57,13 @@
 {
     [super viewWillAppear:YES];
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-2.jpg"]]];
+    
+    self.hudContainerViewHeight.constant = 0;
     [constant setFontFortextField:_searchTextField];
     _patientListTableView.tableFooterView=[UIView new];
     if (patentnameArray.count==0) {
         MBProgressCountToHide=0;
+          completeApiCalled=NO;
         [self callSeed];
     }
 }
@@ -71,8 +75,8 @@
 //      //  API for material
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         if ([userDefault boolForKey:@"user_FLAG"]) {
+             [self callApi:NO];
             [self callApiforOffsetApi];
-            [self callApi:NO];
         }
         else{
             NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPatientList];
@@ -94,13 +98,13 @@
                 else{
                     [[SeedSyncer sharedSyncer]getResponseFor:strforPaging completionHandler:^(BOOL success, id response) {
                         if (success) {
+                              [self callApi:NO];
                             [self processResponseObjectforOffsetApi:response];
-                             [self callApi:NO];
                             [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
                         }
                         else{
+                             [self callApi:NO];
                             [self callApiforOffsetApi];
-                            [self callApi:NO];
                         }
                     }];
                 }
@@ -127,12 +131,28 @@
     searchPatientModel *model;
     if ([_searchTextField.text isEqualToString:@""]) {
         model = patentnameArray[indexPath.row];
+    
+        if (!completeApiCalled) {
+        if (indexPath.row == patentnameArray.count-1) {
+            self.hudContainerViewHeight.constant = 50;
+            self.activityIndicator.hidden = NO;
+        }
+        else
+        {
+            self.hudContainerViewHeight.constant = 0;
+            self.activityIndicator.hidden = YES;
+        }
+        } else
+        {
+            self.hudContainerViewHeight.constant = 0;
+            self.activityIndicator.hidden = YES;
+        }
     }
     else
     {
         model = patentFilteredArray[indexPath.row];
     }
-   
+    
 //        NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,model.profileImageCode];
 //    [cell.patientImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
 //    
@@ -216,6 +236,9 @@
         }
     }
 }
+
+
+
 //Search
 -(void)searchDoctorOnProfession
 {
@@ -419,12 +442,16 @@
             }
         }
     }
-     [self reloadData];
+//    UIRefreshControl *refresh=[[UIRefreshControl alloc]init];
+//    refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Please Wait..."];
+//    [_patientListTableView addSubview:refresh];
+// _hudContainerViewHeight.constant=50;
+      completeApiCalled=YES;
+        [self reloadData];
 }
 //CallAPI for 100 offset patient
 -(void)callApiforOffsetApi
 {
-    NSLog(@"%@",self.parentViewController);
     ContainerViewController *containerVc =(ContainerViewController*)self.parentViewController;
     NSString *parameter;
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPagingPatientList];
@@ -452,7 +479,7 @@
 }
 //Response for API 100 offset patient
 -(void)processResponseObjectforOffsetApi:(id)responseObject{
-    if (patentnameArray.count>41) {
+    if (patentnameArray.count<41) {
           [patentnameArray removeAllObjects];
     ContainerViewController *containerVc =(ContainerViewController*)self.parentViewController;
     [containerVc hideAllMBprogressTillLoadThedata];
@@ -556,6 +583,7 @@
                 }
             }
         }
+         completeApiCalled=NO;
         [self reloadData];
     }
 }

@@ -3,7 +3,7 @@
 @implementation Constant
 //textFieldPlaceHolder
 -(NSAttributedString*)textFieldPlaceHolderText:(NSString *)text{
-    if (text.length>0) {
+    if (text!=nil) {
     NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.333 green:0.329 blue:0.39 alpha:1], NSFontAttributeName :[self customFont:12 ofName:OpenSansRegular]}];
          return str;
     }
@@ -17,7 +17,7 @@
     
     
 //    NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.333 green:0.329 blue:0.39 alpha:1], NSFontAttributeName :[self customFont:15 ofName:OpenSansRegular]}];
-  if (text.length>0) {
+ if (text!=nil) {
      NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.7], NSFontAttributeName :[self customFont:15 ofName:OpenSansBold]}];
     //[UIColor colorWithRed:0.333 green:0.329 blue:0.39 alpha:1]
     return str;
@@ -29,7 +29,7 @@ else{
 }
 //textFieldPlaceHolder
 -(NSAttributedString*)textFieldPlaceLogin:(NSString *)text{
-      if (text.length>0) {
+     if (text!=nil) {
     NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.333 green:0.329 blue:0.39 alpha:1], NSFontAttributeName :[self customFont:18 ofName:OpenSansRegular]}];
     return str;
 }
@@ -40,7 +40,7 @@ else{
 }
 //textFieldPlaceHolder
 -(NSAttributedString*)textFieldPatient:(NSString *)text{
-      if (text.length>0) {
+     if (text!=nil) {
     NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.318 green:0.416 blue:0.463 alpha:0.3], NSFontAttributeName :[self customFont:16 ofName:OpenSansRegular]}];
     return str;
 }

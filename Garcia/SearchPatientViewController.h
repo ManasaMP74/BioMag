@@ -7,4 +7,6 @@
 -(void)againCallApiAfterAddPatient:(NSString *)code;
 -(void)againCallApiAfterEditPatient:(NSString *)code;
 -(void)reloadTableviewAfterAddNewTreatment;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *hudContainerViewHeight;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @end

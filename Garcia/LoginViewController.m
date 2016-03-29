@@ -241,21 +241,21 @@
 -(void)languageChanger{
     langchanger=[[LanguageChanger alloc]init];
     [langchanger callApiForPreferredLanguage];
-    if ([userdefault boolForKey:@"rememberMe"]) {
-        [userdefault setValue:_userNameTf.text forKey:@"userName"];
-        [userdefault setValue:_passwordTF.text forKey:@"password"];
-    }
-    BOOL status= [userdefault boolForKey:@"logout"];
-    if (!status) {
-        [langchanger readingLanguageFromDocument];
-        [userdefault setBool:NO forKey:@"logout"];
-    }
     langchanger.delegate=self;
 }
 -(void)languageChangeDelegate:(int)str{
     if (str==0) {
         [self showToastMessage:seedError];
     }else{
+        if ([userdefault boolForKey:@"rememberMe"]) {
+            [userdefault setValue:_userNameTf.text forKey:@"userName"];
+            [userdefault setValue:_passwordTF.text forKey:@"password"];
+        }
+        BOOL status= [userdefault boolForKey:@"logout"];
+        if (!status) {
+            [langchanger readingLanguageFromDocument];
+            [userdefault setBool:NO forKey:@"logout"];
+        }
         [self performSegueWithIdentifier:@"loginSuccess" sender:nil];
     }
 }
