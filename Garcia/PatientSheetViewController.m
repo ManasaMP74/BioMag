@@ -141,6 +141,7 @@
     diagnosisTableListArray=[[NSMutableArray alloc]init];
     app=[UIApplication sharedApplication].delegate;
     app.symptomTagArray=[[NSMutableArray alloc]init];
+     [_treatmentNameTF addTarget:self action:@selector(changeTheTitle) forControlEvents:UIControlEventEditingChanged];
     [self callSeedForGerms];
     if (_patientTitleModel.title!=nil) {
         _treatmentNameTF.text=_patientTitleModel.title;
@@ -1133,7 +1134,11 @@
     activeField=textView;
     return YES;
 }
-
+-(void)changeTheTitle{
+    if (![_treatmentNameTF.text isEqualToString:_patientDetailModel.title]) {
+        changesDoneOrNot=YES;
+    }else changesDoneOrNot=NO;
+}
 -(void)textViewDidEndEditing:(UITextView *)textView{
     activeField=nil;
 }
