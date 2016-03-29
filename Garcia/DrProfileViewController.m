@@ -70,7 +70,7 @@
     [formatter setDateFormat:@"dd-MMM-yyyy"];
     NSString *str=[formatter stringFromDate:date];
     _dobValueLabel.text=str;
-    if (model.experience.length>0) {
+    if (model.experience!=NULL) {
          _yearOfExpValueLabel.text=model.experience;
     }else  _yearOfExpValueLabel.text=@"";
     _emailValueLabel.text=model.email;
@@ -78,7 +78,7 @@
     _certificateValueLabel.text=model.certificate;
     }else  _certificateValueLabel.text=@"";
     _mobileValueLabel.text=model.ContactNo;
-    if (model.storageId.length==0) {
+    if ([model.storageId isKindOfClass:[NSNull class]]) {
         _doctorImage.image=[UIImage imageNamed:@"Doctor-Image"];
     }else{
         

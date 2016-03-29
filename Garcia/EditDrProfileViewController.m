@@ -49,12 +49,12 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-      [self localize];
     formatter=[[NSDateFormatter alloc]init];
     constant=[[Constant alloc]init];
     genderArray=[[NSMutableArray alloc]init];
     _gendertableview.hidden=YES;
     imageManager=[[ImageUploadAPI alloc]init];
+      [self localize];
     [self textFieldLayer];
     [self setFont];
     [self textFieldLayer];
@@ -145,7 +145,7 @@
     _mobileNoTF.text=model.ContactNo;
     _genderTF.text=model.gendername;
     genderCode=model.genderCode;
-    if (model.storageId==nil) {
+    if ([model.storageId isKindOfClass:[NSNull class]]) {
         _drImageView.image=[UIImage imageNamed:@"Doctor-Image"];
         imageAlreadyUpdated=NO;
     }else{
