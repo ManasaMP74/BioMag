@@ -311,13 +311,13 @@
 }
 
 //pass data from one viewController to another
--(void)passDataFromsearchPatientTableViewToPatient:(searchPatientModel*)model{
+-(void)passDataFromsearchPatientTableViewToPatient:(searchPatientModel*)model withPatientDataIsThereOrNot:(BOOL)status{
     if ([_viewControllerDiffer isEqualToString:@""]) {
         UINavigationController * nav=[self.childViewControllers lastObject];
         PatientViewController *patientVc=nav.viewControllers[0];
         [nav popToViewController:patientVc animated:YES];
         patientVc.model =model;
-        [patientVc setDefaultValues];
+        [patientVc setDefaultValues:status];
     }
 }
 //Change the UiviewController

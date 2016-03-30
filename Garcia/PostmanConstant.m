@@ -52,33 +52,34 @@ NSString *const languageCode=@"en";
 
 
 //Vzone testing
-//NSString *const baseUrlAws =@"https://s3-ap-northeast-1.amazonaws.com/";
-//NSString *const dbName =@"biomag-tst.images.original/";
-//NSString *const dbNameforResized =@"biomag-tst.images.resized/";
-//NSString *const baseUrl=@"http://prithiviraj.vmokshagroup.com:8089/";
-//NSString *const postmanCompanyCode=@"A0I7LV";
-//NSString *const aboutUs=@"search/configuration";
-//NSString *const FAQurl=@"configurationview/AOO6FQ";
-//NSString *const termsAndCondition=@"configurationview/MWUFJM";
-//NSString *const privecyAndPolicy=@"configurationview/4XOSBX";
+NSString *const baseUrlAws =@"https://s3-ap-northeast-1.amazonaws.com/";
+NSString *const dbName =@"biomag-tst.images.original/";
+NSString *const dbNameforResized =@"biomag-tst.images.resized/";
+NSString *const baseUrl=@"http://prithiviraj.vmokshagroup.com:8089/";
+NSString *const postmanCompanyCode=@"A0I7LV";
+NSString *const aboutUs=@"search/configuration";
+NSString *const FAQurl=@"configurationview/AOO6FQ";
+NSString *const termsAndCondition=@"configurationview/MWUFJM";
+NSString *const privecyAndPolicy=@"configurationview/4XOSBX";
 
 
  
 //Vzone Production API
 
-NSString *const baseUrl=@"http://biomagnetictherapy.us-west-2.elasticbeanstalk.com/";
-NSString *const postmanCompanyCode=@"VM001";
-NSString *const dbNameforResized =@"biomag.images.resized/";
-NSString *const dbName =@"biomag.images.original/";
-NSString *const baseUrlAws =@"https://s3-us-west-2.amazonaws.com/";
-NSString *const aboutUs=@"search/configuration";
-NSString *const FAQurl=@"onfigurationview/AOO6FQ";
-NSString *const termsAndCondition=@"configurationview/MWUFJM";
-NSString *const privecyAndPolicy=@"configurationview/4XOSBX";
+//NSString *const baseUrl=@"http://biomagnetictherapy.us-west-2.elasticbeanstalk.com/";
+//NSString *const postmanCompanyCode=@"VM001";
+//NSString *const dbNameforResized =@"biomag.images.resized/";
+//NSString *const dbName =@"biomag.images.original/";
+//NSString *const baseUrlAws =@"https://s3-us-west-2.amazonaws.com/";
+//NSString *const aboutUs=@"search/configuration";
+//NSString *const FAQurl=@"onfigurationview/AOO6FQ";
+//NSString *const termsAndCondition=@"configurationview/MWUFJM";
+//NSString *const privecyAndPolicy=@"configurationview/4XOSBX";
 
 
 
 //For Vzone API
+NSString *const searchApi=@"search/patient/";
 NSString *const getProfile=@"LoadThumbnailImage/";
 NSString *const uploadFile=@"aws/upload";
 NSString *const expandProfileImage=@"LoadFile/";

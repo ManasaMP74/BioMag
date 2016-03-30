@@ -45,6 +45,9 @@ FOUNDATION_EXPORT NSString *const criticalTreatmentInfoUrl;
 FOUNDATION_EXPORT NSString *const searchSaredCriticalInfo;
 FOUNDATION_EXPORT NSString *const saveScanpoint;
 FOUNDATION_EXPORT NSString *const saveCorrespondingPair;
+FOUNDATION_EXPORT NSString *const searchApi;
+
+
 
 FOUNDATION_EXPORT NSString *const DifferMetirialOrVzoneApi;
 

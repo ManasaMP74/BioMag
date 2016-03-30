@@ -70,19 +70,32 @@
     [_tableview reloadData];
 }
 //set the DefaultValues For Label
--(void)setDefaultValues{
+-(void)setDefaultValues:(BOOL)status{
     UINavigationController *nav=(UINavigationController*)self.parentViewController;
     containerVC=(ContainerViewController*)nav.parentViewController;
-      postman=[[Postman alloc]init];
+    postman=[[Postman alloc]init];
     [containerVC setTitle:navTitle];
     containerVC.delegate=self;
-    if (_model.surgeries!=nil) {
-        _surgeriesLabel.text=_model.surgeries;
-    }else _surgeriesLabel.text=@"";
-    if (_model.tranfusion!=nil) {
-        _transfusinTF.text=_model.tranfusion;
-    }else _surgeriesLabel.text=@"";
-    [self callApiTogetAllDetailOfTheTreatment];
+    if(status){
+        if (_model.surgeries!=nil) {
+            _surgeriesLabel.text=_model.surgeries;
+        }else _surgeriesLabel.text=@"";
+        if (_model.tranfusion!=nil) {
+            _transfusinTF.text=_model.tranfusion;
+        }else _surgeriesLabel.text=@"";
+        [self callApiTogetAllDetailOfTheTreatment];
+    }else{
+        _patientNameTF.text=@"   ";
+        _ageValueLabel.text=@"";
+        _dobValueLabel.text=@"";
+        _mobileValueLabel.text=@"";
+        _surgeriesLabel.text=@"";
+        _transfusinTF.text=@"";
+        _genderValueLabel.text=@"";
+        _emailValueLabel.text=@"";
+        [treatmentListArray removeAllObjects];
+        [_tableview reloadData];
+    }
 }
 //setfont for label
 -(void)setFont{
@@ -115,15 +128,15 @@
     label.font=[UIFont fontWithName:@"OpenSans-Semibold" size:14];
     tableView.tableFooterView=[UIView new];
     if ([model.IsTreatmentCompleted intValue]==0) {
-       // cell.backgroundColor=[UIColor colorWithRed:0.4471 green:0.8157 blue:0.9725 alpha:1];
+        // cell.backgroundColor=[UIColor colorWithRed:0.4471 green:0.8157 blue:0.9725 alpha:1];
         cell.backgroundColor=[UIColor whiteColor];
     }else{
-       //cell.backgroundColor=[UIColor colorWithRed:0.627 green:0.89 blue:1 alpha:1];
-       cell.backgroundColor=[UIColor colorWithRed:0.933 green:0.933 blue:0.941 alpha:1];
+        //cell.backgroundColor=[UIColor colorWithRed:0.627 green:0.89 blue:1 alpha:1];
+        cell.backgroundColor=[UIColor colorWithRed:0.933 green:0.933 blue:0.941 alpha:1];
     }
-//    cell.separatorInset=UIEdgeInsetsZero;
-//    cell.layoutMargins=UIEdgeInsetsZero;
-     return cell;
+    //    cell.separatorInset=UIEdgeInsetsZero;
+    //    cell.layoutMargins=UIEdgeInsetsZero;
+    return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     PatientTitleModel *model=treatmentListArray[indexPath.row];
@@ -139,7 +152,7 @@
     PatientTitleModel *model=treatmentListArray[indexPath.row];
     containerVC.model=_model;
     [containerVC pushTreatmentViewController:model];
-   }
+}
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"edit"]) {
         EditPatientViewController *edit=segue.destinationViewController;
@@ -183,7 +196,7 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [containerVC hideAllMBprogressTillLoadThedata];
         [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
-        }];
+    }];
 }
 //process Response of Api
 -(void)processResponseObjectToGetTreatmentDetail:(id)responseObject{
@@ -216,38 +229,38 @@
     
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         NSDictionary *responseDict1 = responseObject;
-       dict=responseDict1[@"aaData"];
+        dict=responseDict1[@"aaData"];
     }else  dict=responseObject;
     
     NSMutableArray *treatmentArray=[[NSMutableArray alloc]init];
-       if ([dict[@"Success"] intValue]==1) {
+    if ([dict[@"Success"] intValue]==1) {
         for (NSDictionary *dict1 in dict[@"ViewModels"]) {
             if ((dict1[@"DoctorId"]!=[NSNull null]) & (dict1[@"PatientId"]!=[NSNull null])) {
-            if (([dict1[@"DoctorId"]intValue]==[docID intValue]) & ([dict1[@"PatientId"]intValue]==[_model.Id intValue])) {
-                if ([dict1[@"Status"]intValue]==1) {
-                    [treatmentArray addObject:dict1];
+                if (([dict1[@"DoctorId"]intValue]==[docID intValue]) & ([dict1[@"PatientId"]intValue]==[_model.Id intValue])) {
+                    if ([dict1[@"Status"]intValue]==1) {
+                        [treatmentArray addObject:dict1];
+                    }
                 }
             }
-          }
         }
-           if (treatmentArray.count>0) {
-           NSSortDescriptor *descriptor=[[NSSortDescriptor alloc]initWithKey:@"IsTreatmentCompleted" ascending:YES];
-           NSArray *ar=[treatmentArray sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
-           for (NSDictionary *dict1 in ar) {
-               PatientTitleModel *model=[[PatientTitleModel alloc]init];
-               model.idValue=dict1[@"ID"];
-               model.code=dict1[@"Code"];
-               model.title=dict1[@"Title"];
-               model.IsTreatmentCompleted=dict1[@"IsTreatmentCompleted"];
-               [treatmentListArray addObject:model];
-           }
-           }
+        if (treatmentArray.count>0) {
+            NSSortDescriptor *descriptor=[[NSSortDescriptor alloc]initWithKey:@"IsTreatmentCompleted" ascending:YES];
+            NSArray *ar=[treatmentArray sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
+            for (NSDictionary *dict1 in ar) {
+                PatientTitleModel *model=[[PatientTitleModel alloc]init];
+                model.idValue=dict1[@"ID"];
+                model.code=dict1[@"Code"];
+                model.title=dict1[@"Title"];
+                model.IsTreatmentCompleted=dict1[@"IsTreatmentCompleted"];
+                [treatmentListArray addObject:model];
+            }
+        }
         [_tableview reloadData];
         [_scrollView layoutIfNeeded];
         _tableViewHeight.constant=self.tableview.contentSize.height;
-       }else {
-       [self showToastMessage:dict[@"Message"]];
-       }
+    }else {
+        [self showToastMessage:dict[@"Message"]];
+    }
 }
 //Alert Message
 -(void)showAlerView:(NSString*)msg{
@@ -273,13 +286,13 @@
     alertTitle=[MCLocalization stringForKey:@"Alert!"];
     alertOK=[MCLocalization stringForKey:@"AlertOK"];
     _genderLabel.text=[MCLocalization stringForKey:@"GenderLabel"];
-     _dobLabel.text=[MCLocalization stringForKey:@"DateOfBirthLabel"];
-     _ageLabel.text=[MCLocalization stringForKey:@"AgeLabel"];
-     _mobileLabel.text=[MCLocalization stringForKey:@"MobileLabel"];
-     _martiralStatus.text=[MCLocalization stringForKey:@"TransfusionLabel"];
-     _emailLabel.text=[MCLocalization stringForKey:@"EmailLabel"];
-     _addressLabel.text=[MCLocalization stringForKey:@"SurgeriesLabel"];
-     _treatmentLabel.text=[MCLocalization stringForKey:@"TreatmentsHeading"];
+    _dobLabel.text=[MCLocalization stringForKey:@"DateOfBirthLabel"];
+    _ageLabel.text=[MCLocalization stringForKey:@"AgeLabel"];
+    _mobileLabel.text=[MCLocalization stringForKey:@"MobileLabel"];
+    _martiralStatus.text=[MCLocalization stringForKey:@"TransfusionLabel"];
+    _emailLabel.text=[MCLocalization stringForKey:@"EmailLabel"];
+    _addressLabel.text=[MCLocalization stringForKey:@"SurgeriesLabel"];
+    _treatmentLabel.text=[MCLocalization stringForKey:@"TreatmentsHeading"];
     [_addTreatmentButton setTitle:[MCLocalization stringForKey:@"AddTreatmentHeading"] forState:normal];
     navTitle=[MCLocalization stringForKey:@"Patients"];
     [_edit setTitle:[MCLocalization stringForKey:@"Edit"] forState:normal];

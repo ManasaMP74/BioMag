@@ -27,8 +27,8 @@
     Postman *postman;
     NSDateFormatter *dateFormatter;
     int initialSelectedRow,MBProgressCountToHide;
-    NSString *search,*addPatient;
-    BOOL completeApiCalled;
+    NSString *search,*addPatient,*dataisFetching;
+    BOOL completeApiCalled, alreadyOneDataIsSearching;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -63,54 +63,54 @@
     _patientListTableView.tableFooterView=[UIView new];
     if (patentnameArray.count==0) {
         MBProgressCountToHide=0;
-          completeApiCalled=NO;
+        completeApiCalled=NO;
         [self callSeed];
     }
 }
 -(void)callSeed{
-//    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-//        //Api For Vzone
-//        [self callApi];
-//    }else{
-//      //  API for material
-            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-        if ([userDefault boolForKey:@"user_FLAG"]) {
-             [self callApi:NO];
-            [self callApiforOffsetApi];
-        }
-        else{
-            NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPatientList];
-           NSString *parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
-           NSString *strforComplete=[NSString stringWithFormat:@"%@ %@",url,parameter];
-
-            
-            NSString *urlForPaging=[NSString stringWithFormat:@"%@%@",baseUrl,getPagingPatientList];
-           NSString * parameterPaging=[NSString stringWithFormat:@"{\"request\":{\"Start\": 0,\"End\":40}}"];
-            NSString *strforPaging=[NSString stringWithFormat:@"%@ %@",urlForPaging,parameterPaging];
-
-                
-            //for complete User Data APi
-            [[SeedSyncer sharedSyncer]getResponseFor:strforComplete completionHandler:^(BOOL success, id response) {
-                if (success) {
-                    [self processResponseObject:response];
-                     [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
-                }
-                else{
-                    [[SeedSyncer sharedSyncer]getResponseFor:strforPaging completionHandler:^(BOOL success, id response) {
-                        if (success) {
-                              [self callApi:NO];
-                            [self processResponseObjectforOffsetApi:response];
-                            [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
-                        }
-                        else{
-                             [self callApi:NO];
-                            [self callApiforOffsetApi];
-                        }
-                    }];
-                }
-            }];
-        }
-   // }
+    //    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+    //        //Api For Vzone
+    //        [self callApi];
+    //    }else{
+    //      //  API for material
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"user_FLAG"]) {
+        [self callApi:NO];
+        [self callApiforOffsetApi];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPatientList];
+        NSString *parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
+        NSString *strforComplete=[NSString stringWithFormat:@"%@ %@",url,parameter];
+        
+        
+        NSString *urlForPaging=[NSString stringWithFormat:@"%@%@",baseUrl,getPagingPatientList];
+        NSString * parameterPaging=[NSString stringWithFormat:@"{\"request\":{\"Start\": 0,\"End\":40}}"];
+        NSString *strforPaging=[NSString stringWithFormat:@"%@ %@",urlForPaging,parameterPaging];
+        
+        
+        //for complete User Data APi
+        [[SeedSyncer sharedSyncer]getResponseFor:strforComplete completionHandler:^(BOOL success, id response) {
+            if (success) {
+                [self processResponseObject:response];
+                [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
+            }
+            else{
+                [[SeedSyncer sharedSyncer]getResponseFor:strforPaging completionHandler:^(BOOL success, id response) {
+                    if (success) {
+                        [self callApi:NO];
+                        [self processResponseObjectforOffsetApi:response];
+                        [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
+                    }
+                    else{
+                        [self callApi:NO];
+                        [self callApiforOffsetApi];
+                    }
+                }];
+            }
+        }];
+    }
+    // }
 }
 //TableView Number of section
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -131,17 +131,17 @@
     searchPatientModel *model;
     if ([_searchTextField.text isEqualToString:@""]) {
         model = patentnameArray[indexPath.row];
-    
+        
         if (!completeApiCalled) {
-        if (indexPath.row == patentnameArray.count-1) {
-            self.hudContainerViewHeight.constant = 50;
-            self.activityIndicator.hidden = NO;
-        }
-        else
-        {
-            self.hudContainerViewHeight.constant = 0;
-            self.activityIndicator.hidden = YES;
-        }
+            if (indexPath.row == patentnameArray.count-1) {
+                self.hudContainerViewHeight.constant = 50;
+                self.activityIndicator.hidden = NO;
+            }
+            else
+            {
+                self.hudContainerViewHeight.constant = 0;
+                self.activityIndicator.hidden = YES;
+            }
         } else
         {
             self.hudContainerViewHeight.constant = 0;
@@ -153,9 +153,9 @@
         model = patentFilteredArray[indexPath.row];
     }
     
-//        NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,model.profileImageCode];
-//    [cell.patientImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
-//    
+    //        NSString *str=[NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,model.profileImageCode];
+    //    [cell.patientImageView setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
+    //
     
     
     NSString *strimageUrl;
@@ -167,7 +167,7 @@
         strimageUrl = [NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,model.profileImageCode];
         
     }
-
+    
     [cell.patientImageView setImageWithURL:[NSURL URLWithString:strimageUrl] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
     
     
@@ -198,7 +198,7 @@
 }
 //cell select
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-      ContainerViewController *containerVc =(ContainerViewController*)self.parentViewController;
+    ContainerViewController *containerVc =(ContainerViewController*)self.parentViewController;
     SearchPatientTableViewCell *cell;
     if (selectedIndexPath) {
         cell=(SearchPatientTableViewCell*)[tableView cellForRowAtIndexPath:selectedIndexPath];
@@ -225,51 +225,183 @@
         cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow-3"]];
         containerVc.viewControllerDiffer=@"";
         if ([_searchTextField.text isEqual:@""]) {
-            [containerVc passDataFromsearchPatientTableViewToPatient:patentnameArray[indexPath.row]];
+            [containerVc passDataFromsearchPatientTableViewToPatient:patentnameArray[indexPath.row] withPatientDataIsThereOrNot:YES];
             
         }
         else
         {
             if (patentFilteredArray.count>0) {
-                  [containerVc passDataFromsearchPatientTableViewToPatient:patentFilteredArray[indexPath.row]];
+                [containerVc passDataFromsearchPatientTableViewToPatient:patentFilteredArray[indexPath.row] withPatientDataIsThereOrNot:YES];
             }
         }
     }
 }
-
-
 
 //Search
 -(void)searchDoctorOnProfession
 {
     if (![_searchTextField.text isEqual:@""]) {
         [patentFilteredArray removeAllObjects];
-        NSMutableArray *ar=[[NSMutableArray alloc]init];
-        NSPredicate *predicate=[NSPredicate predicateWithFormat:@"self CONTAINS[cd]%@",_searchTextField.text];
-        for (searchPatientModel *model in patentnameArray) {
-            [ar addObject:model.name];
-        }
-        NSArray *array= [ar filteredArrayUsingPredicate:predicate];
-        for (searchPatientModel *model in patentnameArray) {
-            if ([array containsObject:model.name]) {
-                [patentFilteredArray addObject:model];
-            }
-        }
-        [_patientListTableView reloadData];
-        if ([selectedPatientCode isEqualToString:@""]) {
-            if (patentFilteredArray.count>0) {
-                NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
-                [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
-            }
+        if (completeApiCalled) {
+            [MBProgressHUD hideHUDForView:_patientListTableView animated:NO];
+            [self searchDataBasedOnSearchTextFieldContent];
         }else{
-            [_patientListTableView reloadData];
+            alreadyOneDataIsSearching=YES;
+            if (alreadyOneDataIsSearching) {
+            [MBProgressHUD showHUDAddedTo:_patientListTableView animated:NO];
+            NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,searchApi];
+            NSString *parameter=[NSString stringWithFormat:@"{\"request\":{\"Name\":\"%@\",\"GenericSearchViewModel\":{\"Name\":\"%@\"}}}",_searchTextField.text,_searchTextField.text];
+            [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                [self processResponseObjectforSearchApi:responseObject];
+                [MBProgressHUD hideHUDForView:_patientListTableView animated:NO];
+                 alreadyOneDataIsSearching=NO;
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                [MBProgressHUD hideHUDForView:_patientListTableView animated:NO];
+                [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
+                 alreadyOneDataIsSearching=NO;
+            }];
+            }else [self showToastMessage:dataisFetching];
+            
+        }
+    }else{
+        [MBProgressHUD hideHUDForView:_patientListTableView animated:YES];
+        [_patientListTableView reloadData];
+    }
+}
+-(void)searchDataBasedOnSearchTextFieldContent{
+    NSMutableArray *ar=[[NSMutableArray alloc]init];
+    NSPredicate *predicate=[NSPredicate predicateWithFormat:@"self CONTAINS[cd]%@",_searchTextField.text];
+    for (searchPatientModel *model in patentnameArray) {
+        [ar addObject:model.name];
+    }
+    NSArray *array= [ar filteredArrayUsingPredicate:predicate];
+    for (searchPatientModel *model in patentnameArray) {
+        if ([array containsObject:model.name]) {
+            [patentFilteredArray addObject:model];
+        }
+    }
+    [_patientListTableView reloadData];
+    if(patentFilteredArray.count==0) selectedPatientCode=@"";
+    if ([selectedPatientCode isEqualToString:@""]) {
+        if (patentFilteredArray.count>0) {
             NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
-            if (patentFilteredArray.count>0) {
-                [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
-            }
+            [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
+        }else{
+            ContainerViewController *containerVc =(ContainerViewController*)self.parentViewController;
+            searchPatientModel *model=[[searchPatientModel alloc]init];
+            [containerVc passDataFromsearchPatientTableViewToPatient:model withPatientDataIsThereOrNot:NO];
+        
         }
     }else{
         [_patientListTableView reloadData];
+        NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
+        if (patentFilteredArray.count>0) {
+            [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
+        }
+    }
+}
+//Response for API 100 offset patient
+-(void)processResponseObjectforSearchApi:(id)responseObject{
+    if (completeApiCalled) {
+        NSDictionary *dict1;
+        if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+            NSDictionary *responseDict1 = responseObject;
+            dict1=responseDict1[@"aaData"];
+        }
+        else dict1=responseObject;
+        for (NSDictionary *dict in dict1[@"GenericSearchViewModels"]) {
+            if ([dict[@"Status"]intValue]==1) {
+                searchPatientModel *model=[[searchPatientModel alloc]init];
+                if (![dict[@"Lastname"] isEqualToString:@""]) {
+                    model.name=[NSString stringWithFormat:@"%@ %@",dict[@"Firstname"],dict[@"Lastname"]];
+                }else
+                    model.name=[NSString stringWithFormat:@"%@",dict[@"Firstname"]];
+                model.Id=dict[@"Id"];
+                model.userID=dict[@"Id"];
+                model.memo=dict[@"Memo"];
+                model.companyCode=dict[@"CompanyCode"];
+                model.password=dict[@"Password"];
+                model.userTypeCode=dict[@"UserTypeCode"];
+                model.roleCode=dict[@"RoleCode"];
+                NSArray *dob=[dict[@"DOb"] componentsSeparatedByString:@"T"];
+                [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+                NSDate *dobDate=[dateFormatter dateFromString:dob[0]];
+                [dateFormatter setDateFormat:@"dd-MMM-yyyy"];
+                model.dob=[dateFormatter stringFromDate:dobDate];
+                model.code=dict[@"Code"];
+                model.emailId=dict[@"Email"];
+                NSString *addressJson=dict[@"Address"];
+                if (![addressJson isKindOfClass:[NSNull class]]) {
+                    NSData *jsonData = [addressJson dataUsingEncoding:NSUTF8StringEncoding];
+                    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:nil];
+                    NSDictionary *d=jsonDict[@"TemporaryAddress"];
+                    NSString *address=d[@"AddressLine1"];
+                    model.addressLine1=address;
+                    model.country=d[@"Country"];
+                    model.city=d[@"City"];
+                    model.state=d[@"State"];
+                    model.pinCode=d[@"Postal"];
+                    model.addressline2=d[@"AddressLine2"];
+                    if (![d[@"City"] isEqualToString:@""]) {
+                        address = [address stringByAppendingFormat:@", %@",d[@"City"]];
+                    }
+                    if (![dict[@"StateName"] isEqualToString:@""]) {
+                        address = [address stringByAppendingFormat:@", %@",dict[@"StateName"]];
+                    }
+                    if (![dict[@"Country"] isKindOfClass:[NSNull class]]) {
+                        address = [address stringByAppendingFormat:@", %@",d[@"Country"]];
+                    }
+                    if (![d[@"Postal"] isEqualToString:@""]) {
+                        address = [address stringByAppendingFormat:@", %@",d[@"Postal"]];
+                    }
+                    model.address=address;
+                }
+                if (![dict[@"DocumentCode"] isKindOfClass:[NSNull class]]) {
+                    model.documentCode=dict[@"DocumentCode"];
+                }
+                if (![dict[@"DocumentTypeCode"] isKindOfClass:[NSNull class]]) {
+                    model.documentTypeCode=dict[@"DocumentTypeCode"];
+                }
+                if (![dict[@"Gender"] isKindOfClass:[NSNull class]]) {
+                    model.gender=dict[@"Gender"];
+                }
+                if (![dict[@"MaritalStatus"] isKindOfClass:[NSNull class]]) {
+                    model.maritialStatus=dict[@"MaritalStatus"];
+                }
+                if (![dict[@"StorageID"] isKindOfClass:[NSNull class]]) {
+                    model.storageID=dict[@"StorageID"];
+                }
+                NSArray *documentTypeArray=[model.documentTypeCode componentsSeparatedByString:@"|"];
+                NSArray *documentCodeArray=[model.documentCode componentsSeparatedByString:@"^$|"];
+                for (int i=0; i<documentTypeArray.count; i++) {
+                    if ([documentTypeArray[i] isEqual:@"ABC123"]) {
+                        model.profileImageCode=documentCodeArray[i];
+                    }
+                }
+                NSString *Json=dict[@"JSON"];
+                if (![Json isKindOfClass:[NSNull class]]) {
+                    NSData *jsonData1 = [Json dataUsingEncoding:NSUTF8StringEncoding];
+                    NSDictionary *jsonDict1 = [NSJSONSerialization JSONObjectWithData:jsonData1 options:kNilOptions error:nil];
+                    model.jsonDict=jsonDict1;
+                    model.genderCode=jsonDict1[@"Gender"];
+                    model.martialCode=jsonDict1[@"MaritalStatus"];
+                    model.mobileNo=jsonDict1[@"ContactNo"];
+                    model.surgeries=jsonDict1[@"Surgeries"];
+                    model.tranfusion=jsonDict1[@"Transfusion"];
+                    NSDate *date = [dateFormatter dateFromString:model.dob];
+                    NSDateComponents *agecomponent=[[NSCalendar currentCalendar]components:NSCalendarUnitYear fromDate:date toDate:[NSDate date] options:0];
+                    model.age=[NSString stringWithFormat:@"%ld",(long)[agecomponent year]];
+                }
+                [patentFilteredArray addObject:model];
+                [_patientListTableView reloadData];
+                NSIndexPath* selectedCellIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
+                if (patentFilteredArray.count>0) {
+                    [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
+                }
+            }
+        }
+    }else {
+        [self searchDataBasedOnSearchTextFieldContent];
     }
 }
 
@@ -301,14 +433,14 @@
 //CallAPI for complete patient
 -(void)callApi:(BOOL)staus
 {
-      ContainerViewController *containerVc =(ContainerViewController*)self.parentViewController;
+    ContainerViewController *containerVc =(ContainerViewController*)self.parentViewController;
     NSString *parameter;
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPatientList];
-
+    
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-   parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
+        parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
     }else{
-     parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
+        parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
     }
     if (staus) {
         [containerVc showMBprogressTillLoadThedata];
@@ -324,14 +456,14 @@
         [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:str];
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         [userDefault setBool:NO forKey:@"user_FLAG"];
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-             [self callApi:NO];
-            if (staus) {
-                [containerVc hideAllMBprogressTillLoadThedata];
-                [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:NO];
-            }
-         [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
-
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self callApi:NO];
+        if (staus) {
+            [containerVc hideAllMBprogressTillLoadThedata];
+            [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:NO];
+        }
+        [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
+        
     }];
 }
 
@@ -351,103 +483,103 @@
         [patentnameArray removeAllObjects];
         for (NSDictionary *dict in dict1[@"ViewModels"]) {
             if ([dict[@"Status"]intValue]==1) {
-            searchPatientModel *model=[[searchPatientModel alloc]init];
-            if (![dict[@"Lastname"] isEqualToString:@""]) {
-                model.name=[NSString stringWithFormat:@"%@ %@",dict[@"Firstname"],dict[@"Lastname"]];
-            }else
-                model.name=[NSString stringWithFormat:@"%@",dict[@"Firstname"]];
-            model.Id=dict[@"Id"];
-            model.userID=dict[@"Id"];
-            model.memo=dict[@"Memo"];
-            model.companyCode=dict[@"CompanyCode"];
-            model.password=dict[@"Password"];
-            model.userTypeCode=dict[@"UserTypeCode"];
-            model.roleCode=dict[@"RoleCode"];
-            NSArray *dob=[dict[@"DOb"] componentsSeparatedByString:@"T"];
-            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-            NSDate *dobDate=[dateFormatter dateFromString:dob[0]];
-            [dateFormatter setDateFormat:@"dd-MMM-yyyy"];
-            model.dob=[dateFormatter stringFromDate:dobDate];
-            model.code=dict[@"Code"];
-            model.emailId=dict[@"Email"];
-            NSString *addressJson=dict[@"Address"];
-            if (![addressJson isKindOfClass:[NSNull class]]) {
-                NSData *jsonData = [addressJson dataUsingEncoding:NSUTF8StringEncoding];
-                NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:nil];
-                NSDictionary *d=jsonDict[@"TemporaryAddress"];
-                NSString *address=d[@"AddressLine1"];
-                model.addressLine1=address;
-                model.country=d[@"Country"];
-                model.city=d[@"City"];
-                model.state=d[@"State"];
-                model.pinCode=d[@"Postal"];
-                model.addressline2=d[@"AddressLine2"];
-                if (![d[@"City"] isEqualToString:@""]) {
-                    address = [address stringByAppendingFormat:@", %@",d[@"City"]];
+                searchPatientModel *model=[[searchPatientModel alloc]init];
+                if (![dict[@"Lastname"] isEqualToString:@""]) {
+                    model.name=[NSString stringWithFormat:@"%@ %@",dict[@"Firstname"],dict[@"Lastname"]];
+                }else
+                    model.name=[NSString stringWithFormat:@"%@",dict[@"Firstname"]];
+                model.Id=dict[@"Id"];
+                model.userID=dict[@"Id"];
+                model.memo=dict[@"Memo"];
+                model.companyCode=dict[@"CompanyCode"];
+                model.password=dict[@"Password"];
+                model.userTypeCode=dict[@"UserTypeCode"];
+                model.roleCode=dict[@"RoleCode"];
+                NSArray *dob=[dict[@"DOb"] componentsSeparatedByString:@"T"];
+                [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+                NSDate *dobDate=[dateFormatter dateFromString:dob[0]];
+                [dateFormatter setDateFormat:@"dd-MMM-yyyy"];
+                model.dob=[dateFormatter stringFromDate:dobDate];
+                model.code=dict[@"Code"];
+                model.emailId=dict[@"Email"];
+                NSString *addressJson=dict[@"Address"];
+                if (![addressJson isKindOfClass:[NSNull class]]) {
+                    NSData *jsonData = [addressJson dataUsingEncoding:NSUTF8StringEncoding];
+                    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:nil];
+                    NSDictionary *d=jsonDict[@"TemporaryAddress"];
+                    NSString *address=d[@"AddressLine1"];
+                    model.addressLine1=address;
+                    model.country=d[@"Country"];
+                    model.city=d[@"City"];
+                    model.state=d[@"State"];
+                    model.pinCode=d[@"Postal"];
+                    model.addressline2=d[@"AddressLine2"];
+                    if (![d[@"City"] isEqualToString:@""]) {
+                        address = [address stringByAppendingFormat:@", %@",d[@"City"]];
+                    }
+                    if (![dict[@"StateName"] isEqualToString:@""]) {
+                        address = [address stringByAppendingFormat:@", %@",dict[@"StateName"]];
+                    }
+                    if (![dict[@"Country"] isKindOfClass:[NSNull class]]) {
+                        address = [address stringByAppendingFormat:@", %@",d[@"Country"]];
+                    }
+                    if (![d[@"Postal"] isEqualToString:@""]) {
+                        address = [address stringByAppendingFormat:@", %@",d[@"Postal"]];
+                    }
+                    model.address=address;
                 }
-                if (![dict[@"StateName"] isEqualToString:@""]) {
-                    address = [address stringByAppendingFormat:@", %@",dict[@"StateName"]];
+                if (![dict[@"DocumentCode"] isKindOfClass:[NSNull class]]) {
+                    model.documentCode=dict[@"DocumentCode"];
                 }
-                if (![dict[@"Country"] isKindOfClass:[NSNull class]]) {
-                    address = [address stringByAppendingFormat:@", %@",d[@"Country"]];
+                if (![dict[@"DocumentTypeCode"] isKindOfClass:[NSNull class]]) {
+                    model.documentTypeCode=dict[@"DocumentTypeCode"];
                 }
-                if (![d[@"Postal"] isEqualToString:@""]) {
-                    address = [address stringByAppendingFormat:@", %@",d[@"Postal"]];
+                if (![dict[@"Gender"] isKindOfClass:[NSNull class]]) {
+                    model.gender=dict[@"Gender"];
                 }
-                model.address=address;
-            }
-            if (![dict[@"DocumentCode"] isKindOfClass:[NSNull class]]) {
-                model.documentCode=dict[@"DocumentCode"];
-            }
-            if (![dict[@"DocumentTypeCode"] isKindOfClass:[NSNull class]]) {
-                model.documentTypeCode=dict[@"DocumentTypeCode"];
-            }
-            if (![dict[@"Gender"] isKindOfClass:[NSNull class]]) {
-                model.gender=dict[@"Gender"];
-            }
-            if (![dict[@"MaritalStatus"] isKindOfClass:[NSNull class]]) {
-                model.maritialStatus=dict[@"MaritalStatus"];
-            }
-            if (![dict[@"StorageID"] isKindOfClass:[NSNull class]]) {
-                NSArray *ar=[dict[@"StorageID"] componentsSeparatedByString:@"^$|"];
-                model.storageID=ar[ar.count-1];
-            }
-            if (![dict[@"Filename"] isKindOfClass:[NSNull class]]) {
-                NSArray *ar=[dict[@"Filename"] componentsSeparatedByString:@"|"];
-                model.fileName=ar[ar.count-1];
-            }
+                if (![dict[@"MaritalStatus"] isKindOfClass:[NSNull class]]) {
+                    model.maritialStatus=dict[@"MaritalStatus"];
+                }
+                if (![dict[@"StorageID"] isKindOfClass:[NSNull class]]) {
+                    NSArray *ar=[dict[@"StorageID"] componentsSeparatedByString:@"^$|"];
+                    model.storageID=ar[ar.count-1];
+                }
+                if (![dict[@"Filename"] isKindOfClass:[NSNull class]]) {
+                    NSArray *ar=[dict[@"Filename"] componentsSeparatedByString:@"|"];
+                    model.fileName=ar[ar.count-1];
+                }
                 
-            NSArray *documentTypeArray=[model.documentTypeCode componentsSeparatedByString:@"|"];
-            NSArray *documentCodeArray=[model.documentCode componentsSeparatedByString:@"^$|"];
-            for (int i=0; i<documentTypeArray.count; i++) {
-                if ([documentTypeArray[i] isEqual:@"ABC123"]) {
-                    model.profileImageCode=documentCodeArray[i];
+                NSArray *documentTypeArray=[model.documentTypeCode componentsSeparatedByString:@"|"];
+                NSArray *documentCodeArray=[model.documentCode componentsSeparatedByString:@"^$|"];
+                for (int i=0; i<documentTypeArray.count; i++) {
+                    if ([documentTypeArray[i] isEqual:@"ABC123"]) {
+                        model.profileImageCode=documentCodeArray[i];
+                    }
                 }
-            }
-            NSString *Json=dict[@"JSON"];
-            if (![Json isKindOfClass:[NSNull class]]) {
-                NSData *jsonData1 = [Json dataUsingEncoding:NSUTF8StringEncoding];
-                NSDictionary *jsonDict1 = [NSJSONSerialization JSONObjectWithData:jsonData1 options:kNilOptions error:nil];
-                model.jsonDict=jsonDict1;
-                model.genderCode=jsonDict1[@"Gender"];
-                model.martialCode=jsonDict1[@"MaritalStatus"];
-                model.mobileNo=jsonDict1[@"ContactNo"];
-                model.surgeries=jsonDict1[@"Surgeries"];
-                model.tranfusion=jsonDict1[@"Transfusion"];
-                NSDate *date = [dateFormatter dateFromString:model.dob];
-                NSDateComponents *agecomponent=[[NSCalendar currentCalendar]components:NSCalendarUnitYear fromDate:date toDate:[NSDate date] options:0];
-                model.age=[NSString stringWithFormat:@"%ld",(long)[agecomponent year]];
-            }
-            [patentnameArray addObject:model];
+                NSString *Json=dict[@"JSON"];
+                if (![Json isKindOfClass:[NSNull class]]) {
+                    NSData *jsonData1 = [Json dataUsingEncoding:NSUTF8StringEncoding];
+                    NSDictionary *jsonDict1 = [NSJSONSerialization JSONObjectWithData:jsonData1 options:kNilOptions error:nil];
+                    model.jsonDict=jsonDict1;
+                    model.genderCode=jsonDict1[@"Gender"];
+                    model.martialCode=jsonDict1[@"MaritalStatus"];
+                    model.mobileNo=jsonDict1[@"ContactNo"];
+                    model.surgeries=jsonDict1[@"Surgeries"];
+                    model.tranfusion=jsonDict1[@"Transfusion"];
+                    NSDate *date = [dateFormatter dateFromString:model.dob];
+                    NSDateComponents *agecomponent=[[NSCalendar currentCalendar]components:NSCalendarUnitYear fromDate:date toDate:[NSDate date] options:0];
+                    model.age=[NSString stringWithFormat:@"%ld",(long)[agecomponent year]];
+                }
+                [patentnameArray addObject:model];
             }
         }
     }
-//    UIRefreshControl *refresh=[[UIRefreshControl alloc]init];
-//    refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Please Wait..."];
-//    [_patientListTableView addSubview:refresh];
-// _hudContainerViewHeight.constant=50;
-      completeApiCalled=YES;
-        [self reloadData];
+    //    UIRefreshControl *refresh=[[UIRefreshControl alloc]init];
+    //    refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Please Wait..."];
+    //    [_patientListTableView addSubview:refresh];
+    // _hudContainerViewHeight.constant=50;
+    completeApiCalled=YES;
+    [self reloadData];
 }
 //CallAPI for 100 offset patient
 -(void)callApiforOffsetApi
@@ -461,11 +593,11 @@
     }else{
         parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
     }
-     [containerVc showMBprogressTillLoadThedata];
-     [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:NO];
+    [containerVc showMBprogressTillLoadThedata];
+    [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:NO];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-         [containerVc hideAllMBprogressTillLoadThedata];
-         [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:NO];
+        [containerVc hideAllMBprogressTillLoadThedata];
+        [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:NO];
         [self processResponseObjectforOffsetApi:responseObject];
         NSString *str=[NSString stringWithFormat:@"%@ %@",url,parameter];
         [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:str];
@@ -480,17 +612,17 @@
 //Response for API 100 offset patient
 -(void)processResponseObjectforOffsetApi:(id)responseObject{
     if (patentnameArray.count<41) {
-          [patentnameArray removeAllObjects];
-    ContainerViewController *containerVc =(ContainerViewController*)self.parentViewController;
-    [containerVc hideAllMBprogressTillLoadThedata];
-    [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:NO];
-    NSDictionary *dict1;
-    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-        NSDictionary *responseDict1 = responseObject;
-        dict1=responseDict1[@"aaData"];
-    }
-    else dict1=responseObject;
-    for (NSDictionary *dict in dict1[@"GenericSearchViewModels"]) {
+        [patentnameArray removeAllObjects];
+        ContainerViewController *containerVc =(ContainerViewController*)self.parentViewController;
+        [containerVc hideAllMBprogressTillLoadThedata];
+        [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:NO];
+        NSDictionary *dict1;
+        if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+            NSDictionary *responseDict1 = responseObject;
+            dict1=responseDict1[@"aaData"];
+        }
+        else dict1=responseObject;
+        for (NSDictionary *dict in dict1[@"GenericSearchViewModels"]) {
             if ([dict[@"Status"]intValue]==1) {
                 searchPatientModel *model=[[searchPatientModel alloc]init];
                 if (![dict[@"Lastname"] isEqualToString:@""]) {
@@ -583,11 +715,10 @@
                 }
             }
         }
-         completeApiCalled=NO;
+        completeApiCalled=NO;
         [self reloadData];
     }
 }
-
 - (void)reloadData
 {
     if (![_searchTextField.text isEqualToString:@""]) {
@@ -602,7 +733,7 @@
                 [self tableView:_patientListTableView didSelectRowAtIndexPath:selectedCellIndexPath];
             }
         }else if(initialSelectedRow!=-1) [self selectedCell:patentnameArray];
-  [_patientListTableView reloadData];
+        [_patientListTableView reloadData];
     }
     MBProgressCountToHide++;
 }
@@ -625,7 +756,7 @@
         [self callApi:YES];
     }else{
         if (patentnameArray.count>0)
-        _searchTextField.text=@"";
+            _searchTextField.text=@"";
         [_patientListTableView reloadData];
         [self tableView:_patientListTableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     }
@@ -665,5 +796,6 @@
 -(void)localize{
     search=[MCLocalization stringForKey:@"Search"];
     addPatient=[MCLocalization stringForKey:@"Add Patient"];
+    dataisFetching=[MCLocalization stringForKey:@"Please wait data is fetching"];
 }
 @end

@@ -11,7 +11,7 @@
 
 
 @interface ContainerViewController : UIViewController
--(void)passDataFromsearchPatientTableViewToPatient:(searchPatientModel*)model;
+-(void)passDataFromsearchPatientTableViewToPatient:(searchPatientModel*)model withPatientDataIsThereOrNot:(BOOL)status;
 -(void)ChangeTheContainerViewViewController;
 -(void)pushTreatmentViewController:(PatientTitleModel *)model;
 @property(strong,nonatomic)NSString *viewControllerDiffer;
