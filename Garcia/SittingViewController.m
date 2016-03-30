@@ -251,7 +251,7 @@
     cell.scanpointLabel.text=model.scanPointName;
     cell.correspondinPairLabel.text=model.correspondingPairName;
     cell.interpretation.text=model.interpretation;
-    cell.psychoemotional.text=model.psychoemotional;
+   // cell.psychoemotional.text=model.psychoemotional;
     cell.serialNumber.text=model.sortNumber;
     cell.doctorName.text=model.author;
     cell.sittingTextView.text=model.germsString;
@@ -316,16 +316,34 @@
    
     cell.previousSittingBadgeImageView.layer.cornerRadius=cell.previousSittingBadgeImageView.frame.size.width/2;
     if ([model.otherSittingNumberHaveIssue isEqualToString:@""]) {
-        cell.previousSittingBadgeLabel.hidden=YES;
+        if (model.germsString.length>0) {
+        cell.previousSittingBadgeLabel.hidden=NO;
+        cell.previousSittingBadgeImageView.hidden=NO;
+        cell.previousSittingBadgeLabel.text=[NSString stringWithFormat:@"%@%d",sStr,[model.sittingNumber intValue]];
+        }
+        else{ cell.previousSittingBadgeLabel.hidden=YES;
         cell.previousSittingBadgeImageView.hidden=YES;
+        }
     }else{
         cell.previousSittingBadgeLabel.hidden=NO;
         NSArray *ar=[model.otherSittingNumberHaveIssue componentsSeparatedByString:@" "];
         cell.previousSittingBadgeImageView.hidden=NO;
-        if (model.germsString.length==0) {
-             cell.previousSittingBadgeLabel.text=ar[ar.count-2];
+        if (model.germsString.length>0) {
+        NSString *str=ar[ar.count-2];
+            NSArray *sittingNumberArray=[str componentsSeparatedByString:sStr];
+            if (sittingNumberArray.count>1) {
+                if ([sittingNumberArray[1] intValue]>[model.sittingNumber intValue]) {
+                    cell.previousSittingBadgeLabel.text=ar[ar.count-2];
+                }else{
+                    NSString *string=[NSString stringWithFormat:@"%@%d",sStr,[model.sittingNumber intValue]];
+                    cell.previousSittingBadgeLabel.text=string;
+                }
+            }else{
+                NSString *string=[NSString stringWithFormat:@"%@%d",sStr,[model.sittingNumber intValue]];
+                cell.previousSittingBadgeLabel.text=string;
+            }
         }
-        else  cell.previousSittingBadgeLabel.text=[NSString stringWithFormat:@"%@%d",sStr,[model.sittingNumber intValue]];
+       else cell.previousSittingBadgeLabel.text=ar[ar.count-2];
     }
     return cell;
 }
@@ -389,27 +407,56 @@
       if ([model.germsString isEqualToString:@""]) {
         cell.sittingTextView.text=@"";
         cell.sittingTvPlaceholder.hidden=NO;
-        if (_bioSittingDict!=nil) {
-            if ([model.edited isEqualToString:@"N"]) {
-                NSDictionary *dict=_bioSittingDict;
-                NSString *str=dict[@"JSON"];
-                model.sittingNumber=dict[@"SittingNumber"];
-                NSError *jsonError;
-                NSData *objectData = [str dataUsingEncoding:NSUTF8StringEncoding];
-                NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData options:NSJSONReadingMutableContainers error:&jsonError];
-                [_datePicButton setTitle:dict[@"Visit"] forState:normal];
-                NSArray *anotomicalPointArray=json[@"AnatomicalPoints"];
-                if (json[@"ToxicDeficiency"]!=nil) {
-                    selectedToxicString=json[@"ToxicDeficiency"];
-                }
-                if (![json[@"Price"] isEqualToString:@""]) {
-                    _priceTf.text=json[@"Price"];
-                }
-                [appdelegate.symptomTagArray removeAllObjects];
-                NSString *symptomString=json[@"SymptomTagCode"];
-                NSArray *symptomTagArray=[symptomString componentsSeparatedByString:@","];
-                if (_allSymptomTagArray.count>0) {
-                    if (symptomTagArray.count>0) {
+          [self getPreviousDataOfSittingforEachCell:model withCell:cell];
+        }else {
+        if (model.issue) {
+            [self colorChange:model.issue withCell:cell];
+            cell.headerView.backgroundColor=[UIColor colorWithRed:0.686 green:0.741 blue:1 alpha:1];
+        }else{
+            [self colorChange:model.issue withCell:cell];
+            cell.headerView.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
+        }
+      [self getPreviousDataOfSittingforEachCell:model withCell:cell];
+        cell.sittingTextView.text=model.germsString;
+       // model.notes=cell.addNoteTV.text;
+        cell.addNoteTV.text=model.notes;
+        if (model.notes.length>0) {
+            cell.addNoteLabel.hidden=YES;
+        }
+        NSString *str=[model.germsCodeString stringByReplacingOccurrencesOfString:@"," withString:@" "];
+        cell.otherGermsLabel.text=str;
+        cell.sittingTvPlaceholder.hidden=YES;
+         _sittingNumberLabel.text=[NSString stringWithFormat:@"%@%@",sStr,_sittingNumber];
+        }
+    if ([_isTreatmntCompleted intValue]==0) {
+        if ([_bioSittingDict[@"IsCompleted"]intValue]==0 ){
+            [self disableTheButton:cell withStatus:YES];
+        }else [self disableTheButton:cell withStatus:NO];
+    }else  [self disableTheButton:cell withStatus:NO];
+    [self getSittingNumberForEachSittingCell:model];
+}
+-(void)getPreviousDataOfSittingforEachCell:(sittingModel*)model withCell:(SittingTableViewCell*)cell{
+    if (_bioSittingDict!=nil) {
+        if ([model.edited isEqualToString:@"N"]) {
+            NSDictionary *dict=_bioSittingDict;
+            NSString *str=dict[@"JSON"];
+            model.sittingNumber=dict[@"SittingNumber"];
+            NSError *jsonError;
+            NSData *objectData = [str dataUsingEncoding:NSUTF8StringEncoding];
+            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData options:NSJSONReadingMutableContainers error:&jsonError];
+            [_datePicButton setTitle:dict[@"Visit"] forState:normal];
+            NSArray *anotomicalPointArray=json[@"AnatomicalPoints"];
+            if (json[@"ToxicDeficiency"]!=nil) {
+                selectedToxicString=json[@"ToxicDeficiency"];
+            }
+            if (![json[@"Price"] isEqualToString:@""]) {
+                _priceTf.text=json[@"Price"];
+            }
+            [appdelegate.symptomTagArray removeAllObjects];
+            NSString *symptomString=json[@"SymptomTagCode"];
+            NSArray *symptomTagArray=[symptomString componentsSeparatedByString:@","];
+            if (_allSymptomTagArray.count>0) {
+                if (symptomTagArray.count>0) {
                     for (NSString *symptomString1 in symptomTagArray) {
                         for (int i=0; i<_allSymptomTagArray.count; i++) {
                             SymptomTagModel *m=_allSymptomTagArray[i];
@@ -418,74 +465,54 @@
                             }
                         }
                     }
-                  }
-                    [_collectionView reloadData];
-                    [_scrollView layoutIfNeeded];
                 }
-                _sittingNumberLabel.text=[NSString stringWithFormat:@"%@%d",sStr,[dict[@"SittingNumber"]intValue]];
-                  cell.sittingNumber.text=[NSString stringWithFormat:@"%@%d",sStr,[dict[@"SittingNumber"]intValue]];
-                if (anotomicalPointArray.count>0) {
-                    for (NSDictionary *anotomicalDict in anotomicalPointArray) {
-                        if ([model.anatomicalBiomagenticCode isEqualToString:anotomicalDict[@"AnatomicalBiomagenticCode"]]) {
-                            cell.sittingTextView.text=anotomicalDict[@"GermsName"];
-                            model.germsString= cell.sittingTextView.text;
-                            model.germsCodeString=anotomicalDict[@"GermsCode"];
-                            NSString *str=[model.germsCodeString stringByReplacingOccurrencesOfString:@"," withString:@" "];
-                            cell.otherGermsLabel.text=str;
-                            cell.sittingTvPlaceholder.hidden=YES;
-                            
-                            if (anotomicalDict[@"Notes"]) {
-                                NSString *str1=anotomicalDict[@"Notes"];
-                                if (str1.length!=0) {
-                                    cell.addNoteTV.text=str1;
-                                    cell.addNoteLabel.hidden=YES;
-                                }else {
-                                    cell.addNoteTV.text=@"";
-                                    cell.addNoteLabel.hidden=NO;
-                                }
+                [_collectionView reloadData];
+                [_scrollView layoutIfNeeded];
+            }
+            _sittingNumberLabel.text=[NSString stringWithFormat:@"%@%d",sStr,[dict[@"SittingNumber"]intValue]];
+            cell.sittingNumber.text=[NSString stringWithFormat:@"%@%d",sStr,[dict[@"SittingNumber"]intValue]];
+            if (anotomicalPointArray.count>0) {
+                for (NSDictionary *anotomicalDict in anotomicalPointArray) {
+                    if ([model.anatomicalBiomagenticCode isEqualToString:anotomicalDict[@"AnatomicalBiomagenticCode"]]) {
+                        cell.sittingTextView.text=anotomicalDict[@"GermsName"];
+                        model.germsString= cell.sittingTextView.text;
+                        model.germsCodeString=anotomicalDict[@"GermsCode"];
+                        NSString *str=[model.germsCodeString stringByReplacingOccurrencesOfString:@"," withString:@" "];
+                        cell.otherGermsLabel.text=str;
+                        cell.sittingTvPlaceholder.hidden=YES;
+                        
+                        if (anotomicalDict[@"Notes"]) {
+                            NSString *str1=anotomicalDict[@"Notes"];
+                            if (str1.length!=0) {
+                                cell.addNoteTV.text=str1;
+                                cell.addNoteLabel.hidden=YES;
+                            }else {
+                                cell.addNoteTV.text=@"";
+                                cell.addNoteLabel.hidden=NO;
                             }
-                            if ([anotomicalDict[@"Issue"] integerValue]==1) {
-                                model.issue= YES;
-                                [self colorChange:model.issue withCell:cell];
-                                  cell.headerView.backgroundColor=[UIColor colorWithRed:0.686 green:0.741 blue:1 alpha:1];
-                            }else{
-                                model.issue= NO;
-                                [self colorChange:model.issue withCell:cell];
-                                 cell.headerView.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
-                            }
+                        }
+                        if ([anotomicalDict[@"Issue"] integerValue]==1) {
+                            model.issue= YES;
+                            [self colorChange:model.issue withCell:cell];
+                            cell.headerView.backgroundColor=[UIColor colorWithRed:0.686 green:0.741 blue:1 alpha:1];
+                        }else{
+                            model.issue= NO;
+                            [self colorChange:model.issue withCell:cell];
+                            cell.headerView.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
                         }
                     }
                 }
             }
-        }else{
-            _sittingNumberLabel.text=[NSString stringWithFormat:@"%@%d",sStr,[_sittingNumber intValue]+1];
-            cell.sittingNumber.text=[NSString stringWithFormat:@"%@%d",sStr,[_sittingNumber intValue]+1];
-            [formater setDateFormat:@"dd-MMM-yyyy"];
-            NSString *dateStr=[formater stringFromDate:[NSDate date]];
-            [_datePicButton setTitle:dateStr forState:normal];
         }
-    }else {
-        if (model.issue) {
-            [self colorChange:model.issue withCell:cell];
-            cell.headerView.backgroundColor=[UIColor colorWithRed:0.686 green:0.741 blue:1 alpha:1];
-        }else{
-            [self colorChange:model.issue withCell:cell];
-            cell.headerView.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
-        }
-
-        cell.sittingTextView.text=model.germsString;
-        model.notes=cell.addNoteTV.text;
-        NSString *str=[model.germsCodeString stringByReplacingOccurrencesOfString:@"," withString:@" "];
-        cell.otherGermsLabel.text=str;
-        cell.sittingTvPlaceholder.hidden=YES;
-         _sittingNumberLabel.text=[NSString stringWithFormat:@"%@%@",sStr,_sittingNumber];
+    }else{
+        _sittingNumberLabel.text=[NSString stringWithFormat:@"%@%d",sStr,[_sittingNumber intValue]+1];
+        cell.sittingNumber.text=[NSString stringWithFormat:@"%@%d",sStr,[_sittingNumber intValue]+1];
+        model.sittingNumber=[NSString stringWithFormat:@"%d",[_sittingNumber intValue]+1];
+        [formater setDateFormat:@"dd-MMM-yyyy"];
+        NSString *dateStr=[formater stringFromDate:[NSDate date]];
+        [_datePicButton setTitle:dateStr forState:normal];
+        
     }
-    if ([_isTreatmntCompleted intValue]==0) {
-        if ([_bioSittingDict[@"IsCompleted"]intValue]==0 ){
-            [self disableTheButton:cell withStatus:YES];
-        }else [self disableTheButton:cell withStatus:NO];
-    }else  [self disableTheButton:cell withStatus:NO];
-    [self getSittingNumberForEachSittingCell:model];
 }
 //getTheSittingNumberForEachSitting
 -(void)getSittingNumberForEachSittingCell:(sittingModel*)model{
@@ -1237,6 +1264,7 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
 }
 -(void)getTheSortDetailOfCompleteDitailArray:(NSString*)str{
     [selectedSittingModelInallDoctorDetailArray removeAllObjects];
+     [self getGermsStringForCompleDetailArray];
     if ([_toxicDeficiencyString isEqualToString:@""]) {
         _toxicView.hidden=YES;
         _tableview.hidden=NO;
@@ -1253,7 +1281,6 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         [_tableview reloadData];
         [_scrollView layoutIfNeeded];
     }
-      [self getGermsStringForCompleDetailArray];
 }
 - (IBAction)exit:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
