@@ -262,7 +262,7 @@
         cell.interpretation.numberOfLines=0;
         cell.scanpointLabel.numberOfLines=0;
         cell.correspondinPairLabel.numberOfLines=0;
-        if (![cell.expandButton.image isEqual:[UIImage imageNamed:@"Dropdown-icon-up"]]) {
+        if (![cell.expandButton.image isEqual:[UIImage imageNamed:@"icon-up"]]) {
             [self changeIncreaseDecreaseImageView:cell.expandButton];
         }
         if ([selectedPreviousSittingDetailArray containsObject:indexPath]) {
@@ -736,9 +736,9 @@
 //set ImageView
 -(void)changeIncreaseDecreaseImageView:(UIImageView*)btn{
     if ([btn.image isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
-        btn.image =[UIImage imageNamed:@"Dropdown-icon-up"];
+        btn.image =[UIImage imageNamed:@"icon-up"];
     }
-    else  if ([btn.image isEqual:[UIImage imageNamed:@"Dropdown-icon-up"]]) {
+    else  if ([btn.image isEqual:[UIImage imageNamed:@"icon-up"]]) {
         btn.image =[UIImage imageNamed:@"Dropdown-icon"];
     }
 }
