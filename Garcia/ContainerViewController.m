@@ -103,7 +103,7 @@
     lagSomeButton= [[UIButton alloc] init];
     standardDefault=[NSUserDefaults standardUserDefaults];
     lagSomeButton.titleLabel.font=[UIFont fontWithName:@"OpenSans-Semibold" size:14];
-    //[lagSomeButton setTitle:[standardDefault valueForKey:@"languageName"] forState:normal];
+    [lagSomeButton setTitle:[standardDefault valueForKey:@"languageName"] forState:normal];
     [lagSomeButton setTitleColor:[UIColor blackColor] forState:normal];
     [lagSomeButton addTarget:self action:@selector(languageChange:) forControlEvents:UIControlEventTouchUpInside];
     [lagSomeButton setShowsTouchWhenHighlighted:YES];
@@ -405,7 +405,7 @@
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
             [userDefault setBool:NO forKey:@"language_FLAG"];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-       
+            [self callApiForLanguage];
         }];
     }else{
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -487,7 +487,7 @@
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
             [userDefault setBool:NO forKey:@"toxicdeficiency_FLAG"];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-       // NSString *str=[NSString stringWithFormat:@"%@",error];
+            [self callApiToToxicDeficiency];
         }];
         
     }else{
@@ -497,8 +497,7 @@
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
             [userDefault setBool:NO forKey:@"toxicdeficiency_FLAG"];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          //  NSString *str=[NSString stringWithFormat:@"%@",error];
-            
+            [self callApiToToxicDeficiency];
         }];
     }
 }
@@ -575,7 +574,8 @@
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
             [userDefault setBool:NO forKey:@"toxicdeficiencytype_FLAG"];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-    
+            [self callApiForToxicDeficiencyType];
+
         }];
     }else{
         [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -584,7 +584,7 @@
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
             [userDefault setBool:NO forKey:@"toxicdeficiencytype_FLAG"];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
+        [self callApiForToxicDeficiencyType];
         }];
     }
 }
@@ -661,7 +661,7 @@
         [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
         [userDefault setBool:NO forKey:@"anatomicalbiomagneticmatrix_FLAG"];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
+        [self callApiforSitting];
     }];
 }
 //Response of biomagnetic matrix
@@ -749,6 +749,7 @@
         [MBProgressHUD hideHUDForView:self.view animated:NO];
         [self processResponseOfcallApiToSearchSaredCriticalInfo:responseObject];
            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+               [self callApiToSearchSaredCriticalInfo];
         [MBProgressHUD hideHUDForView:self.view animated:NO];
         [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
     }];
