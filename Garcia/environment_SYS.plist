@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+   environment_SYS.plist
+   Biomagnetism
+
+   Created by manasap on 31/03/16.
+   Copyright (c) 2016 manasap. All rights reserved.
+-->
+<plist version="1.0">
+    <dict>
+        <key>environment</key>
+        <string>SYS</string>
+        <key>appName</key>
+        <string>Biomagnetism</string>
+        <key>baseUrl</key>
+        <string>http://prithiviraj.vmokshagroup.com:8089/</string>
+        <key>dbName</key>
+        <string>biomag-tst.images.original/</string>
+        <key>dbNameforResized</key>
+        <string>biomag-tst.images.resized/</string>
+        <key>postmanCompanyCode</key>
+        <string>A0I7LV</string>
+        <key>aboutUs</key>
+        <string>search/configuration</string>
+        <key>FAQurl</key>
+        <string>configurationview/AOO6FQ</string>
+        <key>termsAndCondition</key>
+        <string>configurationview/MWUFJM</string>
+        <key>privecyAndPolicy</key>
+        <string>configurationview/4XOSBX</string>
+        <key>baseUrlAws</key>
+        <string>https://s3-us-west-2.amazonaws.com/</string>
+    </dict>
+</plist>

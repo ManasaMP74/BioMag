@@ -31,7 +31,6 @@
     [postman put:urlString withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseOfPreferredLanguage:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self callApiForPreferredLanguage];
         [self.delegate languageChangeDelegate:0];
     }];
     
@@ -60,7 +59,6 @@
       [self responseofLanguageAPI:responseObject];
         [self.delegate languageChangeDelegate:1];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self callApiForUILabelLanguage];
      [self.delegate languageChangeDelegate:0];
     }];
     }

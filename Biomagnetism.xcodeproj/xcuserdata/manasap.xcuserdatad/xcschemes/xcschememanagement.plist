@@ -4,14 +4,44 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Biomagnetism.xcscheme</key>
+		<key>DEV.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>4</integer>
+		</dict>
+		<key>Environment Switch Script.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>8</integer>
+		</dict>
+		<key>PROD.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>5</integer>
+		</dict>
+		<key>SYS.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>6</integer>
+		</dict>
+		<key>aggregate Target.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>7</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>DA92607B1CAE2A7A00368C47</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DA9260801CAE2AA000368C47</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>DAEFA18D1BD0B11500900379</key>
 		<dict>
 			<key>primary</key>

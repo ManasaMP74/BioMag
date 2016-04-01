@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		DA9260801CAE2AA000368C47 /* Environment Switch Script */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = DA9260811CAE2AA000368C47 /* Build configuration list for PBXAggregateTarget "Environment Switch Script" */;
+			buildPhases = (
+				DA9260871CAE2AE700368C47 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "Environment Switch Script";
+			productName = "Environment Switch Script";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		204E7FFAA63C4833C779612F /* libPods-Biomagnetism.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA1A2B4682F2428F6C5810DD /* libPods-Biomagnetism.a */; };
 		8678F1AC1BE1DC54006046CF /* HexColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 8678F1AB1BE1DC54006046CF /* HexColors.m */; };
@@ -41,6 +55,8 @@
 		DA4896151C6C6A2100FE12C3 /* LanguageChanger.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4896141C6C6A2100FE12C3 /* LanguageChanger.m */; };
 		DA567A0D1C60AF610046A340 /* eng.json in Resources */ = {isa = PBXBuildFile; fileRef = DA567A0C1C60AF600046A340 /* eng.json */; };
 		DA5EF2B21C7D82EC00A250F5 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5EF2B11C7D82EC00A250F5 /* AboutUsViewController.m */; };
+		DA671D1E1CAD062F00ACDE91 /* environment.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA671D1D1CAD062F00ACDE91 /* environment.plist */; };
+		DA671D201CAD09DD00ACDE91 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = DA671D1F1CAD09DD00ACDE91 /* .gitignore */; };
 		DA67CFCF1C1197B200D88BBC /* AddSymptom.m in Sources */ = {isa = PBXBuildFile; fileRef = DA67CFCE1C1197B200D88BBC /* AddSymptom.m */; };
 		DA67CFD11C11981100D88BBC /* AddSymptom.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA67CFD01C11981100D88BBC /* AddSymptom.xib */; };
 		DA6C7B8E1BE09F9500D1130A /* SittingCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA6C7B8D1BE09F9500D1130A /* SittingCollectionViewCell.m */; };
@@ -69,6 +85,7 @@
 		DA8C3DF91C24327F0076EBD2 /* PreviousSittingCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8C3DF81C24327F0076EBD2 /* PreviousSittingCollectionViewCell.m */; };
 		DA8C68201C5A1E8C00F78E86 /* UIImageView+clearCachImage.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8C681F1C5A1E8C00F78E86 /* UIImageView+clearCachImage.m */; };
 		DA8C68231C5A49D700F78E86 /* PreviousSittingModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8C68221C5A49D700F78E86 /* PreviousSittingModelClass.m */; };
+		DA92608A1CAE44B400368C47 /* VMEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9260891CAE44B400368C47 /* VMEnvironment.m */; };
 		DA9E393B1C88260A00499142 /* CriticalTreatmentInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9E393A1C88260A00499142 /* CriticalTreatmentInfoViewController.m */; };
 		DA9E393E1C88650D00499142 /* DrProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9E393D1C88650D00499142 /* DrProfileViewController.m */; };
 		DA9E39411C88681100499142 /* EditDrProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9E39401C88681100499142 /* EditDrProfileViewController.m */; };
@@ -143,6 +160,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		DA9260851CAE2ABE00368C47 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAEFA1861BD0B11500900379 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA9260801CAE2AA000368C47;
+			remoteInfo = "Environment Switch Script";
+		};
 		DAEFA1A81BD0B11500900379 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DAEFA1861BD0B11500900379 /* Project object */;
@@ -204,6 +228,11 @@
 		DA567A0C1C60AF600046A340 /* eng.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = eng.json; sourceTree = "<group>"; };
 		DA5EF2B01C7D82EC00A250F5 /* AboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutUsViewController.h; sourceTree = "<group>"; };
 		DA5EF2B11C7D82EC00A250F5 /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
+		DA671D1A1CAD056900ACDE91 /* environment_DEV.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = environment_DEV.plist; sourceTree = "<group>"; };
+		DA671D1B1CAD059500ACDE91 /* environment_SYS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = environment_SYS.plist; sourceTree = "<group>"; };
+		DA671D1C1CAD05AB00ACDE91 /* environment_PROD.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = environment_PROD.plist; sourceTree = "<group>"; };
+		DA671D1D1CAD062F00ACDE91 /* environment.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = environment.plist; sourceTree = "<group>"; };
+		DA671D1F1CAD09DD00ACDE91 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		DA67CFCD1C1197B200D88BBC /* AddSymptom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddSymptom.h; sourceTree = "<group>"; };
 		DA67CFCE1C1197B200D88BBC /* AddSymptom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddSymptom.m; sourceTree = "<group>"; };
 		DA67CFD01C11981100D88BBC /* AddSymptom.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddSymptom.xib; sourceTree = "<group>"; };
@@ -253,6 +282,8 @@
 		DA8C681F1C5A1E8C00F78E86 /* UIImageView+clearCachImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+clearCachImage.m"; sourceTree = "<group>"; };
 		DA8C68211C5A49D700F78E86 /* PreviousSittingModelClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviousSittingModelClass.h; sourceTree = "<group>"; };
 		DA8C68221C5A49D700F78E86 /* PreviousSittingModelClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviousSittingModelClass.m; sourceTree = "<group>"; };
+		DA9260881CAE44B400368C47 /* VMEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMEnvironment.h; sourceTree = "<group>"; };
+		DA9260891CAE44B400368C47 /* VMEnvironment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMEnvironment.m; sourceTree = "<group>"; };
 		DA9E39391C88260A00499142 /* CriticalTreatmentInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CriticalTreatmentInfoViewController.h; sourceTree = "<group>"; };
 		DA9E393A1C88260A00499142 /* CriticalTreatmentInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CriticalTreatmentInfoViewController.m; sourceTree = "<group>"; };
 		DA9E393C1C88650D00499142 /* DrProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrProfileViewController.h; sourceTree = "<group>"; };
@@ -762,6 +793,13 @@
 				DAE7B7A91BEDFB8A006C5C70 /* MBProgressHUD.m */,
 				DA73598F1C12B65F005192D7 /* SWRevealViewController.h */,
 				DA7359901C12B664005192D7 /* SWRevealViewController.m */,
+				DA671D1A1CAD056900ACDE91 /* environment_DEV.plist */,
+				DA671D1B1CAD059500ACDE91 /* environment_SYS.plist */,
+				DA671D1C1CAD05AB00ACDE91 /* environment_PROD.plist */,
+				DA671D1D1CAD062F00ACDE91 /* environment.plist */,
+				DA9260881CAE44B400368C47 /* VMEnvironment.h */,
+				DA9260891CAE44B400368C47 /* VMEnvironment.m */,
+				DA671D1F1CAD09DD00ACDE91 /* .gitignore */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1012,6 +1050,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DA9260861CAE2ABE00368C47 /* PBXTargetDependency */,
 			);
 			name = Biomagnetism;
 			productName = Garcia;
@@ -1045,6 +1084,9 @@
 				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = manasap;
 				TargetAttributes = {
+					DA9260801CAE2AA000368C47 = {
+						CreatedOnToolsVersion = 7.2;
+					};
 					DAEFA18D1BD0B11500900379 = {
 						CreatedOnToolsVersion = 6.4;
 						DevelopmentTeam = QGMN7468R5;
@@ -1073,6 +1115,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				DA9260801CAE2AA000368C47 /* Environment Switch Script */,
 				DAEFA18D1BD0B11500900379 /* Biomagnetism */,
 				DAEFA1A61BD0B11500900379 /* BiomagnetismTests */,
 			);
@@ -1084,9 +1127,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA671D1E1CAD062F00ACDE91 /* environment.plist in Resources */,
 				DA130F3E1BEA1E1900B5B9FF /* SectionBodyDetails.xib in Resources */,
 				DA130F361BEA1E1900B5B9FF /* AddSection.xib in Resources */,
 				DA4461E61BD771F600F80F5A /* OpenSans-Semibold.ttf in Resources */,
+				DA671D201CAD09DD00ACDE91 /* .gitignore in Resources */,
 				DA130F3B1BEA1E1900B5B9FF /* DetailsSection.xib in Resources */,
 				DA130F431BEA20CC00B5B9FF /* AddSectionCell.xib in Resources */,
 				DAD52B5A1C2169370052579D /* SectionXib.xib in Resources */,
@@ -1173,6 +1218,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Biomagnetism/Pods-Biomagnetism-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		DA9260871CAE2AE700368C47 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "dir=${PROJECT_DIR}/Garcia\necho \"Starting environment configuration for project: \" $dir\n\n# environment variable from value passed in to xcodebuild.\n# if not specified, we default to DEV\nenv=${VM_ENVIRONMENT}\nif [ -z \"$env\" ]\nthen\nenv=\"DEV\"\nfi\necho \"Using $env environment\"\n\n# copy the environment-specific file\ncp $dir/environment_$env.plist $dir/environment.plist\n\n# Date and time that we are running this build\nbuildDate=`date \"+%F %H:%M:%S\"`\ntodaysDay=`date \"+%d\"`\n\n# Last hash from the current branch\nlastCommitHash=`git log --pretty=format:\"%h\" -1`\n\n# app settings\nappName=`/usr/libexec/PlistBuddy -c \"Print :appName\" \"$dir/environment.plist\"`\n\nif [ \"$env\" != \"PROD\" ]\nthen\n# need to dynamically append today's day for non-prod\nappName=\"$appName $todaysDay\"\nfi\n\n# Build the preprocess file\ncd ${PROJECT_DIR}/Garcia\npreprocessFile=\"environment_preprocess.h\"\necho \"Creating header file\"\n\necho -e \"//-----------------------------------------\" > $preprocessFile\necho -e \"// Auto generated file\" >> $preprocessFile\necho -e \"// Created $buildDate\" >> $preprocessFile\necho -e \"//-----------------------------------------\" >> $preprocessFile\necho -e \"\" >> $preprocessFile\necho -e \"#define VM_ENVIRONMENT              $env\" >> $preprocessFile\necho -e \"#define VM_ENVIRONMENT_LAST_COMMIT  $lastCommitHash\" >> $preprocessFile\necho -e \"#define VM_ENVIRONMENT_APP_NAME     $appName\" >> $preprocessFile\n\n# dump out file to build log\ncat $preprocessFile\n\n# Force the system to process the plist file\necho \"Touching plist at: \" ${PROJECT_DIR}/${PROJECT_NAME}/Info.plist\ntouch ${PROJECT_DIR}/Garcia/Info.plist\n\n# done\necho \"Done.\"\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1187,6 +1245,7 @@
 				DAEF6AEE1BD5FA37006868C8 /* OpenSans-Regular.ttf in Sources */,
 				DA6D1A631BDA356F00D91ED3 /* PlaceholderTextView.m in Sources */,
 				DAFD52A71BEC62C80006AF02 /* UploadModelClass.m in Sources */,
+				DA92608A1CAE44B400368C47 /* VMEnvironment.m in Sources */,
 				DA2F9E621CA00BAF000A4A3A /* DrProfilModel.m in Sources */,
 				DA2F9F771C2172300077AEAB /* SlideOutTableViewCell.m in Sources */,
 				DA78B61F1C7EE9FF0096E1A0 /* HeaderModelClass.m in Sources */,
@@ -1289,6 +1348,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		DA9260861CAE2ABE00368C47 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA9260801CAE2AA000368C47 /* Environment Switch Script */;
+			targetProxy = DA9260851CAE2ABE00368C47 /* PBXContainerItemProxy */;
+		};
 		DAEFA1A91BD0B11500900379 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DAEFA18D1BD0B11500900379 /* Biomagnetism */;
@@ -1316,7 +1380,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		DAEFA1AF1BD0B11500900379 /* Debug */ = {
+		DA5C49841CACDA38003CB135 /* SYS */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1357,10 +1421,118 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VM_BUNDLE_ID = com.vmoksha.Garcia;
+				VM_ENVIRONMENT = SYS;
 			};
-			name = Debug;
+			name = SYS;
 		};
-		DAEFA1B01BD0B11500900379 /* Release */ = {
+		DA5C49851CACDA38003CB135 /* SYS */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CEC7020C951E5E2E3EBE9731 /* Pods-Biomagnetism.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = Garcia/Info.plist;
+				INFOPLIST_PREFIX_HEADER = environment_preprocess.h;
+				INFOPLIST_PREPROCESS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.Garcia;
+				PRODUCT_NAME = Biomagnetism;
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = SYS;
+		};
+		DA5C49861CACDA38003CB135 /* SYS */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = GarciaTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = Biomagnetism;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Garcia.app/Garcia";
+			};
+			name = SYS;
+		};
+		DA9260821CAE2AA000368C47 /* DEV */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = DEV;
+		};
+		DA9260831CAE2AA000368C47 /* SYS */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = SYS;
+		};
+		DA9260841CAE2AA000368C47 /* PROD */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = PROD;
+		};
+		DAEFA1AF1BD0B11500900379 /* DEV */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VM_BUNDLE_ID = com.vmoksha.Garcia;
+				VM_ENVIRONMENT = DEV;
+			};
+			name = DEV;
+		};
+		DAEFA1B01BD0B11500900379 /* PROD */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1395,10 +1567,12 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+				VM_BUNDLE_ID = com.vmoksha.Garcia;
+				VM_ENVIRONMENT = PROD;
 			};
-			name = Release;
+			name = PROD;
 		};
-		DAEFA1B21BD0B11500900379 /* Debug */ = {
+		DAEFA1B21BD0B11500900379 /* DEV */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CEC7020C951E5E2E3EBE9731 /* Pods-Biomagnetism.debug.xcconfig */;
 			buildSettings = {
@@ -1407,6 +1581,8 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Garcia/Info.plist;
+				INFOPLIST_PREFIX_HEADER = environment_preprocess.h;
+				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.Garcia;
@@ -1414,9 +1590,9 @@
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
-			name = Debug;
+			name = DEV;
 		};
-		DAEFA1B31BD0B11500900379 /* Release */ = {
+		DAEFA1B31BD0B11500900379 /* PROD */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5639CAF4F706253FC9559D42 /* Pods-Biomagnetism.release.xcconfig */;
 			buildSettings = {
@@ -1425,6 +1601,8 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Garcia/Info.plist;
+				INFOPLIST_PREFIX_HEADER = environment_preprocess.h;
+				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.Garcia;
@@ -1432,9 +1610,9 @@
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
-			name = Release;
+			name = PROD;
 		};
-		DAEFA1B51BD0B11500900379 /* Debug */ = {
+		DAEFA1B51BD0B11500900379 /* DEV */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1451,9 +1629,9 @@
 				PRODUCT_NAME = Biomagnetism;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Garcia.app/Garcia";
 			};
-			name = Debug;
+			name = DEV;
 		};
-		DAEFA1B61BD0B11500900379 /* Release */ = {
+		DAEFA1B61BD0B11500900379 /* PROD */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1466,37 +1644,50 @@
 				PRODUCT_NAME = Biomagnetism;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Garcia.app/Garcia";
 			};
-			name = Release;
+			name = PROD;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		DA9260811CAE2AA000368C47 /* Build configuration list for PBXAggregateTarget "Environment Switch Script" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA9260821CAE2AA000368C47 /* DEV */,
+				DA9260831CAE2AA000368C47 /* SYS */,
+				DA9260841CAE2AA000368C47 /* PROD */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = PROD;
+		};
 		DAEFA1891BD0B11500900379 /* Build configuration list for PBXProject "Biomagnetism" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DAEFA1AF1BD0B11500900379 /* Debug */,
-				DAEFA1B01BD0B11500900379 /* Release */,
+				DAEFA1AF1BD0B11500900379 /* DEV */,
+				DA5C49841CACDA38003CB135 /* SYS */,
+				DAEFA1B01BD0B11500900379 /* PROD */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = PROD;
 		};
 		DAEFA1B11BD0B11500900379 /* Build configuration list for PBXNativeTarget "Biomagnetism" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DAEFA1B21BD0B11500900379 /* Debug */,
-				DAEFA1B31BD0B11500900379 /* Release */,
+				DAEFA1B21BD0B11500900379 /* DEV */,
+				DA5C49851CACDA38003CB135 /* SYS */,
+				DAEFA1B31BD0B11500900379 /* PROD */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = PROD;
 		};
 		DAEFA1B41BD0B11500900379 /* Build configuration list for PBXNativeTarget "BiomagnetismTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DAEFA1B51BD0B11500900379 /* Debug */,
-				DAEFA1B61BD0B11500900379 /* Release */,
+				DAEFA1B51BD0B11500900379 /* DEV */,
+				DA5C49861CACDA38003CB135 /* SYS */,
+				DAEFA1B61BD0B11500900379 /* PROD */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = PROD;
 		};
 /* End XCConfigurationList section */
 	};

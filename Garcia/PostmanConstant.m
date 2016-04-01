@@ -72,7 +72,7 @@ NSString *const privecyAndPolicy=@"configurationview/4XOSBX";
 //NSString *const dbName =@"biomag.images.original/";
 //NSString *const baseUrlAws =@"https://s3-us-west-2.amazonaws.com/";
 //NSString *const aboutUs=@"search/configuration";
-//NSString *const FAQurl=@"onfigurationview/AOO6FQ";
+//NSString *const FAQurl=@"configurationview/AOO6FQ";
 //NSString *const termsAndCondition=@"configurationview/MWUFJM";
 //NSString *const privecyAndPolicy=@"configurationview/4XOSBX";
 

@@ -105,6 +105,9 @@ NSString *createQuer=@"create table if not exists API_TABLE(API text  PRIMARY KE
         }else{
          completionHandler(NO,nil);
         }
+    
+    
+    
     }];
 }
 - (void)DBManager:(DBManager *)manager gotSqliteStatment:(sqlite3_stmt *)statment{

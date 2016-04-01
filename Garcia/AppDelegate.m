@@ -12,6 +12,7 @@
 #import "LanguageChanger.h"
 #import "MBProgressHUD.h"
 #import "SeedSyncer.h"
+#import "VMEnvironment.h"
 @interface AppDelegate ()<languageChangeForDelegat>
 @end
 
@@ -23,6 +24,8 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    NSLog(@"Enviorment = %@", [VMEnvironment environment].environmentName);
     // Override point for customization after application launch.
     [[UINavigationBar appearance]setBarTintColor:[UIColor colorWithRed:0 green:0.71 blue:0.93 alpha:1]];
     [[UINavigationBar appearance]setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithRed:1 green:1 blue:1 alpha:1],NSForegroundColorAttributeName,[UIFont fontWithName:@"OpenSans-Bold" size:22],NSFontAttributeName, nil]];
