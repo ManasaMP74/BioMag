@@ -251,8 +251,6 @@
 }
 //set layesr for TextField and placeHolder
 -(void)textFieldLayer{
-//    _patientImageView.layer.cornerRadius=_patientImageView.frame.size.width/2;
-//    _patientImageView.clipsToBounds=YES;
     _addView.layer.cornerRadius=5;
     [constant getTheAllSaveButtonImage:_saveBtn];
     [constant spaceAtTheBeginigOfTextField:_genderTF];

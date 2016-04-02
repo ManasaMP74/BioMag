@@ -26,7 +26,11 @@
     [self localize];
     [self setDefault];
 }
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    _doctorImage.layer.cornerRadius=_doctorImage.frame.size.width/2;
+    _doctorImage.clipsToBounds=YES;
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
    

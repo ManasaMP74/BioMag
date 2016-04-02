@@ -65,16 +65,17 @@
     [_drImageView addGestureRecognizer:gest];
 
 }
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    _drImageView.layer.cornerRadius=_drImageView.frame.size.width/2;
+    _drImageView.clipsToBounds=YES;
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
 }
 //set layesr for TextField and placeHolder
 -(void)textFieldLayer{
-    //       _patientImageView.layer.cornerRadius=_patientImageView.frame.size.width/2;
-    //    _patientImageView.clipsToBounds=YES;
-    
     [constant spaceAtTheBeginigOfTextField:_genderTF];
     [constant spaceAtTheBeginigOfTextField:_emailTF];
     [constant spaceAtTheBeginigOfTextField:_nameTF];

@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-//#define BASE_URL [VMEnvironment environment].baseUrl
+#define BASE_URL [VMEnvironment environment].baseUrl
 
 @interface VMEnvironment : NSObject
 @property(nonatomic,strong)NSString *environmentName;

@@ -7,6 +7,7 @@
 #import "SeedSyncer.h"
 #import <MCLocalization/MCLocalization.h>
 #import "DrProfilModel.h"
+#import "VMEnvironment.h"
 @interface LoginViewController ()<UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *userNameTf;
 @property (strong, nonatomic) IBOutlet UITextField *passwordTF;
@@ -74,7 +75,7 @@
     
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         //Vzone API
-        urlString = [NSString stringWithFormat:@"%@%@",baseUrl,logIn];
+        urlString = [NSString stringWithFormat:@"%@%@",BASE_URL,logIn];
         // parameter = [NSString stringWithFormat:@"{\"request\":{\"Username\":\"drluisgarcia@mydomain.com\", \"Password\":\"Power@1234\"}}"];
         parameter = [NSString stringWithFormat:@"{\"request\":{\"Username\":\"%@\", \"Password\":\"%@\"}}",_userNameTf.text,_passwordTF.text];
     }else{

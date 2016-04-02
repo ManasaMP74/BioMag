@@ -116,6 +116,7 @@
 		DAEC02711BD513500095C6AE /* customFont.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEC02701BD513500095C6AE /* customFont.m */; };
 		DAEC027E1BD51D0C0095C6AE /* OpenSans-Bold.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC02731BD514180095C6AE /* OpenSans-Bold.ttf */; };
 		DAEC027F1BD5219A0095C6AE /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC02731BD514180095C6AE /* OpenSans-Bold.ttf */; };
+		DAED93821CAE8146003846F0 /* AddAnotomicalPointsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAED93811CAE8146003846F0 /* AddAnotomicalPointsViewController.m */; };
 		DAED98001C06D26E005D170C /* ScanPointModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAED97FF1C06D26E005D170C /* ScanPointModel.m */; };
 		DAED98031C06D2A9005D170C /* CorrespondingModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DAED98021C06D2A9005D170C /* CorrespondingModelClass.m */; };
 		DAEEA20F1C3261DF00718EC6 /* BiomagneticSittingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEEA20E1C3261DF00718EC6 /* BiomagneticSittingModel.m */; };
@@ -345,6 +346,8 @@
 		DAEC027A1BD514340095C6AE /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Regular.ttf"; path = "Fonts/OpenSans-Regular.ttf"; sourceTree = SOURCE_ROOT; };
 		DAEC027B1BD514340095C6AE /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Semibold.ttf"; path = "Fonts/OpenSans-Semibold.ttf"; sourceTree = SOURCE_ROOT; };
 		DAEC027C1BD514340095C6AE /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-SemiboldItalic.ttf"; path = "Fonts/OpenSans-SemiboldItalic.ttf"; sourceTree = SOURCE_ROOT; };
+		DAED93801CAE8146003846F0 /* AddAnotomicalPointsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddAnotomicalPointsViewController.h; sourceTree = "<group>"; };
+		DAED93811CAE8146003846F0 /* AddAnotomicalPointsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddAnotomicalPointsViewController.m; sourceTree = "<group>"; };
 		DAED97FE1C06D26E005D170C /* ScanPointModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanPointModel.h; sourceTree = "<group>"; };
 		DAED97FF1C06D26E005D170C /* ScanPointModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanPointModel.m; sourceTree = "<group>"; };
 		DAED98011C06D2A9005D170C /* CorrespondingModelClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CorrespondingModelClass.h; sourceTree = "<group>"; };
@@ -469,6 +472,7 @@
 		DA130F1F1BEA1DBD00B5B9FF /* SettingView */ = {
 			isa = PBXGroup;
 			children = (
+				DAD375C81CA2794300FDD5C7 /* Add Section */,
 				DA753C771C647FF200D1ABE1 /* otheModel */,
 				DA130F341BEA1E1900B5B9FF /* SettingView.xib */,
 				DA130F321BEA1E1900B5B9FF /* SettingView.h */,
@@ -727,6 +731,15 @@
 			name = Font;
 			sourceTree = "<group>";
 		};
+		DAED937F1CAE810A003846F0 /* Add AnatomicalPoints */ = {
+			isa = PBXGroup;
+			children = (
+				DAED93801CAE8146003846F0 /* AddAnotomicalPointsViewController.h */,
+				DAED93811CAE8146003846F0 /* AddAnotomicalPointsViewController.m */,
+			);
+			name = "Add AnatomicalPoints";
+			sourceTree = "<group>";
+		};
 		DAEF6AF01BD65C2C006868C8 /* DatePicker */ = {
 			isa = PBXGroup;
 			children = (
@@ -769,7 +782,6 @@
 				DAEFA1D41BD0B72E00900379 /* AddPatient */,
 				DAE955571BD24A4900EDFD8F /* PtientSheet */,
 				DAF161D01C0D8444006BCD8D /* SittingVC */,
-				DAD375C81CA2794300FDD5C7 /* Add Section */,
 				DAF82CDD1BD4BA4E006AF1E1 /* ContainerVC */,
 				DAEFA1D01BD0B6F400900379 /* Constant */,
 				DAEC026E1BD5131F0095C6AE /* CustomFont */,
@@ -924,6 +936,7 @@
 				DA7674181C101319007541F0 /* SittingTableViewCell.h */,
 				DA7674191C101319007541F0 /* SittingTableViewCell.m */,
 				DA7521C21C4CCEF200FF6B03 /* ToxicDeficiency */,
+				DAED937F1CAE810A003846F0 /* Add AnatomicalPoints */,
 				DA2F9F711C2170940077AEAB /* AddSymptom */,
 				DA2F9F721C2170A40077AEAB /* germs */,
 				DA2F9F731C2170C10077AEAB /* slideOut */,
@@ -1264,6 +1277,7 @@
 				DAEC02711BD513500095C6AE /* customFont.m in Sources */,
 				DA76741A1C101319007541F0 /* SittingTableViewCell.m in Sources */,
 				DA130F401BEA1E1900B5B9FF /* SettingView.m in Sources */,
+				DAED93821CAE8146003846F0 /* AddAnotomicalPointsViewController.m in Sources */,
 				DAFC75FE1C85675D005A6AD7 /* ToxicTableViewCell.m in Sources */,
 				DA130F371BEA1E1900B5B9FF /* AddSectionCell.m in Sources */,
 				DA130F3C1BEA1E1900B5B9FF /* PartModel.m in Sources */,

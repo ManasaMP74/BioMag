@@ -55,6 +55,8 @@
                 strimageUrl = [NSString stringWithFormat:@"%@%@%@",baseUrl,getProfile,model.storageId];
                 
             }
+            im.layer.cornerRadius=im.frame.size.width/2;
+             im.clipsToBounds=YES;
             [im setImageWithURL:[NSURL URLWithString:strimageUrl] placeholderImage:[UIImage imageNamed:_slideoutImageArray[indexPath.row]]];
 
         }else{

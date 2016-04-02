@@ -7,6 +7,8 @@
 #import "SeedSyncer.h"
 #import <MCLocalization/MCLocalization.h>
 #import "PatientViewController.h"
+#import "VMEnvironment.h"
+
 @interface SearchPatientViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *searchTextField;
 @property (weak, nonatomic) IBOutlet UILabel *addPatientLabel;
@@ -436,7 +438,6 @@
     ContainerViewController *containerVc =(ContainerViewController*)self.parentViewController;
     NSString *parameter;
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getPatientList];
-    
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         parameter=[NSString stringWithFormat:@"{\"UserTypeCode\":\"PAT123\"}"];
     }else{
