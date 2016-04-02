@@ -25,6 +25,7 @@
 #import "ToxicDeficiency.h"
 #import <MCLocalization/MCLocalization.h>
 #import "AddSectionData.h"
+#import "AddAnotomicalPointsViewController.h"
 @interface SittingViewController ()<UITableViewDelegate,UITableViewDataSource,addsymptom,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,UICollectionViewDataSource,ExpandCellProtocol,SWRevealViewControllerDelegate,deleteCellValue,SWRevealViewControllerDelegate,datePickerProtocol,sendGermsData>
 @property (strong, nonatomic) IBOutlet UILabel *ageValue;
 @property (strong, nonatomic) IBOutlet UILabel *filterLabel;
@@ -1407,6 +1408,21 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
 -(void)sittingFromSlideOut{
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft];
     [self setTheValuesInTableView];
+}
+-(void)addAnatomicalPointFromSlideout{
+    selectedCellToFilter=0;
+    if (selectedCellToFilter==allSectionNameArray.count-1) {
+        _previousBtn.hidden=YES;
+        _nextBtn.hidden=YES;
+    }else{
+        _previousBtn.hidden=YES;
+        _nextBtn.hidden=NO;
+    }
+    _toxicDeficiencyString=@"";
+    _sectionName=@"";
+    [self.revealViewController setFrontViewPosition:FrontViewPositionLeft];
+    AddAnotomicalPointsViewController *add=[self.storyboard instantiateViewControllerWithIdentifier:@"AddAnotomicalPointsViewController"];
+    [self.navigationController pushViewController:add animated:YES];
 }
 -(void)addSectionDataViewInSitting:(NSString *)differForView{
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft];

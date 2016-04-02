@@ -10,18 +10,16 @@
 #import "UIImageView+AFNetworking.h"
 @interface CriticalTreatmentInfoViewController ()<UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,deleteCellProtocol>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (weak, nonatomic) IBOutlet UIImageView *uploadImageView;
 @property (weak, nonatomic) IBOutlet UITextView *summaryTextView;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
 @property (weak, nonatomic) IBOutlet UILabel *summaryLabel;
 @property (weak, nonatomic) IBOutlet UILabel *descritionLabel;
-@property (weak, nonatomic) IBOutlet UILabel *Label;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 @property (weak, nonatomic) IBOutlet UIButton *saveButton;
 @property (weak, nonatomic) IBOutlet UIButton *addImageButton;
-
+@property (weak, nonatomic) IBOutlet UILabel *summaryHeaderLabel;
+@property (weak, nonatomic) IBOutlet UILabel *descriptionHeaderLabel;
 @end
-
 @implementation CriticalTreatmentInfoViewController
 {
     NSMutableArray *criticalImageArray;
@@ -114,6 +112,8 @@
     noStr=[MCLocalization stringForKey:@"No"];
     alert=[MCLocalization stringForKey:@"Alert!"];
     alertOk=[MCLocalization stringForKey:@"AlertOK"];
+     _descriptionHeaderLabel.text=[MCLocalization stringForKey:@"Description"];
+     _summaryHeaderLabel.text=[MCLocalization stringForKey:@"Summary"];
 }
 - (IBAction)camera:(id)sender {
     UIImagePickerController *picker=[[UIImagePickerController alloc]init];

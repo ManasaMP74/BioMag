@@ -66,5 +66,6 @@
 
 //get Data From SlideOut
 -(void)sittingFromSlideOut;
+-(void)addAnatomicalPointFromSlideout;
 -(void)addSectionDataViewInSitting:(NSString *)differForView;
 @end

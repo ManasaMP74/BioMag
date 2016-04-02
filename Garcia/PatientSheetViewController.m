@@ -258,7 +258,7 @@
     UIBarButtonItem *barItem=[[UIBarButtonItem alloc]initWithCustomView:button];
     UIBarButtonItem *negativeSpace=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     negativeSpace.width=-25;
-    self.navigationItem.leftBarButtonItems=@[barItem];
+    self.navigationItem.leftBarButtonItems=@[negativeSpace,barItem];
     [button addTarget:self action:@selector(popView) forControlEvents:UIControlEventTouchUpInside];
     
     

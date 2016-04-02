@@ -4,6 +4,7 @@
 #import "PostmanConstant.h"
 #import <MCLocalization/MCLocalization.h>
 #import "MBProgressHUD.h"
+#import "SittingViewController.h"
 @interface AddAnotomicalPointsViewController ()
 
 @end
@@ -17,6 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     constant=[[Constant alloc]init];
+     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-1.jpg"]]];
     [self textFieldLayer];
     [self navigationItemMethod];
     [self localize];
@@ -34,9 +36,10 @@
     [self callApiToSaveScanpoint:@"CorrespondingPair"];
 }
 - (IBAction)saveButtonForanatomicalPoint:(id)sender {
+[self popView];
 }
 - (IBAction)cancel:(id)sender {
- [self.navigationController popViewControllerAnimated:YES];
+ [self popView];
 }
 -(void)callApiToSaveScanpoint:(NSString*)differForSaveData{
     NSString *url;
@@ -48,7 +51,7 @@
         url=[NSString stringWithFormat:@"%@%@/0",baseUrl,saveScanpoint];
         if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
             //Parameter for Vzone Api
-            parameter =[NSString stringWithFormat:@"{\"request\":{\"Name\":\"%@\",\"UserID\":%d,\"Status\":true,\"MethodType\":\"POST\"}}",_scanpointNameTF,userIdInteger];
+            parameter =[NSString stringWithFormat:@"{\"request\":{\"Name\":\"%@\",\"UserID\":%d,\"Status\":true,\"MethodType\":\"POST\"}}",_scanpointNameTF.text,userIdInteger];
         }else{
             //Parameter For Material Api
             parameter =[NSString stringWithFormat:@" {\"Name\":\"%@\",\"UserID\":%d,\"Status\":true,\"MethodType\":\"POST\"}",_scanpointNameTF.text,userIdInteger];
@@ -57,7 +60,7 @@
         url=[NSString stringWithFormat:@"%@%@/0",baseUrl,saveCorrespondingPair];
         if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
             //Parameter for Vzone Api
-            parameter =[NSString stringWithFormat:@"{\"request\":{\"Name\":\"%@\",\"UserID\":%d,\"Status\":true,\"MethodType\":\"POST\"}}",_correspondingNameTF,userIdInteger];
+            parameter =[NSString stringWithFormat:@"{\"request\":{\"Name\":\"%@\",\"UserID\":%d,\"Status\":true,\"MethodType\":\"POST\"}}",_correspondingNameTF.text,userIdInteger];
         }else{
             //Parameter For Material Api
             parameter =[NSString stringWithFormat:@" {\"Name\":\"%@\",\"UserID\":%d,\"Status\":true,\"MethodType\":\"POST\"}",_correspondingNameTF.text,userIdInteger];
@@ -106,6 +109,7 @@
     [constant spaceAtTheBeginigOfTextField:_anatomicalNameTF];
     [constant spaceAtTheBeginigOfTextField:_anatomicalLocationTF];
     [constant spaceAtTheBeginigOfTextField:_anatomicalSortNumberTF];
+    [constant SetBorderForTextField:_scanpointNameTF];
     [constant SetBorderForTextField:_anatomicalSortNumberTF];
     [constant SetBorderForTextField:_anatomicalLocationTF];
     [constant SetBorderForTextField:_anatomicalNameTF];
@@ -126,15 +130,17 @@
     [constant changeCancelBtnImage:_cancelBtn];
 }
 -(void)navigationItemMethod{
+    self.navigationItem.hidesBackButton=YES;
     UIImage* image = [UIImage imageNamed:@"Back button.png"];
     CGRect frameimg1 = CGRectMake(100, 0, image.size.width+30, image.size.height);
     UIButton *button=[[UIButton alloc]initWithFrame:frameimg1];
     [button setImage:image forState:UIControlStateNormal];
     UIBarButtonItem *barItem=[[UIBarButtonItem alloc]initWithCustomView:button];
     UIBarButtonItem *negativeSpace=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    negativeSpace.width=-25;
-    self.navigationController.navigationItem.leftBarButtonItems=@[negativeSpace,barItem];
+    negativeSpace.width=-20;
+    self.navigationItem.leftBarButtonItems=@[negativeSpace,barItem];
     [button addTarget:self action:@selector(popView) forControlEvents:UIControlEventTouchUpInside];
+    self.title=[MCLocalization stringForKey:@"Add Anatomical Points"];
 }
 -(void)popView{
     [self.navigationController popViewControllerAnimated:YES];
@@ -143,5 +149,18 @@
 {
     alertStr=[MCLocalization stringForKey:@"Alert!"];
     alertOkStr=[MCLocalization stringForKey:@"AlertOK"];
+    [_cancelBtn setTitle:[MCLocalization stringForKey:@"Cancel"] forState:normal];
+    [_saveBtn setTitle:[MCLocalization stringForKey:@"Save"] forState:normal];
+    _scanponitNameLabel.text=[MCLocalization stringForKey:@"Name"];
+     _correspondingPairNameLabel.text=[MCLocalization stringForKey:@"Name"];
+    _scanpointLocationLabel.text=[MCLocalization stringForKey:@"Location"];
+    _correspondingPairLocationLabel.text=[MCLocalization stringForKey:@"Location"];
+    _addScanpointLabel.text=[MCLocalization stringForKey:@"Add Scan Point"];
+    _addCorrespondingPairLabel.text=[MCLocalization stringForKey:@"Add Corresponding Pair"];
+     _anotomicalSortNumberLabel.text=[MCLocalization stringForKey:@"Sort Number"];
+     _anotomicalScanpointNameLabel.text=[MCLocalization stringForKey:@"Scan Point"];
+     _anotomicalCorrespondingLabel.text=[MCLocalization stringForKey:@"Corresponding Pair"];
+     _mapAnotomicalLabel.text=[MCLocalization stringForKey:@"Map Anatomical Points"];
+     _descriptionLabel.text=[MCLocalization stringForKey:@"Description"];
 }
 @end

@@ -6,7 +6,6 @@
 #import "Postman.h"
 #import "PostmanConstant.h"
 #import "Constant.h"
-#import <MCLocalization/MCLocalization.h>
 #import "CriticalTreatmentInfoViewController.h"
 #import "MBProgressHUD.h"
 #import "CriticalImageModel.h"
@@ -19,6 +18,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *summaryLabel;
 @property (weak, nonatomic) IBOutlet UILabel *descritionLabel;
 @property (weak, nonatomic) IBOutlet UIButton *EditButton;
+@property (weak, nonatomic) IBOutlet UILabel *summaryHeaderLabel;
+@property (weak, nonatomic) IBOutlet UILabel *descriptionHeaderLabel;
 @end
 
 @implementation ShowCriticalInfoViewController
@@ -39,13 +40,9 @@
       [self layerOfTV];
     criticalImageArray=[[NSMutableArray alloc]init];
     _collectionviewHeight.constant=0;
-    _detailViewHeight.constant=292;
+    _detailViewHeight.constant=330;
     [self navigationItemMethod];
-     [_criticalInfoLabel setTitle:[MCLocalization stringForKey:@"Critical TreatmentInfo"] forState:normal];
-     [_addCriticalInfo setTitle:[MCLocalization stringForKey:@"Add Critical TreatmentInfo"] forState:normal];
-    [_EditButton setTitle:[MCLocalization stringForKey:@"Edit"] forState:normal];
-    _descritionLabel.text=[MCLocalization stringForKey:@"Add description"];
-    _summaryLabel.text=[MCLocalization stringForKey:@"Add summary (100 Characters)"];
+    [self localize];
     [self getDetailOfCriticalInfo];
 }
 
@@ -192,7 +189,7 @@
         NSArray *ar1=dict1[@"DocDetails"];
         if (ar1.count>0) {
             _collectionviewHeight.constant=128;
-            _detailViewHeight.constant=420;
+            _detailViewHeight.constant=469;
         }
         [criticalImageArray removeAllObjects];
         for (NSDictionary *dict2 in ar1) {
@@ -220,5 +217,13 @@
 -(void)deleteImage{
     [self getDetailOfSharedTreatmentInfo];
 }
-
+-(void)localize{
+    [_criticalInfoLabel setTitle:[MCLocalization stringForKey:@"Critical TreatmentInfo"] forState:normal];
+    [_addCriticalInfo setTitle:[MCLocalization stringForKey:@"Add Critical TreatmentInfo"] forState:normal];
+    [_EditButton setTitle:[MCLocalization stringForKey:@"Edit"] forState:normal];
+    _descritionLabel.text=[MCLocalization stringForKey:@"Add description"];
+    _summaryLabel.text=[MCLocalization stringForKey:@"Add summary (100 Characters)"];
+    _descriptionHeaderLabel.text=[MCLocalization stringForKey:@"Description"];
+    _summaryHeaderLabel.text=[MCLocalization stringForKey:@"Summary"];
+}
 @end

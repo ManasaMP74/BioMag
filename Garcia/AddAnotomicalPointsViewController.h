@@ -8,8 +8,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *correspondingPairNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *correspondingPairLocationLabel;
 @property (weak, nonatomic) IBOutlet UILabel *mapAnotomicalLabel;
-@property (weak, nonatomic) IBOutlet UILabel *anotomicalNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *anotomicalLocationLabel;
+@property (weak, nonatomic) IBOutlet UILabel *anotomicalScanpointNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *anotomicalCorrespondingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *anotomicalSortNumberLabel;
 @property (weak, nonatomic) IBOutlet UITextField *scanpointNameTF;
 @property (weak, nonatomic) IBOutlet UITextField *scanpointLocationTF;
