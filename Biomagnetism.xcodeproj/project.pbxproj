@@ -1094,7 +1094,7 @@
 		DAEFA1861BD0B11500900379 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = manasap;
 				TargetAttributes = {
 					DA9260801CAE2AA000368C47 = {
@@ -1474,6 +1474,7 @@
 				);
 				INFOPLIST_FILE = GarciaTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Vmoksha.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Biomagnetism;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Garcia.app/Garcia";
 			};
@@ -1640,6 +1641,7 @@
 				);
 				INFOPLIST_FILE = GarciaTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Vmoksha.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Biomagnetism;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Garcia.app/Garcia";
 			};
@@ -1655,6 +1657,7 @@
 				);
 				INFOPLIST_FILE = GarciaTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Vmoksha.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Biomagnetism;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Garcia.app/Garcia";
 			};
