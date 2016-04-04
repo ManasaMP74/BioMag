@@ -17,12 +17,16 @@
 @property (weak, nonatomic) IBOutlet UITextField *correspondingNameTF;
 @property (weak, nonatomic) IBOutlet UITextField *correspondingLocationTF;
 @property (weak, nonatomic) IBOutlet UIButton *saveCorresponding;
-@property (weak, nonatomic) IBOutlet UITextField *anatomicalNameTF;
-@property (weak, nonatomic) IBOutlet UITextField *anatomicalLocationTF;
+@property (weak, nonatomic) IBOutlet UITextField *anatomicalScanpointTF;
+@property (weak, nonatomic) IBOutlet UITextField *anatomicalCorrespondingPairTF;
 @property (weak, nonatomic) IBOutlet UITextField *anatomicalSortNumberTF;
 @property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTV;
 @property (weak, nonatomic) IBOutlet UIButton *saveBtn;
 @property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
+@property (weak, nonatomic) IBOutlet UIButton *selectScanpoint;
+@property (weak, nonatomic) IBOutlet UIButton *selectCorrespondinPair;
+@property (weak, nonatomic) IBOutlet UITableView *scanpointTable;
+@property (weak, nonatomic) IBOutlet UITableView *correspondingPairTable;
 
 @end

@@ -14,6 +14,7 @@
     Constant *constant;
     NSString *alertStr,*alertOkStr,*requiredNameField;
     Postman *postman;
+    NSMutableArray *scanpointArray,*correspondingPointArray;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -22,6 +23,8 @@
     [self textFieldLayer];
     [self navigationItemMethod];
     [self localize];
+    scanpointArray=[[NSMutableArray alloc]init];
+    correspondingPointArray=[[NSMutableArray alloc]init];
     postman=[[Postman alloc]init];
 }
 
@@ -30,6 +33,7 @@
     
 }
 - (IBAction)saveButtonForScanpoint:(id)sender {
+     [self hideTheViews];
     if (_scanpointNameTF.text.length==0) {
         [self showToastMessage:requiredNameField];
     }
@@ -37,16 +41,19 @@
     [self callApiToSaveScanpoint:@"scanpoint"];
 }
 - (IBAction)saveButtonForCorrespondingPair:(id)sender {
+     [self hideTheViews];
     if (_correspondingNameTF.text.length==0) {
         [self showToastMessage:requiredNameField];
     }
    else [self callApiToSaveScanpoint:@"CorrespondingPair"];
 }
 - (IBAction)saveButtonForanatomicalPoint:(id)sender {
+     [self hideTheViews];
    // [self callApiToSaveScanpoint:@"anatomical"];
     [self popView];
 }
 - (IBAction)cancel:(id)sender {
+     [self hideTheViews];
     [self popView];
 }
 -(void)callApiToSaveScanpoint:(NSString*)differForSaveData{
@@ -77,7 +84,7 @@
         url=[NSString stringWithFormat:@"%@%@/0",baseUrl,addAnatomicalPoints];
         if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
             //Parameter for Vzone Api
-            parameter =[NSString stringWithFormat:@"{\"request\":{\"Name\":\"%@\",\"UserID\":%d,\"Status\":true,\"MethodType\":\"POST\"}}",_correspondingNameTF.text,userIdInteger];
+            parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":\"0\",\"SectionCode\":\"ANTERIOR_THORAX\",\"ScanPointCode\":\"ECODQF\",\"CorrespondingPairCode\":\"ADDUCTOR_MAGNUS_MUSCLE\",\"IsPublished\":false,\"GermsCode\":\"FMRBFU\",\"Status\":true,\"GenderCode\":\"F\",\"Author\":\"GYAA5Z\",\"ApplicableVersionCode\":\"KP18Z7\",\"AppTypeCode\":\"2AP7S5\",\"LocationScanPoint\":\"\",\"LocationCorrespondingPair\":\"\",\"Psychoemotional\":\"\",\"Description\":\"%@\",\"CompanyCode\":\"%@\",\"UserID\":%d,\"MethodType\":\"POST\"}}",_descriptionTV.text, postmanCompanyCode, userIdInteger];
         }else{
             //Parameter For Material Api
             parameter =[NSString stringWithFormat:@" {\"Name\":\"%@\",\"UserID\":%d,\"Status\":true,\"MethodType\":\"POST\"}",_correspondingNameTF.text,userIdInteger];
@@ -125,13 +132,13 @@
     [constant spaceAtTheBeginigOfTextField:_scanpointLocationTF];
     [constant spaceAtTheBeginigOfTextField:_correspondingNameTF];
     [constant spaceAtTheBeginigOfTextField:_correspondingLocationTF];
-    [constant spaceAtTheBeginigOfTextField:_anatomicalNameTF];
-    [constant spaceAtTheBeginigOfTextField:_anatomicalLocationTF];
+    [constant spaceAtTheBeginigOfTextField:_anatomicalScanpointTF];
+    [constant spaceAtTheBeginigOfTextField:_anatomicalCorrespondingPairTF];
     [constant spaceAtTheBeginigOfTextField:_anatomicalSortNumberTF];
     [constant SetBorderForTextField:_scanpointNameTF];
     [constant SetBorderForTextField:_anatomicalSortNumberTF];
-    [constant SetBorderForTextField:_anatomicalLocationTF];
-    [constant SetBorderForTextField:_anatomicalNameTF];
+    [constant SetBorderForTextField:_anatomicalCorrespondingPairTF];
+    [constant SetBorderForTextField:_anatomicalScanpointTF];
     [constant SetBorderForTextField:_correspondingLocationTF];
     [constant SetBorderForTextview:_descriptionTV];
     [constant SetBorderForTextField:_correspondingNameTF];
@@ -141,8 +148,8 @@
     [constant setFontFortextField:_scanpointLocationTF];
     [constant setFontFortextField:_correspondingNameTF];
     [constant setFontFortextField:_correspondingLocationTF];
-    [constant setFontFortextField:_anatomicalNameTF];
-    [constant setFontFortextField:_anatomicalLocationTF];
+    [constant setFontFortextField:_anatomicalScanpointTF];
+    [constant setFontFortextField:_anatomicalCorrespondingPairTF];
     [constant setFontFortextField:_anatomicalSortNumberTF];
     _descriptionTV.textContainerInset = UIEdgeInsetsMake(10, 5, 10, 10);
     [constant changeSaveBtnImage:_saveBtn];
@@ -182,8 +189,25 @@
     _anotomicalCorrespondingLabel.text=[MCLocalization stringForKey:@"Corresponding Pair"];
     _mapAnotomicalLabel.text=[MCLocalization stringForKey:@"Map Anatomical Points"];
     _descriptionLabel.text=[MCLocalization stringForKey:@"Description"];
+    _anatomicalScanpointTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Select"]];
+    _anatomicalCorrespondingPairTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Select"]];
+}
+-(void)hideTheViews{
+    [self.view endEditing:YES];
+    _scanpointTable.hidden=YES;
+    _correspondingPairTable.hidden=YES;
 }
 - (IBAction)gestureRecognizer:(id)sender {
+    [self hideTheViews];
+}
+- (IBAction)selectScanpoint:(id)sender {
     [self.view endEditing:YES];
+    _scanpointTable.hidden=NO;
+    _correspondingPairTable.hidden=YES;
+}
+- (IBAction)selectCorrespondingPair:(id)sender {
+    [self.view endEditing:YES];
+    _scanpointTable.hidden=YES;
+    _correspondingPairTable.hidden=NO;
 }
 @end
