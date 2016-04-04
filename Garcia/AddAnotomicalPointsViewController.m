@@ -154,6 +154,15 @@
     _descriptionTV.textContainerInset = UIEdgeInsetsMake(10, 5, 10, 10);
     [constant changeSaveBtnImage:_saveBtn];
     [constant changeCancelBtnImage:_cancelBtn];
+     [constant spaceAtTheBeginigOfTextField:_anatomicalSectionTF];
+     [constant SetBorderForTextField:_anatomicalSectionTF];
+    [constant setFontFortextField:_anatomicalSectionTF];
+    [constant spaceAtTheBeginigOfTextField:_anatomicalGermsTF];
+    [constant SetBorderForTextField:_anatomicalGermsTF];
+    [constant setFontFortextField:_anatomicalGermsTF];
+    [constant spaceAtTheBeginigOfTextField:_anatomicalAuthorTF];
+    [constant SetBorderForTextField:_anatomicalAuthorTF];
+    [constant setFontFortextField:_anatomicalAuthorTF];
 }
 -(void)navigationItemMethod{
     self.navigationItem.hidesBackButton=YES;
@@ -191,6 +200,12 @@
     _descriptionLabel.text=[MCLocalization stringForKey:@"Description"];
     _anatomicalScanpointTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Select"]];
     _anatomicalCorrespondingPairTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Select"]];
+    _anatomicalAuthorTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Select"]];
+    _anatomicalGermsTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Select"]];
+    _anatomicalSectionTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Select"]];
+    _anatomicalSectionLabel.text=[MCLocalization stringForKey:@"Section"];
+     _anatomicalGermsLabel.text=[MCLocalization stringForKey:@"Germs"];
+     _anatomicalAuthorLabel.text=[MCLocalization stringForKey:@"Author"];
 }
 -(void)hideTheViews{
     [self.view endEditing:YES];
@@ -209,5 +224,11 @@
     [self.view endEditing:YES];
     _scanpointTable.hidden=YES;
     _correspondingPairTable.hidden=NO;
+}
+- (IBAction)selectSection:(id)sender {
+}
+- (IBAction)selectGerms:(id)sender {
+}
+- (IBAction)selectAuthor:(id)sender {
 }
 @end

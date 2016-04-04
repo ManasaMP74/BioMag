@@ -28,5 +28,14 @@
 @property (weak, nonatomic) IBOutlet UIButton *selectCorrespondinPair;
 @property (weak, nonatomic) IBOutlet UITableView *scanpointTable;
 @property (weak, nonatomic) IBOutlet UITableView *correspondingPairTable;
+@property (weak, nonatomic) IBOutlet UILabel *anatomicalSectionLabel;
+@property (weak, nonatomic) IBOutlet UITextField *anatomicalSectionTF;
+@property (weak, nonatomic) IBOutlet UIButton *anatomicalSelectSection;
+@property (weak, nonatomic) IBOutlet UILabel *anatomicalGermsLabel;
+@property (weak, nonatomic) IBOutlet UITextField *anatomicalGermsTF;
+@property (weak, nonatomic) IBOutlet UIButton *selectGerms;
+@property (weak, nonatomic) IBOutlet UILabel *anatomicalAuthorLabel;
+@property (weak, nonatomic) IBOutlet UITextField *anatomicalAuthorTF;
+@property (weak, nonatomic) IBOutlet UIButton *selectAuthor;
 
 @end
