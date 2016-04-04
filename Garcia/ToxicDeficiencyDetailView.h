@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
 #import "ToxicDeficiencyCell.h"
+#import "VMEnvironment.h"
 @interface ToxicDeficiencyDetailView : UIView
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet ToxicDeficiencyCell *customCell;

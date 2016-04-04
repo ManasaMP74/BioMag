@@ -1,4 +1,5 @@
 #import <UIKit/UIKit.h>
+#import "VMEnvironment.h"
 @protocol addedPatient<NSObject>
 -(void)successfullyAdded:(NSString *)code;
 @end

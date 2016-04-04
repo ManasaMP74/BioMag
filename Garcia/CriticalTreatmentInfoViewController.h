@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
 #import "ShowCriticalInfoListModel.h"
+#import "VMEnvironment.h"
 @protocol DeleteCriticalImageProtocol<NSObject>
 @optional
 -(void)deleteImage;

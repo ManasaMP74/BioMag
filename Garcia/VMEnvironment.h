@@ -1,18 +1,27 @@
 #import <Foundation/Foundation.h>
 
-#define BASE_URL [VMEnvironment environment].baseUrl
+#define baseUrl [VMEnvironment environment].baseurl
+#define dbName [VMEnvironment environment].dbname
+#define dbNameforResized [VMEnvironment environment].dbnameforResized
+#define postmanCompanyCode [VMEnvironment environment].postmancompanycode
+#define aboutUs [VMEnvironment environment].aboutus
+#define FAQurl [VMEnvironment environment].faqurl
+#define termsAndCondition [VMEnvironment environment].termsandcondition
+#define privecyAndPolicy [VMEnvironment environment].privecyandpolicy
+#define baseUrlAws [VMEnvironment environment].baseurlForaws
 
 @interface VMEnvironment : NSObject
 @property(nonatomic,strong)NSString *environmentName;
 @property(nonatomic,strong)NSString *buildCommit;
-@property(nonatomic,strong)NSString *baseUrl;
-@property(nonatomic,strong)NSString *dbName;
-@property(nonatomic,strong)NSString *dbNameforResized;
-@property(nonatomic,strong)NSString *postmanCompanyCode;
-@property(nonatomic,strong)NSString *aboutUs;
-@property(nonatomic,strong)NSString *FAQUrl;
-@property(nonatomic,strong)NSString *termsandCondition;
-@property(nonatomic,strong)NSString *privecyandPolicy;
+@property(nonatomic,strong)NSString *baseurl;
+@property(nonatomic,strong)NSString *dbname;
+@property(nonatomic,strong)NSString *dbnameforResized;
+@property(nonatomic,strong)NSString *postmancompanycode;
+@property(nonatomic,strong)NSString *aboutus;
+@property(nonatomic,strong)NSString *faqurl;
+@property(nonatomic,strong)NSString *termsandcondition;
+@property(nonatomic,strong)NSString *privecyandpolicy;
+@property(nonatomic,strong)NSString *baseurlForaws;
 
 
 +(instancetype)environment;

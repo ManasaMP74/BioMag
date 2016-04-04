@@ -1,6 +1,7 @@
 #import <UIKit/UIKit.h>
 #import "SectionXibTableViewCell.h"
 #import "sittingModel.h"
+#import "VMEnvironment.h"
 @protocol getSectionNameProtocol<NSObject>
 -(void)getSectionName:(NSString*)str withIndex:(NSIndexPath*)index withCellIndex:(int)i;
 @end

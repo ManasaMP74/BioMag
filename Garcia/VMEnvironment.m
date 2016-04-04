@@ -16,14 +16,15 @@
         NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"environment" ofType:@"plist"]];
         _environmentName = plist[@"environment"];
         _buildCommit     = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
-        _baseUrl       = plist[@"baseUrl"];
-        _dbName       = plist[@"dbName"];
-        _dbNameforResized       = plist[@"dbNameforResized"];
-        _postmanCompanyCode       = plist[@"postmanCompanyCode"];
-        _aboutUs       = plist[@"aboutUs"];
-        _FAQUrl       = plist[@"FAQurl"];
-        _termsandCondition       = plist[@"termsAndCondition"];
-        _privecyandPolicy       = plist[@"privecyAndPolicy"];
+        _baseurl       = plist[@"baseUrl"];
+        _dbname       = plist[@"dbName"];
+        _dbnameforResized       = plist[@"dbNameforResized"];
+        _postmancompanycode       = plist[@"postmanCompanyCode"];
+        _aboutus       = plist[@"aboutUs"];
+        _faqurl       = plist[@"FAQurl"];
+        _termsandcondition       = plist[@"termsAndCondition"];
+        _privecyandpolicy       = plist[@"privecyAndPolicy"];
+        _baseurlForaws = plist[@"baseUrlAws"];
     }
     return self;
 }

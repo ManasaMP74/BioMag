@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 #import "ProfileImageModel.h"
 #import <UIKit/UIKit.h>
+#import "VMEnvironment.h"
 @interface searchPatientModel : NSObject
 @property(strong,nonatomic)NSString *address;
 @property(strong,nonatomic)NSString *addressLine1;

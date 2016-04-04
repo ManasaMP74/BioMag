@@ -1,7 +1,7 @@
 #import "PostmanConstant.h"
 #import <MCLocalization/MCLocalization.h>
-@implementation PostmanConstant
 
+@implementation PostmanConstant
 NSString *const languageCode=@"en";
 
 // Material API For Testing
@@ -49,18 +49,16 @@ NSString *const languageCode=@"en";
 //NSString *const DifferMetirialOrVzoneApi=@"material";
 //NSString *const language=@"language";
 
-
-
 //Vzone testing
-NSString *const baseUrlAws =@"https://s3-ap-northeast-1.amazonaws.com/";
-NSString *const dbName =@"biomag-tst.images.original/";
-NSString *const dbNameforResized =@"biomag-tst.images.resized/";
-NSString *const baseUrl=@"http://prithiviraj.vmokshagroup.com:8089/";
-NSString *const postmanCompanyCode=@"A0I7LV";
-NSString *const aboutUs=@"search/configuration";
-NSString *const FAQurl=@"configurationview/AOO6FQ";
-NSString *const termsAndCondition=@"configurationview/MWUFJM";
-NSString *const privecyAndPolicy=@"configurationview/4XOSBX";
+//NSString *const baseUrlAws =@"https://s3-ap-northeast-1.amazonaws.com/";
+//NSString *const dbName =@"biomag-tst.images.original/";
+//NSString *const dbNameforResized =@"biomag-tst.images.resized/";
+//NSString *const baseurl=@"http://prithiviraj.vmokshagroup.com:8089/";
+//NSString *const postmanCompanyCode=@"A0I7LV";
+//NSString *const aboutUs=@"search/configuration";
+//NSString *const FAQurl=@"configurationview/AOO6FQ";
+//NSString *const termsAndCondition=@"configurationview/MWUFJM";
+//NSString *const privecyAndPolicy=@"configurationview/4XOSBX";
 
 
  

@@ -10,6 +10,7 @@
 #import "MBProgressHUD.h"
 #import "ScanPointModel.h"
 #import "CorrespondingModelClass.h"
+#import "VMEnvironment.h"
 @implementation SettingView
 {
     UIView *view;

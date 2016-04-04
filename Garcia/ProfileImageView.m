@@ -1,6 +1,7 @@
 #import "ProfileImageView.h"
 #import "AppDelegate.h"
 #import "PostmanConstant.h"
+#import "VMEnvironment.h"
 #import "UIImageView+clearCachImage.h"
 @implementation ProfileImageView
 {

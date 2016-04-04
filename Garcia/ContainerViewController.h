@@ -2,6 +2,7 @@
 #import "searchPatientModel.h"
 #import "searchPatientModel.h"
 #import "PatientTitleModel.h"
+#import "VMEnvironment.h"
 @protocol loadTreatmentDelegateInContainer <NSObject>
 @optional
 -(void)loadTreatment;

@@ -1,5 +1,5 @@
 #import <UIKit/UIKit.h>
-
+#import "VMEnvironment.h"
 @interface AddAnotomicalPointsViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UILabel *addScanpointLabel;
 @property (weak, nonatomic) IBOutlet UILabel *scanponitNameLabel;

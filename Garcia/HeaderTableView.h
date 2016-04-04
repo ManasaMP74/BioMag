@@ -4,6 +4,7 @@
 #import "SittingModelClass.h"
 #import "ToxicTableViewCell.h"
 #import "ToxicDetailTableViewCell.h"
+#import "VMEnvironment.h"
 @protocol selectedCellProtocol<NSObject>
 -(void)selectedCell:(NSString*)selectedHeader withCorrespondingHeight:(CGFloat)height;
 -(void)deselectedCell:(NSString*)deselectedHeader withCorrespondingHeight:(CGFloat)height;

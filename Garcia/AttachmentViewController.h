@@ -1,4 +1,5 @@
 #import <UIKit/UIKit.h>
+#import "VMEnvironment.h"
 @protocol selectedImage<NSObject>
 -(void)selectedImage:(UIImage*)image withCaption:(NSString *)captionText;
 @end

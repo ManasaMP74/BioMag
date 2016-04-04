@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-
+#import "VMEnvironment.h"
 @protocol languageChangeForDelegat <NSObject>
 @optional
 -(void)languageChangeDelegate:(int)str;

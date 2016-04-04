@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-
+#import "VMEnvironment.h"
 @interface DrProfilModel : NSObject
 @property(strong,nonatomic)NSDictionary *addressDict;
 @property(strong,nonatomic)NSDictionary *jsonDict;

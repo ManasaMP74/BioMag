@@ -1,9 +1,9 @@
 #import <Foundation/Foundation.h>
 @interface PostmanConstant : NSObject
-FOUNDATION_EXPORT NSString *const baseUrl;
-FOUNDATION_EXPORT NSString *const baseUrlAws;
-FOUNDATION_EXPORT NSString *const dbName;
-FOUNDATION_EXPORT NSString *const dbNameforResized;
+//FOUNDATION_EXPORT NSString *const baseUrl;
+//FOUNDATION_EXPORT NSString *const baseUrlAws;
+//FOUNDATION_EXPORT NSString *const dbName;
+//FOUNDATION_EXPORT NSString *const dbNameforResized;
 
 FOUNDATION_EXPORT NSString *const getGender;
 FOUNDATION_EXPORT NSString *const getMartialStatus;
@@ -25,7 +25,7 @@ FOUNDATION_EXPORT NSString *const biomagneticMatrix;
 FOUNDATION_EXPORT NSString *const germsUrl;
 FOUNDATION_EXPORT NSString *const getTitleOfTreatment;
 FOUNDATION_EXPORT NSString *const expandProfileImage;
-FOUNDATION_EXPORT NSString *const postmanCompanyCode;
+//FOUNDATION_EXPORT NSString *const postmanCompanyCode;
 FOUNDATION_EXPORT NSString *const languageCode;
 FOUNDATION_EXPORT NSString *const toxicDeficiencyType;
 FOUNDATION_EXPORT NSString *const toxicDeficiencyDetail;
@@ -33,10 +33,10 @@ FOUNDATION_EXPORT NSString *const kGET_SEED_URL;
 FOUNDATION_EXPORT NSString *const forgotPassword;
 FOUNDATION_EXPORT NSString *const language;
 FOUNDATION_EXPORT NSString *const languageUILabel;
-FOUNDATION_EXPORT NSString *const aboutUs;
-FOUNDATION_EXPORT NSString *const FAQurl;
-FOUNDATION_EXPORT NSString *const termsAndCondition;
-FOUNDATION_EXPORT NSString *const privecyAndPolicy;
+//FOUNDATION_EXPORT NSString *const aboutUs;
+//FOUNDATION_EXPORT NSString *const FAQurl;
+//FOUNDATION_EXPORT NSString *const termsAndCondition;
+//FOUNDATION_EXPORT NSString *const privecyAndPolicy;
 FOUNDATION_EXPORT NSString *const addGermsUrl;
 FOUNDATION_EXPORT NSString *const preferredLanguage;
 FOUNDATION_EXPORT NSString *const deleteDocumentUrl;
@@ -50,6 +50,5 @@ FOUNDATION_EXPORT NSString *const addAnatomicalPoints;
 
 
 FOUNDATION_EXPORT NSString *const DifferMetirialOrVzoneApi;
-
 
 @end

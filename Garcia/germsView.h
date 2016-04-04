@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
 #import "GermsTableViewCell.h"
+#import "VMEnvironment.h"
 @protocol sendGermsData<NSObject>
 -(void)germsData:(NSArray*)germasData;
 @end

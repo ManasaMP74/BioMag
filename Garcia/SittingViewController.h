@@ -2,6 +2,7 @@
 #import "UIImageView+AFNetworking.h"
 #import "ToxicDeficiencyDetailView.h"
 #import "searchPatientModel.h"
+#import "VMEnvironment.h"
 #if !defined(MAX)
 #define MAX(A,B)((A) > (B) ? (A) : (B))
 #endif

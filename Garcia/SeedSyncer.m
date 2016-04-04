@@ -3,6 +3,7 @@
 #import "PostmanConstant.h"
 #import "MBProgressHUD.h"
 #import "DBManager.h"
+#import "VMEnvironment.h"
 @interface SeedSyncer()<DBManagerDelegate>
 
 @end

@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
 #import "lagModel.h"
+#import "VMEnvironment.h"
 @protocol selectedObjectInPop<NSObject>
 -(void)selectedObject:(int)row;
 -(void)selectedSlideOutObject:(int)row;

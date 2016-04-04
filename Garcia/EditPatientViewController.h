@@ -1,6 +1,7 @@
 #import <UIKit/UIKit.h>
 #import "searchPatientModel.h"
 #import "UIImageView+AFNetworking.h"
+#import "VMEnvironment.h"
 @protocol editPatient<NSObject>
 -(void)successfullyEdited:(NSString *)code;
 @end

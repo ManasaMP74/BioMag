@@ -1,6 +1,7 @@
 #import <UIKit/UIKit.h>
 #import "SymptomTagCustomCollectionViewCell.h"
 #import "searchPatientModel.h"
+#import "VMEnvironment.h"
 @protocol addsymptom<NSObject>
 -(void)addsymptom:(NSArray*)array;
 @end

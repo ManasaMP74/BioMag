@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
 #import "ShowCriticalInfoListModel.h"
+#import "VMEnvironment.h"
 @interface ShowDetailOfCriticalInfoViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *collectionviewHeight;

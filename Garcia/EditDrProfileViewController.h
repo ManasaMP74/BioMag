@@ -1,4 +1,5 @@
 #import <UIKit/UIKit.h>
+#import "VMEnvironment.h"
 @protocol editSuccess<NSObject>
 -(void)editedSuccessfully;
 @end

@@ -13,6 +13,7 @@
 #import "lagModel.h"
 #import "SeedSyncer.h"
 #import "sittingModel.h"
+#import "VMEnvironment.h"
 @interface PatientViewController ()<UITableViewDataSource,UITableViewDelegate,editPatient,loadTreatmentDelegateInContainer>
 @property (weak, nonatomic) IBOutlet UILabel *transfusinTF;
 @property (weak, nonatomic) IBOutlet UIButton *edit;

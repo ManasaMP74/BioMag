@@ -1,5 +1,5 @@
 #import <UIKit/UIKit.h>
-
+#import "VMEnvironment.h"
 @interface ShowCriticalInfoViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 @property(strong,nonatomic)NSArray *CriticalInfoArray;
