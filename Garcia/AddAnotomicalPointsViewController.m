@@ -12,7 +12,7 @@
 @implementation AddAnotomicalPointsViewController
 {
     Constant *constant;
-    NSString *alertStr,*alertOkStr;
+    NSString *alertStr,*alertOkStr,*requiredNameField;
     Postman *postman;
 }
 - (void)viewDidLoad {
@@ -30,13 +30,20 @@
     
 }
 - (IBAction)saveButtonForScanpoint:(id)sender {
+    if (_scanpointNameTF.text.length==0) {
+        [self showToastMessage:requiredNameField];
+    }
+    else
     [self callApiToSaveScanpoint:@"scanpoint"];
 }
 - (IBAction)saveButtonForCorrespondingPair:(id)sender {
-    [self callApiToSaveScanpoint:@"CorrespondingPair"];
+    if (_correspondingNameTF.text.length==0) {
+        [self showToastMessage:requiredNameField];
+    }
+   else [self callApiToSaveScanpoint:@"CorrespondingPair"];
 }
 - (IBAction)saveButtonForanatomicalPoint:(id)sender {
-    [self callApiToSaveScanpoint:@"anatomical"];
+   // [self callApiToSaveScanpoint:@"anatomical"];
     [self popView];
 }
 - (IBAction)cancel:(id)sender {
@@ -67,7 +74,7 @@
             parameter =[NSString stringWithFormat:@" {\"Name\":\"%@\",\"UserID\":%d,\"Status\":true,\"MethodType\":\"POST\"}",_correspondingNameTF.text,userIdInteger];
         }
     }else{
-        url=[NSString stringWithFormat:@"%@%@/0",baseUrl,saveCorrespondingPair];
+        url=[NSString stringWithFormat:@"%@%@/0",baseUrl,addAnatomicalPoints];
         if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
             //Parameter for Vzone Api
             parameter =[NSString stringWithFormat:@"{\"request\":{\"Name\":\"%@\",\"UserID\":%d,\"Status\":true,\"MethodType\":\"POST\"}}",_correspondingNameTF.text,userIdInteger];
@@ -161,6 +168,7 @@
 {
     alertStr=[MCLocalization stringForKey:@"Alert!"];
     alertOkStr=[MCLocalization stringForKey:@"AlertOK"];
+    requiredNameField=[MCLocalization stringForKey:@"Name is required"];
     [_cancelBtn setTitle:[MCLocalization stringForKey:@"Cancel"] forState:normal];
     [_saveBtn setTitle:[MCLocalization stringForKey:@"Save"] forState:normal];
     _scanponitNameLabel.text=[MCLocalization stringForKey:@"Name"];
@@ -174,5 +182,8 @@
     _anotomicalCorrespondingLabel.text=[MCLocalization stringForKey:@"Corresponding Pair"];
     _mapAnotomicalLabel.text=[MCLocalization stringForKey:@"Map Anatomical Points"];
     _descriptionLabel.text=[MCLocalization stringForKey:@"Description"];
+}
+- (IBAction)gestureRecognizer:(id)sender {
+    [self.view endEditing:YES];
 }
 @end

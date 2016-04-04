@@ -114,6 +114,7 @@ NSString *const criticalTreatmentInfoUrl=@"ShareTreatmentInfo";
 NSString *const searchSaredCriticalInfo=@"Search/ShareTreatmentInfo";
 NSString *const saveScanpoint=@"scanpoint";
 NSString *const saveCorrespondingPair=@"correspondingpair";
+NSString *const addAnatomicalPoints=@"AnatomicalBiomagneticMatrix";
 
 NSString *const DifferMetirialOrVzoneApi=@"vzone";
 @end
