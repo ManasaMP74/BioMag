@@ -18,7 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     constant=[[Constant alloc]init];
-     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-1.jpg"]]];
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-1.jpg"]]];
     [self textFieldLayer];
     [self navigationItemMethod];
     [self localize];
@@ -36,10 +36,11 @@
     [self callApiToSaveScanpoint:@"CorrespondingPair"];
 }
 - (IBAction)saveButtonForanatomicalPoint:(id)sender {
-[self popView];
+    [self callApiToSaveScanpoint:@"anatomical"];
+    [self popView];
 }
 - (IBAction)cancel:(id)sender {
- [self popView];
+    [self popView];
 }
 -(void)callApiToSaveScanpoint:(NSString*)differForSaveData{
     NSString *url;
@@ -56,6 +57,15 @@
             //Parameter For Material Api
             parameter =[NSString stringWithFormat:@" {\"Name\":\"%@\",\"UserID\":%d,\"Status\":true,\"MethodType\":\"POST\"}",_scanpointNameTF.text,userIdInteger];
         }
+    }else if ([differForSaveData isEqualToString:@"CorrespondingPair"]){
+        url=[NSString stringWithFormat:@"%@%@/0",baseUrl,saveCorrespondingPair];
+        if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+            //Parameter for Vzone Api
+            parameter =[NSString stringWithFormat:@"{\"request\":{\"Name\":\"%@\",\"UserID\":%d,\"Status\":true,\"MethodType\":\"POST\"}}",_correspondingNameTF.text,userIdInteger];
+        }else{
+            //Parameter For Material Api
+            parameter =[NSString stringWithFormat:@" {\"Name\":\"%@\",\"UserID\":%d,\"Status\":true,\"MethodType\":\"POST\"}",_correspondingNameTF.text,userIdInteger];
+        }
     }else{
         url=[NSString stringWithFormat:@"%@%@/0",baseUrl,saveCorrespondingPair];
         if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
@@ -70,23 +80,25 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:NO];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
-        [self processToAddScanpoinOrCorrespondingPair:responseObject];
+        [self processToAddScanpoinOrCorrespondingPair:responseObject withDiffer:differForSaveData];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
         NSString *str=[NSString stringWithFormat:@"%@",error];
         [self showToastMessage:str];
     }];
 }
--(void)processToAddScanpoinOrCorrespondingPair:(id)responseObject{
+-(void)processToAddScanpoinOrCorrespondingPair:(id)responseObject withDiffer:(NSString*)differForSaveData{
     NSDictionary *dict;
     NSDictionary *dict1=responseObject;
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         dict =dict1[@"aaData"];
     }else dict=responseObject;
-    if ([dict[@"Success"]intValue]==1) {
-        [self showToastMessage:dict[@"Message"]];
-    }else{
-        [self showToastMessage:dict[@"Message"]];
+    if ([differForSaveData isEqualToString:@"scanpoint"] | [differForSaveData isEqualToString:@"CorrespondingPair"]) {
+        if ([dict[@"Success"]intValue]==1) {
+            [self showToastMessage:dict[@"Message"]];
+        }else{
+            [self showToastMessage:dict[@"Message"]];
+        }
     }
 }
 -(void)showToastMessage:(NSString*)msg{
@@ -152,15 +164,15 @@
     [_cancelBtn setTitle:[MCLocalization stringForKey:@"Cancel"] forState:normal];
     [_saveBtn setTitle:[MCLocalization stringForKey:@"Save"] forState:normal];
     _scanponitNameLabel.text=[MCLocalization stringForKey:@"Name"];
-     _correspondingPairNameLabel.text=[MCLocalization stringForKey:@"Name"];
+    _correspondingPairNameLabel.text=[MCLocalization stringForKey:@"Name"];
     _scanpointLocationLabel.text=[MCLocalization stringForKey:@"Location"];
     _correspondingPairLocationLabel.text=[MCLocalization stringForKey:@"Location"];
     _addScanpointLabel.text=[MCLocalization stringForKey:@"Add Scan Point"];
     _addCorrespondingPairLabel.text=[MCLocalization stringForKey:@"Add Corresponding Pair"];
-     _anotomicalSortNumberLabel.text=[MCLocalization stringForKey:@"Sort Number"];
-     _anotomicalScanpointNameLabel.text=[MCLocalization stringForKey:@"Scan Point"];
-     _anotomicalCorrespondingLabel.text=[MCLocalization stringForKey:@"Corresponding Pair"];
-     _mapAnotomicalLabel.text=[MCLocalization stringForKey:@"Map Anatomical Points"];
-     _descriptionLabel.text=[MCLocalization stringForKey:@"Description"];
+    _anotomicalSortNumberLabel.text=[MCLocalization stringForKey:@"Sort Number"];
+    _anotomicalScanpointNameLabel.text=[MCLocalization stringForKey:@"Scan Point"];
+    _anotomicalCorrespondingLabel.text=[MCLocalization stringForKey:@"Corresponding Pair"];
+    _mapAnotomicalLabel.text=[MCLocalization stringForKey:@"Map Anatomical Points"];
+    _descriptionLabel.text=[MCLocalization stringForKey:@"Description"];
 }
 @end
