@@ -18,7 +18,7 @@
 @implementation AddAnotomicalPointsViewController
 {
     Constant *constant;
-    NSString *alertStr,*alertOkStr,*requiredNameField;
+    NSString *alertStr,*alertOkStr,*requiredNameField,*requiredLocationField,*requiredBoth,*requiredSection,*requiredScanpoint,*requiredCorrespondingpair,*requiredAuthor,*requiredGerms,*requiredSort,*requiredDesc;
     Postman *postman;
     NSMutableArray *scanpointArray,*correspondingPointArray,*authorArray,*germsArray,*sectionArray;
     NSString *selectedGermsCode,*selectedSection,*selectedScanpoint,*selectedCorrespondingpair,*selectedAuthor;
@@ -41,7 +41,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     [self setDefault];
-     [self.view endEditing:YES];
+    [self.view endEditing:YES];
     [self hideTheViews:nil];
 }
 - (void)didReceiveMemoryWarning {
@@ -65,27 +65,64 @@
     _correspondingLocationTF.text=@"";
 }
 - (IBAction)saveButtonForScanpoint:(id)sender {
-     [self.view endEditing:YES];
-     [self hideTheViews:nil];
+    [self.view endEditing:YES];
+    [self hideTheViews:nil];
     if (_scanpointNameTF.text.length==0) {
         [self showToastMessage:requiredNameField];
+    }else if (_scanpointLocationTF.text.length==0) {
+        [self showToastMessage:requiredLocationField];
+    }else if (_scanpointLocationTF.text.length==0 & _scanpointNameTF.text.length==0) {
+        [self showToastMessage:requiredBoth];
     }
     else
-    [self callApiToSaveScanpoint:@"scanpoint"];
+        [self callApiToSaveScanpoint:@"scanpoint"];
 }
 - (IBAction)saveButtonForCorrespondingPair:(id)sender {
-     [self.view endEditing:YES];
+    [self.view endEditing:YES];
     [self hideTheViews:nil];
     if (_correspondingNameTF.text.length==0) {
         [self showToastMessage:requiredNameField];
-    }
-   else [self callApiToSaveScanpoint:@"CorrespondingPair"];
+    }else if (_correspondingLocationTF.text.length==0) {
+        [self showToastMessage:requiredLocationField];
+    }else if (_correspondingNameTF.text.length==0 & _correspondingLocationTF.text.length==0) {
+        [self showToastMessage:requiredBoth];
+    }   else [self callApiToSaveScanpoint:@"CorrespondingPair"];
 }
 - (IBAction)saveButtonForanatomicalPoint:(id)sender {
-     [self.view endEditing:YES];
+    [self.view endEditing:YES];
     [self hideTheViews:nil];
-   // [self callApiToSaveScanpoint:@"anatomical"];
-    [self popView];
+    NSMutableArray *alertArray=[[NSMutableArray alloc]init];
+    if (_anatomicalSectionTF.text.length==0) {
+        [alertArray addObject:requiredSection];
+    }
+    if (_anatomicalScanpointTF.text.length==0) {
+        [alertArray addObject:requiredScanpoint];
+    }
+    if (_anatomicalCorrespondingPairTF.text.length==0) {
+        [alertArray addObject:requiredCorrespondingpair];
+    }
+    if (_anatomicalAuthorTF.text.length==0) {
+        [alertArray addObject:requiredAuthor];
+    }
+    if (_anatomicalGermsTF.text.length==0) {
+        [alertArray addObject:requiredGerms];
+    }
+//    if (_anatomicalSortNumberTF.text.length==0) {
+//        [alertArray addObject:requiredSort];
+//    }
+//    if (_descriptionTV.text.length==0) {
+//        [alertArray addObject:requiredDesc];
+//    }
+    
+    if (alertArray.count==0) {
+        [self callApiToSaveScanpoint:@"anatomical"];
+    }else{
+        NSString *str1=@"";
+        for (NSString *str in alertArray) {
+            str1=[str1 stringByAppendingString:str];
+        }
+        [self alertMessage:str1];
+    }
 }
 - (IBAction)cancel:(id)sender {
     [self.view endEditing:YES];
@@ -102,28 +139,29 @@
         url=[NSString stringWithFormat:@"%@%@/0",baseUrl,saveScanpoint];
         if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
             //Parameter for Vzone Api
-            parameter =[NSString stringWithFormat:@"{\"request\":{\"Name\":\"%@\",\"UserID\":%d,\"Status\":true,\"MethodType\":\"POST\"}}",_scanpointNameTF.text,userIdInteger];
+            parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":0,\"Name\":\"%@\",\"LocationScanPoint\":\"%@\",\"Status\":true,\"IsPublished\":false,\"CompanyCode\":\"%@\",\"UserID\":%d,\"MethodType\":\"POST\"}}",_scanpointNameTF.text,_scanpointLocationTF.text,postmanCompanyCode,userIdInteger];
         }else{
             //Parameter For Material Api
-            parameter =[NSString stringWithFormat:@" {\"Name\":\"%@\",\"UserID\":%d,\"Status\":true,\"MethodType\":\"POST\"}",_scanpointNameTF.text,userIdInteger];
+            parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":0,\"Name\":\"%@\",\"LocationScanPoint\":\"%@\",\"Status\":true,\"IsPublished\":false,\"CompanyCode\":\"%@\",\"UserID\":%d,\"MethodType\":\"POST\"}}",_scanpointNameTF.text,_scanpointLocationTF.text,postmanCompanyCode,userIdInteger];
         }
     }else if ([differForSaveData isEqualToString:@"CorrespondingPair"]){
         url=[NSString stringWithFormat:@"%@%@/0",baseUrl,saveCorrespondingPair];
         if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
             //Parameter for Vzone Api
-            parameter =[NSString stringWithFormat:@"{\"request\":{\"Name\":\"%@\",\"UserID\":%d,\"Status\":true,\"MethodType\":\"POST\"}}",_correspondingNameTF.text,userIdInteger];
+              parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":0,\"Name\":\"%@\",\"LocationCorrespondingPair\":\"%@\",\"Status\":true,\"IsPublished\":false,\"CompanyCode\":\"%@\",\"UserID\":%d,\"MethodType\":\"POST\"}}",_correspondingNameTF.text,_correspondingLocationTF.text,postmanCompanyCode,userIdInteger];
+            
         }else{
             //Parameter For Material Api
-            parameter =[NSString stringWithFormat:@" {\"Name\":\"%@\",\"UserID\":%d,\"Status\":true,\"MethodType\":\"POST\"}",_correspondingNameTF.text,userIdInteger];
+            parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":0,\"Name\":\"%@\",\"LocationCorrespondingPair\":\"%@\",\"Status\":true,\"IsPublished\":false,\"CompanyCode\":\"%@\",\"UserID\":%d,\"MethodType\":\"POST\"}}",_correspondingNameTF.text,_correspondingLocationTF.text,postmanCompanyCode,userIdInteger];
         }
     }else{
         url=[NSString stringWithFormat:@"%@%@/0",baseUrl,addAnatomicalPoints];
         if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
             //Parameter for Vzone Api
-            parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":\"0\",\"SectionCode\":\"ANTERIOR_THORAX\",\"ScanPointCode\":\"ECODQF\",\"CorrespondingPairCode\":\"ADDUCTOR_MAGNUS_MUSCLE\",\"IsPublished\":false,\"GermsCode\":\"FMRBFU\",\"Status\":true,\"GenderCode\":\"F\",\"Author\":\"GYAA5Z\",\"ApplicableVersionCode\":\"KP18Z7\",\"AppTypeCode\":\"2AP7S5\",\"LocationScanPoint\":\"\",\"LocationCorrespondingPair\":\"\",\"Psychoemotional\":\"\",\"Description\":\"%@\",\"CompanyCode\":\"%@\",\"UserID\":%d,\"MethodType\":\"POST\"}}",_descriptionTV.text, postmanCompanyCode, userIdInteger];
+            parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":\"0\",\"SectionCode\":\"%@\",\"ScanPointCode\":\"%@\",\"CorrespondingPairCode\":\"%@\",\"IsPublished\":false,\"GermsCode\":\"%@\",\"Status\":true,\"GenderCode\":\"\",\"Author\":\"%@\",\"ApplicableVersionCode\":\"KP18Z7\",\"AppTypeCode\":\"2AP7S5\",\",\"Psychoemotional\":\"\",\"Description\":\"%@\",\"CompanyCode\":\"%@\",\"UserID\":%d,\"MethodType\":\"POST\"}}",selectedSection,selectedScanpoint,selectedCorrespondingpair,selectedGermsCode,selectedAuthor,_descriptionTV.text, postmanCompanyCode, userIdInteger];
         }else{
             //Parameter For Material Api
-            parameter =[NSString stringWithFormat:@" {\"Name\":\"%@\",\"UserID\":%d,\"Status\":true,\"MethodType\":\"POST\"}",_correspondingNameTF.text,userIdInteger];
+           parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":\"0\",\"SectionCode\":\"%@\",\"ScanPointCode\":\"%@\",\"CorrespondingPairCode\":\"%@\",\"IsPublished\":false,\"GermsCode\":\"%@\",\"Status\":true,\"GenderCode\":\"\",\"Author\":\"%@\",\"ApplicableVersionCode\":\"KP18Z7\",\"AppTypeCode\":\"2AP7S5\",\",\"Psychoemotional\":\"\",\"Description\":\"%@\",\"CompanyCode\":\"%@\",\"UserID\":%d,\"MethodType\":\"POST\"}}",selectedSection,selectedScanpoint,selectedCorrespondingpair,selectedGermsCode,selectedAuthor,_descriptionTV.text, postmanCompanyCode, userIdInteger];
         }
     }
     
@@ -147,16 +185,41 @@
         if ([dict[@"Success"]intValue]==1) {
             [self showToastMessage:dict[@"Message"]];
             if ([differForSaveData isEqualToString:@"scanpoint"]){
-            _scanpointNameTF.text=@"";
-           _scanpointLocationTF.text=@"";
+                _scanpointNameTF.text=@"";
+                _scanpointLocationTF.text=@"";
             }else{
-             _correspondingNameTF.text=@"";
-            _correspondingLocationTF.text=@"";
+                _correspondingNameTF.text=@"";
+                _correspondingLocationTF.text=@"";
             }
         }else{
             [self showToastMessage:dict[@"Message"]];
         }
+    }else  if ([differForSaveData isEqualToString:@"anatomical"]){
+     if ([dict[@"Success"]intValue]==1) {
+         [self alertView:dict[@"Message"]];
+     
+     }else{
+      [self showToastMessage:dict[@"Message"]];
+     }
     }
+}
+-(void)alertView:(NSString*)message{
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alertStr message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:alertOkStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+        [self popView];
+    }];
+    [alertView addAction:success];
+    [self presentViewController:alertView animated:YES completion:nil];
+}
+-(void)alertMessage:(NSString*)message{
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alertStr message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:alertOkStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+        [self popView];
+    }];
+    [alertView addAction:success];
+    [self presentViewController:alertView animated:YES completion:nil];
 }
 -(void)showToastMessage:(NSString*)msg{
     MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -197,8 +260,8 @@
     _descriptionTV.textContainerInset = UIEdgeInsetsMake(10, 5, 10, 10);
     [constant changeSaveBtnImage:_saveBtn];
     [constant changeCancelBtnImage:_cancelBtn];
-     [constant spaceAtTheBeginigOfTextField:_anatomicalSectionTF];
-     [constant SetBorderForTextField:_anatomicalSectionTF];
+    [constant spaceAtTheBeginigOfTextField:_anatomicalSectionTF];
+    [constant SetBorderForTextField:_anatomicalSectionTF];
     [constant setFontFortextField:_anatomicalSectionTF];
     [constant spaceAtTheBeginigOfTextField:_anatomicalGermsTF];
     [constant SetBorderForTextField:_anatomicalGermsTF];
@@ -222,33 +285,6 @@
 }
 -(void)popView{
     [self.navigationController popViewControllerAnimated:YES];
-}
--(void)localize
-{
-    alertStr=[MCLocalization stringForKey:@"Alert!"];
-    alertOkStr=[MCLocalization stringForKey:@"AlertOK"];
-    requiredNameField=[MCLocalization stringForKey:@"Name is required"];
-    [_cancelBtn setTitle:[MCLocalization stringForKey:@"Cancel"] forState:normal];
-    [_saveBtn setTitle:[MCLocalization stringForKey:@"Save"] forState:normal];
-    _scanponitNameLabel.text=[MCLocalization stringForKey:@"Name"];
-    _correspondingPairNameLabel.text=[MCLocalization stringForKey:@"Name"];
-    _scanpointLocationLabel.text=[MCLocalization stringForKey:@"Location"];
-    _correspondingPairLocationLabel.text=[MCLocalization stringForKey:@"Location"];
-    _addScanpointLabel.text=[MCLocalization stringForKey:@"Add Scan Point"];
-    _addCorrespondingPairLabel.text=[MCLocalization stringForKey:@"Add Corresponding Pair"];
-    _anotomicalSortNumberLabel.text=[MCLocalization stringForKey:@"Sort Number"];
-    _anotomicalScanpointNameLabel.text=[MCLocalization stringForKey:@"Scan Point"];
-    _anotomicalCorrespondingLabel.text=[MCLocalization stringForKey:@"Corresponding Pair"];
-    _mapAnotomicalLabel.text=[MCLocalization stringForKey:@"Map Anatomical Points"];
-    _descriptionLabel.text=[MCLocalization stringForKey:@"Description"];
-    _anatomicalScanpointTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Select"]];
-    _anatomicalCorrespondingPairTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Select"]];
-    _anatomicalAuthorTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Select"]];
-    _anatomicalGermsTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Select"]];
-    _anatomicalSectionTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Select"]];
-    _anatomicalSectionLabel.text=[MCLocalization stringForKey:@"Section"];
-     _anatomicalGermsLabel.text=[MCLocalization stringForKey:@"Germs"];
-     _anatomicalAuthorLabel.text=[MCLocalization stringForKey:@"Author"];
 }
 -(void)hideTheViews:(UITextField*)text{
     if ([_anatomicalSectionTF isEqual:text]) {
@@ -281,23 +317,23 @@
     [_scanpointTable reloadData];
 }
 - (IBAction)selectCorrespondingPair:(id)sender {
-     [self.view endEditing:YES];
-   [self hideTheViews:_anatomicalCorrespondingPairTF];
+    [self.view endEditing:YES];
+    [self hideTheViews:_anatomicalCorrespondingPairTF];
     [_correspondingPairTable reloadData];
 }
 - (IBAction)selectSection:(id)sender {
-     [self.view endEditing:YES];
- [self hideTheViews:_anatomicalSectionTF];
+    [self.view endEditing:YES];
+    [self hideTheViews:_anatomicalSectionTF];
     [_sectionTableview reloadData];
 }
 - (IBAction)selectGerms:(id)sender {
-     [self.view endEditing:YES];
- [self hideTheViews:_anatomicalGermsTF];
+    [self.view endEditing:YES];
+    [self hideTheViews:_anatomicalGermsTF];
     [_germsTableView reloadData];
 }
 - (IBAction)selectAuthor:(id)sender {
-     [self.view endEditing:YES];
- [self hideTheViews:_anatomicalAuthorTF];
+    [self.view endEditing:YES];
+    [self hideTheViews:_anatomicalAuthorTF];
     [_authorTableView reloadData];
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -335,7 +371,7 @@
     else if ([tableView isEqual:_scanpointTable])
     {
         CompleteScanpointModel *model=scanpointArray[indexPath.row];
-       label.text=model.name;
+        label.text=model.name;
     }
     else if ([tableView isEqual:_correspondingPairTable])
     {
@@ -344,8 +380,8 @@
     }
     else if ([tableView isEqual:_authorTableView])
     {
-      CompleteAuthorModel *model=authorArray[indexPath.row];
-       label.text=model.name;
+        CompleteAuthorModel *model=authorArray[indexPath.row];
+        label.text=model.name;
     }
     else if ([tableView isEqual:_germsTableView])
     {
@@ -363,22 +399,22 @@
     if ([tableView isEqual:_sectionTableview])
     {
         CompleteSectionModel *model=sectionArray[indexPath.row];
-       _anatomicalSectionTF.text=model.name;
-         selectedSection=model.code;
+        _anatomicalSectionTF.text=model.name;
+        selectedSection=model.code;
         _sectionTableview.hidden=YES;
     }
     else if ([tableView isEqual:_scanpointTable])
     {
         CompleteScanpointModel *model=scanpointArray[indexPath.row];
         _anatomicalScanpointTF.text=model.name;
-         selectedScanpoint=model.code;
+        selectedScanpoint=model.code;
         _scanpointTable.hidden=YES;
     }
     else if ([tableView isEqual:_correspondingPairTable])
     {
         CompleteCorrespondingpairModel *model=correspondingPointArray[indexPath.row];
         _anatomicalCorrespondingPairTF.text=model.name;
-         selectedCorrespondingpair=model.code;
+        selectedCorrespondingpair=model.code;
         _correspondingPairTable.hidden=YES;
     }
     else if ([tableView isEqual:_authorTableView])
@@ -478,7 +514,7 @@
             [germsArray addObject:model];
         }
     }
-     [self callSeedForSection];
+    [self callSeedForSection];
 }
 -(void)callSeedForSection{
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
@@ -502,7 +538,7 @@
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-             [self processSection:responseObject];
+            [self processSection:responseObject];
             [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
             [userDefault setBool:NO forKey:@"section_FLAG"];
@@ -514,7 +550,7 @@
     }
 }
 -(void)processSection:(id)responseObject{
-
+    
     NSDictionary *dict;
     
     [sectionArray removeAllObjects];
@@ -532,10 +568,10 @@
             model.code=dict1[@"Code"];
             model.name=dict1[@"Name"];
             model.idValue=dict1[@"Id"];
-        [sectionArray addObject:model];
+            [sectionArray addObject:model];
         }
     }
-     [self callSeedForScanpoint];
+    [self callSeedForScanpoint];
 }
 -(void)callSeedForScanpoint{
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
@@ -560,7 +596,7 @@
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-             [self processScanpoint:responseObject];
+            [self processScanpoint:responseObject];
             [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
             [userDefault setBool:NO forKey:@"scanpoint_FLAG"];
@@ -593,7 +629,7 @@
             [scanpointArray addObject:model];
         }
     }
-     [self callSeedForCorrespondingPair];
+    [self callSeedForCorrespondingPair];
 }
 
 -(void)callSeedForCorrespondingPair{
@@ -605,7 +641,7 @@
         NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getAllCorrespondingPair];
         [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
             if (success) {
-              [self processCorrespondingpair:response];
+                [self processCorrespondingpair:response];
             }
             else{
                 [self callApiToGetCorrespondingPair];
@@ -619,7 +655,7 @@
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-             [self processCorrespondingpair:responseObject];
+            [self processCorrespondingpair:responseObject];
             [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
             [userDefault setBool:NO forKey:@"correspondingpair_FLAG"];
@@ -652,7 +688,7 @@
         }
     }
     [self callSeedForAuthor];
-
+    
 }
 
 -(void)callSeedForAuthor{
@@ -678,7 +714,7 @@
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-             [self processAuthor:responseObject];
+            [self processAuthor:responseObject];
             [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
             [userDefault setBool:NO forKey:@"author_FLAG"];
@@ -717,6 +753,42 @@
     [self hideTheViews:textField];
 }
 -(void)textViewDidBeginEditing:(UITextView *)textView{
-[self hideTheViews:nil];
+    [self hideTheViews:nil];
+}
+-(void)localize
+{
+    alertStr=[MCLocalization stringForKey:@"Alert!"];
+    alertOkStr=[MCLocalization stringForKey:@"AlertOK"];
+    requiredNameField=[MCLocalization stringForKey:@"Name is required"];
+    requiredLocationField=[MCLocalization stringForKey:@"Location is required"];
+    requiredBoth=[MCLocalization stringForKey:@"Name and Location are required"];
+    requiredSection=[MCLocalization stringForKey:@"Section is required"];
+    requiredScanpoint=[MCLocalization stringForKey:@"Scan Point is required"];
+    requiredCorrespondingpair=[MCLocalization stringForKey:@"Corresponding Pair is required"];
+    requiredAuthor=[MCLocalization stringForKey:@"Author is required"];
+    requiredGerms=[MCLocalization stringForKey:@"Germs is required"];
+    requiredSort=[MCLocalization stringForKey:@"Sort is required"];
+    requiredDesc=[MCLocalization stringForKey:@"Description is required"];
+    [_cancelBtn setTitle:[MCLocalization stringForKey:@"Cancel"] forState:normal];
+    [_saveBtn setTitle:[MCLocalization stringForKey:@"Save"] forState:normal];
+    _scanponitNameLabel.text=[MCLocalization stringForKey:@"Name"];
+    _correspondingPairNameLabel.text=[MCLocalization stringForKey:@"Name"];
+    _scanpointLocationLabel.text=[MCLocalization stringForKey:@"Location"];
+    _correspondingPairLocationLabel.text=[MCLocalization stringForKey:@"Location"];
+    _addScanpointLabel.text=[MCLocalization stringForKey:@"Add Scan Point"];
+    _addCorrespondingPairLabel.text=[MCLocalization stringForKey:@"Add Corresponding Pair"];
+    _anotomicalSortNumberLabel.text=[MCLocalization stringForKey:@"Sort Number"];
+    _anotomicalScanpointNameLabel.text=[MCLocalization stringForKey:@"Scan Point"];
+    _anotomicalCorrespondingLabel.text=[MCLocalization stringForKey:@"Corresponding Pair"];
+    _mapAnotomicalLabel.text=[MCLocalization stringForKey:@"Map Anatomical Points"];
+    _descriptionLabel.text=[MCLocalization stringForKey:@"Description"];
+    _anatomicalScanpointTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Select"]];
+    _anatomicalCorrespondingPairTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Select"]];
+    _anatomicalAuthorTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Select"]];
+    _anatomicalGermsTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Select"]];
+    _anatomicalSectionTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Select"]];
+    _anatomicalSectionLabel.text=[MCLocalization stringForKey:@"Section"];
+    _anatomicalGermsLabel.text=[MCLocalization stringForKey:@"Germs"];
+    _anatomicalAuthorLabel.text=[MCLocalization stringForKey:@"Author"];
 }
 @end

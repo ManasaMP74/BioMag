@@ -56,6 +56,7 @@
     sittingArray=[[NSMutableArray alloc]init];
     postman=[[Postman alloc]init];
     [self navigationMethod];
+    [lagSomeButton setTitle:[standardDefault valueForKey:@"languageName"] forState:normal];
     [self callSeedForSitting];
     [self callSeed];
 }
@@ -103,7 +104,6 @@
     lagSomeButton= [[UIButton alloc] init];
     standardDefault=[NSUserDefaults standardUserDefaults];
     lagSomeButton.titleLabel.font=[UIFont fontWithName:@"OpenSans-Semibold" size:14];
-    //[lagSomeButton setTitle:[standardDefault valueForKey:@"languageName"] forState:normal];
     [lagSomeButton setTitleColor:[UIColor blackColor] forState:normal];
     [lagSomeButton addTarget:self action:@selector(languageChange:) forControlEvents:UIControlEventTouchUpInside];
     [lagSomeButton setShowsTouchWhenHighlighted:YES];
