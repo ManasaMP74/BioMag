@@ -150,6 +150,7 @@
         _patientDetailModel=[[PatientDetailModel alloc]init];
         _patientDetailModel.IsTreatmentCompleted=@"0";
         treatmentID=@"0";
+       [self callSeedForSection];
     }
 }
 - (void)didReceiveMemoryWarning {
@@ -1760,6 +1761,7 @@
         }
         [self showTreatmentDetail];
     }
+     [self callSeedForSection];
 }
 -(void)getDataOfResponseOfTreatmentRequestDetail:(NSDictionary*)dict1{
     _patientDetailModel=[[PatientDetailModel alloc]init];
@@ -1991,5 +1993,146 @@
     imageUploadFailed=[MCLocalization stringForKey:@"Image upload failed"];
     popBackAlert=[MCLocalization stringForKey:@"Changes will be discarded if you exit from screen. Are you sure to proceed?"];
 }
+-(void)callSeedForSection{
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"section_FLAG"]) {
+        [self callApiToGetSection];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getAllSection];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+                [self processSection:response];
+            }
+            else{
+                [self callApiToGetSection];
+            }
+        }];
+    }
+}
+-(void)callApiToGetSection{
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getAllSection];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
+        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processSection:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"section_FLAG"];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self callApiToGetSection];
+            NSString *str=[NSString stringWithFormat:@"%@",error];
+            [self showToastMessage:str];
+        }];
+    }
+}
+-(void)processSection:(id)responseObject{
+    [self callSeedForScanpoint];
+}
+-(void)callSeedForScanpoint{
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"scanpoint_FLAG"]) {
+        [self callApiToGetScanpoint];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getAllScanpoint];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+                [self processScanpoint:response];
+            }
+            else{
+                [self callApiToGetScanpoint];
+            }
+        }];
+    }
+}
+-(void)callApiToGetScanpoint{
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getAllScanpoint];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
+        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processScanpoint:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"scanpoint_FLAG"];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self callApiToGetScanpoint];
+            NSString *str=[NSString stringWithFormat:@"%@",error];
+            [self showToastMessage:str];
+        }];
+    }
+}
+-(void)processScanpoint:(id)responseObject{
+    [self callSeedForCorrespondingPair];
+}
 
+-(void)callSeedForCorrespondingPair{
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"correspondingpair_FLAG"]) {
+        [self callApiToGetCorrespondingPair];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getAllCorrespondingPair];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+                [self processCorrespondingpair:response];
+            }
+            else{
+                [self callApiToGetCorrespondingPair];
+            }
+        }];
+    }
+}
+-(void)callApiToGetCorrespondingPair{
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getAllCorrespondingPair];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
+        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processCorrespondingpair:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"correspondingpair_FLAG"];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self callApiToGetCorrespondingPair];
+            NSString *str=[NSString stringWithFormat:@"%@",error];
+            [self showToastMessage:str];
+        }];
+    }
+}
+-(void)processCorrespondingpair:(id)responseObject{
+        [self callSeedForAuthor];
+}
+
+-(void)callSeedForAuthor{
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"author_FLAG"]) {
+        [self callApiToGetAuthor];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getAllAuthor];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+               
+            }
+            else{
+                [self callApiToGetAuthor];
+            }
+        }];
+    }
+}
+-(void)callApiToGetAuthor{
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getAllAuthor];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
+        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"author_FLAG"];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self callApiToGetAuthor];
+            NSString *str=[NSString stringWithFormat:@"%@",error];
+            [self showToastMessage:str];
+        }];
+    }
+}
 @end

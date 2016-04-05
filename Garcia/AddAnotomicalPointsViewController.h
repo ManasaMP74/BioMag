@@ -37,5 +37,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *anatomicalAuthorLabel;
 @property (weak, nonatomic) IBOutlet UITextField *anatomicalAuthorTF;
 @property (weak, nonatomic) IBOutlet UIButton *selectAuthor;
+@property (weak, nonatomic) IBOutlet UITableView *authorTableView;
+@property (weak, nonatomic) IBOutlet UITableView *germsTableView;
+@property (weak, nonatomic) IBOutlet UITableView *sectionTableview;
 
 @end

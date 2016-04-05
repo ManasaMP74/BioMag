@@ -85,6 +85,10 @@
 		DA8C3DF91C24327F0076EBD2 /* PreviousSittingCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8C3DF81C24327F0076EBD2 /* PreviousSittingCollectionViewCell.m */; };
 		DA8C68201C5A1E8C00F78E86 /* UIImageView+clearCachImage.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8C681F1C5A1E8C00F78E86 /* UIImageView+clearCachImage.m */; };
 		DA8C68231C5A49D700F78E86 /* PreviousSittingModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8C68221C5A49D700F78E86 /* PreviousSittingModelClass.m */; };
+		DA90806F1CB396FE00B20BFA /* CompleteSectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA90806E1CB396FE00B20BFA /* CompleteSectionModel.m */; };
+		DA9080721CB3971900B20BFA /* CompleteScanpointModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9080711CB3971900B20BFA /* CompleteScanpointModel.m */; };
+		DA9080751CB3973B00B20BFA /* CompleteCorrespondingpairModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9080741CB3973B00B20BFA /* CompleteCorrespondingpairModel.m */; };
+		DA9080791CB39BA100B20BFA /* CompleteAuthorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9080781CB39BA100B20BFA /* CompleteAuthorModel.m */; };
 		DA92608A1CAE44B400368C47 /* VMEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9260891CAE44B400368C47 /* VMEnvironment.m */; };
 		DA9E393B1C88260A00499142 /* CriticalTreatmentInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9E393A1C88260A00499142 /* CriticalTreatmentInfoViewController.m */; };
 		DA9E393E1C88650D00499142 /* DrProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9E393D1C88650D00499142 /* DrProfileViewController.m */; };
@@ -283,6 +287,14 @@
 		DA8C681F1C5A1E8C00F78E86 /* UIImageView+clearCachImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+clearCachImage.m"; sourceTree = "<group>"; };
 		DA8C68211C5A49D700F78E86 /* PreviousSittingModelClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviousSittingModelClass.h; sourceTree = "<group>"; };
 		DA8C68221C5A49D700F78E86 /* PreviousSittingModelClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviousSittingModelClass.m; sourceTree = "<group>"; };
+		DA90806D1CB396FE00B20BFA /* CompleteSectionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompleteSectionModel.h; sourceTree = "<group>"; };
+		DA90806E1CB396FE00B20BFA /* CompleteSectionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompleteSectionModel.m; sourceTree = "<group>"; };
+		DA9080701CB3971900B20BFA /* CompleteScanpointModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompleteScanpointModel.h; sourceTree = "<group>"; };
+		DA9080711CB3971900B20BFA /* CompleteScanpointModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompleteScanpointModel.m; sourceTree = "<group>"; };
+		DA9080731CB3973B00B20BFA /* CompleteCorrespondingpairModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompleteCorrespondingpairModel.h; sourceTree = "<group>"; };
+		DA9080741CB3973B00B20BFA /* CompleteCorrespondingpairModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompleteCorrespondingpairModel.m; sourceTree = "<group>"; };
+		DA9080771CB39BA100B20BFA /* CompleteAuthorModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompleteAuthorModel.h; sourceTree = "<group>"; };
+		DA9080781CB39BA100B20BFA /* CompleteAuthorModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompleteAuthorModel.m; sourceTree = "<group>"; };
 		DA9260881CAE44B400368C47 /* VMEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMEnvironment.h; sourceTree = "<group>"; };
 		DA9260891CAE44B400368C47 /* VMEnvironment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMEnvironment.m; sourceTree = "<group>"; };
 		DA9E39391C88260A00499142 /* CriticalTreatmentInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CriticalTreatmentInfoViewController.h; sourceTree = "<group>"; };
@@ -642,6 +654,21 @@
 			name = CorrespondingPair;
 			sourceTree = "<group>";
 		};
+		DA9080761CB3978100B20BFA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				DA90806D1CB396FE00B20BFA /* CompleteSectionModel.h */,
+				DA90806E1CB396FE00B20BFA /* CompleteSectionModel.m */,
+				DA9080701CB3971900B20BFA /* CompleteScanpointModel.h */,
+				DA9080711CB3971900B20BFA /* CompleteScanpointModel.m */,
+				DA9080731CB3973B00B20BFA /* CompleteCorrespondingpairModel.h */,
+				DA9080741CB3973B00B20BFA /* CompleteCorrespondingpairModel.m */,
+				DA9080771CB39BA100B20BFA /* CompleteAuthorModel.h */,
+				DA9080781CB39BA100B20BFA /* CompleteAuthorModel.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		DAB3E9461C9C15C20014BD3C /* ShowCriticalInfo */ = {
 			isa = PBXGroup;
 			children = (
@@ -736,6 +763,7 @@
 			children = (
 				DAED93801CAE8146003846F0 /* AddAnotomicalPointsViewController.h */,
 				DAED93811CAE8146003846F0 /* AddAnotomicalPointsViewController.m */,
+				DA9080761CB3978100B20BFA /* Model */,
 			);
 			name = "Add AnatomicalPoints";
 			sourceTree = "<group>";
@@ -1320,9 +1348,12 @@
 				DAEFA1D91BD0D8ED00900379 /* SearchPatientTableViewCell.m in Sources */,
 				DAE7B7AA1BEDFB8A006C5C70 /* MBProgressHUD.m in Sources */,
 				DA7502BE1BE8955C00C9C3F6 /* SittingModelClass.m in Sources */,
+				DA9080791CB39BA100B20BFA /* CompleteAuthorModel.m in Sources */,
+				DA90806F1CB396FE00B20BFA /* CompleteSectionModel.m in Sources */,
 				DAE9555D1BD24D1800EDFD8F /* PatientSheetTableViewCell.m in Sources */,
 				DA7521CF1C4CEA9600FF6B03 /* ToxicDeficiencyDetailModel.m in Sources */,
 				DAD52B651C216C3A0052579D /* SectionXibTableViewCell.m in Sources */,
+				DA9080751CB3973B00B20BFA /* CompleteCorrespondingpairModel.m in Sources */,
 				DA130F3F1BEA1E1900B5B9FF /* SectionModel.m in Sources */,
 				DA7359941C12C188005192D7 /* SymptomTagCollectionViewCell.m in Sources */,
 				DAF277251BFAEC5A00D236B2 /* SymptomTagModel.m in Sources */,
@@ -1340,6 +1371,7 @@
 				DA130F381BEA1E1900B5B9FF /* Child.m in Sources */,
 				DA753C8E1C64820B00D1ABE1 /* CorrespondingPairTableView.m in Sources */,
 				DA5EF2B21C7D82EC00A250F5 /* AboutUsViewController.m in Sources */,
+				DA9080721CB3971900B20BFA /* CompleteScanpointModel.m in Sources */,
 				DAE606001C1FC83600A344F2 /* PatientDetailModel.m in Sources */,
 				DAB0C4A91C5F85F6002F0189 /* PopOverViewController.m in Sources */,
 				DA261DC91C4660CD00B18035 /* ToxicDeficiency.m in Sources */,

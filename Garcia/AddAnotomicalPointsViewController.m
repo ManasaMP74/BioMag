@@ -5,7 +5,13 @@
 #import <MCLocalization/MCLocalization.h>
 #import "MBProgressHUD.h"
 #import "SittingViewController.h"
-@interface AddAnotomicalPointsViewController ()
+#import "SeedSyncer.h"
+#import "germsModel.h"
+#import "CompleteScanpointModel.h"
+#import "CompleteCorrespondingpairModel.h"
+#import "CompleteSectionModel.h"
+#import "CompleteAuthorModel.h"
+@interface AddAnotomicalPointsViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UITextViewDelegate>
 
 @end
 
@@ -14,7 +20,8 @@
     Constant *constant;
     NSString *alertStr,*alertOkStr,*requiredNameField;
     Postman *postman;
-    NSMutableArray *scanpointArray,*correspondingPointArray;
+    NSMutableArray *scanpointArray,*correspondingPointArray,*authorArray,*germsArray,*sectionArray;
+    NSString *selectedGermsCode,*selectedSection,*selectedScanpoint,*selectedCorrespondingpair,*selectedAuthor;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -25,15 +32,41 @@
     [self localize];
     scanpointArray=[[NSMutableArray alloc]init];
     correspondingPointArray=[[NSMutableArray alloc]init];
+    sectionArray=[[NSMutableArray alloc]init];
+    germsArray=[[NSMutableArray alloc]init];
+    authorArray=[[NSMutableArray alloc]init];
     postman=[[Postman alloc]init];
+    [self callSeedForGerms];
 }
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    [self setDefault];
+     [self.view endEditing:YES];
+    [self hideTheViews:nil];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
 }
+-(void)setDefault{
+    selectedGermsCode=@"";
+    selectedSection=@"";
+    selectedScanpoint=@"";
+    selectedCorrespondingpair=@"";
+    selectedAuthor=@"";
+    _anatomicalAuthorTF.text=@"";
+    _anatomicalGermsTF.text=@"";
+    _anatomicalSectionTF.text=@"";
+    _anatomicalCorrespondingPairTF.text=@"";
+    _anatomicalScanpointTF.text=@"";
+    _scanpointNameTF.text=@"";
+    _scanpointLocationTF.text=@"";
+    _correspondingNameTF.text=@"";
+    _correspondingLocationTF.text=@"";
+}
 - (IBAction)saveButtonForScanpoint:(id)sender {
-     [self hideTheViews];
+     [self.view endEditing:YES];
+     [self hideTheViews:nil];
     if (_scanpointNameTF.text.length==0) {
         [self showToastMessage:requiredNameField];
     }
@@ -41,19 +74,22 @@
     [self callApiToSaveScanpoint:@"scanpoint"];
 }
 - (IBAction)saveButtonForCorrespondingPair:(id)sender {
-     [self hideTheViews];
+     [self.view endEditing:YES];
+    [self hideTheViews:nil];
     if (_correspondingNameTF.text.length==0) {
         [self showToastMessage:requiredNameField];
     }
    else [self callApiToSaveScanpoint:@"CorrespondingPair"];
 }
 - (IBAction)saveButtonForanatomicalPoint:(id)sender {
-     [self hideTheViews];
+     [self.view endEditing:YES];
+    [self hideTheViews:nil];
    // [self callApiToSaveScanpoint:@"anatomical"];
     [self popView];
 }
 - (IBAction)cancel:(id)sender {
-     [self hideTheViews];
+    [self.view endEditing:YES];
+    [self hideTheViews:nil];
     [self popView];
 }
 -(void)callApiToSaveScanpoint:(NSString*)differForSaveData{
@@ -110,6 +146,13 @@
     if ([differForSaveData isEqualToString:@"scanpoint"] | [differForSaveData isEqualToString:@"CorrespondingPair"]) {
         if ([dict[@"Success"]intValue]==1) {
             [self showToastMessage:dict[@"Message"]];
+            if ([differForSaveData isEqualToString:@"scanpoint"]){
+            _scanpointNameTF.text=@"";
+           _scanpointLocationTF.text=@"";
+            }else{
+             _correspondingNameTF.text=@"";
+            _correspondingLocationTF.text=@"";
+            }
         }else{
             [self showToastMessage:dict[@"Message"]];
         }
@@ -207,28 +250,473 @@
      _anatomicalGermsLabel.text=[MCLocalization stringForKey:@"Germs"];
      _anatomicalAuthorLabel.text=[MCLocalization stringForKey:@"Author"];
 }
--(void)hideTheViews{
-    [self.view endEditing:YES];
-    _scanpointTable.hidden=YES;
-    _correspondingPairTable.hidden=YES;
+-(void)hideTheViews:(UITextField*)text{
+    if ([_anatomicalSectionTF isEqual:text]) {
+        _sectionTableview.hidden=NO;
+    }else _sectionTableview.hidden=YES;
+    
+    if ([_anatomicalScanpointTF isEqual:text]) {
+        _scanpointTable.hidden=NO;
+    }else _scanpointTable.hidden=YES;
+    
+    if ([_anatomicalCorrespondingPairTF isEqual:text]) {
+        _correspondingPairTable.hidden=NO;
+    }else _correspondingPairTable.hidden=YES;
+    
+    if ([_anatomicalGermsTF isEqual:text]) {
+        _germsTableView.hidden=NO;
+    }else _germsTableView.hidden=YES;
+    
+    if ([_anatomicalAuthorTF isEqual:text]) {
+        _authorTableView.hidden=NO;
+    }else _authorTableView.hidden=YES;
 }
 - (IBAction)gestureRecognizer:(id)sender {
-    [self hideTheViews];
+    [self.view endEditing:YES];
+    [self hideTheViews:nil];
 }
 - (IBAction)selectScanpoint:(id)sender {
     [self.view endEditing:YES];
-    _scanpointTable.hidden=NO;
-    _correspondingPairTable.hidden=YES;
+    [self hideTheViews:_anatomicalScanpointTF];
+    [_scanpointTable reloadData];
 }
 - (IBAction)selectCorrespondingPair:(id)sender {
-    [self.view endEditing:YES];
-    _scanpointTable.hidden=YES;
-    _correspondingPairTable.hidden=NO;
+     [self.view endEditing:YES];
+   [self hideTheViews:_anatomicalCorrespondingPairTF];
+    [_correspondingPairTable reloadData];
 }
 - (IBAction)selectSection:(id)sender {
+     [self.view endEditing:YES];
+ [self hideTheViews:_anatomicalSectionTF];
+    [_sectionTableview reloadData];
 }
 - (IBAction)selectGerms:(id)sender {
+     [self.view endEditing:YES];
+ [self hideTheViews:_anatomicalGermsTF];
+    [_germsTableView reloadData];
 }
 - (IBAction)selectAuthor:(id)sender {
+     [self.view endEditing:YES];
+ [self hideTheViews:_anatomicalAuthorTF];
+    [_authorTableView reloadData];
+}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    
+    return 1;
+}
+//TableView Number of row
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if ([tableView isEqual:_sectionTableview])
+    {
+        return sectionArray.count;
+    }
+    else if ([tableView isEqual:_scanpointTable])
+        return scanpointArray.count;
+    else if ([tableView isEqual:_correspondingPairTable])
+        return correspondingPointArray.count;
+    else if ([tableView isEqual:_authorTableView])
+        return authorArray.count;
+    else if ([tableView isEqual:_germsTableView])
+        return germsArray.count;
+    else
+        return 10;
+    
+}
+//TableView cell
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
+    UILabel *label=(UILabel*)[cell viewWithTag:10];
+    if ([tableView isEqual:_sectionTableview])
+    {
+        CompleteSectionModel *model=sectionArray[indexPath.row];
+        label.text=model.name;
+    }
+    else if ([tableView isEqual:_scanpointTable])
+    {
+        CompleteScanpointModel *model=scanpointArray[indexPath.row];
+       label.text=model.name;
+    }
+    else if ([tableView isEqual:_correspondingPairTable])
+    {
+        CompleteCorrespondingpairModel *model=correspondingPointArray[indexPath.row];
+        label.text=model.name;
+    }
+    else if ([tableView isEqual:_authorTableView])
+    {
+      CompleteAuthorModel *model=authorArray[indexPath.row];
+       label.text=model.name;
+    }
+    else if ([tableView isEqual:_germsTableView])
+    {
+        germsModel *model=germsArray[indexPath.row];
+        label.text=model.germsName;
+    }
+    tableView.tableFooterView=[UIView new];
+    cell.backgroundColor=[UIColor colorWithRed:0.933 green:0.933 blue:0.941 alpha:1];
+    cell.separatorInset=UIEdgeInsetsZero;
+    cell.layoutMargins=UIEdgeInsetsZero;
+    return cell;
+}
+//select tableviewContent
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if ([tableView isEqual:_sectionTableview])
+    {
+        CompleteSectionModel *model=sectionArray[indexPath.row];
+       _anatomicalSectionTF.text=model.name;
+         selectedSection=model.code;
+        _sectionTableview.hidden=YES;
+    }
+    else if ([tableView isEqual:_scanpointTable])
+    {
+        CompleteScanpointModel *model=scanpointArray[indexPath.row];
+        _anatomicalScanpointTF.text=model.name;
+         selectedScanpoint=model.code;
+        _scanpointTable.hidden=YES;
+    }
+    else if ([tableView isEqual:_correspondingPairTable])
+    {
+        CompleteCorrespondingpairModel *model=correspondingPointArray[indexPath.row];
+        _anatomicalCorrespondingPairTF.text=model.name;
+         selectedCorrespondingpair=model.code;
+        _correspondingPairTable.hidden=YES;
+    }
+    else if ([tableView isEqual:_authorTableView])
+    {
+        CompleteAuthorModel *model=authorArray[indexPath.row];
+        _anatomicalAuthorTF.text=model.name;
+        selectedAuthor=model.code;
+        _authorTableView.hidden=YES;
+    }
+    else if ([tableView isEqual:_germsTableView])
+    {
+        germsModel *model=germsArray[indexPath.row];
+        _anatomicalGermsTF.text=model.germsName;
+        selectedGermsCode=model.germsCode;
+        _germsTableView.hidden=YES;
+    }
+}
+//cell Color
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    [cell setBackgroundColor:[UIColor colorWithRed:0.933 green:0.933 blue:0.941 alpha:1]];
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 30;
+}
+-(void)callSeedForGerms{
+    //    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+    //        //For Vzone API
+    //        [self callApiToGetGerms];
+    //    }else {
+    //        //For Material API
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"germs_FLAG"]) {
+        [self callApiToGetGerms];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,germsUrl];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+                [self processGerms:response];
+            }
+            else{
+                [self callApiToGetGerms];
+            }
+        }];
+    }
+    // }
+}
+-(void)callApiToGetGerms{
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,germsUrl];
+    [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
+        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processGerms:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"germs_FLAG"];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSString *str=[NSString stringWithFormat:@"%@",error];
+            [self showToastMessage:str];
+            [self callApiToGetGerms];
+        }];
+    }else {
+        [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processGerms:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"germs_FLAG"];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [MBProgressHUD hideHUDForView:self.view animated:NO];
+            NSString *str=[NSString stringWithFormat:@"%@",error];
+            [self showToastMessage:str];
+        }];
+    }
+}
+-(void)processGerms:(id)responseObject{
+    NSDictionary *dict;
+    
+    [germsArray removeAllObjects];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        NSDictionary *responseDict1 = responseObject;
+        dict  = responseDict1[@"aaData"];
+    }else{
+        //For Material API
+        dict=responseObject;
+    }
+    for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
+        if ([dict1[@"Status"] intValue]==1) {
+            germsModel *model=[[germsModel alloc]init];
+            model.germsCode=dict1[@"Code"];
+            model.germsName=dict1[@"Name"];
+            model.germsId=dict1[@"Id"];
+            if (dict1[@"UserfriendlyCode"]!=[NSNull null]) {
+                model.germsUserFriendlycode=dict1[@"UserfriendlyCode"];
+            }else model.germsUserFriendlycode=model.germsName;
+            [germsArray addObject:model];
+        }
+    }
+     [self callSeedForSection];
+}
+-(void)callSeedForSection{
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"section_FLAG"]) {
+        [self callApiToGetSection];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getAllSection];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+                [self processSection:response];
+            }
+            else{
+                [self callApiToGetSection];
+            }
+        }];
+    }
+}
+-(void)callApiToGetSection{
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getAllSection];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
+        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             [self processSection:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"section_FLAG"];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self callApiToGetSection];
+            NSString *str=[NSString stringWithFormat:@"%@",error];
+            [self showToastMessage:str];
+        }];
+    }
+}
+-(void)processSection:(id)responseObject{
+
+    NSDictionary *dict;
+    
+    [sectionArray removeAllObjects];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        NSDictionary *responseDict1 = responseObject;
+        dict  = responseDict1[@"aaData"];
+    }else{
+        //For Material API
+        dict=responseObject;
+    }
+    for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
+        if ([dict1[@"Status"] intValue]==1) {
+            CompleteSectionModel *model=[[CompleteSectionModel alloc]init];
+            model.code=dict1[@"Code"];
+            model.name=dict1[@"Name"];
+            model.idValue=dict1[@"Id"];
+        [sectionArray addObject:model];
+        }
+    }
+     [self callSeedForScanpoint];
+}
+-(void)callSeedForScanpoint{
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"scanpoint_FLAG"]) {
+        [self callApiToGetScanpoint];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getAllScanpoint];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+                [self processScanpoint:response];
+            }
+            else{
+                [self callApiToGetScanpoint];
+            }
+        }];
+    }
+}
+-(void)callApiToGetScanpoint{
+    [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getAllScanpoint];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
+        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             [self processScanpoint:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"scanpoint_FLAG"];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self callApiToGetScanpoint];
+            NSString *str=[NSString stringWithFormat:@"%@",error];
+            [self showToastMessage:str];
+        }];
+    }
+}
+-(void)processScanpoint:(id)responseObject{
+    
+    NSDictionary *dict;
+    
+    [scanpointArray removeAllObjects];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        NSDictionary *responseDict1 = responseObject;
+        dict  = responseDict1[@"aaData"];
+    }else{
+        //For Material API
+        dict=responseObject;
+    }
+    for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
+        if ([dict1[@"Status"] intValue]==1) {
+            CompleteScanpointModel *model=[[CompleteScanpointModel alloc]init];
+            model.code=dict1[@"Code"];
+            model.name=dict1[@"Name"];
+            model.idValue=dict1[@"Id"];
+            [scanpointArray addObject:model];
+        }
+    }
+     [self callSeedForCorrespondingPair];
+}
+
+-(void)callSeedForCorrespondingPair{
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"correspondingpair_FLAG"]) {
+        [self callApiToGetCorrespondingPair];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getAllCorrespondingPair];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+              [self processCorrespondingpair:response];
+            }
+            else{
+                [self callApiToGetCorrespondingPair];
+            }
+        }];
+    }
+}
+-(void)callApiToGetCorrespondingPair{
+    [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getAllCorrespondingPair];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
+        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             [self processCorrespondingpair:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"correspondingpair_FLAG"];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self callApiToGetCorrespondingPair];
+            NSString *str=[NSString stringWithFormat:@"%@",error];
+            [self showToastMessage:str];
+        }];
+    }
+}
+-(void)processCorrespondingpair:(id)responseObject{
+    NSDictionary *dict;
+    
+    [correspondingPointArray removeAllObjects];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        NSDictionary *responseDict1 = responseObject;
+        dict  = responseDict1[@"aaData"];
+    }else{
+        //For Material API
+        dict=responseObject;
+    }
+    for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
+        if ([dict1[@"Status"] intValue]==1) {
+            CompleteCorrespondingpairModel *model=[[CompleteCorrespondingpairModel alloc]init];
+            model.code=dict1[@"Code"];
+            model.name=dict1[@"Name"];
+            model.idValue=dict1[@"Id"];
+            [correspondingPointArray addObject:model];
+        }
+    }
+    [self callSeedForAuthor];
+
+}
+
+-(void)callSeedForAuthor{
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"author_FLAG"]) {
+        [self callApiToGetAuthor];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getAllAuthor];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+                [self processAuthor:response];
+            }
+            else{
+                [self callApiToGetAuthor];
+            }
+        }];
+    }
+}
+-(void)callApiToGetAuthor{
+    [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getAllAuthor];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
+        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             [self processAuthor:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"author_FLAG"];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self callApiToGetAuthor];
+            NSString *str=[NSString stringWithFormat:@"%@",error];
+            [self showToastMessage:str];
+        }];
+    }
+}
+-(void)processAuthor:(id)responseObject{
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    
+    NSDictionary *dict;
+    
+    [authorArray removeAllObjects];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        NSDictionary *responseDict1 = responseObject;
+        dict  = responseDict1[@"aaData"];
+    }else{
+        //For Material API
+        dict=responseObject;
+    }
+    for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
+        if ([dict1[@"Status"] intValue]==1) {
+            CompleteAuthorModel *model=[[CompleteAuthorModel alloc]init];
+            model.code=dict1[@"Code"];
+            model.name=dict1[@"Name"];
+            model.idValue=dict1[@"Id"];
+            [authorArray addObject:model];
+        }
+    }
+}
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+    [self hideTheViews:textField];
+}
+-(void)textViewDidBeginEditing:(UITextView *)textView{
+[self hideTheViews:nil];
 }
 @end

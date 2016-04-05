@@ -113,6 +113,11 @@ NSString *const searchSaredCriticalInfo=@"Search/ShareTreatmentInfo";
 NSString *const saveScanpoint=@"scanpoint";
 NSString *const saveCorrespondingPair=@"correspondingpair";
 NSString *const addAnatomicalPoints=@"AnatomicalBiomagneticMatrix";
+NSString *const getAllSection=@"search/section";
+NSString *const getAllScanpoint=@"search/ScanPoint";
+NSString *const getAllCorrespondingPair=@"search/correspondingpair";
+NSString *const getAllAuthor=@"search/author";
+
 
 NSString *const DifferMetirialOrVzoneApi=@"vzone";
 @end
