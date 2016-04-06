@@ -107,12 +107,12 @@
     if (_anatomicalGermsTF.text.length==0) {
         [alertArray addObject:[NSString stringWithFormat:@"%@\n",requiredGerms]];
     }
-//    if (_anatomicalSortNumberTF.text.length==0) {
-//        [alertArray addObject:[NSString stringWithFormat:@"%@\n",requiredSort]];
-//    }
-//    if (_descriptionTV.text.length==0) {
-//        [alertArray addObject:[NSString stringWithFormat:@"%@\n",requiredDesc]];
-//    }
+    if (_anatomicalSortNumberTF.text.length==0) {
+        [alertArray addObject:[NSString stringWithFormat:@"%@\n",requiredSort]];
+    }
+    if (_descriptionTV.text.length==0) {
+        [alertArray addObject:[NSString stringWithFormat:@"%@\n",requiredDesc]];
+    }
     
     if (alertArray.count==0) {
         [self callApiToSaveScanpoint:@"anatomical"];
@@ -753,6 +753,21 @@
 }
 -(void)textViewDidBeginEditing:(UITextView *)textView{
     [self hideTheViews:nil];
+}
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    BOOL status=YES;
+    if ([textField isEqual:_anatomicalSortNumberTF]) {
+            NSCharacterSet * numberCharSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+            for (int i = 0; i < [string length]; ++i)
+            {
+                unichar c = [string characterAtIndex:i];
+                if (![numberCharSet characterIsMember:c])
+                {
+                    status= NO;
+                }
+            }
+    }
+    return status;
 }
 -(void)localize
 {
