@@ -67,12 +67,13 @@
 - (IBAction)saveButtonForScanpoint:(id)sender {
     [self.view endEditing:YES];
     [self hideTheViews:nil];
-    if (_scanpointNameTF.text.length==0) {
+    if (_scanpointLocationTF.text.length==0 & _scanpointNameTF.text.length==0) {
+        [self showToastMessage:requiredBoth];
+    }
+  else if (_scanpointNameTF.text.length==0) {
         [self showToastMessage:requiredNameField];
     }else if (_scanpointLocationTF.text.length==0) {
         [self showToastMessage:requiredLocationField];
-    }else if (_scanpointLocationTF.text.length==0 & _scanpointNameTF.text.length==0) {
-        [self showToastMessage:requiredBoth];
     }
     else
         [self callApiToSaveScanpoint:@"scanpoint"];
@@ -80,13 +81,14 @@
 - (IBAction)saveButtonForCorrespondingPair:(id)sender {
     [self.view endEditing:YES];
     [self hideTheViews:nil];
-    if (_correspondingNameTF.text.length==0) {
+    if (_correspondingNameTF.text.length==0 & _correspondingLocationTF.text.length==0) {
+        [self showToastMessage:requiredBoth];
+    }
+   else if (_correspondingNameTF.text.length==0) {
         [self showToastMessage:requiredNameField];
     }else if (_correspondingLocationTF.text.length==0) {
         [self showToastMessage:requiredLocationField];
-    }else if (_correspondingNameTF.text.length==0 & _correspondingLocationTF.text.length==0) {
-        [self showToastMessage:requiredBoth];
-    }   else [self callApiToSaveScanpoint:@"CorrespondingPair"];
+    } else [self callApiToSaveScanpoint:@"CorrespondingPair"];
 }
 - (IBAction)saveButtonForanatomicalPoint:(id)sender {
     [self.view endEditing:YES];

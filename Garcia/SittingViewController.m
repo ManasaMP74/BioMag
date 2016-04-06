@@ -56,7 +56,7 @@
     NSDateFormatter *formater;
     NSString *selectedToxicString;
     NSArray *selectedPreviousArray;
-    NSString *navTitle,*alert,*alertOK,*saveFailed,*saveSuccess,*yesStr,*noStr,*authour,*enterSittingInfo,*previousSittings,*issueStr,*noIssueStr,*sStr,*s1Str,*doYoucloseSitting,*noChangesToSaveSitting,*popBackAlert;
+    NSString *navTitle,*alert,*alertOK,*saveFailed,*saveSuccess,*yesStr,*noStr,*authour,*enterSittingInfo,*previousSittings,*issueStr,*noIssueStr,*sStr,*s1Str,*doYoucloseSitting,*noChangesToSaveSitting,*popBackAlert,*cancelStr;
     BOOL changesDoneorNot;
     AddSectionData *addsectionData;
     UIView *activeField;
@@ -627,6 +627,10 @@
         [alertView dismissViewControllerAnimated:YES completion:nil];
     }];
     [alertView addAction:failure];
+    UIAlertAction *cancel=[UIAlertAction actionWithTitle:cancelStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+        }];
+        [alertView addAction:cancel];
     [self presentViewController:alertView animated:YES completion:nil];
     }else{
         [self showToastMessage:noChangesToSaveSitting];
@@ -1504,6 +1508,7 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
     _surgeriesLabel.text=[MCLocalization stringForKey:@"SurgeriesLabel"];
     yesStr=[MCLocalization stringForKey:@"Yes"];
     noStr=[MCLocalization stringForKey:@"No"];
+    cancelStr=[MCLocalization stringForKey:@"Cancel"];
     _chargeLabel.text=[MCLocalization stringForKey:@"Charge"];
     navTitle=[MCLocalization stringForKey:@"Sitting"];
     [_saveBtn setTitle:[MCLocalization stringForKey:@"Save"] forState:normal];
@@ -1556,6 +1561,4 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
     self.scrollView.contentInset = contentInsets;
     self.scrollView.scrollIndicatorInsets = contentInsets;
 }
-
-
 @end
