@@ -93,25 +93,25 @@
     [self hideTheViews:nil];
     NSMutableArray *alertArray=[[NSMutableArray alloc]init];
     if (_anatomicalSectionTF.text.length==0) {
-        [alertArray addObject:requiredSection];
+        [alertArray addObject:[NSString stringWithFormat:@"%@\n",requiredSection]];
     }
     if (_anatomicalScanpointTF.text.length==0) {
-        [alertArray addObject:requiredScanpoint];
+        [alertArray addObject:[NSString stringWithFormat:@"%@\n",requiredScanpoint]];
     }
     if (_anatomicalCorrespondingPairTF.text.length==0) {
-        [alertArray addObject:requiredCorrespondingpair];
+        [alertArray addObject:[NSString stringWithFormat:@"%@\n",requiredCorrespondingpair]];
     }
     if (_anatomicalAuthorTF.text.length==0) {
-        [alertArray addObject:requiredAuthor];
+        [alertArray addObject:[NSString stringWithFormat:@"%@\n",requiredAuthor]];
     }
     if (_anatomicalGermsTF.text.length==0) {
-        [alertArray addObject:requiredGerms];
+        [alertArray addObject:[NSString stringWithFormat:@"%@\n",requiredGerms]];
     }
 //    if (_anatomicalSortNumberTF.text.length==0) {
-//        [alertArray addObject:requiredSort];
+//        [alertArray addObject:[NSString stringWithFormat:@"%@\n",requiredSort]];
 //    }
 //    if (_descriptionTV.text.length==0) {
-//        [alertArray addObject:requiredDesc];
+//        [alertArray addObject:[NSString stringWithFormat:@"%@\n",requiredDesc]];
 //    }
     
     if (alertArray.count==0) {
@@ -158,10 +158,10 @@
         url=[NSString stringWithFormat:@"%@%@/0",baseUrl,addAnatomicalPoints];
         if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
             //Parameter for Vzone Api
-            parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":\"0\",\"SectionCode\":\"%@\",\"ScanPointCode\":\"%@\",\"CorrespondingPairCode\":\"%@\",\"IsPublished\":false,\"GermsCode\":\"%@\",\"Status\":true,\"GenderCode\":\"\",\"Author\":\"%@\",\"ApplicableVersionCode\":\"KP18Z7\",\"AppTypeCode\":\"2AP7S5\",\",\"Psychoemotional\":\"\",\"Description\":\"%@\",\"CompanyCode\":\"%@\",\"UserID\":%d,\"MethodType\":\"POST\"}}",selectedSection,selectedScanpoint,selectedCorrespondingpair,selectedGermsCode,selectedAuthor,_descriptionTV.text, postmanCompanyCode, userIdInteger];
+            parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":\"0\",\"SectionCode\":\"%@\",\"ScanPointCode\":\"%@\",\"CorrespondingPairCode\":\"%@\",\"IsPublished\":false,\"GermsCode\":\"%@\",\"Status\":true,\"GenderCode\":\"\",\"Author\":\"%@\",\"ApplicableVersionCode\":\"KP18Z7\",\"AppTypeCode\":\"2AP7S5\",\"Psychoemotional\":\"\",\"Description\":\"%@\",\"CompanyCode\":\"%@\",\"UserID\":%d,\"MethodType\":\"POST\"}}",selectedSection,selectedScanpoint,selectedCorrespondingpair,selectedGermsCode,selectedAuthor,_descriptionTV.text, postmanCompanyCode, userIdInteger];
         }else{
             //Parameter For Material Api
-           parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":\"0\",\"SectionCode\":\"%@\",\"ScanPointCode\":\"%@\",\"CorrespondingPairCode\":\"%@\",\"IsPublished\":false,\"GermsCode\":\"%@\",\"Status\":true,\"GenderCode\":\"\",\"Author\":\"%@\",\"ApplicableVersionCode\":\"KP18Z7\",\"AppTypeCode\":\"2AP7S5\",\",\"Psychoemotional\":\"\",\"Description\":\"%@\",\"CompanyCode\":\"%@\",\"UserID\":%d,\"MethodType\":\"POST\"}}",selectedSection,selectedScanpoint,selectedCorrespondingpair,selectedGermsCode,selectedAuthor,_descriptionTV.text, postmanCompanyCode, userIdInteger];
+           parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":\"0\",\"SectionCode\":\"%@\",\"ScanPointCode\":\"%@\",\"CorrespondingPairCode\":\"%@\",\"IsPublished\":false,\"GermsCode\":\"%@\",\"Status\":true,\"GenderCode\":\"\",\"Author\":\"%@\",\"ApplicableVersionCode\":\"KP18Z7\",\"AppTypeCode\":\"2AP7S5\",\"Psychoemotional\":\"\",\"Description\":\"%@\",\"CompanyCode\":\"%@\",\"UserID\":%d,\"MethodType\":\"POST\"}}",selectedSection,selectedScanpoint,selectedCorrespondingpair,selectedGermsCode,selectedAuthor,_descriptionTV.text, postmanCompanyCode, userIdInteger];
         }
     }
     
@@ -216,7 +216,6 @@
     UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alertStr message:message preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *success=[UIAlertAction actionWithTitle:alertOkStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
         [alertView dismissViewControllerAnimated:YES completion:nil];
-        [self popView];
     }];
     [alertView addAction:success];
     [self presentViewController:alertView animated:YES completion:nil];
