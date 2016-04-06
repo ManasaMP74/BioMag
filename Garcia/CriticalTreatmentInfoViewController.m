@@ -24,8 +24,9 @@
 {
     NSMutableArray *criticalImageArray;
     Postman *postman;
-    NSString *noChangesToSave,*imageUploadFailed,*deleteImageStr,*yesStr,*noStr,*alert,*alertOk;
+    NSString *noChangesToSave,*imageUploadFailed,*deleteImageStr,*yesStr,*noStr,*alert,*alertOk,*saveSuccessfullyStr;
     ImageUploadAPI *imageManager;
+    BOOL noChanges;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -52,6 +53,11 @@
     }
 
 }
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    noChanges=NO;
+
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -76,6 +82,7 @@
     }
 }
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    noChanges=YES;
     if (textView==_summaryTextView) {
         if (textView.text.length==100) {
             return NO;
@@ -114,6 +121,7 @@
     alertOk=[MCLocalization stringForKey:@"AlertOK"];
      _descriptionHeaderLabel.text=[MCLocalization stringForKey:@"Description"];
      _summaryHeaderLabel.text=[MCLocalization stringForKey:@"Summary"];
+     saveSuccessfullyStr=[MCLocalization stringForKey:@"Saved successfully"];
 }
 - (IBAction)camera:(id)sender {
     UIImagePickerController *picker=[[UIImagePickerController alloc]init];
@@ -128,6 +136,7 @@
     imgpick.delegate=self;
 }
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+    noChanges=YES;
    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     UIImage *image=info[UIImagePickerControllerOriginalImage];
     CriticalImageModel *model=[[CriticalImageModel alloc]init];
@@ -191,13 +200,10 @@
                 [array addObject:model];
             }
         }
-        if (array.count>0) {
-             [self callApiToPostCriticalTreatmentInfo];
-        }else  [self showToastMessage:noChangesToSave];
-       
-    }else{
-        [self showToastMessage:noChangesToSave];
     }
+        if (noChanges) {
+            [self callApiToPostCriticalTreatmentInfo];
+        }else  [self showToastMessage:noChangesToSave];
 }
 //Toast Message
 -(void)showToastMessage:(NSString*)msg{
@@ -215,7 +221,6 @@
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:NO];
     if (criticalImageArray.count>0) {
-        int imagecount=0;
         for (CriticalImageModel *model in criticalImageArray) {
             if (model.storageId.length==0) {
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
@@ -231,11 +236,9 @@
                         [imageManager uploadUserForVzoneDocumentPath:path forRequestCode:code withType:type withText:caption withRequestType:@"TreatmentInfo" withUserId:docId onCompletion:^(BOOL success) {
                             if (success)
                             {
-                                //if (imagecount==criticalImageArray.count-1) {
                                 [MBProgressHUD hideHUDForView:self.view animated:NO];
-                                [self.navigationController popViewControllerAnimated:YES];
-                               // }else  [self incrementThevalue:imagecount];
-                            }else
+                                [self showAlerView:saveSuccessfullyStr];
+                        }else
                             {
                                 [MBProgressHUD hideHUDForView:self.view animated:NO];
                                 [self showToastMessage:imageUploadFailed];
@@ -255,6 +258,9 @@
                                 }
                             }];
                     }
+            }else {
+                [MBProgressHUD hideHUDForView:self.view animated:NO];
+                [self showAlerView:saveSuccessfullyStr];
             }
         }
     }
@@ -304,9 +310,15 @@
         dict=response;
     }
     if ([dict[@"Success"] intValue]==1) {
-        if ([str isEqualToString:@"post"]) {
-             [self saveImage:dict[@"Code"]];
-        }else  [self saveImage:_criticalInfoModel.code];
+        if (criticalImageArray.count>0) {
+            if ([str isEqualToString:@"post"]) {
+                [self saveImage:dict[@"Code"]];
+            }else {
+                [MBProgressHUD hideHUDForView:self.view animated:NO];
+              [self saveImage:_criticalInfoModel.code];
+            }
+
+        }else [self showAlerView:saveSuccessfullyStr];
     }else{
         [self showToastMessage:dict[@"Message"]];
     }
@@ -347,5 +359,14 @@
     }
     else [self showToastMessage:dict[@"Message"]];
 }
-
+//Alert Message
+-(void)showAlerView:(NSString*)msg{
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:alertOk style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+    [alertView addAction:success];
+    [self presentViewController:alertView animated:YES completion:nil];
+}
 @end

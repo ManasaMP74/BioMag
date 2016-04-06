@@ -28,6 +28,7 @@
     NSMutableArray *criticalImageArray;
     Postman *postman;
     ShowCriticalInfoListModel *selectedCriticalModel;
+    Constant *constant;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -35,6 +36,7 @@
     _detailView.layer.cornerRadius=5;
      [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-1.jpg"]]];
     postman=[[Postman alloc]init];
+    constant =[[Constant alloc]init];
     _EditButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _EditButton.titleLabel.numberOfLines = 2;
       [self layerOfTV];
@@ -43,12 +45,25 @@
     _detailViewHeight.constant=330;
     [self navigationItemMethod];
     [self localize];
+    [constant setColorForLabel:_summaryHeaderLabel];
+    [constant setColorForLabel:_descriptionHeaderLabel];
     [self getDetailOfCriticalInfo];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
    
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    for (int i=0; i<completeCriticalDetailArray.count; i++) {
+        ShowCriticalInfoListModel *model=completeCriticalDetailArray[i];
+        if ([model.code isEqualToString:selectedCriticalModel.code]) {
+           [self tableView:_tableview didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+            break;
+        }
+    }
+
 }
 -(void)getDetailOfCriticalInfo{
     for (NSDictionary *dict in _CriticalInfoArray) {

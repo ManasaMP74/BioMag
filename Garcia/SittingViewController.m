@@ -59,6 +59,7 @@
     NSString *navTitle,*alert,*alertOK,*saveFailed,*saveSuccess,*yesStr,*noStr,*authour,*enterSittingInfo,*previousSittings,*issueStr,*noIssueStr,*sStr,*s1Str,*doYoucloseSitting,*noChangesToSaveSitting,*popBackAlert;
     BOOL changesDoneorNot;
     AddSectionData *addsectionData;
+    UIView *activeField;
 }
 - (void)viewDidLoad {
     [self localize];
@@ -79,6 +80,7 @@
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-2.jpg"]]];
     postman=[[Postman alloc]init];
     [self navigationItemMethod];
+    [self registerForKeyboardNotifications];
     [self defaultValues];
     changesDoneorNot=NO;
 }
@@ -952,6 +954,12 @@
    sittingModel *model1=allSortedDetailArray[i.section];
     model1.notes=cell1.addNoteTV.text;
 }
+-(void)noteTappedDelegate:(UITableViewCell *)cell{
+    SittingTableViewCell *cell1=(SittingTableViewCell*)cell;
+    NSIndexPath  *i=[_tableview indexPathForCell:cell1];
+    activeField=cell1.addNoteTV;
+    [self.tableview scrollToRowAtIndexPath:i atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+}
 //germs view
 -(void)getGermsView:(UITableViewCell *)cell{
     SittingTableViewCell *cell1=(SittingTableViewCell*)cell;
@@ -1519,4 +1527,35 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
     noChangesToSaveSitting=[MCLocalization stringForKey:@"No changes is there to save"];
     popBackAlert=[MCLocalization stringForKey:@"Changes will be discarded if you exit from screen. Are you sure to proceed?"];
 }
+- (void)registerForKeyboardNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardWillShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)keyboardWasShown:(NSNotification*)aNotification
+{
+    NSDictionary* info = [aNotification userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
+    self.scrollView.contentInset = contentInsets;
+    self.scrollView.scrollIndicatorInsets = contentInsets;
+    CGRect aRect = self.view.frame;
+    CGRect frameOfActiveTextField = [activeField convertRect:activeField.bounds toView:self.scrollView];
+    aRect.size.height -= kbSize.height;
+    if (!CGRectContainsPoint(aRect, frameOfActiveTextField.origin) ) {
+        [self.scrollView scrollRectToVisible:frameOfActiveTextField animated:YES];
+    }
+}
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification
+{
+    activeField=nil;
+    UIEdgeInsets contentInsets=UIEdgeInsetsZero;
+    self.scrollView.contentInset = contentInsets;
+    self.scrollView.scrollIndicatorInsets = contentInsets;
+}
+
+
 @end

@@ -29,4 +29,9 @@
           [self.delegate noteAddedDelegate:self];
     }
 }
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
+    [self.delegate noteTappedDelegate:self];
+    return YES;
+}
 @end

@@ -1130,15 +1130,15 @@
     _allTaglistTableView.hidden=YES;
     activeField=nil;
 }
-- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
-{
-    activeField=textView;
-    return YES;
-}
 -(void)changeTheTitle{
     if (![_treatmentNameTF.text isEqualToString:_patientDetailModel.title]) {
         changesDoneOrNot=YES;
     }else changesDoneOrNot=NO;
+}
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
+    activeField=textView;
+    return YES;
 }
 -(void)textViewDidEndEditing:(UITextView *)textView{
     activeField=nil;
