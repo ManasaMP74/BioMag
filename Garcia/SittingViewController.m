@@ -1561,4 +1561,21 @@ if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
     self.scrollView.contentInset = contentInsets;
     self.scrollView.scrollIndicatorInsets = contentInsets;
 }
+-(void)addquickGerms:(UITableViewCell *)cell{
+    SittingTableViewCell *cell1=(SittingTableViewCell*)cell;
+    selectedCellIndex=[_tableview indexPathForCell:cell1];
+}
+-(void)addquickGermsData{
+    changesDoneorNot=YES;
+    sittingModel *model1=allSortedDetailArray[selectedCellIndex.section];
+        NSString *selectedGerms=@"";
+        NSString *selectedGermsCode=@"";
+       selectedGerms=[NSString stringWithFormat:@"%@,%@",model1.germsString,model1.germsName];
+    selectedGermsCode=[NSString stringWithFormat:@"%@,%@",model1.germsCodeString,model1.germsCode];
+        model1.selectedCellIndex=selectedCellIndex;
+        model1.germsString=selectedGerms;
+        model1.germsCodeString=selectedGermsCode;
+        model1.issue=YES;
+    [_tableview reloadData];
+}
 @end
