@@ -21,9 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>VM_ENVIRONMENT_LAST_COMMIT
-VM_ENVIRONMENT_LAST_COMMIT
-</string>
+	<string>3.2</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>

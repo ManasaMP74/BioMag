@@ -315,7 +315,7 @@
 - (IBAction)increaseViewHeightOfPatientView:(id)sender {
     if ([_increasePatientViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
         _increasePatientView.hidden=NO;
-        _increasePatientViewHeight.constant=_surgeryValueLabel.frame.size.height+130+_emailValueLabel.frame.size.height;
+        _increasePatientViewHeight.constant=_surgeryValueLabel.frame.size.height+140+_emailValueLabel.frame.size.height;
         [self ChangeIncreaseDecreaseButtonImage:_increasePatientViewButton];
     }
     else{
@@ -876,7 +876,7 @@
     _diagnosisViewHeight.constant=0;
     _settingView.hidden=YES;
     _settingViewHeight.constant=0;
-    _increasePatientViewHeight.constant=_surgeryValueLabel.frame.size.height+130;
+    _increasePatientViewHeight.constant=_surgeryValueLabel.frame.size.height+140+_emailValueLabel.frame.size.height;
     _increasePatientView.hidden=NO;
     [_increaseDiagnosisViewButton setImage:[UIImage imageNamed:@"Dropdown-icon"] forState:normal];
     [_increaseMedicalViewButton setImage:[UIImage imageNamed:@"Dropdown-icon"] forState:normal];

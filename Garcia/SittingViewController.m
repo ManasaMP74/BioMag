@@ -283,10 +283,14 @@
             [self colorChange:model.issue withCell:cell];
             cell.headerView.backgroundColor=[UIColor colorWithRed:0.686 green:0.741 blue:1 alpha:1];
             cell.germView.backgroundColor=[UIColor colorWithRed:0.686 green:0.741 blue:1 alpha:1];
+            cell.selectDeselectButton.backgroundColor=[UIColor colorWithRed:0.686 green:0.741 blue:1 alpha:1];
+            [cell.selectDeselectButton setImage:[UIImage imageNamed:@"issue-icon-red.png"] forState:normal];
         }else{
             [self colorChange:model.issue withCell:cell];
             cell.headerView.backgroundColor=[UIColor colorWithRed:0.863 green:0.953 blue:0.988 alpha:1];
             cell.germView.backgroundColor=[UIColor colorWithRed:0.863 green:0.953 blue:0.988 alpha:1];
+            cell.selectDeselectButton.backgroundColor=[UIColor colorWithRed:0.863 green:0.953 blue:0.988 alpha:1];
+             [cell.selectDeselectButton setImage:[UIImage imageNamed:@"issue-icon-gray.png"] forState:normal];
         }
         
     }
@@ -301,11 +305,18 @@
         if (model.issue) {
             [self colorChange:model.issue withCell:cell];
              cell.headerView.backgroundColor=[UIColor colorWithRed:0.686 green:0.741 blue:1 alpha:1];
+            cell.selectDeselectButton.backgroundColor=[UIColor colorWithRed:0.686 green:0.741 blue:1 alpha:1];
+             [cell.selectDeselectButton setImage:[UIImage imageNamed:@"issue-icon-red.png"] forState:normal];
         }else{
             [self colorChange:model.issue withCell:cell];
             if (indexPath.section%2==0) {
                cell.headerView.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
-            }else  cell.headerView.backgroundColor=[UIColor colorWithRed:0.667 green:0.902 blue:0.976 alpha:1];
+                cell.selectDeselectButton.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
+            }else{
+            cell.headerView.backgroundColor=[UIColor colorWithRed:0.667 green:0.902 blue:0.976 alpha:1];
+             cell.selectDeselectButton.backgroundColor=[UIColor colorWithRed:0.667 green:0.902 blue:0.976 alpha:1];
+                 [cell.selectDeselectButton setImage:[UIImage imageNamed:@"issue-icon-gray.png"] forState:normal];
+            }
         }
     }
      [self showDataSavedInDBInTable:model withCell:cell];
@@ -410,14 +421,24 @@
       if ([model.germsString isEqualToString:@""]) {
         cell.sittingTextView.text=@"";
         cell.sittingTvPlaceholder.hidden=NO;
+          if (!model.issue) {
+              cell.otherGermsLabel.text=@"";
+              cell.sittingTvPlaceholder.hidden=NO;
+              cell.sittingTextView.text=@"";
+            [cell.selectDeselectButton setImage:[UIImage imageNamed:@"issue-icon-gray"] forState:normal];
+          }
           [self getPreviousDataOfSittingforEachCell:model withCell:cell];
         }else {
         if (model.issue) {
             [self colorChange:model.issue withCell:cell];
             cell.headerView.backgroundColor=[UIColor colorWithRed:0.686 green:0.741 blue:1 alpha:1];
+            cell.selectDeselectButton.backgroundColor=[UIColor colorWithRed:0.686 green:0.741 blue:1 alpha:1];
+             [cell.selectDeselectButton setImage:[UIImage imageNamed:@"issue-icon-red.png"] forState:normal];
         }else{
             [self colorChange:model.issue withCell:cell];
             cell.headerView.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
+             cell.selectDeselectButton.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
+             [cell.selectDeselectButton setImage:[UIImage imageNamed:@"issue-icon-gray.png"] forState:normal];
         }
       [self getPreviousDataOfSittingforEachCell:model withCell:cell];
         cell.sittingTextView.text=model.germsString;
@@ -498,10 +519,14 @@
                             model.issue= YES;
                             [self colorChange:model.issue withCell:cell];
                             cell.headerView.backgroundColor=[UIColor colorWithRed:0.686 green:0.741 blue:1 alpha:1];
+                            cell.selectDeselectButton.backgroundColor=[UIColor colorWithRed:0.686 green:0.741 blue:1 alpha:1];
+                             [cell.selectDeselectButton setImage:[UIImage imageNamed:@"issue-icon-red.png"] forState:normal];
                         }else{
                             model.issue= NO;
                             [self colorChange:model.issue withCell:cell];
                             cell.headerView.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
+                            cell.selectDeselectButton.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
+                             [cell.selectDeselectButton setImage:[UIImage imageNamed:@"issue-icon-gray"] forState:normal];
                         }
                     }
                 }
@@ -945,10 +970,31 @@
     SittingTableViewCell *cell1=(SittingTableViewCell*)cell;
     NSIndexPath *index=[_tableview indexPathForCell:cell1];
     sittingModel *model1=allSortedDetailArray[index.section];
-    if ([cell1.checkBox.currentBackgroundImage isEqual:[UIImage imageNamed:@"issue-Button"]]) {
+    if (model1.issue) {
         model1.issue=NO;
     }else {
         model1.issue=YES;
+    }
+    changesDoneorNot=YES;
+    
+    if (model1.issue) {
+        NSString *selectedGerms=@"";
+        NSString *selectedGermsCode=@"";
+        for (NSString *str in model1.germsCode) {
+            selectedGermsCode=[NSString stringWithFormat:@"%@,%@",model1.germsCodeString,str];
+        }
+        for (NSString *str in model1.germsName) {
+            if (model1.germsString.length!=0) {
+                selectedGerms=[NSString stringWithFormat:@"%@,%@",model1.germsString,str];
+            }
+            else selectedGerms=[NSString stringWithFormat:@"%@",str];
+        }
+        model1.germsString=selectedGerms;
+        model1.germsCodeString=selectedGermsCode;
+    }else{
+        model1.germsString=@"";
+        model1.germsCodeString=@"";
+         model1.edited=@"Y";
     }
     [_tableview reloadData];
 }
