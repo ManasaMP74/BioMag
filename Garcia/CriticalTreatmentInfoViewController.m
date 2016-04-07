@@ -83,11 +83,25 @@
 }
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     noChanges=YES;
-    if (textView==_summaryTextView) {
-        if (textView.text.length==100) {
-            return NO;
-        }else return YES;
-    }else return YES;
+
+    if ([textView isEqual:_summaryTextView])
+    {
+        NSMutableString *expectedString = [textView.text mutableCopy];
+        [expectedString replaceCharactersInRange:range withString:text];
+
+        if (expectedString.length <= 100 )
+        {
+            return YES;
+        }
+        return NO;
+    }
+    
+    return YES;
+//    if (textView==_summaryTextView) {
+//        if (textView.text.length==100) {
+//            return NO;
+//        }else return YES;
+//    }else return YES;
 }
 -(void)navigationItemMethod{
     UIImage* image = [UIImage imageNamed:@"Back button.png"];

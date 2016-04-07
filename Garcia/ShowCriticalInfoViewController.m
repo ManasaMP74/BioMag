@@ -164,7 +164,7 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseOfgetDetailOfSharedTreatmentInfo:responseObject];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
