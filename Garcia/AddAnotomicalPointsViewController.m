@@ -12,6 +12,7 @@
 #import "CompleteSectionModel.h"
 #import "CompleteAuthorModel.h"
 @interface AddAnotomicalPointsViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UITextViewDelegate>
+@property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tapGesture;
 
 @end
 
@@ -30,6 +31,9 @@
     [self textFieldLayer];
     [self navigationItemMethod];
     [self localize];
+    self.tapGesture.delaysTouchesBegan = NO;
+    self.tapGesture.delaysTouchesBegan = NO;
+
     scanpointArray=[[NSMutableArray alloc]init];
     correspondingPointArray=[[NSMutableArray alloc]init];
     sectionArray=[[NSMutableArray alloc]init];
