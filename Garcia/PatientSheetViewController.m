@@ -1359,15 +1359,15 @@
         dict  = responseDict1[@"aaData"];
     }else  dict=responseObject;
     if ([dict[@"Success"]intValue]==1) {
-        NSMutableArray *uploadArray=[[NSMutableArray alloc]init];
-        if (uploadedImageArray.count>0) {
-            for (UploadModelClass *model in uploadedImageArray) {
-                if (model.storgeId==nil) {
-                    [uploadArray addObject:model];
-                }
-            }
-        }
-        if (uploadArray.count==0) {
+//        NSMutableArray *uploadArray=[[NSMutableArray alloc]init];
+//        if (uploadedImageArray.count>0) {
+//            for (UploadModelClass *model in uploadedImageArray) {
+//                if (model.storgeId==nil) {
+//                    [uploadArray addObject:model];
+//                }
+//            }
+//        }
+       // if (uploadArray.count==0) {
         UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:msg preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *success=[UIAlertAction actionWithTitle:alertOk style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
             [self.navigationController popViewControllerAnimated:YES];
@@ -1376,7 +1376,7 @@
         }];
         [alertView addAction:success];
         [self presentViewController:alertView animated:YES completion:nil];
-        }
+      //  }
     }else {
         [self showToastMessage:dict[@"Message"]];
     }
@@ -1653,6 +1653,7 @@
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:NO];
      NSMutableArray *uploadArray=[[NSMutableArray alloc]init];
+    
     if (uploadedImageArray.count>0) {
         for (UploadModelClass *model in uploadedImageArray) {
              if (model.storgeId==nil) {
@@ -1660,6 +1661,8 @@
              }
         }
     }
+    
+    
     if (uploadArray.count>0) {
         int imagecount=0;
          for (UploadModelClass *model in uploadArray) {
