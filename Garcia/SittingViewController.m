@@ -290,7 +290,7 @@
             cell.headerView.backgroundColor=[UIColor colorWithRed:0.863 green:0.953 blue:0.988 alpha:1];
             cell.germView.backgroundColor=[UIColor colorWithRed:0.863 green:0.953 blue:0.988 alpha:1];
             cell.selectDeselectButton.backgroundColor=[UIColor colorWithRed:0.863 green:0.953 blue:0.988 alpha:1];
-             [cell.selectDeselectButton setImage:[UIImage imageNamed:@"issue-icon-gray.png"] forState:normal];
+             [cell.selectDeselectButton setImage:[UIImage imageNamed:@"issue-icon.png"] forState:normal];
         }
         
     }
@@ -315,7 +315,7 @@
             }else{
             cell.headerView.backgroundColor=[UIColor colorWithRed:0.667 green:0.902 blue:0.976 alpha:1];
              cell.selectDeselectButton.backgroundColor=[UIColor colorWithRed:0.667 green:0.902 blue:0.976 alpha:1];
-                 [cell.selectDeselectButton setImage:[UIImage imageNamed:@"issue-icon-gray.png"] forState:normal];
+                 [cell.selectDeselectButton setImage:[UIImage imageNamed:@"issue-icon.png"] forState:normal];
             }
         }
     }
@@ -425,7 +425,7 @@
               cell.otherGermsLabel.text=@"";
               cell.sittingTvPlaceholder.hidden=NO;
               cell.sittingTextView.text=@"";
-            [cell.selectDeselectButton setImage:[UIImage imageNamed:@"issue-icon-gray"] forState:normal];
+            [cell.selectDeselectButton setImage:[UIImage imageNamed:@"issue-icon"] forState:normal];
           }
           [self getPreviousDataOfSittingforEachCell:model withCell:cell];
         }else {
@@ -438,7 +438,7 @@
             [self colorChange:model.issue withCell:cell];
             cell.headerView.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
              cell.selectDeselectButton.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
-             [cell.selectDeselectButton setImage:[UIImage imageNamed:@"issue-icon-gray.png"] forState:normal];
+             [cell.selectDeselectButton setImage:[UIImage imageNamed:@"issue-icon.png"] forState:normal];
         }
       [self getPreviousDataOfSittingforEachCell:model withCell:cell];
         cell.sittingTextView.text=model.germsString;
@@ -526,7 +526,7 @@
                             [self colorChange:model.issue withCell:cell];
                             cell.headerView.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
                             cell.selectDeselectButton.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
-                             [cell.selectDeselectButton setImage:[UIImage imageNamed:@"issue-icon-gray"] forState:normal];
+                             [cell.selectDeselectButton setImage:[UIImage imageNamed:@"issue-icon.png"] forState:normal];
                         }
                     }
                 }
