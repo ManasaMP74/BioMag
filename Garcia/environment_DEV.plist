@@ -22,7 +22,13 @@
 	<string>configurationview/MWUFJM</string>
 	<key>privecyAndPolicy</key>
 	<string>configurationview/4XOSBX</string>
-    <key>baseUrlAws</key>
-    <string>https://s3-us-west-2.amazonaws.com/</string>
+	<key>baseUrlAws</key>
+	<string>https://s3-us-west-2.amazonaws.com/</string>
+	<key>appTypeCode</key>
+	<string>1IBT8U</string>
+    <key>applicableBasicVersionCode</key>
+    <string>KP18Z7</string>
+    <key>applicableIntermediateVersionCode</key>
+    <string>BWLTYA</string>
 </dict>
 </plist>

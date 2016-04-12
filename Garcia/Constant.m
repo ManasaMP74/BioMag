@@ -3,7 +3,7 @@
 @implementation Constant
 //textFieldPlaceHolder
 -(NSAttributedString*)textFieldPlaceHolderText:(NSString *)text{
-    if (text!=nil) {
+    if (text.length!=0) {
     NSAttributedString *str=[[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.333 green:0.329 blue:0.39 alpha:1], NSFontAttributeName :[self customFont:12 ofName:OpenSansRegular]}];
          return str;
     }

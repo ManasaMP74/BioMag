@@ -827,11 +827,13 @@
         NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,biomagneticMatrix];
         [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
             if (success) {
+                
                 [self processResponseObject:response];
             }
             else{
+                
                 [self callApi];
-            }
+           }
         }];
     }
     
@@ -846,7 +848,7 @@
         //For Vzone API
         NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
         NSString *languageCode=[defaults valueForKey:@"languageCode"];
-        parameter=[NSString stringWithFormat:@"{\"request\":{\"SectionCode\": \"\",\"ScanPointCode\": \"\",\"CorrespondingPairCode\":\"\",\"GermsCode\": \"\",\"CurrentLanguageCode\": \"%@\"}}",languageCode];
+        parameter=[NSString stringWithFormat:@"{\"request\":{\"SectionCode\": \"\",\"ScanPointCode\": \"\",\"CorrespondingPairCode\":\"\",\"GermsCode\": \"\",\"CurrentLanguageCode\": \"%@\",\"ApplicableVersionCode\":\"%@\",\"AppTypeCode\":\"%@\"}}",languageCode,appTypeCode,applicableBasicVersionCode];
     }else{
         
         //For material API
@@ -944,6 +946,12 @@
                 }
                 if (dict1[@"GenderCode"]!=[NSNull null]){
                     model.genderCode=dict1[@"GenderCode"];
+                }
+                if (dict1[@"AppTypeCode"]!=[NSNull null]){
+                    model.appTypeCodeValue=dict1[@"AppTypeCode"];
+                }
+                if (dict1[@"ApplicableVersionCode"]!=[NSNull null]){
+                    model.applicableVersionCodeValue=dict1[@"ApplicableVersionCode"];
                 }
                 model.issue=NO;
                 model.germsString=@"";

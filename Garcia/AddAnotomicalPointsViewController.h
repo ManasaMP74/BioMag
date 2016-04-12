@@ -40,5 +40,9 @@
 @property (weak, nonatomic) IBOutlet UITableView *authorTableView;
 @property (weak, nonatomic) IBOutlet UITableView *germsTableView;
 @property (weak, nonatomic) IBOutlet UITableView *sectionTableview;
+@property (weak, nonatomic) IBOutlet UITableView *langTable;
+@property (weak, nonatomic) IBOutlet UIButton *langButton;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *langTableHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *langTableWidth;
 
 @end

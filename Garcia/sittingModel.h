@@ -27,4 +27,6 @@
 @property(strong,nonatomic)NSString *otherSittingNumberHaveIssue;
 @property(strong,nonatomic)NSString *anatomicalBiomagenticCode;
 @property(strong,nonatomic)NSString *notes;
+@property(strong,nonatomic)NSString *applicableVersionCodeValue;
+@property(strong,nonatomic)NSString *appTypeCodeValue;
 @end

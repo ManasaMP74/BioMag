@@ -25,6 +25,9 @@
         _termsandcondition       = plist[@"termsAndCondition"];
         _privecyandpolicy       = plist[@"privecyAndPolicy"];
         _baseurlForaws = plist[@"baseUrlAws"];
+        _apptypecode=plist[@"appTypeCode"];
+         _applicablebasicversioncode=plist[@"applicableBasicVersionCode"];
+         _applicableintermediateversionCode=plist[@"applicableIntermediateVersionCode"];
     }
     return self;
 }

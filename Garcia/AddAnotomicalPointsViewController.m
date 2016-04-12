@@ -11,6 +11,7 @@
 #import "CompleteCorrespondingpairModel.h"
 #import "CompleteSectionModel.h"
 #import "CompleteAuthorModel.h"
+#import "lagModel.h"
 @interface AddAnotomicalPointsViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UITextViewDelegate>
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tapGesture;
 
@@ -21,8 +22,8 @@
     Constant *constant;
     NSString *alertStr,*alertOkStr,*requiredNameField,*requiredLocationField,*requiredBoth,*requiredSection,*requiredScanpoint,*requiredCorrespondingpair,*requiredAuthor,*requiredGerms,*requiredSort,*requiredDesc;
     Postman *postman;
-    NSMutableArray *scanpointArray,*correspondingPointArray,*authorArray,*germsArray,*sectionArray;
-    NSString *selectedGermsCode,*selectedSection,*selectedScanpoint,*selectedCorrespondingpair,*selectedAuthor;
+    NSMutableArray *scanpointArray,*correspondingPointArray,*authorArray,*germsArray,*sectionArray,*languageArray;
+    NSString *selectedGermsCode,*selectedSection,*selectedScanpoint,*selectedCorrespondingpair,*selectedAuthor,*selectedLang;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -33,14 +34,18 @@
     [self localize];
     self.tapGesture.delaysTouchesBegan = NO;
     self.tapGesture.delaysTouchesBegan = NO;
-
+    _langButton.layer.cornerRadius=15;
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    [_langButton setTitle:[defaults valueForKey:@"languageName"] forState:normal];
     scanpointArray=[[NSMutableArray alloc]init];
     correspondingPointArray=[[NSMutableArray alloc]init];
     sectionArray=[[NSMutableArray alloc]init];
     germsArray=[[NSMutableArray alloc]init];
     authorArray=[[NSMutableArray alloc]init];
+    languageArray=[[NSMutableArray alloc]init];
     postman=[[Postman alloc]init];
     [self callSeedForGerms];
+    [self callSeedForLanguage];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
@@ -135,6 +140,22 @@
     [self hideTheViews:nil];
     [self popView];
 }
+- (IBAction)getLanguage:(id)sender {
+ [self hideTheViews:nil];
+    _langTable.hidden=NO;
+    [_langTable reloadData];
+    [self.view layoutIfNeeded];
+    CGFloat finalWidth =0.0;
+    if (languageArray.count>0) {
+    for (lagModel *str in languageArray) {
+        CGFloat width =  [str.name boundingRectWithSize:(CGSizeMake(NSIntegerMax,self.view.frame.size.width)) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:15]} context:nil].size.width;
+        finalWidth=MAX(finalWidth, width);
+    }
+}
+    _langTableWidth.constant=finalWidth+35;
+    _langTableHeight.constant=_langTable.contentSize.height;
+    
+}
 -(void)callApiToSaveScanpoint:(NSString*)differForSaveData{
     NSString *url;
     NSString *parameter;
@@ -164,10 +185,10 @@
         url=[NSString stringWithFormat:@"%@%@/0",baseUrl,addAnatomicalPoints];
         if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
             //Parameter for Vzone Api
-            parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":\"0\",\"SectionCode\":\"%@\",\"ScanPointCode\":\"%@\",\"CorrespondingPairCode\":\"%@\",\"IsPublished\":false,\"GermsCode\":\"%@\",\"Status\":true,\"GenderCode\":\"\",\"Author\":\"%@\",\"ApplicableVersionCode\":\"KP18Z7\",\"AppTypeCode\":\"1IBT8U\",\"Psychoemotional\":\"\",\"Description\":\"%@\",\"CompanyCode\":\"%@\",\"UserID\":%d,\"MethodType\":\"POST\"}}",selectedSection,selectedScanpoint,selectedCorrespondingpair,selectedGermsCode,selectedAuthor,_descriptionTV.text, postmanCompanyCode, userIdInteger];
+            parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":\"0\",\"SectionCode\":\"%@\",\"ScanPointCode\":\"%@\",\"CorrespondingPairCode\":\"%@\",\"IsPublished\":false,\"GermsCode\":\"%@\",\"Status\":true,\"GenderCode\":\"\",\"Author\":\"%@\",\"ApplicableVersionCode\":\"%@\",\"AppTypeCode\":\"%@\",\"Psychoemotional\":\"\",\"Description\":\"%@\",\"CompanyCode\":\"%@\",\"UserID\":%d,\"MethodType\":\"POST\",\"CurrentLanguageCode\":\"%@\"}}",selectedSection,selectedScanpoint,selectedCorrespondingpair,selectedGermsCode,selectedAuthor,applicableBasicVersionCode,appTypeCode,_descriptionTV.text, postmanCompanyCode, userIdInteger,selectedLang];
         }else{
             //Parameter For Material Api
-           parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":\"0\",\"SectionCode\":\"%@\",\"ScanPointCode\":\"%@\",\"CorrespondingPairCode\":\"%@\",\"IsPublished\":false,\"GermsCode\":\"%@\",\"Status\":true,\"GenderCode\":\"\",\"Author\":\"%@\",\"ApplicableVersionCode\":\"KP18Z7\",\"AppTypeCode\":\"1IBT8U\",\"Psychoemotional\":\"\",\"Description\":\"%@\",\"CompanyCode\":\"%@\",\"UserID\":%d,\"MethodType\":\"POST\"}}",selectedSection,selectedScanpoint,selectedCorrespondingpair,selectedGermsCode,selectedAuthor,_descriptionTV.text, postmanCompanyCode, userIdInteger];
+           parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":\"0\",\"SectionCode\":\"%@\",\"ScanPointCode\":\"%@\",\"CorrespondingPairCode\":\"%@\",\"IsPublished\":false,\"GermsCode\":\"%@\",\"Status\":true,\"GenderCode\":\"\",\"Author\":\"%@\",\"ApplicableVersionCode\":\"%@\",\"AppTypeCode\":\"%@\",\"Psychoemotional\":\"\",\"Description\":\"%@\",\"CompanyCode\":\"%@\",\"UserID\":%d,\"MethodType\":\"POST\",\"CurrentLanguageCode\":\"%@\"}}",selectedSection,selectedScanpoint,selectedCorrespondingpair,selectedGermsCode,selectedAuthor,applicableBasicVersionCode,appTypeCode,_descriptionTV.text, postmanCompanyCode, userIdInteger,selectedLang];
         }
     }
     
@@ -311,6 +332,7 @@
     if ([_anatomicalAuthorTF isEqual:text]) {
         _authorTableView.hidden=NO;
     }else _authorTableView.hidden=YES;
+    _langTable.hidden=YES;
 }
 - (IBAction)gestureRecognizer:(id)sender {
     [self.view endEditing:YES];
@@ -360,8 +382,9 @@
         return authorArray.count;
     else if ([tableView isEqual:_germsTableView])
         return germsArray.count;
-    else
-        return 10;
+    else if ([tableView isEqual:_langTable])
+        return languageArray.count;
+    else  return 10;
     
 }
 //TableView cell
@@ -392,6 +415,11 @@
     {
         germsModel *model=germsArray[indexPath.row];
         label.text=model.germsName;
+    }
+    else if ([tableView isEqual:_langTable])
+    {
+        lagModel *model=languageArray[indexPath.row];
+        label.text=model.name;
     }
     tableView.tableFooterView=[UIView new];
     cell.backgroundColor=[UIColor colorWithRed:0.933 green:0.933 blue:0.941 alpha:1];
@@ -435,6 +463,13 @@
         _anatomicalGermsTF.text=model.germsName;
         selectedGermsCode=model.germsCode;
         _germsTableView.hidden=YES;
+    }
+    else if ([tableView isEqual:_langTable])
+    {
+        lagModel *model=languageArray[indexPath.row];
+        [_langButton setTitle:model.name forState:normal];
+        selectedLang=model.code;
+        _langTable.hidden=YES;
     }
 }
 //cell Color
@@ -774,6 +809,74 @@
             }
     }
     return status;
+}
+-(void)callSeedForLanguage{
+    //    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+    //        //Api For Vzone
+    //        [self callApiForLanguage];
+    //    }else{
+    //  API for material
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"language_FLAG"]) {
+        [self callApiForLanguage];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,language];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+                [self processResponse:response];
+            }
+            else{
+                [self callApiForLanguage];
+            }
+        }];
+    }
+    //  }
+}
+
+-(void)callApiForLanguage{
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,language];
+    [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
+        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processResponse:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"language_FLAG"];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            
+        }];
+    }else{
+        [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processResponse:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"language_FLAG"];
+            [MBProgressHUD hideHUDForView:self.view animated:NO ];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [MBProgressHUD hideHUDForView:self.view animated:NO];
+            [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
+        }];
+    }
+}
+-(void)processResponse:(id)response{
+    [languageArray removeAllObjects];
+    NSDictionary *dict;
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSDictionary *dic1=response;
+        dict=dic1[@"aaData"];
+    }else{
+        dict=response;
+    }
+    for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
+        if ([dict1[@"Status"]boolValue]) {
+            lagModel *model=[[lagModel alloc]init];
+            model.name=dict1[@"Name"];
+            model.code=dict1[@"Code"];
+            [languageArray addObject:model];
+        }
+    }
 }
 -(void)localize
 {

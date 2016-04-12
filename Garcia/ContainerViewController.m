@@ -707,6 +707,12 @@
                 if (dict1[@"CorrespondingPair"]!=[NSNull null]){
                     model.correspondingPairName=dict1[@"CorrespondingPair"];
                 }
+                if (dict1[@"AppTypeCode"]!=[NSNull null]){
+                    model.appTypeCodeValue=dict1[@"AppTypeCode"];
+                }
+                if (dict1[@"ApplicableVersionCode"]!=[NSNull null]){
+                    model.applicableVersionCodeValue=dict1[@"ApplicableVersionCode"];
+                }
                 [sittingArray addObject:model];
             }
         }

@@ -191,9 +191,9 @@
     [containerVC showMBprogressTillLoadThedata];
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getTitleOfTreatment];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self processResponseObjectToGetTreatmentDetail:responseObject];
         [containerVC hideAllMBprogressTillLoadThedata];
         [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:NO];
-        [self processResponseObjectToGetTreatmentDetail:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [containerVC hideAllMBprogressTillLoadThedata];
         [self showToastMessage:[NSString stringWithFormat:@"%@",error]];

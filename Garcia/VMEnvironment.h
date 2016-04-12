@@ -9,6 +9,9 @@
 #define termsAndCondition [VMEnvironment environment].termsandcondition
 #define privecyAndPolicy [VMEnvironment environment].privecyandpolicy
 #define baseUrlAws [VMEnvironment environment].baseurlForaws
+#define appTypeCode [VMEnvironment environment].apptypecode
+#define applicableBasicVersionCode [VMEnvironment environment].applicablebasicversioncode
+#define applicableIntermediateVersionCode [VMEnvironment environment].applicableintermediateversionCode
 
 @interface VMEnvironment : NSObject
 @property(nonatomic,strong)NSString *environmentName;
@@ -22,7 +25,9 @@
 @property(nonatomic,strong)NSString *termsandcondition;
 @property(nonatomic,strong)NSString *privecyandpolicy;
 @property(nonatomic,strong)NSString *baseurlForaws;
-
+@property(nonatomic,strong)NSString *apptypecode;
+@property(nonatomic,strong)NSString *applicablebasicversioncode;
+@property(nonatomic,strong)NSString *applicableintermediateversionCode;
 
 +(instancetype)environment;
 @end
