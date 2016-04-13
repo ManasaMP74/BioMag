@@ -15,4 +15,5 @@
 @property(strong,nonatomic)NSString *price;
 @property(strong,nonatomic)NSMutableArray *correspondingPairHeight;
 @property(strong,nonatomic)NSString *toxicDeficiency;
+@property(strong,nonatomic)NSString *userPerspectiveSittingNum;
 @end
