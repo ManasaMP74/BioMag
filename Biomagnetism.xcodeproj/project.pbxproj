@@ -104,16 +104,6 @@
 		DAD52B5D1C21694B0052579D /* SectionXibView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD52B5C1C21694B0052579D /* SectionXibView.m */; };
 		DAD52B5F1C216AF70052579D /* SctionXibCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAD52B5E1C216AF70052579D /* SctionXibCell.xib */; };
 		DAD52B651C216C3A0052579D /* SectionXibTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD52B641C216C3A0052579D /* SectionXibTableViewCell.m */; };
-		DAE31E7E1CBF4E4A0068B257 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC02731BD514180095C6AE /* OpenSans-Bold.ttf */; };
-		DAE31E7F1CBF4E4A0068B257 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC02741BD5141E0095C6AE /* OpenSans-BoldItalic.ttf */; };
-		DAE31E801CBF4E4A0068B257 /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC02751BD514240095C6AE /* OpenSans-ExtraBold.ttf */; };
-		DAE31E811CBF4E4A0068B257 /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC02761BD5142B0095C6AE /* OpenSans-ExtraBoldItalic.ttf */; };
-		DAE31E821CBF4E4A0068B257 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC02771BD514340095C6AE /* OpenSans-Italic.ttf */; };
-		DAE31E831CBF4E4A0068B257 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC02781BD514340095C6AE /* OpenSans-Light.ttf */; };
-		DAE31E841CBF4E4A0068B257 /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC02791BD514340095C6AE /* OpenSans-LightItalic.ttf */; };
-		DAE31E851CBF4E4A0068B257 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC027A1BD514340095C6AE /* OpenSans-Regular.ttf */; };
-		DAE31E861CBF4E4A0068B257 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC027B1BD514340095C6AE /* OpenSans-Semibold.ttf */; };
-		DAE31E871CBF4E4A0068B257 /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC027C1BD514340095C6AE /* OpenSans-SemiboldItalic.ttf */; };
 		DAE31E881CBF4E770068B257 /* OpenSans-BoldItalic.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC02741BD5141E0095C6AE /* OpenSans-BoldItalic.ttf */; };
 		DAE31E891CBF4E770068B257 /* OpenSans-ExtraBold.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC02751BD514240095C6AE /* OpenSans-ExtraBold.ttf */; };
 		DAE31E8A1CBF4E770068B257 /* OpenSans-ExtraBoldItalic.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC02761BD5142B0095C6AE /* OpenSans-ExtraBoldItalic.ttf */; };
@@ -121,6 +111,18 @@
 		DAE31E8C1CBF4E770068B257 /* OpenSans-Light.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC02781BD514340095C6AE /* OpenSans-Light.ttf */; };
 		DAE31E8D1CBF4E770068B257 /* OpenSans-LightItalic.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC02791BD514340095C6AE /* OpenSans-LightItalic.ttf */; };
 		DAE31E8E1CBF4E770068B257 /* OpenSans-SemiboldItalic.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC027C1BD514340095C6AE /* OpenSans-SemiboldItalic.ttf */; };
+		DAE31E8F1CBF52EB0068B257 /* customFont.h in Resources */ = {isa = PBXBuildFile; fileRef = DAEC026F1BD513500095C6AE /* customFont.h */; };
+		DAE31E901CBF52EB0068B257 /* customFont.m in Resources */ = {isa = PBXBuildFile; fileRef = DAEC02701BD513500095C6AE /* customFont.m */; };
+		DAE31E911CBF54740068B257 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC02731BD514180095C6AE /* OpenSans-Bold.ttf */; };
+		DAE31E921CBF54740068B257 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC02741BD5141E0095C6AE /* OpenSans-BoldItalic.ttf */; };
+		DAE31E931CBF54740068B257 /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC02751BD514240095C6AE /* OpenSans-ExtraBold.ttf */; };
+		DAE31E941CBF54740068B257 /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC02761BD5142B0095C6AE /* OpenSans-ExtraBoldItalic.ttf */; };
+		DAE31E951CBF54740068B257 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC02771BD514340095C6AE /* OpenSans-Italic.ttf */; };
+		DAE31E961CBF54740068B257 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC02781BD514340095C6AE /* OpenSans-Light.ttf */; };
+		DAE31E971CBF54740068B257 /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC02791BD514340095C6AE /* OpenSans-LightItalic.ttf */; };
+		DAE31E981CBF54740068B257 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC027A1BD514340095C6AE /* OpenSans-Regular.ttf */; };
+		DAE31E991CBF54740068B257 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC027B1BD514340095C6AE /* OpenSans-Semibold.ttf */; };
+		DAE31E9A1CBF54740068B257 /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC027C1BD514340095C6AE /* OpenSans-SemiboldItalic.ttf */; };
 		DAE48C711BF07B8F008AD2D3 /* editModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE48C701BF07B8F008AD2D3 /* editModel.m */; };
 		DAE576351C3E6C570076C3EE /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE576341C3E6C570076C3EE /* DBManager.m */; };
 		DAE576381C3E6D080076C3EE /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE576361C3E6CF30076C3EE /* libsqlite3.0.tbd */; };
@@ -1182,16 +1184,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAE31E7E1CBF4E4A0068B257 /* OpenSans-Bold.ttf in Resources */,
-				DAE31E7F1CBF4E4A0068B257 /* OpenSans-BoldItalic.ttf in Resources */,
-				DAE31E801CBF4E4A0068B257 /* OpenSans-ExtraBold.ttf in Resources */,
-				DAE31E811CBF4E4A0068B257 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
-				DAE31E821CBF4E4A0068B257 /* OpenSans-Italic.ttf in Resources */,
-				DAE31E831CBF4E4A0068B257 /* OpenSans-Light.ttf in Resources */,
-				DAE31E841CBF4E4A0068B257 /* OpenSans-LightItalic.ttf in Resources */,
-				DAE31E851CBF4E4A0068B257 /* OpenSans-Regular.ttf in Resources */,
-				DAE31E861CBF4E4A0068B257 /* OpenSans-Semibold.ttf in Resources */,
-				DAE31E871CBF4E4A0068B257 /* OpenSans-SemiboldItalic.ttf in Resources */,
+				DAE31E911CBF54740068B257 /* OpenSans-Bold.ttf in Resources */,
+				DAE31E921CBF54740068B257 /* OpenSans-BoldItalic.ttf in Resources */,
+				DAE31E931CBF54740068B257 /* OpenSans-ExtraBold.ttf in Resources */,
+				DAE31E941CBF54740068B257 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
+				DAE31E951CBF54740068B257 /* OpenSans-Italic.ttf in Resources */,
+				DAE31E961CBF54740068B257 /* OpenSans-Light.ttf in Resources */,
+				DAE31E971CBF54740068B257 /* OpenSans-LightItalic.ttf in Resources */,
+				DAE31E981CBF54740068B257 /* OpenSans-Regular.ttf in Resources */,
+				DAE31E991CBF54740068B257 /* OpenSans-Semibold.ttf in Resources */,
+				DAE31E9A1CBF54740068B257 /* OpenSans-SemiboldItalic.ttf in Resources */,
+				DAE31E8F1CBF52EB0068B257 /* customFont.h in Resources */,
+				DAE31E901CBF52EB0068B257 /* customFont.m in Resources */,
 				DA671D1E1CAD062F00ACDE91 /* environment.plist in Resources */,
 				DA130F3E1BEA1E1900B5B9FF /* SectionBodyDetails.xib in Resources */,
 				DA130F361BEA1E1900B5B9FF /* AddSection.xib in Resources */,
@@ -1511,7 +1515,7 @@
 				INFOPLIST_FILE = Garcia/Info.plist;
 				INFOPLIST_PREFIX_HEADER = environment_preprocess.h;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.Garcia;
 				PRODUCT_NAME = Biomagnetism;
@@ -1658,7 +1662,7 @@
 				INFOPLIST_FILE = Garcia/Info.plist;
 				INFOPLIST_PREFIX_HEADER = environment_preprocess.h;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.Garcia;
 				PRODUCT_NAME = Biomagnetism;
@@ -1678,7 +1682,7 @@
 				INFOPLIST_FILE = Garcia/Info.plist;
 				INFOPLIST_PREFIX_HEADER = environment_preprocess.h;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.Garcia;
 				PRODUCT_NAME = Biomagnetism;

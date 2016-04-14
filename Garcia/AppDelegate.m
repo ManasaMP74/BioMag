@@ -13,6 +13,7 @@
 #import "MBProgressHUD.h"
 #import "SeedSyncer.h"
 #import "VMEnvironment.h"
+
 @interface AppDelegate ()<languageChangeForDelegat>
 @end
 
