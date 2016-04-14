@@ -47,7 +47,6 @@
 		DA2F9E621CA00BAF000A4A3A /* DrProfilModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2F9E611CA00BAF000A4A3A /* DrProfilModel.m */; };
 		DA2F9F771C2172300077AEAB /* SlideOutTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2F9F761C2172300077AEAB /* SlideOutTableViewCell.m */; };
 		DA34944E1C9FD62B001171DF /* CriticalImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA34944D1C9FD62B001171DF /* CriticalImageModel.m */; };
-		DA4461E71BD7720300F80F5A /* OpenSans-Semibold.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC027B1BD514340095C6AE /* OpenSans-Semibold.ttf */; };
 		DA45B5201C50988300087DA3 /* PatientSheetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE955591BD24A7500EDFD8F /* PatientSheetViewController.m */; };
 		DA487E681C59E7260015A3D0 /* ForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA487E671C59E7260015A3D0 /* ForgotPasswordViewController.m */; };
 		DA4884DA1C4E33AE0064774F /* ToxicDeficiencyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA4884D91C4E33AE0064774F /* ToxicDeficiencyView.xib */; };
@@ -98,21 +97,11 @@
 		DAB1351A1C633A3900B639DD /* lagModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB135191C633A3900B639DD /* lagModel.m */; };
 		DAB3E9421C9C141B0014BD3C /* ShowCriticalInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB3E9411C9C141B0014BD3C /* ShowCriticalInfoViewController.m */; };
 		DAB3E9451C9C15B70014BD3C /* ShowCriticalInfoListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB3E9441C9C15B70014BD3C /* ShowCriticalInfoListModel.m */; };
-		DAD375CB1CA27BB200FDD5C7 /* AddSectionData.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD375CA1CA27BB200FDD5C7 /* AddSectionData.m */; };
 		DAD375CD1CA27BE200FDD5C7 /* AddSectionData.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAD375CC1CA27BE200FDD5C7 /* AddSectionData.xib */; };
 		DAD52B5A1C2169370052579D /* SectionXib.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAD52B591C2169370052579D /* SectionXib.xib */; };
 		DAD52B5D1C21694B0052579D /* SectionXibView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD52B5C1C21694B0052579D /* SectionXibView.m */; };
 		DAD52B5F1C216AF70052579D /* SctionXibCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAD52B5E1C216AF70052579D /* SctionXibCell.xib */; };
 		DAD52B651C216C3A0052579D /* SectionXibTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD52B641C216C3A0052579D /* SectionXibTableViewCell.m */; };
-		DAE31E881CBF4E770068B257 /* OpenSans-BoldItalic.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC02741BD5141E0095C6AE /* OpenSans-BoldItalic.ttf */; };
-		DAE31E891CBF4E770068B257 /* OpenSans-ExtraBold.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC02751BD514240095C6AE /* OpenSans-ExtraBold.ttf */; };
-		DAE31E8A1CBF4E770068B257 /* OpenSans-ExtraBoldItalic.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC02761BD5142B0095C6AE /* OpenSans-ExtraBoldItalic.ttf */; };
-		DAE31E8B1CBF4E770068B257 /* OpenSans-Italic.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC02771BD514340095C6AE /* OpenSans-Italic.ttf */; };
-		DAE31E8C1CBF4E770068B257 /* OpenSans-Light.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC02781BD514340095C6AE /* OpenSans-Light.ttf */; };
-		DAE31E8D1CBF4E770068B257 /* OpenSans-LightItalic.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC02791BD514340095C6AE /* OpenSans-LightItalic.ttf */; };
-		DAE31E8E1CBF4E770068B257 /* OpenSans-SemiboldItalic.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC027C1BD514340095C6AE /* OpenSans-SemiboldItalic.ttf */; };
-		DAE31E8F1CBF52EB0068B257 /* customFont.h in Resources */ = {isa = PBXBuildFile; fileRef = DAEC026F1BD513500095C6AE /* customFont.h */; };
-		DAE31E901CBF52EB0068B257 /* customFont.m in Resources */ = {isa = PBXBuildFile; fileRef = DAEC02701BD513500095C6AE /* customFont.m */; };
 		DAE31E911CBF54740068B257 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC02731BD514180095C6AE /* OpenSans-Bold.ttf */; };
 		DAE31E921CBF54740068B257 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC02741BD5141E0095C6AE /* OpenSans-BoldItalic.ttf */; };
 		DAE31E931CBF54740068B257 /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC02751BD514240095C6AE /* OpenSans-ExtraBold.ttf */; };
@@ -123,6 +112,7 @@
 		DAE31E981CBF54740068B257 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC027A1BD514340095C6AE /* OpenSans-Regular.ttf */; };
 		DAE31E991CBF54740068B257 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC027B1BD514340095C6AE /* OpenSans-Semibold.ttf */; };
 		DAE31E9A1CBF54740068B257 /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAEC027C1BD514340095C6AE /* OpenSans-SemiboldItalic.ttf */; };
+		DAE31E9B1CBF69C70068B257 /* AddSectionData.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD375CA1CA27BB200FDD5C7 /* AddSectionData.m */; };
 		DAE48C711BF07B8F008AD2D3 /* editModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE48C701BF07B8F008AD2D3 /* editModel.m */; };
 		DAE576351C3E6C570076C3EE /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE576341C3E6C570076C3EE /* DBManager.m */; };
 		DAE576381C3E6D080076C3EE /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE576361C3E6CF30076C3EE /* libsqlite3.0.tbd */; };
@@ -136,12 +126,10 @@
 		DAE9555A1BD24A7500EDFD8F /* PatientSheetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE955591BD24A7500EDFD8F /* PatientSheetViewController.m */; };
 		DAE9555D1BD24D1800EDFD8F /* PatientSheetTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE9555C1BD24D1800EDFD8F /* PatientSheetTableViewCell.m */; };
 		DAEC02711BD513500095C6AE /* customFont.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEC02701BD513500095C6AE /* customFont.m */; };
-		DAEC027E1BD51D0C0095C6AE /* OpenSans-Bold.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC02731BD514180095C6AE /* OpenSans-Bold.ttf */; };
 		DAED93821CAE8146003846F0 /* AddAnotomicalPointsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAED93811CAE8146003846F0 /* AddAnotomicalPointsViewController.m */; };
 		DAED98001C06D26E005D170C /* ScanPointModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAED97FF1C06D26E005D170C /* ScanPointModel.m */; };
 		DAED98031C06D2A9005D170C /* CorrespondingModelClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DAED98021C06D2A9005D170C /* CorrespondingModelClass.m */; };
 		DAEEA20F1C3261DF00718EC6 /* BiomagneticSittingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEEA20E1C3261DF00718EC6 /* BiomagneticSittingModel.m */; };
-		DAEF6AEE1BD5FA37006868C8 /* OpenSans-Regular.ttf in Sources */ = {isa = PBXBuildFile; fileRef = DAEC027A1BD514340095C6AE /* OpenSans-Regular.ttf */; };
 		DAEF6AF31BD65C61006868C8 /* DatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEF6AF21BD65C61006868C8 /* DatePicker.m */; };
 		DAEF6AF51BD65C9B006868C8 /* DatePickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAEF6AF41BD65C9B006868C8 /* DatePickerView.xib */; };
 		DAEFA1941BD0B11500900379 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA1931BD0B11500900379 /* main.m */; };
@@ -1194,8 +1182,6 @@
 				DAE31E981CBF54740068B257 /* OpenSans-Regular.ttf in Resources */,
 				DAE31E991CBF54740068B257 /* OpenSans-Semibold.ttf in Resources */,
 				DAE31E9A1CBF54740068B257 /* OpenSans-SemiboldItalic.ttf in Resources */,
-				DAE31E8F1CBF52EB0068B257 /* customFont.h in Resources */,
-				DAE31E901CBF52EB0068B257 /* customFont.m in Resources */,
 				DA671D1E1CAD062F00ACDE91 /* environment.plist in Resources */,
 				DA130F3E1BEA1E1900B5B9FF /* SectionBodyDetails.xib in Resources */,
 				DA130F361BEA1E1900B5B9FF /* AddSection.xib in Resources */,
@@ -1295,7 +1281,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "dir=${PROJECT_DIR}/Garcia\necho \"Starting environment configuration for project: \" $dir\n\n# environment variable from value passed in to xcodebuild.\n# if not specified, we default to DEV\nenv=${VM_ENVIRONMENT}\nif [ -z \"$env\" ]\nthen\nenv=\"DEV\"\nfi\necho \"Using $env environment\"\n\n# copy the environment-specific file\ncp $dir/environment_$env.plist $dir/environment.plist\n\n# Date and time that we are running this build\nbuildDate=`date \"+%F %H:%M:%S\"`\ntodaysDay=`date \"+%d\"`\n\n# Last hash from the current branch\nlastCommitHash=`git log --pretty=format:\"%h\" -1`\n\n# app settings\nappName=`/usr/libexec/PlistBuddy -c \"Print :appName\" \"${PROJECT_DIR}/Garcia/environment.plist\"`\n\nif [ \"$env\" != \"PROD\" ]\nthen\n# need to dynamically append today's day for non-prod\nappName=\"$appName $todaysDay\"\nfi\n\n# Build the preprocess file\ncd ${PROJECT_DIR}/Garcia\npreprocessFile=\"environment_preprocess.h\"\necho \"Creating header file\"\n\necho -e \"//-----------------------------------------\" > $preprocessFile\necho -e \"// Auto generated file\" >> $preprocessFile\necho -e \"// Created $buildDate\" >> $preprocessFile\necho -e \"//-----------------------------------------\" >> $preprocessFile\necho -e \"\" >> $preprocessFile\necho -e \"#define VM_ENVIRONMENT              $env\" >> $preprocessFile\necho -e \"#define VM_ENVIRONMENT_LAST_COMMIT  $lastCommitHash\" >> $preprocessFile\necho -e \"#define VM_ENVIRONMENT_APP_NAME     $appName\" >> $preprocessFile\n\n# dump out file to build log\ncat $preprocessFile\n\n# Force the system to process the plist file\necho \"Touching plist at: \" ${PROJECT_DIR}/${PROJECT_NAME}/Info.plist\ntouch ${PROJECT_DIR}/Garcia/Info.plist\n\n# done\necho \"Done.\"\n";
+			shellScript = "dir=${PROJECT_DIR}/Garcia\necho \"Starting environment configuration for project: \" $dir\n\n# environment variable from value passed in to xcodebuild.\n# if not specified, we default to DEV\nenv=${VM_ENVIRONMENT}\nif [ -z \"$env\" ]\nthen\nenv=\"DEV\"\nfi\necho \"Using $env environment\"\n\n# copy the environment-specific file\ncp $dir/environment_$env.plist $dir/environment.plist\n\n# Date and time that we are running this build\nbuildDate=`date \"+%F %H:%M:%S\"`\ntodaysDay=`date \"+%d\"`\n\n# Last hash from the current branch\nlastCommitHash=`git log --pretty=format:\"%h\" -1`\n\n# app settings\nappName=`/usr/libexec/PlistBuddy -c \"Print :appName\" \"${PROJECT_DIR}/Garcia/environment.plist\"`\n\nif [ \"$env\" != \"PROD\" ]\nthen\n# need to dynamically append today's day for non-prod\nappName=\"$appName $todaysDay\"\nfi\n\n# Build the preprocess file\ncd ${PROJECT_DIR}/Garcia\npreprocessFile=\"environment_preprocess.h\"\necho \"Creating header file\"\n\necho -e \"//-----------------------------------------\" > $preprocessFile\necho -e \"// Auto generated file\" >> $preprocessFile\necho -e \"// Created $buildDate\" >> $preprocessFile\necho -e \"//-----------------------------------------\" >> $preprocessFile\necho -e \"\" >> $preprocessFile\necho -e \"#define VM_ENVIRONMENT              $env\" >> $preprocessFile\necho -e \"#define VM_ENVIRONMENT_LAST_COMMIT  $lastCommitHash\" >> $preprocessFile\n\n# dump out file to build log\ncat $preprocessFile\n\n# Force the system to process the plist file\necho \"Touching plist at: \" ${PROJECT_DIR}/${PROJECT_NAME}/Info.plist\ntouch ${PROJECT_DIR}/Garcia/Info.plist\n\n# done\necho \"Done.\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1304,25 +1290,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAE31E881CBF4E770068B257 /* OpenSans-BoldItalic.ttf in Sources */,
-				DAE31E891CBF4E770068B257 /* OpenSans-ExtraBold.ttf in Sources */,
-				DAE31E8A1CBF4E770068B257 /* OpenSans-ExtraBoldItalic.ttf in Sources */,
-				DAE31E8B1CBF4E770068B257 /* OpenSans-Italic.ttf in Sources */,
-				DAE31E8C1CBF4E770068B257 /* OpenSans-Light.ttf in Sources */,
-				DAE31E8D1CBF4E770068B257 /* OpenSans-LightItalic.ttf in Sources */,
-				DAE31E8E1CBF4E770068B257 /* OpenSans-SemiboldItalic.ttf in Sources */,
-				DA4461E71BD7720300F80F5A /* OpenSans-Semibold.ttf in Sources */,
-				DAD375CB1CA27BB200FDD5C7 /* AddSectionData.m in Sources */,
+				DAE31E9B1CBF69C70068B257 /* AddSectionData.m in Sources */,
 				DAEEA20F1C3261DF00718EC6 /* BiomagneticSittingModel.m in Sources */,
 				DAFC4AC31C2567A500FE6234 /* ProfileImageView.m in Sources */,
-				DAEF6AEE1BD5FA37006868C8 /* OpenSans-Regular.ttf in Sources */,
 				DA6D1A631BDA356F00D91ED3 /* PlaceholderTextView.m in Sources */,
 				DAFD52A71BEC62C80006AF02 /* UploadModelClass.m in Sources */,
 				DA92608A1CAE44B400368C47 /* VMEnvironment.m in Sources */,
 				DA2F9E621CA00BAF000A4A3A /* DrProfilModel.m in Sources */,
 				DA2F9F771C2172300077AEAB /* SlideOutTableViewCell.m in Sources */,
 				DA78B61F1C7EE9FF0096E1A0 /* HeaderModelClass.m in Sources */,
-				DAEC027E1BD51D0C0095C6AE /* OpenSans-Bold.ttf in Sources */,
 				DAF7EF3B1C1AF3FD009ADE9B /* GermsTableViewCell.m in Sources */,
 				DA7521C51C4CCF4D00FF6B03 /* ToxicDeficiencyDetailView.m in Sources */,
 				DA8C3DF91C24327F0076EBD2 /* PreviousSittingCollectionViewCell.m in Sources */,
