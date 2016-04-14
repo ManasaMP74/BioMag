@@ -5,32 +5,32 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ToxicDeficiencyDetailView">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddedSittingView">
             <connections>
-                <outlet property="tableView" destination="hwo-5h-lb9" id="FdL-lC-gnh"/>
+                <outlet property="tableView" destination="Xvh-3u-9IB" id="bPe-LW-IH7"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="EpO-04-0wV">
+        <view contentMode="scaleToFill" id="bhk-X7-9Sh">
             <rect key="frame" x="0.0" y="0.0" width="388" height="324"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hwo-5h-lb9">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Xvh-3u-9IB">
                     <rect key="frame" x="0.0" y="0.0" width="388" height="324"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <connections>
-                        <outlet property="dataSource" destination="-1" id="v2R-c4-3Ot"/>
-                        <outlet property="delegate" destination="-1" id="nzD-J7-x0H"/>
+                        <outlet property="dataSource" destination="-1" id="KMj-n7-BO3"/>
+                        <outlet property="delegate" destination="-1" id="O3Z-q0-Tp6"/>
                     </connections>
                 </tableView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="hwo-5h-lb9" firstAttribute="leading" secondItem="EpO-04-0wV" secondAttribute="leading" id="98C-xX-XLZ"/>
-                <constraint firstAttribute="bottom" secondItem="hwo-5h-lb9" secondAttribute="bottom" id="N7W-Zp-KOh"/>
-                <constraint firstItem="hwo-5h-lb9" firstAttribute="top" secondItem="EpO-04-0wV" secondAttribute="top" id="qnF-R7-Ugc"/>
-                <constraint firstAttribute="trailing" secondItem="hwo-5h-lb9" secondAttribute="trailing" id="wl0-no-T1d"/>
+                <constraint firstItem="Xvh-3u-9IB" firstAttribute="top" secondItem="bhk-X7-9Sh" secondAttribute="top" id="A6c-Wx-OOT"/>
+                <constraint firstAttribute="trailing" secondItem="Xvh-3u-9IB" secondAttribute="trailing" id="ODv-q4-3YC"/>
+                <constraint firstItem="Xvh-3u-9IB" firstAttribute="leading" secondItem="bhk-X7-9Sh" secondAttribute="leading" id="ZT2-Qz-F5k"/>
+                <constraint firstAttribute="bottom" secondItem="Xvh-3u-9IB" secondAttribute="bottom" id="nys-co-ay9"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="87" y="0.0"/>

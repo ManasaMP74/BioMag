@@ -3,6 +3,7 @@
 #import "ToxicDeficiencyDetailView.h"
 #import "searchPatientModel.h"
 #import "VMEnvironment.h"
+#import "AddedSittingView.h"
 #if !defined(MAX)
 #define MAX(A,B)((A) > (B) ? (A) : (B))
 #endif
@@ -31,6 +32,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *exit;
 @property (weak, nonatomic) IBOutlet ToxicDeficiencyDetailView *toxicView;
 @property (weak, nonatomic) IBOutlet UIView *scanPointHeaderView;
+@property (weak, nonatomic) IBOutlet AddedSittingView *addedSittingView;
 
 //Data from parentView;
 @property(strong,nonatomic)NSString *SortType;

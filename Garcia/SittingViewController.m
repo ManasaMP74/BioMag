@@ -74,6 +74,7 @@
     selectedIndexArray=[[NSMutableArray alloc]init];
     selectedPreviousSittingDetailArray=[[NSMutableArray alloc]init];
     allPreviousSittingDetail=[[NSMutableArray alloc]init];
+    _addedSittingView.hidden=YES;
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     self.revealViewController.delegate=self;
     [self.revealViewController setRightViewRevealWidth:180];
@@ -1472,10 +1473,12 @@
     slideout.allToxicDeficiencyArray=toxicDeficiencyArray;
 }
 -(void)sittingFromSlideOut{
+    _addedSittingView.hidden=YES;
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft];
     [self setTheValuesInTableView];
 }
 -(void)addAnatomicalPointFromSlideout{
+    _addedSittingView.hidden=YES;
     selectedCellToFilter=0;
     if (selectedCellToFilter==allSectionNameArray.count-1) {
         _previousBtn.hidden=YES;
@@ -1491,6 +1494,7 @@
     [self.navigationController pushViewController:add animated:YES];
 }
 -(void)addSectionDataViewInSitting:(NSString *)differForView{
+    _addedSittingView.hidden=YES;
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft];
     if (![differForView isEqualToString:@"anatomicalPoint"]) {
         if (addsectionData==nil) {
@@ -1499,6 +1503,13 @@
         [addsectionData alphaViewInitialize];
         addsectionData.differForSaveData=differForView;
     }
+}
+-(void)addedSittingPairViewData{
+    _addedSittingView.hidden=NO;
+    _tableview.hidden=YES;
+    _toxicView.hidden=YES;
+    _addedSittingView.selectedSittingPair=selectedSittingModelInallDoctorDetailArray;
+
 }
 //get the germs string for each array
 -(void)getGermsStringForCompleDetailArray{
