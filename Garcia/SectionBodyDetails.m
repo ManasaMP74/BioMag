@@ -177,8 +177,8 @@
 {
     if (theSelIndex.count == 0)
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please Select atleast one field" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        [alert show];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please Select atleast one field" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+//        [alert show];
         
         return NO;
     }

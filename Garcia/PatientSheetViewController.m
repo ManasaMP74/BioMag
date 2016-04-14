@@ -1555,12 +1555,12 @@
                 NSInteger i=[dict[@"IsCompleted"] integerValue];
                 m.completed=[@(i)description];
                 m.visit=dict[@"Visit"];
-                int sittingI=[dict[@"SittingNumber"] integerValue];
+                int sittingI=[dict[@"SittingNumber"] intValue];
                 m.sittingNumber=[@(sittingI)description];
                 m.sittingID=dict[@"Id"];
                 m.anotomicalPointArray=anotomicalPointArray;
                 [sittingCollectionArray addObject:m];
-                sittingNum+=1;
+                sittingNum=[dict[@"SittingNumber"] intValue];
                 sittingNumberToPassSittingVC=[@(sittingNum)description];
             }
         }
