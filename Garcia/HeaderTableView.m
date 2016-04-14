@@ -35,13 +35,14 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     int row=1;
+    
     if (tableView==_tableview) {
     if (_model.selectedHeaderIndexpath.count>0) {
         if (section<selectedSectionNameArray.count) {
             for (NSString *str in _model.selectedHeaderIndexpath) {
                 NSArray *ar=[str componentsSeparatedByString:@"-"];
                 if (section==[ar[1] integerValue]) {
-                    int i=[self getNumberOfScanpointRow:section];
+                    int i=[self getNumberOfScanpointRow:(int)section];
                     row=i+1;
                 }
             }
@@ -52,7 +53,7 @@
          for (NSString *str in _model.selectedToxicHeader) {
              NSArray *ar=[str componentsSeparatedByString:@"-"];
              if (section==[ar[1] integerValue]) {
-                 int i=[self getNumberOfToxicRow:section];
+                 int i=[self getNumberOfToxicRow:(int)section];
                  row=i+1;
              }
          }
@@ -254,7 +255,7 @@
         for (NSDictionary *dict in completeDetailArray) {
             if (dict[str]) {
                 HeaderModelClass *model=dict[str];
-                i=model.scanpointCodeArray.count;
+                i=(int)model.scanpointCodeArray.count;
             }
         }
     }
@@ -267,7 +268,7 @@ int i=0;
         for (NSDictionary *dict in completeToxicArray) {
             if (dict[str]) {
                 NSArray *ar=dict[str];
-                i=ar.count;
+                i=(int)ar.count;
                  break;
             }
         }
