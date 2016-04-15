@@ -103,8 +103,8 @@
     }
     else{
         selectedIndexpath=indexPath;
-        if (indexPath.row==1) [self getDataOfSectionName:cell2 withArray:_allSectionNameArray withIndex:indexPath.row];
-        else if(indexPath.row==2) [self getDataOfSectionName:cell2 withArray:toxicDeficiencyArray withIndex:indexPath.row];
+        if (indexPath.row==1) [self getDataOfSectionName:cell2 withArray:_allSectionNameArray withIndex:(int)indexPath.row];
+        else if(indexPath.row==2) [self getDataOfSectionName:cell2 withArray:toxicDeficiencyArray withIndex:(int)indexPath.row];
     }
     [self.tableView reloadData];
       }

@@ -14,6 +14,7 @@
 #import "lagModel.h"
 @interface AddAnotomicalPointsViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UITextViewDelegate>
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tapGesture;
+@property (weak, nonatomic) IBOutlet UIControl *view1;
 
 @end
 
@@ -28,6 +29,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     constant=[[Constant alloc]init];
+    _view1.layer.cornerRadius=5;
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-1.jpg"]]];
     [self textFieldLayer];
     [self navigationItemMethod];
@@ -295,6 +297,10 @@
     [constant spaceAtTheBeginigOfTextField:_anatomicalAuthorTF];
     [constant SetBorderForTextField:_anatomicalAuthorTF];
     [constant setFontFortextField:_anatomicalAuthorTF];
+    [constant changeCancelBtnImage:_cancelBtn];
+    [constant changeSaveBtnImage:_saveBtn];
+    [constant changeCancelBtnImage:_langButton];
+
 }
 -(void)navigationItemMethod{
     self.navigationItem.hidesBackButton=YES;
@@ -335,6 +341,10 @@
     _langTable.hidden=YES;
 }
 - (IBAction)gestureRecognizer:(id)sender {
+    [self.view endEditing:YES];
+    [self hideTheViews:nil];
+}
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self.view endEditing:YES];
     [self hideTheViews:nil];
 }

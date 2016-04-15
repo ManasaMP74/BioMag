@@ -70,11 +70,11 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
      if ([_buttonName isEqualToString:@"language"]) {
-    [self.delegate selectedObject:indexPath.row];
+    [self.delegate selectedObject:(int)indexPath.row];
      }else
      {
          if (indexPath.row>0) {
-              [self.delegate selectedSlideOutObject:indexPath.row];
+              [self.delegate selectedSlideOutObject:(int)indexPath.row];
          }
      }
 }

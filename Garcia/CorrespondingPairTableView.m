@@ -25,7 +25,7 @@
     return ar.count;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    int i=[self getNumberOfRows:section];
+    int i=[self getNumberOfRows:(int)section];
     return i;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

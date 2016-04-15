@@ -128,7 +128,7 @@
             }
         }
     }else{
-        selectedCellToFilter=_selectedIndexPathOfSectionInSlideOut.row;
+        selectedCellToFilter=(int)_selectedIndexPathOfSectionInSlideOut.row;
         [self compareNextBtnToBeHidden];
     }
     if (appdelegate.symptomTagArray.count>0) {

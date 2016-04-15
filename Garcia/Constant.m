@@ -115,7 +115,7 @@ else{
 - (NSMutableAttributedString *)setColoredLabelandStar:(NSString *)strplaceHolder
 {
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ *",strplaceHolder]];
-    NSLog(@"%d",string.length);
+    NSLog(@"%lu",(unsigned long)string.length);
     [string addAttribute:NSForegroundColorAttributeName
                    value:[UIColor redColor]
                    range:NSMakeRange(string.length-1,1)];
