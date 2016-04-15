@@ -30,6 +30,7 @@
     [super viewDidLoad];
     constant=[[Constant alloc]init];
     _view1.layer.cornerRadius=5;
+     [self.view setUserInteractionEnabled:YES];
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-1.jpg"]]];
     [self textFieldLayer];
     [self navigationItemMethod];
