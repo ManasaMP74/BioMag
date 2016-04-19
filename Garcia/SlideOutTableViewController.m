@@ -29,9 +29,9 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     toxicDeficiencyArray=_allToxicDeficiencyArray;
-   selectedIndexpath=[NSIndexPath indexPathForRow:1 inSection:0];
+   selectedIndexpath=[NSIndexPath indexPathForRow:2 inSection:0];
    // slideoutContentArray=@[[MCLocalization stringForKey:@"Section(s)"],[MCLocalization stringForKey:@"Toxic & Deficiency"],[MCLocalization stringForKey:@"Add ScanPoint"],[MCLocalization stringForKey:@"Add CorrespondingPair"],[MCLocalization stringForKey:@"Add Anatomical Points"]];
-      slideoutContentArray=@[[MCLocalization stringForKey:@"Add Anatomical Points"],[MCLocalization stringForKey:@"Section(s)"],[MCLocalization stringForKey:@"Toxic & Deficiency"]];
+      slideoutContentArray=@[[MCLocalization stringForKey:@"Add Anatomical Points"],[MCLocalization stringForKey:@"Selected Anatomical Points"],[MCLocalization stringForKey:@"Section(s)"],[MCLocalization stringForKey:@"Toxic & Deficiency"]];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -47,16 +47,16 @@
     SlideOutTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
       cell.label.text=slideoutContentArray[indexPath.row];
      cell.delegate=self;
-    if (indexPath.row==1) {
+    if (indexPath.row==2) {
         cell.sectionNameXib.delegateForGetName=self;
-    }else if (indexPath.row==2) {
+    }else if (indexPath.row==3) {
         cell.sectionNameXib.delegateForGetName=self;
     }
-    if (indexPath.row==1 | indexPath.row==2) {
+    if (indexPath.row==2 | indexPath.row==3) {
         if ([selectedIndexpath isEqual:indexPath]) {
             cell.expandImageView.image=[UIImage imageNamed:@"Button-Expand"];
             int index=(int)indexPath.row;
-            if (indexPath.row==1) {
+            if (indexPath.row==2) {
                 [self getDataOfSectionName:cell withArray:_allSectionNameArray withIndex:index];
             }else  [self getDataOfSectionName:cell withArray:toxicDeficiencyArray withIndex:index];
         }else{
@@ -94,17 +94,24 @@
         UINavigationController *nav=(UINavigationController*)self.parentViewController;
         SWRevealViewController *reveal=(SWRevealViewController*)nav.parentViewController;
         SittingViewController *sitting=(SittingViewController*)reveal.childViewControllers[0];
-        sitting.sectionName=@"";
         [sitting addAnatomicalPointFromSlideout];
     }
-    else if (indexPath.row==1 | indexPath.row==2) {
+   else if (indexPath.row==1) {
+        selectedIndexpath=nil;
+        [self.tableView reloadData];
+        UINavigationController *nav=(UINavigationController*)self.parentViewController;
+        SWRevealViewController *reveal=(SWRevealViewController*)nav.parentViewController;
+        SittingViewController *sitting=(SittingViewController*)reveal.childViewControllers[0];
+        [sitting addedSittingPairViewData];
+    }
+    else if (indexPath.row==2 | indexPath.row==3) {
     if ([cell1.expandImageView.image isEqual:[UIImage imageNamed:@"Button-Expand"]]) {
         selectedIndexpath=nil;
     }
     else{
         selectedIndexpath=indexPath;
-        if (indexPath.row==1) [self getDataOfSectionName:cell2 withArray:_allSectionNameArray withIndex:(int)indexPath.row];
-        else if(indexPath.row==2) [self getDataOfSectionName:cell2 withArray:toxicDeficiencyArray withIndex:(int)indexPath.row];
+        if (indexPath.row==2) [self getDataOfSectionName:cell2 withArray:_allSectionNameArray withIndex:(int)indexPath.row];
+        else if(indexPath.row==3) [self getDataOfSectionName:cell2 withArray:toxicDeficiencyArray withIndex:(int)indexPath.row];
     }
     [self.tableView reloadData];
       }
@@ -138,12 +145,12 @@
 }
 //get section name
 -(void)getSectionName:(NSString *)str withIndex:(NSIndexPath *)index withCellIndex:(int)i{
-    if (i==1) {
+    if (i==2) {
         selectedSection=str;
         selectedCell=index;
         selectedRow=i;
     }
-    else if (i==2){
+    else if (i==3){
         selectedSection=str;
         selectedCell=index;
         selectedRow=i;
@@ -156,12 +163,12 @@
 }
 //set data to sitting view
 -(void)setTheDataToSittingVC:(SittingViewController*)sitting{
-    if (selectedRow==1) {
+    if (selectedRow==2) {
         sitting.selectedIndexPathOfSectionInSlideOut=selectedCell;
         sitting.SortType=selectedSection;
         sitting.toxicDeficiencyString=@"";
     }
-    else if (selectedRow==2){
+    else if (selectedRow==3){
         sitting.selectedIndexPathOfSectionInSlideOut=selectedCell;
         sitting.toxicDeficiencyString=selectedSection;
     }

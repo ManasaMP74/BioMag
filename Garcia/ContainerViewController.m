@@ -693,7 +693,7 @@
                     model.correspondingPairCode=dict1[@"CorrespondingPairCode"];
                 }
                 if (dict1[@"GermsCode"]!=[NSNull null]){
-                    [model.germsCode addObject:dict1[@"GermsCode"]];
+                    model.germsCode=dict1[@"GermsCode"];
                 }
                 if (dict1[@"SectionCode"]!=[NSNull null]){
                     model.sectionCode=dict1[@"SectionCode"];

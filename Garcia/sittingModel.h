@@ -8,8 +8,8 @@
 @property(strong,nonatomic)NSString *scanPointCode;
 @property(strong,nonatomic)NSString *correspondingPairCode;
 @property(strong,nonatomic)NSString *correspondingPairName;
-@property(strong,nonatomic)NSMutableArray *germsCode;
-@property(strong,nonatomic)NSMutableArray *germsName;
+@property(strong,nonatomic)NSString *germsCode;
+@property(strong,nonatomic)NSString *germsName;
 @property(strong,nonatomic)NSString *psychoemotional;
 @property(strong,nonatomic)NSString *author;
 @property(strong,nonatomic)NSString *interpretation;
@@ -22,6 +22,8 @@
 @property(strong,nonatomic)NSString *germsCodeString;
 @property(assign,nonatomic)BOOL issue;
 @property(strong,nonatomic)NSString *edited;
+@property(strong,nonatomic)NSString *locOfScanpoint;
+@property(strong,nonatomic)NSString *locOfCorrespondingPair;
 @property(strong,nonatomic)NSString *sittingNumber;
 @property(strong,nonatomic)NSArray *allPreviousSittingDetail;
 @property(strong,nonatomic)NSString *otherSittingNumberHaveIssue;

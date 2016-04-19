@@ -77,4 +77,5 @@
 -(void)sittingFromSlideOut;
 -(void)addAnatomicalPointFromSlideout;
 -(void)addSectionDataViewInSitting:(NSString *)differForView;
+-(void)addedSittingPairViewData;
 @end

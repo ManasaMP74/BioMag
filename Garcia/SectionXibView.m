@@ -41,7 +41,7 @@
         _sectionXibCell=nil;
     }
     NSArray *ar;
-    if (selectedRow==1) {
+    if (selectedRow==2) {
       ar=[allSectionNameArray[indexPath.row] componentsSeparatedByString:@"$"];
         cell.label.text=ar[0];
     }else{
@@ -55,10 +55,10 @@
     cell.backgroundColor=[UIColor clearColor];
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (selectedRow==1) {
+    if (selectedRow==2) {
           [self.delegateForGetName getSectionName:allSectionNameArray[indexPath.row] withIndex:indexPath withCellIndex:selectedRow];
     }
-    else if (selectedRow==2) {
+    else if (selectedRow==3) {
     ToxicDeficiency *model=allSectionNameArray[indexPath.row];
     NSString *str=  [NSString stringWithFormat:@"%@$%@",model.code,model.name];
      [self.delegateForGetName getSectionName:str withIndex:indexPath withCellIndex:selectedRow];

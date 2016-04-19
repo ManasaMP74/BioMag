@@ -323,7 +323,8 @@
     [self showDataSavedInDBInTable:model withCell:cell];
     
     NSString *str1=@"";
-    for (NSString *str in model.germsCode) {
+    NSArray *germsCodeArrayValue=[model.germsCode componentsSeparatedByString:@","];
+    for (NSString *str in germsCodeArrayValue) {
         str1=[str1 stringByAppendingString:str];
         str1=[str1 stringByAppendingString:@" "];
     }
@@ -360,6 +361,13 @@
         }
         else cell.previousSittingBadgeLabel.text=ar[ar.count-2];
     }
+    
+    if (model.germsCode.length==0) {
+        if (model.germsCodeString.length==0) {
+            cell.selectDeselectButton.enabled=NO;
+        }else   cell.selectDeselectButton.enabled=YES;
+    }else   cell.selectDeselectButton.enabled=YES;
+    
     return cell;
 }
 //display cell
@@ -892,8 +900,6 @@
                 sittingModel *model=[[sittingModel alloc]init];
                 model.edited=@"N";
                 model.sittingId=dict1[@"Id"];
-                model.germsName=[[NSMutableArray alloc]init];
-                model.germsCode=[[NSMutableArray alloc]init];
                 if (dict1[@"Code"]!=[NSNull null]) {
                     model.anatomicalBiomagenticCode=dict1[@"Code"];
                 }
@@ -910,7 +916,7 @@
                     model.correspondingPairCode=dict1[@"CorrespondingPairCode"];
                 }
                 if (dict1[@"GermsCode"]!=[NSNull null]){
-                    [model.germsCode addObject:dict1[@"GermsCode"]];
+                    model.germsCode=dict1[@"GermsCode"];
                 }
                 if (dict1[@"Psychoemotional"]!=[NSNull null]){
                     model.psychoemotional=dict1[@"Psychoemotional"];
@@ -935,7 +941,7 @@
                     model.correspondingPairName=dict1[@"CorrespondingPair"];
                 }
                 if (dict1[@"Germs"]!=[NSNull null]){
-                    [model.germsName addObject:dict1[@"Germs"]];
+                    model.germsName =dict1[@"Germs"];
                 }
                 if (dict1[@"DateCreated"]!=[NSNull null]){
                     NSArray *dateArray=[dict1[@"DateCreated"] componentsSeparatedByString:@"T"];
@@ -947,6 +953,12 @@
                 }
                 if (dict1[@"GenderCode"]!=[NSNull null]){
                     model.genderCode=dict1[@"GenderCode"];
+                }
+                if (dict1[@"LocationScanPoint"]!=[NSNull null]){
+                    model.locOfScanpoint=dict1[@"LocationScanPoint"];
+                }
+                if (dict1[@"LocationCorrespondingPair"]!=[NSNull null]){
+                    model.locOfCorrespondingPair=dict1[@"LocationCorrespondingPair"];
                 }
                 if (dict1[@"AppTypeCode"]!=[NSNull null]){
                     model.appTypeCodeValue=dict1[@"AppTypeCode"];
@@ -989,10 +1001,12 @@
     if (model1.issue) {
         NSString *selectedGerms=@"";
         NSString *selectedGermsCode=@"";
-        for (NSString *str in model1.germsCode) {
+        NSArray *germsCodeArrayValue=[model1.germsCode componentsSeparatedByString:@","];
+        for (NSString *str in germsCodeArrayValue) {
             selectedGermsCode=[NSString stringWithFormat:@"%@,%@",model1.germsCodeString,str];
         }
-        for (NSString *str in model1.germsName) {
+        NSArray *germsNameArrayValue=[model1.germsName componentsSeparatedByString:@","];
+        for (NSString *str in germsNameArrayValue) {
             if (model1.germsString.length!=0) {
                 selectedGerms=[NSString stringWithFormat:@"%@,%@",model1.germsString,str];
             }
@@ -1508,8 +1522,19 @@
     _addedSittingView.hidden=NO;
     _tableview.hidden=YES;
     _toxicView.hidden=YES;
-    _addedSittingView.selectedSittingPair=selectedSittingModelInallDoctorDetailArray;
-
+    _saveBtn.hidden=YES;
+    _exit.hidden=YES;
+    _nextBtn.hidden=YES;
+    _previousBtn.hidden=YES;
+    NSMutableArray *array=[[NSMutableArray alloc]init];
+    for (sittingModel *model in allDoctorDetailArray) {
+        if (model.germsString.length!=0) {
+            [array addObject:model];
+        }
+    }
+    _addedSittingView.selectedSittingPair=array;
+  [self.revealViewController setFrontViewPosition:FrontViewPositionLeft];
+    [_addedSittingView.tableView reloadData];
 }
 //get the germs string for each array
 -(void)getGermsStringForCompleDetailArray{

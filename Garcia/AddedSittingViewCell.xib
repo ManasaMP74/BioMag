@@ -3,11 +3,14 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <mutableArray key="OpenSans-Regular.ttf">
-            <string>OpenSans</string>
+        <mutableArray key="OpenSans-Semibold.ttf">
+            <string>OpenSans-Semibold</string>
+            <string>OpenSans-Semibold</string>
+            <string>OpenSans-Semibold</string>
+            <string>OpenSans-Semibold</string>
+            <string>OpenSans-Semibold</string>
         </mutableArray>
     </customFonts>
     <objects>
@@ -25,21 +28,70 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="920-gM-05C">
-                        <rect key="frame" x="16" y="6" width="38" height="21"/>
+                        <rect key="frame" x="8" y="0.0" width="58" height="32"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
+                        <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="13"/>
+                        <color key="textColor" red="0.0039215686269999999" green="0.2156862745" blue="0.29411764709999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oZJ-vC-tzR">
+                        <rect key="frame" x="74" y="0.0" width="58" height="32"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="13"/>
+                        <color key="textColor" red="0.0039215686269999999" green="0.2156862745" blue="0.29411764709999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2s4-Uc-A4Y">
+                        <rect key="frame" x="140" y="0.0" width="57" height="32"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="13"/>
+                        <color key="textColor" red="0.0039215686269999999" green="0.2156862745" blue="0.29411764709999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qP8-0t-3Zf">
+                        <rect key="frame" x="205" y="0.0" width="58" height="32"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="13"/>
+                        <color key="textColor" red="0.0039215686269999999" green="0.2156862745" blue="0.29411764709999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ADU-zu-Tae">
+                        <rect key="frame" x="271" y="0.0" width="58" height="32"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="13"/>
                         <color key="textColor" red="0.0039215686269999999" green="0.2156862745" blue="0.29411764709999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="920-gM-05C" secondAttribute="trailing" constant="8" id="3Tz-PD-g3S"/>
-                    <constraint firstAttribute="centerY" secondItem="920-gM-05C" secondAttribute="centerY" id="FiG-Nw-GCw"/>
-                    <constraint firstItem="920-gM-05C" firstAttribute="leading" secondItem="EXK-bC-uxN" secondAttribute="leadingMargin" constant="8" id="ZOT-PI-fkQ"/>
+                    <constraint firstItem="ADU-zu-Tae" firstAttribute="top" secondItem="EXK-bC-uxN" secondAttribute="top" id="3Vp-hh-iOO"/>
+                    <constraint firstItem="oZJ-vC-tzR" firstAttribute="leading" secondItem="920-gM-05C" secondAttribute="trailing" constant="8" id="8eZ-uH-5qS"/>
+                    <constraint firstItem="oZJ-vC-tzR" firstAttribute="top" secondItem="EXK-bC-uxN" secondAttribute="top" id="B7j-b2-UYt"/>
+                    <constraint firstAttribute="bottom" secondItem="2s4-Uc-A4Y" secondAttribute="bottom" id="Huj-b9-Mf9"/>
+                    <constraint firstItem="oZJ-vC-tzR" firstAttribute="width" secondItem="920-gM-05C" secondAttribute="width" id="Mle-0f-5K4"/>
+                    <constraint firstAttribute="bottom" secondItem="qP8-0t-3Zf" secondAttribute="bottom" id="QzQ-ak-CLT"/>
+                    <constraint firstItem="2s4-Uc-A4Y" firstAttribute="leading" secondItem="oZJ-vC-tzR" secondAttribute="trailing" constant="8" id="U9J-Ka-N4x"/>
+                    <constraint firstItem="920-gM-05C" firstAttribute="leading" secondItem="EXK-bC-uxN" secondAttribute="leading" constant="8" id="X9N-jO-TuB"/>
+                    <constraint firstAttribute="bottom" secondItem="oZJ-vC-tzR" secondAttribute="bottom" id="YEn-rT-mq6"/>
+                    <constraint firstItem="2s4-Uc-A4Y" firstAttribute="top" secondItem="EXK-bC-uxN" secondAttribute="top" id="YN6-Id-eLf"/>
+                    <constraint firstAttribute="trailing" secondItem="ADU-zu-Tae" secondAttribute="trailing" constant="8" id="Ydr-Vh-M1B"/>
+                    <constraint firstItem="ADU-zu-Tae" firstAttribute="width" secondItem="920-gM-05C" secondAttribute="width" id="Zrj-Mc-c0T"/>
+                    <constraint firstItem="920-gM-05C" firstAttribute="top" secondItem="EXK-bC-uxN" secondAttribute="top" id="cPU-Ta-jpJ"/>
+                    <constraint firstItem="2s4-Uc-A4Y" firstAttribute="width" secondItem="920-gM-05C" secondAttribute="width" id="fRS-Z5-fM2"/>
+                    <constraint firstAttribute="bottom" secondItem="920-gM-05C" secondAttribute="bottom" id="oCI-Ud-9k8"/>
+                    <constraint firstItem="qP8-0t-3Zf" firstAttribute="width" secondItem="920-gM-05C" secondAttribute="width" id="p47-yN-sZi"/>
+                    <constraint firstItem="qP8-0t-3Zf" firstAttribute="top" secondItem="EXK-bC-uxN" secondAttribute="top" id="qLm-lP-Yr6"/>
+                    <constraint firstAttribute="bottom" secondItem="ADU-zu-Tae" secondAttribute="bottom" id="tAJ-gV-FrO"/>
+                    <constraint firstItem="qP8-0t-3Zf" firstAttribute="leading" secondItem="2s4-Uc-A4Y" secondAttribute="trailing" constant="8" id="v29-m9-cNL"/>
+                    <constraint firstItem="ADU-zu-Tae" firstAttribute="leading" secondItem="qP8-0t-3Zf" secondAttribute="trailing" constant="8" id="wEo-Gh-5Fc"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="label" destination="920-gM-05C" id="E4f-1P-hUS"/>
+                <outlet property="correspondingpair" destination="2s4-Uc-A4Y" id="VfY-vS-RpL"/>
+                <outlet property="locOfCorrespondingPair" destination="ADU-zu-Tae" id="vSB-OV-Rhv"/>
+                <outlet property="locOfScanpoint" destination="qP8-0t-3Zf" id="Svb-IQ-7dN"/>
+                <outlet property="scanpoint" destination="oZJ-vC-tzR" id="F7c-XF-KuB"/>
+                <outlet property="section" destination="920-gM-05C" id="zC2-6q-n3k"/>
             </connections>
             <point key="canvasLocation" x="240.5" y="-5.5"/>
         </tableViewCell>
