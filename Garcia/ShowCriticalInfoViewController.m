@@ -96,8 +96,6 @@
 //    critical.criticalInfoModel=model;
 //    [self.navigationController pushViewController:critical animated:YES];
     selectedCriticalModel=model;
-    UITableViewCell *cell =[tableView cellForRowAtIndexPath:indexPath];
-    cell.backgroundColor=[UIColor lightGrayColor];
     [self getDetailOfSharedTreatmentInfo];
 }
 - (IBAction)addCriticalInfo:(id)sender {
