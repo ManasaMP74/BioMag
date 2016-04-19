@@ -27,6 +27,7 @@
     NSMutableArray *criticalImageArray;
     Postman *postman;
     ShowCriticalInfoListModel *selectedCriticalModel;
+    NSIndexPath *selectedindexpath;
     Constant *constant;
 }
 - (void)viewDidLoad {
@@ -84,6 +85,9 @@
     UILabel *label=(UILabel*)[cell viewWithTag:10];
     ShowCriticalInfoListModel *model=completeCriticalDetailArray[indexPath.row];
     label.text=model.summary;
+    if ([indexPath isEqual:selectedindexpath]) {
+        cell.backgroundColor=[UIColor lightGrayColor];
+    }else cell.backgroundColor=[UIColor whiteColor];
     tableView.tableFooterView=[UIView new];
     return cell;
 }
@@ -96,6 +100,7 @@
 //    critical.criticalInfoModel=model;
 //    [self.navigationController pushViewController:critical animated:YES];
     selectedCriticalModel=model;
+    selectedindexpath=indexPath;
     [self getDetailOfSharedTreatmentInfo];
 }
 - (IBAction)addCriticalInfo:(id)sender {
@@ -204,6 +209,9 @@
         if (ar1.count>0) {
             _collectionviewHeight.constant=128;
             _detailViewHeight.constant=469;
+        }else{
+            _collectionviewHeight.constant=0;
+            _detailViewHeight.constant=330;
         }
         [criticalImageArray removeAllObjects];
         for (NSDictionary *dict2 in ar1) {
