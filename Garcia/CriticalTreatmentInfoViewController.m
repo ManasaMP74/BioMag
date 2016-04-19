@@ -51,11 +51,10 @@
         _descritionLabel.hidden=YES;
         _descriptionTextView.text=_descriptionvalue;
     }
-
+ noChanges=NO;
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
-    noChanges=NO;
 
 }
 - (void)didReceiveMemoryWarning {
@@ -233,7 +232,6 @@
 //save profile
 - (void)saveImage:(NSString*)code
 {
-    [MBProgressHUD showHUDAddedTo:self.view animated:NO];
     if (criticalImageArray.count>0) {
         for (CriticalImageModel *model in criticalImageArray) {
             if (model.storageId.length==0) {
@@ -291,8 +289,8 @@
         if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
             NSString *parameter=[NSString stringWithFormat:@"{\"request\":{\"Summary\":\"%@\",\"Description\":\"%@\",\"Published\":false,\"Status\":\"1\",\"SortNumber\":\"1\",\"PublishedDocs\":\"\",\"DocSortNumber\":\"1\",\"UserID\":60069, \"MethodType\":\"POST\"}}",_summaryTextView.text,_descriptionTextView.text];
             [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  [MBProgressHUD hideHUDForView:self.view animated:NO];
                 [self processResponseTopostCriticalInfo:responseObject withPostOrPut:@"post"];
-                [MBProgressHUD hideHUDForView:self.view animated:NO];
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
                 [MBProgressHUD hideHUDForView:self.view animated:NO];
@@ -306,8 +304,8 @@
             NSString *docid=[userDefault valueForKey:@"Id"];
             NSString *parameter=[NSString stringWithFormat:@"{\"request\":{\"Summary\":\"%@\",\"Description\":\"%@\",\"Published\":false,\"Status\":\"1\",\"SortNumber\":\"1\",\"PublishedDocs\":\"WE0UZ38PBI\",\"DocSortNumber\":\"1\",\"UserID\":%d,\"Id\":%d,\"MethodType\":\"PUT\" }}",_summaryTextView.text,_descriptionTextView.text,[docid intValue],[_criticalInfoModel.idvalue intValue]];
             [postman put:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                 [MBProgressHUD hideHUDForView:self.view animated:NO];
                 [self processResponseTopostCriticalInfo:responseObject withPostOrPut:@"put"];
+                 [MBProgressHUD hideHUDForView:self.view animated:NO];
             } failure:^(AFHTTPRequestOperation *operation,NSError *error) {
                 [MBProgressHUD hideHUDForView:self.view animated:NO];
                 [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
@@ -328,11 +326,13 @@
             if ([str isEqualToString:@"post"]) {
                 [self saveImage:dict[@"Code"]];
             }else {
-                [MBProgressHUD hideHUDForView:self.view animated:NO];
+            [MBProgressHUD showHUDAddedTo:self.view animated:NO];
               [self saveImage:_criticalInfoModel.code];
             }
 
-        }else [self showAlerView:saveSuccessfullyStr];
+        }else{
+            [self showAlerView:saveSuccessfullyStr];
+        }
     }else{
         [self showToastMessage:dict[@"Message"]];
     }
@@ -364,7 +364,7 @@
     if ([dict[@"Success"]intValue]==1) {
         [criticalImageArray removeObjectAtIndex:index.row];
         [_collectionView reloadData];
-        [self.delegate deleteImage];
+        [self.delegate againLoadCriticalInfo];
         if (criticalImageArray.count>0) {
             _collectionviewHeight.constant=128;
         }
@@ -377,6 +377,7 @@
 -(void)showAlerView:(NSString*)msg{
     UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:msg preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *success=[UIAlertAction actionWithTitle:alertOk style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [self.delegate againLoadCriticalInfo];
         [alertView dismissViewControllerAnimated:YES completion:nil];
         [self.navigationController popViewControllerAnimated:YES];
     }];

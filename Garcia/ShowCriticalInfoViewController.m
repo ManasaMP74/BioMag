@@ -6,7 +6,6 @@
 #import "Postman.h"
 #import "PostmanConstant.h"
 #import "Constant.h"
-#import "CriticalTreatmentInfoViewController.h"
 #import "MBProgressHUD.h"
 #import "CriticalImageModel.h"
 #import "UIImageView+AFNetworking.h"
@@ -47,7 +46,7 @@
     [self localize];
     [constant setColorForLabel:_summaryHeaderLabel];
     [constant setColorForLabel:_descriptionHeaderLabel];
-    [self getDetailOfCriticalInfo];
+     [self getDetailOfCriticalInfo];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -63,7 +62,6 @@
             break;
         }
     }
-
 }
 -(void)getDetailOfCriticalInfo{
     for (NSDictionary *dict in _CriticalInfoArray) {
@@ -98,10 +96,13 @@
 //    critical.criticalInfoModel=model;
 //    [self.navigationController pushViewController:critical animated:YES];
     selectedCriticalModel=model;
+    UITableViewCell *cell =[tableView cellForRowAtIndexPath:indexPath];
+    cell.backgroundColor=[UIColor lightGrayColor];
     [self getDetailOfSharedTreatmentInfo];
 }
 - (IBAction)addCriticalInfo:(id)sender {
     CriticalTreatmentInfoViewController *critical =[self.storyboard instantiateViewControllerWithIdentifier:@"CriticalTreatmentInfoViewController"];
+    critical.delegate=self;
     critical.summary=@"";
     critical.descriptionvalue=@"";
      critical.differOfAddOrEdit=@"add";
@@ -229,7 +230,7 @@
     critical.addedcriticalArray=criticalImageArray;
     [self.navigationController pushViewController:critical animated:YES];
 }
--(void)deleteImage{
+-(void)againLoadCriticalInfo{
     [self getDetailOfSharedTreatmentInfo];
 }
 -(void)localize{
