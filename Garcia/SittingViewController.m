@@ -1526,6 +1526,7 @@
     _exit.hidden=YES;
     _nextBtn.hidden=YES;
     _previousBtn.hidden=YES;
+    _filterLabel.hidden=YES;
     NSMutableArray *array=[[NSMutableArray alloc]init];
     for (sittingModel *model in allDoctorDetailArray) {
         if (model.germsString.length!=0) {
