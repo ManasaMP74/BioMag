@@ -212,6 +212,11 @@
     }else dict=responseObject;
     if ([differForSaveData isEqualToString:@"scanpoint"] | [differForSaveData isEqualToString:@"CorrespondingPair"]) {
         if ([dict[@"Success"]intValue]==1) {
+            if ([differForSaveData isEqualToString:@"scanpoint"]){
+            [self callApiToGetScanpoint];
+            }else if ([differForSaveData isEqualToString:@"CorrespondingPair"]){
+                [self callApiToGetCorrespondingPair];
+            }
             [self showToastMessage:dict[@"Message"]];
             if ([differForSaveData isEqualToString:@"scanpoint"]){
                 _scanpointNameTF.text=@"";

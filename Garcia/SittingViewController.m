@@ -873,6 +873,7 @@
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         [userDefault setBool:NO forKey:@"anatomicalbiomagneticmatrix_FLAG"];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self callApi];
         [MBProgressHUD hideHUDForView:self.view animated:NO];
         [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
         
