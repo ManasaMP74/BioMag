@@ -1528,12 +1528,28 @@
     _nextBtn.hidden=YES;
     _previousBtn.hidden=YES;
     _filterLabel.hidden=YES;
+    
+    CGFloat i=self.view.frame.size.width/4;
     NSMutableArray *array=[[NSMutableArray alloc]init];
     for (sittingModel *model in allDoctorDetailArray) {
         if (model.germsString.length!=0) {
             [array addObject:model];
         }
     }
+    NSMutableArray *hieightOfCellArray=[[NSMutableArray alloc]init];
+    for (sittingModel *model in array) {
+            CGFloat labelHeight1=[model.sectionName boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont fontWithName:@"OpenSans-Semibold" size:13]} context:nil].size.height;
+            CGFloat labelHeight2=[model.scanPointName boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans-Semibold" size:13]} context:nil].size.height;
+            CGFloat labelHeight3=[model.correspondingPairName boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans-Semibold" size:13]} context:nil].size.height;
+        CGFloat labelHeight4=[model.locOfScanpoint boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans-Semibold" size:13]} context:nil].size.height;
+            CGFloat labelHeight5=[model.locOfCorrespondingPair boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans-Semibold" size:13]} context:nil].size.height;
+            CGFloat j=MAX(labelHeight1, labelHeight2);
+            j=MAX(j, labelHeight3);
+            j=MAX(j, labelHeight4);
+            j=MAX(j, labelHeight5);
+        [hieightOfCellArray addObject:[NSString stringWithFormat:@"%f",j]];
+    }
+    _addedSittingView.heightOfEachCellArray=hieightOfCellArray;
     _addedSittingView.selectedSittingPair=array;
   [self.revealViewController setFrontViewPosition:FrontViewPositionLeft];
     [_addedSittingView.tableView reloadData];

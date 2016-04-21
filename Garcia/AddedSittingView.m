@@ -56,23 +56,13 @@
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-
-   // CGFloat i=self.frame.size.width/4;
-//     sittingModel *model=_selectedSittingPair[indexPath.row];
-//    CGFloat labelHeight1=[model.sectionName boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSansSemibold" size:13]} context:nil].size.height;
-//    CGFloat labelHeight2=[model.scanPointName boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSansSemibold" size:13]} context:nil].size.height;
-//    CGFloat labelHeight3=[model.correspondingPairName boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSansSemibold" size:13]} context:nil].size.height;
-//CGFloat labelHeight4=[model.locOfScanpoint boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSansSemibold" size:13]} context:nil].size.height;
-//    CGFloat labelHeight5=[model.locOfCorrespondingPair boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSansSemibold" size:13]} context:nil].size.height;
-//    CGFloat j=MAX(labelHeight1, labelHeight2);
-//    j=MAX(j, labelHeight3);
-//    j=MAX(j, labelHeight4);
-//    j=MAX(j, labelHeight5);
-//    if (j>41) {
-//        return j+10;
-//    }
-//   else return 41;
-    return 41;
+    CGFloat height=41;
+    if (_heightOfEachCellArray.count>0) {
+        if ([_heightOfEachCellArray[indexPath.row] floatValue]>41) {
+            height=[_heightOfEachCellArray[indexPath.row] floatValue]+20;
+        }
+    }
+     return height;
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     cell.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];

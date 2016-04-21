@@ -98,7 +98,7 @@ else{
     text.font=[self customFont:14 ofName:OpenSansSemibold];
     text.textColor=[UIColor blackColor];
 }
-//set Font for button
+//set Font for buttonOpenSansSemibold
 -(void)setFontForbutton:(UIButton*)button{
     [button setTitleColor:[UIColor blackColor] forState:normal];
     button.titleLabel.font=[UIFont systemFontOfSize:14];

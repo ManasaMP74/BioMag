@@ -5,6 +5,7 @@
 @property (strong, nonatomic) IBOutlet AddedSittingViewTableViewCell *customCell;
 
 @property(strong,nonatomic)NSArray *selectedSittingPair;
+@property(strong,nonatomic)NSArray *heightOfEachCellArray;
 @property (weak, nonatomic) IBOutlet UILabel *sectionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *scanpointLabel;
 @property (weak, nonatomic) IBOutlet UILabel *correspondingPairLabel;
