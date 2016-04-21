@@ -262,12 +262,12 @@
       if ( _medicalHistoryViewHeight.constant!=0) {
           _medicalTopHeight.constant=5;
           _medicalTableHeight.constant=_MedicaltableView.contentSize.height;
-          _medicalHistoryViewHeight.constant=_medicalTableHeight.constant+5;
+          _medicalHistoryViewHeight.constant=_medicalTableHeight.constant+35;
       }
       if ( _diagnosisViewHeight.constant!=0) {
           _diagnosisTopHeight.constant=5;
           _diagnosisTableHeight.constant=_diagnosisTableView.contentSize.height;
-          _diagnosisViewHeight.constant= _diagnosisTableHeight.constant+5;
+          _diagnosisViewHeight.constant= _diagnosisTableHeight.constant+35;
       }
   }
 
@@ -429,7 +429,12 @@
         if (sittingCollectionArray.count>0) {
             _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
             _settingViewHeight.constant=sittingCollectionViewHeight+120;
-        }else _settingViewHeight.constant=100;
+        }else
+        {
+            if ([_patientTitleModel.IsTreatmentCompleted intValue]==0) {
+               _settingViewHeight.constant=100;
+            }else _settingViewHeight.constant=35;
+        }
         [self ChangeIncreaseDecreaseButtonImage:_increasesettingViewButton];
     }
     else{
@@ -1357,7 +1362,9 @@
             [_uploadCollectionView reloadData];
             [self.view layoutIfNeeded];
         }
-        else  _uploadViewHeigh.constant=100;
+        else {
+            _uploadViewHeigh.constant=100;
+        }
         [self ChangeIncreaseDecreaseButtonImage:_increaseUploadViewButton];
     }
     else{
