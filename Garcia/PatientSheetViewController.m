@@ -28,7 +28,9 @@
 
 
 @interface PatientSheetViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextFieldDelegate,UITextViewDelegate,deleteCell,selectedImage,increaseSittingCell,cellHeight,WYPopoverControllerDelegate>
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *diagnosisTopHeight;
 @property (weak, nonatomic) IBOutlet UIView *treatmnetNameView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *medicalTopHeight;
 @property (weak, nonatomic) IBOutlet UILabel *attachment;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UILabel *nameLabel;
@@ -231,16 +233,44 @@
         _medicalHistoryTextView.userInteractionEnabled=YES;
         _diagnosisTextView.userInteractionEnabled=YES;
         _treatmentEncloserTextView.userInteractionEnabled=YES;
+        [self getHeightOfView:status];
+        
     }else{
         _treatmentButton.userInteractionEnabled=NO;
         _treatmentNameTF.userInteractionEnabled=NO;
         _exit.hidden=NO;
-        _medicalTableHeight.constant=195;
-        _diagnosisTableHeight.constant=175;
         _medicalHistoryTextView.userInteractionEnabled=NO;
         _diagnosisTextView.userInteractionEnabled=NO;
         _treatmentEncloserTextView.userInteractionEnabled=NO;
+        [self getHeightOfView:status];
     }
+}
+-(void)getHeightOfView:(BOOL)status{
+  if (status==NO) {
+      if ( _medicalHistoryViewHeight.constant!=0) {
+          _medicalTopHeight.constant=151;
+          _medicalTableHeight.constant=_MedicaltableView.contentSize.height;
+          _medicalHistoryViewHeight.constant=_medicalTableHeight.constant+190;
+      }
+      if ( _diagnosisViewHeight.constant!=0) {
+          _diagnosisTopHeight.constant=115;
+          _diagnosisTableHeight.constant=_diagnosisTableView.contentSize.height;
+          _diagnosisViewHeight.constant= _diagnosisTableHeight.constant+150;
+      }
+      
+  }else{
+      if ( _medicalHistoryViewHeight.constant!=0) {
+          _medicalTopHeight.constant=5;
+          _medicalTableHeight.constant=_MedicaltableView.contentSize.height;
+          _medicalHistoryViewHeight.constant=_medicalTableHeight.constant+5;
+      }
+      if ( _diagnosisViewHeight.constant!=0) {
+          _diagnosisTopHeight.constant=5;
+          _diagnosisTableHeight.constant=_diagnosisTableView.contentSize.height;
+          _diagnosisViewHeight.constant= _diagnosisTableHeight.constant+5;
+      }
+  }
+
 }
 //navigation bar
 -(void)navigationItemMethod{
@@ -345,8 +375,10 @@
 - (IBAction)increaseDiagnosisView:(id)sender {
     if ([_increaseDiagnosisViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
         _diagnosisView.hidden=NO;
-        _diagnosisTableHeight.constant=_diagnosisTableView.contentSize.height;
-        _diagnosisViewHeight.constant= _diagnosisTableHeight.constant+150;
+         _diagnosisViewHeight.constant=1;
+        if ([_patientTitleModel.IsTreatmentCompleted intValue]==0) {
+            [self getHeightOfView:NO];
+        }else [self getHeightOfView:YES];
         [self ChangeIncreaseDecreaseButtonImage:_increaseDiagnosisViewButton];
     }
     else{
@@ -362,8 +394,10 @@
 - (IBAction)increaseViewHeightOfMedicalHistort:(id)sender {
     if ([_increaseMedicalViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
         _medicalHistoryView.hidden=NO;
-        _medicalTableHeight.constant=_MedicaltableView.contentSize.height;
-        _medicalHistoryViewHeight.constant=_medicalTableHeight.constant+190;
+         _medicalHistoryViewHeight.constant=1;
+        if ([_patientTitleModel.IsTreatmentCompleted intValue]==0) {
+            [self getHeightOfView:NO];
+        }else [self getHeightOfView:YES];
         [self ChangeIncreaseDecreaseButtonImage:_increaseMedicalViewButton];
     }
     else{
@@ -371,6 +405,9 @@
         _medicalHistoryViewHeight.constant=0;
         [self ChangeIncreaseDecreaseButtonImage:_increaseMedicalViewButton];
     }
+    if ([_patientTitleModel.IsTreatmentCompleted intValue]==0) {
+        [self getHeightOfView:NO];
+    }else [self getHeightOfView:YES];
 }
 //save diagnosis textview
 - (IBAction)saveDiagnosisTextViewValue:(id)sender {
