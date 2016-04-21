@@ -82,7 +82,12 @@
     else return 35;
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    cell.backgroundColor=[UIColor clearColor];
+    if (indexPath.row==1) {
+        SlideOutTableViewCell *cell1=(SlideOutTableViewCell*)cell;
+        cell1.selectCellBtn.backgroundColor=[UIColor colorWithRed:0.318 green:0.427 blue:0.718 alpha:1];
+        cell1.label.textColor=[UIColor whiteColor];
+    }
+   else cell.backgroundColor=[UIColor clearColor];
 }
 -(void)expandCellToGetSectionName:(UITableViewCell *)cell{
     SlideOutTableViewCell *cell1=(SlideOutTableViewCell*)cell;

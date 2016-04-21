@@ -9,4 +9,5 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *sectionNameViewHeight;
 @property(weak,nonatomic)id<expandCellToGetSectionName>delegate;
 @property (strong, nonatomic) IBOutlet UIImageView *expandImageView;
+@property (weak, nonatomic) IBOutlet UIButton *selectCellBtn;
 @end
