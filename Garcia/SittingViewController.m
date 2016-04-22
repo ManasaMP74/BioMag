@@ -56,7 +56,7 @@
     NSDateFormatter *formater;
     NSString *selectedToxicString;
     NSArray *selectedPreviousArray;
-    NSString *navTitle,*alert,*alertOK,*saveFailed,*saveSuccess,*yesStr,*noStr,*authour,*enterSittingInfo,*previousSittings,*issueStr,*noIssueStr,*sStr,*s1Str,*doYoucloseSitting,*noChangesToSaveSitting,*popBackAlert,*cancelStr,*noIdentifiedIssue;
+    NSString *navTitle,*alert,*alertOK,*saveFailed,*saveSuccess,*yesStr,*noStr,*authour,*enterSittingInfo,*previousSittings,*issueStr,*noIssueStr,*sStr,*s1Str,*doYoucloseSitting,*noChangesToSaveSitting,*popBackAlert,*cancelStr,*noIdentifiedIssue,*IdentifiedIssue;
     BOOL changesDoneorNot;
     AddSectionData *addsectionData;
     UIView *activeField;
@@ -102,7 +102,9 @@
         _saveBtn.hidden=YES;
         _exit.hidden=NO;
     }
-    [self setTheValuesInTableView];
+    if ([_sittingViewId isEqualToString:@"patientSheet"]) {
+         [self setTheValuesInTableView];
+    }
     [constant changeSaveBtnImage:_saveBtn];
     _selectedSlideOutRow=[NSIndexPath indexPathForRow:2 inSection:0];
 }
@@ -216,28 +218,28 @@
 }
 //pop
 -(void)popView{
-    if (_toxicView.hidden==NO | _addedSittingView.hidden==NO) {
-        _toxicDeficiencyString=@"";
-        _SortType=@"";
-        _toxicDeficiencyString=@"";
-        _sectionName=@"";
-        _addedSittingView.hidden=YES;
-        _toxicView.hidden=YES;
-        _editOrAddSitting=@"n";
-        if (allSectionNameArray.count>0) {
-            [self getTheSortDetailOfCompleteDitailArray:allSectionNameArray[0]];
-        }
-        selectedCellToFilter=0;
-        if (selectedCellToFilter==allSectionNameArray.count-1) {
-            _previousBtn.hidden=YES;
-            _nextBtn.hidden=YES;
-        }else{
-            _previousBtn.hidden=YES;
-            _nextBtn.hidden=NO;
-        }
-         _selectedSlideOutRow=[NSIndexPath indexPathForRow:2 inSection:0];
-    }
-    else{
+//    if (_toxicView.hidden==NO | _addedSittingView.hidden==NO) {
+//        _toxicDeficiencyString=@"";
+//        _SortType=@"";
+//        _toxicDeficiencyString=@"";
+//        _sectionName=@"";
+//        _addedSittingView.hidden=YES;
+//        _toxicView.hidden=YES;
+//        _editOrAddSitting=@"n";
+//        if (allSectionNameArray.count>0) {
+//            [self getTheSortDetailOfCompleteDitailArray:allSectionNameArray[0]];
+//        }
+//        selectedCellToFilter=0;
+//        if (selectedCellToFilter==allSectionNameArray.count-1) {
+//            _previousBtn.hidden=YES;
+//            _nextBtn.hidden=YES;
+//        }else{
+//            _previousBtn.hidden=YES;
+//            _nextBtn.hidden=NO;
+//        }
+//         _selectedSlideOutRow=[NSIndexPath indexPathForRow:2 inSection:0];
+//    }
+//    else{
         if (changesDoneorNot) {
             UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:popBackAlert preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
@@ -251,7 +253,7 @@
             [alertView addAction:failure];
             [self presentViewController:alertView animated:YES completion:nil];
         }else [self.navigationController popViewControllerAnimated:YES];
-    }
+  //  }
 }
 //tableview number of sections
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -1514,14 +1516,12 @@
 }
 -(void)sittingFromSlideOut{
     _addedSittingView.hidden=YES;
-    _filterLabel.hidden=NO;
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft];
     [self setTheValuesInTableView];
 }
 -(void)addAnatomicalPointFromSlideout{
     _addedSittingView.hidden=YES;
     selectedCellToFilter=0;
-    _filterLabel.hidden=NO;
     if (selectedCellToFilter==allSectionNameArray.count-1) {
         _previousBtn.hidden=YES;
         _nextBtn.hidden=YES;
@@ -1537,8 +1537,7 @@
 }
 -(void)addSectionDataViewInSitting:(NSString *)differForView{
     _addedSittingView.hidden=YES;
-    _filterLabel.hidden=NO;
-    [self.revealViewController setFrontViewPosition:FrontViewPositionLeft];
+       [self.revealViewController setFrontViewPosition:FrontViewPositionLeft];
     if (![differForView isEqualToString:@"anatomicalPoint"]) {
         if (addsectionData==nil) {
             addsectionData=[[AddSectionData alloc]initWithFrame:CGRectMake(self.view.frame.origin.x+150,self.view.frame.origin.y+100,self.view.frame.size.width-300,150)];
@@ -1563,7 +1562,7 @@
         _exit.hidden=YES;
         _nextBtn.hidden=YES;
         _previousBtn.hidden=YES;
-        _filterLabel.hidden=YES;
+        _filterLabel.text=IdentifiedIssue;
         NSMutableArray *hieightOfCellArray=[[NSMutableArray alloc]init];
         for (sittingModel *model in array) {
             CGFloat labelHeight1=[model.sectionName boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont fontWithName:@"OpenSans-Semibold" size:13]} context:nil].size.height;
@@ -1671,6 +1670,7 @@
     noChangesToSaveSitting=[MCLocalization stringForKey:@"No changes is there to save"];
     popBackAlert=[MCLocalization stringForKey:@"Changes will be discarded if you exit from screen. Are you sure to proceed?"];
     noIdentifiedIssue=[MCLocalization stringForKey:@"No Identified Issue(s)"];
+    IdentifiedIssue=[MCLocalization stringForKey:@"Identified Issue(s)"];
 }
 - (void)registerForKeyboardNotifications
 {

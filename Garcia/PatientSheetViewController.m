@@ -1689,6 +1689,7 @@
         sittingVC.toxicDeficiencyString=@"";
         sittingVC.sittingNumber=sittingNumberToPassSittingVC;
         sittingVC.allSymptomTagArray=allTagListArray;
+        sittingVC.sittingViewId=@"patientSheet";
     }
 }
 

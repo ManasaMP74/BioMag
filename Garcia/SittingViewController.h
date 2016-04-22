@@ -80,4 +80,5 @@
 -(void)addedSittingPairViewData;
 
 @property(strong,nonatomic)NSIndexPath *selectedSlideOutRow;
+@property(strong,nonatomic)NSString *sittingViewId;
 @end

@@ -12,6 +12,8 @@
 #import "CompleteSectionModel.h"
 #import "CompleteAuthorModel.h"
 #import "lagModel.h"
+#import "SittingViewController.h"
+#import "SWRevealViewController.h"
 @interface AddAnotomicalPointsViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UITextViewDelegate>
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tapGesture;
 @property (weak, nonatomic) IBOutlet UIControl *view1;
@@ -321,6 +323,9 @@
     self.title=[MCLocalization stringForKey:@"Add Anatomical Points"];
 }
 -(void)popView{
+    SWRevealViewController *sw=(SWRevealViewController*)self.navigationController.viewControllers[2];
+    SittingViewController *sitting=(SittingViewController*)sw.frontViewController;
+    sitting.sittingViewId=@"addAnatomical";
     [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)hideTheViews:(UITextField*)text{
