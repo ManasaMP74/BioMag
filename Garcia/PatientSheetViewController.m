@@ -1692,7 +1692,6 @@
         sittingVC.sittingViewId=@"patientSheet";
     }
 }
-
 //save profile
 - (void)saveImage:(NSString*)code withUpdateAndPostDiffer:(NSString*)differ
 {
@@ -1706,8 +1705,6 @@
             }
         }
     }
-    
-    
     if (uploadArray.count>0) {
         int imagecount=0;
         for (UploadModelClass *model in uploadArray) {
