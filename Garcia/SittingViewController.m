@@ -56,7 +56,7 @@
     NSDateFormatter *formater;
     NSString *selectedToxicString;
     NSArray *selectedPreviousArray;
-    NSString *navTitle,*alert,*alertOK,*saveFailed,*saveSuccess,*yesStr,*noStr,*authour,*enterSittingInfo,*previousSittings,*issueStr,*noIssueStr,*sStr,*s1Str,*doYoucloseSitting,*noChangesToSaveSitting,*popBackAlert,*cancelStr;
+    NSString *navTitle,*alert,*alertOK,*saveFailed,*saveSuccess,*yesStr,*noStr,*authour,*enterSittingInfo,*previousSittings,*issueStr,*noIssueStr,*sStr,*s1Str,*doYoucloseSitting,*noChangesToSaveSitting,*popBackAlert,*cancelStr,*noIdentifiedIssue;
     BOOL changesDoneorNot;
     AddSectionData *addsectionData;
     UIView *activeField;
@@ -104,6 +104,7 @@
     }
     [self setTheValuesInTableView];
     [constant changeSaveBtnImage:_saveBtn];
+    _selectedSlideOutRow=[NSIndexPath indexPathForRow:2 inSection:0];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -215,19 +216,42 @@
 }
 //pop
 -(void)popView{
-    if (changesDoneorNot) {
-        UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:popBackAlert preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
-            [self.navigationController popViewControllerAnimated:YES];
-            [alertView dismissViewControllerAnimated:YES completion:nil];
-        }];
-        [alertView addAction:success];
-        UIAlertAction *failure=[UIAlertAction actionWithTitle:noStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
-            [alertView dismissViewControllerAnimated:YES completion:nil];
-        }];
-        [alertView addAction:failure];
-        [self presentViewController:alertView animated:YES completion:nil];
-    }else [self.navigationController popViewControllerAnimated:YES];
+    if (_toxicView.hidden==NO | _addedSittingView.hidden==NO) {
+        _toxicDeficiencyString=@"";
+        _SortType=@"";
+        _toxicDeficiencyString=@"";
+        _sectionName=@"";
+        _addedSittingView.hidden=YES;
+        _toxicView.hidden=YES;
+        _editOrAddSitting=@"n";
+        if (allSectionNameArray.count>0) {
+            [self getTheSortDetailOfCompleteDitailArray:allSectionNameArray[0]];
+        }
+        selectedCellToFilter=0;
+        if (selectedCellToFilter==allSectionNameArray.count-1) {
+            _previousBtn.hidden=YES;
+            _nextBtn.hidden=YES;
+        }else{
+            _previousBtn.hidden=YES;
+            _nextBtn.hidden=NO;
+        }
+         _selectedSlideOutRow=[NSIndexPath indexPathForRow:2 inSection:0];
+    }
+    else{
+        if (changesDoneorNot) {
+            UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:popBackAlert preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+                [self.navigationController popViewControllerAnimated:YES];
+                [alertView dismissViewControllerAnimated:YES completion:nil];
+            }];
+            [alertView addAction:success];
+            UIAlertAction *failure=[UIAlertAction actionWithTitle:noStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+                [alertView dismissViewControllerAnimated:YES completion:nil];
+            }];
+            [alertView addAction:failure];
+            [self presentViewController:alertView animated:YES completion:nil];
+        }else [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 //tableview number of sections
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -1486,15 +1510,18 @@
     SlideOutTableViewController *slideout=nav.viewControllers[0];
     slideout.allSectionNameArray=allSectionNameArray;
     slideout.allToxicDeficiencyArray=toxicDeficiencyArray;
+    slideout.selectedIndexpath=_selectedSlideOutRow;
 }
 -(void)sittingFromSlideOut{
     _addedSittingView.hidden=YES;
+    _filterLabel.hidden=NO;
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft];
     [self setTheValuesInTableView];
 }
 -(void)addAnatomicalPointFromSlideout{
     _addedSittingView.hidden=YES;
     selectedCellToFilter=0;
+    _filterLabel.hidden=NO;
     if (selectedCellToFilter==allSectionNameArray.count-1) {
         _previousBtn.hidden=YES;
         _nextBtn.hidden=YES;
@@ -1510,6 +1537,7 @@
 }
 -(void)addSectionDataViewInSitting:(NSString *)differForView{
     _addedSittingView.hidden=YES;
+    _filterLabel.hidden=NO;
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft];
     if (![differForView isEqualToString:@"anatomicalPoint"]) {
         if (addsectionData==nil) {
@@ -1520,15 +1548,6 @@
     }
 }
 -(void)addedSittingPairViewData{
-    _addedSittingView.hidden=NO;
-    _tableview.hidden=YES;
-    _toxicView.hidden=YES;
-    _saveBtn.hidden=YES;
-    _exit.hidden=YES;
-    _nextBtn.hidden=YES;
-    _previousBtn.hidden=YES;
-    _filterLabel.hidden=YES;
-    
     CGFloat i=self.view.frame.size.width/4;
     NSMutableArray *array=[[NSMutableArray alloc]init];
     for (sittingModel *model in allDoctorDetailArray) {
@@ -1536,23 +1555,35 @@
             [array addObject:model];
         }
     }
-    NSMutableArray *hieightOfCellArray=[[NSMutableArray alloc]init];
-    for (sittingModel *model in array) {
+    if (array.count>0) {
+        _addedSittingView.hidden=NO;
+        _tableview.hidden=YES;
+        _toxicView.hidden=YES;
+        _saveBtn.hidden=YES;
+        _exit.hidden=YES;
+        _nextBtn.hidden=YES;
+        _previousBtn.hidden=YES;
+        _filterLabel.hidden=YES;
+        NSMutableArray *hieightOfCellArray=[[NSMutableArray alloc]init];
+        for (sittingModel *model in array) {
             CGFloat labelHeight1=[model.sectionName boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont fontWithName:@"OpenSans-Semibold" size:13]} context:nil].size.height;
             CGFloat labelHeight2=[model.scanPointName boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans-Semibold" size:13]} context:nil].size.height;
             CGFloat labelHeight3=[model.correspondingPairName boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans-Semibold" size:13]} context:nil].size.height;
-        CGFloat labelHeight4=[model.locOfScanpoint boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans-Semibold" size:13]} context:nil].size.height;
+            CGFloat labelHeight4=[model.locOfScanpoint boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans-Semibold" size:13]} context:nil].size.height;
             CGFloat labelHeight5=[model.locOfCorrespondingPair boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans-Semibold" size:13]} context:nil].size.height;
             CGFloat j=MAX(labelHeight1, labelHeight2);
             j=MAX(j, labelHeight3);
             j=MAX(j, labelHeight4);
             j=MAX(j, labelHeight5);
-        [hieightOfCellArray addObject:[NSString stringWithFormat:@"%f",j]];
+            [hieightOfCellArray addObject:[NSString stringWithFormat:@"%f",j]];
+        }
+        _addedSittingView.heightOfEachCellArray=hieightOfCellArray;
+        _addedSittingView.selectedSittingPair=array;
+        [_addedSittingView.tableView reloadData];
+    }else{
+        [self showToastMessage:noIdentifiedIssue];
     }
-    _addedSittingView.heightOfEachCellArray=hieightOfCellArray;
-    _addedSittingView.selectedSittingPair=array;
-  [self.revealViewController setFrontViewPosition:FrontViewPositionLeft];
-    [_addedSittingView.tableView reloadData];
+    [self.revealViewController setFrontViewPosition:FrontViewPositionLeft];
 }
 //get the germs string for each array
 -(void)getGermsStringForCompleDetailArray{
@@ -1639,6 +1670,7 @@
     doYoucloseSitting=[MCLocalization stringForKey:@"Do you want to close Sitting?"];
     noChangesToSaveSitting=[MCLocalization stringForKey:@"No changes is there to save"];
     popBackAlert=[MCLocalization stringForKey:@"Changes will be discarded if you exit from screen. Are you sure to proceed?"];
+    noIdentifiedIssue=[MCLocalization stringForKey:@"No Identified Issue(s)"];
 }
 - (void)registerForKeyboardNotifications
 {

@@ -78,4 +78,6 @@
 -(void)addAnatomicalPointFromSlideout;
 -(void)addSectionDataViewInSitting:(NSString *)differForView;
 -(void)addedSittingPairViewData;
+
+@property(strong,nonatomic)NSIndexPath *selectedSlideOutRow;
 @end

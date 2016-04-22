@@ -4,4 +4,5 @@
 @interface SlideOutTableViewController : UITableViewController
 @property(strong,nonatomic)NSArray *allSectionNameArray;
 @property(strong,nonatomic)NSArray *allToxicDeficiencyArray;
+@property(strong,nonatomic)NSIndexPath *selectedIndexpath;
 @end

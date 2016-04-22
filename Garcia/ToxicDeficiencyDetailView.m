@@ -62,7 +62,11 @@
     return cell;
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-     cell.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
+    if (indexPath.row%2==0) {
+        cell.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
+    }else{
+        cell.backgroundColor=[UIColor colorWithRed:0.667 green:0.902 blue:0.976 alpha:1];
+    }
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     ToxicDeficiencyDetailModel *model=sortedToxicArray[indexPath.row];

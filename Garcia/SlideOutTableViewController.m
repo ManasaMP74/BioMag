@@ -14,7 +14,7 @@
 
 @implementation SlideOutTableViewController
 {
-    NSIndexPath *selectedIndexpath,*selectedCell;
+    NSIndexPath *selectedCell;
     CGFloat cellHeight;
     NSString *selectedSection;
     Postman *postman;
@@ -29,9 +29,9 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     toxicDeficiencyArray=_allToxicDeficiencyArray;
-   selectedIndexpath=[NSIndexPath indexPathForRow:2 inSection:0];
    // slideoutContentArray=@[[MCLocalization stringForKey:@"Section(s)"],[MCLocalization stringForKey:@"Toxic & Deficiency"],[MCLocalization stringForKey:@"Add ScanPoint"],[MCLocalization stringForKey:@"Add CorrespondingPair"],[MCLocalization stringForKey:@"Add Anatomical Points"]];
       slideoutContentArray=@[[MCLocalization stringForKey:@"Add Anatomical Points"],[MCLocalization stringForKey:@"Selected Anatomical Points"],[MCLocalization stringForKey:@"Section(s)"],[MCLocalization stringForKey:@"Toxic & Deficiency"]];
+    [self.tableView reloadData];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -53,7 +53,7 @@
         cell.sectionNameXib.delegateForGetName=self;
     }
     if (indexPath.row==2 | indexPath.row==3) {
-        if ([selectedIndexpath isEqual:indexPath]) {
+        if ([_selectedIndexpath isEqual:indexPath]) {
             cell.expandImageView.image=[UIImage imageNamed:@"Button-Expand"];
             int index=(int)indexPath.row;
             if (indexPath.row==2) {
@@ -73,8 +73,8 @@
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (selectedIndexpath!=nil) {
-        if ([selectedIndexpath isEqual:indexPath]) {
+    if (_selectedIndexpath!=nil) {
+        if ([_selectedIndexpath isEqual:indexPath]) {
             return cellHeight;
         }
         else return 35;
@@ -94,27 +94,31 @@
     NSIndexPath *indexPath=[self.tableView indexPathForCell:cell1];
     SlideOutTableViewCell *cell2=(SlideOutTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
     if (indexPath.row==0) {
-        selectedIndexpath=nil;
+        _selectedIndexpath=nil;
         [self.tableView reloadData];
         UINavigationController *nav=(UINavigationController*)self.parentViewController;
         SWRevealViewController *reveal=(SWRevealViewController*)nav.parentViewController;
         SittingViewController *sitting=(SittingViewController*)reveal.childViewControllers[0];
+        sitting.selectedSlideOutRow=_selectedIndexpath;
         [sitting addAnatomicalPointFromSlideout];
     }
    else if (indexPath.row==1) {
-        selectedIndexpath=nil;
+       if (slideoutContentArray.count>0) {
+            _selectedIndexpath=nil;
+       }
         [self.tableView reloadData];
         UINavigationController *nav=(UINavigationController*)self.parentViewController;
         SWRevealViewController *reveal=(SWRevealViewController*)nav.parentViewController;
         SittingViewController *sitting=(SittingViewController*)reveal.childViewControllers[0];
+       sitting.selectedSlideOutRow=_selectedIndexpath;
         [sitting addedSittingPairViewData];
     }
     else if (indexPath.row==2 | indexPath.row==3) {
     if ([cell1.expandImageView.image isEqual:[UIImage imageNamed:@"Button-Expand"]]) {
-        selectedIndexpath=nil;
+        _selectedIndexpath=nil;
     }
     else{
-        selectedIndexpath=indexPath;
+        _selectedIndexpath=indexPath;
         if (indexPath.row==2) [self getDataOfSectionName:cell2 withArray:_allSectionNameArray withIndex:(int)indexPath.row];
         else if(indexPath.row==3) [self getDataOfSectionName:cell2 withArray:toxicDeficiencyArray withIndex:(int)indexPath.row];
     }
@@ -178,5 +182,6 @@
         sitting.toxicDeficiencyString=selectedSection;
     }
     sitting.editOrAddSitting=@"n";
+    sitting.selectedSlideOutRow=_selectedIndexpath;
 }
 @end
