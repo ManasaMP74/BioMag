@@ -1973,7 +1973,6 @@
         //For Material API
         dict=responseObject;
     }
-    
     for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
         if ([dict1[@"Status"] intValue]==1) {
             germsModel *model=[[germsModel alloc]init];
