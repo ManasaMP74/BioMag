@@ -1,27 +1,12 @@
 #import <UIKit/UIKit.h>
 #import "VMEnvironment.h"
-@protocol successFullAddingAnatomicalPoints<NSObject>
--(void)successFullAddingAnatomicalPoints;
-@end
+#import "sittingModel.h"
 
-
-@interface AddAnotomicalPointsViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UILabel *addScanpointLabel;
-@property (weak, nonatomic) IBOutlet UILabel *scanponitNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *scanpointLocationLabel;
-@property (weak, nonatomic) IBOutlet UILabel *addCorrespondingPairLabel;
-@property (weak, nonatomic) IBOutlet UILabel *correspondingPairNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *correspondingPairLocationLabel;
+@interface EditAnatomicalPoint : UIViewController
 @property (weak, nonatomic) IBOutlet UILabel *mapAnotomicalLabel;
 @property (weak, nonatomic) IBOutlet UILabel *anotomicalScanpointNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *anotomicalCorrespondingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *anotomicalSortNumberLabel;
-@property (weak, nonatomic) IBOutlet UITextField *scanpointNameTF;
-@property (weak, nonatomic) IBOutlet UITextField *scanpointLocationTF;
-@property (weak, nonatomic) IBOutlet UIButton *saveScanpointBtn;
-@property (weak, nonatomic) IBOutlet UITextField *correspondingNameTF;
-@property (weak, nonatomic) IBOutlet UITextField *correspondingLocationTF;
-@property (weak, nonatomic) IBOutlet UIButton *saveCorresponding;
 @property (weak, nonatomic) IBOutlet UITextField *anatomicalScanpointTF;
 @property (weak, nonatomic) IBOutlet UITextField *anatomicalCorrespondingPairTF;
 @property (weak, nonatomic) IBOutlet UITextField *anatomicalSortNumberTF;
@@ -49,9 +34,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *langButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *langTableHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *langTableWidth;
-@property (weak, nonatomic) IBOutlet UITableView *personalPairTable;
-@property (weak, nonatomic) IBOutlet UILabel *personalPair;
+@property (weak, nonatomic) IBOutlet UIControl *view1;
 
-@property (weak, nonatomic) id <successFullAddingAnatomicalPoints>delegate;
-@property (strong, nonatomic) NSArray *personalPairArray;
+
+@property(strong,nonatomic)sittingModel *selectedPersonalAnatomicalPair;
 @end

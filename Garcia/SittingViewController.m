@@ -44,7 +44,7 @@
 
 @implementation SittingViewController
 {
-    NSMutableArray  *selectedIndexArray,*allSortedDetailArray,*selectedPreviousSittingDetailArray,*allSectionNameArray,*toxicDeficiencyArray,*allDoctorDetailArray,*allPreviousSittingDetail,*selectedSittingModelInallDoctorDetailArray;
+    NSMutableArray  *selectedIndexArray,*allSortedDetailArray,*selectedPreviousSittingDetailArray,*allSectionNameArray,*toxicDeficiencyArray,*allDoctorDetailArray,*allPreviousSittingDetail,*selectedSittingModelInallDoctorDetailArray,*personalPairArray;
     AddSymptom *symptomView;
     Postman *postman;
     Constant *constant;
@@ -72,6 +72,7 @@
     allSortedDetailArray=[[NSMutableArray alloc]init];
     allDoctorDetailArray=[[NSMutableArray alloc]init];
     selectedIndexArray=[[NSMutableArray alloc]init];
+    personalPairArray=[[NSMutableArray alloc]init];
     selectedPreviousSittingDetailArray=[[NSMutableArray alloc]init];
     allPreviousSittingDetail=[[NSMutableArray alloc]init];
     _addedSittingView.hidden=YES;
@@ -910,6 +911,7 @@
     [allSortedDetailArray removeAllObjects];
     [allSectionNameArray removeAllObjects];
     [allDoctorDetailArray removeAllObjects];
+    [personalPairArray removeAllObjects];
     NSDictionary *dict;
     
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
@@ -1000,6 +1002,9 @@
                     model.germsCodeString=@"";
                     model.notes=@"";
                     [allDoctorDetailArray addObject:model];
+                    if ([model.appTypeCodeValue isEqualToString:appTypeCode]) {
+                        [personalPairArray addObject:model];
+                    }
                 }
             }
             if (allSectionNameArray.count>0) {
@@ -1015,6 +1020,8 @@
             }
 
         } else{
+            [_tableview reloadData];
+            [_scrollView layoutIfNeeded];
             [self showToastMessage:@"Fetching Failed"];
         }
     }
@@ -1539,6 +1546,7 @@
     _sectionName=@"";
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft];
     AddAnotomicalPointsViewController *add=[self.storyboard instantiateViewControllerWithIdentifier:@"AddAnotomicalPointsViewController"];
+    add.personalPairArray=personalPairArray;
     add.delegate=self;
     [self.navigationController pushViewController:add animated:YES];
 }

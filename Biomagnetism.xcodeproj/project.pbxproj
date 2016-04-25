@@ -37,6 +37,8 @@
 		DA130F401BEA1E1900B5B9FF /* SettingView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA130F331BEA1E1900B5B9FF /* SettingView.m */; };
 		DA130F411BEA1E1900B5B9FF /* SettingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA130F341BEA1E1900B5B9FF /* SettingView.xib */; };
 		DA130F431BEA20CC00B5B9FF /* AddSectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA130F421BEA20CC00B5B9FF /* AddSectionCell.xib */; };
+		DA17BD441CCE26C700760A50 /* AddAnatomicalPointCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA17BD431CCE26C700760A50 /* AddAnatomicalPointCell.m */; };
+		DA17BD471CCE37D800760A50 /* EditAnatomicalPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = DA17BD461CCE37D800760A50 /* EditAnatomicalPoint.m */; };
 		DA1BB06F1C3F9224003D221C /* PatientTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA1BB06E1C3F9224003D221C /* PatientTitleModel.m */; };
 		DA261DC91C4660CD00B18035 /* ToxicDeficiency.m in Sources */ = {isa = PBXBuildFile; fileRef = DA261DC81C4660CD00B18035 /* ToxicDeficiency.m */; };
 		DA2D3DA01C0EB3CF008D0AC2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2D3D9F1C0EB3CF008D0AC2 /* QuartzCore.framework */; };
@@ -217,6 +219,10 @@
 		DA130F331BEA1E1900B5B9FF /* SettingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingView.m; sourceTree = "<group>"; };
 		DA130F341BEA1E1900B5B9FF /* SettingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingView.xib; sourceTree = "<group>"; };
 		DA130F421BEA20CC00B5B9FF /* AddSectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddSectionCell.xib; sourceTree = "<group>"; };
+		DA17BD421CCE26C700760A50 /* AddAnatomicalPointCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddAnatomicalPointCell.h; sourceTree = "<group>"; };
+		DA17BD431CCE26C700760A50 /* AddAnatomicalPointCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddAnatomicalPointCell.m; sourceTree = "<group>"; };
+		DA17BD451CCE37D800760A50 /* EditAnatomicalPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAnatomicalPoint.h; sourceTree = "<group>"; };
+		DA17BD461CCE37D800760A50 /* EditAnatomicalPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAnatomicalPoint.m; sourceTree = "<group>"; };
 		DA1BB06D1C3F9224003D221C /* PatientTitleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatientTitleModel.h; sourceTree = "<group>"; };
 		DA1BB06E1C3F9224003D221C /* PatientTitleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PatientTitleModel.m; sourceTree = "<group>"; };
 		DA261DC71C4660CD00B18035 /* ToxicDeficiency.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToxicDeficiency.h; sourceTree = "<group>"; };
@@ -548,6 +554,24 @@
 			name = SectionBodyDetail;
 			sourceTree = "<group>";
 		};
+		DA17BD481CCE37E900760A50 /* Edit */ = {
+			isa = PBXGroup;
+			children = (
+				DA17BD451CCE37D800760A50 /* EditAnatomicalPoint.h */,
+				DA17BD461CCE37D800760A50 /* EditAnatomicalPoint.m */,
+			);
+			name = Edit;
+			sourceTree = "<group>";
+		};
+		DA17BD491CCE37F900760A50 /* CustomCell */ = {
+			isa = PBXGroup;
+			children = (
+				DA17BD421CCE26C700760A50 /* AddAnatomicalPointCell.h */,
+				DA17BD431CCE26C700760A50 /* AddAnatomicalPointCell.m */,
+			);
+			name = CustomCell;
+			sourceTree = "<group>";
+		};
 		DA2F9F711C2170940077AEAB /* AddSymptom */ = {
 			isa = PBXGroup;
 			children = (
@@ -790,6 +814,8 @@
 			children = (
 				DAED93801CAE8146003846F0 /* AddAnotomicalPointsViewController.h */,
 				DAED93811CAE8146003846F0 /* AddAnotomicalPointsViewController.m */,
+				DA17BD481CCE37E900760A50 /* Edit */,
+				DA17BD491CCE37F900760A50 /* CustomCell */,
 				DA9080761CB3978100B20BFA /* Model */,
 			);
 			name = "Add AnatomicalPoints";
@@ -1343,6 +1369,7 @@
 				DAFC75FE1C85675D005A6AD7 /* ToxicTableViewCell.m in Sources */,
 				DA130F371BEA1E1900B5B9FF /* AddSectionCell.m in Sources */,
 				DA130F3C1BEA1E1900B5B9FF /* PartModel.m in Sources */,
+				DA17BD441CCE26C700760A50 /* AddAnatomicalPointCell.m in Sources */,
 				DAF616821C0428E500B54F5D /* ImageUploadAPI.m in Sources */,
 				DA130F3A1BEA1E1900B5B9FF /* DetailsSection.m in Sources */,
 				DAEFA1BF1BD0B4EB00900379 /* PatientViewController.m in Sources */,
@@ -1400,6 +1427,7 @@
 				DA753C871C6481C500D1ABE1 /* CorrespondingPairTableViewCell.m in Sources */,
 				DAE48C711BF07B8F008AD2D3 /* editModel.m in Sources */,
 				DAF7EF311C1A9FF5009ADE9B /* SymptomTagCustomCollectionViewCell.m in Sources */,
+				DA17BD471CCE37D800760A50 /* EditAnatomicalPoint.m in Sources */,
 				DA487E681C59E7260015A3D0 /* ForgotPasswordViewController.m in Sources */,
 				DAE576351C3E6C570076C3EE /* DBManager.m in Sources */,
 				DA7359911C12B664005192D7 /* SWRevealViewController.m in Sources */,
