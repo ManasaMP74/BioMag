@@ -26,7 +26,7 @@
 #import <MCLocalization/MCLocalization.h>
 #import "AddSectionData.h"
 #import "AddAnotomicalPointsViewController.h"
-@interface SittingViewController ()<UITableViewDelegate,UITableViewDataSource,addsymptom,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,UICollectionViewDataSource,ExpandCellProtocol,SWRevealViewControllerDelegate,deleteCellValue,SWRevealViewControllerDelegate,datePickerProtocol,sendGermsData>
+@interface SittingViewController ()<UITableViewDelegate,UITableViewDataSource,addsymptom,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,UICollectionViewDataSource,ExpandCellProtocol,SWRevealViewControllerDelegate,deleteCellValue,SWRevealViewControllerDelegate,datePickerProtocol,sendGermsData,successFullAddingAnatomicalPoints>
 @property (strong, nonatomic) IBOutlet UILabel *ageValue;
 @property (strong, nonatomic) IBOutlet UILabel *filterLabel;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -103,7 +103,7 @@
         _exit.hidden=NO;
     }
     if ([_sittingViewId isEqualToString:@"patientSheet"]) {
-         [self setTheValuesInTableView];
+        [self setTheValuesInTableView];
     }
     [constant changeSaveBtnImage:_saveBtn];
     _selectedSlideOutRow=[NSIndexPath indexPathForRow:2 inSection:0];
@@ -218,42 +218,42 @@
 }
 //pop
 -(void)popView{
-//    if (_toxicView.hidden==NO | _addedSittingView.hidden==NO) {
-//        _toxicDeficiencyString=@"";
-//        _SortType=@"";
-//        _toxicDeficiencyString=@"";
-//        _sectionName=@"";
-//        _addedSittingView.hidden=YES;
-//        _toxicView.hidden=YES;
-//        _editOrAddSitting=@"n";
-//        if (allSectionNameArray.count>0) {
-//            [self getTheSortDetailOfCompleteDitailArray:allSectionNameArray[0]];
-//        }
-//        selectedCellToFilter=0;
-//        if (selectedCellToFilter==allSectionNameArray.count-1) {
-//            _previousBtn.hidden=YES;
-//            _nextBtn.hidden=YES;
-//        }else{
-//            _previousBtn.hidden=YES;
-//            _nextBtn.hidden=NO;
-//        }
-//         _selectedSlideOutRow=[NSIndexPath indexPathForRow:2 inSection:0];
-//    }
-//    else{
-        if (changesDoneorNot) {
-            UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:popBackAlert preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
-                [self.navigationController popViewControllerAnimated:YES];
-                [alertView dismissViewControllerAnimated:YES completion:nil];
-            }];
-            [alertView addAction:success];
-            UIAlertAction *failure=[UIAlertAction actionWithTitle:noStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
-                [alertView dismissViewControllerAnimated:YES completion:nil];
-            }];
-            [alertView addAction:failure];
-            [self presentViewController:alertView animated:YES completion:nil];
-        }else [self.navigationController popViewControllerAnimated:YES];
-  //  }
+    //    if (_toxicView.hidden==NO | _addedSittingView.hidden==NO) {
+    //        _toxicDeficiencyString=@"";
+    //        _SortType=@"";
+    //        _toxicDeficiencyString=@"";
+    //        _sectionName=@"";
+    //        _addedSittingView.hidden=YES;
+    //        _toxicView.hidden=YES;
+    //        _editOrAddSitting=@"n";
+    //        if (allSectionNameArray.count>0) {
+    //            [self getTheSortDetailOfCompleteDitailArray:allSectionNameArray[0]];
+    //        }
+    //        selectedCellToFilter=0;
+    //        if (selectedCellToFilter==allSectionNameArray.count-1) {
+    //            _previousBtn.hidden=YES;
+    //            _nextBtn.hidden=YES;
+    //        }else{
+    //            _previousBtn.hidden=YES;
+    //            _nextBtn.hidden=NO;
+    //        }
+    //         _selectedSlideOutRow=[NSIndexPath indexPathForRow:2 inSection:0];
+    //    }
+    //    else{
+    if (changesDoneorNot) {
+        UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:popBackAlert preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+            [self.navigationController popViewControllerAnimated:YES];
+            [alertView dismissViewControllerAnimated:YES completion:nil];
+        }];
+        [alertView addAction:success];
+        UIAlertAction *failure=[UIAlertAction actionWithTitle:noStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+            [alertView dismissViewControllerAnimated:YES completion:nil];
+        }];
+        [alertView addAction:failure];
+        [self presentViewController:alertView animated:YES completion:nil];
+    }else [self.navigationController popViewControllerAnimated:YES];
+    //  }
 }
 //tableview number of sections
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -922,95 +922,101 @@
     }
     
     if ([dict[@"Success"] intValue]==1) {
-        for (NSDictionary *dict1 in dict[@"AnatomicalBiomagneticMatrix"]) {
-            if ([dict1[@"Status"]intValue]==1) {
-                sittingModel *model=[[sittingModel alloc]init];
-                model.edited=@"N";
-                model.sittingId=dict1[@"Id"];
-                if (dict1[@"Code"]!=[NSNull null]) {
-                    model.anatomicalBiomagenticCode=dict1[@"Code"];
-                }
-                if (dict1[@"Author"]!=[NSNull null]) {
-                    model.author=dict1[@"Author"];
-                }
-                if (dict1[@"ScanPointCode"]!=[NSNull null]) {
-                    model.scanPointCode=dict1[@"ScanPointCode"];
-                }
-                if (dict1[@"Description"]!=[NSNull null]) {
-                    model.interpretation=dict1[@"Description"];
-                }
-                if (dict1[@"CorrespondingPairCode"]!=[NSNull null]){
-                    model.correspondingPairCode=dict1[@"CorrespondingPairCode"];
-                }
-                if (dict1[@"GermsCode"]!=[NSNull null]){
-                    model.germsCode=dict1[@"GermsCode"];
-                }
-                if (dict1[@"Psychoemotional"]!=[NSNull null]){
-                    model.psychoemotional=dict1[@"Psychoemotional"];
-                }
-                if (dict1[@"SectionCode"]!=[NSNull null]){
-                    model.sectionCode=dict1[@"SectionCode"];
-                }
-                if (dict1[@"SortingRank"]!=[NSNull null]){
-                    model.sortNumber=[NSString stringWithFormat:@"%@",dict1[@"SortingRank"]];
-                }
-                if (dict1[@"Section"]!=[NSNull null]){
-                    model.sectionName=dict1[@"Section"];
-                    NSString *str=[NSString stringWithFormat:@"%@$%@",model.sectionName,model.sectionCode];
-                    if (![allSectionNameArray containsObject:str]) {
-                        [allSectionNameArray addObject:str];
+        NSArray *ar=dict[@"AnatomicalBiomagneticMatrix"];
+        if (ar.count>0) {
+            for (NSDictionary *dict1 in dict[@"AnatomicalBiomagneticMatrix"]) {
+                if ([dict1[@"Status"]intValue]==1) {
+                    sittingModel *model=[[sittingModel alloc]init];
+                    model.edited=@"N";
+                    model.sittingId=dict1[@"Id"];
+                    if (dict1[@"Code"]!=[NSNull null]) {
+                        model.anatomicalBiomagenticCode=dict1[@"Code"];
                     }
+                    if (dict1[@"Author"]!=[NSNull null]) {
+                        model.author=dict1[@"Author"];
+                    }
+                    if (dict1[@"ScanPointCode"]!=[NSNull null]) {
+                        model.scanPointCode=dict1[@"ScanPointCode"];
+                    }
+                    if (dict1[@"Description"]!=[NSNull null]) {
+                        model.interpretation=dict1[@"Description"];
+                    }
+                    if (dict1[@"CorrespondingPairCode"]!=[NSNull null]){
+                        model.correspondingPairCode=dict1[@"CorrespondingPairCode"];
+                    }
+                    if (dict1[@"GermsCode"]!=[NSNull null]){
+                        model.germsCode=dict1[@"GermsCode"];
+                    }
+                    if (dict1[@"Psychoemotional"]!=[NSNull null]){
+                        model.psychoemotional=dict1[@"Psychoemotional"];
+                    }
+                    if (dict1[@"SectionCode"]!=[NSNull null]){
+                        model.sectionCode=dict1[@"SectionCode"];
+                    }
+                    if (dict1[@"SortingRank"]!=[NSNull null]){
+                        model.sortNumber=[NSString stringWithFormat:@"%@",dict1[@"SortingRank"]];
+                    }
+                    if (dict1[@"Section"]!=[NSNull null]){
+                        model.sectionName=dict1[@"Section"];
+                        NSString *str=[NSString stringWithFormat:@"%@$%@",model.sectionName,model.sectionCode];
+                        if (![allSectionNameArray containsObject:str]) {
+                            [allSectionNameArray addObject:str];
+                        }
+                    }
+                    if (dict1[@"ScanPoint"]!=[NSNull null]){
+                        model.scanPointName=dict1[@"ScanPoint"];
+                    }
+                    if (dict1[@"CorrespondingPair"]!=[NSNull null]){
+                        model.correspondingPairName=dict1[@"CorrespondingPair"];
+                    }
+                    if (dict1[@"Germs"]!=[NSNull null]){
+                        model.germsName =dict1[@"Germs"];
+                    }
+                    if (dict1[@"DateCreated"]!=[NSNull null]){
+                        NSArray *dateArray=[dict1[@"DateCreated"] componentsSeparatedByString:@"T"];
+                        [formater setTimeZone:[NSTimeZone localTimeZone]];
+                        [formater setDateFormat:@"yyyy-MM-dd"];
+                        NSDate *date=[formater dateFromString:dateArray[0]];
+                        [formater setDateFormat:@"dd-MMM-yyyy"];
+                        model.dateCreated=[formater stringFromDate:date];
+                    }
+                    if (dict1[@"GenderCode"]!=[NSNull null]){
+                        model.genderCode=dict1[@"GenderCode"];
+                    }
+                    if (dict1[@"LocationScanPoint"]!=[NSNull null]){
+                        model.locOfScanpoint=dict1[@"LocationScanPoint"];
+                    }
+                    if (dict1[@"LocationCorrespondingPair"]!=[NSNull null]){
+                        model.locOfCorrespondingPair=dict1[@"LocationCorrespondingPair"];
+                    }
+                    if (dict1[@"AppTypeCode"]!=[NSNull null]){
+                        model.appTypeCodeValue=dict1[@"AppTypeCode"];
+                    }
+                    if (dict1[@"ApplicableVersionCode"]!=[NSNull null]){
+                        model.applicableVersionCodeValue=dict1[@"ApplicableVersionCode"];
+                    }
+                    model.issue=NO;
+                    model.germsString=@"";
+                    model.germsCodeString=@"";
+                    model.notes=@"";
+                    [allDoctorDetailArray addObject:model];
                 }
-                if (dict1[@"ScanPoint"]!=[NSNull null]){
-                    model.scanPointName=dict1[@"ScanPoint"];
-                }
-                if (dict1[@"CorrespondingPair"]!=[NSNull null]){
-                    model.correspondingPairName=dict1[@"CorrespondingPair"];
-                }
-                if (dict1[@"Germs"]!=[NSNull null]){
-                    model.germsName =dict1[@"Germs"];
-                }
-                if (dict1[@"DateCreated"]!=[NSNull null]){
-                    NSArray *dateArray=[dict1[@"DateCreated"] componentsSeparatedByString:@"T"];
-                    [formater setTimeZone:[NSTimeZone localTimeZone]];
-                    [formater setDateFormat:@"yyyy-MM-dd"];
-                    NSDate *date=[formater dateFromString:dateArray[0]];
-                    [formater setDateFormat:@"dd-MMM-yyyy"];
-                    model.dateCreated=[formater stringFromDate:date];
-                }
-                if (dict1[@"GenderCode"]!=[NSNull null]){
-                    model.genderCode=dict1[@"GenderCode"];
-                }
-                if (dict1[@"LocationScanPoint"]!=[NSNull null]){
-                    model.locOfScanpoint=dict1[@"LocationScanPoint"];
-                }
-                if (dict1[@"LocationCorrespondingPair"]!=[NSNull null]){
-                    model.locOfCorrespondingPair=dict1[@"LocationCorrespondingPair"];
-                }
-                if (dict1[@"AppTypeCode"]!=[NSNull null]){
-                    model.appTypeCodeValue=dict1[@"AppTypeCode"];
-                }
-                if (dict1[@"ApplicableVersionCode"]!=[NSNull null]){
-                    model.applicableVersionCodeValue=dict1[@"ApplicableVersionCode"];
-                }
-                model.issue=NO;
-                model.germsString=@"";
-                model.germsCodeString=@"";
-                model.notes=@"";
-                [allDoctorDetailArray addObject:model];
             }
+            if (allSectionNameArray.count>0) {
+                [self getTheSortDetailOfCompleteDitailArray:allSectionNameArray[0]];
+            }
+            selectedCellToFilter=0;
+            if (selectedCellToFilter==allSectionNameArray.count-1) {
+                _previousBtn.hidden=YES;
+                _nextBtn.hidden=YES;
+            }else{
+                _previousBtn.hidden=YES;
+                _nextBtn.hidden=NO;
+            }
+
+        } else{
+            [self showToastMessage:@"Fetching Failed"];
         }
-    }
-    if (allSectionNameArray.count>0) {
-        [self getTheSortDetailOfCompleteDitailArray:allSectionNameArray[0]];
-    }
-    selectedCellToFilter=0;
-    if (selectedCellToFilter==allSectionNameArray.count-1) {
-        _previousBtn.hidden=YES;
-        _nextBtn.hidden=YES;
-    }else{
-        _previousBtn.hidden=YES;
-        _nextBtn.hidden=NO;
     }
 }
 //Issue And No Issue
@@ -1533,11 +1539,15 @@
     _sectionName=@"";
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft];
     AddAnotomicalPointsViewController *add=[self.storyboard instantiateViewControllerWithIdentifier:@"AddAnotomicalPointsViewController"];
+    add.delegate=self;
     [self.navigationController pushViewController:add animated:YES];
+}
+-(void)successFullAddingAnatomicalPoints{
+    [self callApi];
 }
 -(void)addSectionDataViewInSitting:(NSString *)differForView{
     _addedSittingView.hidden=YES;
-       [self.revealViewController setFrontViewPosition:FrontViewPositionLeft];
+    [self.revealViewController setFrontViewPosition:FrontViewPositionLeft];
     if (![differForView isEqualToString:@"anatomicalPoint"]) {
         if (addsectionData==nil) {
             addsectionData=[[AddSectionData alloc]initWithFrame:CGRectMake(self.view.frame.origin.x+150,self.view.frame.origin.y+100,self.view.frame.size.width-300,150)];

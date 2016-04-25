@@ -192,8 +192,6 @@
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getTitleOfTreatment];
     [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self processResponseObjectToGetTreatmentDetail:responseObject];
-        [containerVC hideAllMBprogressTillLoadThedata];
-        [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:NO];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [containerVC hideAllMBprogressTillLoadThedata];
         [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
@@ -257,11 +255,14 @@
             }
         }
         [_tableview reloadData];
+        [self.view layoutIfNeeded];
         [_scrollView layoutIfNeeded];
         _tableViewHeight.constant=self.tableview.contentSize.height;
     }else {
         [self showToastMessage:dict[@"Message"]];
     }
+    [containerVC hideAllMBprogressTillLoadThedata];
+    [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:NO];
 }
 //Alert Message
 -(void)showAlerView:(NSString*)msg{

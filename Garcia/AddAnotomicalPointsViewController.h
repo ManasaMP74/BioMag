@@ -1,5 +1,9 @@
 #import <UIKit/UIKit.h>
 #import "VMEnvironment.h"
+@protocol successFullAddingAnatomicalPoints<NSObject>
+-(void)successFullAddingAnatomicalPoints;
+@end
+
 
 @interface AddAnotomicalPointsViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UILabel *addScanpointLabel;
@@ -46,5 +50,5 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *langTableHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *langTableWidth;
 
-
+@property (weak, nonatomic) id <successFullAddingAnatomicalPoints>delegate;
 @end

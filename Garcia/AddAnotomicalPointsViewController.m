@@ -17,6 +17,11 @@
 @interface AddAnotomicalPointsViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UITextViewDelegate>
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tapGesture;
 @property (weak, nonatomic) IBOutlet UIControl *view1;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *authorTVHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *germsTVHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *correspondingTVHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *scanpointTvHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *sectionTvHeight;
 
 @end
 
@@ -215,9 +220,9 @@
     if ([differForSaveData isEqualToString:@"scanpoint"] | [differForSaveData isEqualToString:@"CorrespondingPair"]) {
         if ([dict[@"Success"]intValue]==1) {
             if ([differForSaveData isEqualToString:@"scanpoint"]){
-            [self callApiToGetScanpoint];
+                [self callApiToGetScanpoint:NO];
             }else if ([differForSaveData isEqualToString:@"CorrespondingPair"]){
-                [self callApiToGetCorrespondingPair];
+                [self callApiToGetCorrespondingPair:NO];
             }
             [self showToastMessage:dict[@"Message"]];
             if ([differForSaveData isEqualToString:@"scanpoint"]){
@@ -244,6 +249,7 @@
     UIAlertAction *success=[UIAlertAction actionWithTitle:alertOkStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
         [alertView dismissViewControllerAnimated:YES completion:nil];
         [self popView];
+         [self.delegate successFullAddingAnatomicalPoints];
     }];
     [alertView addAction:success];
     [self presentViewController:alertView animated:YES completion:nil];
@@ -323,7 +329,13 @@
     self.title=[MCLocalization stringForKey:@"Add Anatomical Points"];
 }
 -(void)popView{
-    SWRevealViewController *sw=(SWRevealViewController*)self.navigationController.viewControllers[2];
+    NSArray *ar=self.navigationController.viewControllers;
+    SWRevealViewController *sw;
+      if (ar.count==4)  {
+   sw=(SWRevealViewController*)self.navigationController.viewControllers[2];
+     }else{
+         sw=(SWRevealViewController*)self.navigationController.viewControllers[3];
+     }
     SittingViewController *sitting=(SittingViewController*)sw.frontViewController;
     sitting.sittingViewId=@"addAnatomical";
     [self.navigationController popViewControllerAnimated:YES];
@@ -362,26 +374,36 @@
     [self.view endEditing:YES];
     [self hideTheViews:_anatomicalScanpointTF];
     [_scanpointTable reloadData];
+//    [self.view layoutIfNeeded];
+//    _scanpointTvHeight.constant=_scanpointTable.contentSize.height;
 }
 - (IBAction)selectCorrespondingPair:(id)sender {
     [self.view endEditing:YES];
     [self hideTheViews:_anatomicalCorrespondingPairTF];
     [_correspondingPairTable reloadData];
+//    [self.view layoutIfNeeded];
+//    _correspondingTVHeight.constant=_correspondingPairTable.contentSize.height;
 }
 - (IBAction)selectSection:(id)sender {
     [self.view endEditing:YES];
     [self hideTheViews:_anatomicalSectionTF];
     [_sectionTableview reloadData];
+//    [self.view layoutIfNeeded];
+//    _sectionTvHeight.constant=_sectionTableview.contentSize.height;
 }
 - (IBAction)selectGerms:(id)sender {
     [self.view endEditing:YES];
     [self hideTheViews:_anatomicalGermsTF];
     [_germsTableView reloadData];
+//    [self.view layoutIfNeeded];
+//    _germsTVHeight.constant=_germsTableView.contentSize.height;
 }
 - (IBAction)selectAuthor:(id)sender {
     [self.view endEditing:YES];
     [self hideTheViews:_anatomicalAuthorTF];
     [_authorTableView reloadData];
+//    [self.view layoutIfNeeded];
+//    _authorTVHeight.constant=_authorTableView.contentSize.height;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
@@ -636,38 +658,41 @@
 -(void)callSeedForScanpoint{
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     if ([userDefault boolForKey:@"scanpoint_FLAG"]) {
-        [self callApiToGetScanpoint];
+        [self callApiToGetScanpoint:YES];
     }
     else{
         NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getAllScanpoint];
         [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
             if (success) {
-                [self processScanpoint:response];
+                [self processScanpoint:response with:YES];
             }
             else{
-                [self callApiToGetScanpoint];
+                [self callApiToGetScanpoint:YES];
             }
         }];
     }
 }
--(void)callApiToGetScanpoint{
+-(void)callApiToGetScanpoint:(BOOL)status{
     [MBProgressHUD showHUDAddedTo:self.view animated:NO];
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getAllScanpoint];
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            [self processScanpoint:responseObject];
+            [self processScanpoint:responseObject with:status];
             [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
             [userDefault setBool:NO forKey:@"scanpoint_FLAG"];
+            if (!status) {
+                [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
+            }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            [self callApiToGetScanpoint];
+            [self callApiToGetScanpoint:status];
             NSString *str=[NSString stringWithFormat:@"%@",error];
             [self showToastMessage:str];
         }];
     }
 }
--(void)processScanpoint:(id)responseObject{
+-(void)processScanpoint:(id)responseObject with:(BOOL)status{
     
     NSDictionary *dict;
     
@@ -689,44 +714,49 @@
             [scanpointArray addObject:model];
         }
     }
-    [self callSeedForCorrespondingPair];
+    if (status) {
+        [self callSeedForCorrespondingPair];
+    }
 }
 
 -(void)callSeedForCorrespondingPair{
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     if ([userDefault boolForKey:@"correspondingpair_FLAG"]) {
-        [self callApiToGetCorrespondingPair];
+        [self callApiToGetCorrespondingPair:YES];
     }
     else{
         NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getAllCorrespondingPair];
         [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
             if (success) {
-                [self processCorrespondingpair:response];
+                [self processCorrespondingpair:response with:YES];
             }
             else{
-                [self callApiToGetCorrespondingPair];
+                [self callApiToGetCorrespondingPair:YES];
             }
         }];
     }
 }
--(void)callApiToGetCorrespondingPair{
+-(void)callApiToGetCorrespondingPair:(BOOL)status{
     [MBProgressHUD showHUDAddedTo:self.view animated:NO];
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getAllCorrespondingPair];
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            [self processCorrespondingpair:responseObject];
+            [self processCorrespondingpair:responseObject with:status];
             [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
             [userDefault setBool:NO forKey:@"correspondingpair_FLAG"];
+            if (!status) {
+                [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
+            }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            [self callApiToGetCorrespondingPair];
+            [self callApiToGetCorrespondingPair:status];
             NSString *str=[NSString stringWithFormat:@"%@",error];
             [self showToastMessage:str];
         }];
     }
 }
--(void)processCorrespondingpair:(id)responseObject{
+-(void)processCorrespondingpair:(id)responseObject with:(BOOL)status{
     NSDictionary *dict;
     
     [correspondingPointArray removeAllObjects];
@@ -747,8 +777,9 @@
             [correspondingPointArray addObject:model];
         }
     }
-    [self callSeedForAuthor];
-    
+     if (status) {
+         [self callSeedForAuthor];
+     }
 }
 
 -(void)callSeedForAuthor{
