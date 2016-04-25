@@ -47,11 +47,11 @@
         _customCell=nil;
     }
     sittingModel *model=_selectedSittingPair[indexPath.row];
-    cell.section.text=model.sectionName;
+  //  cell.section.text=model.sectionName;
     cell.scanpoint.text=model.scanPointName;
     cell.correspondingpair.text=model.correspondingPairName;
-    cell.locOfScanpoint.text=model.locOfScanpoint;
-    cell.locOfCorrespondingPair.text=model.locOfCorrespondingPair;
+    cell.locOfScanpoint.text=model.germsCodeString;
+    cell.locOfCorrespondingPair.text=model.interpretation;
     tableView.tableFooterView=[UIView new];
     return cell;
 }
@@ -71,7 +71,7 @@
 _scanpointLabel.text=[MCLocalization stringForKey:@"Scan Point"];
 _correspondingPairLabel.text=[MCLocalization stringForKey:@"Corresponding Pair"];
 _sectionLabel.text=[MCLocalization stringForKey:@"Section"];
-_locOfScanPoint.text=[MCLocalization stringForKey:@"Loc. ScanPoint"];
-_locOfCorrespondingPair.text=[MCLocalization stringForKey:@"Loc. Corresponding Pair"];
+_locOfScanPoint.text=[MCLocalization stringForKey:@"Code"];
+_locOfCorrespondingPair.text=[MCLocalization stringForKey:@"Interpretation"];
 }
 @end

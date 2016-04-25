@@ -26,7 +26,6 @@
 #import "germsModel.h"
 #define NULL_CHECK(X) [X isKindOfClass:[NSNull class]]?nil:X
 
-
 @interface PatientSheetViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextFieldDelegate,UITextViewDelegate,deleteCell,selectedImage,increaseSittingCell,cellHeight,WYPopoverControllerDelegate>
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *diagnosisTopHeight;
 @property (weak, nonatomic) IBOutlet UIView *treatmnetNameView;
