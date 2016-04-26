@@ -25,6 +25,10 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *correspondingTVHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scanpointTvHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sectionTvHeight;
+@property (weak, nonatomic) IBOutlet UILabel *sectionHeaderLabel;
+@property (weak, nonatomic) IBOutlet UILabel *scanpointHeaderLabel;
+@property (weak, nonatomic) IBOutlet UILabel *correspondingHeaderLabel;
+@property (weak, nonatomic) IBOutlet UILabel *codeHeaderLabel;
 
 @end
 
@@ -56,6 +60,7 @@
     germsArray=[[NSMutableArray alloc]init];
     authorArray=[[NSMutableArray alloc]init];
     languageArray=[[NSMutableArray alloc]init];
+     selectedPersonalPairModel=[[sittingModel alloc]init];
     postman=[[Postman alloc]init];
     [self callSeedForGerms];
     [self callSeedForLanguage];
@@ -445,8 +450,8 @@
         sittingModel *model=_personalPairArray[indexPath.row];
         cell.sectionLabel.text=model.sectionName;
         cell.scanpointLabel.text=model.scanPointName;
-        cell.correspondingpairLabel.text=model.correspondingPairCode;
-        cell.code.text=model.germsCode;
+        cell.correspondingpairLabel.text=model.correspondingPairName;
+        cell.code.text=model.germsName;
         return cell;
     }
     else{
@@ -544,11 +549,11 @@ if ([tableView isEqual:_personalPairTable]) {
         selectedLang=model.code;
         _langTable.hidden=YES;
     }
-}
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([segue.identifier isEqualToString:@"EditAnatomicalPair"]){
-         EditAnatomicalPoint *edit=segue.destinationViewController;
+    else if ([tableView isEqual:_personalPairTable]) {
+    selectedPersonalPairModel=_personalPairArray[indexPath.row];
+        EditAnatomicalPoint *edit=[self.storyboard instantiateViewControllerWithIdentifier:@"EditAnatomicalPoint"];
         edit.selectedPersonalAnatomicalPair=selectedPersonalPairModel;
+        [self.navigationController pushViewController:edit animated:YES];
     }
 }
 -(void)callSeedForGerms{
@@ -994,5 +999,11 @@ if ([tableView isEqual:_personalPairTable]) {
     _anatomicalSectionLabel.text=[MCLocalization stringForKey:@"Section"];
     _anatomicalGermsLabel.text=[MCLocalization stringForKey:@"Germs"];
     _anatomicalAuthorLabel.text=[MCLocalization stringForKey:@"Author"];
+    _personalPair.text=[MCLocalization stringForKey:@"Personal Pairs"];
+    _scanpointHeaderLabel.text=[MCLocalization stringForKey:@"Scan Point"];
+    _correspondingHeaderLabel.text=[MCLocalization stringForKey:@"Corresponding Pair"];
+    _codeHeaderLabel.text=[MCLocalization stringForKey:@"Code"];
+    _sectionHeaderLabel.text=[MCLocalization stringForKey:@"Section"];
+
 }
 @end

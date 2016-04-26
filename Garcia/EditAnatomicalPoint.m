@@ -91,17 +91,17 @@ postman=[[Postman alloc]init];
     NSString *parameter;
     NSUserDefaults *defaultvalue=[NSUserDefaults standardUserDefaults];
     int userIdInteger=[[defaultvalue valueForKey:@"Id"]intValue];
-    url=[NSString stringWithFormat:@"%@%@/0",baseUrl,addAnatomicalPoints];
+    url=[NSString stringWithFormat:@"%@%@/%d",baseUrl,addAnatomicalPoints,[_selectedPersonalAnatomicalPair.sittingId intValue]];
         if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
             //Parameter for Vzone Api
-            parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":\"0\",\"SectionCode\":\"%@\",\"ScanPointCode\":\"%@\",\"CorrespondingPairCode\":\"%@\",\"IsPublished\":false,\"GermsCode\":\"%@\",\"Status\":true,\"GenderCode\":\"\",\"Author\":\"%@\",\"ApplicableVersionCode\":\"%@\",\"AppTypeCode\":\"%@\",\"Psychoemotional\":\"\",\"Description\":\"%@\",\"CompanyCode\":\"%@\",\"UserID\":%d,\"MethodType\":\"POST\",\"LanguageCode\":\"%@\"}}",selectedSection,selectedScanpoint,selectedCorrespondingpair,selectedGermsCode,selectedAuthor,applicableBasicVersionCode,appTypeCode,_descriptionTV.text, postmanCompanyCode, userIdInteger,selectedLang];
+            parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":\"%@\",\"SectionCode\":\"%@\",\"ScanPointCode\":\"%@\",\"CorrespondingPairCode\":\"%@\",\"IsPublished\":false,\"GermsCode\":\"%@\",\"Status\":true,\"GenderCode\":\"\",\"Author\":\"%@\",\"ApplicableVersionCode\":\"%@\",\"AppTypeCode\":\"%@\",\"Psychoemotional\":\"\",\"Description\":\"%@\",\"CompanyCode\":\"%@\",\"UserID\":%d,\"MethodType\":\"PUT\",\"LanguageCode\":\"%@\",\"Code\":\"%@\"}}",_selectedPersonalAnatomicalPair.sittingId,selectedSection,selectedScanpoint,selectedCorrespondingpair,selectedGermsCode,selectedAuthor,applicableBasicVersionCode,appTypeCode,_descriptionTV.text, postmanCompanyCode, userIdInteger,selectedLang,_selectedPersonalAnatomicalPair.anatomicalBiomagenticCode];
         }else{
             //Parameter For Material Api
-            parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":\"0\",\"SectionCode\":\"%@\",\"ScanPointCode\":\"%@\",\"CorrespondingPairCode\":\"%@\",\"IsPublished\":false,\"GermsCode\":\"%@\",\"Status\":true,\"GenderCode\":\"\",\"Author\":\"%@\",\"ApplicableVersionCode\":\"%@\",\"AppTypeCode\":\"%@\",\"Psychoemotional\":\"\",\"Description\":\"%@\",\"CompanyCode\":\"%@\",\"UserID\":%d,\"MethodType\":\"POST\",\"LanguageCode\":\"%@\"}}",selectedSection,selectedScanpoint,selectedCorrespondingpair,selectedGermsCode,selectedAuthor,applicableBasicVersionCode,appTypeCode,_descriptionTV.text, postmanCompanyCode, userIdInteger,selectedLang];
+            parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":\"%@\",\"SectionCode\":\"%@\",\"ScanPointCode\":\"%@\",\"CorrespondingPairCode\":\"%@\",\"IsPublished\":false,\"GermsCode\":\"%@\",\"Status\":true,\"GenderCode\":\"\",\"Author\":\"%@\",\"ApplicableVersionCode\":\"%@\",\"AppTypeCode\":\"%@\",\"Psychoemotional\":\"\",\"Description\":\"%@\",\"CompanyCode\":\"%@\",\"UserID\":%d,\"MethodType\":\"PUT\",\"LanguageCode\":\"%@\"}}",_selectedPersonalAnatomicalPair.sittingId,selectedSection,selectedScanpoint,selectedCorrespondingpair,selectedGermsCode,selectedAuthor,applicableBasicVersionCode,appTypeCode,_descriptionTV.text, postmanCompanyCode, userIdInteger,selectedLang];
         }
     
     [MBProgressHUD showHUDAddedTo:self.view animated:NO];
-    [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [postman put:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
         [self processToUpdateAnatomicalPair:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -738,12 +738,15 @@ postman=[[Postman alloc]init];
     _anatomicalSectionTF.text=_selectedPersonalAnatomicalPair.sectionName;
     _anatomicalCorrespondingPairTF.text=_selectedPersonalAnatomicalPair.correspondingPairName;
     _anatomicalScanpointTF.text=_selectedPersonalAnatomicalPair.scanPointName;
+    _anatomicalSortNumberTF.text=_selectedPersonalAnatomicalPair.sortNumber;
+    _descriptionTV.text=_selectedPersonalAnatomicalPair.interpretation;
     
     selectedCorrespondingpair=_selectedPersonalAnatomicalPair.correspondingPairCode;
     selectedSection=_selectedPersonalAnatomicalPair.sectionCode;
     selectedGermsCode=_selectedPersonalAnatomicalPair.germsCode;
     selectedScanpoint=_selectedPersonalAnatomicalPair.scanPointCode;
     selectedAuthor=_selectedPersonalAnatomicalPair.author;
+    
 }
 -(void)textFieldLayer{
     [constant spaceAtTheBeginigOfTextField:_anatomicalScanpointTF];
@@ -783,7 +786,7 @@ postman=[[Postman alloc]init];
     negativeSpace.width=-20;
     self.navigationItem.leftBarButtonItems=@[negativeSpace,barItem];
     [button addTarget:self action:@selector(popView) forControlEvents:UIControlEventTouchUpInside];
-    self.title=[MCLocalization stringForKey:@"Add Anatomical Points"];
+    self.title=[MCLocalization stringForKey:@"Edit Anatomical Points"];
 }
 -(void)popView{
     [self.navigationController popViewControllerAnimated:YES];

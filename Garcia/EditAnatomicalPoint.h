@@ -35,7 +35,11 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *langTableHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *langTableWidth;
 @property (weak, nonatomic) IBOutlet UIControl *view1;
-
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *authorTVHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *germsTVHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *correspondingTVHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *scanpointTvHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *sectionTvHeight;
 
 @property(strong,nonatomic)sittingModel *selectedPersonalAnatomicalPair;
 @end

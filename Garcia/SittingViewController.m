@@ -878,20 +878,17 @@
 //Call api to get the biomagnetic matrix
 -(void)callApi{
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,biomagneticMatrix];
-    
     NSString *parameter;
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         //For Vzone API
         NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
         NSString *languageCode=[defaults valueForKey:@"languageCode"];
-        parameter=[NSString stringWithFormat:@"{\"request\":{\"SectionCode\": \"\",\"ScanPointCode\": \"\",\"CorrespondingPairCode\":\"\",\"GermsCode\": \"\",\"CurrentLanguageCode\": \"%@\",\"ApplicableVersionCode\":\"%@\",\"AppTypeCode\":\"%@\"}}",languageCode,appTypeCode,applicableBasicVersionCode];
+      // parameter=[NSString stringWithFormat:@"{\"request\":{\"SectionCode\": \"\",\"ScanPointCode\": \"\",\"CorrespondingPairCode\":\"\",\"GermsCode\": \"\",\"CurrentLanguageCode\": \"%@\",\"ApplicableVersionCode\":\"%@\",\"AppTypeCode\":\"%@\"}}",languageCode,appTypeCode,applicableBasicVersionCode];
+        parameter=[NSString stringWithFormat:@"{\"request\":{\"SectionCode\": \"\",\"ScanPointCode\": \"\",\"CorrespondingPairCode\":\"\",\"GermsCode\": \"\",\"CurrentLanguageCode\": \"%@\"}}",languageCode];
     }else{
-        
         //For material API
-        
         parameter =[NSString stringWithFormat:@"{\"SectionCode\": \"\",\"ScanPointCode\": \"\",\"CorrespondingPairCode\":\"\",\"GermsCode\": \"\"}"];
     }
-    
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [MBProgressHUD hideHUDForView:self.view animated:NO];
@@ -903,7 +900,6 @@
         [self callApi];
         [MBProgressHUD hideHUDForView:self.view animated:NO];
         [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
-        
     }];
 }
 //Response of biomagnetic matrix
