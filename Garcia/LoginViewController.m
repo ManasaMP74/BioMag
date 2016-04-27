@@ -337,9 +337,7 @@
     loginFailed= @"Login failed";
     [_signIn setTitle:@"Sign In" forState:normal];
     [_forgotPassword setTitle:@"Forgot password?" forState:normal];
-    
-    
-    
+
     //    _userNameTf.attributedPlaceholder=[constant textFieldPlaceLogin:[MCLocalization stringForKey:@"Username"]];
     //    _passwordTF.attributedPlaceholder=[constant textFieldPlaceLogin:[MCLocalization stringForKey:@"Password"]];
     //    authenticationFailedStr=[MCLocalization stringForKey:@"Authentication.failed"];
