@@ -554,13 +554,13 @@
 			name = SectionBodyDetail;
 			sourceTree = "<group>";
 		};
-		DA17BD481CCE37E900760A50 /* Edit */ = {
+		DA17BD481CCE37E900760A50 /* Edit Anatomical Point */ = {
 			isa = PBXGroup;
 			children = (
 				DA17BD451CCE37D800760A50 /* EditAnatomicalPoint.h */,
 				DA17BD461CCE37D800760A50 /* EditAnatomicalPoint.m */,
 			);
-			name = Edit;
+			name = "Edit Anatomical Point";
 			sourceTree = "<group>";
 		};
 		DA17BD491CCE37F900760A50 /* CustomCell */ = {
@@ -814,7 +814,6 @@
 			children = (
 				DAED93801CAE8146003846F0 /* AddAnotomicalPointsViewController.h */,
 				DAED93811CAE8146003846F0 /* AddAnotomicalPointsViewController.m */,
-				DA17BD481CCE37E900760A50 /* Edit */,
 				DA17BD491CCE37F900760A50 /* CustomCell */,
 				DA9080761CB3978100B20BFA /* Model */,
 			);
@@ -1018,6 +1017,7 @@
 				DA7674191C101319007541F0 /* SittingTableViewCell.m */,
 				DA4618B61CBF9FE700FE3291 /* ViewaddedSitting */,
 				DA7521C21C4CCEF200FF6B03 /* ToxicDeficiency */,
+				DA17BD481CCE37E900760A50 /* Edit Anatomical Point */,
 				DAED937F1CAE810A003846F0 /* Add AnatomicalPoints */,
 				DA2F9F711C2170940077AEAB /* AddSymptom */,
 				DA2F9F721C2170A40077AEAB /* germs */,
