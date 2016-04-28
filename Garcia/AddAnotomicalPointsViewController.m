@@ -589,16 +589,36 @@
     if (array.count>0) {
         for ( sittingModel *m in array) {
             if ([m.sittingId isEqualToString:selectedPersonalPairModel.sittingId]) {
+                if (dict[@"SectionCode"]!=[NSNull null]){
                 m.sectionCode=dict[@"SectionCode"];
+                }
+                if (dict[@"ScanPointCode"]!=[NSNull null]){
                 m.scanPointCode=dict[@"ScanPointCode"];
+                }
+                 if (dict[@"CorrespondingPairCode"]!=[NSNull null]){
                 m.correspondingPairCode=dict[@"CorrespondingPairCode"];
+                 }
+                 if (dict[@"Section"]!=[NSNull null]){
                 m.sectionName=dict[@"Section"];
+                 }
+                 if (dict[@"ScanPoint"]!=[NSNull null]){
                 m.scanPointName=dict[@"ScanPoint"];
+                 }
+                 if (dict[@"CorrespondingPair"]!=[NSNull null]){
                 m.correspondingPairName=dict[@"CorrespondingPair"];
+                 }
+                 if (dict[@"SortingRank"]!=[NSNull null]){
                 m.sortNumber=dict[@"SortingRank"];
+                 }
+                 if (dict[@"Author"]!=[NSNull null]){
                 m.author=dict[@"Author"];
+                 }
+                 if (dict[@"GermsCode"]!=[NSNull null]){
                 m.germsCode=dict[@"GermsCode"];
+                 }
+                 if (dict[@"Description"]!=[NSNull null]){
                 m.interpretation=dict[@"Description"];
+                 }
                 break;
             }
         }
