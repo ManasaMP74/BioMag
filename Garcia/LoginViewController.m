@@ -14,7 +14,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *signIn;
 @property (strong, nonatomic) IBOutlet UIView *loginView;
 @property (weak, nonatomic) IBOutlet UIButton *forgotPassword;
-
 @end
 
 @implementation LoginViewController
@@ -58,14 +57,14 @@
 // Remember me
 - (IBAction)rememberMe:(id)sender {
     BOOL remember=[userdefault boolForKey:@"rememberMe"];
-        if (!remember) {
-            [userdefault setBool:YES forKey:@"rememberMe"];
+    if (!remember) {
+        [userdefault setBool:YES forKey:@"rememberMe"];
         [_rememberMe setImage:[UIImage imageNamed:@"Box-Checked.png"] forState:normal];
-        }
-        else {
-            [userdefault setBool:NO forKey:@"rememberMe"];
-            [_rememberMe setImage:[UIImage imageNamed:@"Box-Unchecked.png"] forState:normal];
-        }
+    }
+    else {
+        [userdefault setBool:NO forKey:@"rememberMe"];
+        [_rememberMe setImage:[UIImage imageNamed:@"Box-Unchecked.png"] forState:normal];
+    }
 }
 //signin button action
 - (IBAction)signIn:(id)sender {
@@ -81,8 +80,8 @@
     }else{
         //Material Api
         urlString = [NSString stringWithFormat:@"%@%@",baseUrl,logIn];
-         parameter = [NSString stringWithFormat:@"{\"Username\":\"%@\",\"Password\":\"%@\"}",_userNameTf.text,_passwordTF.text];
-       // parameter = [NSString stringWithFormat:@"{\"Username\":\"drluisgarcia@mydomain.com\", \"Password\":\"Power@1234\"}"];
+        parameter = [NSString stringWithFormat:@"{\"Username\":\"%@\",\"Password\":\"%@\"}",_userNameTf.text,_passwordTF.text];
+        // parameter = [NSString stringWithFormat:@"{\"Username\":\"drluisgarcia@mydomain.com\", \"Password\":\"Power@1234\"}"];
         
     }
     
@@ -103,7 +102,7 @@
               }
               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                   [MBProgressHUD hideHUDForView:self.view animated:NO];
-                   [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
+                  [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
               }];
     }
 }
@@ -140,7 +139,7 @@
             }];
         }
         else{
-             [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
+            [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
             [userdefault setValue:@"" forKey:@"userName"];
             [userdefault setValue:@"" forKey:@"password"];
             [userdefault setBool:NO forKey:@"rememberMe"];
@@ -148,7 +147,7 @@
         }
     }
     else{
-         [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
         [userdefault setValue:@"" forKey:@"userName"];
         [userdefault setValue:@"" forKey:@"password"];
         [userdefault setBool:NO forKey:@"rememberMe"];
@@ -170,24 +169,24 @@
             [userdefault setValue:dict[@"Id"] forKey:@"Id"];
             DrProfilModel *model=[[DrProfilModel alloc]init];
             model.name= dict[@"Name"];
-           model.DOB=dict[@"DOb"];
-           model.email= dict[@"Email"];
+            model.DOB=dict[@"DOb"];
+            model.email= dict[@"Email"];
             model.idValue=dict[@"Id"];
-              model.code=dict[@"Code"];
+            model.code=dict[@"Code"];
             NSString *str=dict[@"JSON"];
             NSDictionary *jsonDict=[NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
-           model.ContactNo= jsonDict[@"ContactNo"];
+            model.ContactNo= jsonDict[@"ContactNo"];
             model.experience= jsonDict[@"Experience"];
             model.certificate= jsonDict[@"Certificates"];
-           model.gendername= dict[@"Gender"];
-             model.genderCode= dict[@"GenderCode"];
+            model.gendername= dict[@"Gender"];
+            model.genderCode= dict[@"GenderCode"];
             model.userTypeCode=dict[@"UserTypeCode"];
             model.companyCode=dict[@"CompanyCode"];
-              model.FirstName=dict[@"Firstname"];
+            model.FirstName=dict[@"Firstname"];
             model.middleName=dict[@"Middlename"];
             model.lastName=dict[@"Lastname"];
             model.roleCode=dict[@"RoleCode"];
-             model.maritialStatus=dict[@"MaritalStatusCode"];
+            model.maritialStatus=dict[@"MaritalStatusCode"];
             model.drProfileDocument=dict[@"DocumentCode"];
             model.fileName=dict[@"Filename"];
             model.storageId=dict[@"StorageID"];
@@ -204,11 +203,11 @@
                 model.addressDict=jsonDict1;
             }
             NSData *dataOnObject = [NSKeyedArchiver archivedDataWithRootObject:model];
-           [userdefault setValue:dataOnObject forKey:@"DoctorDetail1"];
-
+            [userdefault setValue:dataOnObject forKey:@"DoctorDetail1"];
+            
             NSString *languageCode=dict[@"PreferredLanguageCode"];
             if ([languageCode isEqualToString:@"(null)"]) {
-              languageCode=@"en";
+                languageCode=@"en";
             }
             [userdefault setValue:languageCode forKey:@"languageCode"];
             [userdefault setValue:languageCode forKey:@"changedLanguageCode"];
@@ -316,7 +315,7 @@
 -(void)showToastMessage:(NSString*)msg{
     MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hubHUD.mode=MBProgressHUDModeText;
-        hubHUD.labelText=msg;
+    hubHUD.labelText=msg;
     hubHUD.labelFont=[UIFont systemFontOfSize:15];
     hubHUD.margin=20.f;
     hubHUD.yOffset=150.f;
@@ -337,7 +336,7 @@
     loginFailed= @"Login failed";
     [_signIn setTitle:@"Sign In" forState:normal];
     [_forgotPassword setTitle:@"Forgot password?" forState:normal];
-
+    
     //    _userNameTf.attributedPlaceholder=[constant textFieldPlaceLogin:[MCLocalization stringForKey:@"Username"]];
     //    _passwordTF.attributedPlaceholder=[constant textFieldPlaceLogin:[MCLocalization stringForKey:@"Password"]];
     //    authenticationFailedStr=[MCLocalization stringForKey:@"Authentication.failed"];
