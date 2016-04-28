@@ -60,10 +60,11 @@
     germsArray=[[NSMutableArray alloc]init];
     authorArray=[[NSMutableArray alloc]init];
     languageArray=[[NSMutableArray alloc]init];
-     selectedPersonalPairModel=[[sittingModel alloc]init];
+    selectedPersonalPairModel=[[sittingModel alloc]init];
     postman=[[Postman alloc]init];
     [self callSeedForGerms];
     [self callSeedForLanguage];
+    selectedPersonalPairModel=nil;
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
@@ -72,7 +73,6 @@
     [self hideTheViews:nil];
     NSUserDefaults *userDefault=[NSUserDefaults standardUserDefaults];
     selectedLang=[userDefault valueForKey:@"languageCode"];
-    selectedPersonalPairModel=nil;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -100,7 +100,7 @@
     if (_scanpointLocationTF.text.length==0 & _scanpointNameTF.text.length==0) {
         [self showToastMessage:requiredBoth];
     }
-  else if (_scanpointNameTF.text.length==0) {
+    else if (_scanpointNameTF.text.length==0) {
         [self showToastMessage:requiredNameField];
     }else if (_scanpointLocationTF.text.length==0) {
         [self showToastMessage:requiredLocationField];
@@ -114,7 +114,7 @@
     if (_correspondingNameTF.text.length==0 & _correspondingLocationTF.text.length==0) {
         [self showToastMessage:requiredBoth];
     }
-   else if (_correspondingNameTF.text.length==0) {
+    else if (_correspondingNameTF.text.length==0) {
         [self showToastMessage:requiredNameField];
     }else if (_correspondingLocationTF.text.length==0) {
         [self showToastMessage:requiredLocationField];
@@ -162,17 +162,17 @@
     [self popView];
 }
 - (IBAction)getLanguage:(id)sender {
- [self hideTheViews:nil];
+    [self hideTheViews:nil];
     _langTable.hidden=NO;
     [_langTable reloadData];
     [self.view layoutIfNeeded];
     CGFloat finalWidth =0.0;
     if (languageArray.count>0) {
-    for (lagModel *str in languageArray) {
-        CGFloat width =  [str.name boundingRectWithSize:(CGSizeMake(NSIntegerMax,self.view.frame.size.width)) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:15]} context:nil].size.width;
-        finalWidth=MAX(finalWidth, width);
+        for (lagModel *str in languageArray) {
+            CGFloat width =  [str.name boundingRectWithSize:(CGSizeMake(NSIntegerMax,self.view.frame.size.width)) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans" size:15]} context:nil].size.width;
+            finalWidth=MAX(finalWidth, width);
+        }
     }
-}
     _langTableWidth.constant=finalWidth+35;
     _langTableHeight.constant=_langTable.contentSize.height;
     
@@ -196,7 +196,7 @@
         url=[NSString stringWithFormat:@"%@%@/0",baseUrl,saveCorrespondingPair];
         if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
             //Parameter for Vzone Api
-              parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":0,\"Name\":\"%@\",\"LocationCorrespondingPair\":\"%@\",\"Status\":true,\"IsPublished\":false,\"CompanyCode\":\"%@\",\"UserID\":%d,\"MethodType\":\"POST\"}}",_correspondingNameTF.text,_correspondingLocationTF.text,postmanCompanyCode,userIdInteger];
+            parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":0,\"Name\":\"%@\",\"LocationCorrespondingPair\":\"%@\",\"Status\":true,\"IsPublished\":false,\"CompanyCode\":\"%@\",\"UserID\":%d,\"MethodType\":\"POST\"}}",_correspondingNameTF.text,_correspondingLocationTF.text,postmanCompanyCode,userIdInteger];
             
         }else{
             //Parameter For Material Api
@@ -209,7 +209,7 @@
             parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":\"0\",\"SectionCode\":\"%@\",\"ScanPointCode\":\"%@\",\"CorrespondingPairCode\":\"%@\",\"IsPublished\":false,\"GermsCode\":\"%@\",\"Status\":true,\"GenderCode\":\"\",\"Author\":\"%@\",\"ApplicableVersionCode\":\"%@\",\"AppTypeCode\":\"%@\",\"Psychoemotional\":\"\",\"Description\":\"%@\",\"CompanyCode\":\"%@\",\"UserID\":%d,\"MethodType\":\"POST\",\"LanguageCode\":\"%@\"}}",selectedSection,selectedScanpoint,selectedCorrespondingpair,selectedGermsCode,selectedAuthor,applicableBasicVersionCode,appTypeCode,_descriptionTV.text, postmanCompanyCode, userIdInteger,selectedLang];
         }else{
             //Parameter For Material Api
-           parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":\"0\",\"SectionCode\":\"%@\",\"ScanPointCode\":\"%@\",\"CorrespondingPairCode\":\"%@\",\"IsPublished\":false,\"GermsCode\":\"%@\",\"Status\":true,\"GenderCode\":\"\",\"Author\":\"%@\",\"ApplicableVersionCode\":\"%@\",\"AppTypeCode\":\"%@\",\"Psychoemotional\":\"\",\"Description\":\"%@\",\"CompanyCode\":\"%@\",\"UserID\":%d,\"MethodType\":\"POST\",\"LanguageCode\":\"%@\"}}",selectedSection,selectedScanpoint,selectedCorrespondingpair,selectedGermsCode,selectedAuthor,applicableBasicVersionCode,appTypeCode,_descriptionTV.text, postmanCompanyCode, userIdInteger,selectedLang];
+            parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":\"0\",\"SectionCode\":\"%@\",\"ScanPointCode\":\"%@\",\"CorrespondingPairCode\":\"%@\",\"IsPublished\":false,\"GermsCode\":\"%@\",\"Status\":true,\"GenderCode\":\"\",\"Author\":\"%@\",\"ApplicableVersionCode\":\"%@\",\"AppTypeCode\":\"%@\",\"Psychoemotional\":\"\",\"Description\":\"%@\",\"CompanyCode\":\"%@\",\"UserID\":%d,\"MethodType\":\"POST\",\"LanguageCode\":\"%@\"}}",selectedSection,selectedScanpoint,selectedCorrespondingpair,selectedGermsCode,selectedAuthor,applicableBasicVersionCode,appTypeCode,_descriptionTV.text, postmanCompanyCode, userIdInteger,selectedLang];
         }
     }
     
@@ -248,12 +248,12 @@
             [self showToastMessage:dict[@"Message"]];
         }
     }else  if ([differForSaveData isEqualToString:@"anatomical"]){
-     if ([dict[@"Success"]intValue]==1) {
-         [self alertView:dict[@"Message"]];
-     
-     }else{
-      [self showToastMessage:dict[@"Message"]];
-     }
+        if ([dict[@"Success"]intValue]==1) {
+            [self alertView:dict[@"Message"]];
+            
+        }else{
+            [self showToastMessage:dict[@"Message"]];
+        }
     }
 }
 -(void)alertView:(NSString*)message{
@@ -261,7 +261,7 @@
     UIAlertAction *success=[UIAlertAction actionWithTitle:alertOkStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
         [alertView dismissViewControllerAnimated:YES completion:nil];
         [self popView];
-         [self.delegate successFullAddingAnatomicalPoints];
+        [self.delegate successFullAddingAnatomicalPoints];
     }];
     [alertView addAction:success];
     [self presentViewController:alertView animated:YES completion:nil];
@@ -325,7 +325,7 @@
     [constant changeCancelBtnImage:_cancelBtn];
     [constant changeSaveBtnImage:_saveBtn];
     [constant changeCancelBtnImage:_langButton];
-
+    
 }
 -(void)navigationItemMethod{
     self.navigationItem.hidesBackButton=YES;
@@ -343,11 +343,11 @@
 -(void)popView{
     NSArray *ar=self.navigationController.viewControllers;
     SWRevealViewController *sw;
-      if (ar.count==4)  {
-   sw=(SWRevealViewController*)self.navigationController.viewControllers[2];
-     }else{
-         sw=(SWRevealViewController*)self.navigationController.viewControllers[3];
-     }
+    if (ar.count==4)  {
+        sw=(SWRevealViewController*)self.navigationController.viewControllers[2];
+    }else{
+        sw=(SWRevealViewController*)self.navigationController.viewControllers[3];
+    }
     SittingViewController *sitting=(SittingViewController*)sw.frontViewController;
     sitting.sittingViewId=@"addAnatomical";
     [self.navigationController popViewControllerAnimated:YES];
@@ -386,36 +386,36 @@
     [self.view endEditing:YES];
     [self hideTheViews:_anatomicalScanpointTF];
     [_scanpointTable reloadData];
-//    [self.view layoutIfNeeded];
-//    _scanpointTvHeight.constant=_scanpointTable.contentSize.height;
+    //    [self.view layoutIfNeeded];
+    //    _scanpointTvHeight.constant=_scanpointTable.contentSize.height;
 }
 - (IBAction)selectCorrespondingPair:(id)sender {
     [self.view endEditing:YES];
     [self hideTheViews:_anatomicalCorrespondingPairTF];
     [_correspondingPairTable reloadData];
-//    [self.view layoutIfNeeded];
-//    _correspondingTVHeight.constant=_correspondingPairTable.contentSize.height;
+    //    [self.view layoutIfNeeded];
+    //    _correspondingTVHeight.constant=_correspondingPairTable.contentSize.height;
 }
 - (IBAction)selectSection:(id)sender {
     [self.view endEditing:YES];
     [self hideTheViews:_anatomicalSectionTF];
     [_sectionTableview reloadData];
-//    [self.view layoutIfNeeded];
-//    _sectionTvHeight.constant=_sectionTableview.contentSize.height;
+    //    [self.view layoutIfNeeded];
+    //    _sectionTvHeight.constant=_sectionTableview.contentSize.height;
 }
 - (IBAction)selectGerms:(id)sender {
     [self.view endEditing:YES];
     [self hideTheViews:_anatomicalGermsTF];
     [_germsTableView reloadData];
-//    [self.view layoutIfNeeded];
-//    _germsTVHeight.constant=_germsTableView.contentSize.height;
+    //    [self.view layoutIfNeeded];
+    //    _germsTVHeight.constant=_germsTableView.contentSize.height;
 }
 - (IBAction)selectAuthor:(id)sender {
     [self.view endEditing:YES];
     [self hideTheViews:_anatomicalAuthorTF];
     [_authorTableView reloadData];
-//    [self.view layoutIfNeeded];
-//    _authorTVHeight.constant=_authorTableView.contentSize.height;
+    //    [self.view layoutIfNeeded];
+    //    _authorTVHeight.constant=_authorTableView.contentSize.height;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
@@ -455,50 +455,50 @@
         return cell;
     }
     else{
-    UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
-    UILabel *label=(UILabel*)[cell viewWithTag:10];
-    if ([tableView isEqual:_sectionTableview])
-    {
-        CompleteSectionModel *model=sectionArray[indexPath.row];
-        label.text=model.name;
-    }
-    else if ([tableView isEqual:_scanpointTable])
-    {
-        CompleteScanpointModel *model=scanpointArray[indexPath.row];
-        label.text=model.name;
-    }
-    else if ([tableView isEqual:_correspondingPairTable])
-    {
-        CompleteCorrespondingpairModel *model=correspondingPointArray[indexPath.row];
-        label.text=model.name;
-    }
-    else if ([tableView isEqual:_authorTableView])
-    {
-        CompleteAuthorModel *model=authorArray[indexPath.row];
-        label.text=model.name;
-    }
-    else if ([tableView isEqual:_germsTableView])
-    {
-        germsModel *model=germsArray[indexPath.row];
-        label.text=model.germsName;
-    }
-    else if ([tableView isEqual:_langTable])
-    {
-        lagModel *model=languageArray[indexPath.row];
-        label.text=model.name;
-    }
-    tableView.tableFooterView=[UIView new];
-    cell.backgroundColor=[UIColor colorWithRed:0.933 green:0.933 blue:0.941 alpha:1];
-    cell.separatorInset=UIEdgeInsetsZero;
-    cell.layoutMargins=UIEdgeInsetsZero;
-    return cell;
+        UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
+        UILabel *label=(UILabel*)[cell viewWithTag:10];
+        if ([tableView isEqual:_sectionTableview])
+        {
+            CompleteSectionModel *model=sectionArray[indexPath.row];
+            label.text=model.name;
+        }
+        else if ([tableView isEqual:_scanpointTable])
+        {
+            CompleteScanpointModel *model=scanpointArray[indexPath.row];
+            label.text=model.name;
+        }
+        else if ([tableView isEqual:_correspondingPairTable])
+        {
+            CompleteCorrespondingpairModel *model=correspondingPointArray[indexPath.row];
+            label.text=model.name;
+        }
+        else if ([tableView isEqual:_authorTableView])
+        {
+            CompleteAuthorModel *model=authorArray[indexPath.row];
+            label.text=model.name;
+        }
+        else if ([tableView isEqual:_germsTableView])
+        {
+            germsModel *model=germsArray[indexPath.row];
+            label.text=model.germsName;
+        }
+        else if ([tableView isEqual:_langTable])
+        {
+            lagModel *model=languageArray[indexPath.row];
+            label.text=model.name;
+        }
+        tableView.tableFooterView=[UIView new];
+        cell.backgroundColor=[UIColor colorWithRed:0.933 green:0.933 blue:0.941 alpha:1];
+        cell.separatorInset=UIEdgeInsetsZero;
+        cell.layoutMargins=UIEdgeInsetsZero;
+        return cell;
     }
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-if ([tableView isEqual:_personalPairTable]) {
-    cell.backgroundColor=[UIColor whiteColor];
-}
- else [cell setBackgroundColor:[UIColor colorWithRed:0.933 green:0.933 blue:0.941 alpha:1]];
+    if ([tableView isEqual:_personalPairTable]) {
+        cell.backgroundColor=[UIColor whiteColor];
+    }
+    else [cell setBackgroundColor:[UIColor colorWithRed:0.933 green:0.933 blue:0.941 alpha:1]];
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if ([tableView isEqual:_personalPairTable]) {
@@ -550,7 +550,7 @@ if ([tableView isEqual:_personalPairTable]) {
         _langTable.hidden=YES;
     }
     else if ([tableView isEqual:_personalPairTable]) {
-    selectedPersonalPairModel=_personalPairArray[indexPath.row];
+        selectedPersonalPairModel=_personalPairArray[indexPath.row];
         EditAnatomicalPoint *edit=[self.storyboard instantiateViewControllerWithIdentifier:@"EditAnatomicalPoint"];
         edit.delegate=self;
         edit.selectedPersonalAnatomicalPair=selectedPersonalPairModel;
@@ -559,6 +559,52 @@ if ([tableView isEqual:_personalPairTable]) {
 }
 -(void)successOfEditAnatomicalPoint{
     [self.delegate successFullAddingAnatomicalPoints];
+    // [self callApiToGetEditedAnatomicalPointDetail];
+}
+-(void)callApiToGetEditedAnatomicalPointDetail{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    NSString *url=[NSString stringWithFormat:@"%@%@/%@",baseUrl,addAnatomicalPoints,selectedPersonalPairModel.sittingId];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processToGetEditedAnatomicalPointDetail:responseObject];
+            [MBProgressHUD hideHUDForView:self.view animated:NO];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [MBProgressHUD hideHUDForView:self.view animated:NO];
+            NSString *str=[NSString stringWithFormat:@"%@",error];
+            [self showToastMessage:str];
+        }];
+    }
+}
+-(void)processToGetEditedAnatomicalPointDetail:(id)responseObject{
+    NSDictionary *dict;
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        NSDictionary *responseDict1 = responseObject;
+        dict  = responseDict1[@"aaData"];
+    }else{
+        //For Material API
+        dict=responseObject;
+    }
+    NSMutableArray *array=[[NSMutableArray alloc]initWithArray:_personalPairArray];
+    if (array.count>0) {
+        for ( sittingModel *m in array) {
+            if ([m.sittingId isEqualToString:selectedPersonalPairModel.sittingId]) {
+                m.sectionCode=dict[@"SectionCode"];
+                m.scanPointCode=dict[@"ScanPointCode"];
+                m.correspondingPairCode=dict[@"CorrespondingPairCode"];
+                m.sectionName=dict[@"Section"];
+                m.scanPointName=dict[@"ScanPoint"];
+                m.correspondingPairName=dict[@"CorrespondingPair"];
+                m.sortNumber=dict[@"SortingRank"];
+                m.author=dict[@"Author"];
+                m.germsCode=dict[@"GermsCode"];
+                m.interpretation=dict[@"Description"];
+                break;
+            }
+        }
+    }
+    [_personalPairTable reloadData];
+    [self.view layoutIfNeeded];
 }
 -(void)callSeedForGerms{
     //    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
@@ -816,9 +862,9 @@ if ([tableView isEqual:_personalPairTable]) {
             [correspondingPointArray addObject:model];
         }
     }
-     if (status) {
-         [self callSeedForAuthor];
-     }
+    if (status) {
+        [self callSeedForAuthor];
+    }
 }
 
 -(void)callSeedForAuthor{
@@ -888,15 +934,15 @@ if ([tableView isEqual:_personalPairTable]) {
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     BOOL status=YES;
     if ([textField isEqual:_anatomicalSortNumberTF]) {
-            NSCharacterSet * numberCharSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
-            for (int i = 0; i < [string length]; ++i)
+        NSCharacterSet * numberCharSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+        for (int i = 0; i < [string length]; ++i)
+        {
+            unichar c = [string characterAtIndex:i];
+            if (![numberCharSet characterIsMember:c])
             {
-                unichar c = [string characterAtIndex:i];
-                if (![numberCharSet characterIsMember:c])
-                {
-                    status= NO;
-                }
+                status= NO;
             }
+        }
     }
     return status;
 }
@@ -1008,6 +1054,6 @@ if ([tableView isEqual:_personalPairTable]) {
     _correspondingHeaderLabel.text=[MCLocalization stringForKey:@"Corresponding Pair"];
     _codeHeaderLabel.text=[MCLocalization stringForKey:@"Code"];
     _sectionHeaderLabel.text=[MCLocalization stringForKey:@"Section"];
-
+    
 }
 @end
