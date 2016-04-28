@@ -1,7 +1,9 @@
 #import <UIKit/UIKit.h>
 #import "VMEnvironment.h"
 #import "sittingModel.h"
-
+@protocol editAnatomicalPointSucceed<NSObject>
+-(void)successOfEditAnatomicalPoint;
+@end
 @interface EditAnatomicalPoint : UIViewController
 @property (weak, nonatomic) IBOutlet UILabel *mapAnotomicalLabel;
 @property (weak, nonatomic) IBOutlet UILabel *anotomicalScanpointNameLabel;
@@ -42,4 +44,5 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sectionTvHeight;
 
 @property(strong,nonatomic)sittingModel *selectedPersonalAnatomicalPair;
+@property (weak, nonatomic)id <editAnatomicalPointSucceed>delegate;
 @end

@@ -17,7 +17,7 @@
 #import "AddAnatomicalPointCell.h"
 #import "sittingModel.h"
 #import "EditAnatomicalPoint.h"
-@interface AddAnotomicalPointsViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UITextViewDelegate>
+@interface AddAnotomicalPointsViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UITextViewDelegate,editAnatomicalPointSucceed>
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tapGesture;
 @property (weak, nonatomic) IBOutlet UIControl *view1;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *authorTVHeight;
@@ -552,9 +552,13 @@ if ([tableView isEqual:_personalPairTable]) {
     else if ([tableView isEqual:_personalPairTable]) {
     selectedPersonalPairModel=_personalPairArray[indexPath.row];
         EditAnatomicalPoint *edit=[self.storyboard instantiateViewControllerWithIdentifier:@"EditAnatomicalPoint"];
+        edit.delegate=self;
         edit.selectedPersonalAnatomicalPair=selectedPersonalPairModel;
         [self.navigationController pushViewController:edit animated:YES];
     }
+}
+-(void)successOfEditAnatomicalPoint{
+    [self.delegate successFullAddingAnatomicalPoints];
 }
 -(void)callSeedForGerms{
     //    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {

@@ -127,6 +127,7 @@ postman=[[Postman alloc]init];
     UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alertStr message:message preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *success=[UIAlertAction actionWithTitle:alertOkStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
         [alertView dismissViewControllerAnimated:YES completion:nil];
+        [self.delegate successOfEditAnatomicalPoint];
         [self popView];
     }];
     [alertView addAction:success];
