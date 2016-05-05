@@ -23,7 +23,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *morePreviousButton;
 @property (strong, nonatomic) IBOutlet UITextView *sittingTextView;
 @property(weak,nonatomic)id<ExpandCellProtocol>delegate;
-@property (strong, nonatomic) IBOutlet UIImageView *expandButton;
 @property (strong, nonatomic) IBOutlet UILabel *sittingNumber;
 @property (strong, nonatomic) IBOutlet UILabel *sittingTvPlaceholder;
 @property (strong, nonatomic) IBOutlet UICollectionView *previousDetailCollectionView;
@@ -39,7 +38,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *previousSitting;
 @property (weak, nonatomic) IBOutlet UILabel *addNoteLabel;
 @property (weak, nonatomic) IBOutlet UITextView *addNoteTV;
-
 @property (weak, nonatomic) IBOutlet UIButton *selectDeselectButton;
+@property (weak, nonatomic) IBOutlet UIImageView *expandButton;
 
 @end
