@@ -1004,17 +1004,31 @@
                 }
             }
             if (allSectionNameArray.count>0) {
-                [self getTheSortDetailOfCompleteDitailArray:allSectionNameArray[0]];
+                 selectedCellToFilter=0;
+                if (_sectionName.length!=0) {
+                    [self compareNextBtnToBeHidden];
+                }
+                else{
+                    if (_bioSittingDict!=nil) {
+                            NSDictionary *dict=_bioSittingDict;
+                            NSString *str=dict[@"JSON"];
+                            NSError *jsonError;
+                            NSData *objectData = [str dataUsingEncoding:NSUTF8StringEncoding];
+                            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData options:NSJSONReadingMutableContainers error:&jsonError];
+                            if (json[@"LastSelectedSection"]!=nil) {
+                                for (int i=0;i<=allSectionNameArray.count;i++) {
+                                    NSString *str=allSectionNameArray[i];
+                                      NSArray *ar=[str componentsSeparatedByString:@"$"];
+                                    if ([ar[1] isEqualToString:json[@"LastSelectedSection"]]) {
+                                        selectedCellToFilter=i;
+                                        [self compareNextBtnToBeHidden];
+                                        break;
+                                    }
+                                }
+                            }else [self compareNextBtnToBeHidden];
+                    }else [self compareNextBtnToBeHidden];
+                }
             }
-            selectedCellToFilter=0;
-            if (selectedCellToFilter==allSectionNameArray.count-1) {
-                _previousBtn.hidden=YES;
-                _nextBtn.hidden=YES;
-            }else{
-                _previousBtn.hidden=YES;
-                _nextBtn.hidden=NO;
-            }
-
         } else{
             [_tableview reloadData];
             [_scrollView layoutIfNeeded];
@@ -1286,6 +1300,7 @@
     sittingDict[@"Status"]=@"1";
     sittingDict[@"AnatomicalPoints"]=jsonSittingArray;
     sittingDict[@"Price"]=_priceTf.text;
+    sittingDict[@"LastSelectedSection"]=_sectionName;
     NSString *symptomStr=@"";
     for (SymptomTagModel *m in appdelegate.symptomTagArray) {
         symptomStr=[symptomStr stringByAppendingString:m.tagCode];
@@ -1381,6 +1396,7 @@
     }
 }
 -(void)getTheSortDetailOfCompleteDitailArray:(NSString*)str{
+    
     [selectedSittingModelInallDoctorDetailArray removeAllObjects];
     [self getGermsStringForCompleDetailArray];
     if ([_toxicDeficiencyString isEqualToString:@""]) {
