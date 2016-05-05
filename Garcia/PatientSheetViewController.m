@@ -623,7 +623,7 @@
         SittingCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"collectionViewCell" forIndexPath:indexPath];
         cell.delegate=self;
         
-        //For Sitting CollectionViewPart
+        //For Sitting
         
         SittingModelClass *model=sittingCollectionArray[indexPath.row];
         if (_sittingCollectionView.contentSize.width>_settingView .frame.size.width-100) {
@@ -1231,7 +1231,6 @@
         [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
         [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
     }];
-    
 }
 
 //process post response object
