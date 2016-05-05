@@ -211,6 +211,7 @@
             }
             [userdefault setValue:languageCode forKey:@"languageCode"];
             [userdefault setValue:languageCode forKey:@"changedLanguageCode"];
+            [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication].delegate window] animated:NO];
             [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
                 if (success) {
                     [self languageChanger];
