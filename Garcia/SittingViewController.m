@@ -710,9 +710,13 @@
 -(void)compareNextBtnToBeHidden{
     if ([_toxicDeficiencyString isEqualToString:@""]) {
         [self getTheSortDetailOfCompleteDitailArray:allSectionNameArray[selectedCellToFilter]];
-        if (selectedCellToFilter==0) _previousBtn.hidden=YES;
+        if (selectedCellToFilter==0) {
+          _previousBtn.hidden=YES;
+            _nextBtn.hidden=NO;
+        }
         else if (selectedCellToFilter==allSectionNameArray.count-1) {
             _nextBtn.hidden=YES;
+             _previousBtn.hidden=NO;
         }
         else{
             _previousBtn.hidden=NO;
@@ -730,6 +734,18 @@
             _previousBtn.hidden=NO;
             _nextBtn.hidden=NO;
         }
+    }
+    if ([_isTreatmntCompleted intValue]==0) {
+        if ([_bioSittingDict[@"IsCompleted"]intValue]==0 ) {
+            _saveBtn.hidden=NO;
+            _exit.hidden=YES;
+        }else{
+            _saveBtn.hidden=YES;
+            _exit.hidden=NO;
+        }
+    }else{
+        _saveBtn.hidden=YES;
+        _exit.hidden=NO;
     }
 }
 //slide out
@@ -1053,7 +1069,9 @@
         NSString *selectedGermsCode=@"";
         NSArray *germsCodeArrayValue=[model1.germsCode componentsSeparatedByString:@","];
         for (NSString *str in germsCodeArrayValue) {
-            selectedGermsCode=[NSString stringWithFormat:@"%@,%@",model1.germsCodeString,str];
+            if (model1.germsCodeString.length==0) {
+                selectedGermsCode=str;
+            }else selectedGermsCode=[NSString stringWithFormat:@"%@,%@",model1.germsCodeString,str];
         }
         NSArray *germsNameArrayValue=[model1.germsName componentsSeparatedByString:@","];
         for (NSString *str in germsNameArrayValue) {

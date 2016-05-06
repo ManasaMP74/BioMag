@@ -47,6 +47,7 @@
         _customCell=nil;
     }
     sittingModel *model=_selectedSittingPair[indexPath.row];
+    
   //  cell.section.text=model.sectionName;
     cell.scanpoint.text=model.scanPointName;
     cell.correspondingpair.text=model.correspondingPairName;

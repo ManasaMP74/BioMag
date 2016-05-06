@@ -229,7 +229,7 @@
     BOOL status=YES;
     
     if ([textField isEqual:_mobileNoTF]) {
-        if (_mobileNoTF.text.length>16) {
+        if (_mobileNoTF.text.length>=15) {
             if (string.length==0) {
                 status=YES;
             }
