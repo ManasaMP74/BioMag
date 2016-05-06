@@ -821,7 +821,7 @@
     }
     if (status) {
         [self callSeedForCorrespondingPair];
-    }
+    }else   [_scanpointTable reloadData];
 }
 
 -(void)callSeedForCorrespondingPair{
@@ -884,7 +884,7 @@
     }
     if (status) {
         [self callSeedForAuthor];
-    }
+    }else   [_correspondingPairTable reloadData];
 }
 
 -(void)callSeedForAuthor{
