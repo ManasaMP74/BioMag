@@ -40,5 +40,6 @@
 @property (weak, nonatomic) IBOutlet UITextView *addNoteTV;
 @property (weak, nonatomic) IBOutlet UIButton *selectDeselectButton;
 @property (weak, nonatomic) IBOutlet UIImageView *expandButton;
+@property (weak, nonatomic) IBOutlet UIButton *completeSelectDeselectBtn;
 
 @end

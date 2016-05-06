@@ -399,9 +399,15 @@
     if (model.germsCode.length==0) {
         if (model.germsCodeString.length==0) {
             cell.selectDeselectButton.enabled=NO;
-        }else   cell.selectDeselectButton.enabled=YES;
-    }else   cell.selectDeselectButton.enabled=YES;
-    
+            cell.completeSelectDeselectBtn.enabled=NO;
+        }else {
+            cell.selectDeselectButton.enabled=YES;
+        cell.completeSelectDeselectBtn.enabled=YES;
+        }
+    }else {
+        cell.selectDeselectButton.enabled=YES;
+        cell.completeSelectDeselectBtn.enabled=YES;
+    }
     return cell;
 }
 //display cell
@@ -1575,6 +1581,9 @@
     slideout.selectedIndexpath=_selectedSlideOutRow;
 }
 -(void)sittingFromSlideOut{
+    if (_toxicDeficiencyString.length!=0) {
+        selectedCellToFilter=(int)_selectedIndexPathOfSectionInSlideOut.row;
+    }
     _addedSittingView.hidden=YES;
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft];
     [self setTheValuesInTableView];
