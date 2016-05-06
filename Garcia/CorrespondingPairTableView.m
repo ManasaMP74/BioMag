@@ -36,6 +36,9 @@
             _customCell=nil;
         }
     cell.correspondingPairLabel.text=[self nameForCell:indexPath];
+    if (indexPath.row==0) {
+        cell.correspondingPairLabel.textColor=[UIColor blackColor];
+    }
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
