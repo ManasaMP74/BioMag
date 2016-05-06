@@ -1447,6 +1447,8 @@
         }
         [_tableview reloadData];
         [_scrollView layoutIfNeeded];
+        [_tableview setContentOffset:CGPointZero animated:YES];
+        [_scrollView setContentOffset:CGPointZero animated:YES];
     }
 }
 - (IBAction)exit:(id)sender {

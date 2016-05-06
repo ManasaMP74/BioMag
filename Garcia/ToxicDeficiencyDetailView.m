@@ -209,6 +209,8 @@
     if ([_isTreatmntCompleted intValue]==0) _tableView.userInteractionEnabled=YES;
     else _tableView.userInteractionEnabled=NO;
        [_tableView reloadData];
+    [self layoutIfNeeded];
+    [_tableView setContentOffset:CGPointZero animated:YES];
 }
 -(NSString*)getAllTheSelectedToxic{
     NSString *str=@"";
