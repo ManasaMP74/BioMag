@@ -21,4 +21,5 @@
 @property (weak, nonatomic) IBOutlet UIButton *saveBtn;
 @property (weak, nonatomic) IBOutlet UILabel *codesLabel;
 
+@property (strong, nonatomic)NSArray *compleyeGermsArray;
 @end

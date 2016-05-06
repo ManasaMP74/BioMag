@@ -51,8 +51,7 @@
 @property(strong,nonatomic)NSArray *allAddedBiomagArray;
 @property(strong,nonatomic)NSArray *allSymptomTagArray;
 @property(strong,nonatomic)NSArray *completeSittingArray;
-
-
+@property(strong,nonatomic)NSArray *completeGermsArray;
 
 
 

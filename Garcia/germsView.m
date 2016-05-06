@@ -61,7 +61,10 @@
     [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
     [selectedIndex removeAllObjects];
     [selectedGerms removeAllObjects];
-    [self callSeed];
+    if (_compleyeGermsArray.count>0) {
+        [germsArray addObjectsFromArray:_compleyeGermsArray];
+         [self displayTheSelectedGerms];
+    }else [self callSeed];
     view.center = alphaView.center;
 }
 
@@ -220,6 +223,9 @@
             [germsArray addObject:model];
         }
     }
+    [self displayTheSelectedGerms];
+}
+-(void)displayTheSelectedGerms{
     [_tableView reloadData];
     NSArray *ar=[_fromParentViewGermsString componentsSeparatedByString:@" "];
     for (NSString *str in ar) {

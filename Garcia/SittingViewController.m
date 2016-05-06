@@ -81,6 +81,9 @@
     [self.revealViewController setRightViewRevealWidth:180];
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-2.jpg"]]];
     postman=[[Postman alloc]init];
+    if (_completeGermsArray.count==0) {
+        [self callSeedForGerms];
+    }
     [self navigationItemMethod];
     [self registerForKeyboardNotifications];
     [self defaultValues];
@@ -285,6 +288,10 @@
     // cell.psychoemotional.text=model.psychoemotional;
     cell.serialNumber.text=model.sortNumber;
     cell.doctorName.text=model.author;
+    cell.addNoteTV.text=model.notes;
+    if (model.notes.length>0) {
+        cell.addNoteLabel.hidden=YES;
+    }else  cell.addNoteLabel.hidden=NO;
     cell.sittingTextView.text=model.germsString;
     cell.otherGermsLabel.text=model.germsCodeString;
     cell.author.text=authour;
@@ -900,7 +907,7 @@
         NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
         NSString *languageCode=[defaults valueForKey:@"languageCode"];
       // parameter=[NSString stringWithFormat:@"{\"request\":{\"SectionCode\": \"\",\"ScanPointCode\": \"\",\"CorrespondingPairCode\":\"\",\"GermsCode\": \"\",\"CurrentLanguageCode\": \"%@\",\"ApplicableVersionCode\":\"%@\",\"AppTypeCode\":\"%@\"}}",languageCode,appTypeCode,applicableBasicVersionCode];
-        parameter=[NSString stringWithFormat:@"{\"request\":{\"SectionCode\": \"\",\"ScanPointCode\": \"\",\"CorrespondingPairCode\":\"\",\"GermsCode\": \"\",\"CurrentLanguageCode\": \"%@\"}}",languageCode];
+        parameter=[NSString stringWithFormat:@"{\"request\":{\"SectionCode\": \"\",\"ScanPointCode\": \"\",\"CorrespondingPairCode\":\"\",\"GermsCode\": \"\",\"CurrentLanguageCode\":\"%@\"}}",languageCode];
     }else{
         //For material API
         parameter =[NSString stringWithFormat:@"{\"SectionCode\": \"\",\"ScanPointCode\": \"\",\"CorrespondingPairCode\":\"\",\"GermsCode\": \"\"}"];
@@ -1068,7 +1075,14 @@
         NSString *selectedGerms=@"";
         NSString *selectedGermsCode=@"";
         NSArray *germsCodeArrayValue=[model1.germsCode componentsSeparatedByString:@","];
-        for (NSString *str in germsCodeArrayValue) {
+        for (NSString *str1 in germsCodeArrayValue) {
+            NSString *str;
+            for (germsModel *germsM in _completeGermsArray){
+                if ([germsM.germsCode isEqualToString:str1]) {
+                    str=germsM.germsUserFriendlycode;
+                    break;
+                }
+            }
             if (model1.germsCodeString.length==0) {
                 selectedGermsCode=str;
             }else selectedGermsCode=[NSString stringWithFormat:@"%@,%@",model1.germsCodeString,str];
@@ -1112,6 +1126,7 @@
     if (![cell1.sittingTextView.text isEqualToString:@""]) {
         germsViewXib.fromParentViewGermsString=cell1.otherGermsLabel.text;
     }else germsViewXib.fromParentViewGermsString=@"";
+    germsViewXib.compleyeGermsArray=_completeGermsArray;
     [germsViewXib alphaViewInitialize];
 }
 //delegate of germs
@@ -1765,5 +1780,77 @@
     model1.germsCodeString=selectedGermsCode;
     model1.issue=YES;
     [_tableview reloadData];
+}
+-(void)callSeedForGerms{
+    //    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+    //        //For Vzone API
+    //        [self callApiToGetGerms];
+    //    }else {
+    //        //For Material API
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"germs_FLAG"]) {
+        [self callApiToGetGerms];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,germsUrl];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+                [self processGerms:response];
+            }
+            else{
+                [self callApiToGetGerms];
+            }
+        }];
+    }
+    // }
+}
+-(void)callApiToGetGerms{
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,germsUrl];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
+        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processGerms:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"germs_FLAG"];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        }];
+    }else {
+        [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processGerms:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"germs_FLAG"];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        }];
+    }
+}
+-(void)processGerms:(id)responseObject{
+    
+    NSDictionary *dict;
+    NSMutableArray *array=[[NSMutableArray alloc]init];
+    [array removeAllObjects];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        NSDictionary *responseDict1 = responseObject;
+        dict  = responseDict1[@"aaData"];
+    }else{
+        //For Material API
+        dict=responseObject;
+    }
+    
+    for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
+        if ([dict1[@"Status"] intValue]==1) {
+            germsModel *model=[[germsModel alloc]init];
+            model.germsCode=dict1[@"Code"];
+            model.germsName=dict1[@"Name"];
+            model.germsId=dict1[@"Id"];
+            if (dict1[@"UserfriendlyCode"]!=[NSNull null]) {
+                model.germsUserFriendlycode=dict1[@"UserfriendlyCode"];
+            }else model.germsUserFriendlycode=model.germsName;
+            [array addObject:model];
+        }
+    }
+    _completeGermsArray=array;
 }
 @end
