@@ -682,8 +682,8 @@
 -(void)showToastMessage:(NSString*)msg{
     MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hubHUD.mode=MBProgressHUDModeText;
-    hubHUD.labelText=msg;
-    hubHUD.labelFont=[UIFont systemFontOfSize:15];
+    hubHUD.detailsLabelText=msg;
+    hubHUD.detailsLabelFont=[UIFont systemFontOfSize:15];
     hubHUD.margin=20.f;
     hubHUD.yOffset=150.f;
     hubHUD.removeFromSuperViewOnHide = YES;

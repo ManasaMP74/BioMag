@@ -364,9 +364,9 @@
     MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:alphaView animated:YES];
     hubHUD.mode=MBProgressHUDModeText;
      if (msg.length>0) {
-    hubHUD.labelText=msg;
+    hubHUD.detailsLabelText=msg;
      }
-    hubHUD.labelFont=[UIFont systemFontOfSize:15];
+    hubHUD.detailsLabelFont=[UIFont systemFontOfSize:15];
     hubHUD.margin=20.f;
     hubHUD.yOffset=150.f;
     hubHUD.removeFromSuperViewOnHide = YES;
