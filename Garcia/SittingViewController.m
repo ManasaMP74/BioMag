@@ -1435,7 +1435,6 @@
     }
 }
 -(void)getTheSortDetailOfCompleteDitailArray:(NSString*)str{
-    
     [selectedSittingModelInallDoctorDetailArray removeAllObjects];
     [self getGermsStringForCompleDetailArray];
     if ([_toxicDeficiencyString isEqualToString:@""]) {
@@ -1496,7 +1495,6 @@
 }
 //call toxicDeficiency
 -(void)callSeedForToxicDeficiency{
-    
     //    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
     //        //For Vzone API
     //        [self callApiForToxicDeficiency];
