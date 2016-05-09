@@ -6,4 +6,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *correspondingpairLabel;
 @property (weak, nonatomic) IBOutlet UILabel *code;
 
+@property (weak, nonatomic) IBOutlet UILabel *personalScanpointOrCorrespondingPairLabel;
 @end

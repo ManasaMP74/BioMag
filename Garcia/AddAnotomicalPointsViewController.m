@@ -37,8 +37,8 @@
     Constant *constant;
     NSString *alertStr,*alertOkStr,*requiredNameField,*requiredLocationField,*requiredBoth,*requiredSection,*requiredScanpoint,*requiredCorrespondingpair,*requiredAuthor,*requiredGerms,*requiredSort,*requiredDesc;
     Postman *postman;
-    NSMutableArray *scanpointArray,*correspondingPointArray,*authorArray,*germsArray,*sectionArray,*languageArray;
-    NSString *selectedGermsCode,*selectedSection,*selectedScanpoint,*selectedCorrespondingpair,*selectedAuthor,*selectedLang;
+    NSMutableArray *scanpointArray,*correspondingPointArray,*authorArray,*germsArray,*sectionArray,*languageArray,*personalScanpointArray,*personalCorrespondingPointArray;
+    NSString *selectedGermsCode,*selectedSection,*selectedScanpoint,*selectedCorrespondingpair,*selectedAuthor,*selectedLang,*selectedSegment;
     sittingModel *selectedPersonalPairModel;
 }
 - (void)viewDidLoad {
@@ -49,6 +49,10 @@
     [self textFieldLayer];
     [self navigationItemMethod];
     [self localize];
+    NSArray *a1=[[NSArray alloc]initWithObjects:[UIColor whiteColor],[UIFont fontWithName:@"OpenSansSemibold" size:14], nil];
+    NSArray *a2=[[NSArray alloc]initWithObjects:NSForegroundColorAttributeName,NSFontAttributeName, nil];
+    NSDictionary *s=[[NSDictionary alloc]initWithObjects:a1 forKeys:a2];
+    [_segment setTitleTextAttributes:s forState:normal];
     self.tapGesture.delaysTouchesBegan = NO;
     self.tapGesture.delaysTouchesBegan = NO;
     _langButton.layer.cornerRadius=15;
@@ -60,6 +64,8 @@
     germsArray=[[NSMutableArray alloc]init];
     authorArray=[[NSMutableArray alloc]init];
     languageArray=[[NSMutableArray alloc]init];
+    personalScanpointArray=[[NSMutableArray alloc]init];
+    personalCorrespondingPointArray=[[NSMutableArray alloc]init];
     selectedPersonalPairModel=[[sittingModel alloc]init];
     postman=[[Postman alloc]init];
     [self callSeedForGerms];
@@ -68,6 +74,7 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
+    selectedSegment=@"anatomicalPair";
     [self setDefault];
     [self.view endEditing:YES];
     [self hideTheViews:nil];
@@ -417,6 +424,38 @@
     //    [self.view layoutIfNeeded];
     //    _authorTVHeight.constant=_authorTableView.contentSize.height;
 }
+- (IBAction)personPairDetail:(id)sender {
+    switch ([sender selectedSegmentIndex]) {
+        case 0:
+            selectedSegment=@"anatomicalPair";
+            [self ShowPersonalPairView];
+            break;
+        case 1:
+            selectedSegment=@"scanpoint";
+            [self ShowPersonalPairView];
+            break;
+        case 2:
+            selectedSegment=@"correspondingpair";
+            [self ShowPersonalPairView];
+            break;
+        default:
+            break;
+    }
+
+}
+-(void)ShowPersonalPairView{
+ if ([selectedSegment isEqualToString:@"anatomicalPair"]) {
+     _personalPairView.hidden=NO;
+     _personalPairTable.hidden=NO;
+     _personalScanPointOrCorrespondingPair.hidden=YES;
+     [_personalPairTable reloadData];
+ }else{
+     _personalPairView.hidden=YES;
+     _personalPairTable.hidden=YES;
+     _personalScanPointOrCorrespondingPair.hidden=NO;
+    [_personalScanPointOrCorrespondingPair reloadData];
+ }
+}
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
     return 1;
@@ -424,34 +463,57 @@
 //TableView Number of row
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    int countValue;
     if ([tableView isEqual:_sectionTableview])
     {
         return sectionArray.count;
     }
     else if ([tableView isEqual:_scanpointTable])
-        return scanpointArray.count;
+        countValue= scanpointArray.count;
     else if ([tableView isEqual:_correspondingPairTable])
-        return correspondingPointArray.count;
+        countValue= correspondingPointArray.count;
     else if ([tableView isEqual:_authorTableView])
-        return authorArray.count;
+        countValue= authorArray.count;
     else if ([tableView isEqual:_germsTableView])
-        return germsArray.count;
+        countValue= germsArray.count;
     else if ([tableView isEqual:_langTable])
-        return languageArray.count;
+        countValue= languageArray.count;
     else if ([tableView isEqual:_personalPairTable])
-        return _personalPairArray.count;
-    else  return 10;
+        countValue= _personalPairArray.count;
+    else if ([tableView isEqual:_personalScanPointOrCorrespondingPair])
+    {
+        if ([selectedSegment isEqualToString:@"scanpoint"]) {
+            countValue=personalScanpointArray.count;
+        }
+        else  countValue=personalCorrespondingPointArray.count;
+    }
+    else  countValue= 10;
+        
+        return countValue;
     
 }
 //TableView cell
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([tableView isEqual:_personalPairTable]) {
+    if ([tableView isEqual:_personalPairTable] | [tableView isEqual:_personalScanPointOrCorrespondingPair]) {
         AddAnatomicalPointCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
-        sittingModel *model=_personalPairArray[indexPath.row];
-        cell.sectionLabel.text=model.sectionName;
-        cell.scanpointLabel.text=model.scanPointName;
-        cell.correspondingpairLabel.text=model.correspondingPairName;
-        cell.code.text=model.germsName;
+        if ([selectedSegment isEqualToString:@"anatomicalPair"]) {
+            sittingModel *model=_personalPairArray[indexPath.row];
+            cell.sectionLabel.text=model.sectionName;
+            cell.scanpointLabel.text=model.scanPointName;
+            cell.correspondingpairLabel.text=model.correspondingPairName;
+            cell.code.text=model.germsName;
+        }
+        else if ([tableView isEqual:_personalScanPointOrCorrespondingPair])
+        {
+            if ([selectedSegment isEqualToString:@"scanpoint"]) {
+                CompleteScanpointModel *m=personalScanpointArray[indexPath.row];
+                cell.personalScanpointOrCorrespondingPairLabel.text=m.name;
+            }
+            else {
+                CompleteCorrespondingpairModel *m=personalCorrespondingPointArray[indexPath.row];
+                cell.personalScanpointOrCorrespondingPairLabel.text=m.name;
+            }
+        }
         return cell;
     }
     else{
@@ -496,7 +558,11 @@
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     if ([tableView isEqual:_personalPairTable]) {
-        cell.backgroundColor=[UIColor whiteColor];
+        if (indexPath.section%2==0) {
+            cell.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
+        }else{
+            cell.backgroundColor=[UIColor colorWithRed:0.667 green:0.902 blue:0.976 alpha:1];
+        }
     }
     else [cell setBackgroundColor:[UIColor colorWithRed:0.933 green:0.933 blue:0.941 alpha:1]];
 }
@@ -800,7 +866,7 @@
 -(void)processScanpoint:(id)responseObject with:(BOOL)status{
     
     NSDictionary *dict;
-    
+     [personalScanpointArray removeAllObjects];
     [scanpointArray removeAllObjects];
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         //For Vzone API
@@ -865,6 +931,7 @@
     NSDictionary *dict;
     
     [correspondingPointArray removeAllObjects];
+    [personalCorrespondingPointArray removeAllObjects];
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         //For Vzone API
         NSDictionary *responseDict1 = responseObject;
@@ -1074,6 +1141,8 @@
     _correspondingHeaderLabel.text=[MCLocalization stringForKey:@"Corresponding Pair"];
     _codeHeaderLabel.text=[MCLocalization stringForKey:@"Code"];
     _sectionHeaderLabel.text=[MCLocalization stringForKey:@"Section"];
-    
+    [_segment setTitle:[MCLocalization stringForKey:@"Personal Pairs"] forSegmentAtIndex:0];
+    [_segment setTitle:[MCLocalization stringForKey:@"Personal ScanPoint"] forSegmentAtIndex:1];
+    [_segment setTitle:[MCLocalization stringForKey:@"Personal CorrespondingPair"] forSegmentAtIndex:2];
 }
 @end

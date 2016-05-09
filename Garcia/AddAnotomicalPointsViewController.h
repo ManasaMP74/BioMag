@@ -51,6 +51,10 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *langTableWidth;
 @property (weak, nonatomic) IBOutlet UITableView *personalPairTable;
 @property (weak, nonatomic) IBOutlet UILabel *personalPair;
+@property (weak, nonatomic) IBOutlet UIView *personalPairView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *personalPairViewHeight;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segment;
+@property (weak, nonatomic) IBOutlet UITableView *personalScanPointOrCorrespondingPair;
 
 @property (weak, nonatomic) id <successFullAddingAnatomicalPoints>delegate;
 @property (strong, nonatomic) NSArray *personalPairArray;
