@@ -49,10 +49,6 @@
     [self textFieldLayer];
     [self navigationItemMethod];
     [self localize];
-    NSArray *a1=[[NSArray alloc]initWithObjects:[UIColor whiteColor],[UIFont fontWithName:@"OpenSansSemibold" size:14], nil];
-    NSArray *a2=[[NSArray alloc]initWithObjects:NSForegroundColorAttributeName,NSFontAttributeName, nil];
-    NSDictionary *s=[[NSDictionary alloc]initWithObjects:a1 forKeys:a2];
-    [_segment setTitleTextAttributes:s forState:normal];
     self.tapGesture.delaysTouchesBegan = NO;
     self.tapGesture.delaysTouchesBegan = NO;
     _langButton.layer.cornerRadius=15;
@@ -448,16 +444,23 @@
      _personalPairView.hidden=NO;
      _personalPairTable.hidden=NO;
      _personalScanPointOrCorrespondingPair.hidden=YES;
+     _personalPairTableHeight.constant=10;
+     _personalScanpointTableViewHeight.constant=0;
      [_personalPairTable reloadData];
+      [self.view layoutIfNeeded];
+     _personalPairTableHeight.constant=_personalPairTable.contentSize.height;
  }else{
      _personalPairView.hidden=YES;
      _personalPairTable.hidden=YES;
      _personalScanPointOrCorrespondingPair.hidden=NO;
+     _personalPairTableHeight.constant=0;
+     _personalScanpointTableViewHeight.constant=10;
     [_personalScanPointOrCorrespondingPair reloadData];
+     [self.view layoutIfNeeded];
+     _personalScanpointTableViewHeight.constant=_personalScanPointOrCorrespondingPair.contentSize.height;
  }
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    
     return 1;
 }
 //TableView Number of row
@@ -502,6 +505,7 @@
             cell.scanpointLabel.text=model.scanPointName;
             cell.correspondingpairLabel.text=model.correspondingPairName;
             cell.code.text=model.germsName;
+            _personalPairTableHeight.constant=_personalPairTable.contentSize.height;
         }
         else if ([tableView isEqual:_personalScanPointOrCorrespondingPair])
         {
@@ -557,8 +561,8 @@
     }
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    if ([tableView isEqual:_personalPairTable]) {
-        if (indexPath.section%2==0) {
+    if ([tableView isEqual:_personalPairTable]| [tableView isEqual:_personalScanPointOrCorrespondingPair]) {
+        if (indexPath.row%2==0) {
             cell.backgroundColor=[UIColor colorWithRed:0.38 green:0.82 blue:0.961 alpha:1];
         }else{
             cell.backgroundColor=[UIColor colorWithRed:0.667 green:0.902 blue:0.976 alpha:1];
@@ -567,7 +571,7 @@
     else [cell setBackgroundColor:[UIColor colorWithRed:0.933 green:0.933 blue:0.941 alpha:1]];
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if ([tableView isEqual:_personalPairTable]) {
+    if ([tableView isEqual:_personalPairTable]| [tableView isEqual:_personalScanPointOrCorrespondingPair]) {
         return 41;
     }else return 30;
 }
@@ -691,6 +695,7 @@
     }
     [_personalPairTable reloadData];
     [self.view layoutIfNeeded];
+    _personalPairTableHeight.constant=_personalPairTable.contentSize.height;
 }
 -(void)callSeedForGerms{
     //    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
@@ -876,6 +881,8 @@
         //For Material API
         dict=responseObject;
     }
+    NSUserDefaults *userdefault=[NSUserDefaults standardUserDefaults];
+    NSString *docId=[userdefault valueForKey:@"Id"];
     for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
         if ([dict1[@"Status"] intValue]==1) {
             CompleteScanpointModel *model=[[CompleteScanpointModel alloc]init];
@@ -883,6 +890,9 @@
             model.name=dict1[@"Name"];
             model.idValue=dict1[@"Id"];
             [scanpointArray addObject:model];
+            if ([docId intValue]==[dict1[@"CreatedBy"] intValue]) {
+                [personalScanpointArray addObject:model];
+            }
         }
     }
     if (status) {
@@ -940,6 +950,8 @@
         //For Material API
         dict=responseObject;
     }
+    NSUserDefaults *userdefault=[NSUserDefaults standardUserDefaults];
+    NSString *docId=[userdefault valueForKey:@"Id"];
     for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
         if ([dict1[@"Status"] intValue]==1) {
             CompleteCorrespondingpairModel *model=[[CompleteCorrespondingpairModel alloc]init];
@@ -947,6 +959,9 @@
             model.name=dict1[@"Name"];
             model.idValue=dict1[@"Id"];
             [correspondingPointArray addObject:model];
+            if ([docId intValue]==[dict1[@"CreatedBy"] intValue]) {
+                [personalCorrespondingPointArray addObject:model];
+            }
         }
     }
     if (status) {
@@ -1144,5 +1159,6 @@
     [_segment setTitle:[MCLocalization stringForKey:@"Personal Pairs"] forSegmentAtIndex:0];
     [_segment setTitle:[MCLocalization stringForKey:@"Personal ScanPoint"] forSegmentAtIndex:1];
     [_segment setTitle:[MCLocalization stringForKey:@"Personal CorrespondingPair"] forSegmentAtIndex:2];
+
 }
 @end

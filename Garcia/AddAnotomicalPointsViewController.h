@@ -58,4 +58,6 @@
 
 @property (weak, nonatomic) id <successFullAddingAnatomicalPoints>delegate;
 @property (strong, nonatomic) NSArray *personalPairArray;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *personalScanpointTableViewHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *personalPairTableHeight;
 @end
