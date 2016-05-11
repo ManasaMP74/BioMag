@@ -60,4 +60,11 @@
 @property (strong, nonatomic) NSArray *personalPairArray;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *personalScanpointTableViewHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *personalPairTableHeight;
+@property (weak, nonatomic) IBOutlet UIView *personalScanpointView;
+@property (weak, nonatomic) IBOutlet UILabel *personalScanpointSortLabel;
+@property (weak, nonatomic) IBOutlet UILabel *personalScanpointNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *personalScanpointLocationLabel;
+@property (weak, nonatomic) IBOutlet UILabel *personalCorrespondingSortLabel;
+@property (weak, nonatomic) IBOutlet UITextField *personalScanpointSortTF;
+@property (weak, nonatomic) IBOutlet UITextField *personalCorrespondingSortTF;
 @end

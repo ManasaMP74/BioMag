@@ -297,6 +297,8 @@
     [constant spaceAtTheBeginigOfTextField:_anatomicalScanpointTF];
     [constant spaceAtTheBeginigOfTextField:_anatomicalCorrespondingPairTF];
     [constant spaceAtTheBeginigOfTextField:_anatomicalSortNumberTF];
+     [constant spaceAtTheBeginigOfTextField:_personalScanpointSortTF];
+     [constant spaceAtTheBeginigOfTextField:_personalCorrespondingSortTF];
     [constant SetBorderForTextField:_scanpointNameTF];
     [constant SetBorderForTextField:_anatomicalSortNumberTF];
     [constant SetBorderForTextField:_anatomicalCorrespondingPairTF];
@@ -305,6 +307,8 @@
     [constant SetBorderForTextview:_descriptionTV];
     [constant SetBorderForTextField:_correspondingNameTF];
     [constant SetBorderForTextField:_scanpointLocationTF];
+    [constant SetBorderForTextField:_personalScanpointSortTF];
+    [constant SetBorderForTextField:_personalCorrespondingSortTF];
     [constant setFontFortextField:_scanpointNameTF];
     [constant setFontFortextField:_scanpointNameTF];
     [constant setFontFortextField:_scanpointLocationTF];
@@ -313,6 +317,8 @@
     [constant setFontFortextField:_anatomicalScanpointTF];
     [constant setFontFortextField:_anatomicalCorrespondingPairTF];
     [constant setFontFortextField:_anatomicalSortNumberTF];
+    [constant setFontFortextField:_personalScanpointSortTF];
+    [constant setFontFortextField:_personalCorrespondingSortTF];
     _descriptionTV.textContainerInset = UIEdgeInsetsMake(10, 5, 10, 10);
     [constant changeSaveBtnImage:_saveBtn];
     [constant changeCancelBtnImage:_cancelBtn];
@@ -428,10 +434,12 @@
             break;
         case 1:
             selectedSegment=@"scanpoint";
+            _personalScanpointNameLabel.text= [MCLocalization stringForKey:@"Scan Point"];
             [self ShowPersonalPairView];
             break;
         case 2:
             selectedSegment=@"correspondingpair";
+             _personalScanpointNameLabel.text=[MCLocalization stringForKey:@"Corresponding Pair"];
             [self ShowPersonalPairView];
             break;
         default:
@@ -444,6 +452,7 @@
      _personalPairView.hidden=NO;
      _personalPairTable.hidden=NO;
      _personalScanPointOrCorrespondingPair.hidden=YES;
+     _personalScanpointView.hidden=YES;
      _personalPairTableHeight.constant=10;
      _personalScanpointTableViewHeight.constant=0;
      [_personalPairTable reloadData];
@@ -452,6 +461,7 @@
  }else{
      _personalPairView.hidden=YES;
      _personalPairTable.hidden=YES;
+      _personalScanpointView.hidden=NO;
      _personalScanPointOrCorrespondingPair.hidden=NO;
      _personalPairTableHeight.constant=0;
      _personalScanpointTableViewHeight.constant=10;
@@ -1035,7 +1045,7 @@
 }
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     BOOL status=YES;
-    if ([textField isEqual:_anatomicalSortNumberTF]) {
+    if ([textField isEqual:_anatomicalSortNumberTF]|[textField isEqual:_personalScanpointSortTF]|[textField isEqual:_personalCorrespondingSortTF]) {
         NSCharacterSet * numberCharSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
         for (int i = 0; i < [string length]; ++i)
         {
@@ -1159,6 +1169,8 @@
     [_segment setTitle:[MCLocalization stringForKey:@"Personal Pairs"] forSegmentAtIndex:0];
     [_segment setTitle:[MCLocalization stringForKey:@"Personal ScanPoint"] forSegmentAtIndex:1];
     [_segment setTitle:[MCLocalization stringForKey:@"Personal CorrespondingPair"] forSegmentAtIndex:2];
-
+ _personalScanpointSortLabel.text=[MCLocalization stringForKey:@"Sort Number"];
+_personalScanpointLocationLabel.text=[MCLocalization stringForKey:@"Location"];
+_personalCorrespondingSortLabel.text=[MCLocalization stringForKey:@"Sort Number"];
 }
 @end
