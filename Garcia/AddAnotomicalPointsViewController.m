@@ -63,6 +63,8 @@
     personalScanpointArray=[[NSMutableArray alloc]init];
     personalCorrespondingPointArray=[[NSMutableArray alloc]init];
     selectedPersonalPairModel=[[sittingModel alloc]init];
+      _personalPairView.hidden=NO;
+    _personalScanpointView.hidden=YES;
     postman=[[Postman alloc]init];
     [self callSeedForGerms];
     [self callSeedForLanguage];
