@@ -1028,7 +1028,11 @@
 //take pic
 - (IBAction)takePic:(id)sender {
     UIImagePickerController *picker=[[UIImagePickerController alloc]init];
-    picker.sourceType=UIImagePickerControllerSourceTypeCamera;
+     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+       picker.sourceType=UIImagePickerControllerSourceTypeCamera;
+     }else{
+         picker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+     }
     //  picker.mediaTypes = [UIImagePickerController  availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera];
     [self presentViewController:picker animated:YES completion:nil];
     picker.delegate=self;
@@ -1057,13 +1061,8 @@
 }
 -(void)selectedImage:(UIImage *)image withCaption:(NSString *)captionText{
     UploadModelClass *uploadModel=[[UploadModelClass alloc]init];
-    
-    
     uploadModel.imageName=image;
     uploadModel.captionText=captionText;
-    
-    
-    
     [uploadedImageArray addObject:uploadModel];
     for (UploadModelClass *m in uploadedImageArray) {
         CGFloat labelHeight=[m.captionText boundingRectWithSize:(CGSize){136,CGFLOAT_MAX }
@@ -1075,9 +1074,6 @@
     _uploadCollectionView.hidden=NO;
     _uploadViewHeigh.constant=uploadCellHeight+230;
 }
-
-
-
 -(void)deleteCell:(id)cell{
     uploadCellHeight=0.0;
     NSIndexPath *index=[_uploadCollectionView indexPathForCell:cell];
