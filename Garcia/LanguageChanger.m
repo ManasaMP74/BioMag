@@ -46,7 +46,6 @@
         [self callApiForUILabelLanguage];
     }
 }
-
 -(void)callApiForUILabelLanguage
 {
      postman=[[Postman alloc]init];
