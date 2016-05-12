@@ -111,6 +111,11 @@
     }
     [constant changeSaveBtnImage:_saveBtn];
     _selectedSlideOutRow=[NSIndexPath indexPathForRow:2 inSection:0];
+    if (_filterLabel.text.length>0) {
+    if ([_filterLabel isEqual:IdentifiedIssue]) {
+        _addedSittingView.hidden=NO;
+    }
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -125,9 +130,9 @@
             [self callSeed];
         }else{
             for (sittingModel *model in allDoctorDetailArray) {
-                model.germsString=@"";
-                model.issue=NO;
-                model.edited=@"N";
+//                model.germsString=@"";
+//                model.issue=NO;
+//                model.edited=@"N";
             }
             if (allSectionNameArray.count>0) {
                 _filterLabel.text=allSectionNameArray[0];
@@ -1587,7 +1592,6 @@
     [self setTheValuesInTableView];
 }
 -(void)addAnatomicalPointFromSlideout{
-    _addedSittingView.hidden=YES;
     selectedCellToFilter=0;
     if (selectedCellToFilter==allSectionNameArray.count-1) {
         _previousBtn.hidden=YES;
