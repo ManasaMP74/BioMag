@@ -648,6 +648,7 @@
     cell.showGermsButton.userInteractionEnabled=status;
     cell.addNoteTV.userInteractionEnabled=status;
     cell.checkBox.userInteractionEnabled=status;
+    cell.completeSelectDeselectBtn.userInteractionEnabled=status;
     _priceTf.enabled=status;
     _addSymptom.enabled=status;
 }
