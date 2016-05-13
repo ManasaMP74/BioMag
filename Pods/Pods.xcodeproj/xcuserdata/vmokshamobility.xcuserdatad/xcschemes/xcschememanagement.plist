@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>AFNetworking.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>5</integer>
+		</dict>
+		<key>MCLocalization.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>6</integer>
+		</dict>
+		<key>Pods-Biomagnetism.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>7</integer>
+		</dict>
+		<key>WYPopoverController.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>8</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>035C584DEC7476EE34C580F15B8CBE7D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>06A754355CB4B09D176FCBEC15238B76</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>11C44CF082642B9EB9B22536318249DE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>29784363E06DAE4CCD178902805C2405</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>
