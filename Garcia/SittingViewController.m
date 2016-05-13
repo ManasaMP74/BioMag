@@ -430,7 +430,7 @@
     else return 40;
 }
 //collection view no. of cell
--(NSInteger)collectionView:(UICollkectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     if (collectionView==_collectionView) {
         return appdelegate.symptomTagArray.count;
     }else{
