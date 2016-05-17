@@ -41,8 +41,6 @@
     
 }
 
-
-
 - (void)createTableForQuery:(NSString *)query
 
 {
@@ -58,7 +56,6 @@
         if (sqlite3_open(dbpath, &database)== SQLITE_OK)
             
         {
-            
             sqlite3_close(database);
             
         }
@@ -74,7 +71,6 @@
         if (sqlite3_exec(database, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
             
         {
-            
             NSLog(@"Failed to create table");
             
         }
@@ -237,5 +233,4 @@
     return YES;
     
 }
-
 @end
