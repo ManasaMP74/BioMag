@@ -26,7 +26,7 @@
 #import <MCLocalization/MCLocalization.h>
 #import "AddSectionData.h"
 #import "AddAnotomicalPointsViewController.h"
-@interface SittingViewController ()<UITableViewDelegate,UITableViewDataSource,addsymptom,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,UICollectionViewDataSource,ExpandCellProtocol,SWRevealViewControllerDelegate,deleteCellValue,SWRevealViewControllerDelegate,datePickerProtocol,sendGermsData,successFullAddingAnatomicalPoints>
+@interface SittingViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,UICollectionViewDataSource,ExpandCellProtocol,SWRevealViewControllerDelegate,deleteCellValue,SWRevealViewControllerDelegate,datePickerProtocol,sendGermsData,successFullAddingAnatomicalPoints,addsymptom>
 @property (strong, nonatomic) IBOutlet UILabel *ageValue;
 @property (strong, nonatomic) IBOutlet UILabel *filterLabel;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -92,6 +92,8 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     _tableview.tableFooterView=[UIView new];
+    _searchTFHeight.constant=0;
+    _searchTF.hidden=YES;
     self.revealViewController.delegate=self;
     [self.revealViewController setRightViewRevealWidth:180];
     if ([_isTreatmntCompleted intValue]==0) {
@@ -174,6 +176,9 @@
     [constant SetBorderForTextField:_priceTf];
     [constant spaceAtTheBeginigOfTextField:_priceTf];
     _priceTf.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Charge"]];
+    [constant SetBorderForTextField:_searchTF];
+    [constant spaceAtTheBeginigOfTextField:_searchTF];
+    _searchTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Search"]];
     _patientName.text= _searchModel.name;
     _ageValue.text=_searchModel.age;
     _mobileValue.text=_searchModel.mobileNo;
@@ -1866,5 +1871,14 @@
         }
     }
     _completeGermsArray=array;
+}
+- (IBAction)searchPair:(id)sender {
+    if (_searchTFHeight.constant==0) {
+        _searchTFHeight.constant=40;
+        _searchTF.hidden=NO;
+    }else{
+        _searchTFHeight.constant=0;
+        _searchTF.hidden=YES;
+    }
 }
 @end
