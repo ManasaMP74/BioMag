@@ -155,6 +155,14 @@
     }
 }
 -(void)defaultValues{
+    UIImage *img = [UIImage imageNamed:@"10-Reservoirs-Icon-Background.png"];
+    CGSize imgSize = _filterView.frame.size;
+    
+    UIGraphicsBeginImageContext( imgSize );
+    [img drawInRect:CGRectMake(0,0,imgSize.width,imgSize.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    _filterView.backgroundColor = [UIColor colorWithPatternImage:newImage];
     [constant setColorForLabel:_genderLabel];
     [constant setColorForLabel:_mobileLabel];
     [constant setColorForLabel:_transfusion];

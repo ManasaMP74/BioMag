@@ -55,8 +55,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *searchBtn;
 @property (weak, nonatomic) IBOutlet UITextField *searchTF;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchTFHeight;
-
-
+@property (weak, nonatomic) IBOutlet UIView *filterView;
 
 
 @property (weak, nonatomic) IBOutlet UILabel *ageLabel;
