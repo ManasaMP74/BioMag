@@ -131,11 +131,11 @@
             allSectionNameArray =[[NSMutableArray alloc]init];
             [self callSeed];
         }else{
-            for (sittingModel *model in allDoctorDetailArray) {
+//            for (sittingModel *model in allDoctorDetailArray) {
 //                model.germsString=@"";
 //                model.issue=NO;
 //                model.edited=@"N";
-            }
+        //    }
             if (allSectionNameArray.count>0) {
                 _filterLabel.text=allSectionNameArray[0];
                 [self compareNextBtnToBeHidden];
@@ -179,6 +179,10 @@
     [constant SetBorderForTextField:_searchTF];
     [constant spaceAtTheBeginigOfTextField:_searchTF];
     _searchTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Search"]];
+    _searchTF.layer.cornerRadius=18;
+    _searchTF.layer.borderColor=[UIColor colorWithRed:0.004 green:0.216 blue:0.294 alpha:0.5].CGColor;
+    _searchTF.layer.borderWidth=1;
+    _searchTF.backgroundColor=[UIColor whiteColor];
     _patientName.text= _searchModel.name;
     _ageValue.text=_searchModel.age;
     _mobileValue.text=_searchModel.mobileNo;
@@ -681,6 +685,9 @@
 //previous
 - (IBAction)previous:(id)sender {
     selectedCellToFilter-=1;
+    _searchTFHeight.constant=0;
+    _searchTF.hidden=YES;
+    _searchTF.text=@"";
     [selectedIndexArray removeAllObjects];
     [selectedPreviousSittingDetailArray removeAllObjects];
     [self compareNextBtnToBeHidden];
@@ -724,6 +731,9 @@
 //next
 - (IBAction)next:(id)sender {
     selectedCellToFilter+=1;
+    _searchTFHeight.constant=0;
+    _searchTF.hidden=YES;
+    _searchTF.text=@"";
     [selectedIndexArray removeAllObjects];
     [selectedPreviousSittingDetailArray removeAllObjects];
     [self compareNextBtnToBeHidden];
@@ -1244,7 +1254,7 @@
                 status=validate;
             }
         }
-    }else status=NO;
+    }
     return status;
 }
 -(void)callApiToSaveTreatmentRequest:(NSString*)str{
@@ -1590,6 +1600,9 @@
     slideout.selectedIndexpath=_selectedSlideOutRow;
 }
 -(void)sittingFromSlideOut{
+    _searchTFHeight.constant=0;
+    _searchTF.hidden=YES;
+    _searchTF.text=@"";
     if (_toxicDeficiencyString.length!=0) {
         selectedCellToFilter=(int)_selectedIndexPathOfSectionInSlideOut.row;
     }
@@ -1629,6 +1642,9 @@
     }
 }
 -(void)addedSittingPairViewData{
+    _searchTFHeight.constant=0;
+    _searchTF.hidden=YES;
+    _searchTF.text=@"";
     CGFloat i=self.view.frame.size.width/4;
     NSMutableArray *array=[[NSMutableArray alloc]init];
     for (sittingModel *model in allDoctorDetailArray) {
