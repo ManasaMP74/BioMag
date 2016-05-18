@@ -121,7 +121,7 @@
 		DAE31E9B1CBF69C70068B257 /* AddSectionData.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD375CA1CA27BB200FDD5C7 /* AddSectionData.m */; };
 		DAE48C711BF07B8F008AD2D3 /* editModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE48C701BF07B8F008AD2D3 /* editModel.m */; };
 		DAE576351C3E6C570076C3EE /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE576341C3E6C570076C3EE /* DBManager.m */; };
-		DAE576381C3E6D080076C3EE /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE576361C3E6CF30076C3EE /* libsqlite3.0.tbd */; };
+		DAE576381C3E6D080076C3EE /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE576361C3E6CF30076C3EE /* libsqlite3.0.tbd */; settings = {ATTRIBUTES = (Required, ); }; };
 		DAE606001C1FC83600A344F2 /* PatientDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE605FF1C1FC83600A344F2 /* PatientDetailModel.m */; };
 		DAE6FBB41BE483BA00952812 /* AttachmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE6FBB31BE483BA00952812 /* AttachmentViewController.m */; };
 		DAE6FBB71BE4AB8300952812 /* UploadCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE6FBB61BE4AB8300952812 /* UploadCollectionViewCell.m */; };

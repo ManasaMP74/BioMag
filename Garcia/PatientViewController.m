@@ -194,6 +194,7 @@
         [self processResponseObjectToGetTreatmentDetail:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [containerVC hideAllMBprogressTillLoadThedata];
+        [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:NO];
         [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
     }];
 }

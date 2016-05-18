@@ -27,7 +27,6 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *maritialTableHeight;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *genderTvHeight;
 @end
-
 @implementation EditPatientViewController
 {
     Constant *constant;
