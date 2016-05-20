@@ -5,7 +5,7 @@
 @protocol addsymptom<NSObject>
 -(void)addsymptom:(NSArray*)array;
 @end
-@interface AddSymptom : UIView<deleteCell,UITableViewDataSource,UITableViewDelegate>
+@interface AddSymptom : UIView<deleteCell,UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *symptomTf;
 @property(weak,nonatomic)id<addsymptom>delegate;
 -(void)alphaViewInitialize;

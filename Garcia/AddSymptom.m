@@ -47,6 +47,10 @@
         alphaView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
         [alphaView addSubview:view];
     }
+    UITapGestureRecognizer *gest=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideView)];
+    gest.cancelsTouchesInView=NO;
+    gest.delegate=self;
+    [view addGestureRecognizer:gest];
     _symptomsLabel.text=[MCLocalization stringForKey:@"Symptoms"];
     [_addButton setTitle:[MCLocalization stringForKey:@"Add"] forState:normal];
     _collectionViewHeight.constant=0;
@@ -286,6 +290,7 @@
                 str=@"alert";
                 //                UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Alert!" message:@"Symptom already exist" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                 //                [alert show];
+                _symptomTf.text=@"";
                 [self showToastMessage:@"Symptom already exist"];
             }
         }
@@ -371,5 +376,18 @@
     hubHUD.yOffset=150.f;
     hubHUD.removeFromSuperViewOnHide = YES;
     [hubHUD hide:YES afterDelay:2];
+}
+-(void)hideView{
+    _allTaglistTableView.hidden=YES;
+    _allTagListTableViewHeight.constant=0;
+    if (symptomTagArray.count>0) {
+        [self heightOfView:182];
+    }else  [self heightOfView:132];
+    [self endEditing:YES];
+}
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
+       shouldReceiveTouch:(UITouch *)touch
+{
+   return ![NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"];
 }
 @end
