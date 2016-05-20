@@ -24,7 +24,7 @@
 {
     NSMutableArray *criticalImageArray;
     Postman *postman;
-    NSString *noChangesToSave,*imageUploadFailed,*deleteImageStr,*yesStr,*noStr,*alert,*alertOk,*saveSuccessfullyStr;
+    NSString *noChangesToSave,*imageUploadFailed,*deleteImageStr,*yesStr,*noStr,*alert,*alertOk,*saveSuccessfullyStr,*noDevFound;
     ImageUploadAPI *imageManager;
     BOOL noChanges;
 }
@@ -120,6 +120,7 @@
 //localize
 -(void)localize
 {
+     noDevFound=[MCLocalization stringForKey:@"No device found"];
     self.title=[MCLocalization stringForKey:@"Share Critical Treatment Info"];
     [_cancelButton setTitle:[MCLocalization stringForKey:@"Cancel"] forState:normal];
     [_saveButton setTitle:[MCLocalization stringForKey:@"Save"] forState:normal];
@@ -138,9 +139,13 @@
 }
 - (IBAction)camera:(id)sender {
     UIImagePickerController *picker=[[UIImagePickerController alloc]init];
-    picker.sourceType=UIImagePickerControllerSourceTypeCamera;
-    [self presentViewController:picker animated:YES completion:nil];
-    picker.delegate=self;
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        picker.sourceType=UIImagePickerControllerSourceTypeCamera;
+        [self presentViewController:picker animated:YES completion:nil];
+        picker.delegate=self;
+    }else{
+        [self showToastMessage:noDevFound];
+    }
 }
 - (IBAction)addImage:(id)sender {
     UIImagePickerController *imgpick=[[UIImagePickerController alloc]init];
@@ -364,7 +369,6 @@
     if ([dict[@"Success"]intValue]==1) {
         [criticalImageArray removeObjectAtIndex:index.row];
         [_collectionView reloadData];
-        [self.delegate againLoadCriticalInfo];
         if (criticalImageArray.count>0) {
             _collectionviewHeight.constant=128;
         }
@@ -377,7 +381,9 @@
 -(void)showAlerView:(NSString*)msg{
     UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:msg preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *success=[UIAlertAction actionWithTitle:alertOk style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
-        [self.delegate againLoadCriticalInfo];
+         if ([_differOfAddOrEdit isEqualToString:@"add"]) {
+             [self.delegate callSearchApiAfterAddNewCriticalInfo];
+         }
         [alertView dismissViewControllerAnimated:YES completion:nil];
         [self.navigationController popViewControllerAnimated:YES];
     }];

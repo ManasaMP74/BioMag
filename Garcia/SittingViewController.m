@@ -1905,6 +1905,7 @@
 }
 - (IBAction)searchPair:(id)sender {
     _searchTF.text=@"";
+    [self searchForAnatomicalPair];
     if (_searchTFHeight.constant==0) {
         _searchTFHeight.constant=40;
         _searchTF.hidden=NO;

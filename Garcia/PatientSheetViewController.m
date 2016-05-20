@@ -111,7 +111,7 @@
     NSIndexPath *selectedSittingIndex;
     NSArray *slideoutImageArray,*slideoutArray;
     NSString *differForNavButton;
-    NSString *navTitle,*titleOfTreatment,*closureNote,*medicalNote,*diagnosisNote,*doYouWantToCloseTreatment,*alert,*alertOk,*updatedSuccess,*updateFailed,*saveSuccess,*saveFailed,*enterTreatmentClosure,*ok,*yesStr,*noStr,*treatmentTitlerequired,*sittingStr,*closedSuccess,*deleteSittingMsg,*imageUploadFailed,*popBackAlert;
+    NSString *navTitle,*titleOfTreatment,*closureNote,*medicalNote,*diagnosisNote,*doYouWantToCloseTreatment,*alert,*alertOk,*updatedSuccess,*updateFailed,*saveSuccess,*saveFailed,*enterTreatmentClosure,*ok,*yesStr,*noStr,*treatmentTitlerequired,*sittingStr,*closedSuccess,*deleteSittingMsg,*imageUploadFailed,*popBackAlert,*noDevFound;
     WYPopoverController *wypopOverController;
     UIButton * lagSomeButton;
     BOOL changesDoneOrNot;
@@ -1030,12 +1030,12 @@
     UIImagePickerController *picker=[[UIImagePickerController alloc]init];
      if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
        picker.sourceType=UIImagePickerControllerSourceTypeCamera;
+         [self presentViewController:picker animated:YES completion:nil];
+         picker.delegate=self;
      }else{
-         picker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+         [self showToastMessage:noDevFound];
      }
     //  picker.mediaTypes = [UIImagePickerController  availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera];
-    [self presentViewController:picker animated:YES completion:nil];
-    picker.delegate=self;
 }
 //take photo from library
 - (IBAction)album:(id)sender {
@@ -1982,6 +1982,7 @@
 }
 //localization
 -(void)localize{
+     noDevFound=[MCLocalization stringForKey:@"No device found"];
     navTitle=[MCLocalization stringForKey:@"TreatmentSheet"];
     alert=[MCLocalization stringForKey:@"Alert!"];
     alertOk=[MCLocalization stringForKey:@"AlertOK"];

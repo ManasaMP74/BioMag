@@ -3,7 +3,7 @@
 #import "VMEnvironment.h"
 @protocol DeleteCriticalImageProtocol<NSObject>
 @optional
--(void)againLoadCriticalInfo;
+-(void)callSearchApiAfterAddNewCriticalInfo;
 @end
 @interface CriticalTreatmentInfoViewController : UIViewController
 

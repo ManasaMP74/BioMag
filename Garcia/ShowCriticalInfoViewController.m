@@ -225,6 +225,7 @@
         }
         [_collectionView reloadData];
     }
+    [_tableview reloadData];
 }
 - (IBAction)editButton:(id)sender {
     CriticalTreatmentInfoViewController *critical=[self.storyboard instantiateViewControllerWithIdentifier:@"CriticalTreatmentInfoViewController"];
@@ -236,9 +237,6 @@
     critical.addedcriticalArray=criticalImageArray;
     [self.navigationController pushViewController:critical animated:YES];
 }
--(void)againLoadCriticalInfo{
-    [self getDetailOfSharedTreatmentInfo];
-}
 -(void)localize{
     [_criticalInfoLabel setTitle:[MCLocalization stringForKey:@"Critical TreatmentInfo"] forState:normal];
     [_addCriticalInfo setTitle:[MCLocalization stringForKey:@"Add Critical TreatmentInfo"] forState:normal];
@@ -247,5 +245,38 @@
     _summaryLabel.text=[MCLocalization stringForKey:@"Add summary (100 Characters)"];
     _descriptionHeaderLabel.text=[MCLocalization stringForKey:@"Description"];
     _summaryHeaderLabel.text=[MCLocalization stringForKey:@"Summary"];
+}
+-(void)callSearchApiAfterAddNewCriticalInfo{
+    [self callApiToSearchSaredCriticalInfo];
+}
+-(void)callApiToSearchSaredCriticalInfo{
+    [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSString *docid=[userDefault valueForKey:@"Id"];
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,searchSaredCriticalInfo];
+    NSString *parameter=[NSString stringWithFormat:@"{\"request\":{\"Published\":\"0\",\"FromDate\":null,\"ToDate\":null,\"CreatedBy\":\"%@\"}}",docid];
+    [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
+        [self processResponseOfcallApiToSearchSaredCriticalInfo:responseObject];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
+        [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
+    }];
+}
+-(void)processResponseOfcallApiToSearchSaredCriticalInfo:(id)responseObject{
+    NSDictionary *dict;
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSDictionary *dic1=responseObject;
+        dict=dic1[@"aaData"];
+    }else{
+        dict=responseObject;
+    }
+    if ([dict[@"Success"] intValue]==1) {
+        NSArray *ar=dict[@"GenericSearchViewModels"];
+        _CriticalInfoArray=ar;
+        [self getDetailOfCriticalInfo];
+    }else {
+        [self showToastMessage:[NSString stringWithFormat:@"%@",dict[@"Message"]]];
+    }
 }
 @end
