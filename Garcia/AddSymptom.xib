@@ -14,7 +14,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddSymptom">
             <connections>
                 <outlet property="addButton" destination="S6v-z3-iwG" id="UzA-d6-Ep3"/>
-                <outlet property="allTagListTableViewHeight" destination="ekf-nm-x5U" id="tML-Pc-48x"/>
+                <outlet property="allTagListTableViewHeight" destination="Lev-hw-9WN" id="UY6-dT-w33"/>
                 <outlet property="allTaglistTableView" destination="ZWk-vp-K8g" id="9Hh-PH-sej"/>
                 <outlet property="collectionView" destination="Wl9-oG-atM" id="7KS-cG-cJD"/>
                 <outlet property="symptomTf" destination="fhe-Px-Acj" id="B1Z-uA-fHY"/>
@@ -44,34 +44,19 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fhe-Px-Acj">
-                    <rect key="frame" x="8" y="66" width="217" height="35"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <rect key="frame" x="8" y="66" width="213" height="35"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="35" id="Qz8-Ne-zTo"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S6v-z3-iwG">
-                    <rect key="frame" x="233" y="71" width="80" height="25"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="25" id="2bX-nE-knX"/>
-                        <constraint firstAttribute="width" constant="80" id="FBN-1a-hWi"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="14"/>
-                    <state key="normal" title="Add" backgroundImage="Save-Button">
-                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="localAdd:" destination="-1" eventType="touchUpInside" id="bcj-VS-tRN"/>
-                    </connections>
-                </button>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ZWk-vp-K8g">
-                    <rect key="frame" x="8" y="109" width="217" height="112"/>
+                    <rect key="frame" x="8" y="109" width="213" height="112"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="112" id="ekf-nm-x5U"/>
+                        <constraint firstAttribute="height" constant="112" id="Lev-hw-9WN"/>
                     </constraints>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="yt1-77-vUK"/>
@@ -95,24 +80,40 @@
                         <outlet property="delegate" destination="-1" id="W42-db-7Jd"/>
                     </connections>
                 </collectionView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S6v-z3-iwG">
+                    <rect key="frame" x="229" y="71" width="80" height="25"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="80" id="qtK-nO-V9j"/>
+                        <constraint firstAttribute="height" constant="25" id="tdp-Gs-QW2"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="14"/>
+                    <state key="normal" title="Add" backgroundImage="Save-Button">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="localAdd:" destination="-1" eventType="touchUpInside" id="bcj-VS-tRN"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="ZWk-vp-K8g" firstAttribute="trailing" secondItem="fhe-Px-Acj" secondAttribute="trailing" id="3ys-z5-RbW"/>
                 <constraint firstItem="75h-df-fOw" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="5MD-S0-dwU"/>
+                <constraint firstItem="ZWk-vp-K8g" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="AKj-M6-SgR"/>
                 <constraint firstAttribute="bottom" secondItem="Wl9-oG-atM" secondAttribute="bottom" constant="8" id="DtB-tJ-T2v"/>
                 <constraint firstItem="fhe-Px-Acj" firstAttribute="top" secondItem="75h-df-fOw" secondAttribute="bottom" constant="20" id="NJv-SL-pIc"/>
+                <constraint firstAttribute="trailing" secondItem="ZWk-vp-K8g" secondAttribute="trailing" constant="96" id="RMv-Ef-fsk"/>
+                <constraint firstItem="ZWk-vp-K8g" firstAttribute="top" secondItem="fhe-Px-Acj" secondAttribute="bottom" constant="8" id="Roj-cO-Grh"/>
                 <constraint firstItem="75h-df-fOw" firstAttribute="leading" secondItem="WH6-iG-TWg" secondAttribute="trailing" constant="-179" id="T4v-kM-kDU"/>
-                <constraint firstItem="ZWk-vp-K8g" firstAttribute="width" secondItem="fhe-Px-Acj" secondAttribute="width" id="Tlc-T1-9B1"/>
+                <constraint firstItem="S6v-z3-iwG" firstAttribute="leading" secondItem="fhe-Px-Acj" secondAttribute="trailing" constant="8" id="TbE-Fu-oV6"/>
                 <constraint firstItem="75h-df-fOw" firstAttribute="top" secondItem="WH6-iG-TWg" secondAttribute="bottom" constant="-29" id="YZ1-ZW-Jaw"/>
                 <constraint firstAttribute="trailing" secondItem="Wl9-oG-atM" secondAttribute="trailing" constant="8" id="dht-qN-8KB"/>
-                <constraint firstItem="ZWk-vp-K8g" firstAttribute="top" secondItem="fhe-Px-Acj" secondAttribute="bottom" constant="8" id="gJI-e0-EmP"/>
-                <constraint firstAttribute="trailing" secondItem="S6v-z3-iwG" secondAttribute="trailing" constant="4" id="lmn-0S-RAq"/>
+                <constraint firstAttribute="trailing" secondItem="fhe-Px-Acj" secondAttribute="trailing" constant="96" id="ecv-xf-1eW"/>
                 <constraint firstItem="Wl9-oG-atM" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="nWQ-fo-6XF"/>
-                <constraint firstItem="S6v-z3-iwG" firstAttribute="leading" secondItem="fhe-Px-Acj" secondAttribute="trailing" constant="8" id="nqW-1e-hMT"/>
+                <constraint firstAttribute="trailing" secondItem="S6v-z3-iwG" secondAttribute="trailing" constant="8" id="s75-F8-OXa"/>
                 <constraint firstItem="75h-df-fOw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="tNF-9u-ttm"/>
+                <constraint firstItem="S6v-z3-iwG" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="71" id="tNO-Q0-om6"/>
                 <constraint firstItem="fhe-Px-Acj" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="tP1-ei-V97"/>
-                <constraint firstItem="fhe-Px-Acj" firstAttribute="centerY" secondItem="S6v-z3-iwG" secondAttribute="centerY" id="vsK-dw-kw9"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="216.5" y="257.5"/>

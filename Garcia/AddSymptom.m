@@ -141,12 +141,13 @@
             _allTaglistTableView.layer.borderColor=[UIColor lightGrayColor].CGColor;
             _allTagListTableViewHeight.constant=10;
             [_allTaglistTableView reloadData];
-            if (_allTaglistTableView.contentSize.height>self.heightOfView-270) {
-                _allTagListTableViewHeight.constant=self.heightOfView-270;
+            [view layoutIfNeeded];
+            if (_allTaglistTableView.contentSize.height>self.heightOfView-300) {
+                _allTagListTableViewHeight.constant=self.heightOfView-300;
             }else _allTagListTableViewHeight.constant=_allTaglistTableView.contentSize.height;
             if (symptomTagArray.count>0) {
                 [self heightOfView:182+_allTagListTableViewHeight.constant];
-            }else  [self heightOfView:132+_allTagListTableViewHeight.constant];
+            }else  [self heightOfView:160+_allTagListTableViewHeight.constant];
         }
         else{
             _allTaglistTableView.hidden=YES;
@@ -186,7 +187,7 @@
 //get symptom tag
 -(void)callApiTogetSymptomTag{
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getSymptomTag];
-    [MBProgressHUD showHUDAddedTo:self animated:YES];
+    [MBProgressHUD showHUDAddedTo:self animated:NO];
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         NSString *parameter=[NSString stringWithFormat:@"{\"request\":{}}"];
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -196,7 +197,7 @@
             [userDefault setBool:NO forKey:@"symptomtag_FLAG"];
             [MBProgressHUD hideHUDForView:self animated:YES];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            [MBProgressHUD hideHUDForView:self animated:YES];
+            [MBProgressHUD hideHUDForView:self animated:NO];
         }];
     }else{
         [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -206,7 +207,7 @@
             [userDefault setBool:NO forKey:@"symptomtag_FLAG"];
             [MBProgressHUD hideHUDForView:self animated:YES];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            [MBProgressHUD hideHUDForView:self animated:YES];
+            [MBProgressHUD hideHUDForView:self animated:NO];
         }];
     }
 }
@@ -236,6 +237,7 @@
     if (_symptomTf.text.length!=0) {
         [self checkThatAddedSymptomTagIsthereOrNot];
     }
+     [MBProgressHUD hideAllHUDsForView:alphaView animated:NO];
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return filterdTagListArray.count;
@@ -283,7 +285,7 @@
             if (![ar containsObject:model.tagCode]) {
                 [symptomTagArray addObject:model];
                 [_collectionView reloadData];
-                [self heightOfView:182];
+//                [self heightOfView:182];
                 _symptomTf.text=@"";
                 [self.delegate addsymptom:symptomTagArray];
             }else{
@@ -319,7 +321,6 @@
         [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
         
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-             [MBProgressHUD hideAllHUDsForView:alphaView animated:NO];
             [self processResponseObjectOfAddTag:responseObject];
             [self callApiTogetSymptomTag];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -362,6 +363,7 @@
         [self callApiTogetSymptomTag];
     }
     else{
+         [MBProgressHUD hideAllHUDsForView:alphaView animated:NO];
         [self showToastMessage:dict[@"Message"]];
     }
 }

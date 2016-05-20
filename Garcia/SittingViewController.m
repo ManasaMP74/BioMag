@@ -675,7 +675,7 @@
 //symptom view
 - (IBAction)addSymptom:(id)sender {
     if (symptomView==nil)
-        symptomView=[[AddSymptom alloc]initWithFrame:CGRectMake(150, 140,400,117)];
+        symptomView=[[AddSymptom alloc]initWithFrame:CGRectMake(150, 140,400,132)];
     symptomView.delegate=self;
     symptomView.searchModel=_searchModel;
     [symptomView alphaViewInitialize];
