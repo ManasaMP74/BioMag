@@ -60,6 +60,7 @@
     BOOL changesDoneorNot;
     AddSectionData *addsectionData;
     UIView *activeField;
+    NSMutableArray *allsortedArrayBeforeSearch;
 }
 - (void)viewDidLoad {
     [self localize];
@@ -75,11 +76,13 @@
     personalPairArray=[[NSMutableArray alloc]init];
     selectedPreviousSittingDetailArray=[[NSMutableArray alloc]init];
     allPreviousSittingDetail=[[NSMutableArray alloc]init];
+    allsortedArrayBeforeSearch=[[NSMutableArray alloc]init];
     _addedSittingView.hidden=YES;
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     self.revealViewController.delegate=self;
     [self.revealViewController setRightViewRevealWidth:180];
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-2.jpg"]]];
+    [_searchTF addTarget:self action:@selector(searchForAnatomicalPair) forControlEvents:UIControlEventEditingChanged];
     postman=[[Postman alloc]init];
     if (_completeGermsArray.count==0) {
         [self callSeedForGerms];
@@ -114,9 +117,9 @@
     [constant changeSaveBtnImage:_saveBtn];
     _selectedSlideOutRow=[NSIndexPath indexPathForRow:2 inSection:0];
     if (_filterLabel.text.length>0) {
-    if ([_filterLabel isEqual:IdentifiedIssue]) {
-        _addedSittingView.hidden=NO;
-    }
+        if ([_filterLabel isEqual:IdentifiedIssue]) {
+            _addedSittingView.hidden=NO;
+        }
     }
 }
 - (void)didReceiveMemoryWarning {
@@ -131,11 +134,11 @@
             allSectionNameArray =[[NSMutableArray alloc]init];
             [self callSeed];
         }else{
-//            for (sittingModel *model in allDoctorDetailArray) {
-//                model.germsString=@"";
-//                model.issue=NO;
-//                model.edited=@"N";
-        //    }
+            //            for (sittingModel *model in allDoctorDetailArray) {
+            //                model.germsString=@"";
+            //                model.issue=NO;
+            //                model.edited=@"N";
+            //    }
             if (allSectionNameArray.count>0) {
                 _filterLabel.text=allSectionNameArray[0];
                 [self compareNextBtnToBeHidden];
@@ -155,7 +158,7 @@
     }
 }
 -(void)defaultValues{
-    UIImage *img = [UIImage imageNamed:@"10-Reservoirs-Icon-Background.png"];
+    UIImage *img = [UIImage imageNamed:@"Button.png"];
     CGSize imgSize = _filterView.frame.size;
     
     UIGraphicsBeginImageContext( imgSize );
@@ -424,7 +427,7 @@
             cell.completeSelectDeselectBtn.enabled=NO;
         }else {
             cell.selectDeselectButton.enabled=YES;
-        cell.completeSelectDeselectBtn.enabled=YES;
+            cell.completeSelectDeselectBtn.enabled=YES;
         }
     }else {
         cell.selectDeselectButton.enabled=YES;
@@ -753,12 +756,12 @@
     if ([_toxicDeficiencyString isEqualToString:@""]) {
         [self getTheSortDetailOfCompleteDitailArray:allSectionNameArray[selectedCellToFilter]];
         if (selectedCellToFilter==0) {
-          _previousBtn.hidden=YES;
+            _previousBtn.hidden=YES;
             _nextBtn.hidden=NO;
         }
         else if (selectedCellToFilter==allSectionNameArray.count-1) {
             _nextBtn.hidden=YES;
-             _previousBtn.hidden=NO;
+            _previousBtn.hidden=NO;
         }
         else{
             _previousBtn.hidden=NO;
@@ -941,7 +944,7 @@
         //For Vzone API
         NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
         NSString *languageCode=[defaults valueForKey:@"languageCode"];
-      // parameter=[NSString stringWithFormat:@"{\"request\":{\"SectionCode\": \"\",\"ScanPointCode\": \"\",\"CorrespondingPairCode\":\"\",\"GermsCode\": \"\",\"CurrentLanguageCode\": \"%@\",\"ApplicableVersionCode\":\"%@\",\"AppTypeCode\":\"%@\"}}",languageCode,appTypeCode,applicableBasicVersionCode];
+        // parameter=[NSString stringWithFormat:@"{\"request\":{\"SectionCode\": \"\",\"ScanPointCode\": \"\",\"CorrespondingPairCode\":\"\",\"GermsCode\": \"\",\"CurrentLanguageCode\": \"%@\",\"ApplicableVersionCode\":\"%@\",\"AppTypeCode\":\"%@\"}}",languageCode,appTypeCode,applicableBasicVersionCode];
         parameter=[NSString stringWithFormat:@"{\"request\":{\"SectionCode\": \"\",\"ScanPointCode\": \"\",\"CorrespondingPairCode\":\"\",\"GermsCode\": \"\",\"CurrentLanguageCode\":\"%@\"}}",languageCode];
     }else{
         //For material API
@@ -1062,28 +1065,28 @@
                 }
             }
             if (allSectionNameArray.count>0) {
-                 selectedCellToFilter=0;
+                selectedCellToFilter=0;
                 if (_sectionName.length!=0) {
                     [self compareNextBtnToBeHidden];
                 }
                 else{
                     if (_bioSittingDict!=nil) {
-                            NSDictionary *dict=_bioSittingDict;
-                            NSString *str=dict[@"JSON"];
-                            NSError *jsonError;
-                            NSData *objectData = [str dataUsingEncoding:NSUTF8StringEncoding];
-                            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData options:NSJSONReadingMutableContainers error:&jsonError];
-                            if (json[@"LastSelectedSection"]!=nil) {
-                                for (int i=0;i<=allSectionNameArray.count;i++) {
-                                    NSString *str=allSectionNameArray[i];
-                                      NSArray *ar=[str componentsSeparatedByString:@"$"];
-                                    if ([ar[1] isEqualToString:json[@"LastSelectedSection"]]) {
-                                        selectedCellToFilter=i;
-                                        [self compareNextBtnToBeHidden];
-                                        break;
-                                    }
+                        NSDictionary *dict=_bioSittingDict;
+                        NSString *str=dict[@"JSON"];
+                        NSError *jsonError;
+                        NSData *objectData = [str dataUsingEncoding:NSUTF8StringEncoding];
+                        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData options:NSJSONReadingMutableContainers error:&jsonError];
+                        if (json[@"LastSelectedSection"]!=nil) {
+                            for (int i=0;i<=allSectionNameArray.count;i++) {
+                                NSString *str=allSectionNameArray[i];
+                                NSArray *ar=[str componentsSeparatedByString:@"$"];
+                                if ([ar[1] isEqualToString:json[@"LastSelectedSection"]]) {
+                                    selectedCellToFilter=i;
+                                    [self compareNextBtnToBeHidden];
+                                    break;
                                 }
-                            }else [self compareNextBtnToBeHidden];
+                            }
+                        }else [self compareNextBtnToBeHidden];
                     }else [self compareNextBtnToBeHidden];
                 }
             }
@@ -1471,6 +1474,7 @@
         _tableview.hidden=NO;
         _scanPointHeaderView.hidden=NO;
         [allSortedDetailArray removeAllObjects];
+        [allsortedArrayBeforeSearch removeAllObjects];
         NSArray *ar=[str componentsSeparatedByString:@"$"];
         _sectionName=ar[1];
         _filterLabel.text=ar[0];
@@ -1479,6 +1483,7 @@
                 [allSortedDetailArray addObject:model];
             }
         }
+        [allsortedArrayBeforeSearch addObjectsFromArray:allSortedDetailArray];
         [_tableview reloadData];
         [_scrollView layoutIfNeeded];
         [_tableview setContentOffset:CGPointZero animated:YES];
@@ -1489,6 +1494,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)showToxicDeficiencyView{
+    _searchTF.text=@"";
     _toxicView.selectedToxicCode=_toxicDeficiencyString;
     _toxicView.selectedToxicDeficiency=selectedToxicString;
     if ([_isTreatmntCompleted intValue]==0) {
@@ -1620,6 +1626,7 @@
 }
 -(void)addAnatomicalPointFromSlideout{
     selectedCellToFilter=0;
+    _searchTF.text=@"";
     if (selectedCellToFilter==allSectionNameArray.count-1) {
         _previousBtn.hidden=YES;
         _nextBtn.hidden=YES;
@@ -1897,12 +1904,31 @@
     _completeGermsArray=array;
 }
 - (IBAction)searchPair:(id)sender {
+    _searchTF.text=@"";
     if (_searchTFHeight.constant==0) {
         _searchTFHeight.constant=40;
         _searchTF.hidden=NO;
     }else{
         _searchTFHeight.constant=0;
         _searchTF.hidden=YES;
+    }
+}
+-(void)searchForAnatomicalPair{
+    if ([_toxicDeficiencyString isEqualToString:@""]) {
+        [allSortedDetailArray removeAllObjects];
+        if (_searchTF.text.length>=3) {
+            NSPredicate *predicate=[NSPredicate predicateWithFormat:@"(scanPointName CONTAINS[cd]%@) OR (correspondingPairName CONTAINS[cd]%@) OR (interpretation CONTAINS[cd]%@)",_searchTF.text,_searchTF.text,_searchTF.text];
+            NSArray *ar=[allsortedArrayBeforeSearch filteredArrayUsingPredicate:predicate];
+            [allSortedDetailArray addObjectsFromArray:ar];
+        }else{
+         [allSortedDetailArray addObjectsFromArray:allsortedArrayBeforeSearch];
+        }
+        [_tableview reloadData];
+        [_scrollView layoutIfNeeded];
+        [_tableview setContentOffset:CGPointZero animated:YES];
+        [_scrollView setContentOffset:CGPointZero animated:YES];
+    }else{
+        [_toxicView toxicSearchData:_searchTF.text];
     }
 }
 @end

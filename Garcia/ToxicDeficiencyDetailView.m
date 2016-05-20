@@ -12,6 +12,7 @@
     NSMutableArray *sortedToxicArray;
     Postman *postman;
     AppDelegate *appdelegate;
+    NSMutableArray *sortedArrayBeforeSearch;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -182,6 +183,7 @@
     [self sortData];
 }
 -(void)sortData{
+    sortedArrayBeforeSearch=[[NSMutableArray alloc]init];
     NSArray *selectedToxicArray=[_selectedToxicDeficiency componentsSeparatedByString:@","];
     for (NSString *str in selectedToxicArray) {
         if(![str isEqualToString:@""]){
@@ -206,6 +208,7 @@
             [sortedToxicArray addObject:m];
         }
     }
+      [sortedArrayBeforeSearch addObjectsFromArray:sortedToxicArray];
     if ([_isTreatmntCompleted intValue]==0) _tableView.userInteractionEnabled=YES;
     else _tableView.userInteractionEnabled=NO;
        [_tableView reloadData];
@@ -233,5 +236,18 @@
     hubHUD.yOffset=150.f;
     hubHUD.removeFromSuperViewOnHide = YES;
     [hubHUD hide:YES afterDelay:2];
+}
+-(void)toxicSearchData:(NSString*)searchText{
+    [sortedToxicArray removeAllObjects];
+    if (searchText.length>=3) {
+        NSPredicate *predicate=[NSPredicate predicateWithFormat:@"toxicName CONTAINS[cd]%@",searchText];
+        NSArray *ar=[sortedArrayBeforeSearch filteredArrayUsingPredicate:predicate];
+        [sortedToxicArray addObjectsFromArray:ar];
+    }else{
+        [sortedToxicArray addObjectsFromArray:sortedArrayBeforeSearch];
+    }
+     [_tableView reloadData];
+    [self layoutIfNeeded];
+    [_tableView setContentOffset:CGPointZero animated:YES];
 }
 @end

@@ -56,7 +56,7 @@
         if (sqlite3_open(dbpath, &database)== SQLITE_OK)
             
         {
-            sqlite3_close(database);
+                sqlite3_close(database);
             
         }
     }
