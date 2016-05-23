@@ -143,10 +143,10 @@
     }else{
         _certificateTextView.text=@"";
     }
-    _mobileNoTF.text=model.ContactNo;
-    _genderTF.text=model.gendername;
-    genderCode=model.genderCode;
-    if ([model.storageId isKindOfClass:[NSNull class]]) {
+    _mobileNoTF.text=NULL_CHECK(model.ContactNo);
+    _genderTF.text=NULL_CHECK(model.gendername);
+    genderCode=NULL_CHECK(model.genderCode);
+    if (model.storageId!=nil) {
         _drImageView.image=[UIImage imageNamed:@"Doctor-Image"];
         imageAlreadyUpdated=NO;
     }else{

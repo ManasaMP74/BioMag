@@ -168,36 +168,36 @@
             [userdefault setValue:responseDict[@"token"] forKey:@"X-access-Token"];
             [userdefault setValue:dict[@"Id"] forKey:@"Id"];
             DrProfilModel *model=[[DrProfilModel alloc]init];
-            model.name= dict[@"Name"];
-            model.DOB=dict[@"DOb"];
-            model.email= dict[@"Email"];
-            model.idValue=dict[@"Id"];
-            model.code=dict[@"Code"];
-            NSString *str=dict[@"JSON"];
+            model.name= NULL_CHECK(dict[@"Name"]);
+            model.DOB=NULL_CHECK(dict[@"DOb"]);
+            model.email= NULL_CHECK(dict[@"Email"]);
+            model.idValue=NULL_CHECK(dict[@"Id"]);
+            model.code=NULL_CHECK(dict[@"Code"]);
+            NSString *str=NULL_CHECK(dict[@"JSON"]);
             NSDictionary *jsonDict=[NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
-            model.ContactNo= jsonDict[@"ContactNo"];
-            model.experience= jsonDict[@"Experience"];
-            model.certificate= jsonDict[@"Certificates"];
-            model.gendername= dict[@"Gender"];
-            model.genderCode= dict[@"GenderCode"];
-            model.userTypeCode=dict[@"UserTypeCode"];
-            model.companyCode=dict[@"CompanyCode"];
-            model.FirstName=dict[@"Firstname"];
-            model.middleName=dict[@"Middlename"];
-            model.lastName=dict[@"Lastname"];
-            model.roleCode=dict[@"RoleCode"];
-            model.maritialStatus=dict[@"MaritalStatusCode"];
-            model.drProfileDocument=dict[@"DocumentCode"];
-            model.fileName=dict[@"Filename"];
-            model.storageId=dict[@"StorageID"];
-            NSString *Json=dict[@"JSON"];
-            if (![Json isKindOfClass:[NSNull class]]) {
+            model.ContactNo= NULL_CHECK(jsonDict[@"ContactNo"]);
+            model.experience= NULL_CHECK(jsonDict[@"Experience"]);
+            model.certificate= NULL_CHECK(jsonDict[@"Certificates"]);
+            model.gendername= NULL_CHECK(dict[@"Gender"]);
+            model.genderCode= NULL_CHECK(dict[@"GenderCode"]);
+            model.userTypeCode=NULL_CHECK(dict[@"UserTypeCode"]);
+            model.companyCode=NULL_CHECK(dict[@"CompanyCode"]);
+            model.FirstName=NULL_CHECK(dict[@"Firstname"]);
+            model.middleName=NULL_CHECK(dict[@"Middlename"]);
+            model.lastName=NULL_CHECK(dict[@"Lastname"]);
+            model.roleCode=NULL_CHECK(dict[@"RoleCode"]);
+            model.maritialStatus=NULL_CHECK(dict[@"MaritalStatusCode"]);
+            model.drProfileDocument=NULL_CHECK(dict[@"DocumentCode"]);
+            model.fileName=NULL_CHECK(dict[@"Filename"]);
+            model.storageId=NULL_CHECK(dict[@"StorageID"]);
+            NSString *Json=NULL_CHECK(dict[@"JSON"]);
+             if (Json!=nil) {
                 NSData *jsonData1 = [Json dataUsingEncoding:NSUTF8StringEncoding];
                 NSDictionary *jsonDict1 = [NSJSONSerialization JSONObjectWithData:jsonData1 options:kNilOptions error:nil];
                 model.jsonDict=jsonDict1;
-            }
-            NSString *address=dict[@"Address"];
-            if (![address isKindOfClass:[NSNull class]]) {
+             }
+            NSString *address=NULL_CHECK(dict[@"Address"]);
+            if (address!=nil) {
                 NSData *jsonData1 = [address dataUsingEncoding:NSUTF8StringEncoding];
                 NSDictionary *jsonDict1 = [NSJSONSerialization JSONObjectWithData:jsonData1 options:kNilOptions error:nil];
                 model.addressDict=jsonDict1;

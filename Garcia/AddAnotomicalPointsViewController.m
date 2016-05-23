@@ -69,6 +69,7 @@
     [self callSeedForGerms];
     [self callSeedForLanguage];
     selectedPersonalPairModel=nil;
+    _personalPairTable.tableFooterView=[UIView new];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
