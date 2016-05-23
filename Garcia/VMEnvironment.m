@@ -29,6 +29,7 @@
          _applicablebasicversioncode=plist[@"applicableBasicVersionCode"];
          _applicableintermediateversionCode=plist[@"applicableIntermediateVersionCode"];
          _aboutuscode=plist[@"aboutUsCode"];
+         _aboutusmodule=plist[@"aboutUsModule"];
         
     }
     return self;

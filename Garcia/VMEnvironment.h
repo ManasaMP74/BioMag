@@ -13,6 +13,8 @@
 #define applicableBasicVersionCode [VMEnvironment environment].applicablebasicversioncode
 #define applicableIntermediateVersionCode [VMEnvironment environment].applicableintermediateversionCode
 #define aboutUsCode [VMEnvironment environment].aboutuscode
+#define aboutUsModule [VMEnvironment environment].aboutusmodule
+
 
 @interface VMEnvironment : NSObject
 @property(nonatomic,strong)NSString *environmentName;
@@ -30,6 +32,7 @@
 @property(nonatomic,strong)NSString *applicablebasicversioncode;
 @property(nonatomic,strong)NSString *applicableintermediateversionCode;
 @property(nonatomic,strong)NSString *aboutuscode;
+@property(nonatomic,strong)NSString *aboutusmodule;
 
 +(instancetype)environment;
 @end
