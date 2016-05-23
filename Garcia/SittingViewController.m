@@ -1059,7 +1059,9 @@
                     model.germsCodeString=@"";
                     model.notes=@"";
                     [allDoctorDetailArray addObject:model];
-                    if ([model.appTypeCodeValue isEqualToString:appTypeCode]) {
+                    NSUserDefaults *userdefault=[NSUserDefaults standardUserDefaults];
+                    NSString *docId=[userdefault valueForKey:@"Id"];
+                    if ([docId intValue]==[dict1[@"CreatedBy"] intValue]) {
                         [personalPairArray addObject:model];
                     }
                 }

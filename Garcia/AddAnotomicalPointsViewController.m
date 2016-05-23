@@ -524,7 +524,11 @@
             if ([selectedSegment isEqualToString:@"scanpoint"]) {
                 CompleteScanpointModel *m=personalScanpointArray[indexPath.row];
                 cell.personalScanpointOrCorrespondingPairLabel.text=m.name;
-                cell.personalScanpointOrCorrespondingPairLocLabel.text=m.location;
+                NSLog(@"%@",m.location);
+                if (m.location==nil) {
+                    cell.personalScanpointOrCorrespondingPairLocLabel.text=@"";
+                }
+               else cell.personalScanpointOrCorrespondingPairLocLabel.text=m.location;
             }
             else {
                 CompleteCorrespondingpairModel *m=personalCorrespondingPointArray[indexPath.row];
@@ -901,9 +905,9 @@
         if ([dict1[@"Status"] intValue]==1) {
             CompleteScanpointModel *model=[[CompleteScanpointModel alloc]init];
             model.code=dict1[@"Code"];
-            model.name=dict1[@"Name"];
+            model.name=NULL_CHECK(dict1[@"Name"]);
             model.idValue=dict1[@"Id"];
-            model.location=dict1[@"LocationScanPoint"];
+            model.location=NULL_CHECK(dict1[@"LocationScanPoint"]);
             [scanpointArray addObject:model];
             if ([docId intValue]==[dict1[@"CreatedBy"] intValue]) {
                 [personalScanpointArray addObject:model];
@@ -971,9 +975,9 @@
         if ([dict1[@"Status"] intValue]==1) {
             CompleteCorrespondingpairModel *model=[[CompleteCorrespondingpairModel alloc]init];
             model.code=dict1[@"Code"];
-            model.name=dict1[@"Name"];
+            model.name=NULL_CHECK(dict1[@"Name"]);
             model.idValue=dict1[@"Id"];
-            model.location=dict1[@"LocationCorrespondingPair"];
+            model.location=NULL_CHECK(dict1[@"LocationCorrespondingPair"]);
             [correspondingPointArray addObject:model];
             if ([docId intValue]==[dict1[@"CreatedBy"] intValue]) {
                 [personalCorrespondingPointArray addObject:model];

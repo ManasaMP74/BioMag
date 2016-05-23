@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
 #import "VMEnvironment.h"
+#define NULL_CHECK(X) [X isKindOfClass:[NSNull class]]?nil:X
 @protocol successFullAddingAnatomicalPoints<NSObject>
 -(void)successFullAddingAnatomicalPoints;
 @end
