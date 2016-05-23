@@ -524,10 +524,12 @@
             if ([selectedSegment isEqualToString:@"scanpoint"]) {
                 CompleteScanpointModel *m=personalScanpointArray[indexPath.row];
                 cell.personalScanpointOrCorrespondingPairLabel.text=m.name;
+                cell.personalScanpointOrCorrespondingPairLocLabel.text=m.location;
             }
             else {
                 CompleteCorrespondingpairModel *m=personalCorrespondingPointArray[indexPath.row];
                 cell.personalScanpointOrCorrespondingPairLabel.text=m.name;
+                 cell.personalScanpointOrCorrespondingPairLocLabel.text=m.location;
             }
         }
         return cell;
@@ -901,6 +903,7 @@
             model.code=dict1[@"Code"];
             model.name=dict1[@"Name"];
             model.idValue=dict1[@"Id"];
+            model.location=dict1[@"LocationScanPoint"];
             [scanpointArray addObject:model];
             if ([docId intValue]==[dict1[@"CreatedBy"] intValue]) {
                 [personalScanpointArray addObject:model];
@@ -970,6 +973,7 @@
             model.code=dict1[@"Code"];
             model.name=dict1[@"Name"];
             model.idValue=dict1[@"Id"];
+            model.location=dict1[@"LocationCorrespondingPair"];
             [correspondingPointArray addObject:model];
             if ([docId intValue]==[dict1[@"CreatedBy"] intValue]) {
                 [personalCorrespondingPointArray addObject:model];
