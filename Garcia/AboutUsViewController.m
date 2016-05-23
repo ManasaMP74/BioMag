@@ -43,7 +43,7 @@
 -(void)callApi{
     Postman *postman=[[Postman alloc]init];
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,aboutUs];
-    NSString *parameter=[NSString stringWithFormat:@"{\"request\":\{\"EntityCode\":\"%@\",\"Code\":\"%@\",\"Name\":\"\"}}",aboutUsCode];
+    NSString *parameter=[NSString stringWithFormat:@"{\"request\":\{\"EntityCode\":\"%@\",\"Code\":\"%@\",\"Name\":\"\"}}",aboutUsModule,aboutUsCode];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self process:responseObject];
