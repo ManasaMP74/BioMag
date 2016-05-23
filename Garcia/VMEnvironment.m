@@ -28,6 +28,8 @@
         _apptypecode=plist[@"appTypeCode"];
          _applicablebasicversioncode=plist[@"applicableBasicVersionCode"];
          _applicableintermediateversionCode=plist[@"applicableIntermediateVersionCode"];
+         _aboutuscode=plist[@"aboutUsCode"];
+        
     }
     return self;
 }

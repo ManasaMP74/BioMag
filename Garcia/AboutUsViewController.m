@@ -43,7 +43,7 @@
 -(void)callApi{
     Postman *postman=[[Postman alloc]init];
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,aboutUs];
-    NSString *parameter=[NSString stringWithFormat:@"{\"request\":\{\"Code\":\"LDHX7U\",\"Name\":\"\"}}"];
+    NSString *parameter=[NSString stringWithFormat:@"{\"request\":\{\"EntityCode\":\"%@\",\"Name\":\"\"}}",aboutUsCode];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self process:responseObject];
@@ -61,14 +61,14 @@
     }
     NSArray *configurationArray=dict[@"Configurations"];
     for (NSDictionary *dict1 in configurationArray) {
-        if ([dict1[@"Code"] isEqualToString:@"LDHX7U"]) {
             CGFloat i=self.view.frame.size.width-30;
-            CGFloat labelHeight=[dict1[@"ValueFrom"] boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }
+            NSString *str=dict1[@"ValueFrom"];
+            CGFloat labelHeight=[str boundingRectWithSize:(CGSize){i,CGFLOAT_MAX }
                                                                                           options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"OpenSans-Semibold" size:14]} context:nil].size.height;
             _viewHeight.constant=labelHeight+10;
             _textviewHeight.constant=labelHeight;
-            _aboutTextView.text=dict1[@"ValueFrom"];
+           
+            _aboutTextView.text=str;
         }
-    }
 }
 @end

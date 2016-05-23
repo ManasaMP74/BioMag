@@ -1,41 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<!--
-   environment_PROD.plist
-   Biomagnetism
-
-   Created by manasap on 31/03/16.
-   Copyright (c) 2016 manasap. All rights reserved.
--->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-    <dict>
-        <key>environment</key>
-        <string>PROD</string>
-        <key>appName</key>
-        <string>Biomagnetism</string>
-        <key>baseUrl</key>
-        <string>http://biomagnetictherapy.us-west-2.elasticbeanstalk.com/</string>
-        <key>dbName</key>
-        <string>biomag.images.original/</string>
-        <key>dbNameforResized</key>
-        <string>biomag.images.resized/</string>
-        <key>postmanCompanyCode</key>
-        <string>VM001</string>
-        <key>aboutUs</key>
-        <string>search/configuration</string>
-        <key>FAQurl</key>
-        <string>configurationview/AOO6FQ</string>
-        <key>termsAndCondition</key>
-        <string>configurationview/MWUFJM</string>
-        <key>privecyAndPolicy</key>
-        <string>configurationview/4XOSBX</string>
-        <key>baseUrlAws</key>
-        <string>https://s3-us-west-2.amazonaws.com/</string>
-        <key>appTypeCode</key>
-        <string>1IBT8U</string>
-        <key>applicableBasicVersionCode</key>
-        <string>KP18Z7</string>
-        <key>applicableIntermediateVersionCode</key>
-        <string>BWLTYA</string>
-    </dict>
+<dict>
+	<key>environment</key>
+	<string>PROD</string>
+	<key>appName</key>
+	<string>Biomagnetism</string>
+	<key>baseUrl</key>
+	<string>http://biomagnetictherapy.us-west-2.elasticbeanstalk.com/</string>
+	<key>dbName</key>
+	<string>biomag.images.original/</string>
+	<key>dbNameforResized</key>
+	<string>biomag.images.resized/</string>
+	<key>postmanCompanyCode</key>
+	<string>VM001</string>
+	<key>aboutUs</key>
+	<string>Search/Configuration</string>
+	<key>FAQurl</key>
+	<string>configurationview/AOO6FQ</string>
+	<key>termsAndCondition</key>
+	<string>configurationview/I0UAWB</string>
+	<key>privecyAndPolicy</key>
+	<string>configurationview/4XOSBX</string>
+	<key>baseUrlAws</key>
+	<string>https://s3-us-west-2.amazonaws.com/</string>
+	<key>appTypeCode</key>
+	<string>1IBT8U</string>
+	<key>applicableBasicVersionCode</key>
+	<string>KP18Z7</string>
+	<key>applicableIntermediateVersionCode</key>
+	<string>BWLTYA</string>
+	<key>aboutUsCode</key>
+	<string>Q10B9A</string>
+</dict>
 </plist>
