@@ -350,10 +350,12 @@ int i=0;
                 
                 //headerModel.sectionName=dict2[@"SectionName"];
                 headerModel.sectionName=m1.sectionName;
+                    if (m1.sectionName!=nil) {
                 if (![headerModel.scanpointCodeArray containsObject:dict2[@"ScanPointCode"]]) {
                         [headerModel.scanpointCodeArray addObject:dict2[@"ScanPointCode"]];
                    // [headerModel.scanpointNameArray addObject:dict2[@"ScanPointName"]];
                      [headerModel.scanpointNameArray addObject:m1.scanPointName];
+                }
                 }
                 int j=0;
                 while (j!=headerModel.scanpointCodeArray.count) {
