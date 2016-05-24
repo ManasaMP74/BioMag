@@ -40,6 +40,7 @@
 		DA17BD441CCE26C700760A50 /* AddAnatomicalPointCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA17BD431CCE26C700760A50 /* AddAnatomicalPointCell.m */; };
 		DA17BD471CCE37D800760A50 /* EditAnatomicalPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = DA17BD461CCE37D800760A50 /* EditAnatomicalPoint.m */; };
 		DA1BB06F1C3F9224003D221C /* PatientTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA1BB06E1C3F9224003D221C /* PatientTitleModel.m */; };
+		DA1DEF151CF433A100301179 /* SplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA1DEF141CF433A100301179 /* SplashViewController.m */; };
 		DA261DC91C4660CD00B18035 /* ToxicDeficiency.m in Sources */ = {isa = PBXBuildFile; fileRef = DA261DC81C4660CD00B18035 /* ToxicDeficiency.m */; };
 		DA2D3DA01C0EB3CF008D0AC2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2D3D9F1C0EB3CF008D0AC2 /* QuartzCore.framework */; };
 		DA2D3DA21C0EB3E0008D0AC2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2D3DA11C0EB3E0008D0AC2 /* UIKit.framework */; };
@@ -225,6 +226,8 @@
 		DA17BD461CCE37D800760A50 /* EditAnatomicalPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAnatomicalPoint.m; sourceTree = "<group>"; };
 		DA1BB06D1C3F9224003D221C /* PatientTitleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatientTitleModel.h; sourceTree = "<group>"; };
 		DA1BB06E1C3F9224003D221C /* PatientTitleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PatientTitleModel.m; sourceTree = "<group>"; };
+		DA1DEF131CF433A100301179 /* SplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplashViewController.h; sourceTree = "<group>"; };
+		DA1DEF141CF433A100301179 /* SplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplashViewController.m; sourceTree = "<group>"; };
 		DA261DC71C4660CD00B18035 /* ToxicDeficiency.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToxicDeficiency.h; sourceTree = "<group>"; };
 		DA261DC81C4660CD00B18035 /* ToxicDeficiency.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToxicDeficiency.m; sourceTree = "<group>"; };
 		DA2D3D9F1C0EB3CF008D0AC2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -855,6 +858,8 @@
 			children = (
 				DAEFA1951BD0B11500900379 /* AppDelegate.h */,
 				DAEFA1961BD0B11500900379 /* AppDelegate.m */,
+				DA1DEF131CF433A100301179 /* SplashViewController.h */,
+				DA1DEF141CF433A100301179 /* SplashViewController.m */,
 				DAEFA1CF1BD0B6E700900379 /* Login */,
 				DAEFA1D61BD0B79D00900379 /* Patient */,
 				DAEFA1D31BD0B71D00900379 /* SearchPatient */,
@@ -1377,6 +1382,7 @@
 				DAEF6AF31BD65C61006868C8 /* DatePicker.m in Sources */,
 				DA70EECE1C44CE3300D20570 /* SeedSyncer.m in Sources */,
 				DAE6FBBB1BE4DC3500952812 /* TagCollectionViewCell.m in Sources */,
+				DA1DEF151CF433A100301179 /* SplashViewController.m in Sources */,
 				DA2D3E541C0F21E0008D0AC2 /* SittingViewController.m in Sources */,
 				DAF277281BFB135300D236B2 /* ProfileImageModel.m in Sources */,
 				DA4618B91CBFA02800FE3291 /* AddedSittingView.m in Sources */,
@@ -1549,7 +1555,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.Garcia;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.urbanAirshipTestApp;
 				PRODUCT_NAME = Biomagnetism;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
@@ -1696,7 +1702,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.Garcia;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.urbanAirshipTestApp;
 				PRODUCT_NAME = Biomagnetism;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
@@ -1716,7 +1722,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.Garcia;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.urbanAirshipTestApp;
 				PRODUCT_NAME = Biomagnetism;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;

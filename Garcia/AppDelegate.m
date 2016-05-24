@@ -13,7 +13,7 @@
 #import "MBProgressHUD.h"
 #import "SeedSyncer.h"
 #import "VMEnvironment.h"
-
+#import "LoginViewController.h"
 @interface AppDelegate ()<languageChangeForDelegat>
 @end
 
@@ -35,14 +35,14 @@
     NSUserDefaults *userdefault=[NSUserDefaults standardUserDefaults];
     
     BOOL status=[userdefault boolForKey:@"rememberMe"];
+    UIStoryboard *storyBoard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UINavigationController *navController = (UINavigationController *)self.window.rootViewController;
     if (status) {
-        [langchanger readingLanguageFromDocument];
-        UIStoryboard *storyBoard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        UINavigationController *navController = (UINavigationController *)self.window.rootViewController;
-        ContainerViewController *container=[storyBoard instantiateViewControllerWithIdentifier:@"ContainerViewController"];
-        [navController setViewControllers:@[container]];
     [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
             if (success) {
+                [langchanger readingLanguageFromDocument];
+                ContainerViewController *container=[storyBoard instantiateViewControllerWithIdentifier:@"ContainerViewController"];
+                [navController setViewControllers:@[container]];
                 [self languageChanger];
             }
             else{
@@ -51,6 +51,8 @@
         }];
     }else{
       [userdefault setBool:NO forKey:@"logout"];
+       LoginViewController *login=[storyBoard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+        [navController setViewControllers:@[login]];
     }
     return YES;
 }
