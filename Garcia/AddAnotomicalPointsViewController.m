@@ -1070,7 +1070,7 @@
         }
     }
     if ([textField isEqual:_scanpointNameTF]|[textField isEqual:_scanpointLocationTF]|[textField isEqual:_correspondingNameTF]|[textField isEqual:_correspondingLocationTF]) {
-        if (textField.text.length+string.length>5) {
+        if (textField.text.length+string.length>250) {
             status=NO;
             UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alertStr message:TextShouldBeLessThan250 preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *cancel=[UIAlertAction actionWithTitle:alertOkStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
