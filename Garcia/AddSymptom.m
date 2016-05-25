@@ -237,6 +237,7 @@
     if (_symptomTf.text.length!=0) {
         [self checkThatAddedSymptomTagIsthereOrNot];
     }
+     _symptomTf.text=@"";
      [MBProgressHUD hideAllHUDsForView:alphaView animated:NO];
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -359,7 +360,6 @@
 //        [self heightOfView:182];
 //        _symptomTf.text=@"";
    // }
-        _symptomTf.text=@"";
         [self showToastMessage:dict[@"Message"]];
         [self callApiTogetSymptomTag];
     }

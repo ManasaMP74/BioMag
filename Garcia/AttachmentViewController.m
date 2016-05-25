@@ -17,6 +17,7 @@ NSString * navTitle,*alert,*alertOk,*TextShouldBeLessThan150;
      [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-2.jpg"]]];
     [self navigationItemMethod];
     constant=[[Constant alloc]init];
+    [self localize];
 }
 
 - (void)didReceiveMemoryWarning {

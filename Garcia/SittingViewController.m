@@ -78,7 +78,7 @@
     allPreviousSittingDetail=[[NSMutableArray alloc]init];
     allsortedArrayBeforeSearch=[[NSMutableArray alloc]init];
     _addedSittingView.hidden=YES;
-    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+    self.revealViewController.panGestureRecognizer.enabled=NO;
     self.revealViewController.delegate=self;
     [self.revealViewController setRightViewRevealWidth:180];
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-2.jpg"]]];
@@ -717,6 +717,12 @@
         //            parameter=YES;
         //            break;
         //        }
+    }
+    NSString *str=[_toxicView getAllTheSelectedToxic];
+    if (!parameter) {
+        if (str.length!=0) {
+           parameter=YES;
+        }
     }
     if (parameter) {
         UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:doYoucloseSitting preferredStyle:UIAlertControllerStyleAlert];
