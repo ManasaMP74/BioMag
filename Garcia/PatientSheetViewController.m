@@ -111,7 +111,7 @@
     NSIndexPath *selectedSittingIndex;
     NSArray *slideoutImageArray,*slideoutArray;
     NSString *differForNavButton;
-    NSString *navTitle,*titleOfTreatment,*closureNote,*medicalNote,*diagnosisNote,*doYouWantToCloseTreatment,*alert,*alertOk,*updatedSuccess,*updateFailed,*saveSuccess,*saveFailed,*enterTreatmentClosure,*ok,*yesStr,*noStr,*treatmentTitlerequired,*sittingStr,*closedSuccess,*deleteSittingMsg,*imageUploadFailed,*popBackAlert,*noDevFound;
+    NSString *navTitle,*titleOfTreatment,*closureNote,*medicalNote,*diagnosisNote,*doYouWantToCloseTreatment,*alert,*alertOk,*updatedSuccess,*updateFailed,*saveSuccess,*saveFailed,*enterTreatmentClosure,*ok,*yesStr,*noStr,*treatmentTitlerequired,*sittingStr,*closedSuccess,*deleteSittingMsg,*imageUploadFailed,*popBackAlert,*noDevFound,*cannotUse;
     WYPopoverController *wypopOverController;
     UIButton * lagSomeButton;
     BOOL changesDoneOrNot;
@@ -1179,6 +1179,18 @@
 -(void)textViewDidEndEditing:(UITextView *)textView{
     activeField=nil;
 }
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    BOOL status=YES;
+    if ([textView isEqual:_medicalHistoryTextView]| [textView isEqual:_diagnosisTextView]) {
+
+            if ([text isEqualToString:@"$"])
+            {
+                status=NO;
+                [self showToastMessage:cannotUse];
+            }else status=YES;
+    }
+    return status;
+}
 //textView Change
 -(void)textViewDidChange:(UITextView *)textView{
     if (textView==_treatmentEncloserTextView) {
@@ -1188,13 +1200,13 @@
         }
         else _addClosureNoteLabel.hidden=YES;
     }
-    if (textView==_medicalHistoryTextView) {
+  else  if (textView==_medicalHistoryTextView) {
         if ([_medicalHistoryTextView.text isEqualToString:@""]) {
             _medicalNoteLabel.hidden=NO;
         }
         else _medicalNoteLabel.hidden=YES;
     }
-    if (textView==_diagnosisTextView) {
+  else  if (textView==_diagnosisTextView) {
         if ([_diagnosisTextView.text isEqualToString:@""]) {
             _diagnosisNoteLabel.hidden=NO;
         }
@@ -1982,6 +1994,7 @@
 }
 //localization
 -(void)localize{
+     cannotUse=[MCLocalization stringForKey:@"'$' cann't be used"];
      noDevFound=[MCLocalization stringForKey:@"No device found"];
     navTitle=[MCLocalization stringForKey:@"TreatmentSheet"];
     alert=[MCLocalization stringForKey:@"Alert!"];
