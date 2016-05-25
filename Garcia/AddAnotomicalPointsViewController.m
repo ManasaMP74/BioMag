@@ -238,8 +238,10 @@
     if ([differForSaveData isEqualToString:@"scanpoint"] | [differForSaveData isEqualToString:@"CorrespondingPair"]) {
         if ([dict[@"Success"]intValue]==1) {
             if ([differForSaveData isEqualToString:@"scanpoint"]){
+             [self showToastMessage:dict[@"Message"]];
                 [self callApiToGetScanpoint:NO];
             }else if ([differForSaveData isEqualToString:@"CorrespondingPair"]){
+                 [self showToastMessage:dict[@"Message"]];
                 [self callApiToGetCorrespondingPair:NO];
             }
             [self showToastMessage:dict[@"Message"]];

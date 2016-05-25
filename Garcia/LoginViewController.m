@@ -56,13 +56,11 @@
 }
 // Remember me
 - (IBAction)rememberMe:(id)sender {
-    BOOL remember=[userdefault boolForKey:@"rememberMe"];
-    if (!remember) {
-        [userdefault setBool:YES forKey:@"rememberMe"];
-        [_rememberMe setImage:[UIImage imageNamed:@"Box-Checked.png"] forState:normal];
+     [userdefault setBool:NO forKey:@"rememberMe"];
+    if ([_rememberMe.currentImage isEqual:[UIImage imageNamed:@"Box-Unchecked.png"]]) {
+    [_rememberMe setImage:[UIImage imageNamed:@"Box-Checked.png"] forState:normal];
     }
     else {
-        [userdefault setBool:NO forKey:@"rememberMe"];
         [_rememberMe setImage:[UIImage imageNamed:@"Box-Unchecked.png"] forState:normal];
     }
 }
@@ -123,7 +121,9 @@
             [userdefault setValue:doctorName forKey:@"DoctorName"];
             [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
                 if (success) {
-                    if ([userdefault boolForKey:@"rememberMe"]) {
+                    
+                    if ([_rememberMe.currentImage isEqual:[UIImage imageNamed:@"Box-Checked.png"]]) {
+                            [userdefault setBool:YES forKey:@"rememberMe"];
                         [userdefault setValue:_userNameTf.text forKey:@"userName"];
                         [userdefault setValue:_passwordTF.text forKey:@"password"];
                     }
@@ -217,6 +217,7 @@
                     [self languageChanger];
                 }
                 else{
+                    [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
                     [userdefault setValue:@"" forKey:@"userName"];
                     [userdefault setValue:@"" forKey:@"password"];
                     [userdefault setBool:NO forKey:@"rememberMe"];
@@ -232,6 +233,7 @@
         }
     }
     else{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
         [userdefault setValue:@"" forKey:@"userName"];
         [userdefault setValue:@"" forKey:@"password"];
         [userdefault setBool:NO forKey:@"rememberMe"];
@@ -246,9 +248,11 @@
 }
 -(void)languageChangeDelegate:(int)str{
     if (str==0) {
+         [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
         [self showToastMessage:seedError];
     }else{
-        if ([userdefault boolForKey:@"rememberMe"]) {
+        if ([_rememberMe.currentImage isEqual:[UIImage imageNamed:@"Box-Checked.png"]]) {
+            [userdefault setBool:YES forKey:@"rememberMe"];
             [userdefault setValue:_userNameTf.text forKey:@"userName"];
             [userdefault setValue:_passwordTF.text forKey:@"password"];
         }

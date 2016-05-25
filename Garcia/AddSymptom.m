@@ -322,7 +322,6 @@
         
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
             [self processResponseObjectOfAddTag:responseObject];
-            [self callApiTogetSymptomTag];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 //            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Alert!" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
 //            [alert show];
@@ -360,6 +359,8 @@
 //        [self heightOfView:182];
 //        _symptomTf.text=@"";
    // }
+        _symptomTf.text=@"";
+        [self showToastMessage:dict[@"Message"]];
         [self callApiTogetSymptomTag];
     }
     else{
