@@ -75,6 +75,10 @@ NSString * navTitle,*alert,*alertOk,*TextShouldBeLessThan150;
 {
         if (textView.text.length + (text.length - range.length) > 150) {
         [self.view endEditing:YES];
+//            if (textView.text.length==0) {
+//                 NSString *str=[text substringToIndex:150];
+//                _textView.text=str;
+//            }
         UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:TextShouldBeLessThan150 preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *cancel=[UIAlertAction actionWithTitle:alertOk style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
            [alertView dismissViewControllerAnimated:YES completion:nil];

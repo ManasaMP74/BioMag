@@ -134,13 +134,13 @@ else{
 -(void)changeSaveBtnImage:(UIButton*)btn{
  [btn setBackgroundImage:[[UIImage imageNamed:@"Save-Button"] resizableImageWithCapInsets:(UIEdgeInsetsMake(12, 30, 12, 30))] forState:(UIControlStateNormal)];
     btn.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    btn.titleLabel.numberOfLines = 2;
+    btn.titleLabel.numberOfLines = 1;
 }
 //change the cancel btn image size according to text
 -(void)changeCancelBtnImage:(UIButton*)btn{
     [btn setBackgroundImage:[[UIImage imageNamed:@"Cancel-Button"] resizableImageWithCapInsets:(UIEdgeInsetsMake(12, 30, 12, 30))] forState:(UIControlStateNormal)];
     btn.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    btn.titleLabel.numberOfLines = 2;
+    btn.titleLabel.numberOfLines = 1;
 }
 
 

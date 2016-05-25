@@ -38,7 +38,7 @@
     NSString *alertStr,*alertOkStr,*requiredNameField,*requiredLocationField,*requiredBoth,*requiredSection,*requiredScanpoint,*requiredCorrespondingpair,*requiredAuthor,*requiredGerms,*requiredSort,*requiredDesc;
     Postman *postman;
     NSMutableArray *scanpointArray,*correspondingPointArray,*authorArray,*germsArray,*sectionArray,*languageArray,*personalScanpointArray,*personalCorrespondingPointArray;
-    NSString *selectedGermsCode,*selectedSection,*selectedScanpoint,*selectedCorrespondingpair,*selectedAuthor,*selectedLang,*selectedSegment;
+    NSString *selectedGermsCode,*selectedSection,*selectedScanpoint,*selectedCorrespondingpair,*selectedAuthor,*selectedLang,*selectedSegment,*TextShouldBeLessThan250;
     sittingModel *selectedPersonalPairModel;
 }
 - (void)viewDidLoad {
@@ -1069,6 +1069,17 @@
             }
         }
     }
+    if ([textField isEqual:_scanpointNameTF]|[textField isEqual:_scanpointLocationTF]|[textField isEqual:_correspondingNameTF]|[textField isEqual:_correspondingLocationTF]) {
+        if (textField.text.length+string.length>5) {
+            status=NO;
+            UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alertStr message:TextShouldBeLessThan250 preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *cancel=[UIAlertAction actionWithTitle:alertOkStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+                [alertView dismissViewControllerAnimated:YES completion:nil];
+            }];
+            [alertView addAction:cancel];
+            [self presentViewController:alertView animated:YES completion:nil];
+        }
+    }
     return status;
 }
 -(void)callSeedForLanguage{
@@ -1185,5 +1196,6 @@
  _personalScanpointSortLabel.text=[MCLocalization stringForKey:@"Sort Number"];
 _personalScanpointLocationLabel.text=[MCLocalization stringForKey:@"Location"];
 _personalCorrespondingSortLabel.text=[MCLocalization stringForKey:@"Sort Number"];
+TextShouldBeLessThan250=[MCLocalization stringForKey:@"Text should be less than 250"];
 }
 @end

@@ -1072,7 +1072,7 @@
     [_uploadCollectionView reloadData];
     [self.view layoutIfNeeded];
     _uploadCollectionView.hidden=NO;
-    _uploadViewHeigh.constant=uploadCellHeight+230;
+    _uploadViewHeigh.constant=uploadCellHeight+235;
 }
 -(void)deleteCell:(id)cell{
     uploadCellHeight=0.0;
@@ -1096,7 +1096,7 @@
     if (uploadedImageArray.count==0) {
         _uploadViewHeigh.constant=100;
     }
-    else _uploadViewHeigh.constant=uploadCellHeight+230;
+    else _uploadViewHeigh.constant=uploadCellHeight+235;
 }
 //api to delete doc
 -(void)callDeleteDocumentAPI:(NSIndexPath*)index withDocumentModel:(UploadModelClass*)uploadmodel{
@@ -1363,7 +1363,7 @@
                 uploadCellHeight=MAX(uploadCellHeight, labelHeight);
             }
             _uploadCollectionView.hidden=NO;
-            _uploadViewHeigh.constant=uploadCellHeight+230;
+            _uploadViewHeigh.constant=uploadCellHeight+235;
             [_uploadCollectionView reloadData];
             [self.view layoutIfNeeded];
         }
