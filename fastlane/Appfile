@@ -1,4 +1,4 @@
-app_identifier "com.vmoksha.Garcia" # The bundle identifier of your app
+app_identifier "com.vmoksha.furban" # The bundle identifier of your app
 apple_id "senthilnathank@vmokshagroup.com" # Your Apple email address
 
 team_id "QGMN7468R5"  # Developer Portal Team ID
