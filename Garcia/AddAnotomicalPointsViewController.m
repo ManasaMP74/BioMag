@@ -99,6 +99,7 @@
     _scanpointLocationTF.text=@"";
     _correspondingNameTF.text=@"";
     _correspondingLocationTF.text=@"";
+    _anatomicalSortNumberTF.text=@"";
 }
 - (IBAction)saveButtonForScanpoint:(id)sender {
     [self.view endEditing:YES];
@@ -260,7 +261,10 @@
             [self alertView:dict[@"Message"]];
             
         }else{
-            [self showToastMessage:dict[@"Message"]];
+            NSString *str=dict[@"Message"];
+            if (str.length==0) {
+                [self showToastMessage:[MCLocalization stringForKey:@"Save Failed"]];
+            }
         }
     }
 }
@@ -481,29 +485,29 @@
 //TableView Number of row
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    int countValue;
+    int countValue=0;
     if ([tableView isEqual:_sectionTableview])
     {
         return sectionArray.count;
     }
     else if ([tableView isEqual:_scanpointTable])
-        countValue= scanpointArray.count;
+        countValue=(int) scanpointArray.count;
     else if ([tableView isEqual:_correspondingPairTable])
-        countValue= correspondingPointArray.count;
+        countValue= (int)correspondingPointArray.count;
     else if ([tableView isEqual:_authorTableView])
-        countValue= authorArray.count;
+        countValue=(int) authorArray.count;
     else if ([tableView isEqual:_germsTableView])
-        countValue= germsArray.count;
+        countValue= (int)germsArray.count;
     else if ([tableView isEqual:_langTable])
-        countValue= languageArray.count;
+        countValue= (int)languageArray.count;
     else if ([tableView isEqual:_personalPairTable])
-        countValue= _personalPairArray.count;
+        countValue= (int)_personalPairArray.count;
     else if ([tableView isEqual:_personalScanPointOrCorrespondingPair])
     {
         if ([selectedSegment isEqualToString:@"scanpoint"]) {
-            countValue=personalScanpointArray.count;
+            countValue=(int)personalScanpointArray.count;
         }
-        else  countValue=personalCorrespondingPointArray.count;
+        else  countValue=(int)personalCorrespondingPointArray.count;
     }
     else  countValue= 10;
         
