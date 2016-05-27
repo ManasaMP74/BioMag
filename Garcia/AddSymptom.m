@@ -314,7 +314,7 @@
         NSUserDefaults *standardDefault=[NSUserDefaults standardUserDefaults];
         NSString *languageCode= [standardDefault valueForKey:@"languageCode"];
         if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-            parameter =[NSString stringWithFormat:@"{\"request\":{\"Name\":\"%@\",\"Status\": true,\"UserID\": %@,\"MethodType\": \"POST\",\"LanguageCode\": \"%@\",\"CompanyCode\": \"%@\"}}",_symptomTf.text,_searchModel.Id,languageCode,postmanCompanyCode];
+            parameter =[NSString stringWithFormat:@"{\"request\":{\"Name\":\"%@\",\"Status\": true,\"UserID\": %@,\"MethodType\": \"POST\",\"LanguageCode\": \"%@\",\"CompanyCode\":\"%@\"}}",_symptomTf.text,_searchModel.Id,languageCode,postmanCompanyCode];
         }
         else{
             parameter =[NSString stringWithFormat:@"{\"Name\":\"%@\",\"Status\": true,\"UserID\": %@,\"MethodType\": \"POST\"}",_symptomTf.text,_searchModel.Id];
