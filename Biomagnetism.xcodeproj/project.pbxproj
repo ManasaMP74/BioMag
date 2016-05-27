@@ -1553,9 +1553,9 @@
 				INFOPLIST_FILE = Garcia/Info.plist;
 				INFOPLIST_PREFIX_HEADER = environment_preprocess.h;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.Garcia;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.furban;
 				PRODUCT_NAME = Biomagnetism;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
@@ -1700,9 +1700,9 @@
 				INFOPLIST_FILE = Garcia/Info.plist;
 				INFOPLIST_PREFIX_HEADER = environment_preprocess.h;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.Garcia;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.furban;
 				PRODUCT_NAME = Biomagnetism;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
@@ -1720,9 +1720,9 @@
 				INFOPLIST_FILE = Garcia/Info.plist;
 				INFOPLIST_PREFIX_HEADER = environment_preprocess.h;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.Garcia;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vmoksha.furban;
 				PRODUCT_NAME = Biomagnetism;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
