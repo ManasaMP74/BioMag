@@ -518,6 +518,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([tableView isEqual:_personalPairTable] | [tableView isEqual:_personalScanPointOrCorrespondingPair]) {
         AddAnatomicalPointCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
+        if ([tableView isEqual:_personalPairTable]){
         if ([selectedSegment isEqualToString:@"anatomicalPair"]) {
             sittingModel *model=_personalPairArray[indexPath.row];
             cell.sectionLabel.text=model.sectionName;
@@ -526,7 +527,8 @@
             cell.code.text=model.germsName;
             _personalPairTableHeight.constant=_personalPairTable.contentSize.height;
         }
-        else if ([tableView isEqual:_personalScanPointOrCorrespondingPair])
+        }
+    else if ([tableView isEqual:_personalScanPointOrCorrespondingPair])
         {
             if ([selectedSegment isEqualToString:@"scanpoint"]) {
                 CompleteScanpointModel *m=personalScanpointArray[indexPath.row];
@@ -537,7 +539,7 @@
                 }
                else cell.personalScanpointOrCorrespondingPairLocLabel.text=m.location;
             }
-            else {
+            else if ([selectedSegment isEqualToString:@"correspondingpair"]){
                 CompleteCorrespondingpairModel *m=personalCorrespondingPointArray[indexPath.row];
                 cell.personalScanpointOrCorrespondingPairLabel.text=m.name;
                  cell.personalScanpointOrCorrespondingPairLocLabel.text=m.location;

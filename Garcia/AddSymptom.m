@@ -29,7 +29,6 @@
     postman=[[Postman alloc]init];
     filterdTagListArray=[[NSMutableArray alloc]init];
     symptomTagArray=[[NSMutableArray alloc]init];
-    [self callSeed];
     return self;
 }
 -(void)initializeView
@@ -47,6 +46,7 @@
         alphaView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
         [alphaView addSubview:view];
     }
+    [self callSeed];
     UITapGestureRecognizer *gest=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideView)];
     gest.cancelsTouchesInView=NO;
     gest.delegate=self;
@@ -314,7 +314,7 @@
         NSUserDefaults *standardDefault=[NSUserDefaults standardUserDefaults];
         NSString *languageCode= [standardDefault valueForKey:@"languageCode"];
         if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-            parameter =[NSString stringWithFormat:@"{\"request\":{\"Name\":\"%@\",\"Status\": true,\"UserID\": %@,\"MethodType\": \"POST\",\"LanguageCode\": \"%@\"}}",_symptomTf.text,_searchModel.Id,languageCode];
+            parameter =[NSString stringWithFormat:@"{\"request\":{\"Name\":\"%@\",\"Status\": true,\"UserID\": %@,\"MethodType\": \"POST\",\"LanguageCode\": \"%@\",\"CompanyCode\": \"%@\"}}",_symptomTf.text,_searchModel.Id,languageCode,postmanCompanyCode];
         }
         else{
             parameter =[NSString stringWithFormat:@"{\"Name\":\"%@\",\"Status\": true,\"UserID\": %@,\"MethodType\": \"POST\"}",_symptomTf.text,_searchModel.Id];
