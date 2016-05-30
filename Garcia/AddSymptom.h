@@ -17,4 +17,6 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *allTagListTableViewHeight;
 @property(assign,nonatomic)CGFloat heightOfView;
 @property (weak, nonatomic) IBOutlet UILabel *symptomsLabel;
+
+@property (strong, nonatomic)NSArray *completeSymptomTagDetailArray;
 @end

@@ -52,6 +52,7 @@
 @property(strong,nonatomic)NSArray *allSymptomTagArray;
 @property(strong,nonatomic)NSArray *completeSittingArray;
 @property(strong,nonatomic)NSArray *completeGermsArray;
+@property(strong,nonatomic)NSArray *completeSymptomTagDetailArray;
 @property (weak, nonatomic) IBOutlet UIButton *searchBtn;
 @property (weak, nonatomic) IBOutlet UITextField *searchTF;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchTFHeight;

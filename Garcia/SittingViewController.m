@@ -560,6 +560,13 @@
                             SymptomTagModel *m=_allSymptomTagArray[i];
                             if ([m.tagCode isEqualToString:symptomString1]) {
                                 [appdelegate.symptomTagArray addObject:m];
+                            }else{
+                                if (_completeSymptomTagDetailArray.count>0) {
+                                SymptomTagModel *m1=_completeSymptomTagDetailArray[i];
+                                if ([m1.tagCode isEqualToString:symptomString1]) {
+                                    [appdelegate.symptomTagArray addObject:m1];
+                                }
+                                }
                             }
                         }
                     }

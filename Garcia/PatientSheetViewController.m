@@ -98,7 +98,7 @@
     float sittingCollectionViewHeight,uploadCellHeight,diagnosisCellHeight,medicalHistoryCellHeight;
     AttachmentViewController *attachView;
     UIView *activeField;
-    NSMutableArray *uploadedImageArray,*sittingCollectionArray,*allTagListArray,*filterdTagListArray;
+    NSMutableArray *uploadedImageArray,*sittingCollectionArray,*allTagListArray,*filterdTagListArray,*completeSymptomTagDetailArray;
     Postman *postman;
     NSDateFormatter *formatter;
     NSString *treatmentID,*passDataToSittingVC;
@@ -125,6 +125,7 @@
     allTagListArray=[[NSMutableArray alloc]init];
     filterdTagListArray=[[NSMutableArray alloc]init];
     previousSittingDetailArray=[[NSMutableArray alloc]init];
+    completeSymptomTagDetailArray=[[NSMutableArray alloc]init];
     formatter=[[NSDateFormatter alloc]init];
     sittingCollectionViewHeight=0.0,uploadCellHeight=0.0,diagnosisCellHeight=25.0,medicalHistoryCellHeight=25.0;
     constant=[[Constant alloc]init];
@@ -1561,6 +1562,7 @@
 //process get tag
 -(void)processResponseObjectOfGetAllTag:(id)responseObject{
     allTagListArray=[[NSMutableArray alloc]init];
+    [completeSymptomTagDetailArray removeAllObjects];
     NSDictionary *dict;
     
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
@@ -1569,12 +1571,16 @@
     }else dict=responseObject;
     
     for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
+        SymptomTagModel *model=[[SymptomTagModel alloc]init];
+        model.tagId=dict1[@"Id"];
+        model.tagCode=dict1[@"Code"];
+        model.tagName=dict1[@"Name"];
+        model.status=dict1[@"Status"];
         if ([dict1[@"Status"]intValue]==1) {
-            SymptomTagModel *model=[[SymptomTagModel alloc]init];
-            model.tagId=dict1[@"Id"];
-            model.tagCode=dict1[@"Code"];
-            model.tagName=dict1[@"Name"];
-            [allTagListArray addObject:model];
+        [allTagListArray addObject:model];
+        }
+        else{
+            [completeSymptomTagDetailArray addObject:model];
         }
     }
     [self callApiTogetAllDetailOfTheTreatment];
@@ -1694,6 +1700,7 @@
         sittingVC.toxicDeficiencyString=@"";
         sittingVC.sittingNumber=sittingNumberToPassSittingVC;
         sittingVC.allSymptomTagArray=allTagListArray;
+        sittingVC.completeSymptomTagDetailArray=completeSymptomTagDetailArray;
         sittingVC.completeGermsArray=germsArray;
         sittingVC.sittingViewId=@"patientSheet";
     }
