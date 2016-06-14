@@ -948,7 +948,6 @@
             }
         }];
     }
-    
     //   }
 }
 //Call api to get the biomagnetic matrix
