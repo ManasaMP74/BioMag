@@ -247,28 +247,20 @@
 }
 //pop
 -(void)popView{
-    //    if (_toxicView.hidden==NO | _addedSittingView.hidden==NO) {
-    //        _toxicDeficiencyString=@"";
-    //        _SortType=@"";
-    //        _toxicDeficiencyString=@"";
-    //        _sectionName=@"";
-    //        _addedSittingView.hidden=YES;
-    //        _toxicView.hidden=YES;
-    //        _editOrAddSitting=@"n";
-    //        if (allSectionNameArray.count>0) {
-    //            [self getTheSortDetailOfCompleteDitailArray:allSectionNameArray[0]];
-    //        }
-    //        selectedCellToFilter=0;
-    //        if (selectedCellToFilter==allSectionNameArray.count-1) {
-    //            _previousBtn.hidden=YES;
-    //            _nextBtn.hidden=YES;
-    //        }else{
-    //            _previousBtn.hidden=YES;
-    //            _nextBtn.hidden=NO;
-    //        }
-    //         _selectedSlideOutRow=[NSIndexPath indexPathForRow:2 inSection:0];
-    //    }
-    //    else{
+    BOOL parameter =NO;
+    for (sittingModel *model in allDoctorDetailArray) {
+        if (![model.germsString isEqualToString:@""]) {
+            parameter=YES;
+            break;
+        }
+    }
+    NSString *str=[_toxicView getAllTheSelectedToxic];
+    if (!parameter) {
+        if (str.length!=0) {
+            parameter=YES;
+        }
+    }
+    changesDoneorNot=parameter;
     if (changesDoneorNot) {
         UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:popBackAlert preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
@@ -282,7 +274,6 @@
         [alertView addAction:failure];
         [self presentViewController:alertView animated:YES completion:nil];
     }else [self.navigationController popViewControllerAnimated:YES];
-    //  }
 }
 //tableview number of sections
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -552,7 +543,10 @@
             }
             [appdelegate.symptomTagArray removeAllObjects];
             NSString *symptomString=json[@"SymptomTagCode"];
-            NSArray *symptomTagArray=[symptomString componentsSeparatedByString:@","];
+            NSArray *symptomTagArray;
+            if (symptomString.length>0) {
+                 symptomTagArray=[symptomString componentsSeparatedByString:@","];
+            }
             if (_allSymptomTagArray.count>0) {
                 if (symptomTagArray.count>0) {
                     for (NSString *symptomString1 in symptomTagArray) {
