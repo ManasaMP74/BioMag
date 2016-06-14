@@ -734,12 +734,12 @@
     if (parameter) {
         UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:doYoucloseSitting preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
-            [self callApiToSaveTreatmentRequest:@"true"];
+            [self callApiToSaveTreatmentRequest:@"true" withSenderValue:sender];
             [alertView dismissViewControllerAnimated:YES completion:nil];
         }];
         [alertView addAction:success];
         UIAlertAction *failure=[UIAlertAction actionWithTitle:noStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
-            [self callApiToSaveTreatmentRequest:@"false"];
+            [self callApiToSaveTreatmentRequest:@"false" withSenderValue:sender];
             [alertView dismissViewControllerAnimated:YES completion:nil];
         }];
         [alertView addAction:failure];
@@ -749,7 +749,9 @@
         [alertView addAction:cancel];
         [self presentViewController:alertView animated:YES completion:nil];
     }else{
-        [self showToastMessage:noChangesToSaveSitting];
+        if (sender!=nil) {
+             [self showToastMessage:noChangesToSaveSitting];
+        }else [self callAddAnatomicalPointScreen];
     }
 }
 //next
@@ -1283,7 +1285,7 @@
     }
     return status;
 }
--(void)callApiToSaveTreatmentRequest:(NSString*)str{
+-(void)callApiToSaveTreatmentRequest:(NSString*)str withSenderValue:(id)sender{
     NSString *url=[NSString stringWithFormat:@"%@%@%@",baseUrl,closeTreatmentDetail,_treatmentId];
     NSString *parameter;
     if (_bioSittingDict!=nil) {
@@ -1295,7 +1297,7 @@
     if ([_treatmentId integerValue]==0) {
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
             [MBProgressHUD hideHUDForView:self.view animated:NO];
-            [self processResponseObjectOfSaveTreatment:responseObject];
+            [self processResponseObjectOfSaveTreatment:responseObject withSenderValue:sender];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             [MBProgressHUD hideHUDForView:self.view animated:NO];
             NSString *str=[NSString stringWithFormat:@"%@",error];
@@ -1305,7 +1307,7 @@
         
         [postman put:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
             [MBProgressHUD hideHUDForView:self.view animated:NO];
-            [self processResponseObjectOfSaveTreatment:responseObject];
+            [self processResponseObjectOfSaveTreatment:responseObject withSenderValue:sender];
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             [MBProgressHUD hideHUDForView:self.view animated:NO];
@@ -1446,7 +1448,7 @@
     return parameter;
 }
 
--(void)processResponseObjectOfSaveTreatment:(id)responseObject{
+-(void)processResponseObjectOfSaveTreatment:(id)responseObject withSenderValue:(id)sender{
     NSDictionary *dict;
     
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
@@ -1463,22 +1465,16 @@
         [self.delegateForIncreasingSitting uploadImageAfterSaveInSitting:dict1[@"Code"]];
         [self.delegateForIncreasingSitting loadTreatMentFromSittingPart:[@(i) description] withTreatmentCode:dict1[@"Code"]];
         [self dismissViewControllerAnimated:YES completion:nil];
-        [self.navigationController popViewControllerAnimated:YES];
-        //        UIAlertController *alert1=[UIAlertController alertControllerWithTitle:alert message:dict[@"Message"] preferredStyle:UIAlertControllerStyleAlert];
-        //        UIAlertAction *failure=[UIAlertAction actionWithTitle:alertOK style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-        //
-        //        }];
-        //        [alert1 addAction:failure];
-        //        [self presentViewController:alert1 animated:YES completion:nil];
+        if (sender!=nil) {
+              [self.navigationController popViewControllerAnimated:YES];
+        }
+        else{
+            changesDoneorNot=NO;
+            [self callAddAnatomicalPointScreen];
+        }
     }
     else{
         [self showToastMessage:dict[@"Message"]];
-        //        UIAlertController *alert1=[UIAlertController alertControllerWithTitle:alert message:dict[@"Message"] preferredStyle:UIAlertControllerStyleAlert];
-        //        UIAlertAction *failure=[UIAlertAction actionWithTitle:alertOK style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-        //            [self dismissViewControllerAnimated:YES completion:nil];
-        //        }];
-        //        [alert1 addAction:failure];
-        //        [self presentViewController:alert1 animated:YES completion:nil];
     }
 }
 -(void)getTheSortDetailOfCompleteDitailArray:(NSString*)str{
@@ -1640,6 +1636,24 @@
     [self setTheValuesInTableView];
 }
 -(void)addAnatomicalPointFromSlideout{
+    if (changesDoneorNot) {
+//        UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:popBackAlert preferredStyle:UIAlertControllerStyleAlert];
+//        UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+//            [self callAddAnatomicalPointScreen];
+//            [alertView dismissViewControllerAnimated:YES completion:nil];
+//        }];
+//        [alertView addAction:success];
+//        UIAlertAction *failure=[UIAlertAction actionWithTitle:noStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+//           
+//            [alertView dismissViewControllerAnimated:YES completion:nil];
+//        }];
+//        [alertView addAction:failure];
+//        [self presentViewController:alertView animated:YES completion:nil];
+         [self save:nil];
+    }else [self callAddAnatomicalPointScreen];
+    
+}
+-(void)callAddAnatomicalPointScreen{
     selectedCellToFilter=0;
     _searchTF.text=@"";
     if (selectedCellToFilter==allSectionNameArray.count-1) {
