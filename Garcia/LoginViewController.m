@@ -204,7 +204,6 @@
             }
             NSData *dataOnObject = [NSKeyedArchiver archivedDataWithRootObject:model];
             [userdefault setValue:dataOnObject forKey:@"DoctorDetail1"];
-            
             NSString *languageCode=dict[@"PreferredLanguageCode"];
             if ([languageCode isEqualToString:@"(null)"]) {
                 languageCode=@"en";

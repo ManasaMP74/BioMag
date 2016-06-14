@@ -3,23 +3,23 @@
 <plist version="1.0">
     <dict>
         <key>environment</key>
-        <string>PROD</string>
+        <string>DEV</string>
         <key>appName</key>
         <string>Biomagnetism</string>
         <key>baseUrl</key>
-        <string>http://biomagnetictherapy.us-west-2.elasticbeanstalk.com/</string>
+        <string>http://prithiviraj.vmokshagroup.com: 9004/</string>
         <key>dbName</key>
-        <string>biomag.images.original/</string>
+        <string>biomag-tst.images.original/</string>
         <key>dbNameforResized</key>
-        <string>biomag.images.resized/</string>
+        <string>biomag-tst.images.resized/</string>
         <key>postmanCompanyCode</key>
-        <string>VM001</string>
+        <string>A0I7LV</string>
         <key>aboutUs</key>
-        <string>Search/Configuration</string>
+        <string>search/configuration</string>
         <key>FAQurl</key>
         <string>configurationview/AOO6FQ</string>
         <key>termsAndCondition</key>
-        <string>configurationview/I0UAWB</string>
+        <string>configurationview/MWUFJM</string>
         <key>privecyAndPolicy</key>
         <string>configurationview/4XOSBX</string>
         <key>baseUrlAws</key>
@@ -31,8 +31,8 @@
         <key>applicableIntermediateVersionCode</key>
         <string>BWLTYA</string>
         <key>aboutUsCode</key>
-        <string>9B0VV5</string>
+        <string>LDHX7U</string>
         <key>aboutUsModule</key>
-        <string>Q10B9A</string>
+        <string>MLT9ZF</string>
     </dict>
 </plist>

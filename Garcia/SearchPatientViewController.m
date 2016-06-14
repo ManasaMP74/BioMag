@@ -238,7 +238,6 @@
         }
     }
 }
-
 //Search
 -(void)searchDoctorOnProfession
 {
@@ -406,7 +405,6 @@
         [self searchDataBasedOnSearchTextFieldContent];
     }
 }
-
 //TextField Delegat
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [self.view endEditing:YES];
@@ -467,7 +465,6 @@
         
     }];
 }
-
 //Response for API complete patient
 -(void)processResponseObject:(id)responseObject{
     ContainerViewController *containerVc =(ContainerViewController*)self.parentViewController;
@@ -479,7 +476,6 @@
         dict1=responseDict1[@"aaData"];
     }
     else dict1=responseObject;
-    
     if ([dict1[@"Success"] intValue]==1) {
         [patentnameArray removeAllObjects];
         for (NSDictionary *dict in dict1[@"ViewModels"]) {

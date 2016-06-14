@@ -86,7 +86,7 @@
         }else _surgeriesLabel.text=@"";
         [self callApiTogetAllDetailOfTheTreatment];
     }else{
-        _patientNameTF.text=@"                    ";
+        _patientNameTF.text=@"                       ";
         _ageValueLabel.text=@"";
         _dobValueLabel.text=@"";
         _mobileValueLabel.text=@"";
