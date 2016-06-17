@@ -1527,7 +1527,6 @@
         }else{
             _exit.hidden=NO;
         }
-        
     }else {
         _exit.hidden=NO;
     }
@@ -1555,7 +1554,6 @@
         }];
     }
     //  }
-    
 }
 //Api for Toxic
 -(void)callApiForToxicDeficiency{
@@ -1898,7 +1896,6 @@
     }
 }
 -(void)processGerms:(id)responseObject{
-    
     NSDictionary *dict;
     NSMutableArray *array=[[NSMutableArray alloc]init];
     [array removeAllObjects];
