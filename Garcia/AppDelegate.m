@@ -64,7 +64,6 @@
 -(void)languageChangeDelegate:(int)str{
      [MBProgressHUD hideHUDForView:self.window animated:YES];
     if (str!=0) {
-       
     }
 }
 - (void)applicationWillResignActive:(UIApplication *)application {

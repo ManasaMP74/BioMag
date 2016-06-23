@@ -8,6 +8,7 @@ typedef NS_ENUM(NSInteger, CustomFontNames)
    OpenSansSemibold,
 };
 
+
 - (UIFont *)customFont:(NSInteger)size ofName:(CustomFontNames)fontName;
 
 @end
