@@ -65,6 +65,7 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+     _patientNameTF.text=@"                       ";
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"Background-Image-1.jpg"]]];
     _alphaViewToShowLanguage.hidden=YES;
     _popTableView.hidden=YES;
@@ -72,8 +73,8 @@
 }
 //set the DefaultValues For Label
 -(void)setDefaultValues:(BOOL)status{
-    UINavigationController *nav=(UINavigationController*)self.parentViewController;
-    containerVC=(ContainerViewController*)nav.parentViewController;
+UINavigationController *nav=(UINavigationController*)self.parentViewController;
+containerVC=(ContainerViewController*)nav.parentViewController;
     postman=[[Postman alloc]init];
     [containerVC setTitle:navTitle];
     containerVC.delegate=self;
@@ -211,7 +212,10 @@
     }
     
     [_patientImageView setImageWithURL:[NSURL URLWithString:strimageUrl] placeholderImage:[UIImage imageNamed:@"Patient-img.jpg"]];
-    _patientNameTF.text=_model.name;
+    if (_model.name==nil) {
+        _patientNameTF.text=@"                       ";
+    }
+   else _patientNameTF.text=_model.name;
     _ageValueLabel.text=_model.age;
     _dobValueLabel.text=_model.dob;
     _mobileValueLabel.text=_model.mobileNo;

@@ -1459,7 +1459,8 @@
         [self.delegateForIncreasingSitting loadTreatMentFromSittingPart:[@(i) description] withTreatmentCode:dict1[@"Code"]];
         [self dismissViewControllerAnimated:YES completion:nil];
         if (sender!=nil) {
-              [self.navigationController popViewControllerAnimated:YES];
+             // [self.navigationController popViewControllerAnimated:YES];
+            changesDoneorNot=NO;
         }
         else{
             changesDoneorNot=NO;

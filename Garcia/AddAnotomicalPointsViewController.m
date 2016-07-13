@@ -435,6 +435,13 @@
     //    [self.view layoutIfNeeded];
     //    _authorTVHeight.constant=_authorTableView.contentSize.height;
 }
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
+    if ([textField isEqual:_anatomicalAuthorTF]) {
+        [self hideTheViews:_anatomicalAuthorTF];
+        [_authorTableView reloadData];
+    }
+    return YES;
+}
 - (IBAction)personPairDetail:(id)sender {
     switch ([sender selectedSegmentIndex]) {
         case 0:
@@ -631,6 +638,7 @@
         _anatomicalAuthorTF.text=model.name;
         selectedAuthor=model.code;
         _authorTableView.hidden=YES;
+        [self.view endEditing:YES];
     }
     else if ([tableView isEqual:_germsTableView])
     {
