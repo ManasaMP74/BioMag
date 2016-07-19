@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="OpenSans-Semibold.ttf">
@@ -59,18 +59,27 @@
                             <action selector="selectTheCell:" destination="HFe-gQ-YV1" eventType="touchUpInside" id="7uE-lg-onM"/>
                         </connections>
                     </button>
+                    <switch hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ENW-4H-MM3">
+                        <rect key="frame" x="266" y="0.0" width="51" height="31"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="49" id="EiG-Jz-rxT"/>
+                        </constraints>
+                    </switch>
                 </subviews>
                 <color key="backgroundColor" red="0.83921568629999999" green="0.84705882349999995" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="g4S-I7-my6" secondAttribute="trailing" constant="9" id="2ll-DB-Bft"/>
+                    <constraint firstAttribute="trailing" secondItem="ENW-4H-MM3" secondAttribute="trailing" constant="5" id="51u-3n-Jrk"/>
                     <constraint firstItem="Ndj-NN-RCe" firstAttribute="centerY" secondItem="bGf-dj-0rD" secondAttribute="centerY" id="57N-q2-O6p"/>
                     <constraint firstItem="yo8-pl-sOa" firstAttribute="centerY" secondItem="bGf-dj-0rD" secondAttribute="centerY" id="XN9-C9-hfN"/>
                     <constraint firstAttribute="trailing" secondItem="GTH-0v-x49" secondAttribute="trailing" id="amI-Zz-gmp"/>
                     <constraint firstItem="GTH-0v-x49" firstAttribute="leading" secondItem="bGf-dj-0rD" secondAttribute="leading" id="dQi-Yy-Qpo"/>
                     <constraint firstItem="GTH-0v-x49" firstAttribute="top" secondItem="bGf-dj-0rD" secondAttribute="top" id="gFI-0Y-YWD"/>
                     <constraint firstItem="g4S-I7-my6" firstAttribute="centerY" secondItem="bGf-dj-0rD" secondAttribute="centerY" id="goi-v7-4Rg"/>
+                    <constraint firstItem="ENW-4H-MM3" firstAttribute="top" secondItem="bGf-dj-0rD" secondAttribute="top" id="k1j-02-C5z"/>
                     <constraint firstAttribute="trailing" secondItem="Ndj-NN-RCe" secondAttribute="trailing" id="lQy-Mg-nWH"/>
+                    <constraint firstAttribute="bottom" secondItem="ENW-4H-MM3" secondAttribute="bottom" id="rtr-nc-aO5"/>
                     <constraint firstItem="yo8-pl-sOa" firstAttribute="leading" secondItem="bGf-dj-0rD" secondAttribute="leading" constant="13" id="t2e-vn-FBQ"/>
                     <constraint firstItem="Ndj-NN-RCe" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="yo8-pl-sOa" secondAttribute="trailing" constant="5" id="tPu-Ci-ky9"/>
                 </constraints>
@@ -78,9 +87,11 @@
             <color key="backgroundColor" red="0.83921568629999999" green="0.84705882349999995" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <connections>
                 <outlet property="button" destination="GTH-0v-x49" id="sQC-c5-3tk"/>
+                <outlet property="completedOrNotSwitch" destination="ENW-4H-MM3" id="xmH-I3-woT"/>
                 <outlet property="headingLabel" destination="yo8-pl-sOa" id="bQi-UL-vvG"/>
                 <outlet property="imageViewHeight" destination="HyV-Qi-1ZD" id="Tos-f2-j99"/>
                 <outlet property="imageViewWidth" destination="ygK-0m-AdY" id="Ol4-C1-nEi"/>
+                <outlet property="mainButtonTrailing" destination="amI-Zz-gmp" id="ANr-D8-Q3B"/>
                 <outlet property="priceValueLabel" destination="Ndj-NN-RCe" id="cv0-ve-tg5"/>
                 <outlet property="switchImageView" destination="g4S-I7-my6" id="7Zm-i2-tgh"/>
             </connections>

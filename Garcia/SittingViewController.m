@@ -57,7 +57,7 @@
     NSString *selectedToxicString;
     NSArray *selectedPreviousArray;
     NSString *navTitle,*alert,*alertOK,*saveFailed,*saveSuccess,*yesStr,*noStr,*authour,*enterSittingInfo,*previousSittings,*issueStr,*noIssueStr,*sStr,*s1Str,*doYoucloseSitting,*noChangesToSaveSitting,*popBackAlert,*cancelStr,*noIdentifiedIssue,*IdentifiedIssue;
-    BOOL changesDoneorNot;
+    BOOL changesDoneorNot,saveButtonIsTapped;
     AddSectionData *addsectionData;
     UIView *activeField;
     NSMutableArray *allsortedArrayBeforeSearch;
@@ -91,6 +91,7 @@
     [self registerForKeyboardNotifications];
     [self defaultValues];
     changesDoneorNot=NO;
+    saveButtonIsTapped=NO;
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
@@ -121,6 +122,7 @@
             _addedSittingView.hidden=NO;
         }
     }
+     saveButtonIsTapped=NO;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -247,6 +249,7 @@
 }
 //pop
 -(void)popView{
+    if (!saveButtonIsTapped) {
     BOOL parameter =NO;
     for (sittingModel *model in allDoctorDetailArray) {
         if (![model.germsString isEqualToString:@""]) {
@@ -261,6 +264,7 @@
         }
     }
     changesDoneorNot=parameter;
+    }
     if (changesDoneorNot) {
         UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:popBackAlert preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
@@ -726,22 +730,23 @@
         }
     }
     if (parameter) {
-        UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:doYoucloseSitting preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
-            [self callApiToSaveTreatmentRequest:@"true" withSenderValue:sender];
-            [alertView dismissViewControllerAnimated:YES completion:nil];
-        }];
-        [alertView addAction:success];
-        UIAlertAction *failure=[UIAlertAction actionWithTitle:noStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
-            [self callApiToSaveTreatmentRequest:@"false" withSenderValue:sender];
-            [alertView dismissViewControllerAnimated:YES completion:nil];
-        }];
-        [alertView addAction:failure];
-        UIAlertAction *cancel=[UIAlertAction actionWithTitle:cancelStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
-            [alertView dismissViewControllerAnimated:YES completion:nil];
-        }];
-        [alertView addAction:cancel];
-        [self presentViewController:alertView animated:YES completion:nil];
+//        UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:doYoucloseSitting preferredStyle:UIAlertControllerStyleAlert];
+//        UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+//            [self callApiToSaveTreatmentRequest:@"true" withSenderValue:sender];
+//            [alertView dismissViewControllerAnimated:YES completion:nil];
+//        }];
+//        [alertView addAction:success];
+//        UIAlertAction *failure=[UIAlertAction actionWithTitle:noStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+//            [self callApiToSaveTreatmentRequest:@"false" withSenderValue:sender];
+//            [alertView dismissViewControllerAnimated:YES completion:nil];
+//        }];
+//        [alertView addAction:failure];
+//        UIAlertAction *cancel=[UIAlertAction actionWithTitle:cancelStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+//            [alertView dismissViewControllerAnimated:YES completion:nil];
+//        }];
+//        [alertView addAction:cancel];
+//        [self presentViewController:alertView animated:YES completion:nil];
+         [self callApiToSaveTreatmentRequest:@"true" withSenderValue:sender];
     }else{
         if (sender!=nil) {
              [self showToastMessage:noChangesToSaveSitting];
@@ -1453,6 +1458,7 @@
         dict=responseObject;
     }
     if ([dict[@"Success"] intValue]==1) {
+         saveButtonIsTapped=YES;
         NSDictionary *dict1=dict[@"TreatmentRequest"];
         int i=[dict1[@"ID"] intValue];
         [self.delegateForIncreasingSitting uploadImageAfterSaveInSitting:dict1[@"Code"]];

@@ -9,6 +9,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *priceValueLabel;
 @property (weak, nonatomic) IBOutlet UILabel *headingLabel;
 @property (weak, nonatomic) IBOutlet UIButton *button;
+@property (weak, nonatomic) IBOutlet UISwitch *completedOrNotSwitch;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *mainButtonTrailing;
 
 @property(weak,nonatomic)id<selectedToxicCellProtocol>delegate;
 @end
