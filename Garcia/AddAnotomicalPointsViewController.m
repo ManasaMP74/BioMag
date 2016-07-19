@@ -439,6 +439,7 @@
     if ([textField isEqual:_anatomicalAuthorTF]) {
         [self hideTheViews:_anatomicalAuthorTF];
         [_authorTableView reloadData];
+        return NO;
     }
     return YES;
 }

@@ -76,7 +76,6 @@
             _headerCell=nil;
         }
         cell.delegate=self;
-        
         cell.headerLabel.text=[self nameForCell:indexPath];
             cell.headerButton.userInteractionEnabled=YES;
             cell.headerImageView.hidden=NO;
