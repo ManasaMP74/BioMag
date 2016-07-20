@@ -746,7 +746,7 @@
 //        }];
 //        [alertView addAction:cancel];
 //        [self presentViewController:alertView animated:YES completion:nil];
-         [self callApiToSaveTreatmentRequest:@"true" withSenderValue:sender];
+         [self callApiToSaveTreatmentRequest:@"false" withSenderValue:sender];
     }else{
         if (sender!=nil) {
              [self showToastMessage:noChangesToSaveSitting];
@@ -994,6 +994,7 @@
     }
     
     if ([dict[@"Success"] intValue]==1) {
+        NSLog(@"%@",dict);
         NSArray *ar=dict[@"AnatomicalBiomagneticMatrix"];
         if (ar.count>0) {
             for (NSDictionary *dict1 in dict[@"AnatomicalBiomagneticMatrix"]) {
@@ -1311,8 +1312,6 @@
             [MBProgressHUD hideHUDForView:self.view animated:NO];
             
             [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
-            
-            
         }];
     }
 }
@@ -1465,7 +1464,7 @@
         [self.delegateForIncreasingSitting loadTreatMentFromSittingPart:[@(i) description] withTreatmentCode:dict1[@"Code"]];
         [self dismissViewControllerAnimated:YES completion:nil];
         if (sender!=nil) {
-             // [self.navigationController popViewControllerAnimated:YES];
+          [self.navigationController popViewControllerAnimated:YES];
             changesDoneorNot=NO;
         }
         else{
