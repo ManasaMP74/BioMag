@@ -123,6 +123,7 @@
        }else{
            if (indexPath.row==0) {
                ToxicTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell3"];
+               cell.completedOrNotSwitch.hidden=YES;
                if (cell==nil) {
                    _toxicCustomCell=[[[NSBundle mainBundle]loadNibNamed:@"ToxicTableviewCell" owner:self options:nil]lastObject];
                    cell=_toxicCustomCell;
@@ -130,16 +131,22 @@
                }
                cell.delegate=self;
                if (indexPath.section==selectedToxicDeficiency.count-1) {
-                   cell.switchImageView.hidden=NO;
+                   cell.switchImageView.hidden=YES;
                    cell.priceValueLabel.hidden=YES;
                    cell.imageViewWidth.constant=35;
                    cell.imageViewHeight.constant=15;
                    cell.button.userInteractionEnabled=NO;
                    cell.selectionStyle=0;
                    cell.headingLabel.text=selectedToxicDeficiency[indexPath.section];
+                     cell.completedOrNotSwitch.hidden=NO;
+                   cell.completedOrNotSwitch.transform = CGAffineTransformMakeScale(0.70, 0.70);
                    if ([_model.completed intValue]==0) {
-                       cell.switchImageView.image=[UIImage imageNamed:@"Button-off"];
-                   }else  cell.switchImageView.image=[UIImage imageNamed:@"Button-on"];
+                       [cell.completedOrNotSwitch setOn:NO animated:YES];
+//                       cell.switchImageView.image=[UIImage imageNamed:@"Button-off"];
+                   }else {
+                       [cell.completedOrNotSwitch setOn:YES animated:YES];
+                      //cell.switchImageView.image=[UIImage imageNamed:@"Button-on"];
+                   }
                }else if (indexPath.section==selectedToxicDeficiency.count-2) {
                    cell.switchImageView.hidden=YES;
                    cell.priceValueLabel.hidden=NO;
