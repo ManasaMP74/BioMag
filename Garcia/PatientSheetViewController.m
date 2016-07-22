@@ -246,31 +246,31 @@
     }
 }
 -(void)getHeightOfView:(BOOL)status{
-  if (status==NO) {
-      if ( _medicalHistoryViewHeight.constant!=0) {
-          _medicalTopHeight.constant=151;
-          _medicalTableHeight.constant=_MedicaltableView.contentSize.height;
-          _medicalHistoryViewHeight.constant=_medicalTableHeight.constant+190;
-      }
-      if ( _diagnosisViewHeight.constant!=0) {
-          _diagnosisTopHeight.constant=115;
-          _diagnosisTableHeight.constant=_diagnosisTableView.contentSize.height;
-          _diagnosisViewHeight.constant= _diagnosisTableHeight.constant+150;
-      }
-      
-  }else{
-      if ( _medicalHistoryViewHeight.constant!=0) {
-          _medicalTopHeight.constant=5;
-          _medicalTableHeight.constant=_MedicaltableView.contentSize.height;
-          _medicalHistoryViewHeight.constant=_medicalTableHeight.constant+35;
-      }
-      if ( _diagnosisViewHeight.constant!=0) {
-          _diagnosisTopHeight.constant=5;
-          _diagnosisTableHeight.constant=_diagnosisTableView.contentSize.height;
-          _diagnosisViewHeight.constant= _diagnosisTableHeight.constant+35;
-      }
-  }
-
+    if (status==NO) {
+        if ( _medicalHistoryViewHeight.constant!=0) {
+            _medicalTopHeight.constant=151;
+            _medicalTableHeight.constant=_MedicaltableView.contentSize.height;
+            _medicalHistoryViewHeight.constant=_medicalTableHeight.constant+190;
+        }
+        if ( _diagnosisViewHeight.constant!=0) {
+            _diagnosisTopHeight.constant=115;
+            _diagnosisTableHeight.constant=_diagnosisTableView.contentSize.height;
+            _diagnosisViewHeight.constant= _diagnosisTableHeight.constant+150;
+        }
+        
+    }else{
+        if ( _medicalHistoryViewHeight.constant!=0) {
+            _medicalTopHeight.constant=5;
+            _medicalTableHeight.constant=_MedicaltableView.contentSize.height;
+            _medicalHistoryViewHeight.constant=_medicalTableHeight.constant+35;
+        }
+        if ( _diagnosisViewHeight.constant!=0) {
+            _diagnosisTopHeight.constant=5;
+            _diagnosisTableHeight.constant=_diagnosisTableView.contentSize.height;
+            _diagnosisViewHeight.constant= _diagnosisTableHeight.constant+35;
+        }
+    }
+    
 }
 //navigation bar
 -(void)navigationItemMethod{
@@ -375,7 +375,7 @@
 - (IBAction)increaseDiagnosisView:(id)sender {
     if ([_increaseDiagnosisViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
         _diagnosisView.hidden=NO;
-         _diagnosisViewHeight.constant=1;
+        _diagnosisViewHeight.constant=1;
         if ([_patientTitleModel.IsTreatmentCompleted intValue]==0) {
             [self getHeightOfView:NO];
         }else [self getHeightOfView:YES];
@@ -394,7 +394,7 @@
 - (IBAction)increaseViewHeightOfMedicalHistort:(id)sender {
     if ([_increaseMedicalViewButton.currentImage isEqual:[UIImage imageNamed:@"Dropdown-icon"]]) {
         _medicalHistoryView.hidden=NO;
-         _medicalHistoryViewHeight.constant=1;
+        _medicalHistoryViewHeight.constant=1;
         if ([_patientTitleModel.IsTreatmentCompleted intValue]==0) {
             [self getHeightOfView:NO];
         }else [self getHeightOfView:YES];
@@ -432,7 +432,7 @@
         }else
         {
             if ([_patientTitleModel.IsTreatmentCompleted intValue]==0) {
-               _settingViewHeight.constant=100;
+                _settingViewHeight.constant=100;
             }else _settingViewHeight.constant=35;
         }
         [self ChangeIncreaseDecreaseButtonImage:_increasesettingViewButton];
@@ -1029,13 +1029,13 @@
 //take pic
 - (IBAction)takePic:(id)sender {
     UIImagePickerController *picker=[[UIImagePickerController alloc]init];
-     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-       picker.sourceType=UIImagePickerControllerSourceTypeCamera;
-         [self presentViewController:picker animated:YES completion:nil];
-         picker.delegate=self;
-     }else{
-         [self showToastMessage:noDevFound];
-     }
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        picker.sourceType=UIImagePickerControllerSourceTypeCamera;
+        [self presentViewController:picker animated:YES completion:nil];
+        picker.delegate=self;
+    }else{
+        [self showToastMessage:noDevFound];
+    }
     //  picker.mediaTypes = [UIImagePickerController  availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera];
 }
 //take photo from library
@@ -1183,12 +1183,12 @@
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     BOOL status=YES;
     if ([textView isEqual:_medicalHistoryTextView]| [textView isEqual:_diagnosisTextView]) {
-
-            if ([text isEqualToString:@"$"])
-            {
-                status=NO;
-                [self showToastMessage:cannotUse];
-            }else status=YES;
+        
+        if ([text isEqualToString:@"$"])
+        {
+            status=NO;
+            [self showToastMessage:cannotUse];
+        }else status=YES;
     }
     return status;
 }
@@ -1201,13 +1201,13 @@
         }
         else _addClosureNoteLabel.hidden=YES;
     }
-  else  if (textView==_medicalHistoryTextView) {
+    else  if (textView==_medicalHistoryTextView) {
         if ([_medicalHistoryTextView.text isEqualToString:@""]) {
             _medicalNoteLabel.hidden=NO;
         }
         else _medicalNoteLabel.hidden=YES;
     }
-  else  if (textView==_diagnosisTextView) {
+    else  if (textView==_diagnosisTextView) {
         if ([_diagnosisTextView.text isEqualToString:@""]) {
             _diagnosisNoteLabel.hidden=NO;
         }
@@ -1577,7 +1577,7 @@
         model.tagName=dict1[@"Name"];
         model.status=dict1[@"Status"];
         if ([dict1[@"Status"]intValue]==1) {
-        [allTagListArray addObject:model];
+            [allTagListArray addObject:model];
         }
         else{
             [completeSymptomTagDetailArray addObject:model];
@@ -1845,13 +1845,13 @@
 }
 //Delete SittingPart
 -(void)callApiToDeleteSitting:(SittingModelClass*)model toDeleteOrCloseSitting:(NSString*)closeOrDelete{
-    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,deleteSitting];
     NSString *parameter;
     if ([closeOrDelete isEqualToString:@"Delete"]) {
         parameter=[NSString stringWithFormat:@"{\"request\":{\"TreatmentRequestCode\":\"%@\",\"Id\": \"%@\",\"MethodType\": \"PUT\",\"UserID\": \"%@\"}}",_patientTitleModel.code,model.sittingID,_model.Id];
     }else{
         parameter=[NSString stringWithFormat:@"{\"request\":{\"TreatmentRequestCode\":\"%@\",\"Id\": \"%@\",\"MethodType\": \"PUT\",\"UserID\": \"%@\",\"IsCompleted\":\"true\",\"Status\":\"true\"}}",_patientTitleModel.code,model.sittingID,_model.Id];
     }
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,deleteSitting];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman put:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [MBProgressHUD hideHUDForView:self.view animated:NO];
@@ -1875,28 +1875,28 @@
     }
     if ([dict[@"Success"] intValue]==1) {
         if ([closeOrDelete isEqualToString:@"Delete"]) {
-        if (sittingCollectionArray.count>0) {
-            [sittingCollectionArray removeObject:model];
-            sittingCollectionViewHeight=0;
-            int i=[sittingNumberToPassSittingVC intValue];
-            i=i-1;
-            sittingNumberToPassSittingVC=[@(i)description];
             if (sittingCollectionArray.count>0) {
-                [self.view layoutIfNeeded];
-                [_sittingCollectionView reloadData];
-                [self.view layoutIfNeeded];
-                [_sittingCollectionView reloadData];
-                for (SittingModelClass *m in sittingCollectionArray) {
-                    sittingCollectionViewHeight=MAX(sittingCollectionViewHeight, m.height);
-                }
-                
-            }else _sittingCollectionViewWidth.constant=0;
-            _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
-            _settingViewHeight.constant=sittingCollectionViewHeight+120;
-        }
+                [sittingCollectionArray removeObject:model];
+                sittingCollectionViewHeight=0;
+                int i=[sittingNumberToPassSittingVC intValue];
+                i=i-1;
+                sittingNumberToPassSittingVC=[@(i)description];
+                if (sittingCollectionArray.count>0) {
+                    [self.view layoutIfNeeded];
+                    [_sittingCollectionView reloadData];
+                    [self.view layoutIfNeeded];
+                    [_sittingCollectionView reloadData];
+                    for (SittingModelClass *m in sittingCollectionArray) {
+                        sittingCollectionViewHeight=MAX(sittingCollectionViewHeight, m.height);
+                    }
+                    
+                }else _sittingCollectionViewWidth.constant=0;
+                _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
+                _settingViewHeight.constant=sittingCollectionViewHeight+120;
+            }
         }else{
-        model.completed=@"1";
-        [_sittingCollectionView reloadData];
+            model.completed=@"1";
+            [_sittingCollectionView reloadData];
         }
     }else [self showToastMessage:dict[@"Message"]];
 }
@@ -1984,10 +1984,8 @@
     }
 }
 -(void)processGerms:(id)responseObject{
-    
     NSDictionary *dict;
     [germsArray removeAllObjects];
-    
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         //For Vzone API
         NSDictionary *responseDict1 = responseObject;
@@ -2011,8 +2009,8 @@
 }
 //localization
 -(void)localize{
-     cannotUse=[MCLocalization stringForKey:@"'$' cann't be used"];
-     noDevFound=[MCLocalization stringForKey:@"No device found"];
+    cannotUse=[MCLocalization stringForKey:@"'$' cann't be used"];
+    noDevFound=[MCLocalization stringForKey:@"No device found"];
     navTitle=[MCLocalization stringForKey:@"TreatmentSheet"];
     alert=[MCLocalization stringForKey:@"Alert!"];
     alertOk=[MCLocalization stringForKey:@"AlertOK"];
@@ -2063,7 +2061,7 @@
     popBackAlert=[MCLocalization stringForKey:@"Changes will be discarded if you exit from screen. Are you sure to proceed?"];
     cancelStr=[MCLocalization stringForKey:@"Cancel"];
     doYoucloseSitting=[MCLocalization stringForKey:@"Do you want to close Sitting?"];
-
+    
 }
 -(void)callSeedForSection{
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
@@ -2137,7 +2135,6 @@
 -(void)processScanpoint:(id)responseObject{
     [self callSeedForCorrespondingPair];
 }
-
 -(void)callSeedForCorrespondingPair{
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     if ([userDefault boolForKey:@"correspondingpair_FLAG"]) {
@@ -2174,7 +2171,6 @@
 -(void)processCorrespondingpair:(id)responseObject{
     [self callSeedForAuthor];
 }
-
 -(void)callSeedForAuthor{
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     if ([userDefault boolForKey:@"author_FLAG"]) {
@@ -2211,18 +2207,17 @@
     SittingCollectionViewCell *cell1=(SittingCollectionViewCell*)cell;
     NSIndexPath *indexpath=[_sittingCollectionView indexPathForCell:cell1];
     SittingModelClass *model=sittingCollectionArray[indexpath.row];
-            UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:[NSString stringWithFormat:@"#%@ : %@",model.sittingNumber,doYoucloseSitting] preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
-                [alertView dismissViewControllerAnimated:YES completion:nil];
-                [self callApiToDeleteSitting:model toDeleteOrCloseSitting:@"close"];
-            }];
-            [alertView addAction:success];
-            UIAlertAction *cancel=[UIAlertAction actionWithTitle:cancelStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
-                [_sittingCollectionView reloadData];
-                [alertView dismissViewControllerAnimated:YES completion:nil];
-            }];
-            [alertView addAction:cancel];
-            [self presentViewController:alertView animated:YES completion:nil];
+    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:[NSString stringWithFormat:@"#%@ : %@",model.sittingNumber,doYoucloseSitting] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+        [self callApiToDeleteSitting:model toDeleteOrCloseSitting:@"close"];
+    }];
+    [alertView addAction:success];
+    UIAlertAction *cancel=[UIAlertAction actionWithTitle:cancelStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+        [_sittingCollectionView reloadData];
+        [alertView dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertView addAction:cancel];
+    [self presentViewController:alertView animated:YES completion:nil];
 }
-
 @end
