@@ -8,6 +8,7 @@
 -(void)deselectedHeaderCell:(NSString*)deselectedHeader withcell:(UICollectionViewCell*)cell withCorrespondingHeight:(CGFloat)height;
 -(void)selectedToxicCell1:(NSString*)selectedToxicHeader withcell:(UICollectionViewCell*)cell ;
 -(void)deselectedToxicCell1:(NSString*)deselectedHeader withcell:(UICollectionViewCell*)cell ;
+-(void)completedSittingByTapOnSwitchFromHeaderCell:(UICollectionViewCell*)cell;
 @end
 @interface SittingCollectionViewCell : UICollectionViewCell<selectedCellProtocol>
 @property (strong, nonatomic) IBOutlet UILabel *visitLabel;

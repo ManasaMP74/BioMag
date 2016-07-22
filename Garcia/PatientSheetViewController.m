@@ -111,7 +111,7 @@
     NSIndexPath *selectedSittingIndex;
     NSArray *slideoutImageArray,*slideoutArray;
     NSString *differForNavButton;
-    NSString *navTitle,*titleOfTreatment,*closureNote,*medicalNote,*diagnosisNote,*doYouWantToCloseTreatment,*alert,*alertOk,*updatedSuccess,*updateFailed,*saveSuccess,*saveFailed,*enterTreatmentClosure,*ok,*yesStr,*noStr,*treatmentTitlerequired,*sittingStr,*closedSuccess,*deleteSittingMsg,*imageUploadFailed,*popBackAlert,*noDevFound,*cannotUse;
+    NSString *navTitle,*titleOfTreatment,*closureNote,*medicalNote,*diagnosisNote,*doYouWantToCloseTreatment,*alert,*alertOk,*updatedSuccess,*updateFailed,*saveSuccess,*saveFailed,*enterTreatmentClosure,*ok,*yesStr,*noStr,*treatmentTitlerequired,*sittingStr,*closedSuccess,*deleteSittingMsg,*imageUploadFailed,*popBackAlert,*noDevFound,*cannotUse,*cancelStr,*doYoucloseSitting;
     WYPopoverController *wypopOverController;
     UIButton * lagSomeButton;
     BOOL changesDoneOrNot;
@@ -782,7 +782,7 @@
         }
     }else{
         SittingModelClass *sitMode = sittingCollectionArray[index.row];
-        [self callApiToDeleteSitting:sitMode];
+        [self callApiToDeleteSitting:sitMode toDeleteOrCloseSitting:@"Delete"];
     }
 }
 -(void)selectedHeaderCell:(NSString*)selectedHeader withcell:(UICollectionViewCell*)cell withCorrespondingHeight:(CGFloat)height{
@@ -1844,20 +1844,25 @@
     [self saveImage:code withUpdateAndPostDiffer:@"post"];
 }
 //Delete SittingPart
--(void)callApiToDeleteSitting:(SittingModelClass*)model{
+-(void)callApiToDeleteSitting:(SittingModelClass*)model toDeleteOrCloseSitting:(NSString*)closeOrDelete{
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,deleteSitting];
-    NSString *parameter=[NSString stringWithFormat:@"{\"request\":{\"TreatmentRequestCode\":\"%@\",\"Id\": \"%@\",\"MethodType\": \"PUT\",\"UserID\": \"%@\"}}",_patientTitleModel.code,model.sittingID,_model.Id];
+    NSString *parameter;
+    if ([closeOrDelete isEqualToString:@"Delete"]) {
+        parameter=[NSString stringWithFormat:@"{\"request\":{\"TreatmentRequestCode\":\"%@\",\"Id\": \"%@\",\"MethodType\": \"PUT\",\"UserID\": \"%@\"}}",_patientTitleModel.code,model.sittingID,_model.Id];
+    }else{
+        parameter=[NSString stringWithFormat:@"{\"request\":{\"TreatmentRequestCode\":\"%@\",\"Id\": \"%@\",\"MethodType\": \"PUT\",\"UserID\": \"%@\",\"IsCompleted\":\"true\",\"Status\":\"true\"}}",_patientTitleModel.code,model.sittingID,_model.Id];
+    }
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [postman put:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [MBProgressHUD hideHUDForView:self.view animated:NO];
-        [self processResponseObjectOfCloseTreatment:responseObject withSittingModel:model];
+        [self processResponseObjectOfCloseTreatment:responseObject withSittingModel:model toDeleteOrCloseSitting:closeOrDelete];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [MBProgressHUD hideHUDForView:self.view animated:NO];
         [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
     }];
 }
 //process Delete SittingPart
--(void)processResponseObjectOfCloseTreatment:(id)responseObject withSittingModel:(SittingModelClass*)model{
+-(void)processResponseObjectOfCloseTreatment:(id)responseObject withSittingModel:(SittingModelClass*)model toDeleteOrCloseSitting:(NSString*)closeOrDelete{
     NSDictionary *dict;
     
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
@@ -1869,6 +1874,7 @@
         dict=responseObject;
     }
     if ([dict[@"Success"] intValue]==1) {
+        if ([closeOrDelete isEqualToString:@"Delete"]) {
         if (sittingCollectionArray.count>0) {
             [sittingCollectionArray removeObject:model];
             sittingCollectionViewHeight=0;
@@ -1887,6 +1893,10 @@
             }else _sittingCollectionViewWidth.constant=0;
             _sittingcollectionViewHeight.constant=sittingCollectionViewHeight+100;
             _settingViewHeight.constant=sittingCollectionViewHeight+120;
+        }
+        }else{
+        model.completed=@"1";
+        [_sittingCollectionView reloadData];
         }
     }else [self showToastMessage:dict[@"Message"]];
 }
@@ -2051,6 +2061,9 @@
     deleteSittingMsg=[MCLocalization stringForKey:@"Do you want to delete sitting?"];
     imageUploadFailed=[MCLocalization stringForKey:@"Image upload failed"];
     popBackAlert=[MCLocalization stringForKey:@"Changes will be discarded if you exit from screen. Are you sure to proceed?"];
+    cancelStr=[MCLocalization stringForKey:@"Cancel"];
+    doYoucloseSitting=[MCLocalization stringForKey:@"Do you want to close Sitting?"];
+
 }
 -(void)callSeedForSection{
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
@@ -2194,4 +2207,22 @@
         }];
     }
 }
+-(void)completedSittingByTapOnSwitchFromHeaderCell:(UICollectionViewCell *)cell{
+    SittingCollectionViewCell *cell1=(SittingCollectionViewCell*)cell;
+    NSIndexPath *indexpath=[_sittingCollectionView indexPathForCell:cell1];
+    SittingModelClass *model=sittingCollectionArray[indexpath.row];
+            UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:[NSString stringWithFormat:@"#%@ : %@",model.sittingNumber,doYoucloseSitting] preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+                [alertView dismissViewControllerAnimated:YES completion:nil];
+                [self callApiToDeleteSitting:model toDeleteOrCloseSitting:@"close"];
+            }];
+            [alertView addAction:success];
+            UIAlertAction *cancel=[UIAlertAction actionWithTitle:cancelStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+                [_sittingCollectionView reloadData];
+                [alertView dismissViewControllerAnimated:YES completion:nil];
+            }];
+            [alertView addAction:cancel];
+            [self presentViewController:alertView animated:YES completion:nil];
+}
+
 @end

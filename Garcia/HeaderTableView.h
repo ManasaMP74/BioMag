@@ -10,6 +10,7 @@
 -(void)deselectedCell:(NSString*)deselectedHeader withCorrespondingHeight:(CGFloat)height;
 -(void)selectedToxicCell:(NSString*)selectedToxicHeader;
 -(void)deselectedToxicCell:(NSString*)deselectedHeader;
+-(void)completedSittingByTapOnSwitchFromHeaderCell;
 @end
 @interface HeaderTableVIew : UIView<UITableViewDataSource,UITableViewDelegate,selectedcell,selectedScanpoint,selectedToxicCellProtocol>
 @property (strong, nonatomic) IBOutlet ScanPointTableViewCell *scapointCell;

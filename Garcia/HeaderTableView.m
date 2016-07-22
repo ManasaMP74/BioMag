@@ -141,9 +141,12 @@
                      cell.completedOrNotSwitch.hidden=NO;
                    cell.completedOrNotSwitch.transform = CGAffineTransformMakeScale(0.70, 0.70);
                    if ([_model.completed intValue]==0) {
+                       cell.completedOrNotSwitch.userInteractionEnabled=YES;
+                       cell.delegate=self;
                        [cell.completedOrNotSwitch setOn:NO animated:YES];
 //                       cell.switchImageView.image=[UIImage imageNamed:@"Button-off"];
                    }else {
+                       cell.completedOrNotSwitch.userInteractionEnabled=NO;
                        [cell.completedOrNotSwitch setOn:YES animated:YES];
                       //cell.switchImageView.image=[UIImage imageNamed:@"Button-on"];
                    }
@@ -477,5 +480,8 @@ int i=0;
     _tableviewHeight.constant=_tableview.contentSize.height;
     _toxicTableViewHeight.constant=_toxicTableView.contentSize.height;
     return _tableview.contentSize.height+_toxicTableView.contentSize.height;
+}
+-(void)completedSittingByTapOnSwitch{
+    [self.delegate completedSittingByTapOnSwitchFromHeaderCell];
 }
 @end

@@ -1,6 +1,8 @@
 #import <UIKit/UIKit.h>
 @protocol selectedToxicCellProtocol<NSObject>
+@optional
 -(void)selectedToxicCell:(UITableViewCell*)cell;
+-(void)completedSittingByTapOnSwitch;
 @end
 @interface ToxicTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *switchImageView;

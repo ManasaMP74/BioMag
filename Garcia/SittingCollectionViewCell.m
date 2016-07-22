@@ -24,4 +24,7 @@
 -(void)deselectedToxicCell:(NSString*)deselectedHeader{
     [self.delegate deselectedToxicCell1:deselectedHeader withcell:self];
 }
+-(void)completedSittingByTapOnSwitchFromHeaderCell{
+    [self.delegate completedSittingByTapOnSwitchFromHeaderCell:self];
+}
 @end
