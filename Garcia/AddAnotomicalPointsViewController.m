@@ -29,13 +29,14 @@
 @property (weak, nonatomic) IBOutlet UILabel *scanpointHeaderLabel;
 @property (weak, nonatomic) IBOutlet UILabel *correspondingHeaderLabel;
 @property (weak, nonatomic) IBOutlet UILabel *codeHeaderLabel;
+@property (weak, nonatomic) IBOutlet UIButton *editButton;
 
 @end
 
 @implementation AddAnotomicalPointsViewController
 {
     Constant *constant;
-    NSString *alertStr,*alertOkStr,*requiredNameField,*requiredLocationField,*requiredBoth,*requiredSection,*requiredScanpoint,*requiredCorrespondingpair,*requiredAuthor,*requiredGerms,*requiredSort,*requiredDesc;
+    NSString *alertStr,*alertOkStr,*requiredNameField,*requiredLocationField,*requiredBoth,*requiredSection,*requiredScanpoint,*requiredCorrespondingpair,*requiredAuthor,*requiredGerms,*requiredSort,*requiredDesc,*editPersonalPairString,*donePersonalPairString;
     Postman *postman;
     NSMutableArray *scanpointArray,*correspondingPointArray,*authorArray,*germsArray,*sectionArray,*languageArray,*personalScanpointArray,*personalCorrespondingPointArray;
     NSString *selectedGermsCode,*selectedSection,*selectedScanpoint,*selectedCorrespondingpair,*selectedAuthor,*selectedLang,*selectedSegment,*TextShouldBeLessThan250;
@@ -1212,5 +1213,32 @@
 _personalScanpointLocationLabel.text=[MCLocalization stringForKey:@"Location"];
 _personalCorrespondingSortLabel.text=[MCLocalization stringForKey:@"Sort Number"];
 TextShouldBeLessThan250=[MCLocalization stringForKey:@"Text should be less than 250"];
+    editPersonalPairString=@"Edit";
+    donePersonalPairString=@"Done";
+    [_editButton setTitle:editPersonalPairString forState:normal];
+}
+- (IBAction)DeleteTheTableViewCell:(id)sender {
+    if ([_editButton.currentTitle isEqualToString:editPersonalPairString]) {
+        [_editButton setTitle:donePersonalPairString forState:normal];
+        [self setPersonalPairTableViewEditing:YES];
+    }else{
+    [_editButton setTitle:editPersonalPairString forState:normal];
+         [self setPersonalPairTableViewEditing:NO];
+    }
+}
+-(void)setPersonalPairTableViewEditing:(BOOL)status{
+    if ([selectedSegment isEqualToString:@"scanpoint"]) {
+        _personalScanPointOrCorrespondingPair.editing=status;
+    } else if ([selectedSegment isEqualToString:@"correspondingpair"]){
+        _personalScanPointOrCorrespondingPair.editing=status;
+        
+    }else{
+        _personalPairTable.editing=status;
+    }
+}
+- (void)tableView:(UITableView*)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+
+
+
 }
 @end

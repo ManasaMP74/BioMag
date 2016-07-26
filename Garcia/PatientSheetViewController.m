@@ -181,7 +181,6 @@
     [super viewDidAppear:animated];
     [_sittingCollectionView reloadData];
 }
-
 -(void)callSeedApi{
     
     //    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
@@ -483,7 +482,6 @@
     }];
     [alertView addAction:success];
     [self presentViewController:alertView animated:YES completion:nil];
-    
 }
 //increase the View Height of patient view
 - (IBAction)increaseuploadView:(id)sender {
@@ -627,7 +625,7 @@
         //For Sitting
         
         SittingModelClass *model=sittingCollectionArray[indexPath.row];
-        if (_sittingCollectionView.contentSize.width>_settingView .frame.size.width-100) {
+        if (_sittingCollectionView.contentSize.width>_settingView.frame.size.width-100) {
             _sittingCollectionViewWidth.constant=_settingView.frame.size.width-100;
         }
         else _sittingCollectionViewWidth.constant=_sittingCollectionView.contentSize.width;
