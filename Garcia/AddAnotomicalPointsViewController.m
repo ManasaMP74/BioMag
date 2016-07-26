@@ -445,6 +445,7 @@
     return YES;
 }
 - (IBAction)personPairDetail:(id)sender {
+     [_editButton setTitle:editPersonalPairString forState:normal];
     switch ([sender selectedSegmentIndex]) {
         case 0:
             selectedSegment=@"anatomicalPair";
@@ -463,7 +464,7 @@
         default:
             break;
     }
-
+    [self setPersonalPairTableViewEditing:NO];
 }
 -(void)ShowPersonalPairView{
  if ([selectedSegment isEqualToString:@"anatomicalPair"]) {
@@ -1237,8 +1238,12 @@ TextShouldBeLessThan250=[MCLocalization stringForKey:@"Text should be less than 
     }
 }
 - (void)tableView:(UITableView*)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([selectedSegment isEqualToString:@"scanpoint"]) {
+       // [self callApiToGetScanpoint:NO];
+    } else if ([selectedSegment isEqualToString:@"correspondingpair"]){
+        
+    }else{
 
-
-
+    }
 }
 @end
