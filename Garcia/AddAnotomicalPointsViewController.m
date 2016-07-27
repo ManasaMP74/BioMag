@@ -1232,7 +1232,6 @@ TextShouldBeLessThan250=[MCLocalization stringForKey:@"Text should be less than 
         _personalScanPointOrCorrespondingPair.editing=status;
     } else if ([selectedSegment isEqualToString:@"correspondingpair"]){
         _personalScanPointOrCorrespondingPair.editing=status;
-        
     }else{
         _personalPairTable.editing=status;
     }
