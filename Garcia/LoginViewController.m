@@ -15,7 +15,6 @@
 @property (strong, nonatomic) IBOutlet UIView *loginView;
 @property (weak, nonatomic) IBOutlet UIButton *forgotPassword;
 @end
-
 @implementation LoginViewController
 {
     Constant *constant;
