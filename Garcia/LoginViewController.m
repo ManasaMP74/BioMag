@@ -74,7 +74,8 @@
         //Vzone API
         urlString = [NSString stringWithFormat:@"%@%@",baseUrl,logIn];
         // parameter = [NSString stringWithFormat:@"{\"request\":{\"Username\":\"drluisgarcia@mydomain.com\", \"Password\":\"Power@1234\"}}"];
-        parameter = [NSString stringWithFormat:@"{\"request\":{\"Username\":\"%@\", \"Password\":\"%@\"}}",_userNameTf.text,_passwordTF.text];
+      //  parameter = [NSString stringWithFormat:@"{\"request\":{\"Username\":\"%@\", \"Password\":\"%@\"}}",_userNameTf.text,_passwordTF.text];
+        parameter = [NSString stringWithFormat:@"{\"request\":{\"Username\":\"%@\", \"Password\":\"%@\",\"AppType\":\"%@\",\"AppVersion\":\"%@\"}}",_userNameTf.text,_passwordTF.text,appTypeCode,applicableBasicVersionCode];
     }else{
         //Material Api
         urlString = [NSString stringWithFormat:@"%@%@",baseUrl,logIn];
