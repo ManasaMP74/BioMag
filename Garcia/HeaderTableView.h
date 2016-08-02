@@ -6,6 +6,7 @@
 #import "ToxicDetailTableViewCell.h"
 #import "VMEnvironment.h"
 @protocol selectedCellProtocol<NSObject>
+@optional
 -(void)selectedCell:(NSString*)selectedHeader withCorrespondingHeight:(CGFloat)height;
 -(void)deselectedCell:(NSString*)deselectedHeader withCorrespondingHeight:(CGFloat)height;
 -(void)selectedToxicCell:(NSString*)selectedToxicHeader;

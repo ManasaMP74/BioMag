@@ -482,6 +482,6 @@ int i=0;
     return _tableview.contentSize.height+_toxicTableView.contentSize.height;
 }
 -(void)completedSittingByTapOnSwitch{
-   // [self.delegate completedSittingByTapOnSwitchFromHeaderCell];
+   [self.delegate completedSittingByTapOnSwitchFromHeaderCell];
 }
 @end
