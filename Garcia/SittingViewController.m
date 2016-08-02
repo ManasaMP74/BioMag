@@ -251,14 +251,14 @@
 -(void)popView{
     if (!saveButtonIsTapped) {
     BOOL parameter =NO;
-   // if (changesDoneorNot) {
+    if (changesDoneorNot) {
     for (sittingModel *model in allDoctorDetailArray) {
         if (![model.germsString isEqualToString:@""]) {
             parameter=YES;
             break;
         }
     }
-   // }
+    }
     NSString *str=[_toxicView getAllTheSelectedToxic];
     if (!parameter) {
         if (str.length!=0) {

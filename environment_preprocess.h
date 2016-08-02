@@ -1,7 +1,7 @@
 //-----------------------------------------
 // Auto generated file
-// Created 2016-05-24 16:06:03
+// Created 2016-08-02 15:00:18
 //-----------------------------------------
 
-#define VM_ENVIRONMENT              PROD
-#define VM_ENVIRONMENT_LAST_COMMIT  ddead2c
+#define VM_ENVIRONMENT              DEV
+#define VM_ENVIRONMENT_LAST_COMMIT  0671fd2
