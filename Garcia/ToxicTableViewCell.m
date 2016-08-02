@@ -14,7 +14,7 @@
     [self.delegate selectedToxicCell:self];
 }
 - (IBAction)completedSittingSwitch:(id)sender {
-   [self.delegate completedSittingByTapOnSwitch];
+ 
 }
 
 @end

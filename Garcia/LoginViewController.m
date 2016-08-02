@@ -15,6 +15,7 @@
 @property (strong, nonatomic) IBOutlet UIView *loginView;
 @property (weak, nonatomic) IBOutlet UIButton *forgotPassword;
 @end
+
 @implementation LoginViewController
 {
     Constant *constant;
@@ -65,10 +66,8 @@
 }
 //signin button action
 - (IBAction)signIn:(id)sender {
-    
     NSString *urlString;
     NSString *parameter;
-    
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         //Vzone API
         urlString = [NSString stringWithFormat:@"%@%@",baseUrl,logIn];
@@ -82,7 +81,6 @@
         // parameter = [NSString stringWithFormat:@"{\"Username\":\"drluisgarcia@mydomain.com\", \"Password\":\"Power@1234\"}"];
         
     }
-    
     if (_userNameTf.text.length==0 & _passwordTF.text.length==0) {
         [self showToastMessage:@"Username and Password is required"];
     }
@@ -101,7 +99,7 @@
               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                   [MBProgressHUD hideHUDForView:self.view animated:NO];
                   [self showToastMessage:[NSString stringWithFormat:@"%@",error]];
-            }];
+              }];
     }
 }
 //parse login response of Matirial API
@@ -121,7 +119,6 @@
             [userdefault setValue:doctorName forKey:@"DoctorName"];
             [[SeedSyncer sharedSyncer] callSeedAPI:^(BOOL success) {
                 if (success) {
-                    
                     if ([_rememberMe.currentImage isEqual:[UIImage imageNamed:@"Box-Checked.png"]]) {
                             [userdefault setBool:YES forKey:@"rememberMe"];
                         [userdefault setValue:_userNameTf.text forKey:@"userName"];
@@ -154,7 +151,6 @@
         [self showToastMessage:responseDict[@"Message"]];
     }
 }
-
 //parse login response of Vzone API
 - (void)parseLoginResponseVzone:(id)response
 {

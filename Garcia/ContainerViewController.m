@@ -666,6 +666,7 @@
 }
 //Response of biomagnetic matrix
 -(void)processResponseObjectforSitting:(id)responseObject{
+    //[self callApiToGetScanpoint];
     [sittingArray removeAllObjects];
     NSDictionary *dict;
     
@@ -784,4 +785,17 @@
     [self showToastMessage:[NSString stringWithFormat:@"%@",dict[@"Message"]]];
     }
 }
+//-(void)callApiToGetScanpoint{
+//    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getAllScanpoint];
+//    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+//        NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
+//        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+//            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+//            [userDefault setBool:NO forKey:@"scanpoint_FLAG"];
+//        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//            [self callApiToGetScanpoint];
+//        }];
+//    }
+//}
 @end

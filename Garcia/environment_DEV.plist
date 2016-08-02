@@ -7,7 +7,7 @@
 	<key>appName</key>
 	<string>Biomagnetism</string>
 	<key>baseUrl</key>
-	<string>http://biomagnetic-therapy.us-west-2.elasticbeanstalk.com/</string>
+	<string>http://prithiviraj.vmokshagroup.com:9004/</string>
 	<key>dbName</key>
 	<string>biomag-tst.images.original/</string>
 	<key>dbNameforResized</key>

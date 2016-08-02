@@ -2201,21 +2201,21 @@
         }];
     }
 }
--(void)completedSittingByTapOnSwitchFromHeaderCell:(UICollectionViewCell *)cell{
-    SittingCollectionViewCell *cell1=(SittingCollectionViewCell*)cell;
-    NSIndexPath *indexpath=[_sittingCollectionView indexPathForCell:cell1];
-    SittingModelClass *model=sittingCollectionArray[indexpath.row];
-    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:[NSString stringWithFormat:@"#%@ : %@",model.sittingNumber,doYoucloseSitting] preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
-        [alertView dismissViewControllerAnimated:YES completion:nil];
-        [self callApiToDeleteSitting:model toDeleteOrCloseSitting:@"close"];
-    }];
-    [alertView addAction:success];
-    UIAlertAction *cancel=[UIAlertAction actionWithTitle:cancelStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
-        [_sittingCollectionView reloadData];
-        [alertView dismissViewControllerAnimated:YES completion:nil];
-    }];
-    [alertView addAction:cancel];
-    [self presentViewController:alertView animated:YES completion:nil];
-}
+//-(void)completedSittingByTapOnSwitchFromHeaderCell:(UICollectionViewCell *)cell{
+//    SittingCollectionViewCell *cell1=(SittingCollectionViewCell*)cell;
+//    NSIndexPath *indexpath=[_sittingCollectionView indexPathForCell:cell1];
+//    SittingModelClass *model=sittingCollectionArray[indexpath.row];
+//    UIAlertController *alertView=[UIAlertController alertControllerWithTitle:alert message:[NSString stringWithFormat:@"#%@ : %@",model.sittingNumber,doYoucloseSitting] preferredStyle:UIAlertControllerStyleAlert];
+//    UIAlertAction *success=[UIAlertAction actionWithTitle:yesStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+//        [alertView dismissViewControllerAnimated:YES completion:nil];
+//       // [self callApiToDeleteSitting:model toDeleteOrCloseSitting:@"close"];
+//    }];
+//    [alertView addAction:success];
+//    UIAlertAction *cancel=[UIAlertAction actionWithTitle:cancelStr style:UIAlertActionStyleDefault handler:^(UIAlertAction *  action) {
+//        [_sittingCollectionView reloadData];
+//        [alertView dismissViewControllerAnimated:YES completion:nil];
+//    }];
+//    [alertView addAction:cancel];
+//    [self presentViewController:alertView animated:YES completion:nil];
+//}
 @end
