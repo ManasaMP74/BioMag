@@ -1466,7 +1466,8 @@
         [self.delegateForIncreasingSitting loadTreatMentFromSittingPart:[@(i) description] withTreatmentCode:dict1[@"Code"]];
         [self dismissViewControllerAnimated:YES completion:nil];
         if (sender!=nil) {
-          [self.navigationController popViewControllerAnimated:YES];
+         // [self.navigationController popViewControllerAnimated:YES];
+            [self getTheCurrentSavedSittingDetail:dict];
             changesDoneorNot=NO;
         }
         else{
@@ -1478,6 +1479,15 @@
         [self showToastMessage:dict[@"Message"]];
     }
 }
+-(void)getTheCurrentSavedSittingDetail:(NSDictionary*)responseDict{
+    NSDictionary *treatRequestDict=responseDict[@"TreatmentRequest"];
+    NSDictionary *biomagSittingResult=treatRequestDict[@"BiomagneticSittingResults"];
+    NSArray *sittingArray=biomagSittingResult[@"ViewModels"];
+    NSDictionary *addedSitting=[sittingArray lastObject];
+    _bioSittingDict=addedSitting;
+    _treatmentId=treatRequestDict[@"ID"];
+}
+
 -(void)getTheSortDetailOfCompleteDitailArray:(NSString*)str{
     [selectedSittingModelInallDoctorDetailArray removeAllObjects];
     [self getGermsStringForCompleDetailArray];
