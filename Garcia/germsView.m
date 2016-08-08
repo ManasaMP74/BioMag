@@ -24,13 +24,10 @@
     view.frame=self.bounds;
     constant=[[Constant alloc]init];
     postman=[[Postman alloc]init];
-    if ([_differenceStringBetweenAuthorAndGerms isEqualToString:@"germs"]) {
         germsArray=[[NSMutableArray alloc]init];
         selectedIndex=[[NSMutableArray alloc]init];
         selectedGerms=[[NSMutableArray alloc]init];
-    }else{
         authorArray=[[NSMutableArray alloc]init];
-    }
     [self addSubview:view];
     return self;
 }
@@ -104,7 +101,9 @@
 - (IBAction)saveCode:(id)sender {
     [alphaView removeFromSuperview];
     [alphaView endEditing:YES];
+     if ([_differenceStringBetweenAuthorAndGerms isEqualToString:@"germs"]) {
     [self.delegateForGerms germsData:selectedGerms];
+     }
 }
 - (IBAction)addNewGerm:(id)sender {
     [alphaView endEditing:YES];

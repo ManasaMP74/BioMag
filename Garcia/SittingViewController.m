@@ -1182,7 +1182,7 @@
     if (![cell1.sittingTextView.text isEqualToString:@""]) {
         germsViewXib.fromParentViewGermsString=cell1.otherGermsLabel.text;
     }else germsViewXib.fromParentViewGermsString=@"";
-    germsViewXib.completeAuthorArray=_completeGermsArray;
+    germsViewXib.completeGermsArray=_completeGermsArray;
     germsViewXib.differenceStringBetweenAuthorAndGerms=@"germs";
     [germsViewXib alphaViewInitialize];
 }
