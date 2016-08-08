@@ -51,6 +51,7 @@ FOUNDATION_EXPORT NSString *const getAllSection;
 FOUNDATION_EXPORT NSString *const getAllScanpoint;
 FOUNDATION_EXPORT NSString *const getAllCorrespondingPair;
 FOUNDATION_EXPORT NSString *const getAllAuthor;
+FOUNDATION_EXPORT NSString *const saveAuthor;
 
 FOUNDATION_EXPORT NSString *const DifferMetirialOrVzoneApi;
 

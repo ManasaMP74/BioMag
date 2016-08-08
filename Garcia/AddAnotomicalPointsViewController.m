@@ -1008,7 +1008,6 @@
         [self callSeedForAuthor];
     }else   [_correspondingPairTable reloadData];
 }
-
 -(void)callSeedForAuthor{
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     if ([userDefault boolForKey:@"author_FLAG"]) {

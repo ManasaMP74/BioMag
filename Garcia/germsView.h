@@ -22,4 +22,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *codesLabel;
 
 @property (strong, nonatomic)NSArray *compleyeGermsArray;
+
+
+
+@property(strong,nonatomic)NSString *defferenceStringBetweenAuthorAndGerms;
 @end

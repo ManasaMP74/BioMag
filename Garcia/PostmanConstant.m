@@ -117,7 +117,7 @@ NSString *const getAllSection=@"search/section";
 NSString *const getAllScanpoint=@"search/ScanPoint";
 NSString *const getAllCorrespondingPair=@"search/correspondingpair";
 NSString *const getAllAuthor=@"search/author";
-
+NSString *const saveAuthor=@"author/0";
 
 NSString *const DifferMetirialOrVzoneApi=@"vzone";
 @end

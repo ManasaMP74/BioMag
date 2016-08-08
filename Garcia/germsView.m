@@ -7,11 +7,12 @@
 #import "germsModel.h"
 #import "SeedSyncer.h"
 #import <MCLocalization/MCLocalization.h>
+#import "CompleteAuthorModel.h"
 @implementation germsView
 {
     UIView *view;
     UIControl  *alphaView;
-    NSMutableArray *germsArray,*selectedIndex,*selectedGerms;
+    NSMutableArray *germsArray,*selectedIndex,*selectedGerms,*authorArray;
     Constant *constant;
     Postman *postman;
     NSString *alert,*alertOK,*symbolRequiredStr,*nameRequiredStr,*bothDataRequired;
@@ -27,6 +28,7 @@
     germsArray=[[NSMutableArray alloc]init];
     selectedIndex=[[NSMutableArray alloc]init];
     selectedGerms=[[NSMutableArray alloc]init];
+    authorArray=[[NSMutableArray alloc]init];
     [self addSubview:view];
     return self;
 }
@@ -323,4 +325,92 @@
     [hubHUD hide:YES afterDelay:2];
 
 }
+-(void)callApiForAddAuthor{
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,saveAuthor];
+    NSString *parameter;
+    NSUserDefaults *defaultvalue=[NSUserDefaults standardUserDefaults];
+    int userIdInteger=[[defaultvalue valueForKey:@"Id"]intValue];
+    
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //Parameter for Vzone Api
+        
+        parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":0,\"Name\":\"%@\",\"Initials\":\"%@\",\"Status\":true,\"UserID\":%d,\"MethodType\":\"POST\"}}",_codeFullNameTF.text,_codeSymbolTF.text,userIdInteger];
+    }else{
+        //Parameter For Material Api
+        parameter =[NSString stringWithFormat:@"{\"request\":{\"Id\":0,\"Name\":\"%@\",\"Initials\":\"%@\",\"Status\":true,\"UserID\":%d,\"MethodType\":\"POST\"}}",_codeFullNameTF.text,_codeSymbolTF.text,userIdInteger];
+    }
+    
+    [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
+    [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [MBProgressHUD hideAllHUDsForView:alphaView animated:NO];
+        [self processAddAuthor:responseObject];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [MBProgressHUD hideAllHUDsForView:alphaView animated:NO];
+        NSString *str=[NSString stringWithFormat:@"%@",error];
+        [self showToastMessage:str];
+    }];
+}
+-(void)processAddAuthor:(id)responseObject{
+
+
+
+}
+-(void)callSeedForAuthor{
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:@"author_FLAG"]) {
+        [self callApiToGetAuthor];
+    }
+    else{
+        NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getAllAuthor];
+        [[SeedSyncer sharedSyncer]getResponseFor:url completionHandler:^(BOOL success, id response) {
+            if (success) {
+                [self processAuthor:response];
+            }
+            else{
+                [self callApiToGetAuthor];
+            }
+        }];
+    }
+}
+-(void)callApiToGetAuthor{
+    [MBProgressHUD showHUDAddedTo:view animated:NO];
+    NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,getAllAuthor];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
+        [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [self processAuthor:responseObject];
+            [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:@"author_FLAG"];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self callApiToGetAuthor];
+            NSString *str=[NSString stringWithFormat:@"%@",error];
+            [self showToastMessage:str];
+        }];
+    }
+}
+-(void)processAuthor:(id)responseObject{
+    [MBProgressHUD hideAllHUDsForView:view animated:YES];
+    
+    NSDictionary *dict;
+    [authorArray removeAllObjects];
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        //For Vzone API
+        NSDictionary *responseDict1 = responseObject;
+        dict  = responseDict1[@"aaData"];
+    }else{
+        //For Material API
+        dict=responseObject;
+    }
+    for (NSDictionary *dict1 in dict[@"GenericSearchViewModels"]) {
+        if ([dict1[@"Status"] intValue]==1) {
+            CompleteAuthorModel *model=[[CompleteAuthorModel alloc]init];
+            model.code=dict1[@"Code"];
+            model.name=dict1[@"Name"];
+            model.idValue=dict1[@"Id"];
+            [authorArray addObject:model];
+        }
+    }
+}
+
 @end

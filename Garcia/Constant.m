@@ -142,9 +142,4 @@ else{
     btn.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     btn.titleLabel.numberOfLines = 1;
 }
-
-
-
-
-
 @end
