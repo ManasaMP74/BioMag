@@ -7,7 +7,6 @@
 #import "germsModel.h"
 #import "SeedSyncer.h"
 #import <MCLocalization/MCLocalization.h>
-#import "CompleteAuthorModel.h"
 @implementation germsView
 {
     UIView *view;
@@ -25,10 +24,13 @@
     view.frame=self.bounds;
     constant=[[Constant alloc]init];
     postman=[[Postman alloc]init];
-    germsArray=[[NSMutableArray alloc]init];
-    selectedIndex=[[NSMutableArray alloc]init];
-    selectedGerms=[[NSMutableArray alloc]init];
-    authorArray=[[NSMutableArray alloc]init];
+    if ([_differenceStringBetweenAuthorAndGerms isEqualToString:@"germs"]) {
+        germsArray=[[NSMutableArray alloc]init];
+        selectedIndex=[[NSMutableArray alloc]init];
+        selectedGerms=[[NSMutableArray alloc]init];
+    }else{
+        authorArray=[[NSMutableArray alloc]init];
+    }
     [self addSubview:view];
     return self;
 }
@@ -61,12 +63,22 @@
     [constant spaceAtTheBeginigOfTextField:_codeSymbolTF];
     [constant spaceAtTheBeginigOfTextField:_codeFullNameTF];
     [alphaView addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
-    [selectedIndex removeAllObjects];
-    [selectedGerms removeAllObjects];
-    if (_compleyeGermsArray.count>0) {
-        [germsArray addObjectsFromArray:_compleyeGermsArray];
-         [self displayTheSelectedGerms];
-    }else [self callSeed];
+    if ([_differenceStringBetweenAuthorAndGerms isEqualToString:@"germs"]) {
+        [selectedIndex removeAllObjects];
+        [selectedGerms removeAllObjects];
+        if (_completeGermsArray.count>0) {
+            [germsArray addObjectsFromArray:_completeGermsArray];
+            [self displayTheSelectedGerms];
+        }else [self callSeed];
+    }else{
+        if (_completeAuthorArray.count>0) {
+            [authorArray removeAllObjects];
+            [authorArray addObjectsFromArray:_completeAuthorArray];
+            [_tableView reloadData];
+            [view layoutIfNeeded];
+            [self heightOfView:130];
+        }else [self callSeedForAuthor];
+    }
     view.center = alphaView.center;
 }
 
@@ -74,15 +86,19 @@
     [alphaView removeFromSuperview];
 }
 - (IBAction)add:(id)sender {
-     [alphaView endEditing:YES];
+    [alphaView endEditing:YES];
     if (![_codeFullNameTF.text isEqualToString:@""] & ![_codeSymbolTF.text isEqualToString:@""]) {
-        [self callApiToAddGerm];
+        if ([_differenceStringBetweenAuthorAndGerms isEqualToString:@"germs"]) {
+            [self callApiToAddGerm];
+        }else{
+            [self callApiForAddAuthor];
+        }
     }else if ([_codeFullNameTF.text isEqualToString:@""] & [_codeSymbolTF.text isEqualToString:@""]) {
         [self showToastMessage:bothDataRequired];
     }else if ([_codeFullNameTF.text isEqualToString:@""]){
-     [self showToastMessage:nameRequiredStr];
+        [self showToastMessage:nameRequiredStr];
     }else{
-    [self showToastMessage:symbolRequiredStr];
+        [self showToastMessage:symbolRequiredStr];
     }
 }
 - (IBAction)saveCode:(id)sender {
@@ -91,7 +107,7 @@
     [self.delegateForGerms germsData:selectedGerms];
 }
 - (IBAction)addNewGerm:(id)sender {
-     [alphaView endEditing:YES];
+    [alphaView endEditing:YES];
     if (_germNewAddButton.hidden) {
         _codeFullNameTF.text=@"";
         _codeSymbolTF.text=@"";
@@ -103,7 +119,9 @@
     }
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return germsArray.count;
+    if ([_differenceStringBetweenAuthorAndGerms isEqualToString:@"germs"]) {
+        return germsArray.count;
+    }else return authorArray.count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     GermsTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
@@ -112,32 +130,53 @@
         cell=_customCell;
         _customCell=nil;
     }
-    if (germsArray.count>0) {
-        germsModel *model=germsArray[indexPath.row];
-        cell.label.text=[NSString stringWithFormat:@"%@",model.germsUserFriendlycode];
-        cell.labelTwo.text=[NSString stringWithFormat:@"%@",model.germsName];
-        
-
+    if ([_differenceStringBetweenAuthorAndGerms isEqualToString:@"germs"]) {
+        if (germsArray.count>0) {
+            [self hideCellView:cell withStatus:NO];
+            germsModel *model=germsArray[indexPath.row];
+            cell.label.text=[NSString stringWithFormat:@"%@",model.germsUserFriendlycode];
+            cell.labelTwo.text=[NSString stringWithFormat:@"%@",model.germsName];
+            
+            if ([selectedIndex containsObject:indexPath]) {
+                cell.cellImageView.image=[UIImage imageNamed:@"Box1-Check.png"];
+            }else cell.cellImageView.image=[UIImage imageNamed:@"Box1-Uncheck.png"];
+        }
+    }else{
+        [self hideCellView:cell withStatus:YES];
+        if (authorArray.count>0) {
+            CompleteAuthorModel *model=authorArray[indexPath.row];
+            cell.authorNameLabel.text=model.name;
+        }
     }
-    if ([selectedIndex containsObject:indexPath]) {
-        cell.cellImageView.image=[UIImage imageNamed:@"Box1-Check.png"];
-    }else cell.cellImageView.image=[UIImage imageNamed:@"Box1-Uncheck.png"];
     return cell;
+}
+-(void)hideCellView:(GermsTableViewCell*)cell withStatus:(BOOL)status{
+    cell.cellImageView.hidden=status;
+    cell.label.hidden=status;
+    cell.labelTwo.hidden=status;
+    if (status) {
+        cell.authorNameLabel.hidden=NO;
+    }else  cell.authorNameLabel.hidden=YES;
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     cell.backgroundColor=[UIColor clearColor];
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    germsModel *model=germsArray[indexPath.row];
-    if ([selectedIndex containsObject:indexPath]) {
-        [selectedIndex removeObject:indexPath];
-        [selectedGerms removeObject:model];
-        [_tableView reloadData];
-    }
-    else{
-        [selectedIndex addObject:indexPath];
-        [selectedGerms addObject:model];
-        [_tableView reloadData];
+    if ([_differenceStringBetweenAuthorAndGerms isEqualToString:@"germs"]) {
+        germsModel *model=germsArray[indexPath.row];
+        if ([selectedIndex containsObject:indexPath]) {
+            [selectedIndex removeObject:indexPath];
+            [selectedGerms removeObject:model];
+            [_tableView reloadData];
+        }
+        else{
+            [selectedIndex addObject:indexPath];
+            [selectedGerms addObject:model];
+            [_tableView reloadData];
+        }
+    }else{
+        CompleteAuthorModel *model=authorArray[indexPath.row];
+        [self.delegateForGerms passAuthorData:model];
     }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -170,27 +209,27 @@
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,germsUrl];
     [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-         NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
+        NSString *parameter=[NSString stringWithFormat:@"{\"request\":}}"];
         [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-             [MBProgressHUD hideHUDForView:alphaView animated:NO];
+            [MBProgressHUD hideHUDForView:alphaView animated:NO];
             [self processGerms:responseObject];
             [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
             [userDefault setBool:NO forKey:@"germs_FLAG"];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-              [MBProgressHUD hideHUDForView:alphaView animated:NO];
+            [MBProgressHUD hideHUDForView:alphaView animated:NO];
             NSString *str=[NSString stringWithFormat:@"%@",error];
             [self showToastMessage:str];
         }];
     }else {
         [postman get:url withParameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-             [MBProgressHUD hideHUDForView:alphaView animated:NO];
+            [MBProgressHUD hideHUDForView:alphaView animated:NO];
             [self processGerms:responseObject];
             [[SeedSyncer sharedSyncer]saveResponse:[operation responseString] forIdentity:url];
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
             [userDefault setBool:NO forKey:@"germs_FLAG"];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-             [MBProgressHUD hideHUDForView:alphaView animated:NO];
+            [MBProgressHUD hideHUDForView:alphaView animated:NO];
             NSString *str=[NSString stringWithFormat:@"%@",error];
             [self showToastMessage:str];
         }];
@@ -268,19 +307,19 @@
     
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
         //Parameter for Vzone Api
-       
+        
         parameter =[NSString stringWithFormat:@"{\"request\":{\"Name\":\"%@\",\"UserfriendlyCode\":\"%@\",\"UserID\":%d,\"Status\":true,\"MethodType\":\"POST\"}}",_codeFullNameTF.text,_codeSymbolTF.text,userIdInteger];
     }else{
         //Parameter For Material Api
         parameter =[NSString stringWithFormat:@" {\"Name\":\"%@\",\"UserfriendlyCode\":\"%@\",\"UserID\":%d,\"Status\":true,\"MethodType\":\"POST\"}",_codeFullNameTF.text,_codeSymbolTF.text,userIdInteger];
     }
-
+    
     [MBProgressHUD showHUDAddedTo:alphaView animated:YES];
     [postman post:url withParameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-          [MBProgressHUD hideAllHUDsForView:alphaView animated:NO];
+        [MBProgressHUD hideAllHUDsForView:alphaView animated:NO];
         [self processToAddGerms:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          [MBProgressHUD hideAllHUDsForView:alphaView animated:NO];
+        [MBProgressHUD hideAllHUDsForView:alphaView animated:NO];
         NSString *str=[NSString stringWithFormat:@"%@",error];
         [self showToastMessage:str];
     }];
@@ -289,41 +328,48 @@
     NSDictionary *dict;
     NSDictionary *dict1=responseObject;
     if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
-      dict =dict1[@"aaData"];
+        dict =dict1[@"aaData"];
     }else dict=responseObject;
     if ([dict[@"Success"]intValue]==1) {
         [self callApiToGetGerms];
         [self changeTheNewGermAppearence:YES withHeight:0];
         [self heightOfView:130];
-
+        
     }else{
         [self showToastMessage:dict[@"Message"]];
-//        UIAlertView *alert1=[[UIAlertView alloc]initWithTitle:alert message:dict[@"Message"] delegate:nil cancelButtonTitle:alertOK otherButtonTitles:nil,nil];
-//        [alert1 show];
+        //        UIAlertView *alert1=[[UIAlertView alloc]initWithTitle:alert message:dict[@"Message"] delegate:nil cancelButtonTitle:alertOK otherButtonTitles:nil,nil];
+        //        [alert1 show];
     }
 }
 -(void)localization{
     alert=[MCLocalization stringForKey:@"Alert!"];
     alertOK=[MCLocalization stringForKey:@"AlertOK"];
-    _codeSymbolTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Symbol"]];
-    _codeFullNameTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Name"]];
-    _codesLabel.text=[MCLocalization stringForKey:@"Codes"];
-   symbolRequiredStr= [MCLocalization stringForKey:@"Symbol is required"];
-    nameRequiredStr= [MCLocalization stringForKey:@"Name is required"];
-    bothDataRequired=[MCLocalization stringForKey:@"Symbol and Name are required"];;
+     _codeFullNameTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Name"]];
+     nameRequiredStr= [MCLocalization stringForKey:@"Name is required"];
+    if ([_differenceStringBetweenAuthorAndGerms isEqualToString:@"germs"]) {
+        _codeSymbolTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Symbol"]];
+        _codesLabel.text=[MCLocalization stringForKey:@"Codes"];
+        symbolRequiredStr= [MCLocalization stringForKey:@"Symbol is required"];
+        bothDataRequired=[MCLocalization stringForKey:@"Symbol and Name are required"];
+    }else{
+        _codeSymbolTF.attributedPlaceholder=[constant textFieldPlaceHolderText:[MCLocalization stringForKey:@"Initials"]];
+        _codesLabel.text=[MCLocalization stringForKey:@"Author"];
+        symbolRequiredStr= [MCLocalization stringForKey:@"Initials is required"];
+        bothDataRequired=[MCLocalization stringForKey:@"Initials and Name are required"];
+    }
 }
 -(void)showToastMessage:(NSString*)msg{
     MBProgressHUD *hubHUD=[MBProgressHUD showHUDAddedTo:alphaView animated:YES];
     hubHUD.mode=MBProgressHUDModeText;
     if (msg.length>0) {
-    hubHUD.detailsLabelText=msg;
+        hubHUD.detailsLabelText=msg;
     }
     hubHUD.detailsLabelFont=[UIFont systemFontOfSize:15];
     hubHUD.margin=20.f;
     hubHUD.yOffset=150.f;
     hubHUD.removeFromSuperViewOnHide = YES;
     [hubHUD hide:YES afterDelay:2];
-
+    
 }
 -(void)callApiForAddAuthor{
     NSString *url=[NSString stringWithFormat:@"%@%@",baseUrl,saveAuthor];
@@ -351,9 +397,19 @@
     }];
 }
 -(void)processAddAuthor:(id)responseObject{
-
-
-
+    NSDictionary *dict;
+    NSDictionary *dict1=responseObject;
+    if ([DifferMetirialOrVzoneApi isEqualToString:@"vzone"]) {
+        dict =dict1[@"aaData"];
+    }else dict=responseObject;
+    if ([dict[@"Success"]intValue]==1) {
+        [self callApiToGetGerms];
+        [self changeTheNewGermAppearence:YES withHeight:0];
+        [self heightOfView:130];
+        
+    }else{
+        [self showToastMessage:dict[@"Message"]];
+    }
 }
 -(void)callSeedForAuthor{
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
@@ -411,6 +467,9 @@
             [authorArray addObject:model];
         }
     }
+    [_tableView reloadData];
+    [view layoutIfNeeded];
+    [self heightOfView:130];
 }
 
 @end

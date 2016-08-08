@@ -17,7 +17,8 @@
 #import "AddAnatomicalPointCell.h"
 #import "sittingModel.h"
 #import "EditAnatomicalPoint.h"
-@interface AddAnotomicalPointsViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UITextViewDelegate,editAnatomicalPointSucceed>
+#import "germsView.h"
+@interface AddAnotomicalPointsViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UITextViewDelegate,editAnatomicalPointSucceed,sendGermsData>
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tapGesture;
 @property (weak, nonatomic) IBOutlet UIControl *view1;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *authorTVHeight;
@@ -41,6 +42,7 @@
     NSMutableArray *scanpointArray,*correspondingPointArray,*authorArray,*germsArray,*sectionArray,*languageArray,*personalScanpointArray,*personalCorrespondingPointArray;
     NSString *selectedGermsCode,*selectedSection,*selectedScanpoint,*selectedCorrespondingpair,*selectedAuthor,*selectedLang,*selectedSegment,*TextShouldBeLessThan250;
     sittingModel *selectedPersonalPairModel;
+    germsView *germsViewXib;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -438,11 +440,25 @@
 }
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     if ([textField isEqual:_anatomicalAuthorTF]) {
-        [self hideTheViews:_anatomicalAuthorTF];
-        [_authorTableView reloadData];
+        [self hideTheViews:nil];
+        [self getGermsXibToShowAuthor];
         return NO;
     }
     return YES;
+}
+-(void)getGermsXibToShowAuthor{
+    if (germsViewXib==nil)
+        germsViewXib=[[germsView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x+70,self.view.frame.origin.y+100,self.view.frame.size.width-300,186)];
+    germsViewXib.delegateForGerms=self;
+    germsViewXib.heightOfSuperView=self.view.frame.size.height;
+    germsViewXib.differenceStringBetweenAuthorAndGerms=@"author";
+    germsViewXib.completeAuthorArray=authorArray;
+    [germsViewXib alphaViewInitialize];
+}
+-(void)passAuthorData:(CompleteAuthorModel *)model{
+  _anatomicalAuthorTF.text=model.name;
+    selectedAuthor=model.code;
+    [self.view endEditing:YES];
 }
 - (IBAction)personPairDetail:(id)sender {
      [_editButton setTitle:editPersonalPairString forState:normal];

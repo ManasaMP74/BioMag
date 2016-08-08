@@ -1,8 +1,11 @@
 #import <UIKit/UIKit.h>
 #import "GermsTableViewCell.h"
 #import "VMEnvironment.h"
+#import "CompleteAuthorModel.h"
 @protocol sendGermsData<NSObject>
+@optional
 -(void)germsData:(NSArray*)germasData;
+-(void)passAuthorData:(CompleteAuthorModel*)model;
 @end
 @interface germsView : UIView<UITableViewDataSource,UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *codeSymbolTF;
@@ -21,9 +24,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *saveBtn;
 @property (weak, nonatomic) IBOutlet UILabel *codesLabel;
 
-@property (strong, nonatomic)NSArray *compleyeGermsArray;
+@property (strong, nonatomic)NSArray *completeGermsArray;
+@property (strong, nonatomic)NSArray *completeAuthorArray;
 
 
-
-@property(strong,nonatomic)NSString *defferenceStringBetweenAuthorAndGerms;
+@property(strong,nonatomic)NSString *differenceStringBetweenAuthorAndGerms;
 @end

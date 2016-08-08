@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="OpenSans-Regular.ttf">
+            <string>OpenSans</string>
             <string>OpenSans</string>
             <string>OpenSans</string>
         </mutableArray>
@@ -47,18 +48,29 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GiU-kb-4Xb">
+                        <rect key="frame" x="8" y="0.0" width="321" height="32"/>
+                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="GiU-kb-4Xb" firstAttribute="leading" secondItem="Ptq-M4-q4l" secondAttribute="leading" constant="8" id="3TZ-aW-oU7"/>
                     <constraint firstAttribute="centerY" secondItem="opX-17-rnP" secondAttribute="centerY" id="4aG-Y7-42K"/>
                     <constraint firstItem="opX-17-rnP" firstAttribute="leading" secondItem="Ptq-M4-q4l" secondAttribute="leadingMargin" constant="8" id="FRb-Op-GdX"/>
+                    <constraint firstAttribute="trailing" secondItem="GiU-kb-4Xb" secondAttribute="trailing" constant="8" id="IDh-ss-Fmz"/>
                     <constraint firstItem="Kkf-Xp-rpb" firstAttribute="leading" secondItem="Ptq-M4-q4l" secondAttribute="leadingMargin" constant="130" id="X5V-dZ-EAY"/>
+                    <constraint firstAttribute="bottom" secondItem="GiU-kb-4Xb" secondAttribute="bottom" id="YNb-Yw-4tH"/>
                     <constraint firstItem="Kkf-Xp-rpb" firstAttribute="centerY" secondItem="Ptq-M4-q4l" secondAttribute="centerY" id="bau-Xm-6tA"/>
+                    <constraint firstItem="GiU-kb-4Xb" firstAttribute="top" secondItem="Ptq-M4-q4l" secondAttribute="top" id="c8P-E3-yye"/>
                     <constraint firstAttribute="trailing" secondItem="FZ0-7Z-41C" secondAttribute="trailing" constant="15" id="lWy-zh-vlo"/>
                     <constraint firstItem="FZ0-7Z-41C" firstAttribute="centerY" secondItem="Ptq-M4-q4l" secondAttribute="centerY" id="mBO-x6-iNg"/>
                     <constraint firstItem="Kkf-Xp-rpb" firstAttribute="centerY" secondItem="Ptq-M4-q4l" secondAttribute="centerY" id="sz4-Hi-0im"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="authorNameLabel" destination="GiU-kb-4Xb" id="xZe-us-wol"/>
                 <outlet property="cellImageView" destination="FZ0-7Z-41C" id="qp6-wf-XCP"/>
                 <outlet property="label" destination="opX-17-rnP" id="1Xs-PU-jzX"/>
                 <outlet property="labelTwo" destination="Kkf-Xp-rpb" id="pOR-kK-trb"/>
